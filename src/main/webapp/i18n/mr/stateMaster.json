@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "stateMaster": {
+      "home": {
+        "title": "State Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन State Master तयार करा",
+        "createOrEditLabel": "State Master तयार किंवा संपादित करा",
+        "notFound": "No State Masters found"
+      },
+      "created": "State Master [identifier: {{ param }}] तयार आहे",
+      "updated": "State Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "State Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "State Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "State Master"
+      },
+      "id": "ID",
+      "stateCode": "State Code",
+      "stateName": "State Name"
+    }
+  }
+}

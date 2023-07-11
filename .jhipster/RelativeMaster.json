@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621141423",
+  "dto": "no",
+  "entityTableName": "relative_master",
+  "fields": [
+    {
+      "fieldName": "relativeCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "relativeName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "RelativeMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

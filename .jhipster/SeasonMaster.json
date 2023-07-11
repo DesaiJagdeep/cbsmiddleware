@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621141423",
+  "dto": "no",
+  "entityTableName": "season_master",
+  "fields": [
+    {
+      "fieldName": "seasonCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "seasonName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "SeasonMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

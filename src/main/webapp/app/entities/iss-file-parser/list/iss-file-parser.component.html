@@ -1,0 +1,469 @@
+<div>
+  <h2 id="page-heading" data-cy="IssFileParserHeading">
+    <span jhiTranslate="cbsMiddlewareApp.issFileParser.home.title">Iss File Parsers</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.issFileParser.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-iss-file-parser"
+        [routerLink]="['/iss-file-parser/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.issFileParser.home.createLabel"> Create a new Iss File Parser </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="issFileParsers?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.issFileParser.home.notFound">No Iss File Parsers found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="issFileParsers && issFileParsers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="financialYear">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.financialYear">Financial Year</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.bankName">Bank Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.bankCode">Bank Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.branchName">Branch Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.branchCode">Branch Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="schemeWiseBranchCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.schemeWiseBranchCode">Scheme Wise Branch Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ifsc">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.ifsc">Ifsc</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanAccountNumberkcc">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.loanAccountNumberkcc">Loan Account Numberkcc</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="farmerName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.farmerName">Farmer Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="gender">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.gender">Gender</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="aadharNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.aadharNumber">Aadhar Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateofBirth">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.dateofBirth">Dateof Birth</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ageAtTimeOfSanction">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.ageAtTimeOfSanction">Age At Time Of Sanction</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="mobileNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.mobileNo">Mobile No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="farmersCategory">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.farmersCategory">Farmers Category</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="farmerType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.farmerType">Farmer Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="socialCategory">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.socialCategory">Social Category</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="relativeType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.relativeType">Relative Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="relativeName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.relativeName">Relative Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="stateName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.stateName">State Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="stateCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.stateCode">State Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="districtName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.districtName">District Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="districtCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.districtCode">District Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="blockCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.blockCode">Block Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="blockName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.blockName">Block Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="villageCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.villageCode">Village Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="villageName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.villageName">Village Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.address">Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pinCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.pinCode">Pin Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="accountType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.accountType">Account Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="accountNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.accountNumber">Account Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.pacsName">Pacs Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.pacsNumber">Pacs Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="accountHolderType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.accountHolderType">Account Holder Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="primaryOccupation">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.primaryOccupation">Primary Occupation</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanSactionDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.loanSactionDate">Loan Saction Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanSanctionAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.loanSanctionAmount">Loan Sanction Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tenureOFLoan">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.tenureOFLoan">Tenure OF Loan</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateOfOverDuePayment">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.dateOfOverDuePayment">Date Of Over Due Payment</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.cropName">Crop Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="surveyNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.surveyNo">Survey No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="satBaraSubsurveyNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.satBaraSubsurveyNo">Sat Bara Subsurvey No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="seasonName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.seasonName">Season Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="areaHect">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.areaHect">Area Hect</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="landType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.landType">Land Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="disbursementDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.disbursementDate">Disbursement Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="disburseAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.disburseAmount">Disburse Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maturityLoanDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.maturityLoanDate">Maturity Loan Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recoveryAmountPrinciple">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountPrinciple">Recovery Amount Principle</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recoveryAmountInterest">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountInterest">Recovery Amount Interest</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recoveryDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryDate">Recovery Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="issPortalFile.fileName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issFileParser.issPortalFile">Iss Portal File</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let issFileParser of issFileParsers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/iss-file-parser', issFileParser.id, 'view']">{{ issFileParser.id }}</a>
+          </td>
+          <td>{{ issFileParser.financialYear }}</td>
+          <td>{{ issFileParser.bankName }}</td>
+          <td>{{ issFileParser.bankCode }}</td>
+          <td>{{ issFileParser.branchName }}</td>
+          <td>{{ issFileParser.branchCode }}</td>
+          <td>{{ issFileParser.schemeWiseBranchCode }}</td>
+          <td>{{ issFileParser.ifsc }}</td>
+          <td>{{ issFileParser.loanAccountNumberkcc }}</td>
+          <td>{{ issFileParser.farmerName }}</td>
+          <td>{{ issFileParser.gender }}</td>
+          <td>{{ issFileParser.aadharNumber }}</td>
+          <td>{{ issFileParser.dateofBirth }}</td>
+          <td>{{ issFileParser.ageAtTimeOfSanction }}</td>
+          <td>{{ issFileParser.mobileNo }}</td>
+          <td>{{ issFileParser.farmersCategory }}</td>
+          <td>{{ issFileParser.farmerType }}</td>
+          <td>{{ issFileParser.socialCategory }}</td>
+          <td>{{ issFileParser.relativeType }}</td>
+          <td>{{ issFileParser.relativeName }}</td>
+          <td>{{ issFileParser.stateName }}</td>
+          <td>{{ issFileParser.stateCode }}</td>
+          <td>{{ issFileParser.districtName }}</td>
+          <td>{{ issFileParser.districtCode }}</td>
+          <td>{{ issFileParser.blockCode }}</td>
+          <td>{{ issFileParser.blockName }}</td>
+          <td>{{ issFileParser.villageCode }}</td>
+          <td>{{ issFileParser.villageName }}</td>
+          <td>{{ issFileParser.address }}</td>
+          <td>{{ issFileParser.pinCode }}</td>
+          <td>{{ issFileParser.accountType }}</td>
+          <td>{{ issFileParser.accountNumber }}</td>
+          <td>{{ issFileParser.pacsName }}</td>
+          <td>{{ issFileParser.pacsNumber }}</td>
+          <td>{{ issFileParser.accountHolderType }}</td>
+          <td>{{ issFileParser.primaryOccupation }}</td>
+          <td>{{ issFileParser.loanSactionDate }}</td>
+          <td>{{ issFileParser.loanSanctionAmount }}</td>
+          <td>{{ issFileParser.tenureOFLoan }}</td>
+          <td>{{ issFileParser.dateOfOverDuePayment }}</td>
+          <td>{{ issFileParser.cropName }}</td>
+          <td>{{ issFileParser.surveyNo }}</td>
+          <td>{{ issFileParser.satBaraSubsurveyNo }}</td>
+          <td>{{ issFileParser.seasonName }}</td>
+          <td>{{ issFileParser.areaHect }}</td>
+          <td>{{ issFileParser.landType }}</td>
+          <td>{{ issFileParser.disbursementDate }}</td>
+          <td>{{ issFileParser.disburseAmount }}</td>
+          <td>{{ issFileParser.maturityLoanDate }}</td>
+          <td>{{ issFileParser.recoveryAmountPrinciple }}</td>
+          <td>{{ issFileParser.recoveryAmountInterest }}</td>
+          <td>{{ issFileParser.recoveryDate }}</td>
+          <td>
+            <div *ngIf="issFileParser.issPortalFile">
+              <a [routerLink]="['/iss-portal-file', issFileParser.issPortalFile.id, 'view']">{{ issFileParser.issPortalFile.fileName }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/iss-file-parser', issFileParser.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/iss-file-parser', issFileParser.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(issFileParser)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="issFileParsers && issFileParsers.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621141423",
+  "dto": "no",
+  "entityTableName": "farmer_category_master",
+  "fields": [
+    {
+      "fieldName": "farmerCategoryCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "farmerCategory",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "FarmerCategoryMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

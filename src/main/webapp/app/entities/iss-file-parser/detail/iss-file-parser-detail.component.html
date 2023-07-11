@@ -1,0 +1,238 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="issFileParser">
+      <h2 data-cy="issFileParserDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.issFileParser.detail.title">Iss File Parser</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ issFileParser.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.financialYear">Financial Year</span></dt>
+        <dd>
+          <span>{{ issFileParser.financialYear }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.bankName">Bank Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.bankName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.bankCode">Bank Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.bankCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.branchName">Branch Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.branchName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.schemeWiseBranchCode">Scheme Wise Branch Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.schemeWiseBranchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.ifsc">Ifsc</span></dt>
+        <dd>
+          <span>{{ issFileParser.ifsc }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.loanAccountNumberkcc">Loan Account Numberkcc</span></dt>
+        <dd>
+          <span>{{ issFileParser.loanAccountNumberkcc }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.farmerName">Farmer Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.farmerName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.gender">Gender</span></dt>
+        <dd>
+          <span>{{ issFileParser.gender }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.aadharNumber">Aadhar Number</span></dt>
+        <dd>
+          <span>{{ issFileParser.aadharNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.dateofBirth">Dateof Birth</span></dt>
+        <dd>
+          <span>{{ issFileParser.dateofBirth }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.ageAtTimeOfSanction">Age At Time Of Sanction</span></dt>
+        <dd>
+          <span>{{ issFileParser.ageAtTimeOfSanction }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.mobileNo">Mobile No</span></dt>
+        <dd>
+          <span>{{ issFileParser.mobileNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.farmersCategory">Farmers Category</span></dt>
+        <dd>
+          <span>{{ issFileParser.farmersCategory }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.farmerType">Farmer Type</span></dt>
+        <dd>
+          <span>{{ issFileParser.farmerType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.socialCategory">Social Category</span></dt>
+        <dd>
+          <span>{{ issFileParser.socialCategory }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.relativeType">Relative Type</span></dt>
+        <dd>
+          <span>{{ issFileParser.relativeType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.relativeName">Relative Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.relativeName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.stateName">State Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.stateName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.stateCode">State Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.stateCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.districtName">District Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.districtName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.districtCode">District Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.districtCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.blockCode">Block Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.blockCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.blockName">Block Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.blockName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.villageCode">Village Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.villageCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.villageName">Village Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.villageName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.address">Address</span></dt>
+        <dd>
+          <span>{{ issFileParser.address }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.pinCode">Pin Code</span></dt>
+        <dd>
+          <span>{{ issFileParser.pinCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.accountType">Account Type</span></dt>
+        <dd>
+          <span>{{ issFileParser.accountType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.accountNumber">Account Number</span></dt>
+        <dd>
+          <span>{{ issFileParser.accountNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.pacsName">Pacs Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.pacsName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.pacsNumber">Pacs Number</span></dt>
+        <dd>
+          <span>{{ issFileParser.pacsNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.accountHolderType">Account Holder Type</span></dt>
+        <dd>
+          <span>{{ issFileParser.accountHolderType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.primaryOccupation">Primary Occupation</span></dt>
+        <dd>
+          <span>{{ issFileParser.primaryOccupation }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.loanSactionDate">Loan Saction Date</span></dt>
+        <dd>
+          <span>{{ issFileParser.loanSactionDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.loanSanctionAmount">Loan Sanction Amount</span></dt>
+        <dd>
+          <span>{{ issFileParser.loanSanctionAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.tenureOFLoan">Tenure OF Loan</span></dt>
+        <dd>
+          <span>{{ issFileParser.tenureOFLoan }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.dateOfOverDuePayment">Date Of Over Due Payment</span></dt>
+        <dd>
+          <span>{{ issFileParser.dateOfOverDuePayment }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.cropName">Crop Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.cropName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.surveyNo">Survey No</span></dt>
+        <dd>
+          <span>{{ issFileParser.surveyNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.satBaraSubsurveyNo">Sat Bara Subsurvey No</span></dt>
+        <dd>
+          <span>{{ issFileParser.satBaraSubsurveyNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.seasonName">Season Name</span></dt>
+        <dd>
+          <span>{{ issFileParser.seasonName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.areaHect">Area Hect</span></dt>
+        <dd>
+          <span>{{ issFileParser.areaHect }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.landType">Land Type</span></dt>
+        <dd>
+          <span>{{ issFileParser.landType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.disbursementDate">Disbursement Date</span></dt>
+        <dd>
+          <span>{{ issFileParser.disbursementDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.disburseAmount">Disburse Amount</span></dt>
+        <dd>
+          <span>{{ issFileParser.disburseAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.maturityLoanDate">Maturity Loan Date</span></dt>
+        <dd>
+          <span>{{ issFileParser.maturityLoanDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountPrinciple">Recovery Amount Principle</span></dt>
+        <dd>
+          <span>{{ issFileParser.recoveryAmountPrinciple }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountInterest">Recovery Amount Interest</span></dt>
+        <dd>
+          <span>{{ issFileParser.recoveryAmountInterest }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryDate">Recovery Date</span></dt>
+        <dd>
+          <span>{{ issFileParser.recoveryDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issFileParser.issPortalFile">Iss Portal File</span></dt>
+        <dd>
+          <div *ngIf="issFileParser.issPortalFile">
+            <a [routerLink]="['/iss-portal-file', issFileParser.issPortalFile.id, 'view']">{{ issFileParser.issPortalFile.fileName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/iss-file-parser', issFileParser.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

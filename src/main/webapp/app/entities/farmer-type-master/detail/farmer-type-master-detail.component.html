@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="farmerTypeMaster">
+      <h2 data-cy="farmerTypeMasterDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.farmerTypeMaster.detail.title">Farmer Type Master</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ farmerTypeMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.farmerTypeMaster.farmerTypeCode">Farmer Type Code</span></dt>
+        <dd>
+          <span>{{ farmerTypeMaster.farmerTypeCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.farmerTypeMaster.farmerType">Farmer Type</span></dt>
+        <dd>
+          <span>{{ farmerTypeMaster.farmerType }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/farmer-type-master', farmerTypeMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

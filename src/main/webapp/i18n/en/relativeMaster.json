@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "relativeMaster": {
+      "home": {
+        "title": "Relative Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Relative Master",
+        "createOrEditLabel": "Create or edit a Relative Master",
+        "notFound": "No Relative Masters found"
+      },
+      "created": "A new Relative Master is created with identifier {{ param }}",
+      "updated": "A Relative Master is updated with identifier {{ param }}",
+      "deleted": "A Relative Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Relative Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Relative Master"
+      },
+      "id": "ID",
+      "relativeCode": "Relative Code",
+      "relativeName": "Relative Name"
+    }
+  }
+}

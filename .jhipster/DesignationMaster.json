@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621142408",
+  "dto": "no",
+  "entityTableName": "designation_master",
+  "fields": [
+    {
+      "fieldName": "designationCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "designationName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "DesignationMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

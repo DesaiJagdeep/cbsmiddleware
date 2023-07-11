@@ -1,0 +1,26 @@
+{
+  "changelogDate": "20230621132802",
+  "dto": "no",
+  "entityTableName": "district_master",
+  "fields": [
+    {
+      "fieldName": "districtCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateCode",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "DistrictMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

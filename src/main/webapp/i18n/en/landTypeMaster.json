@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "landTypeMaster": {
+      "home": {
+        "title": "Land Type Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Land Type Master",
+        "createOrEditLabel": "Create or edit a Land Type Master",
+        "notFound": "No Land Type Masters found"
+      },
+      "created": "A new Land Type Master is created with identifier {{ param }}",
+      "updated": "A Land Type Master is updated with identifier {{ param }}",
+      "deleted": "A Land Type Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Land Type Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Land Type Master"
+      },
+      "id": "ID",
+      "landTypeCode": "Land Type Code",
+      "landType": "Land Type"
+    }
+  }
+}

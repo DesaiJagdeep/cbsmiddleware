@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621141423",
+  "dto": "no",
+  "entityTableName": "land_type_master",
+  "fields": [
+    {
+      "fieldName": "landTypeCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "landType",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "LandTypeMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

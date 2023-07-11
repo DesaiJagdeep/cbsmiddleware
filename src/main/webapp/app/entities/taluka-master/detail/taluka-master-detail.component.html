@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="talukaMaster">
+      <h2 data-cy="talukaMasterDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.talukaMaster.detail.title">Taluka Master</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ talukaMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.talukaMaster.talukaCode">Taluka Code</span></dt>
+        <dd>
+          <span>{{ talukaMaster.talukaCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.talukaMaster.talukaName">Taluka Name</span></dt>
+        <dd>
+          <span>{{ talukaMaster.talukaName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.talukaMaster.districtCode">District Code</span></dt>
+        <dd>
+          <span>{{ talukaMaster.districtCode }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/taluka-master', talukaMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "cbsMiddlewareApp": {
+    "categoryMaster": {
+      "home": {
+        "title": "Category Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Category Master तयार करा",
+        "createOrEditLabel": "Category Master तयार किंवा संपादित करा",
+        "notFound": "No Category Masters found"
+      },
+      "created": "Category Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Category Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Category Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Category Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Category Master"
+      },
+      "id": "ID",
+      "castName": "Cast Name",
+      "castCode": "Cast Code",
+      "castCategoryCode": "Cast Category Code"
+    }
+  }
+}

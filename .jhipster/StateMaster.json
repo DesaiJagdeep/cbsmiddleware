@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621132350",
+  "dto": "no",
+  "entityTableName": "state_master",
+  "fields": [
+    {
+      "fieldName": "stateCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "StateMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

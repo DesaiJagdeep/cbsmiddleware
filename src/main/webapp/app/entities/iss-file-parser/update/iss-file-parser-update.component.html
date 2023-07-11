@@ -1,0 +1,610 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-iss-file-parser-heading"
+        data-cy="IssFileParserCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.issFileParser.home.createOrEditLabel"
+      >
+        Create or edit a Iss File Parser
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.financialYear" for="field_financialYear"
+            >Financial Year</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="financialYear"
+            id="field_financialYear"
+            data-cy="financialYear"
+            formControlName="financialYear"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.bankName" for="field_bankName">Bank Name</label>
+          <input type="text" class="form-control" name="bankName" id="field_bankName" data-cy="bankName" formControlName="bankName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.bankCode" for="field_bankCode">Bank Code</label>
+          <input type="text" class="form-control" name="bankCode" id="field_bankCode" data-cy="bankCode" formControlName="bankCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.branchName" for="field_branchName">Branch Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="branchName"
+            id="field_branchName"
+            data-cy="branchName"
+            formControlName="branchName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.branchCode" for="field_branchCode">Branch Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="branchCode"
+            id="field_branchCode"
+            data-cy="branchCode"
+            formControlName="branchCode"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.schemeWiseBranchCode" for="field_schemeWiseBranchCode"
+            >Scheme Wise Branch Code</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="schemeWiseBranchCode"
+            id="field_schemeWiseBranchCode"
+            data-cy="schemeWiseBranchCode"
+            formControlName="schemeWiseBranchCode"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.ifsc" for="field_ifsc">Ifsc</label>
+          <input type="text" class="form-control" name="ifsc" id="field_ifsc" data-cy="ifsc" formControlName="ifsc" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.loanAccountNumberkcc" for="field_loanAccountNumberkcc"
+            >Loan Account Numberkcc</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="loanAccountNumberkcc"
+            id="field_loanAccountNumberkcc"
+            data-cy="loanAccountNumberkcc"
+            formControlName="loanAccountNumberkcc"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.farmerName" for="field_farmerName">Farmer Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="farmerName"
+            id="field_farmerName"
+            data-cy="farmerName"
+            formControlName="farmerName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.gender" for="field_gender">Gender</label>
+          <input type="text" class="form-control" name="gender" id="field_gender" data-cy="gender" formControlName="gender" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.aadharNumber" for="field_aadharNumber"
+            >Aadhar Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="aadharNumber"
+            id="field_aadharNumber"
+            data-cy="aadharNumber"
+            formControlName="aadharNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.dateofBirth" for="field_dateofBirth">Dateof Birth</label>
+          <input
+            type="text"
+            class="form-control"
+            name="dateofBirth"
+            id="field_dateofBirth"
+            data-cy="dateofBirth"
+            formControlName="dateofBirth"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.ageAtTimeOfSanction" for="field_ageAtTimeOfSanction"
+            >Age At Time Of Sanction</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="ageAtTimeOfSanction"
+            id="field_ageAtTimeOfSanction"
+            data-cy="ageAtTimeOfSanction"
+            formControlName="ageAtTimeOfSanction"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.mobileNo" for="field_mobileNo">Mobile No</label>
+          <input type="text" class="form-control" name="mobileNo" id="field_mobileNo" data-cy="mobileNo" formControlName="mobileNo" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.farmersCategory" for="field_farmersCategory"
+            >Farmers Category</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="farmersCategory"
+            id="field_farmersCategory"
+            data-cy="farmersCategory"
+            formControlName="farmersCategory"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.farmerType" for="field_farmerType">Farmer Type</label>
+          <input
+            type="text"
+            class="form-control"
+            name="farmerType"
+            id="field_farmerType"
+            data-cy="farmerType"
+            formControlName="farmerType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.socialCategory" for="field_socialCategory"
+            >Social Category</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="socialCategory"
+            id="field_socialCategory"
+            data-cy="socialCategory"
+            formControlName="socialCategory"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.relativeType" for="field_relativeType"
+            >Relative Type</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="relativeType"
+            id="field_relativeType"
+            data-cy="relativeType"
+            formControlName="relativeType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.relativeName" for="field_relativeName"
+            >Relative Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="relativeName"
+            id="field_relativeName"
+            data-cy="relativeName"
+            formControlName="relativeName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.stateName" for="field_stateName">State Name</label>
+          <input type="text" class="form-control" name="stateName" id="field_stateName" data-cy="stateName" formControlName="stateName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.stateCode" for="field_stateCode">State Code</label>
+          <input type="text" class="form-control" name="stateCode" id="field_stateCode" data-cy="stateCode" formControlName="stateCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.districtName" for="field_districtName"
+            >District Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="districtName"
+            id="field_districtName"
+            data-cy="districtName"
+            formControlName="districtName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.districtCode" for="field_districtCode"
+            >District Code</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="districtCode"
+            id="field_districtCode"
+            data-cy="districtCode"
+            formControlName="districtCode"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.blockCode" for="field_blockCode">Block Code</label>
+          <input type="text" class="form-control" name="blockCode" id="field_blockCode" data-cy="blockCode" formControlName="blockCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.blockName" for="field_blockName">Block Name</label>
+          <input type="text" class="form-control" name="blockName" id="field_blockName" data-cy="blockName" formControlName="blockName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.villageCode" for="field_villageCode">Village Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="villageCode"
+            id="field_villageCode"
+            data-cy="villageCode"
+            formControlName="villageCode"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.villageName" for="field_villageName">Village Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="villageName"
+            id="field_villageName"
+            data-cy="villageName"
+            formControlName="villageName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.address" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.pinCode" for="field_pinCode">Pin Code</label>
+          <input type="text" class="form-control" name="pinCode" id="field_pinCode" data-cy="pinCode" formControlName="pinCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.accountType" for="field_accountType">Account Type</label>
+          <input
+            type="text"
+            class="form-control"
+            name="accountType"
+            id="field_accountType"
+            data-cy="accountType"
+            formControlName="accountType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.accountNumber" for="field_accountNumber"
+            >Account Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="accountNumber"
+            id="field_accountNumber"
+            data-cy="accountNumber"
+            formControlName="accountNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.pacsName" for="field_pacsName">Pacs Name</label>
+          <input type="text" class="form-control" name="pacsName" id="field_pacsName" data-cy="pacsName" formControlName="pacsName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.accountHolderType" for="field_accountHolderType"
+            >Account Holder Type</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="accountHolderType"
+            id="field_accountHolderType"
+            data-cy="accountHolderType"
+            formControlName="accountHolderType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.primaryOccupation" for="field_primaryOccupation"
+            >Primary Occupation</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="primaryOccupation"
+            id="field_primaryOccupation"
+            data-cy="primaryOccupation"
+            formControlName="primaryOccupation"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.loanSactionDate" for="field_loanSactionDate"
+            >Loan Saction Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="loanSactionDate"
+            id="field_loanSactionDate"
+            data-cy="loanSactionDate"
+            formControlName="loanSactionDate"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.loanSanctionAmount" for="field_loanSanctionAmount"
+            >Loan Sanction Amount</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="loanSanctionAmount"
+            id="field_loanSanctionAmount"
+            data-cy="loanSanctionAmount"
+            formControlName="loanSanctionAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.tenureOFLoan" for="field_tenureOFLoan"
+            >Tenure OF Loan</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="tenureOFLoan"
+            id="field_tenureOFLoan"
+            data-cy="tenureOFLoan"
+            formControlName="tenureOFLoan"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.dateOfOverDuePayment" for="field_dateOfOverDuePayment"
+            >Date Of Over Due Payment</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="dateOfOverDuePayment"
+            id="field_dateOfOverDuePayment"
+            data-cy="dateOfOverDuePayment"
+            formControlName="dateOfOverDuePayment"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.cropName" for="field_cropName">Crop Name</label>
+          <input type="text" class="form-control" name="cropName" id="field_cropName" data-cy="cropName" formControlName="cropName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.surveyNo" for="field_surveyNo">Survey No</label>
+          <input type="text" class="form-control" name="surveyNo" id="field_surveyNo" data-cy="surveyNo" formControlName="surveyNo" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.satBaraSubsurveyNo" for="field_satBaraSubsurveyNo"
+            >Sat Bara Subsurvey No</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="satBaraSubsurveyNo"
+            id="field_satBaraSubsurveyNo"
+            data-cy="satBaraSubsurveyNo"
+            formControlName="satBaraSubsurveyNo"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.seasonName" for="field_seasonName">Season Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="seasonName"
+            id="field_seasonName"
+            data-cy="seasonName"
+            formControlName="seasonName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.areaHect" for="field_areaHect">Area Hect</label>
+          <input type="text" class="form-control" name="areaHect" id="field_areaHect" data-cy="areaHect" formControlName="areaHect" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.landType" for="field_landType">Land Type</label>
+          <input type="text" class="form-control" name="landType" id="field_landType" data-cy="landType" formControlName="landType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.disbursementDate" for="field_disbursementDate"
+            >Disbursement Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="disbursementDate"
+            id="field_disbursementDate"
+            data-cy="disbursementDate"
+            formControlName="disbursementDate"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.disburseAmount" for="field_disburseAmount"
+            >Disburse Amount</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="disburseAmount"
+            id="field_disburseAmount"
+            data-cy="disburseAmount"
+            formControlName="disburseAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.maturityLoanDate" for="field_maturityLoanDate"
+            >Maturity Loan Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="maturityLoanDate"
+            id="field_maturityLoanDate"
+            data-cy="maturityLoanDate"
+            formControlName="maturityLoanDate"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountPrinciple"
+            for="field_recoveryAmountPrinciple"
+            >Recovery Amount Principle</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="recoveryAmountPrinciple"
+            id="field_recoveryAmountPrinciple"
+            data-cy="recoveryAmountPrinciple"
+            formControlName="recoveryAmountPrinciple"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryAmountInterest" for="field_recoveryAmountInterest"
+            >Recovery Amount Interest</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="recoveryAmountInterest"
+            id="field_recoveryAmountInterest"
+            data-cy="recoveryAmountInterest"
+            formControlName="recoveryAmountInterest"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.recoveryDate" for="field_recoveryDate"
+            >Recovery Date</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="recoveryDate"
+            id="field_recoveryDate"
+            data-cy="recoveryDate"
+            formControlName="recoveryDate"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.issFileParser.issPortalFile" for="field_issPortalFile"
+            >Iss Portal File</label
+          >
+          <select
+            class="form-control"
+            id="field_issPortalFile"
+            data-cy="issPortalFile"
+            name="issPortalFile"
+            formControlName="issPortalFile"
+            [compareWith]="compareIssPortalFile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="issPortalFileOption" *ngFor="let issPortalFileOption of issPortalFilesSharedCollection">
+              {{ issPortalFileOption.fileName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

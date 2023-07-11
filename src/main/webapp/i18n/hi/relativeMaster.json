@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "relativeMaster": {
+      "home": {
+        "title": "RelativeMasters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Relative Master बनाएँ",
+        "createOrEditLabel": "Relative Master बनाएँ या संपादित करें",
+        "notFound": "No Relative Masters found"
+      },
+      "created": "एक नया Relative Master [identifier: {{ param }}] तैयार है",
+      "updated": "एक Relative Master [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Relative Master [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Relative Master [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Relative Master"
+      },
+      "id": "ID",
+      "relativeCode": "Relative Code",
+      "relativeName": "Relative Name"
+    }
+  }
+}

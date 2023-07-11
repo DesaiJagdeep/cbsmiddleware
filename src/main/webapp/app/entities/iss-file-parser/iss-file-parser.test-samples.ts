@@ -1,0 +1,97 @@
+import { IIssFileParser, NewIssFileParser } from './iss-file-parser.model';
+
+export const sampleWithRequiredData: IIssFileParser = {
+  id: 27060,
+};
+
+export const sampleWithPartialData: IIssFileParser = {
+  id: 39663,
+  bankCode: 'Gloves Checking Keyboard',
+  schemeWiseBranchCode: 'microchip',
+  gender: 'enterprise',
+  aadharNumber: 'Engineer Maine',
+  farmerType: 'USB back-end indigo',
+  relativeType: 'Northern Car',
+  stateName: 'Forint Rubber Gloves',
+  districtCode: 'Architect compressing',
+  blockName: 'calculating Group',
+  pinCode: 'Lake Bike',
+  accountType: 'synthesize Wisconsin',
+  pacsName: 'redefine',
+  accountHolderType: 'Fresh',
+  tenureOFLoan: 'partnerships applications Jersey',
+  dateOfOverDuePayment: 'bypass Intelligent',
+  surveyNo: 'Steel',
+  satBaraSubsurveyNo: 'olive Computer Ports',
+  seasonName: 'International',
+  areaHect: 'cross-platform indexing invoice',
+  landType: 'Fantastic global',
+  disbursementDate: 'Customer transform',
+  disburseAmount: 'CSS invoice',
+  recoveryAmountPrinciple: 'Incredible Lead',
+  recoveryDate: 'benchmark Account database',
+};
+
+export const sampleWithFullData: IIssFileParser = {
+  id: 60132,
+  financialYear: 'embrace',
+  bankName: 'Yemen expedite',
+  bankCode: 'invoice Shoal',
+  branchName: 'Fantastic',
+  branchCode: 'standardization Pizza',
+  schemeWiseBranchCode: 'Books connect',
+  ifsc: 'PCI compress solid',
+  loanAccountNumberkcc: 'hub',
+  farmerName: 'COM supply-chains',
+  gender: 'Kwacha Assistant deposit',
+  aadharNumber: 'Fantastic',
+  dateofBirth: 'Account up',
+  ageAtTimeOfSanction: 'digital',
+  mobileNo: 'Seamless',
+  farmersCategory: 'turquoise Industrial',
+  farmerType: 'Intuitive',
+  socialCategory: 'Human Meadow',
+  relativeType: 'Frozen',
+  relativeName: 'compressing',
+  stateName: 'orchid',
+  stateCode: 'Chair Bacon firewall',
+  districtName: 'Tasty Keyboard',
+  districtCode: 'Plastic Berkshire',
+  blockCode: 'Fish input',
+  blockName: 'Representative Handcrafted Health',
+  villageCode: 'Fish Soap',
+  villageName: 'Borders Bedfordshire Darussalam',
+  address: 'Toys enable',
+  pinCode: 'Chief virtual',
+  accountType: 'Tunnel process secured',
+  accountNumber: 'program',
+  pacsName: 'recontextualize eco-centric',
+  pacsNumber: 'Intelligent Automotive',
+  accountHolderType: 'Pula',
+  primaryOccupation: 'Card',
+  loanSactionDate: 'Toys',
+  loanSanctionAmount: 'Ohio',
+  tenureOFLoan: 'transmit',
+  dateOfOverDuePayment: 'Nakfa THX Tools',
+  cropName: 'Bacon',
+  surveyNo: 'Plastic',
+  satBaraSubsurveyNo: 'Djibouti turquoise Avon',
+  seasonName: 'generating',
+  areaHect: 'Beauty client-server',
+  landType: 'Ohio',
+  disbursementDate: 'Indiana',
+  disburseAmount: 'Beauty',
+  maturityLoanDate: 'Port quantifying Account',
+  recoveryAmountPrinciple: 'Assistant',
+  recoveryAmountInterest: 'cross-platform Nevada Jewelery',
+  recoveryDate: 'B2B SAS',
+};
+
+export const sampleWithNewData: NewIssFileParser = {
+  id: null,
+};
+
+Object.freeze(sampleWithNewData);
+Object.freeze(sampleWithRequiredData);
+Object.freeze(sampleWithPartialData);
+Object.freeze(sampleWithFullData);

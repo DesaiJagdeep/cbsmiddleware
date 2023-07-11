@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="floatType" value="float" dbms="mysql"/>
+    <property name="clobType" value="clob" dbms="mysql"/>
+    <property name="blobType" value="longblob" dbms="mysql"/>
+    <property name="uuidType" value="varchar(36)" dbms="mysql"/>
+    <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621132350_added_entity_StateMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621132802_added_entity_DistrictMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621132950_added_entity_TalukaMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621134531_added_entity_BankMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621135333_added_entity_BankBranchMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621140146_added_entity_PacsMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621140419_added_entity_CastCategoryMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141245_added_entity_CategoryMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_RelativeMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141713_added_entity_CropMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141827_added_entity_CropCategoryMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621142059_added_entity_OccupationMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621142408_added_entity_DesignationMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230710064404_added_entity_IssFileParser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_AccountHolderMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_FarmerCategoryMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_FarmerTypeMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_LandTypeMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621141423_added_entity_SeasonMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230711043833_added_entity_IssPortalFile.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20230710064404_added_entity_constraints_IssFileParser.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+</databaseChangeLog>

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "accountHolderMaster": {
+      "home": {
+        "title": "Account Holder Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Account Holder Master",
+        "createOrEditLabel": "Create or edit a Account Holder Master",
+        "notFound": "No Account Holder Masters found"
+      },
+      "created": "A new Account Holder Master is created with identifier {{ param }}",
+      "updated": "A Account Holder Master is updated with identifier {{ param }}",
+      "deleted": "A Account Holder Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Account Holder Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Account Holder Master"
+      },
+      "id": "ID",
+      "accountHolderCode": "Account Holder Code",
+      "accountHolder": "Account Holder"
+    }
+  }
+}

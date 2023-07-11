@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621134531",
+  "dto": "no",
+  "entityTableName": "bank_master",
+  "fields": [
+    {
+      "fieldName": "bankCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "BankMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

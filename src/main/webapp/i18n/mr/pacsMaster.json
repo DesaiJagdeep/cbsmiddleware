@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "pacsMaster": {
+      "home": {
+        "title": "Pacs Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Pacs Master तयार करा",
+        "createOrEditLabel": "Pacs Master तयार किंवा संपादित करा",
+        "notFound": "No Pacs Masters found"
+      },
+      "created": "Pacs Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Pacs Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Pacs Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Pacs Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Pacs Master"
+      },
+      "id": "ID",
+      "pacsName": "Pacs Name",
+      "pacsNumber": "Pacs Number"
+    }
+  }
+}

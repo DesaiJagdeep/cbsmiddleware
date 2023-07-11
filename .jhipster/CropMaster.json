@@ -1,0 +1,26 @@
+{
+  "changelogDate": "20230621141713",
+  "dto": "no",
+  "entityTableName": "crop_master",
+  "fields": [
+    {
+      "fieldName": "cropCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "categoryCode",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "CropMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

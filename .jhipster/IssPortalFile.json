@@ -1,0 +1,64 @@
+{
+  "changelogDate": "20230711043833",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "batchId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "fileName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fileExtension",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fromDisbursementDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "toDisbursementDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "pacsCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "batchAckId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "batchDetails",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "applicationCount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "IssPortalFile",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "cropCategoryMaster": {
+      "home": {
+        "title": "Crop Category Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Crop Category Master तयार करा",
+        "createOrEditLabel": "Crop Category Master तयार किंवा संपादित करा",
+        "notFound": "No Crop Category Masters found"
+      },
+      "created": "Crop Category Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Crop Category Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Crop Category Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Crop Category Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Crop Category Master"
+      },
+      "id": "ID",
+      "categoryCode": "Category Code",
+      "categoryName": "Category Name"
+    }
+  }
+}

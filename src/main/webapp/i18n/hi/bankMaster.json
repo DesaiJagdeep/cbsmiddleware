@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "bankMaster": {
+      "home": {
+        "title": "BankMasters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Bank Master बनाएँ",
+        "createOrEditLabel": "Bank Master बनाएँ या संपादित करें",
+        "notFound": "No Bank Masters found"
+      },
+      "created": "एक नया Bank Master [identifier: {{ param }}] तैयार है",
+      "updated": "एक Bank Master [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Bank Master [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Bank Master [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Bank Master"
+      },
+      "id": "ID",
+      "bankCode": "Bank Code",
+      "bankName": "Bank Name"
+    }
+  }
+}

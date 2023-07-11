@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "landTypeMaster": {
+      "home": {
+        "title": "Land Type Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Land Type Master तयार करा",
+        "createOrEditLabel": "Land Type Master तयार किंवा संपादित करा",
+        "notFound": "No Land Type Masters found"
+      },
+      "created": "Land Type Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Land Type Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Land Type Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Land Type Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Land Type Master"
+      },
+      "id": "ID",
+      "landTypeCode": "Land Type Code",
+      "landType": "Land Type"
+    }
+  }
+}

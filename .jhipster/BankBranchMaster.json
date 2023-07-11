@@ -1,0 +1,30 @@
+{
+  "changelogDate": "20230621135333",
+  "dto": "no",
+  "entityTableName": "bank_branch_master",
+  "fields": [
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankCode",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "BankBranchMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

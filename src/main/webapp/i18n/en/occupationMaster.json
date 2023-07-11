@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "occupationMaster": {
+      "home": {
+        "title": "Occupation Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Occupation Master",
+        "createOrEditLabel": "Create or edit a Occupation Master",
+        "notFound": "No Occupation Masters found"
+      },
+      "created": "A new Occupation Master is created with identifier {{ param }}",
+      "updated": "A Occupation Master is updated with identifier {{ param }}",
+      "deleted": "A Occupation Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Occupation Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Occupation Master"
+      },
+      "id": "ID",
+      "occupationCode": "Occupation Code",
+      "occupationName": "Occupation Name"
+    }
+  }
+}

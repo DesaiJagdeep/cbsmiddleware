@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="designationMaster">
+      <h2 data-cy="designationMasterDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.designationMaster.detail.title">Designation Master</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ designationMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.designationMaster.designationCode">Designation Code</span></dt>
+        <dd>
+          <span>{{ designationMaster.designationCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.designationMaster.designationName">Designation Name</span></dt>
+        <dd>
+          <span>{{ designationMaster.designationName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/designation-master', designationMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

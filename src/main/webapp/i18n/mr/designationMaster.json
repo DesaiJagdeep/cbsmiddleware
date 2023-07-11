@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "designationMaster": {
+      "home": {
+        "title": "Designation Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Designation Master तयार करा",
+        "createOrEditLabel": "Designation Master तयार किंवा संपादित करा",
+        "notFound": "No Designation Masters found"
+      },
+      "created": "Designation Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Designation Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Designation Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Designation Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Designation Master"
+      },
+      "id": "ID",
+      "designationCode": "Designation Code",
+      "designationName": "Designation Name"
+    }
+  }
+}

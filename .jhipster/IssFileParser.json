@@ -1,0 +1,223 @@
+{
+  "changelogDate": "20230710064404",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "schemeWiseBranchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ifsc",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanAccountNumberkcc",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateofBirth",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ageAtTimeOfSanction",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmersCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "socialCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "relativeType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "relativeName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "blockCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "blockName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pinCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accountType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accountHolderType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "primaryOccupation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanSactionDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanSanctionAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tenureOFLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfOverDuePayment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "surveyNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "satBaraSubsurveyNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "seasonName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHect",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "landType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "disbursementDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "disburseAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maturityLoanDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryAmountPrinciple",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryAmountInterest",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryDate",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "IssFileParser",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "fileName",
+      "otherEntityName": "issPortalFile",
+      "relationshipName": "issPortalFile",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

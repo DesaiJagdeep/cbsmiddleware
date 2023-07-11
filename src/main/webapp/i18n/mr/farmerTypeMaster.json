@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "farmerTypeMaster": {
+      "home": {
+        "title": "Farmer Type Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Farmer Type Master तयार करा",
+        "createOrEditLabel": "Farmer Type Master तयार किंवा संपादित करा",
+        "notFound": "No Farmer Type Masters found"
+      },
+      "created": "Farmer Type Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Farmer Type Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Farmer Type Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Farmer Type Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Farmer Type Master"
+      },
+      "id": "ID",
+      "farmerTypeCode": "Farmer Type Code",
+      "farmerType": "Farmer Type"
+    }
+  }
+}

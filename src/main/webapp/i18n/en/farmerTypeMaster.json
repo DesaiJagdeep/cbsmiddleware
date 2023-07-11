@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "farmerTypeMaster": {
+      "home": {
+        "title": "Farmer Type Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Farmer Type Master",
+        "createOrEditLabel": "Create or edit a Farmer Type Master",
+        "notFound": "No Farmer Type Masters found"
+      },
+      "created": "A new Farmer Type Master is created with identifier {{ param }}",
+      "updated": "A Farmer Type Master is updated with identifier {{ param }}",
+      "deleted": "A Farmer Type Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Farmer Type Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Farmer Type Master"
+      },
+      "id": "ID",
+      "farmerTypeCode": "Farmer Type Code",
+      "farmerType": "Farmer Type"
+    }
+  }
+}

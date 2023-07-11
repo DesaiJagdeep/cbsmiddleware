@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621141423",
+  "dto": "no",
+  "entityTableName": "account_holder_master",
+  "fields": [
+    {
+      "fieldName": "accountHolderCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "accountHolder",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "AccountHolderMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

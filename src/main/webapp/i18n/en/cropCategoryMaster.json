@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "cropCategoryMaster": {
+      "home": {
+        "title": "Crop Category Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Crop Category Master",
+        "createOrEditLabel": "Create or edit a Crop Category Master",
+        "notFound": "No Crop Category Masters found"
+      },
+      "created": "A new Crop Category Master is created with identifier {{ param }}",
+      "updated": "A Crop Category Master is updated with identifier {{ param }}",
+      "deleted": "A Crop Category Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Crop Category Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Crop Category Master"
+      },
+      "id": "ID",
+      "categoryCode": "Category Code",
+      "categoryName": "Category Name"
+    }
+  }
+}

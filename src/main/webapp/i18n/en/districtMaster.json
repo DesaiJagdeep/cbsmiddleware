@@ -1,0 +1,26 @@
+{
+  "cbsMiddlewareApp": {
+    "districtMaster": {
+      "home": {
+        "title": "District Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new District Master",
+        "createOrEditLabel": "Create or edit a District Master",
+        "notFound": "No District Masters found"
+      },
+      "created": "A new District Master is created with identifier {{ param }}",
+      "updated": "A District Master is updated with identifier {{ param }}",
+      "deleted": "A District Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete District Master {{ id }}?"
+      },
+      "detail": {
+        "title": "District Master"
+      },
+      "id": "ID",
+      "districtCode": "District Code",
+      "districtName": "District Name",
+      "stateCode": "State Code"
+    }
+  }
+}

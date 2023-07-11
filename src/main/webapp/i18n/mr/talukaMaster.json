@@ -1,0 +1,26 @@
+{
+  "cbsMiddlewareApp": {
+    "talukaMaster": {
+      "home": {
+        "title": "Taluka Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Taluka Master तयार करा",
+        "createOrEditLabel": "Taluka Master तयार किंवा संपादित करा",
+        "notFound": "No Taluka Masters found"
+      },
+      "created": "Taluka Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Taluka Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Taluka Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Taluka Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Taluka Master"
+      },
+      "id": "ID",
+      "talukaCode": "Taluka Code",
+      "talukaName": "Taluka Name",
+      "districtCode": "District Code"
+    }
+  }
+}

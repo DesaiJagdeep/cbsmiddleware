@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "seasonMaster": {
+      "home": {
+        "title": "Season Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Season Master तयार करा",
+        "createOrEditLabel": "Season Master तयार किंवा संपादित करा",
+        "notFound": "No Season Masters found"
+      },
+      "created": "Season Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Season Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Season Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Season Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Season Master"
+      },
+      "id": "ID",
+      "seasonCode": "Season Code",
+      "seasonName": "Season Name"
+    }
+  }
+}

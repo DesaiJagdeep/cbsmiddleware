@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621140419",
+  "dto": "no",
+  "entityTableName": "cast_category_master",
+  "fields": [
+    {
+      "fieldName": "castCategoryCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "castCategoryName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "CastCategoryMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

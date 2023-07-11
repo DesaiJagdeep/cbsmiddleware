@@ -1,0 +1,36 @@
+{
+  "cbsMiddlewareApp": {
+    "issPortalFile": {
+      "home": {
+        "title": "Iss Portal Files",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Iss Portal File",
+        "createOrEditLabel": "Create or edit a Iss Portal File",
+        "notFound": "No Iss Portal Files found"
+      },
+      "created": "A new Iss Portal File is created with identifier {{ param }}",
+      "updated": "A Iss Portal File is updated with identifier {{ param }}",
+      "deleted": "A Iss Portal File is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Iss Portal File {{ id }}?"
+      },
+      "detail": {
+        "title": "Iss Portal File"
+      },
+      "id": "ID",
+      "batchId": "Batch Id",
+      "fileName": "File Name",
+      "fileExtension": "File Extension",
+      "branchCode": "Branch Code",
+      "financialYear": "Financial Year",
+      "fromDisbursementDate": "From Disbursement Date",
+      "toDisbursementDate": "To Disbursement Date",
+      "pacsCode": "Pacs Code",
+      "status": "Status",
+      "batchAckId": "Batch Ack Id",
+      "batchDetails": "Batch Details",
+      "applicationCount": "Application Count",
+      "notes": "Notes"
+    }
+  }
+}

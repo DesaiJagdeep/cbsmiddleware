@@ -1,0 +1,27 @@
+{
+  "cbsMiddlewareApp": {
+    "bankBranchMaster": {
+      "home": {
+        "title": "Bank Branch Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Bank Branch Master",
+        "createOrEditLabel": "Create or edit a Bank Branch Master",
+        "notFound": "No Bank Branch Masters found"
+      },
+      "created": "A new Bank Branch Master is created with identifier {{ param }}",
+      "updated": "A Bank Branch Master is updated with identifier {{ param }}",
+      "deleted": "A Bank Branch Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Bank Branch Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Bank Branch Master"
+      },
+      "id": "ID",
+      "branchCode": "Branch Code",
+      "branchName": "Branch Name",
+      "branchAddress": "Branch Address",
+      "bankCode": "Bank Code"
+    }
+  }
+}

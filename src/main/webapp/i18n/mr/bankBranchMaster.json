@@ -1,0 +1,27 @@
+{
+  "cbsMiddlewareApp": {
+    "bankBranchMaster": {
+      "home": {
+        "title": "Bank Branch Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Bank Branch Master तयार करा",
+        "createOrEditLabel": "Bank Branch Master तयार किंवा संपादित करा",
+        "notFound": "No Bank Branch Masters found"
+      },
+      "created": "Bank Branch Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Bank Branch Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Bank Branch Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Bank Branch Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Bank Branch Master"
+      },
+      "id": "ID",
+      "branchCode": "Branch Code",
+      "branchName": "Branch Name",
+      "branchAddress": "Branch Address",
+      "bankCode": "Bank Code"
+    }
+  }
+}

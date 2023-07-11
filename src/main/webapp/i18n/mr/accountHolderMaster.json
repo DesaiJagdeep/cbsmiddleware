@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "accountHolderMaster": {
+      "home": {
+        "title": "Account Holder Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Account Holder Master तयार करा",
+        "createOrEditLabel": "Account Holder Master तयार किंवा संपादित करा",
+        "notFound": "No Account Holder Masters found"
+      },
+      "created": "Account Holder Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Account Holder Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Account Holder Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Account Holder Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Account Holder Master"
+      },
+      "id": "ID",
+      "accountHolderCode": "Account Holder Code",
+      "accountHolder": "Account Holder"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "pacsMaster": {
+      "home": {
+        "title": "Pacs Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Pacs Master",
+        "createOrEditLabel": "Create or edit a Pacs Master",
+        "notFound": "No Pacs Masters found"
+      },
+      "created": "A new Pacs Master is created with identifier {{ param }}",
+      "updated": "A Pacs Master is updated with identifier {{ param }}",
+      "deleted": "A Pacs Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Pacs Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Pacs Master"
+      },
+      "id": "ID",
+      "pacsName": "Pacs Name",
+      "pacsNumber": "Pacs Number"
+    }
+  }
+}

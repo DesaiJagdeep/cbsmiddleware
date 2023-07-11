@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621142059",
+  "dto": "no",
+  "entityTableName": "occupation_master",
+  "fields": [
+    {
+      "fieldName": "occupationCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "occupationName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "OccupationMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

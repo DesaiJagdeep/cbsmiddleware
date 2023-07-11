@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "farmerCategoryMaster": {
+      "home": {
+        "title": "Farmer Category Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Farmer Category Master तयार करा",
+        "createOrEditLabel": "Farmer Category Master तयार किंवा संपादित करा",
+        "notFound": "No Farmer Category Masters found"
+      },
+      "created": "Farmer Category Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Farmer Category Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Farmer Category Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Farmer Category Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Farmer Category Master"
+      },
+      "id": "ID",
+      "farmerCategoryCode": "Farmer Category Code",
+      "farmerCategory": "Farmer Category"
+    }
+  }
+}

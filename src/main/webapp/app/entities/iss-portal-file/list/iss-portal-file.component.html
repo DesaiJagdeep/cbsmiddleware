@@ -1,0 +1,192 @@
+<div>
+  <h2 id="page-heading" data-cy="IssPortalFileHeading">
+    <span jhiTranslate="cbsMiddlewareApp.issPortalFile.home.title">Iss Portal Files</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.issPortalFile.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-iss-portal-file"
+        [routerLink]="['/iss-portal-file/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.issPortalFile.home.createLabel"> Create a new Iss Portal File </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="issPortalFiles?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.issPortalFile.home.notFound">No Iss Portal Files found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="issPortalFiles && issPortalFiles.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="batchId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchId">Batch Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fileName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.fileName">File Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fileExtension">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.fileExtension">File Extension</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.branchCode">Branch Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="financialYear">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.financialYear">Financial Year</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fromDisbursementDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.fromDisbursementDate">From Disbursement Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="toDisbursementDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.toDisbursementDate">To Disbursement Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.pacsCode">Pacs Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.status">Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="batchAckId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchAckId">Batch Ack Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="batchDetails">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchDetails">Batch Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="applicationCount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.applicationCount">Application Count</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="notes">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.issPortalFile.notes">Notes</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let issPortalFile of issPortalFiles; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/iss-portal-file', issPortalFile.id, 'view']">{{ issPortalFile.id }}</a>
+          </td>
+          <td>{{ issPortalFile.batchId }}</td>
+          <td>{{ issPortalFile.fileName }}</td>
+          <td>{{ issPortalFile.fileExtension }}</td>
+          <td>{{ issPortalFile.branchCode }}</td>
+          <td>{{ issPortalFile.financialYear }}</td>
+          <td>{{ issPortalFile.fromDisbursementDate | formatMediumDate }}</td>
+          <td>{{ issPortalFile.toDisbursementDate | formatMediumDate }}</td>
+          <td>{{ issPortalFile.pacsCode }}</td>
+          <td>{{ issPortalFile.status }}</td>
+          <td>{{ issPortalFile.batchAckId }}</td>
+          <td>{{ issPortalFile.batchDetails }}</td>
+          <td>{{ issPortalFile.applicationCount }}</td>
+          <td>{{ issPortalFile.notes }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/iss-portal-file', issPortalFile.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/iss-portal-file', issPortalFile.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(issPortalFile)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="issPortalFiles && issPortalFiles.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

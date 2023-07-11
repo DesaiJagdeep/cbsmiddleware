@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="issPortalFile">
+      <h2 data-cy="issPortalFileDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.issPortalFile.detail.title">Iss Portal File</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ issPortalFile.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchId">Batch Id</span></dt>
+        <dd>
+          <span>{{ issPortalFile.batchId }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.fileName">File Name</span></dt>
+        <dd>
+          <span>{{ issPortalFile.fileName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.fileExtension">File Extension</span></dt>
+        <dd>
+          <span>{{ issPortalFile.fileExtension }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ issPortalFile.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.financialYear">Financial Year</span></dt>
+        <dd>
+          <span>{{ issPortalFile.financialYear }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.fromDisbursementDate">From Disbursement Date</span></dt>
+        <dd>
+          <span>{{ issPortalFile.fromDisbursementDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.toDisbursementDate">To Disbursement Date</span></dt>
+        <dd>
+          <span>{{ issPortalFile.toDisbursementDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.pacsCode">Pacs Code</span></dt>
+        <dd>
+          <span>{{ issPortalFile.pacsCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.status">Status</span></dt>
+        <dd>
+          <span>{{ issPortalFile.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchAckId">Batch Ack Id</span></dt>
+        <dd>
+          <span>{{ issPortalFile.batchAckId }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.batchDetails">Batch Details</span></dt>
+        <dd>
+          <span>{{ issPortalFile.batchDetails }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.applicationCount">Application Count</span></dt>
+        <dd>
+          <span>{{ issPortalFile.applicationCount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.issPortalFile.notes">Notes</span></dt>
+        <dd>
+          <span>{{ issPortalFile.notes }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/iss-portal-file', issPortalFile.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

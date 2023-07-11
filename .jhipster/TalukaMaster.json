@@ -1,0 +1,26 @@
+{
+  "changelogDate": "20230621132950",
+  "dto": "no",
+  "entityTableName": "taluka_master",
+  "fields": [
+    {
+      "fieldName": "talukaCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talukaName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "districtCode",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "TalukaMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

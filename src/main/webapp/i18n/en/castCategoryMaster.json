@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "castCategoryMaster": {
+      "home": {
+        "title": "Cast Category Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cast Category Master",
+        "createOrEditLabel": "Create or edit a Cast Category Master",
+        "notFound": "No Cast Category Masters found"
+      },
+      "created": "A new Cast Category Master is created with identifier {{ param }}",
+      "updated": "A Cast Category Master is updated with identifier {{ param }}",
+      "deleted": "A Cast Category Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cast Category Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Cast Category Master"
+      },
+      "id": "ID",
+      "castCategoryCode": "Cast Category Code",
+      "castCategoryName": "Cast Category Name"
+    }
+  }
+}

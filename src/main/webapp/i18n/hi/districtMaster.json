@@ -1,0 +1,26 @@
+{
+  "cbsMiddlewareApp": {
+    "districtMaster": {
+      "home": {
+        "title": "DistrictMasters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया District Master बनाएँ",
+        "createOrEditLabel": "District Master बनाएँ या संपादित करें",
+        "notFound": "No District Masters found"
+      },
+      "created": "एक नया District Master [identifier: {{ param }}] तैयार है",
+      "updated": "एक District Master [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "District Master [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "District Master [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "District Master"
+      },
+      "id": "ID",
+      "districtCode": "District Code",
+      "districtName": "District Name",
+      "stateCode": "State Code"
+    }
+  }
+}

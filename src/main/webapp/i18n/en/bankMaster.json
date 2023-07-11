@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "bankMaster": {
+      "home": {
+        "title": "Bank Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Bank Master",
+        "createOrEditLabel": "Create or edit a Bank Master",
+        "notFound": "No Bank Masters found"
+      },
+      "created": "A new Bank Master is created with identifier {{ param }}",
+      "updated": "A Bank Master is updated with identifier {{ param }}",
+      "deleted": "A Bank Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Bank Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Bank Master"
+      },
+      "id": "ID",
+      "bankCode": "Bank Code",
+      "bankName": "Bank Name"
+    }
+  }
+}

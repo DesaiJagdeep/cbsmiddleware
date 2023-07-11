@@ -1,0 +1,22 @@
+{
+  "changelogDate": "20230621140146",
+  "dto": "no",
+  "entityTableName": "pacs_master",
+  "fields": [
+    {
+      "fieldName": "pacsName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "PacsMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": false,
+  "service": "serviceImpl"
+}

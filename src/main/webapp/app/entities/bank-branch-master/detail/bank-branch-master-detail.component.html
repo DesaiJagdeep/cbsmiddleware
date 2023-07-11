@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="bankBranchMaster">
+      <h2 data-cy="bankBranchMasterDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.detail.title">Bank Branch Master</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ bankBranchMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ bankBranchMaster.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.branchName">Branch Name</span></dt>
+        <dd>
+          <span>{{ bankBranchMaster.branchName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.branchAddress">Branch Address</span></dt>
+        <dd>
+          <span>{{ bankBranchMaster.branchAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.bankCode">Bank Code</span></dt>
+        <dd>
+          <span>{{ bankBranchMaster.bankCode }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bank-branch-master', bankBranchMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,14 @@
 package com.cbs.middleware.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ApplicationPayload {
+public class ApplicationPayload implements Serializable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String uniqueId;
     private Long recordStatus;
     private BasicDetails basicDetails;
@@ -66,5 +71,26 @@ public class ApplicationPayload {
 
     public void setActivities(List<Activities> activities) {
         this.activities = activities;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "ApplicationPayload [uniqueId=" +
+            uniqueId +
+            ", recordStatus=" +
+            recordStatus +
+            ", basicDetails=" +
+            basicDetails +
+            ", residentialDetails=" +
+            residentialDetails +
+            ", accountDetails=" +
+            accountDetails +
+            ", loanDetails=" +
+            loanDetails +
+            ", activities=" +
+            activities +
+            "]"
+        );
     }
 }

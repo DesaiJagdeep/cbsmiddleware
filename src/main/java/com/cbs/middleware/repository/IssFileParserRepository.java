@@ -1,6 +1,7 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.IssFileParser;
+import com.cbs.middleware.domain.IssPortalFile;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -39,4 +40,12 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
     Optional<IssFileParser> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<IssFileParser> findAllByFinancialYear(String string);
+
+    List<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile);
+
+    List<IssFileParser> findAllByIssPortalFileAndBatchStatus(IssPortalFile issPortalFile, String string);
+
+    List<IssFileParser> findAllByBatchStatus(String string);
+
+    List<IssFileParser> findAllByFinancialYearAndBatchStatus(String financialYear, String string);
 }

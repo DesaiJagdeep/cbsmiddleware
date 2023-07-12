@@ -171,6 +171,9 @@ public class IssFileParser implements Serializable {
     @Column(name = "recovery_date")
     private String recoveryDate;
 
+    @Column(name = "batch_status")
+    private String batchStatus;
+
     @ManyToOne
     private IssPortalFile issPortalFile;
 
@@ -187,6 +190,14 @@ public class IssFileParser implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getBatchStatus() {
+        return batchStatus;
+    }
+
+    public void setBatchStatus(String batchStatus) {
+        this.batchStatus = batchStatus;
     }
 
     public String getFinancialYear() {

@@ -20,4 +20,9 @@ public class CBSMiddleareInputPayload {
     public void setData(String data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "CBSMiddleareInputPayload [authCode=" + authCode + ", data=" + data + "]";
+    }
 }

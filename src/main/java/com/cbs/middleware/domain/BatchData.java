@@ -1,13 +1,18 @@
 package com.cbs.middleware.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BatchData {
+public class BatchData implements Serializable {
 
     /*
      * "batchId": "29082202301220", "financialYear": "2022-2023",
      */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String batchId;
     private String financialYear;
     private List<ApplicationPayload> applications;
@@ -36,5 +41,10 @@ public class BatchData {
 
     public void setApplications(List<ApplicationPayload> applications) {
         this.applications = applications;
+    }
+
+    @Override
+    public String toString() {
+        return "BatchData [batchId=" + batchId + ", financialYear=" + financialYear + ", applications=" + applications + "]";
     }
 }

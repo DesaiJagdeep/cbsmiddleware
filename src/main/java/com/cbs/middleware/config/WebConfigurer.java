@@ -2,6 +2,7 @@ package com.cbs.middleware.config;
 
 import static java.net.URLDecoder.decode;
 
+import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssPortalFile;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -107,5 +108,10 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     @Bean
     public IssPortalFile issPortalFile() {
         return new IssPortalFile();
+    }
+
+    @Bean
+    public ApplicationLog applicationLog() {
+        return new ApplicationLog();
     }
 }

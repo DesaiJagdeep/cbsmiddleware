@@ -1,6 +1,8 @@
 package com.cbs.middleware.domain;
 
-public class ActivityRows {
+import java.io.Serializable;
+
+public class ActivityRows implements Serializable {
 
     /*
      * { "landVillage": "413731", "cropCode": "011507800", "surveyNumber": "123",
@@ -10,6 +12,10 @@ public class ActivityRows {
      * "totalArea": 2 "marineType": 3, }
      */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String landVillage;
     private String cropCode;
     private String surveyNumber;
@@ -154,5 +160,44 @@ public class ActivityRows {
 
     public void setMarineType(Long marineType) {
         this.marineType = marineType;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "ActivityRows [landVillage=" +
+            landVillage +
+            ", cropCode=" +
+            cropCode +
+            ", surveyNumber=" +
+            surveyNumber +
+            ", khataNumber=" +
+            khataNumber +
+            ", landArea=" +
+            landArea +
+            ", landType=" +
+            landType +
+            ", season=" +
+            season +
+            ", plantationCode=" +
+            plantationCode +
+            ", plantationArea=" +
+            plantationArea +
+            ", liveStockType=" +
+            liveStockType +
+            ", liveStockCode=" +
+            liveStockCode +
+            ", unitCount=" +
+            unitCount +
+            ", inlandType=" +
+            inlandType +
+            ", totalUnits=" +
+            totalUnits +
+            ", totalArea=" +
+            totalArea +
+            ", marineType=" +
+            marineType +
+            "]"
+        );
     }
 }

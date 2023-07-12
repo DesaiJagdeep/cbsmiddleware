@@ -1,11 +1,15 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.IssFileParser;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -39,4 +43,6 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
         "select applicationLog from ApplicationLog applicationLog left join fetch applicationLog.issFileParser where applicationLog.id =:id"
     )
     Optional<ApplicationLog> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Set<ApplicationLog> findAllByIssFileParser(IssFileParser issPortalFile);
 }

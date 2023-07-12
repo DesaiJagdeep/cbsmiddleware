@@ -1,6 +1,8 @@
 package com.cbs.middleware.domain;
 
-public class ResidentialDetails {
+import java.io.Serializable;
+
+public class ResidentialDetails implements Serializable {
 
     /*
      * {
@@ -10,6 +12,10 @@ public class ResidentialDetails {
      * }
      */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String residentialVillage;
     private String residentialAddress;
     private String residentialPincode;
@@ -37,5 +43,18 @@ public class ResidentialDetails {
 
     public void setResidentialPincode(String residentialPincode) {
         this.residentialPincode = residentialPincode;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "ResidentialDetails [residentialVillage=" +
+            residentialVillage +
+            ", residentialAddress=" +
+            residentialAddress +
+            ", residentialPincode=" +
+            residentialPincode +
+            "]"
+        );
     }
 }

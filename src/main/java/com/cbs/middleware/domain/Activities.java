@@ -1,8 +1,9 @@
 package com.cbs.middleware.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Activities {
+public class Activities implements Serializable {
 
     /*
      * { "activityType": 1,
@@ -12,6 +13,10 @@ public class Activities {
      * }
      */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private Long activityType;
     private String loanSanctionedDate;
     private Long loanSanctionedAmount;
@@ -49,5 +54,20 @@ public class Activities {
 
     public void setActivityRows(List<ActivityRows> activityRows) {
         this.activityRows = activityRows;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "Activities [activityType=" +
+            activityType +
+            ", loanSanctionedDate=" +
+            loanSanctionedDate +
+            ", loanSanctionedAmount=" +
+            loanSanctionedAmount +
+            ", activityRows=" +
+            activityRows +
+            "]"
+        );
     }
 }

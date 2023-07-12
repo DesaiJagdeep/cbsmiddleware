@@ -1,8 +1,9 @@
 package com.cbs.middleware.domain;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AccountDetails {
+public class AccountDetails implements Serializable {
 
     /*
      * {
@@ -19,6 +20,10 @@ public class AccountDetails {
      * }
      */
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private String accountNumber;
     private String ifsc;
     private String branchCode;
@@ -63,5 +68,22 @@ public class AccountDetails {
 
     public void setJointAccountHolders(List<JointAccountHolders> jointAccountHolders) {
         this.jointAccountHolders = jointAccountHolders;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "AccountDetails [accountNumber=" +
+            accountNumber +
+            ", ifsc=" +
+            ifsc +
+            ", branchCode=" +
+            branchCode +
+            ", accountHolder=" +
+            accountHolder +
+            ", jointAccountHolders=" +
+            jointAccountHolders +
+            "]"
+        );
     }
 }

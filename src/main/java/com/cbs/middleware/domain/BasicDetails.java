@@ -1,7 +1,13 @@
 package com.cbs.middleware.domain;
 
-public class BasicDetails {
+import java.io.Serializable;
 
+public class BasicDetails implements Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     /*
      * {
      * "beneficiaryName": "TestName",
@@ -130,5 +136,36 @@ public class BasicDetails {
 
     public void setRelativeName(String relativeName) {
         this.relativeName = relativeName;
+    }
+
+    @Override
+    public String toString() {
+        return (
+            "BasicDetails [beneficiaryName=" +
+            beneficiaryName +
+            ", aadhaarNumber=" +
+            aadhaarNumber +
+            ", beneficiaryPassbookName=" +
+            beneficiaryPassbookName +
+            ", mobile=" +
+            mobile +
+            ", dob=" +
+            dob +
+            ", gender=" +
+            gender +
+            ", socialCategory=" +
+            socialCategory +
+            ", farmerCategory=" +
+            farmerCategory +
+            ", farmerType=" +
+            farmerType +
+            ", primaryOccupation=" +
+            primaryOccupation +
+            ", relativeType=" +
+            relativeType +
+            ", relativeName=" +
+            relativeName +
+            "]"
+        );
     }
 }

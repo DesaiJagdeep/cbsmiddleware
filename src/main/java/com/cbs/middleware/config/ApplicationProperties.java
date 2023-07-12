@@ -16,8 +16,8 @@ public class ApplicationProperties {
     private int keySizeBits;
     private String secretKey;
     private String iv;
-    private int recordStatusForFarmer;
-    private int recordStatusForFarmerAndLoan;
+    private Long recordStatusForFarmer;
+    private Long recordStatusForFarmerAndLoan;
     private int recordStatusForUpdateFarmerAndLoan;
 
     public String getCBSMiddlewareBaseURL() {
@@ -60,19 +60,19 @@ public class ApplicationProperties {
         this.iv = iv;
     }
 
-    public int getRecordStatusForFarmer() {
+    public Long getRecordStatusForFarmer() {
         return recordStatusForFarmer;
     }
 
-    public void setRecordStatusForFarmer(int recordStatusForFarmer) {
+    public void setRecordStatusForFarmer(Long recordStatusForFarmer) {
         this.recordStatusForFarmer = recordStatusForFarmer;
     }
 
-    public int getRecordStatusForFarmerAndLoan() {
+    public Long getRecordStatusForFarmerAndLoan() {
         return recordStatusForFarmerAndLoan;
     }
 
-    public void setRecordStatusForFarmerAndLoan(int recordStatusForFarmerAndLoan) {
+    public void setRecordStatusForFarmerAndLoan(Long recordStatusForFarmerAndLoan) {
         this.recordStatusForFarmerAndLoan = recordStatusForFarmerAndLoan;
     }
 

@@ -10,7 +10,7 @@ public class BatchData {
 
     private String batchId;
     private String financialYear;
-    private List<Application> applications;
+    private List<ApplicationPayload> applications;
 
     // GETTERS AND SETTERS
 
@@ -30,11 +30,11 @@ public class BatchData {
         this.financialYear = financialYear;
     }
 
-    public List<Application> getApplications() {
+    public List<ApplicationPayload> getApplications() {
         return applications;
     }
 
-    public void setApplications(List<Application> applications) {
+    public void setApplications(List<ApplicationPayload> applications) {
         this.applications = applications;
     }
 }

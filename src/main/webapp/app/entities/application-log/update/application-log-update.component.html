@@ -1,0 +1,129 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-application-log-heading"
+        data-cy="ApplicationLogCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.applicationLog.home.createOrEditLabel"
+      >
+        Create or edit a Application Log
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.errorType" for="field_errorType">Error Type</label>
+          <input type="text" class="form-control" name="errorType" id="field_errorType" data-cy="errorType" formControlName="errorType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.errorCode" for="field_errorCode">Error Code</label>
+          <input type="text" class="form-control" name="errorCode" id="field_errorCode" data-cy="errorCode" formControlName="errorCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.errorMessage" for="field_errorMessage"
+            >Error Message</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="errorMessage"
+            id="field_errorMessage"
+            data-cy="errorMessage"
+            formControlName="errorMessage"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.columnNumber" for="field_columnNumber"
+            >Column Number</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="columnNumber"
+            id="field_columnNumber"
+            data-cy="columnNumber"
+            formControlName="columnNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.sevierity" for="field_sevierity">Sevierity</label>
+          <input type="text" class="form-control" name="sevierity" id="field_sevierity" data-cy="sevierity" formControlName="sevierity" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.expectedSolution" for="field_expectedSolution"
+            >Expected Solution</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="expectedSolution"
+            id="field_expectedSolution"
+            data-cy="expectedSolution"
+            formControlName="expectedSolution"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.status" for="field_status">Status</label>
+          <input type="text" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.rowNumber" for="field_rowNumber">Row Number</label>
+          <input type="number" class="form-control" name="rowNumber" id="field_rowNumber" data-cy="rowNumber" formControlName="rowNumber" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.batchId" for="field_batchId">Batch Id</label>
+          <input type="text" class="form-control" name="batchId" id="field_batchId" data-cy="batchId" formControlName="batchId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.applicationLog.issFileParser" for="field_issFileParser"
+            >Iss File Parser</label
+          >
+          <select
+            class="form-control"
+            id="field_issFileParser"
+            data-cy="issFileParser"
+            name="issFileParser"
+            formControlName="issFileParser"
+            [compareWith]="compareIssFileParser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="issFileParserOption" *ngFor="let issFileParserOption of issFileParsersSharedCollection">
+              {{ issFileParserOption.aadharNumber }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

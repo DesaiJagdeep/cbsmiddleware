@@ -1,0 +1,161 @@
+<div>
+  <h2 id="page-heading" data-cy="ApplicationHeading">
+    <span jhiTranslate="cbsMiddlewareApp.application.home.title">Applications</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.application.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-application"
+        [routerLink]="['/application/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.application.home.createLabel"> Create a new Application </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applications?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.application.home.notFound">No Applications found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="applications && applications.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="batchId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.batchId">Batch Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="uniqueId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.uniqueId">Unique Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recordStatus">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.recordStatus">Record Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="applicationStatus">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.applicationStatus">Application Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kccStatus">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.kccStatus">Kcc Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="recipientUniqueId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.recipientUniqueId">Recipient Unique Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="farmerId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.farmerId">Farmer Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="issFileParser.aadharNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.application.issFileParser">Iss File Parser</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of applications; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/application', application.id, 'view']">{{ application.id }}</a>
+          </td>
+          <td>{{ application.batchId }}</td>
+          <td>{{ application.uniqueId }}</td>
+          <td>{{ application.recordStatus }}</td>
+          <td>{{ application.applicationStatus }}</td>
+          <td>{{ application.kccStatus }}</td>
+          <td>{{ application.recipientUniqueId }}</td>
+          <td>{{ application.farmerId }}</td>
+          <td>
+            <div *ngIf="application.issFileParser">
+              <a [routerLink]="['/iss-file-parser', application.issFileParser.id, 'view']">{{ application.issFileParser.aadharNumber }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/application', application.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/application', application.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(application)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="applications && applications.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

@@ -20,7 +20,6 @@ describe('IssPortalFile Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            batchId: expect.any(Object),
             fileName: expect.any(Object),
             fileExtension: expect.any(Object),
             branchCode: expect.any(Object),
@@ -29,8 +28,6 @@ describe('IssPortalFile Form Service', () => {
             toDisbursementDate: expect.any(Object),
             pacsCode: expect.any(Object),
             status: expect.any(Object),
-            batchAckId: expect.any(Object),
-            batchDetails: expect.any(Object),
             applicationCount: expect.any(Object),
             notes: expect.any(Object),
           })
@@ -43,7 +40,6 @@ describe('IssPortalFile Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            batchId: expect.any(Object),
             fileName: expect.any(Object),
             fileExtension: expect.any(Object),
             branchCode: expect.any(Object),
@@ -52,8 +48,6 @@ describe('IssPortalFile Form Service', () => {
             toDisbursementDate: expect.any(Object),
             pacsCode: expect.any(Object),
             status: expect.any(Object),
-            batchAckId: expect.any(Object),
-            batchDetails: expect.any(Object),
             applicationCount: expect.any(Object),
             notes: expect.any(Object),
           })

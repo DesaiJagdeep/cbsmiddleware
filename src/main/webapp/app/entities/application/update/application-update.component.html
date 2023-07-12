@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-application-heading"
+        data-cy="ApplicationCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.application.home.createOrEditLabel"
+      >
+        Create or edit a Application
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.batchId" for="field_batchId">Batch Id</label>
+          <input type="text" class="form-control" name="batchId" id="field_batchId" data-cy="batchId" formControlName="batchId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.uniqueId" for="field_uniqueId">Unique Id</label>
+          <input type="text" class="form-control" name="uniqueId" id="field_uniqueId" data-cy="uniqueId" formControlName="uniqueId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.recordStatus" for="field_recordStatus">Record Status</label>
+          <input
+            type="number"
+            class="form-control"
+            name="recordStatus"
+            id="field_recordStatus"
+            data-cy="recordStatus"
+            formControlName="recordStatus"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.applicationStatus" for="field_applicationStatus"
+            >Application Status</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="applicationStatus"
+            id="field_applicationStatus"
+            data-cy="applicationStatus"
+            formControlName="applicationStatus"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.kccStatus" for="field_kccStatus">Kcc Status</label>
+          <input type="number" class="form-control" name="kccStatus" id="field_kccStatus" data-cy="kccStatus" formControlName="kccStatus" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.recipientUniqueId" for="field_recipientUniqueId"
+            >Recipient Unique Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="recipientUniqueId"
+            id="field_recipientUniqueId"
+            data-cy="recipientUniqueId"
+            formControlName="recipientUniqueId"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.farmerId" for="field_farmerId">Farmer Id</label>
+          <input type="text" class="form-control" name="farmerId" id="field_farmerId" data-cy="farmerId" formControlName="farmerId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.application.issFileParser" for="field_issFileParser"
+            >Iss File Parser</label
+          >
+          <select
+            class="form-control"
+            id="field_issFileParser"
+            data-cy="issFileParser"
+            name="issFileParser"
+            formControlName="issFileParser"
+            [compareWith]="compareIssFileParser"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="issFileParserOption" *ngFor="let issFileParserOption of issFileParsersSharedCollection">
+              {{ issFileParserOption.aadharNumber }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

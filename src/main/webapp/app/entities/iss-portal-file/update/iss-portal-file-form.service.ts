@@ -18,7 +18,6 @@ type IssPortalFileFormDefaults = Pick<NewIssPortalFile, 'id'>;
 
 type IssPortalFileFormGroupContent = {
   id: FormControl<IIssPortalFile['id'] | NewIssPortalFile['id']>;
-  batchId: FormControl<IIssPortalFile['batchId']>;
   fileName: FormControl<IIssPortalFile['fileName']>;
   fileExtension: FormControl<IIssPortalFile['fileExtension']>;
   branchCode: FormControl<IIssPortalFile['branchCode']>;
@@ -27,8 +26,6 @@ type IssPortalFileFormGroupContent = {
   toDisbursementDate: FormControl<IIssPortalFile['toDisbursementDate']>;
   pacsCode: FormControl<IIssPortalFile['pacsCode']>;
   status: FormControl<IIssPortalFile['status']>;
-  batchAckId: FormControl<IIssPortalFile['batchAckId']>;
-  batchDetails: FormControl<IIssPortalFile['batchDetails']>;
   applicationCount: FormControl<IIssPortalFile['applicationCount']>;
   notes: FormControl<IIssPortalFile['notes']>;
 };
@@ -50,7 +47,6 @@ export class IssPortalFileFormService {
           validators: [Validators.required],
         }
       ),
-      batchId: new FormControl(issPortalFileRawValue.batchId),
       fileName: new FormControl(issPortalFileRawValue.fileName),
       fileExtension: new FormControl(issPortalFileRawValue.fileExtension),
       branchCode: new FormControl(issPortalFileRawValue.branchCode),
@@ -59,8 +55,6 @@ export class IssPortalFileFormService {
       toDisbursementDate: new FormControl(issPortalFileRawValue.toDisbursementDate),
       pacsCode: new FormControl(issPortalFileRawValue.pacsCode),
       status: new FormControl(issPortalFileRawValue.status),
-      batchAckId: new FormControl(issPortalFileRawValue.batchAckId),
-      batchDetails: new FormControl(issPortalFileRawValue.batchDetails),
       applicationCount: new FormControl(issPortalFileRawValue.applicationCount),
       notes: new FormControl(issPortalFileRawValue.notes),
     });

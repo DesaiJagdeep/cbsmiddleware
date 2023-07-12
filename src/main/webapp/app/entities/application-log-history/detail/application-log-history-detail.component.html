@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="applicationLogHistory">
+      <h2 data-cy="applicationLogHistoryDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.detail.title">Application Log History</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.errorType">Error Type</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.errorType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.errorCode">Error Code</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.errorCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.errorMessage">Error Message</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.errorMessage }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.rowNumber">Row Number</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.rowNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.columnNumber">Column Number</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.columnNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.sevierity">Sevierity</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.sevierity }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.expectedSolution">Expected Solution</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.expectedSolution }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.status">Status</span></dt>
+        <dd>
+          <span>{{ applicationLogHistory.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.applicationLogHistory.issFileParser">Iss File Parser</span></dt>
+        <dd>
+          <div *ngIf="applicationLogHistory.issFileParser">
+            <a [routerLink]="['/iss-file-parser', applicationLogHistory.issFileParser.id, 'view']">{{
+              applicationLogHistory.issFileParser.aadharNumber
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/application-log-history', applicationLogHistory.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

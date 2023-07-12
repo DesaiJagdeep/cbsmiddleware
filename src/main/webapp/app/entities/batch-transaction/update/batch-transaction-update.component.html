@@ -1,0 +1,93 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-batch-transaction-heading"
+        data-cy="BatchTransactionCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.batchTransaction.home.createOrEditLabel"
+      >
+        Create or edit a Batch Transaction
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.status" for="field_status">Status</label>
+          <input type="text" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.batchDetails" for="field_batchDetails"
+            >Batch Details</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="batchDetails"
+            id="field_batchDetails"
+            data-cy="batchDetails"
+            formControlName="batchDetails"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.applicationCount" for="field_applicationCount"
+            >Application Count</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="applicationCount"
+            id="field_applicationCount"
+            data-cy="applicationCount"
+            formControlName="applicationCount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.notes" for="field_notes">Notes</label>
+          <input type="text" class="form-control" name="notes" id="field_notes" data-cy="notes" formControlName="notes" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.batchId" for="field_batchId">Batch Id</label>
+          <input type="text" class="form-control" name="batchId" id="field_batchId" data-cy="batchId" formControlName="batchId" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.batchTransaction.batchAckId" for="field_batchAckId">Batch Ack Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="batchAckId"
+            id="field_batchAckId"
+            data-cy="batchAckId"
+            formControlName="batchAckId"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

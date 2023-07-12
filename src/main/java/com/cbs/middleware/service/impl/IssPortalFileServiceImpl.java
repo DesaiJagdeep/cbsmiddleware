@@ -45,9 +45,6 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
         return issPortalFileRepository
             .findById(issPortalFile.getId())
             .map(existingIssPortalFile -> {
-                if (issPortalFile.getBatchId() != null) {
-                    existingIssPortalFile.setBatchId(issPortalFile.getBatchId());
-                }
                 if (issPortalFile.getFileName() != null) {
                     existingIssPortalFile.setFileName(issPortalFile.getFileName());
                 }
@@ -71,12 +68,6 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
                 }
                 if (issPortalFile.getStatus() != null) {
                     existingIssPortalFile.setStatus(issPortalFile.getStatus());
-                }
-                if (issPortalFile.getBatchAckId() != null) {
-                    existingIssPortalFile.setBatchAckId(issPortalFile.getBatchAckId());
-                }
-                if (issPortalFile.getBatchDetails() != null) {
-                    existingIssPortalFile.setBatchDetails(issPortalFile.getBatchDetails());
                 }
                 if (issPortalFile.getApplicationCount() != null) {
                     existingIssPortalFile.setApplicationCount(issPortalFile.getApplicationCount());

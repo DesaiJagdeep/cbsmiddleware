@@ -7,26 +7,23 @@ export const sampleWithRequiredData: IIssPortalFile = {
 };
 
 export const sampleWithPartialData: IIssPortalFile = {
-  id: 26337,
-  batchId: 4774,
-  fileName: 'Rustic',
-  fromDisbursementDate: dayjs('2023-07-11'),
-  pacsCode: 88901,
+  id: 2227,
+  fileName: 'Computers',
+  fileExtension: 'Rustic',
+  toDisbursementDate: dayjs('2023-07-11'),
+  status: 'North Handmade utilisation',
 };
 
 export const sampleWithFullData: IIssPortalFile = {
-  id: 57232,
-  batchId: 67768,
-  fileName: 'Handmade',
-  fileExtension: 'Analyst',
-  branchCode: 46857,
-  financialYear: 'pixel',
+  id: 55235,
+  fileName: 'magenta copying',
+  fileExtension: 'FTP Hampshire',
+  branchCode: 62782,
+  financialYear: 'mindshare sticky deposit',
   fromDisbursementDate: dayjs('2023-07-10'),
-  toDisbursementDate: dayjs('2023-07-10'),
-  pacsCode: 59576,
-  status: 'line Wisconsin navigating',
-  batchAckId: 'sticky deposit hack',
-  batchDetails: 'program',
+  toDisbursementDate: dayjs('2023-07-11'),
+  pacsCode: 45371,
+  status: 'program',
   applicationCount: 'software',
   notes: 'District',
 };

@@ -104,6 +104,26 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'cbsMiddlewareApp.issPortalFile.home.title' },
         loadChildren: () => import('./iss-portal-file/iss-portal-file.module').then(m => m.IssPortalFileModule),
       },
+      {
+        path: 'batch-transaction',
+        data: { pageTitle: 'cbsMiddlewareApp.batchTransaction.home.title' },
+        loadChildren: () => import('./batch-transaction/batch-transaction.module').then(m => m.BatchTransactionModule),
+      },
+      {
+        path: 'application-log',
+        data: { pageTitle: 'cbsMiddlewareApp.applicationLog.home.title' },
+        loadChildren: () => import('./application-log/application-log.module').then(m => m.ApplicationLogModule),
+      },
+      {
+        path: 'application-log-history',
+        data: { pageTitle: 'cbsMiddlewareApp.applicationLogHistory.home.title' },
+        loadChildren: () => import('./application-log-history/application-log-history.module').then(m => m.ApplicationLogHistoryModule),
+      },
+      {
+        path: 'application',
+        data: { pageTitle: 'cbsMiddlewareApp.application.home.title' },
+        loadChildren: () => import('./application/application.module').then(m => m.ApplicationModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

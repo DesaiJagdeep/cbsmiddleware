@@ -32,10 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class IssPortalFileResourceIT {
 
-    private static final Long DEFAULT_BATCH_ID = 1L;
-    private static final Long UPDATED_BATCH_ID = 2L;
-    private static final Long SMALLER_BATCH_ID = 1L - 1L;
-
     private static final String DEFAULT_FILE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FILE_NAME = "BBBBBBBBBB";
 
@@ -63,12 +59,6 @@ class IssPortalFileResourceIT {
 
     private static final String DEFAULT_STATUS = "AAAAAAAAAA";
     private static final String UPDATED_STATUS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_BATCH_ACK_ID = "AAAAAAAAAA";
-    private static final String UPDATED_BATCH_ACK_ID = "BBBBBBBBBB";
-
-    private static final String DEFAULT_BATCH_DETAILS = "AAAAAAAAAA";
-    private static final String UPDATED_BATCH_DETAILS = "BBBBBBBBBB";
 
     private static final String DEFAULT_APPLICATION_COUNT = "AAAAAAAAAA";
     private static final String UPDATED_APPLICATION_COUNT = "BBBBBBBBBB";
@@ -101,7 +91,6 @@ class IssPortalFileResourceIT {
      */
     public static IssPortalFile createEntity(EntityManager em) {
         IssPortalFile issPortalFile = new IssPortalFile()
-            .batchId(DEFAULT_BATCH_ID)
             .fileName(DEFAULT_FILE_NAME)
             .fileExtension(DEFAULT_FILE_EXTENSION)
             .branchCode(DEFAULT_BRANCH_CODE)
@@ -110,8 +99,6 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(DEFAULT_TO_DISBURSEMENT_DATE)
             .pacsCode(DEFAULT_PACS_CODE)
             .status(DEFAULT_STATUS)
-            .batchAckId(DEFAULT_BATCH_ACK_ID)
-            .batchDetails(DEFAULT_BATCH_DETAILS)
             .applicationCount(DEFAULT_APPLICATION_COUNT)
             .notes(DEFAULT_NOTES);
         return issPortalFile;
@@ -125,7 +112,6 @@ class IssPortalFileResourceIT {
      */
     public static IssPortalFile createUpdatedEntity(EntityManager em) {
         IssPortalFile issPortalFile = new IssPortalFile()
-            .batchId(UPDATED_BATCH_ID)
             .fileName(UPDATED_FILE_NAME)
             .fileExtension(UPDATED_FILE_EXTENSION)
             .branchCode(UPDATED_BRANCH_CODE)
@@ -134,8 +120,6 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .batchAckId(UPDATED_BATCH_ACK_ID)
-            .batchDetails(UPDATED_BATCH_DETAILS)
             .applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
         return issPortalFile;
@@ -159,7 +143,6 @@ class IssPortalFileResourceIT {
         List<IssPortalFile> issPortalFileList = issPortalFileRepository.findAll();
         assertThat(issPortalFileList).hasSize(databaseSizeBeforeCreate + 1);
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
-        assertThat(testIssPortalFile.getBatchId()).isEqualTo(DEFAULT_BATCH_ID);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(DEFAULT_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(DEFAULT_FILE_EXTENSION);
         assertThat(testIssPortalFile.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
@@ -168,8 +151,6 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(DEFAULT_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(DEFAULT_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testIssPortalFile.getBatchAckId()).isEqualTo(DEFAULT_BATCH_ACK_ID);
-        assertThat(testIssPortalFile.getBatchDetails()).isEqualTo(DEFAULT_BATCH_DETAILS);
         assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
@@ -204,7 +185,6 @@ class IssPortalFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(issPortalFile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].batchId").value(hasItem(DEFAULT_BATCH_ID.intValue())))
             .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME)))
             .andExpect(jsonPath("$.[*].fileExtension").value(hasItem(DEFAULT_FILE_EXTENSION)))
             .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE.intValue())))
@@ -213,8 +193,6 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.[*].toDisbursementDate").value(hasItem(DEFAULT_TO_DISBURSEMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].pacsCode").value(hasItem(DEFAULT_PACS_CODE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
-            .andExpect(jsonPath("$.[*].batchAckId").value(hasItem(DEFAULT_BATCH_ACK_ID)))
-            .andExpect(jsonPath("$.[*].batchDetails").value(hasItem(DEFAULT_BATCH_DETAILS)))
             .andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
@@ -231,7 +209,6 @@ class IssPortalFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(issPortalFile.getId().intValue()))
-            .andExpect(jsonPath("$.batchId").value(DEFAULT_BATCH_ID.intValue()))
             .andExpect(jsonPath("$.fileName").value(DEFAULT_FILE_NAME))
             .andExpect(jsonPath("$.fileExtension").value(DEFAULT_FILE_EXTENSION))
             .andExpect(jsonPath("$.branchCode").value(DEFAULT_BRANCH_CODE.intValue()))
@@ -240,8 +217,6 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.toDisbursementDate").value(DEFAULT_TO_DISBURSEMENT_DATE.toString()))
             .andExpect(jsonPath("$.pacsCode").value(DEFAULT_PACS_CODE.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
-            .andExpect(jsonPath("$.batchAckId").value(DEFAULT_BATCH_ACK_ID))
-            .andExpect(jsonPath("$.batchDetails").value(DEFAULT_BATCH_DETAILS))
             .andExpect(jsonPath("$.applicationCount").value(DEFAULT_APPLICATION_COUNT))
             .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES));
     }
@@ -262,97 +237,6 @@ class IssPortalFileResourceIT {
 
         defaultIssPortalFileShouldBeFound("id.lessThanOrEqual=" + id);
         defaultIssPortalFileShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId equals to DEFAULT_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.equals=" + DEFAULT_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId equals to UPDATED_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.equals=" + UPDATED_BATCH_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId in DEFAULT_BATCH_ID or UPDATED_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.in=" + DEFAULT_BATCH_ID + "," + UPDATED_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId equals to UPDATED_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.in=" + UPDATED_BATCH_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId is not null
-        defaultIssPortalFileShouldBeFound("batchId.specified=true");
-
-        // Get all the issPortalFileList where batchId is null
-        defaultIssPortalFileShouldNotBeFound("batchId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId is greater than or equal to DEFAULT_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.greaterThanOrEqual=" + DEFAULT_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId is greater than or equal to UPDATED_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.greaterThanOrEqual=" + UPDATED_BATCH_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId is less than or equal to DEFAULT_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.lessThanOrEqual=" + DEFAULT_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId is less than or equal to SMALLER_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.lessThanOrEqual=" + SMALLER_BATCH_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsLessThanSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId is less than DEFAULT_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.lessThan=" + DEFAULT_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId is less than UPDATED_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.lessThan=" + UPDATED_BATCH_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchIdIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchId is greater than DEFAULT_BATCH_ID
-        defaultIssPortalFileShouldNotBeFound("batchId.greaterThan=" + DEFAULT_BATCH_ID);
-
-        // Get all the issPortalFileList where batchId is greater than SMALLER_BATCH_ID
-        defaultIssPortalFileShouldBeFound("batchId.greaterThan=" + SMALLER_BATCH_ID);
     }
 
     @Test
@@ -983,136 +867,6 @@ class IssPortalFileResourceIT {
 
     @Test
     @Transactional
-    void getAllIssPortalFilesByBatchAckIdIsEqualToSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchAckId equals to DEFAULT_BATCH_ACK_ID
-        defaultIssPortalFileShouldBeFound("batchAckId.equals=" + DEFAULT_BATCH_ACK_ID);
-
-        // Get all the issPortalFileList where batchAckId equals to UPDATED_BATCH_ACK_ID
-        defaultIssPortalFileShouldNotBeFound("batchAckId.equals=" + UPDATED_BATCH_ACK_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchAckIdIsInShouldWork() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchAckId in DEFAULT_BATCH_ACK_ID or UPDATED_BATCH_ACK_ID
-        defaultIssPortalFileShouldBeFound("batchAckId.in=" + DEFAULT_BATCH_ACK_ID + "," + UPDATED_BATCH_ACK_ID);
-
-        // Get all the issPortalFileList where batchAckId equals to UPDATED_BATCH_ACK_ID
-        defaultIssPortalFileShouldNotBeFound("batchAckId.in=" + UPDATED_BATCH_ACK_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchAckIdIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchAckId is not null
-        defaultIssPortalFileShouldBeFound("batchAckId.specified=true");
-
-        // Get all the issPortalFileList where batchAckId is null
-        defaultIssPortalFileShouldNotBeFound("batchAckId.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchAckIdContainsSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchAckId contains DEFAULT_BATCH_ACK_ID
-        defaultIssPortalFileShouldBeFound("batchAckId.contains=" + DEFAULT_BATCH_ACK_ID);
-
-        // Get all the issPortalFileList where batchAckId contains UPDATED_BATCH_ACK_ID
-        defaultIssPortalFileShouldNotBeFound("batchAckId.contains=" + UPDATED_BATCH_ACK_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchAckIdNotContainsSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchAckId does not contain DEFAULT_BATCH_ACK_ID
-        defaultIssPortalFileShouldNotBeFound("batchAckId.doesNotContain=" + DEFAULT_BATCH_ACK_ID);
-
-        // Get all the issPortalFileList where batchAckId does not contain UPDATED_BATCH_ACK_ID
-        defaultIssPortalFileShouldBeFound("batchAckId.doesNotContain=" + UPDATED_BATCH_ACK_ID);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchDetailsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchDetails equals to DEFAULT_BATCH_DETAILS
-        defaultIssPortalFileShouldBeFound("batchDetails.equals=" + DEFAULT_BATCH_DETAILS);
-
-        // Get all the issPortalFileList where batchDetails equals to UPDATED_BATCH_DETAILS
-        defaultIssPortalFileShouldNotBeFound("batchDetails.equals=" + UPDATED_BATCH_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchDetailsIsInShouldWork() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchDetails in DEFAULT_BATCH_DETAILS or UPDATED_BATCH_DETAILS
-        defaultIssPortalFileShouldBeFound("batchDetails.in=" + DEFAULT_BATCH_DETAILS + "," + UPDATED_BATCH_DETAILS);
-
-        // Get all the issPortalFileList where batchDetails equals to UPDATED_BATCH_DETAILS
-        defaultIssPortalFileShouldNotBeFound("batchDetails.in=" + UPDATED_BATCH_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchDetailsIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchDetails is not null
-        defaultIssPortalFileShouldBeFound("batchDetails.specified=true");
-
-        // Get all the issPortalFileList where batchDetails is null
-        defaultIssPortalFileShouldNotBeFound("batchDetails.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchDetailsContainsSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchDetails contains DEFAULT_BATCH_DETAILS
-        defaultIssPortalFileShouldBeFound("batchDetails.contains=" + DEFAULT_BATCH_DETAILS);
-
-        // Get all the issPortalFileList where batchDetails contains UPDATED_BATCH_DETAILS
-        defaultIssPortalFileShouldNotBeFound("batchDetails.contains=" + UPDATED_BATCH_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllIssPortalFilesByBatchDetailsNotContainsSomething() throws Exception {
-        // Initialize the database
-        issPortalFileRepository.saveAndFlush(issPortalFile);
-
-        // Get all the issPortalFileList where batchDetails does not contain DEFAULT_BATCH_DETAILS
-        defaultIssPortalFileShouldNotBeFound("batchDetails.doesNotContain=" + DEFAULT_BATCH_DETAILS);
-
-        // Get all the issPortalFileList where batchDetails does not contain UPDATED_BATCH_DETAILS
-        defaultIssPortalFileShouldBeFound("batchDetails.doesNotContain=" + UPDATED_BATCH_DETAILS);
-    }
-
-    @Test
-    @Transactional
     void getAllIssPortalFilesByApplicationCountIsEqualToSomething() throws Exception {
         // Initialize the database
         issPortalFileRepository.saveAndFlush(issPortalFile);
@@ -1250,7 +1004,6 @@ class IssPortalFileResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(issPortalFile.getId().intValue())))
-            .andExpect(jsonPath("$.[*].batchId").value(hasItem(DEFAULT_BATCH_ID.intValue())))
             .andExpect(jsonPath("$.[*].fileName").value(hasItem(DEFAULT_FILE_NAME)))
             .andExpect(jsonPath("$.[*].fileExtension").value(hasItem(DEFAULT_FILE_EXTENSION)))
             .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE.intValue())))
@@ -1259,8 +1012,6 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.[*].toDisbursementDate").value(hasItem(DEFAULT_TO_DISBURSEMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].pacsCode").value(hasItem(DEFAULT_PACS_CODE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
-            .andExpect(jsonPath("$.[*].batchAckId").value(hasItem(DEFAULT_BATCH_ACK_ID)))
-            .andExpect(jsonPath("$.[*].batchDetails").value(hasItem(DEFAULT_BATCH_DETAILS)))
             .andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
 
@@ -1311,7 +1062,6 @@ class IssPortalFileResourceIT {
         // Disconnect from session so that the updates on updatedIssPortalFile are not directly saved in db
         em.detach(updatedIssPortalFile);
         updatedIssPortalFile
-            .batchId(UPDATED_BATCH_ID)
             .fileName(UPDATED_FILE_NAME)
             .fileExtension(UPDATED_FILE_EXTENSION)
             .branchCode(UPDATED_BRANCH_CODE)
@@ -1320,8 +1070,6 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .batchAckId(UPDATED_BATCH_ACK_ID)
-            .batchDetails(UPDATED_BATCH_DETAILS)
             .applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
 
@@ -1337,7 +1085,6 @@ class IssPortalFileResourceIT {
         List<IssPortalFile> issPortalFileList = issPortalFileRepository.findAll();
         assertThat(issPortalFileList).hasSize(databaseSizeBeforeUpdate);
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
-        assertThat(testIssPortalFile.getBatchId()).isEqualTo(UPDATED_BATCH_ID);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(UPDATED_FILE_EXTENSION);
         assertThat(testIssPortalFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
@@ -1346,8 +1093,6 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testIssPortalFile.getBatchAckId()).isEqualTo(UPDATED_BATCH_ACK_ID);
-        assertThat(testIssPortalFile.getBatchDetails()).isEqualTo(UPDATED_BATCH_DETAILS);
         assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(UPDATED_NOTES);
     }
@@ -1421,10 +1166,9 @@ class IssPortalFileResourceIT {
         partialUpdatedIssPortalFile.setId(issPortalFile.getId());
 
         partialUpdatedIssPortalFile
-            .batchId(UPDATED_BATCH_ID)
-            .fromDisbursementDate(UPDATED_FROM_DISBURSEMENT_DATE)
+            .fileName(UPDATED_FILE_NAME)
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
-            .applicationCount(UPDATED_APPLICATION_COUNT);
+            .pacsCode(UPDATED_PACS_CODE);
 
         restIssPortalFileMockMvc
             .perform(
@@ -1438,18 +1182,15 @@ class IssPortalFileResourceIT {
         List<IssPortalFile> issPortalFileList = issPortalFileRepository.findAll();
         assertThat(issPortalFileList).hasSize(databaseSizeBeforeUpdate);
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
-        assertThat(testIssPortalFile.getBatchId()).isEqualTo(UPDATED_BATCH_ID);
-        assertThat(testIssPortalFile.getFileName()).isEqualTo(DEFAULT_FILE_NAME);
+        assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(DEFAULT_FILE_EXTENSION);
         assertThat(testIssPortalFile.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
         assertThat(testIssPortalFile.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
-        assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(UPDATED_FROM_DISBURSEMENT_DATE);
+        assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(DEFAULT_FROM_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
-        assertThat(testIssPortalFile.getPacsCode()).isEqualTo(DEFAULT_PACS_CODE);
+        assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testIssPortalFile.getBatchAckId()).isEqualTo(DEFAULT_BATCH_ACK_ID);
-        assertThat(testIssPortalFile.getBatchDetails()).isEqualTo(DEFAULT_BATCH_DETAILS);
-        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
+        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
@@ -1466,7 +1207,6 @@ class IssPortalFileResourceIT {
         partialUpdatedIssPortalFile.setId(issPortalFile.getId());
 
         partialUpdatedIssPortalFile
-            .batchId(UPDATED_BATCH_ID)
             .fileName(UPDATED_FILE_NAME)
             .fileExtension(UPDATED_FILE_EXTENSION)
             .branchCode(UPDATED_BRANCH_CODE)
@@ -1475,8 +1215,6 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .batchAckId(UPDATED_BATCH_ACK_ID)
-            .batchDetails(UPDATED_BATCH_DETAILS)
             .applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
 
@@ -1492,7 +1230,6 @@ class IssPortalFileResourceIT {
         List<IssPortalFile> issPortalFileList = issPortalFileRepository.findAll();
         assertThat(issPortalFileList).hasSize(databaseSizeBeforeUpdate);
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
-        assertThat(testIssPortalFile.getBatchId()).isEqualTo(UPDATED_BATCH_ID);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(UPDATED_FILE_EXTENSION);
         assertThat(testIssPortalFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
@@ -1501,8 +1238,6 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testIssPortalFile.getBatchAckId()).isEqualTo(UPDATED_BATCH_ACK_ID);
-        assertThat(testIssPortalFile.getBatchDetails()).isEqualTo(UPDATED_BATCH_DETAILS);
         assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(UPDATED_NOTES);
     }

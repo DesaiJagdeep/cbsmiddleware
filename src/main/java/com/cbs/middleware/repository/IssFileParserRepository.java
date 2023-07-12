@@ -37,6 +37,4 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
 
     @Query("select issFileParser from IssFileParser issFileParser left join fetch issFileParser.issPortalFile where issFileParser.id =:id")
     Optional<IssFileParser> findOneWithToOneRelationships(@Param("id") Long id);
-
-    List<IssFileParser> findAllByFinancialYear(String string);
 }

@@ -1,0 +1,36 @@
+{
+  "changelogDate": "20230712043847",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "batchDetails",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "applicationCount",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "batchId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "batchAckId",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "BatchTransaction",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

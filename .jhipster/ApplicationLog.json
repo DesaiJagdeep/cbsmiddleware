@@ -1,0 +1,55 @@
+{
+  "changelogDate": "20230712044312",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "errorType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "errorCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "errorMessage",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "columnNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "sevierity",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "expectedSolution",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "rowNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "batchId",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ApplicationLog",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "aadharNumber",
+      "otherEntityName": "issFileParser",
+      "relationshipName": "issFileParser",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

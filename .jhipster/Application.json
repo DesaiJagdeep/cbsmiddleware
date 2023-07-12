@@ -1,0 +1,47 @@
+{
+  "changelogDate": "20230712051056",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "batchId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uniqueId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recordStatus",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "applicationStatus",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "kccStatus",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "recipientUniqueId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerId",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Application",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "aadharNumber",
+      "otherEntityName": "issFileParser",
+      "relationshipName": "issFileParser",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

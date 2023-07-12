@@ -1,0 +1,177 @@
+<div>
+  <h2 id="page-heading" data-cy="ApplicationLogHeading">
+    <span jhiTranslate="cbsMiddlewareApp.applicationLog.home.title">Application Logs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.applicationLog.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-application-log"
+        [routerLink]="['/application-log/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.applicationLog.home.createLabel"> Create a new Application Log </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="applicationLogs?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.applicationLog.home.notFound">No Application Logs found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="applicationLogs && applicationLogs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="errorType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.errorType">Error Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="errorCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.errorCode">Error Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="errorMessage">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.errorMessage">Error Message</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="columnNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.columnNumber">Column Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sevierity">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.sevierity">Sevierity</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="expectedSolution">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.expectedSolution">Expected Solution</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.status">Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="rowNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.rowNumber">Row Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="batchId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.batchId">Batch Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="issFileParser.aadharNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.applicationLog.issFileParser">Iss File Parser</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let applicationLog of applicationLogs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/application-log', applicationLog.id, 'view']">{{ applicationLog.id }}</a>
+          </td>
+          <td>{{ applicationLog.errorType }}</td>
+          <td>{{ applicationLog.errorCode }}</td>
+          <td>{{ applicationLog.errorMessage }}</td>
+          <td>{{ applicationLog.columnNumber }}</td>
+          <td>{{ applicationLog.sevierity }}</td>
+          <td>{{ applicationLog.expectedSolution }}</td>
+          <td>{{ applicationLog.status }}</td>
+          <td>{{ applicationLog.rowNumber }}</td>
+          <td>{{ applicationLog.batchId }}</td>
+          <td>
+            <div *ngIf="applicationLog.issFileParser">
+              <a [routerLink]="['/iss-file-parser', applicationLog.issFileParser.id, 'view']">{{
+                applicationLog.issFileParser.aadharNumber
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/application-log', applicationLog.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/application-log', applicationLog.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(applicationLog)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="applicationLogs && applicationLogs.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

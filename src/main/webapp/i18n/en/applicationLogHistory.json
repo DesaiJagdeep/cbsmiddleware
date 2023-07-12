@@ -1,0 +1,32 @@
+{
+  "cbsMiddlewareApp": {
+    "applicationLogHistory": {
+      "home": {
+        "title": "Application Log Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Application Log History",
+        "createOrEditLabel": "Create or edit a Application Log History",
+        "notFound": "No Application Log Histories found"
+      },
+      "created": "A new Application Log History is created with identifier {{ param }}",
+      "updated": "A Application Log History is updated with identifier {{ param }}",
+      "deleted": "A Application Log History is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Application Log History {{ id }}?"
+      },
+      "detail": {
+        "title": "Application Log History"
+      },
+      "id": "ID",
+      "errorType": "Error Type",
+      "errorCode": "Error Code",
+      "errorMessage": "Error Message",
+      "rowNumber": "Row Number",
+      "columnNumber": "Column Number",
+      "sevierity": "Sevierity",
+      "expectedSolution": "Expected Solution",
+      "status": "Status",
+      "issFileParser": "Iss File Parser"
+    }
+  }
+}

@@ -2,7 +2,6 @@ import dayjs from 'dayjs/esm';
 
 export interface IIssPortalFile {
   id: number;
-  batchId?: number | null;
   fileName?: string | null;
   fileExtension?: string | null;
   branchCode?: number | null;
@@ -11,8 +10,6 @@ export interface IIssPortalFile {
   toDisbursementDate?: dayjs.Dayjs | null;
   pacsCode?: number | null;
   status?: string | null;
-  batchAckId?: string | null;
-  batchDetails?: string | null;
   applicationCount?: string | null;
   notes?: string | null;
 }

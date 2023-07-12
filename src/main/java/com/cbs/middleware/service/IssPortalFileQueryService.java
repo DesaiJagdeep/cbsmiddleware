@@ -85,9 +85,6 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), IssPortalFile_.id));
             }
-            if (criteria.getBatchId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBatchId(), IssPortalFile_.batchId));
-            }
             if (criteria.getFileName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFileName(), IssPortalFile_.fileName));
             }
@@ -113,12 +110,6 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStatus(), IssPortalFile_.status));
-            }
-            if (criteria.getBatchAckId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBatchAckId(), IssPortalFile_.batchAckId));
-            }
-            if (criteria.getBatchDetails() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBatchDetails(), IssPortalFile_.batchDetails));
             }
             if (criteria.getApplicationCount() != null) {
                 specification =

@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="batch_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="file_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -39,12 +36,6 @@
                 <constraints nullable="true" />
             </column>
             <column name="status" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="batch_ack_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="batch_details" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="application_count" type="varchar(255)">
@@ -74,7 +65,6 @@
                   tableName="iss_portal_file"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="batch_id" type="numeric"/>
             <column name="file_name" type="string"/>
             <column name="file_extension" type="string"/>
             <column name="branch_code" type="numeric"/>
@@ -83,8 +73,6 @@
             <column name="to_disbursement_date" type="date"/>
             <column name="pacs_code" type="numeric"/>
             <column name="status" type="string"/>
-            <column name="batch_ack_id" type="string"/>
-            <column name="batch_details" type="string"/>
             <column name="application_count" type="string"/>
             <column name="notes" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->

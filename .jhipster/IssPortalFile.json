@@ -3,10 +3,6 @@
   "dto": "no",
   "fields": [
     {
-      "fieldName": "batchId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "fileName",
       "fieldType": "String"
     },
@@ -36,14 +32,6 @@
     },
     {
       "fieldName": "status",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "batchAckId",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "batchDetails",
       "fieldType": "String"
     },
     {

@@ -19,9 +19,6 @@ public class IssPortalFile implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "batch_id")
-    private Long batchId;
-
     @Column(name = "file_name")
     private String fileName;
 
@@ -46,12 +43,6 @@ public class IssPortalFile implements Serializable {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "batch_ack_id")
-    private String batchAckId;
-
-    @Column(name = "batch_details")
-    private String batchDetails;
-
     @Column(name = "application_count")
     private String applicationCount;
 
@@ -71,19 +62,6 @@ public class IssPortalFile implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getBatchId() {
-        return this.batchId;
-    }
-
-    public IssPortalFile batchId(Long batchId) {
-        this.setBatchId(batchId);
-        return this;
-    }
-
-    public void setBatchId(Long batchId) {
-        this.batchId = batchId;
     }
 
     public String getFileName() {
@@ -190,32 +168,6 @@ public class IssPortalFile implements Serializable {
         this.status = status;
     }
 
-    public String getBatchAckId() {
-        return this.batchAckId;
-    }
-
-    public IssPortalFile batchAckId(String batchAckId) {
-        this.setBatchAckId(batchAckId);
-        return this;
-    }
-
-    public void setBatchAckId(String batchAckId) {
-        this.batchAckId = batchAckId;
-    }
-
-    public String getBatchDetails() {
-        return this.batchDetails;
-    }
-
-    public IssPortalFile batchDetails(String batchDetails) {
-        this.setBatchDetails(batchDetails);
-        return this;
-    }
-
-    public void setBatchDetails(String batchDetails) {
-        this.batchDetails = batchDetails;
-    }
-
     public String getApplicationCount() {
         return this.applicationCount;
     }
@@ -260,17 +212,22 @@ public class IssPortalFile implements Serializable {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
+
     // prettier-ignore
-    /*
-     * @Override public String toString() { return "IssPortalFile{" + "id=" +
-     * getId() + ", batchId=" + getBatchId() + ", fileName='" + getFileName() + "'"
-     * + ", fileExtension='" + getFileExtension() + "'" + ", branchCode=" +
-     * getBranchCode() + ", financialYear='" + getFinancialYear() + "'" +
-     * ", fromDisbursementDate='" + getFromDisbursementDate() + "'" +
-     * ", toDisbursementDate='" + getToDisbursementDate() + "'" + ", pacsCode=" +
-     * getPacsCode() + ", status='" + getStatus() + "'" + ", batchAckId='" +
-     * getBatchAckId() + "'" + ", batchDetails='" + getBatchDetails() + "'" +
-     * ", applicationCount='" + getApplicationCount() + "'" + ", notes='" +
-     * getNotes() + "'" + "}"; }
-     */
+    @Override
+    public String toString() {
+        return "IssPortalFile{" +
+            "id=" + getId() +
+            ", fileName='" + getFileName() + "'" +
+            ", fileExtension='" + getFileExtension() + "'" +
+            ", branchCode=" + getBranchCode() +
+            ", financialYear='" + getFinancialYear() + "'" +
+            ", fromDisbursementDate='" + getFromDisbursementDate() + "'" +
+            ", toDisbursementDate='" + getToDisbursementDate() + "'" +
+            ", pacsCode=" + getPacsCode() +
+            ", status='" + getStatus() + "'" +
+            ", applicationCount='" + getApplicationCount() + "'" +
+            ", notes='" + getNotes() + "'" +
+            "}";
+    }
 }

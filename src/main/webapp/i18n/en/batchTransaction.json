@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "batchTransaction": {
+      "home": {
+        "title": "Batch Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Batch Transaction",
+        "createOrEditLabel": "Create or edit a Batch Transaction",
+        "notFound": "No Batch Transactions found"
+      },
+      "created": "A new Batch Transaction is created with identifier {{ param }}",
+      "updated": "A Batch Transaction is updated with identifier {{ param }}",
+      "deleted": "A Batch Transaction is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Batch Transaction {{ id }}?"
+      },
+      "detail": {
+        "title": "Batch Transaction"
+      },
+      "id": "ID",
+      "status": "Status",
+      "batchDetails": "Batch Details",
+      "applicationCount": "Application Count",
+      "notes": "Notes",
+      "batchId": "Batch Id",
+      "batchAckId": "Batch Ack Id"
+    }
+  }
+}

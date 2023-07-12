@@ -171,7 +171,7 @@ public class IssFileParser implements Serializable {
     @Column(name = "recovery_date")
     private String recoveryDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private IssPortalFile issPortalFile;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -883,42 +883,63 @@ public class IssFileParser implements Serializable {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
+
     // prettier-ignore
-    /*
-     * @Override public String toString() { return "IssFileParser{" + "id=" +
-     * getId() + ", financialYear='" + getFinancialYear() + "'" + ", bankName='" +
-     * getBankName() + "'" + ", bankCode='" + getBankCode() + "'" + ", branchName='"
-     * + getBranchName() + "'" + ", branchCode='" + getBranchCode() + "'" +
-     * ", schemeWiseBranchCode='" + getSchemeWiseBranchCode() + "'" + ", ifsc='" +
-     * getIfsc() + "'" + ", loanAccountNumberkcc='" + getLoanAccountNumberkcc() +
-     * "'" + ", farmerName='" + getFarmerName() + "'" + ", gender='" + getGender() +
-     * "'" + ", aadharNumber='" + getAadharNumber() + "'" + ", dateofBirth='" +
-     * getDateofBirth() + "'" + ", ageAtTimeOfSanction='" + getAgeAtTimeOfSanction()
-     * + "'" + ", mobileNo='" + getMobileNo() + "'" + ", farmersCategory='" +
-     * getFarmersCategory() + "'" + ", farmerType='" + getFarmerType() + "'" +
-     * ", socialCategory='" + getSocialCategory() + "'" + ", relativeType='" +
-     * getRelativeType() + "'" + ", relativeName='" + getRelativeName() + "'" +
-     * ", stateName='" + getStateName() + "'" + ", stateCode='" + getStateCode() +
-     * "'" + ", districtName='" + getDistrictName() + "'" + ", districtCode='" +
-     * getDistrictCode() + "'" + ", blockCode='" + getBlockCode() + "'" +
-     * ", blockName='" + getBlockName() + "'" + ", villageCode='" + getVillageCode()
-     * + "'" + ", villageName='" + getVillageName() + "'" + ", address='" +
-     * getAddress() + "'" + ", pinCode='" + getPinCode() + "'" + ", accountType='" +
-     * getAccountType() + "'" + ", accountNumber='" + getAccountNumber() + "'" +
-     * ", pacsName='" + getPacsName() + "'" + ", pacsNumber='" + getPacsNumber() +
-     * "'" + ", accountHolderType='" + getAccountHolderType() + "'" +
-     * ", primaryOccupation='" + getPrimaryOccupation() + "'" +
-     * ", loanSactionDate='" + getLoanSactionDate() + "'" + ", loanSanctionAmount='"
-     * + getLoanSanctionAmount() + "'" + ", tenureOFLoan='" + getTenureOFLoan() +
-     * "'" + ", dateOfOverDuePayment='" + getDateOfOverDuePayment() + "'" +
-     * ", cropName='" + getCropName() + "'" + ", surveyNo='" + getSurveyNo() + "'" +
-     * ", satBaraSubsurveyNo='" + getSatBaraSubsurveyNo() + "'" + ", seasonName='" +
-     * getSeasonName() + "'" + ", areaHect='" + getAreaHect() + "'" + ", landType='"
-     * + getLandType() + "'" + ", disbursementDate='" + getDisbursementDate() + "'"
-     * + ", disburseAmount='" + getDisburseAmount() + "'" + ", maturityLoanDate='" +
-     * getMaturityLoanDate() + "'" + ", recoveryAmountPrinciple='" +
-     * getRecoveryAmountPrinciple() + "'" + ", recoveryAmountInterest='" +
-     * getRecoveryAmountInterest() + "'" + ", recoveryDate='" + getRecoveryDate() +
-     * "'" + "}"; }
-     */
+    @Override
+    public String toString() {
+        return "IssFileParser{" +
+            "id=" + getId() +
+            ", financialYear='" + getFinancialYear() + "'" +
+            ", bankName='" + getBankName() + "'" +
+            ", bankCode='" + getBankCode() + "'" +
+            ", branchName='" + getBranchName() + "'" +
+            ", branchCode='" + getBranchCode() + "'" +
+            ", schemeWiseBranchCode='" + getSchemeWiseBranchCode() + "'" +
+            ", ifsc='" + getIfsc() + "'" +
+            ", loanAccountNumberkcc='" + getLoanAccountNumberkcc() + "'" +
+            ", farmerName='" + getFarmerName() + "'" +
+            ", gender='" + getGender() + "'" +
+            ", aadharNumber='" + getAadharNumber() + "'" +
+            ", dateofBirth='" + getDateofBirth() + "'" +
+            ", ageAtTimeOfSanction='" + getAgeAtTimeOfSanction() + "'" +
+            ", mobileNo='" + getMobileNo() + "'" +
+            ", farmersCategory='" + getFarmersCategory() + "'" +
+            ", farmerType='" + getFarmerType() + "'" +
+            ", socialCategory='" + getSocialCategory() + "'" +
+            ", relativeType='" + getRelativeType() + "'" +
+            ", relativeName='" + getRelativeName() + "'" +
+            ", stateName='" + getStateName() + "'" +
+            ", stateCode='" + getStateCode() + "'" +
+            ", districtName='" + getDistrictName() + "'" +
+            ", districtCode='" + getDistrictCode() + "'" +
+            ", blockCode='" + getBlockCode() + "'" +
+            ", blockName='" + getBlockName() + "'" +
+            ", villageCode='" + getVillageCode() + "'" +
+            ", villageName='" + getVillageName() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", pinCode='" + getPinCode() + "'" +
+            ", accountType='" + getAccountType() + "'" +
+            ", accountNumber='" + getAccountNumber() + "'" +
+            ", pacsName='" + getPacsName() + "'" +
+            ", pacsNumber='" + getPacsNumber() + "'" +
+            ", accountHolderType='" + getAccountHolderType() + "'" +
+            ", primaryOccupation='" + getPrimaryOccupation() + "'" +
+            ", loanSactionDate='" + getLoanSactionDate() + "'" +
+            ", loanSanctionAmount='" + getLoanSanctionAmount() + "'" +
+            ", tenureOFLoan='" + getTenureOFLoan() + "'" +
+            ", dateOfOverDuePayment='" + getDateOfOverDuePayment() + "'" +
+            ", cropName='" + getCropName() + "'" +
+            ", surveyNo='" + getSurveyNo() + "'" +
+            ", satBaraSubsurveyNo='" + getSatBaraSubsurveyNo() + "'" +
+            ", seasonName='" + getSeasonName() + "'" +
+            ", areaHect='" + getAreaHect() + "'" +
+            ", landType='" + getLandType() + "'" +
+            ", disbursementDate='" + getDisbursementDate() + "'" +
+            ", disburseAmount='" + getDisburseAmount() + "'" +
+            ", maturityLoanDate='" + getMaturityLoanDate() + "'" +
+            ", recoveryAmountPrinciple='" + getRecoveryAmountPrinciple() + "'" +
+            ", recoveryAmountInterest='" + getRecoveryAmountInterest() + "'" +
+            ", recoveryDate='" + getRecoveryDate() + "'" +
+            "}";
+    }
 }

@@ -1,0 +1,32 @@
+{
+  "cbsMiddlewareApp": {
+    "applicationLogHistory": {
+      "home": {
+        "title": "Application Log Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Application Log History तयार करा",
+        "createOrEditLabel": "Application Log History तयार किंवा संपादित करा",
+        "notFound": "No Application Log Histories found"
+      },
+      "created": "Application Log History [identifier: {{ param }}] तयार आहे",
+      "updated": "Application Log History [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Application Log History [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Application Log History [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Application Log History"
+      },
+      "id": "ID",
+      "errorType": "Error Type",
+      "errorCode": "Error Code",
+      "errorMessage": "Error Message",
+      "rowNumber": "Row Number",
+      "columnNumber": "Column Number",
+      "sevierity": "Sevierity",
+      "expectedSolution": "Expected Solution",
+      "status": "Status",
+      "issFileParser": "Iss File Parser"
+    }
+  }
+}

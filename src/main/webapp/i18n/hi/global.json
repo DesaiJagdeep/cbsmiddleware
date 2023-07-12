@@ -27,6 +27,10 @@
         "landTypeMaster": "Land Type Master",
         "seasonMaster": "Season Master",
         "issPortalFile": "Iss Portal File",
+        "batchTransaction": "Batch Transaction",
+        "applicationLog": "Application Log",
+        "applicationLogHistory": "Application Log History",
+        "application": "Application",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

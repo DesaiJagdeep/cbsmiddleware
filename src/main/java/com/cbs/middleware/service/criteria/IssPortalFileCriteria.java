@@ -23,8 +23,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LongFilter batchId;
-
     private StringFilter fileName;
 
     private StringFilter fileExtension;
@@ -41,10 +39,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     private StringFilter status;
 
-    private StringFilter batchAckId;
-
-    private StringFilter batchDetails;
-
     private StringFilter applicationCount;
 
     private StringFilter notes;
@@ -55,7 +49,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     public IssPortalFileCriteria(IssPortalFileCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.batchId = other.batchId == null ? null : other.batchId.copy();
         this.fileName = other.fileName == null ? null : other.fileName.copy();
         this.fileExtension = other.fileExtension == null ? null : other.fileExtension.copy();
         this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
@@ -64,8 +57,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.toDisbursementDate = other.toDisbursementDate == null ? null : other.toDisbursementDate.copy();
         this.pacsCode = other.pacsCode == null ? null : other.pacsCode.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.batchAckId = other.batchAckId == null ? null : other.batchAckId.copy();
-        this.batchDetails = other.batchDetails == null ? null : other.batchDetails.copy();
         this.applicationCount = other.applicationCount == null ? null : other.applicationCount.copy();
         this.notes = other.notes == null ? null : other.notes.copy();
         this.distinct = other.distinct;
@@ -89,21 +80,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public LongFilter getBatchId() {
-        return batchId;
-    }
-
-    public LongFilter batchId() {
-        if (batchId == null) {
-            batchId = new LongFilter();
-        }
-        return batchId;
-    }
-
-    public void setBatchId(LongFilter batchId) {
-        this.batchId = batchId;
     }
 
     public StringFilter getFileName() {
@@ -226,36 +202,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public StringFilter getBatchAckId() {
-        return batchAckId;
-    }
-
-    public StringFilter batchAckId() {
-        if (batchAckId == null) {
-            batchAckId = new StringFilter();
-        }
-        return batchAckId;
-    }
-
-    public void setBatchAckId(StringFilter batchAckId) {
-        this.batchAckId = batchAckId;
-    }
-
-    public StringFilter getBatchDetails() {
-        return batchDetails;
-    }
-
-    public StringFilter batchDetails() {
-        if (batchDetails == null) {
-            batchDetails = new StringFilter();
-        }
-        return batchDetails;
-    }
-
-    public void setBatchDetails(StringFilter batchDetails) {
-        this.batchDetails = batchDetails;
-    }
-
     public StringFilter getApplicationCount() {
         return applicationCount;
     }
@@ -305,7 +251,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         final IssPortalFileCriteria that = (IssPortalFileCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(batchId, that.batchId) &&
             Objects.equals(fileName, that.fileName) &&
             Objects.equals(fileExtension, that.fileExtension) &&
             Objects.equals(branchCode, that.branchCode) &&
@@ -314,8 +259,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             Objects.equals(toDisbursementDate, that.toDisbursementDate) &&
             Objects.equals(pacsCode, that.pacsCode) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(batchAckId, that.batchAckId) &&
-            Objects.equals(batchDetails, that.batchDetails) &&
             Objects.equals(applicationCount, that.applicationCount) &&
             Objects.equals(notes, that.notes) &&
             Objects.equals(distinct, that.distinct)
@@ -326,7 +269,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            batchId,
             fileName,
             fileExtension,
             branchCode,
@@ -335,8 +277,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             toDisbursementDate,
             pacsCode,
             status,
-            batchAckId,
-            batchDetails,
             applicationCount,
             notes,
             distinct
@@ -348,7 +288,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
     public String toString() {
         return "IssPortalFileCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (batchId != null ? "batchId=" + batchId + ", " : "") +
             (fileName != null ? "fileName=" + fileName + ", " : "") +
             (fileExtension != null ? "fileExtension=" + fileExtension + ", " : "") +
             (branchCode != null ? "branchCode=" + branchCode + ", " : "") +
@@ -357,8 +296,6 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             (toDisbursementDate != null ? "toDisbursementDate=" + toDisbursementDate + ", " : "") +
             (pacsCode != null ? "pacsCode=" + pacsCode + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
-            (batchAckId != null ? "batchAckId=" + batchAckId + ", " : "") +
-            (batchDetails != null ? "batchDetails=" + batchDetails + ", " : "") +
             (applicationCount != null ? "applicationCount=" + applicationCount + ", " : "") +
             (notes != null ? "notes=" + notes + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

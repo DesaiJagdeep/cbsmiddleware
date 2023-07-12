@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "batchTransaction": {
+      "home": {
+        "title": "Batch Transactions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Batch Transaction तयार करा",
+        "createOrEditLabel": "Batch Transaction तयार किंवा संपादित करा",
+        "notFound": "No Batch Transactions found"
+      },
+      "created": "Batch Transaction [identifier: {{ param }}] तयार आहे",
+      "updated": "Batch Transaction [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Batch Transaction [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Batch Transaction [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Batch Transaction"
+      },
+      "id": "ID",
+      "status": "Status",
+      "batchDetails": "Batch Details",
+      "applicationCount": "Application Count",
+      "notes": "Notes",
+      "batchId": "Batch Id",
+      "batchAckId": "Batch Ack Id"
+    }
+  }
+}

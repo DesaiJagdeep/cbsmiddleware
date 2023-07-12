@@ -18,7 +18,6 @@
         "title": "Iss Portal File"
       },
       "id": "ID",
-      "batchId": "Batch Id",
       "fileName": "File Name",
       "fileExtension": "File Extension",
       "branchCode": "Branch Code",
@@ -27,8 +26,6 @@
       "toDisbursementDate": "To Disbursement Date",
       "pacsCode": "Pacs Code",
       "status": "Status",
-      "batchAckId": "Batch Ack Id",
-      "batchDetails": "Batch Details",
       "applicationCount": "Application Count",
       "notes": "Notes"
     }

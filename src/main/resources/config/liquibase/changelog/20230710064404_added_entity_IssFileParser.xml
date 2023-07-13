@@ -170,6 +170,9 @@
             <column name="iss_portal_file_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+             <column name="batch_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -242,6 +245,7 @@
             <column name="recovery_amount_principle" type="string"/>
             <column name="recovery_amount_interest" type="string"/>
             <column name="recovery_date" type="string"/>
+            <column name="batch_status" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

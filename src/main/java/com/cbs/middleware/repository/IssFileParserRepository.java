@@ -42,10 +42,4 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
     List<IssFileParser> findAllByFinancialYear(String string);
 
     List<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile);
-
-    List<IssFileParser> findAllByIssPortalFileAndBatchStatus(IssPortalFile issPortalFile, String string);
-
-    List<IssFileParser> findAllByBatchStatus(String string);
-
-    List<IssFileParser> findAllByFinancialYearAndBatchStatus(String financialYear, String string);
 }

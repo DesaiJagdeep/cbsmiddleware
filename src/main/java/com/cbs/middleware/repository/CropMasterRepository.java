@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CropMasterRepository extends JpaRepository<CropMaster, Long> {}
+public interface CropMasterRepository extends JpaRepository<CropMaster, Long> {
+    boolean existsByCropName(String cropName);
+}

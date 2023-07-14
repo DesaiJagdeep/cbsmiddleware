@@ -1,7 +1,13 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * A IssFileParser.
@@ -171,9 +177,6 @@ public class IssFileParser implements Serializable {
     @Column(name = "recovery_date")
     private String recoveryDate;
 
-    @Column(name = "batch_status")
-    private String batchStatus;
-
     @ManyToOne
     private IssPortalFile issPortalFile;
 
@@ -190,14 +193,6 @@ public class IssFileParser implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getBatchStatus() {
-        return batchStatus;
-    }
-
-    public void setBatchStatus(String batchStatus) {
-        this.batchStatus = batchStatus;
     }
 
     public String getFinancialYear() {

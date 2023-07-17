@@ -58,6 +58,13 @@ public class IssFileParserQueryService extends QueryService<IssFileParser> {
         return issFileParserRepository.findAll(specification, page);
     }
 
+    @Transactional(readOnly = true)
+    public Page<IssFileParser> findByIssPortalCriteria(IssPortalFile issPortalFile, IssFileParserCriteria criteria, Pageable page) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<IssFileParser> specification = createSpecification(criteria);
+        return issFileParserRepository.findAllByIssPortalFile(issPortalFile, page);
+    }
+
     /**
      * Return the number of matching entities in the database.
      * @param criteria The object which holds all the filters, which the entities should match.

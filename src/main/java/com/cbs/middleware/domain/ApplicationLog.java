@@ -46,6 +46,10 @@ public class ApplicationLog implements Serializable {
     @Column(name = "batch_id")
     private String batchId;
 
+    /*
+     * @Column(name = "error_record_count") private Integer errorRecordCount;
+     */
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "issPortalFile" }, allowSetters = true)
     private IssFileParser issFileParser;
@@ -195,7 +199,8 @@ public class ApplicationLog implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -208,26 +213,27 @@ public class ApplicationLog implements Serializable {
         return id != null && id.equals(((ApplicationLog) o).id);
     }
 
+    /*
+     * public Integer getErrorRecordCount() { return errorRecordCount; }
+     *
+     * public void setErrorRecordCount(Integer errorRecordCount) {
+     * this.errorRecordCount = errorRecordCount; }
+     */
+
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "ApplicationLog{" +
-            "id=" + getId() +
-            ", errorType='" + getErrorType() + "'" +
-            ", errorCode='" + getErrorCode() + "'" +
-            ", errorMessage='" + getErrorMessage() + "'" +
-            ", columnNumber=" + getColumnNumber() +
-            ", sevierity='" + getSevierity() + "'" +
-            ", expectedSolution='" + getExpectedSolution() + "'" +
-            ", status='" + getStatus() + "'" +
-            ", rowNumber=" + getRowNumber() +
-            ", batchId='" + getBatchId() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "ApplicationLog{" + "id=" + getId() + ", errorType='" + getErrorType() + "'" + ", errorCode='"
+				+ getErrorCode() + "'" + ", errorMessage='" + getErrorMessage() + "'" + ", columnNumber="
+				+ getColumnNumber() + ", sevierity='" + getSevierity() + "'" + ", expectedSolution='"
+				+ getExpectedSolution() + "'" + ", status='" + getStatus() + "'" + ", rowNumber=" + getRowNumber()
+				+ ", batchId='" + getBatchId() + "'" + "}";
+	}
 }

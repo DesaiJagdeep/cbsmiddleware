@@ -1134,13 +1134,9 @@ public class IssFileParserResource {
         Pattern patternLongAmount = Pattern.compile("\\d+\\.\\d+");
         Pattern patternDoubleAmount = Pattern.compile("\\d+");
 
-        if (
-            patternLongAmount.matcher(loanSanctionAmount).matches()
-        ) { // yyyy-MM-dd
+        if (patternLongAmount.matcher(loanSanctionAmount).matches()) { // yyyy-MM-dd
             flag = true;
-        } else if (
-            patternDoubleAmount.matcher(loanSanctionAmount).matches()
-        ) { // dd/mm/yyyy
+        } else if (patternDoubleAmount.matcher(loanSanctionAmount).matches()) { // dd/mm/yyyy
             flag = true;
         } else {
             flag = false;
@@ -1323,9 +1319,7 @@ public class IssFileParserResource {
     private boolean validateDate(String dateofBirth) {
         Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
 
-        if (
-            patternYYYYMMDD.matcher(dateofBirth).matches()
-        ) { // yyyy-MM-dd
+        if (patternYYYYMMDD.matcher(dateofBirth).matches()) { // yyyy-MM-dd
             return true;
         }
         return false;
@@ -1451,14 +1445,10 @@ public class IssFileParserResource {
             Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
             Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
 
-            if (
-                patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()
-            ) { // yyyy-MM-dd
+            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
                 LocalDate date = LocalDate.parse(cell.getStringCellValue());
                 cellValue = date.format(formatter);
-            } else if (
-                patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()
-            ) { // dd/mm/yyyy
+            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter);
@@ -1491,6 +1481,29 @@ public class IssFileParserResource {
         applicationLog.setErrorType("Validation Error");
         applicationLog.setStatus("ERROR");
         return applicationLog;
+    }
+
+    @GetMapping("/issPortalFile/{idISP}/issFileParsers")
+    public ResponseEntity<List<IssFileParser>> getAllIssFileParsers1(
+        @PathVariable Long idISP,
+        IssFileParserCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get IssFileParsers by issPortalFile id: {}", idISP);
+
+        if (idISP == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+
+        Optional<IssPortalFile> isIssPortalFile = issPortalFileRepository.findById(idISP);
+        if (!isIssPortalFile.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Page<IssFileParser> page = issFileParserQueryService.findByIssPortalCriteria(isIssPortalFile.get(), criteria, pageable);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

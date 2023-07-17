@@ -49,6 +49,10 @@ public class IssPortalFile implements Serializable {
     @Column(name = "notes")
     private String notes;
 
+    /*
+     * @Column(name = "error_record_count") private Integer errorRecordCount;
+     */
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -194,7 +198,15 @@ public class IssPortalFile implements Serializable {
         this.notes = notes;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
+
+    /*
+     * public Integer getErrorRecordCount() { return errorRecordCount; }
+     *
+     * public void setErrorRecordCount(Integer errorRecordCount) {
+     * this.errorRecordCount = errorRecordCount; }
+     */
 
     @Override
     public boolean equals(Object o) {
@@ -209,25 +221,19 @@ public class IssPortalFile implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "IssPortalFile{" +
-            "id=" + getId() +
-            ", fileName='" + getFileName() + "'" +
-            ", fileExtension='" + getFileExtension() + "'" +
-            ", branchCode=" + getBranchCode() +
-            ", financialYear='" + getFinancialYear() + "'" +
-            ", fromDisbursementDate='" + getFromDisbursementDate() + "'" +
-            ", toDisbursementDate='" + getToDisbursementDate() + "'" +
-            ", pacsCode=" + getPacsCode() +
-            ", status='" + getStatus() + "'" +
-            ", applicationCount='" + getApplicationCount() + "'" +
-            ", notes='" + getNotes() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "IssPortalFile{" + "id=" + getId() + ", fileName='" + getFileName() + "'" + ", fileExtension='"
+				+ getFileExtension() + "'" + ", branchCode=" + getBranchCode() + ", financialYear='"
+				+ getFinancialYear() + "'" + ", fromDisbursementDate='" + getFromDisbursementDate() + "'"
+				+ ", toDisbursementDate='" + getToDisbursementDate() + "'" + ", pacsCode=" + getPacsCode()
+				+ ", status='" + getStatus() + "'" + ", applicationCount='" + getApplicationCount() + "'" + ", notes='"
+				+ getNotes() + "'" + "}";
+	}
 }

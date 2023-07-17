@@ -45,4 +45,6 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     Optional<ApplicationLog> findOneWithToOneRelationships(@Param("id") Long id);
 
     Set<ApplicationLog> findAllByIssFileParser(IssFileParser issPortalFile);
+
+    Optional<ApplicationLog> findOneByIssFileParser(IssFileParser issFileParser);
 }

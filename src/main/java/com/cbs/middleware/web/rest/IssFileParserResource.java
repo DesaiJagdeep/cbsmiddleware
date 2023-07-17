@@ -33,7 +33,6 @@ import com.cbs.middleware.service.IssFileParserService;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -58,10 +57,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -129,9 +126,6 @@ public class IssFileParserResource {
 
     @Autowired
     ResponceService responceService;
-
-    @Autowired
-    ApplicationLog applicationLog;
 
     @Autowired
     ApplicationLogRepository applicationLogRepository;
@@ -334,9 +328,22 @@ public class IssFileParserResource {
 
     @PostMapping("/validateFile")
     public Set<ApplicationLog> validateFile(@RequestBody IssPortalFile issPortalFile) {
-        List<IssFileParser> findAllByIssPortalFile = issFileParserRepository.findAllByIssPortalFile(issPortalFile);
-        Set<ApplicationLog> applicationLogList = new HashSet<>();
+        if (issPortalFile.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
 
+        if (!issPortalFileRepository.existsById(issPortalFile.getId())) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        List<IssFileParser> findAllByIssPortalFile = issFileParserRepository.findAllByIssPortalFile(issPortalFile);
+
+        if (findAllByIssPortalFile.isEmpty()) {
+            throw new BadRequestAlertException("Iss file data Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        Set<ApplicationLog> applicationLogList = new HashSet<>();
+        Set<ApplicationLog> applicationLogListToSave = new HashSet<>();
         Set<IssFileParser> issFileParserSet = new HashSet<>();
 
         // Filter invalid Financial Year
@@ -346,7 +353,7 @@ public class IssFileParserResource {
             .collect(Collectors.toList());
         for (IssFileParser issFileParser : invalidFinancialYearList) {
             issFileParserSet.add(issFileParser);
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("Financial Year is incorrect format");
             applicationLogList.add(applicationLog);
@@ -360,7 +367,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidAadhaarList) {
             issFileParserSet.add(issFileParser);
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("adhar number is incorrect format");
             applicationLogList.add(applicationLog);
@@ -374,7 +381,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidMobileNumberList) {
             issFileParserSet.add(issFileParser);
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("Mobile number is incorrect format");
             applicationLogList.add(applicationLog);
@@ -388,7 +395,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidSatBaraNumberList) {
             issFileParserSet.add(issFileParser);
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("Sat Bara number is incorrect format");
             applicationLogList.add(applicationLog);
@@ -402,13 +409,12 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidLoanSanctionAmountList) {
             issFileParserSet.add(issFileParser);
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("Loan Sanction Amount is incorrect format");
             applicationLogList.add(applicationLog);
         }
 
-        Set<ApplicationLog> applicationLogList1 = new HashSet<>();
         for (IssFileParser issFileParser : issFileParserSet) {
             StringBuilder str = new StringBuilder();
 
@@ -424,22 +430,31 @@ public class IssFileParserResource {
                     str = str.append(", ");
                 }
             }
-
-            applicationLog = new ApplicationLog();
+            ApplicationLog applicationLog = new ApplicationLog();
+            Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);
+            if (applicationLogSaved.isPresent()) {
+                applicationLog = applicationLogSaved.get();
+            }
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("" + str);
             applicationLog.setSevierity("HIGH");
-            applicationLog.setExpectedSolution("Provide correct Loan Sanction Amount");
+            applicationLog.setExpectedSolution("Provide correct information");
             applicationLog.setStatus("ERROR");
-
-            applicationLogList1.add(applicationLog);
+            applicationLogListToSave.add(applicationLog);
+            applicationLog.setErrorRecordCount(collect.size());
+            applicationLogListToSave.add(applicationLog);
         }
 
-        if (!applicationLogList1.isEmpty()) {
-            applicationLogRepository.saveAll(applicationLogList1);
+        if (!applicationLogListToSave.isEmpty()) {
+            applicationLogRepository.saveAll(applicationLogListToSave);
+
+            issPortalFile.setErrorRecordCount(applicationLogListToSave.size());
+            issPortalFileRepository.save(issPortalFile);
         }
 
-        return applicationLogList1;
+        applicationLogListToSave.forEach(a -> a.setIssFileParser(null));
+
+        return applicationLogListToSave;
     }
 
     @PostMapping("/submitBatch")
@@ -1406,7 +1421,7 @@ public class IssFileParserResource {
     }
 
     ApplicationLog generateApplicationLog(String ErrorMsg, String expectedSolution, String sevierity) {
-        applicationLog = new ApplicationLog();
+        ApplicationLog applicationLog = new ApplicationLog();
         applicationLog.setErrorMessage(ErrorMsg);
         applicationLog.setSevierity(sevierity);
         applicationLog.setExpectedSolution(expectedSolution);

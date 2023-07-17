@@ -50,7 +50,7 @@ public class IssPortalFile implements Serializable {
     private String notes;
 
     @Column(name = "error_record_count")
-    private Long errorRecordCount;
+    private Integer errorRecordCount;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -211,11 +211,11 @@ public class IssPortalFile implements Serializable {
         return id != null && id.equals(((IssPortalFile) o).id);
     }
 
-    public Long getErrorRecordCount() {
+    public Integer getErrorRecordCount() {
         return errorRecordCount;
     }
 
-    public void setErrorRecordCount(Long errorRecordCount) {
+    public void setErrorRecordCount(Integer errorRecordCount) {
         this.errorRecordCount = errorRecordCount;
     }
 

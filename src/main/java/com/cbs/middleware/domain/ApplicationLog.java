@@ -47,7 +47,7 @@ public class ApplicationLog implements Serializable {
     private String batchId;
 
     @Column(name = "error_record_count")
-    private Long errorRecordCount;
+    private Integer errorRecordCount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "issPortalFile" }, allowSetters = true)
@@ -212,11 +212,11 @@ public class ApplicationLog implements Serializable {
         return id != null && id.equals(((ApplicationLog) o).id);
     }
 
-    public Long getErrorRecordCount() {
+    public Integer getErrorRecordCount() {
         return errorRecordCount;
     }
 
-    public void setErrorRecordCount(Long errorRecordCount) {
+    public void setErrorRecordCount(Integer errorRecordCount) {
         this.errorRecordCount = errorRecordCount;
     }
 

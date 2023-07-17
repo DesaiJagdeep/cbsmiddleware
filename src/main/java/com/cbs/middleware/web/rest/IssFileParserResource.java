@@ -61,6 +61,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -160,9 +161,19 @@ public class IssFileParserResource {
             return responceService.failure(400, "Invalid file type");
         }
 
-        Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-        String formattedDate = dateFormat.format(currentDate);
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(5); // Get the current row
+
+            if (
+                getCellValue(row.getCell(0)) != null &&
+                !getCellValue(row.getCell(0)).contains("Financial") &&
+                !getCellValue(row.getCell(0)).contains("Year")
+            ) {
+                return responceService.failure(400, "Invalid file type");
+            }
+        } catch (Exception e1) {}
+
         IssPortalFile issPortalFile = new IssPortalFile();
         issPortalFile.setFileName(files.getOriginalFilename());
         issPortalFile.setFileExtension(FilenameUtils.getExtension(files.getOriginalFilename()));
@@ -326,140 +337,63 @@ public class IssFileParserResource {
         List<IssFileParser> findAllByIssPortalFile = issFileParserRepository.findAllByIssPortalFile(issPortalFile);
         Set<ApplicationLog> applicationLogList = new HashSet<>();
 
-        //        List<IssFileParser> issFileParserLogErrorList = new ArrayList<>();
-
-        for (IssFileParser issPortalFile1 : findAllByIssPortalFile) {
-            Set<ApplicationLog> applicationLogList1 = applicationLogRepository.findAllByIssFileParser(issPortalFile1);
-            if (!applicationLogList1.isEmpty()) {
-                applicationLogList = applicationLogList1;
-            }
-        }
+        Set<IssFileParser> issFileParserSet = new HashSet<>();
 
         // Filter invalid Financial Year
         List<IssFileParser> invalidFinancialYearList = findAllByIssPortalFile
             .stream()
             .filter(person -> !validateFinancialYear(person.getFinancialYear()))
             .collect(Collectors.toList());
-        System.out.println("??????????????????????????????" + invalidFinancialYearList);
         for (IssFileParser issFileParser : invalidFinancialYearList) {
-            if ("".equalsIgnoreCase(issFileParser.getAadharNumber())) {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Financial Year is empty for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Financial Year in format yyyy/yyyy");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            } else {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Financial Year is incorrect format for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Financial Year in format yyyy/yyyy");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            }
+            issFileParserSet.add(issFileParser);
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("Financial Year is incorrect format");
+            applicationLogList.add(applicationLog);
         }
-        //        if (!invalidFinancialYearList.isEmpty()) {
-        //            invalidFinancialYearList.forEach(a -> a.setBatchStatus("ERROR"));
-        //
-        //            issFileParserRepository.saveAll(invalidFinancialYearList);
-        //        }
 
-        // Filter invalid Aadhaar numbers using Java streams
+        // Filter invalid Aadhaar numbers
         List<IssFileParser> invalidAadhaarList = findAllByIssPortalFile
             .stream()
             .filter(person -> !validateAadhaarNumber(person.getAadharNumber()))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidAadhaarList) {
-            if ("".equalsIgnoreCase(issFileParser.getAadharNumber())) {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("adhar number is empty for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct aadhar number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            } else {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("adhar number is incorrect format for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct aadhar number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            }
+            issFileParserSet.add(issFileParser);
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("adhar number is incorrect format");
+            applicationLogList.add(applicationLog);
         }
 
-        //        if (!invalidAadhaarList.isEmpty()) {
-        //            invalidAadhaarList.forEach(a -> a.setBatchStatus("ERROR"));
-        //
-        //            issFileParserRepository.saveAll(invalidAadhaarList);
-        //        }
-
-        // Filter invalid Mobile number using Java streams
+        // Filter invalid Mobile number
         List<IssFileParser> invalidMobileNumberList = findAllByIssPortalFile
             .stream()
             .filter(person -> !validateMobileNumber(person.getMobileNo()))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidMobileNumberList) {
-            if ("".equalsIgnoreCase(issFileParser.getAadharNumber())) {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Mobile number is empty for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Mobile number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            } else {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Mobile number is incorrect format for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Mobile number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            }
+            issFileParserSet.add(issFileParser);
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("Mobile number is incorrect format");
+            applicationLogList.add(applicationLog);
         }
 
-        //        if (!invalidMobileNumberList.isEmpty()) {
-        //            invalidMobileNumberList.forEach(a -> a.setBatchStatus("ERROR"));
-        //
-        //            issFileParserRepository.saveAll(invalidMobileNumberList);
-        //        }
-
-        // Filter invalid Sat Bara number using Java streams
+        // Filter invalid Sat Bara number
         List<IssFileParser> invalidSatBaraNumberList = findAllByIssPortalFile
             .stream()
             .filter(person -> !validateSatBaraNumber(person.getSatBaraSubsurveyNo()))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidSatBaraNumberList) {
-            if ("".equalsIgnoreCase(issFileParser.getAadharNumber())) {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Sat Bara number is empty for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Sat Bara number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            } else {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Sat Bara number is incorrect format for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Sat Bara number");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            }
+            issFileParserSet.add(issFileParser);
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("Sat Bara number is incorrect format");
+            applicationLogList.add(applicationLog);
         }
-        //        if (!invalidSatBaraNumberList.isEmpty()) {
-        //            invalidSatBaraNumberList.forEach(a -> a.setBatchStatus("ERROR"));
-        //
-        //            issFileParserRepository.saveAll(invalidSatBaraNumberList);
-        //        }
+
         // Filter invalid Loan Sanction Amount
         List<IssFileParser> invalidLoanSanctionAmountList = findAllByIssPortalFile
             .stream()
@@ -467,47 +401,45 @@ public class IssFileParserResource {
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidLoanSanctionAmountList) {
-            if ("".equalsIgnoreCase(issFileParser.getAadharNumber())) {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Loan Sanction Amount is empty for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Loan Sanction Amount");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
-            } else {
-                applicationLog = new ApplicationLog();
-                applicationLog.setIssFileParser(issFileParser);
-                applicationLog.setErrorMessage("Loan Sanction Amount is incorrect format for farmer: " + issFileParser.getFarmerName());
-                applicationLog.setSevierity("HIGH");
-                applicationLog.setExpectedSolution("Provide correct Loan Sanction Amount");
-                applicationLog.setStatus("ERROR");
-                applicationLogList.add(applicationLog);
+            issFileParserSet.add(issFileParser);
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("Loan Sanction Amount is incorrect format");
+            applicationLogList.add(applicationLog);
+        }
+
+        Set<ApplicationLog> applicationLogList1 = new HashSet<>();
+        for (IssFileParser issFileParser : issFileParserSet) {
+            StringBuilder str = new StringBuilder();
+
+            List<ApplicationLog> collect = applicationLogList
+                .stream()
+                .filter(a -> a.getIssFileParser().equals(issFileParser))
+                .collect(Collectors.toList());
+            int index = 0;
+            for (ApplicationLog applicationLog : collect) {
+                str = str.append(applicationLog.getErrorMessage());
+                index = index + 1;
+                if (collect.size() != index) {
+                    str = str.append(", ");
+                }
             }
+
+            applicationLog = new ApplicationLog();
+            applicationLog.setIssFileParser(issFileParser);
+            applicationLog.setErrorMessage("" + str);
+            applicationLog.setSevierity("HIGH");
+            applicationLog.setExpectedSolution("Provide correct Loan Sanction Amount");
+            applicationLog.setStatus("ERROR");
+
+            applicationLogList1.add(applicationLog);
         }
 
-        //        if (!invalidLoanSanctionAmountList.isEmpty()) {
-        //            invalidLoanSanctionAmountList.forEach(a -> a.setBatchStatus("ERROR"));
-        //
-        //            issFileParserRepository.saveAll(invalidLoanSanctionAmountList);
-        //        }
-
-        //        List<IssFileParser> findAllByIssPortalOkFile = issFileParserRepository.findAllByIssPortalFileAndBatchStatus(
-        //            issPortalFile,
-        //            "NON-VALIDATE"
-        //        );
-
-        //        if (!findAllByIssPortalOkFile.isEmpty()) {
-        //            findAllByIssPortalOkFile.forEach(a -> a.setBatchStatus("READY_TO_SUBMIT"));
-        //
-        //            issFileParserRepository.saveAll(findAllByIssPortalOkFile);
-        //        }
-
-        if (!applicationLogList.isEmpty()) {
-            applicationLogRepository.saveAll(applicationLogList);
+        if (!applicationLogList1.isEmpty()) {
+            applicationLogRepository.saveAll(applicationLogList1);
         }
 
-        return applicationLogList;
+        return applicationLogList1;
     }
 
     @PostMapping("/submitBatch")

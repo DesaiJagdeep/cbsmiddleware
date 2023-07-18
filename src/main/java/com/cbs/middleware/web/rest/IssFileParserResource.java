@@ -215,7 +215,7 @@ public class IssFileParserResource {
         issPortalFile.setFileExtension(FilenameUtils.getExtension(files.getOriginalFilename()));
         issPortalFile.setFromDisbursementDate(null);
         issPortalFile.setToDisbursementDate(null);
-        issPortalFile.setStatus("");
+        issPortalFile.setStatus("Uploaded");
         issPortalFile.setNotes("");
 
         issPortalFile = issPortalFileRepository.save(issPortalFile);
@@ -836,8 +836,6 @@ public class IssFileParserResource {
 
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatus(null, 0l);
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + applicationList);
-
         int batchSize = 10;
 
         for (int i = 1; i < applicationList.size(); i += batchSize) {
@@ -887,11 +885,12 @@ public class IssFileParserResource {
 
         String batchId = formattedDate + applicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
 
-        //this code added for just maintaining batch id after poc done remove ----------
+        // this code added for just maintaining batch id after poc done remove
+        // ----------
         DesignationMaster designationMaster = new DesignationMaster();
         designationMaster.setDesignationCode(batchId);
         designationMasterRepository.save(designationMaster);
-        //-------------------------------------
+        // -------------------------------------
 
         batchData.setBatchId(batchId);
         batchData.setFinancialYear(applicationTransactionList.get(0).getIssFileParser().getFinancialYear());
@@ -1164,18 +1163,52 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
 
-        if (!issFileParserRepository.existsById(issFileParser.getId())) {
+        Optional<IssFileParser> findById = issFileParserRepository.findById(issFileParser.getId());
+
+        if (!findById.isPresent()) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
         Set<ApplicationLog> validateOneFileDataObject = validateOneFileDataObject(issFileParser);
 
         if (validateOneFileDataObject.isEmpty()) {
-            IssFileParser result = issFileParserService.update(issFileParser);
-            return ResponseEntity
-                .ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issFileParser.getId().toString()))
-                .body(result);
+            // fetching iss portal file and updating error record count
+            IssPortalFile issPortalFile = findById.get().getIssPortalFile();
+            if (issPortalFile.getErrorRecordCount() != null && issPortalFile.getErrorRecordCount() != 0) {
+                issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
+            }
+
+            Optional<ApplicationLog> findOneByIssFileParser = applicationLogRepository.findOneByIssFileParser(issFileParser);
+            if (findOneByIssFileParser.isPresent() && !findOneByIssFileParser.get().getStatus().equalsIgnoreCase("Fixed")) {
+                IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
+
+                // saving iss file data after validating
+                issFileParser.setIssPortalFile(issPortalFileSave);
+                IssFileParser result = issFileParserService.update(issFileParser);
+
+                // adding file data entry to application tracking table
+                Application application = new Application();
+                application.setApplicationStatus(0l);
+                application.recordStatus(1l);
+                application.setIssFileParser(result);
+                applicationRepository.save(application);
+
+                ApplicationLog applicationLog = findOneByIssFileParser.get();
+                applicationLog.setStatus("Fixed");
+                applicationLogRepository.save(applicationLog);
+                return ResponseEntity
+                    .ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issFileParser.getId().toString()))
+                    .body(result);
+            } else {
+                ApplicationLog applicationLog = new ApplicationLog();
+                applicationLog.setStatus("Fixed");
+                applicationLog.setErrorMessage("Given application not have any error");
+                Set<ApplicationLog> applicationLogList = new HashSet<ApplicationLog>();
+                applicationLogList.add(applicationLog);
+
+                return ResponseEntity.badRequest().body(applicationLogList);
+            }
         } else {
             return ResponseEntity.badRequest().body(validateOneFileDataObject);
         }

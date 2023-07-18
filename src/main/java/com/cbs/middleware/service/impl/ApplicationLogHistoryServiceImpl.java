@@ -34,7 +34,7 @@ public class ApplicationLogHistoryServiceImpl implements ApplicationLogHistorySe
 
     @Override
     public ApplicationLogHistory update(ApplicationLogHistory applicationLogHistory) {
-        log.debug("Request to update ApplicationLogHistory : {}", applicationLogHistory);
+        //log.debug("Request to update ApplicationLogHistory : {}", applicationLogHistory);
         return applicationLogHistoryRepository.save(applicationLogHistory);
     }
 

@@ -3,7 +3,7 @@ package com.cbs.middleware.web.rest;
 public class CBSMiddleareInputPayload {
 
     private String authCode;
-    private String data;
+    private Object data;
 
     public String getAuthCode() {
         return authCode;
@@ -13,11 +13,11 @@ public class CBSMiddleareInputPayload {
         this.authCode = authCode;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

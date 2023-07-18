@@ -150,6 +150,12 @@ public class SeasonMasterResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/seasonMasters/{seasonName}")
+    public ResponseEntity<List<SeasonMaster>> getAllSeasonMastersByseason(@PathVariable String seasonName) {
+        List<SeasonMaster> findBySeasonNameIsContaining = seasonMasterRepository.findBySeasonNameIsContaining(seasonName);
+        return ResponseEntity.ok().body(findBySeasonNameIsContaining);
+    }
+
     /**
      * {@code GET  /season-masters/:id} : get the "id" seasonMaster.
      *

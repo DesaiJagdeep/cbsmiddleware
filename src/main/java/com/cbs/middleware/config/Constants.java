@@ -11,5 +11,7 @@ public final class Constants {
     public static final String SYSTEM = "system";
     public static final String DEFAULT_LANGUAGE = "en";
 
+    public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
+
     private Constants() {}
 }

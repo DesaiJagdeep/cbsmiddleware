@@ -28,13 +28,13 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
 
     @Override
     public IssPortalFile save(IssPortalFile issPortalFile) {
-        log.debug("Request to save IssPortalFile : {}", issPortalFile);
+        // log.debug("Request to save IssPortalFile : {}", issPortalFile);
         return issPortalFileRepository.save(issPortalFile);
     }
 
     @Override
     public IssPortalFile update(IssPortalFile issPortalFile) {
-        log.debug("Request to update IssPortalFile : {}", issPortalFile);
+        // log.debug("Request to update IssPortalFile : {}", issPortalFile);
         return issPortalFileRepository.save(issPortalFile);
     }
 

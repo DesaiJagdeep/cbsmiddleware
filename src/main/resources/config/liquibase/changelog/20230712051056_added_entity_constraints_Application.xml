@@ -9,7 +9,7 @@
     <changeSet id="20230712051056-2" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="iss_file_parser_id"
-                                 baseTableName="application"
+                                 baseTableName="application_transaction"
                                  constraintName="fk_application__iss_file_parser_id"
                                  referencedColumnNames="id"
                                  referencedTableName="iss_file_parser"/>

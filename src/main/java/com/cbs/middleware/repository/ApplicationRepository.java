@@ -37,4 +37,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Query("select application from Application application left join fetch application.issFileParser where application.id =:id")
     Optional<Application> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<Application> findAllByBatchIdAndApplicationStatus(Object object, long l);
 }

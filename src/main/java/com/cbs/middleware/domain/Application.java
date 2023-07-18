@@ -8,7 +8,7 @@ import javax.persistence.*;
  * A Application.
  */
 @Entity
-@Table(name = "application")
+@Table(name = "application_transaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Application implements Serializable {
 

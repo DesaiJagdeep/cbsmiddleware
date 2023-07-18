@@ -1,6 +1,7 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.CropMaster;
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CropMasterRepository extends JpaRepository<CropMaster, Long> {
     boolean existsByCropName(String cropName);
+
+    List<CropMaster> findByCropNameIsContaining(String cropName);
 }

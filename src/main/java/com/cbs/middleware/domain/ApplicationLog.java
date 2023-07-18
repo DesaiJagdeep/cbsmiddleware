@@ -230,10 +230,12 @@ public class ApplicationLog implements Serializable {
     // prettier-ignore
 	@Override
 	public String toString() {
-		return "ApplicationLog{" + "id=" + getId() + ", errorType='" + getErrorType() + "'" + ", errorCode='"
-				+ getErrorCode() + "'" + ", errorMessage='" + getErrorMessage() + "'" + ", columnNumber="
-				+ getColumnNumber() + ", sevierity='" + getSevierity() + "'" + ", expectedSolution='"
-				+ getExpectedSolution() + "'" + ", status='" + getStatus() + "'" + ", rowNumber=" + getRowNumber()
-				+ ", batchId='" + getBatchId() + "'" + "}";
+		return "ApplicationLog{" + "id=" + getId() 
+//		+ ", errorType='" + getErrorType() + "'" + ", errorCode='"
+//				+ getErrorCode() + "'" + ", errorMessage='" + getErrorMessage() + "'" + ", columnNumber="
+//				+ getColumnNumber() + ", sevierity='" + getSevierity() + "'" + ", expectedSolution='"
+//				+ getExpectedSolution() + "'" + ", status='" + getStatus() + "'" + ", rowNumber=" + getRowNumber()
+//				+ ", batchId='" + getBatchId() + "'" 
+				+ "}";
 	}
 }

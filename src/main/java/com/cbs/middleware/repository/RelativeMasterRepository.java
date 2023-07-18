@@ -1,7 +1,8 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.RelativeMaster;
-import org.springframework.data.jpa.repository.*;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface RelativeMasterRepository extends JpaRepository<RelativeMaster, Long> {}
+public interface RelativeMasterRepository extends JpaRepository<RelativeMaster, Long> {
+    List<RelativeMaster> findByRelativeNameIsContaining(String relativeName);
+}

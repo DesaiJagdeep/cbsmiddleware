@@ -34,7 +34,7 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
 
     @Override
     public ApplicationLog update(ApplicationLog applicationLog) {
-        log.debug("Request to update ApplicationLog : {}", applicationLog);
+        //  log.debug("Request to update ApplicationLog : {}", applicationLog);
         return applicationLogRepository.save(applicationLog);
     }
 

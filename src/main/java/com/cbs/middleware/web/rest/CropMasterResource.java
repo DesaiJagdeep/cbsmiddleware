@@ -1,6 +1,7 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.CropMaster;
+import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.CropMasterRepository;
 import com.cbs.middleware.service.CropMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -64,6 +65,27 @@ public class CropMasterResource {
             .created(new URI("/api/crop-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/cropMasters")
+    public ResponseEntity<List<CropMaster>> createCropMasters(@RequestBody List<CropMaster> cropMaster) throws URISyntaxException {
+        log.debug("REST request to save CropMaster : {}", cropMaster);
+
+        if (cropMaster.isEmpty()) {
+            throw new BadRequestAlertException("List is empty", ENTITY_NAME, "emptyList");
+        }
+
+        List<CropMaster> result = cropMasterRepository.saveAll(cropMaster);
+        if (result.isEmpty()) {
+            throw new BadRequestAlertException("Error in save crop master", ENTITY_NAME, "errorInSave");
+        }
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/cropNameMaster/{cropName}")
+    public ResponseEntity<List<CropMaster>> getAllSeasonMastersByseason(@PathVariable String cropName) {
+        List<CropMaster> findByCropNameIsContaining = cropMasterRepository.findByCropNameIsContaining(cropName);
+        return ResponseEntity.ok().body(findByCropNameIsContaining);
     }
 
     /**

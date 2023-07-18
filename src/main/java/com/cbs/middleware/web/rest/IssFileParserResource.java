@@ -26,7 +26,6 @@ import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.RelativeMaster;
 import com.cbs.middleware.domain.ResidentialDetails;
 import com.cbs.middleware.domain.SeasonMaster;
-import com.cbs.middleware.domain.SubmitBatchObj;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -384,8 +383,7 @@ public class IssFileParserResource {
             issPortalFileRepository.save(issPortalFile);
 
             issFileParserRepository.saveAll(issFileParserList);
-
-            return responceService.success(200, "File parsed successfully", issFileParserList);
+            return ResponseEntity.ok().body(issFileParserList);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -394,15 +392,17 @@ public class IssFileParserResource {
     }
 
     @PostMapping("/validateFile")
-    public List<IssFileParser> validateFile(@RequestBody IssPortalFile issPortalFile) {
+    public ResponseEntity<Set<ApplicationLog>> validateFile(@RequestBody IssPortalFile issPortalFile) {
         if (issPortalFile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
 
-        if (!issPortalFileRepository.existsById(issPortalFile.getId())) {
+        Optional<IssPortalFile> findById = issPortalFileRepository.findById(issPortalFile.getId());
+        if (!findById.isPresent()) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        issPortalFile = findById.get();
         List<IssFileParser> findAllByIssPortalFile = issFileParserRepository.findAllByIssPortalFile(issPortalFile);
 
         if (findAllByIssPortalFile.isEmpty()) {
@@ -798,7 +798,6 @@ public class IssFileParserResource {
             applicationLog.setExpectedSolution("Provide correct information");
             applicationLog.setStatus("ERROR");
             applicationLog.setErrorType("Validation Error");
-            applicationLogListToSave.add(applicationLog);
             applicationLog.setErrorRecordCount(collect.size());
             applicationLogListToSave.add(applicationLog);
         }
@@ -828,7 +827,7 @@ public class IssFileParserResource {
             applicationRepository.saveAll(applicationList);
         }
 
-        return correctedRecordsInFile;
+        return ResponseEntity.ok().body(applicationLogListToSave);
     }
 
     @GetMapping("/submitBatch")
@@ -1155,8 +1154,11 @@ public class IssFileParserResource {
         return responseEntity.getBody();
     }
 
-    @PutMapping("/issFileErrorResolve")
-    public Object issFileErrorResolve(@RequestBody IssFileParser issFileParser) throws URISyntaxException {
+    @PutMapping("/iss-file-parsers/{id}")
+    public Object issFileErrorResolve(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody IssFileParser issFileParser
+    ) throws URISyntaxException {
         log.debug("REST request to update IssFileParser : {}", issFileParser);
         if (issFileParser.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -1656,9 +1658,17 @@ public class IssFileParserResource {
         if (cell == null) {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
-            cellValue = cell.getStringCellValue();
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
         } else if (cell.getCellType() == CellType.NUMERIC) {
             cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
         } else if (cell.getCellType() == CellType.BOOLEAN) {
             cellValue = String.valueOf(cell.getBooleanCellValue());
         } else if (cell.getCellType() == CellType.BLANK) {
@@ -1681,11 +1691,11 @@ public class IssFileParserResource {
 
             if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
                 LocalDate date = LocalDate.parse(cell.getStringCellValue());
-                cellValue = date.format(formatter);
+                cellValue = date.format(formatter).trim();
             } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter);
+                cellValue = date.format(formatter).trim();
             } else {
                 cellValue = cell.getStringCellValue();
             }
@@ -1774,7 +1784,7 @@ public class IssFileParserResource {
      *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/iss-file-parsers/{id}")
+    @PutMapping("/iss-file-parserss/{id}")
     public ResponseEntity<IssFileParser> updateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser

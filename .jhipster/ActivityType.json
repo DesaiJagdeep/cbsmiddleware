@@ -1,0 +1,20 @@
+{
+  "changelogDate": "20230718120922",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "activityType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "activityTypeCode",
+      "fieldType": "Integer"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ActivityType",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

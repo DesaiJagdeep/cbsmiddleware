@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-activity-type-heading"
+        data-cy="ActivityTypeCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.activityType.home.createOrEditLabel"
+      >
+        Create or edit a Activity Type
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.activityType.activityType" for="field_activityType">Activity Type</label>
+          <input
+            type="text"
+            class="form-control"
+            name="activityType"
+            id="field_activityType"
+            data-cy="activityType"
+            formControlName="activityType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.activityType.activityTypeCode" for="field_activityTypeCode"
+            >Activity Type Code</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="activityTypeCode"
+            id="field_activityTypeCode"
+            data-cy="activityTypeCode"
+            formControlName="activityTypeCode"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

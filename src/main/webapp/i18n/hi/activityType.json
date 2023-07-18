@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "activityType": {
+      "home": {
+        "title": "ActivityTypes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Activity Type बनाएँ",
+        "createOrEditLabel": "Activity Type बनाएँ या संपादित करें",
+        "notFound": "No Activity Types found"
+      },
+      "created": "एक नया Activity Type [identifier: {{ param }}] तैयार है",
+      "updated": "एक Activity Type [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Activity Type [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Activity Type [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Activity Type"
+      },
+      "id": "ID",
+      "activityType": "Activity Type",
+      "activityTypeCode": "Activity Type Code"
+    }
+  }
+}

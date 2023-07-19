@@ -43,4 +43,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Query("SELECT DISTINCT a.financialYear FROM Application a")
     Set<String> findUniqueFinancialYear();
+
+    List<Application> findAllByBatchIdAndApplicationStatusAndFinancialYear(Object object, long l, String finantialYear);
 }

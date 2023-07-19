@@ -889,30 +889,35 @@ public class IssFileParserResource {
     }
 
     @GetMapping("/submit-batch")
-    public List<CBSMiddleareInputPayload> submitBatch() {
+    public List<String> submitBatch() {
         List<CBSMiddleareInputPayload> cbsMiddleareInputPayloadList = new ArrayList<>();
+        List<String> cbsResponceStringList = new ArrayList<>();
+        Set<String> finantialYearList = applicationRepository.findUniqueFinancialYear();
+        for (String finantialYear : finantialYearList) {
+            List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndFinancialYear(
+                null,
+                0l,
+                finantialYear
+            );
 
-        Set<String> finantialYear = applicationRepository.findUniqueFinancialYear();
+            int batchSize = 1000;
 
-        List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatus(null, 0l);
-
-        int batchSize = 1000;
-
-        for (int i = 1; i < applicationList.size(); i += batchSize) {
-            List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
-            CBSMiddleareInputPayload processBatch = processBatch(batch);
-            cbsMiddleareInputPayloadList.add(processBatch);
+            for (int i = 1; i < applicationList.size(); i += batchSize) {
+                List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
+                String processBatch = processBatch(batch);
+                cbsResponceStringList.add(processBatch);
+            }
         }
 
-        //		for (CBSMiddleareInputPayload cbsMiddleareInputPayload : cbsMiddleareInputPayloadList) {}
-        return cbsMiddleareInputPayloadList;
+        return cbsResponceStringList;
     }
 
-    private CBSMiddleareInputPayload processBatch(List<Application> applicationTransactionList) {
+    private String processBatch(List<Application> applicationTransactionList) {
         // Batch ID (14 Digits): <6 character DDMMYY>+<3 character Bank code as per
         // NCIP>+< 5 digit
         // running number>
         // If Today’s date is 29 Aug 2022 the Batch id can be 29082202300001
+        String cbsResponceString = "";
         List<ApplicationPayload> applicationsList = new ArrayList<>();
         BatchData batchData = new BatchData();
         Date currentDate = new Date();
@@ -1197,7 +1202,7 @@ public class IssFileParserResource {
             // fetch from CBS Middleware portal
             cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
             // Set the request URL
-            String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatch";
+            String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatchs";
             // Set the request headers
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
@@ -1206,7 +1211,7 @@ public class IssFileParserResource {
             // Make the HTTP POST request
             ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
-            String cbsResponceString = responseEntity.getBody();
+            cbsResponceString = responseEntity.getBody();
 
             SubmitApiRespDecryption submitApiRespDecryption = null;
             CBSResponce convertValue = null;
@@ -1241,7 +1246,7 @@ public class IssFileParserResource {
             log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
         }
 
-        return cbsMiddleareInputPayload;
+        return cbsResponceString;
     }
 
     @GetMapping("/testApi")

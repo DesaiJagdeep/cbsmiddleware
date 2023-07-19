@@ -13,5 +13,9 @@ public final class Constants {
 
     public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
 
+    public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
+
+    //public static final String ORIGINAL_FILE_PATH = "D://PDCC//file//originalFiles/";
+
     private Constants() {}
 }

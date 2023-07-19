@@ -1,7 +1,9 @@
 package com.cbs.middleware.config;
 
 import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.CastCategoryMaster;
+import com.cbs.middleware.domain.CropMaster;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.LandTypeMaster;
@@ -9,7 +11,9 @@ import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.RelativeMaster;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
+import com.cbs.middleware.repository.ActivityTypeRepository;
 import com.cbs.middleware.repository.CastCategoryMasterRepository;
+import com.cbs.middleware.repository.CropMasterRepository;
 import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
 import com.cbs.middleware.repository.FarmerTypeMasterRepository;
 import com.cbs.middleware.repository.LandTypeMasterRepository;
@@ -50,6 +54,12 @@ public class MasterDataCacheService implements ApplicationRunner {
     @Autowired
     private SeasonMasterRepository seasonMasterRepository;
 
+    @Autowired
+    private ActivityTypeRepository activityTypeRepository;
+
+    @Autowired
+    private CropMasterRepository cropMasterRepository;
+
     public static List<CastCategoryMaster> CastCategoryMasterList = new ArrayList<>();
     public static List<FarmerTypeMaster> FarmerTypeMasterList = new ArrayList<>();
     public static List<FarmerCategoryMaster> FarmerCategoryMasterList = new ArrayList<>();
@@ -58,6 +68,8 @@ public class MasterDataCacheService implements ApplicationRunner {
     public static List<AccountHolderMaster> AccountHolderMasterList = new ArrayList<>();
     public static List<LandTypeMaster> LandTypeMasterList = new ArrayList<>();
     public static List<SeasonMaster> SeasonMasterList = new ArrayList<>();
+    public static List<ActivityType> ActivityTypeMasterList = new ArrayList<>();
+    public static List<CropMaster> CropMasterList = new ArrayList<>();
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -70,6 +82,8 @@ public class MasterDataCacheService implements ApplicationRunner {
             AccountHolderMasterList.addAll(accountHolderMasterRepository.findAll());
             LandTypeMasterList.addAll(landTypeMasterRepository.findAll());
             SeasonMasterList.addAll(seasonMasterRepository.findAll());
+            ActivityTypeMasterList.addAll(activityTypeRepository.findAll());
+            CropMasterList.addAll(cropMasterRepository.findAll());
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Error in MasterDataCacheService.CastCategoryMasterList" + e);
@@ -80,9 +94,10 @@ public class MasterDataCacheService implements ApplicationRunner {
         System.out.println("+++++++++++++++++++++++++" + FarmerCategoryMasterList);
         System.out.println("+++++++++++++++++++++++++" + OccupationMasterList);
         System.out.println("+++++++++++++++++++++++++" + RelativeMasterList);
-        System.out.println("+++++++++++++++++++++++++" + RelativeMasterList);
         System.out.println("+++++++++++++++++++++++++" + AccountHolderMasterList);
         System.out.println("+++++++++++++++++++++++++" + LandTypeMasterList);
         System.out.println("+++++++++++++++++++++++++" + SeasonMasterList);
+        System.out.println("+++++++++++++++++++++++++" + ActivityTypeMasterList);
+        System.out.println("+++++++++++++++++++++++++" + CropMasterList);
     }
 }

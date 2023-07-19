@@ -37,6 +37,9 @@ public class Application implements Serializable {
     @Column(name = "recipient_unique_id")
     private String recipientUniqueId;
 
+    @Column(name = "financial_year")
+    private String financialYear;
+
     @Column(name = "farmer_id")
     private String farmerId;
 
@@ -163,7 +166,16 @@ public class Application implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
+
+    public String getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -178,22 +190,17 @@ public class Application implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "Application{" +
-            "id=" + getId() +
-            ", batchId='" + getBatchId() + "'" +
-            ", uniqueId='" + getUniqueId() + "'" +
-            ", recordStatus=" + getRecordStatus() +
-            ", applicationStatus=" + getApplicationStatus() +
-            ", kccStatus=" + getKccStatus() +
-            ", recipientUniqueId='" + getRecipientUniqueId() + "'" +
-            ", farmerId='" + getFarmerId() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "Application{" + "id=" + getId() + ", batchId='" + getBatchId() + "'" + ", uniqueId='" + getUniqueId()
+				+ "'" + ", recordStatus=" + getRecordStatus() + ", applicationStatus=" + getApplicationStatus()
+				+ ", kccStatus=" + getKccStatus() + ", recipientUniqueId='" + getRecipientUniqueId() + "'"
+				+ ", farmerId='" + getFarmerId() + "'" + "}";
+	}
 }

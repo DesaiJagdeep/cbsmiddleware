@@ -22,6 +22,9 @@ public class IssPortalFile implements Serializable {
     @Column(name = "file_name")
     private String fileName;
 
+    @Column(name = "unique_name")
+    private String uniqueName;
+
     @Column(name = "file_extension")
     private String fileExtension;
 
@@ -113,6 +116,14 @@ public class IssPortalFile implements Serializable {
     public IssPortalFile financialYear(String financialYear) {
         this.setFinancialYear(financialYear);
         return this;
+    }
+
+    public String getUniqueName() {
+        return uniqueName;
+    }
+
+    public void setUniqueName(String uniqueName) {
+        this.uniqueName = uniqueName;
     }
 
     public void setFinancialYear(String financialYear) {

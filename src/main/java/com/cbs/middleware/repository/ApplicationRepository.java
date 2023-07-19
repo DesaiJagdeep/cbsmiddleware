@@ -3,6 +3,7 @@ package com.cbs.middleware.repository;
 import com.cbs.middleware.domain.Application;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -39,4 +40,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     Optional<Application> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<Application> findAllByBatchIdAndApplicationStatus(Object object, long l);
+
+    @Query("SELECT DISTINCT a.financialYear FROM Application a")
+    Set<String> findUniqueFinancialYear();
 }

@@ -7,14 +7,17 @@ import com.cbs.middleware.domain.AccountDetails;
 import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.Activities;
 import com.cbs.middleware.domain.ActivityRows;
+import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.ApplicationPayload;
 import com.cbs.middleware.domain.BasicDetails;
 import com.cbs.middleware.domain.BatchData;
+import com.cbs.middleware.domain.BatchTransaction;
+import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.domain.CastCategoryMaster;
+import com.cbs.middleware.domain.CropMaster;
 import com.cbs.middleware.domain.DesignationMaster;
-import com.cbs.middleware.domain.EncDecObject;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.IssFileParser;
@@ -26,9 +29,11 @@ import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.RelativeMaster;
 import com.cbs.middleware.domain.ResidentialDetails;
 import com.cbs.middleware.domain.SeasonMaster;
+import com.cbs.middleware.domain.SubmitApiRespDecryption;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.BatchTransactionRepository;
 import com.cbs.middleware.repository.CastCategoryMasterRepository;
 import com.cbs.middleware.repository.CropMasterRepository;
 import com.cbs.middleware.repository.DesignationMasterRepository;
@@ -45,17 +50,25 @@ import com.cbs.middleware.service.IssFileParserService;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -175,6 +188,9 @@ public class IssFileParserResource {
     @Autowired
     CastCategoryMasterRepository castCategoryMasterRepository;
 
+    @Autowired
+    BatchTransactionRepository batchTransactionRepository;
+
     public IssFileParserResource(
         IssFileParserService issFileParserService,
         IssFileParserRepository issFileParserRepository,
@@ -193,7 +209,9 @@ public class IssFileParserResource {
 
     @PostMapping("/fileParser")
     public Object excelReader1(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes) {
-        if (!"xlsx".equalsIgnoreCase(FilenameUtils.getExtension(files.getOriginalFilename()))) {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
             return responceService.failure(400, "Invalid file type");
         }
 
@@ -210,9 +228,43 @@ public class IssFileParserResource {
             }
         } catch (Exception e1) {}
 
+        File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            return responceService.failure(400, "file not saved successfully");
+        }
+
         IssPortalFile issPortalFile = new IssPortalFile();
         issPortalFile.setFileName(files.getOriginalFilename());
-        issPortalFile.setFileExtension(FilenameUtils.getExtension(files.getOriginalFilename()));
+        issPortalFile.setFileExtension(fileExtension);
         issPortalFile.setFromDisbursementDate(null);
         issPortalFile.setToDisbursementDate(null);
         issPortalFile.setStatus("Uploaded");
@@ -230,7 +282,12 @@ public class IssFileParserResource {
                 Row row = sheet.getRow(rowIndex); // Get the current row
                 IssFileParser issFileParser = new IssFileParser();
                 if (row != null) {
-                    issFileParser.setFinancialYear(getCellValue(row.getCell(0)));
+                    String fYear = getCellValue(row.getCell(0));
+                    if (fYear.matches("\\d{4}/\\d{4}")) {
+                        issFileParser.setFinancialYear(fYear.replace("/", "-"));
+                    } else {
+                        issFileParser.setFinancialYear(fYear);
+                    }
 
                     issFileParser.setBankName(getCellValue(row.getCell(1)));
 
@@ -820,6 +877,7 @@ public class IssFileParserResource {
             application.setApplicationStatus(0l);
             application.recordStatus(1l);
             application.setIssFileParser(issFileParser);
+            application.setFinancialYear(issFileParser.getFinancialYear());
             applicationList.add(application);
         }
 
@@ -830,13 +888,15 @@ public class IssFileParserResource {
         return ResponseEntity.ok().body(applicationLogListToSave);
     }
 
-    @GetMapping("/submitBatch")
+    @GetMapping("/submit-batch")
     public List<CBSMiddleareInputPayload> submitBatch() {
         List<CBSMiddleareInputPayload> cbsMiddleareInputPayloadList = new ArrayList<>();
 
+        Set<String> finantialYear = applicationRepository.findUniqueFinancialYear();
+
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatus(null, 0l);
 
-        int batchSize = 10;
+        int batchSize = 1000;
 
         for (int i = 1; i < applicationList.size(); i += batchSize) {
             List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
@@ -844,31 +904,7 @@ public class IssFileParserResource {
             cbsMiddleareInputPayloadList.add(processBatch);
         }
 
-        List<String> list = new ArrayList<>();
-
-        for (CBSMiddleareInputPayload cbsMiddleareInputPayload : cbsMiddleareInputPayloadList) {
-            /*
-             * // Set the request URL String url =
-             * applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatcdfdfsh";
-             * System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +
-             * url); // Set the request headers HttpHeaders headers = new HttpHeaders();
-             * headers.setContentType(MediaType.APPLICATION_JSON);
-             *
-             * JSONObject jsonObject = new JSONObject(cbsMiddleareInputPayload); // Create
-             * the HttpEntity object with headers and body HttpEntity<String> requestEntity
-             * = new HttpEntity<>(jsonObject.toString(), headers);
-             *
-             * // Make the HTTP POST request ResponseEntity<String> responseEntity =
-             * restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-             *
-             * String responseBody = responseEntity.getBody();
-             *
-             * // Process the response data as needed list.add(responseBody);
-             *
-             * System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" +
-             * responseBody);
-             */
-        }
+        //		for (CBSMiddleareInputPayload cbsMiddleareInputPayload : cbsMiddleareInputPayloadList) {}
         return cbsMiddleareInputPayloadList;
     }
 
@@ -899,7 +935,9 @@ public class IssFileParserResource {
             IssFileParser issFileParser = applicationTransaction.getIssFileParser();
 
             ApplicationPayload applicationPayload = new ApplicationPayload();
-            applicationPayload.setUniqueId(batchData.getBatchId() + generateRandomNumber());
+            String uniqueId = batchData.getBatchId() + generateRandomNumber();
+
+            applicationPayload.setUniqueId(uniqueId);
             // application.setUniqueId("1207231567261098695");
 
             applicationPayload.setRecordStatus(applicationProperties.getRecordStatusForFarmerAndLoan());
@@ -1069,9 +1107,15 @@ public class IssFileParserResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            // add incremental number inside for
-            if (issFileParser.getSeasonName().equalsIgnoreCase("horticulture")) {
-                activities.setActivityType(1l);
+            // added activity type code as on season name
+            Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                .stream()
+                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                .map(ActivityType::getActivityTypeCode)
+                .findFirst();
+
+            if (activityTypeCode.isPresent()) {
+                activities.setActivityType((long) activityTypeCode.get());
             }
 
             activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
@@ -1082,7 +1126,22 @@ public class IssFileParserResource {
             activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
             // add crop code from crop name
-            activityRows.setCropCode(issFileParser.getCropName());
+            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                .stream()
+                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                .map(CropMaster::getCropCode)
+                .findFirst();
+
+            /*
+             * String findCropCodeByCropNameIsContaining = cropMasterRepository
+             * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
+             *
+             * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
+             */
+
+            if (cropNameMasterCode.isPresent()) {
+                activityRows.setCropCode(cropNameMasterCode.get());
+            }
 
             activityRows.setSurveyNumber(issFileParser.getSurveyNo());
             activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
@@ -1117,16 +1176,100 @@ public class IssFileParserResource {
             applicationPayload.setActivities(activityList);
 
             applicationsList.add(applicationPayload);
+
+            applicationTransaction.setBatchId(batchId);
+            applicationTransaction.setUniqueId(uniqueId);
+
+            applicationRepository.save(applicationTransaction);
         }
 
         batchData.setApplications(applicationsList);
 
-        // String encryption = encryption(batchData);
+        String encryption = encryption(batchData);
 
+        //Making input payload
         CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
         cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-        cbsMiddleareInputPayload.setData(batchData);
+        cbsMiddleareInputPayload.setData(encryption);
+
+        //call fasalrin submit api
+        try {
+            // fetch from CBS Middleware portal
+            cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
+            // Set the request URL
+            String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatch";
+            // Set the request headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Create the HttpEntity object with headers and body
+            HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
+            // Make the HTTP POST request
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+            String cbsResponceString = responseEntity.getBody();
+
+            SubmitApiRespDecryption submitApiRespDecryption = null;
+            CBSResponce convertValue = null;
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+
+                if (convertValue.isStatus()) {
+                    String decryption = decryption("" + convertValue.getData());
+                    objectMapper = new ObjectMapper();
+                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                    submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
+
+                    BatchTransaction batchTransaction = new BatchTransaction();
+                    batchTransaction.setBatchId(batchId);
+                    batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
+                    batchTransaction.setStatus("Processing");
+
+                    batchTransactionRepository.save(batchTransaction);
+                } else {
+                    BatchTransaction batchTransaction = new BatchTransaction();
+                    batchTransaction.setBatchId(batchId);
+                    batchTransaction.setStatus("Discarded");
+                    batchTransaction.setBatchDetails(convertValue.getError());
+                    batchTransactionRepository.save(batchTransaction);
+                }
+            } catch (Exception e) {
+                System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>" + e);
+            }
+        } catch (Exception e) {
+            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
+        }
+
         return cbsMiddleareInputPayload;
+    }
+
+    @GetMapping("/testApi")
+    public Object test() {
+        SubmitApiRespDecryption submitApiRespDecryption = null;
+        CBSResponce convertValue = null;
+        String cbsResponceString =
+            "{\r\n" +
+            "    \"status\": true,\r\n" +
+            "    \"data\": \"3e90f0b81ba90788e513015c561924ef40531bed68a253c69668532d31ddb0b4e362fddf73fe3a3368ca8ee672de94a8b9128b2afbdd7c6bbb59177b89e57c6c\",\r\n" +
+            "    \"error\": \"\"\r\n" +
+            "}";
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+
+            if (convertValue.isStatus()) {
+                String decryption = decryption("" + convertValue.getData());
+                objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
+            }
+        } catch (Exception e) {
+            System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>" + e);
+        }
+        return submitApiRespDecryption;
     }
 
     @PostMapping("/submitBatchToCBS")
@@ -1137,8 +1280,6 @@ public class IssFileParserResource {
 
         // Set the request URL
         String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatch";
-
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + url);
 
         // Set the request headers
         HttpHeaders headers = new HttpHeaders();
@@ -1169,6 +1310,10 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        if (StringUtils.isNotBlank(issFileParser.getFinancialYear()) && issFileParser.getFinancialYear().matches("\\d{4}/\\d{4}")) {
+            issFileParser.setFinancialYear(issFileParser.getFinancialYear().replace("/", "-"));
+        }
+
         Set<ApplicationLog> validateOneFileDataObject = validateOneFileDataObject(issFileParser);
 
         if (validateOneFileDataObject.isEmpty()) {
@@ -1191,6 +1336,7 @@ public class IssFileParserResource {
                 application.setApplicationStatus(0l);
                 application.recordStatus(1l);
                 application.setIssFileParser(result);
+                application.setFinancialYear(result.getFinancialYear());
                 applicationRepository.save(application);
 
                 ApplicationLog applicationLog = findOneByIssFileParser.get();
@@ -1222,7 +1368,7 @@ public class IssFileParserResource {
             applicationLogList.add(
                 generateApplicationLog(
                     "Financial Year is in incorrect format",
-                    "Provide correct Financial Year in format yyyy/yyyy",
+                    "Provide correct Financial Year in format yyyy-yyyy",
                     "HIGH"
                 )
             );
@@ -1617,7 +1763,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateFinancialYear(String financialYear) {
-        String financialYearPattern = "^\\d{4}/\\d{4}$";
+        String financialYearPattern = "^\\d{4}-\\d{4}$";
         return financialYear.matches(financialYearPattern);
     }
 
@@ -1658,17 +1804,17 @@ public class IssFileParserResource {
     }
 
     // @PostMapping("/decryption")
-    public String decryption(@RequestBody EncDecObject encDecObject) {
+    public String decryption(String encDecObject) {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
         final byte[] keyParse = applicationProperties.getSecretKey().getBytes();
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             SecretKeySpec key = new SecretKeySpec(keyParse, "AES");
             cipher.init(Cipher.DECRYPT_MODE, key, ivParameterSpec);
-            byte[] val = new byte[encDecObject.getEncDecString().length() / 2];
+            byte[] val = new byte[encDecObject.length() / 2];
             for (int i = 0; i < val.length; i++) {
                 int index = i * 2;
-                int j = Integer.parseInt(encDecObject.getEncDecString().substring(index, index + 2), 16);
+                int j = Integer.parseInt(encDecObject.substring(index, index + 2), 16);
                 val[i] = (byte) j;
             }
             return new String(cipher.doFinal(val));

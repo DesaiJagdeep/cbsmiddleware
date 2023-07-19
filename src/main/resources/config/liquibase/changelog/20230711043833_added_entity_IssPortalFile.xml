@@ -20,6 +20,9 @@
             <column name="file_extension" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="unique_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="branch_code" type="bigint">
                 <constraints nullable="true" />
             </column>

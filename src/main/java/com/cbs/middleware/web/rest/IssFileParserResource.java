@@ -210,11 +210,11 @@ public class IssFileParserResource {
      * @throws Exception
      */
 
-    @GetMapping("/download-file/{uniqueId}")
-    public Object excelDownload(@PathVariable String uniqueId) {
-        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findByUniqueName(uniqueId);
+    @GetMapping("/download-file/{idIFP}")
+    public Object excelDownload(@PathVariable Long idIFP) {
+        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
         if (findByUniqueName.isPresent()) {
-            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + "2023619104022580405806191022580.xlsx");
+            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByUniqueName.get().getUniqueName());
 
             if (!Files.exists(file)) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -227,14 +227,15 @@ public class IssFileParserResource {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("attachment", "2023619104022580405806191022580.xlsx");
+                headers.setContentDispositionFormData("attachment", findByUniqueName.get().getUniqueName());
 
                 return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
             } catch (IOException e) {
                 throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
             }
+        } else {
+            throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
         }
-        return findByUniqueName;
     }
 
     @PostMapping("/file-parse-conf/{financialYear}")
@@ -347,6 +348,7 @@ public class IssFileParserResource {
 
         IssPortalFile issPortalFile = new IssPortalFile();
         issPortalFile.setFileName(files.getOriginalFilename());
+        issPortalFile.setUniqueName(uniqueName + "." + fileExtension);
         issPortalFile.setFileExtension(fileExtension);
         issPortalFile.setFromDisbursementDate(null);
         issPortalFile.setToDisbursementDate(null);

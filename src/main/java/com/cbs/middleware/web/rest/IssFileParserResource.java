@@ -46,6 +46,9 @@ import com.cbs.middleware.repository.LandTypeMasterRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
+import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.IssFileParserQueryService;
 import com.cbs.middleware.service.IssFileParserService;
 import com.cbs.middleware.service.ResponceService;
@@ -105,6 +108,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -194,6 +198,12 @@ public class IssFileParserResource {
     @Autowired
     BatchTransactionRepository batchTransactionRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    RBAControl rbaControl;
+
     public IssFileParserResource(
         IssFileParserService issFileParserService,
         IssFileParserRepository issFileParserRepository,
@@ -211,6 +221,7 @@ public class IssFileParserResource {
      */
 
     @GetMapping("/download-file/{idIFP}")
+    //@PreAuthorize("@authentication.hasPermision('',#idIFP,'FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
         Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
         if (findByUniqueName.isPresent()) {
@@ -261,6 +272,10 @@ public class IssFileParserResource {
             ) {
                 throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
             }
+
+            row = sheet.getRow(6);
+            //			rbaControl.authenticate(getCellValue(row.getCell(4)),ENTITY_NAME);
+
         } catch (Exception e1) {}
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -310,6 +325,9 @@ public class IssFileParserResource {
             ) {
                 throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
             }
+
+            row = sheet.getRow(6);
+            /* rbaControl.authenticate(getCellValue(row.getCell(4)),ENTITY_NAME); */
         } catch (Exception e1) {}
 
         File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
@@ -522,6 +540,9 @@ public class IssFileParserResource {
             issPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
             issPortalFile.setBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getBranchCode())));
             issPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
+            issPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
+            issPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
+
             issPortalFileRepository.save(issPortalFile);
 
             issFileParserRepository.saveAll(issFileParserList);
@@ -533,6 +554,7 @@ public class IssFileParserResource {
     }
 
     @PostMapping("/validateFile")
+    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'FILE_VALIDATE','VALIDATE')")
     public ResponseEntity<Set<ApplicationLog>> validateFile(@RequestBody IssPortalFile issPortalFile) {
         if (issPortalFile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -973,6 +995,7 @@ public class IssFileParserResource {
     }
 
     @PostMapping("/submit-batch")
+    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'SUBMIT_BATCH','SUBMIT')")
     public List<String> submitBatch(@RequestBody IssPortalFile issPortalFile) {
         List<CBSMiddleareInputPayload> cbsMiddleareInputPayloadList = new ArrayList<>();
         List<String> cbsResponceStringList = new ArrayList<>();
@@ -1358,6 +1381,7 @@ public class IssFileParserResource {
     }
 
     @PostMapping("/submitBatchToCBS")
+    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'SUBMIT_BATCH','SUBMIT')")
     public String submitBatchToCBS(@RequestBody CBSMiddleareInputPayload cBSMiddleareInputPayload) {
         // fetch from CBS Middleware portal
 
@@ -1380,6 +1404,7 @@ public class IssFileParserResource {
     }
 
     @PutMapping("/iss-file-parsers/{id}")
+    //@PreAuthorize("@authentication.hasPermision('',#issFileParser.branchCode,'UPDATE_RECORD','EDIT')")
     public Object issFileErrorResolve(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -2007,6 +2032,7 @@ public class IssFileParserResource {
     }
 
     @GetMapping("/issPortalFile/{idISP}/issFileParsers")
+    //@PreAuthorize("@authentication.hasPermision('',#idISP,'VIEW_RECORD','VIEW')")
     public ResponseEntity<List<IssFileParser>> getAllIssFileParsers1(
         @PathVariable Long idISP,
         IssFileParserCriteria criteria,
@@ -2039,6 +2065,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-file-parsers")
+    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> createIssFileParser(@RequestBody IssFileParser issFileParser) throws URISyntaxException {
         log.debug("REST request to save IssFileParser : {}", issFileParser);
         if (issFileParser.getId() != null) {
@@ -2064,6 +2091,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-file-parserss/{id}")
+    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> updateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -2102,6 +2130,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/iss-file-parsers/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> partialUpdateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -2141,6 +2170,12 @@ public class IssFileParserResource {
     ) {
         log.debug("REST request to get IssFileParsers by criteria: {}", criteria);
         Page<IssFileParser> page = issFileParserQueryService.findByCriteria(criteria, pageable);
+
+        /*
+         * rbaControl.authenticate(page.getContent().get(0).getBranchCode(),ENTITY_NAME)
+         * ;
+         */
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

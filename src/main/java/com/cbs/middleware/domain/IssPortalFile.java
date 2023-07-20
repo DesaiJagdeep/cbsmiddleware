@@ -28,6 +28,9 @@ public class IssPortalFile implements Serializable {
     @Column(name = "file_extension")
     private String fileExtension;
 
+    @Column(name = "branch_name")
+    private String branchName;
+
     @Column(name = "branch_code")
     private Long branchCode;
 
@@ -39,6 +42,9 @@ public class IssPortalFile implements Serializable {
 
     @Column(name = "to_disbursement_date")
     private LocalDate toDisbursementDate;
+
+    @Column(name = "pacs_name")
+    private String pacsName;
 
     @Column(name = "pacs_code")
     private Long pacsCode;
@@ -228,6 +234,22 @@ public class IssPortalFile implements Serializable {
 
     public void setErrorRecordCount(Integer errorRecordCount) {
         this.errorRecordCount = errorRecordCount;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public String getPacsName() {
+        return pacsName;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
     }
 
     @Override

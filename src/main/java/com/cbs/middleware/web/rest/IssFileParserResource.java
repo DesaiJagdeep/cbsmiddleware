@@ -96,11 +96,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -207,6 +209,33 @@ public class IssFileParserResource {
      *
      * @throws Exception
      */
+
+    @GetMapping("/download-file/{uniqueId}")
+    public Object excelDownload(@PathVariable String uniqueId) {
+        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findByUniqueName(uniqueId);
+        if (findByUniqueName.isPresent()) {
+            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + "2023619104022580405806191022580.xlsx");
+
+            if (!Files.exists(file)) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            byte[] fileBytes;
+            try {
+                fileBytes = Files.readAllBytes(file);
+                ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "2023619104022580405806191022580.xlsx");
+
+                return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
+            } catch (IOException e) {
+                throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+            }
+        }
+        return findByUniqueName;
+    }
 
     @PostMapping("/file-parse-conf/{financialYear}")
     public Object excelReaderConfirmation(
@@ -1243,12 +1272,12 @@ public class IssFileParserResource {
 
         String encryption = encryption(batchData);
 
-        //Making input payload
+        // Making input payload
         CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
         cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
         cbsMiddleareInputPayload.setData(encryption);
 
-        //call fasalrin submit api
+        // call fasalrin submit api
         try {
             // Set the request URL
             String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatchs";

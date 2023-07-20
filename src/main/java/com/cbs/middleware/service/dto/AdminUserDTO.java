@@ -29,6 +29,9 @@ public class AdminUserDTO implements Serializable {
     @Size(max = 50)
     private String lastName;
 
+    @Size(max = 10)
+    private String branchCode;
+
     @Email
     @Size(min = 5, max = 254)
     private String email;
@@ -68,6 +71,7 @@ public class AdminUserDTO implements Serializable {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.branchCode = user.getBranchCode();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
@@ -117,6 +121,14 @@ public class AdminUserDTO implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
     }
 
     public boolean isActivated() {
@@ -176,21 +188,12 @@ public class AdminUserDTO implements Serializable {
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "AdminUserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "AdminUserDTO{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='"
+				+ lastName + '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated="
+				+ activated + ", langKey='" + langKey + '\'' + ", createdBy=" + createdBy + ", createdDate="
+				+ createdDate + ", lastModifiedBy='" + lastModifiedBy + '\'' + ", lastModifiedDate=" + lastModifiedDate
+				+ ", authorities=" + authorities + "}";
+	}
 }

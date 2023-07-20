@@ -39,10 +39,13 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Query("select application from Application application left join fetch application.issFileParser where application.id =:id")
     Optional<Application> findOneWithToOneRelationships(@Param("id") Long id);
 
-    List<Application> findAllByBatchIdAndApplicationStatus(Object object, long l);
+    List<Application> findAllByIssFilePortalId(Long id);
 
-    @Query("SELECT DISTINCT a.financialYear FROM Application a")
-    Set<String> findUniqueFinancialYear();
-
-    List<Application> findAllByBatchIdAndApplicationStatusAndFinancialYear(Object object, long l, String finantialYear);
+    List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object object, long l, Long id);
+    //    List<Application> findAllByBatchIdAndApplicationStatus(Object object, long l);
+    //
+    //    @Query("SELECT DISTINCT a.financialYear FROM Application a")
+    //    Set<String> findUniqueFinancialYear();
+    //
+    //    List<Application> findAllByBatchIdAndApplicationStatusAndFinancialYear(Object object, long l, String finantialYear);
 }

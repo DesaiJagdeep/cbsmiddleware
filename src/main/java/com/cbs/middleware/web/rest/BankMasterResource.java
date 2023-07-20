@@ -66,6 +66,16 @@ public class BankMasterResource {
             .body(result);
     }
 
+    @PostMapping("/bank-master-list")
+    public ResponseEntity<List<BankMaster>> createBankMasterList(@RequestBody List<BankMaster> bankMasterList) throws URISyntaxException {
+        log.debug("REST request to save BankMaster : {}", bankMasterList);
+        if (bankMasterList.isEmpty()) {
+            throw new BadRequestAlertException("List is empty", ENTITY_NAME, "emptyList");
+        }
+        List<BankMaster> result = bankMasterRepository.saveAll(bankMasterList);
+        return ResponseEntity.ok().body(result);
+    }
+
     /**
      * {@code PUT  /bank-masters/:id} : Updates an existing bankMaster.
      *

@@ -38,7 +38,7 @@
             <column name="iss_file_parser_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="financial_year" type="varchar(255)">
+            <column name="iss_file_portal_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             

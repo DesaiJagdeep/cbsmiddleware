@@ -27,6 +27,9 @@ public class BankBranchMaster implements Serializable {
     @Column(name = "branch_address")
     private String branchAddress;
 
+    @Column(name = "ifsc_code")
+    private String ifscCode;
+
     @Column(name = "bank_code")
     private String bankCode;
 
@@ -43,6 +46,14 @@ public class BankBranchMaster implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getIfscCode() {
+        return ifscCode;
+    }
+
+    public void setIfscCode(String ifscCode) {
+        this.ifscCode = ifscCode;
     }
 
     public String getBranchCode() {

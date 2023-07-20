@@ -20,6 +20,7 @@ import com.cbs.middleware.domain.CropMaster;
 import com.cbs.middleware.domain.DesignationMaster;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
+import com.cbs.middleware.domain.FileParseConf;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.JointAccountHolders;
@@ -207,12 +208,65 @@ public class IssFileParserResource {
      * @throws Exception
      */
 
+    @PostMapping("/file-parse-conf/{financialYear}")
+    public Object excelReaderConfirmation(
+        @RequestParam("file") MultipartFile files,
+        @PathVariable String financialYear,
+        RedirectAttributes redirectAttributes
+    ) {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+        FileParseConf fileParseConf = new FileParseConf();
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(5); // Get the current row
+
+            if (
+                getCellValue(row.getCell(4)) != null &&
+                !getCellValue(row.getCell(4)).contains("Branch") &&
+                !getCellValue(row.getCell(4)).contains("Code")
+            ) {
+                throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
+            }
+        } catch (Exception e1) {}
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(6); // Get the current row
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + getCellValue(row.getCell(0)));
+
+            String fYear = getCellValue(row.getCell(0));
+            if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}")) {
+                fYear = fYear.replace("/", "-");
+
+                if (!fYear.equalsIgnoreCase(financialYear)) {
+                    throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+                }
+            } else {
+                throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+            }
+
+            fileParseConf.setBankName(getCellValue(row.getCell(1)));
+            fileParseConf.setBankCode(getCellValue(row.getCell(2)));
+            fileParseConf.setBranchName(getCellValue(row.getCell(3)));
+            fileParseConf.setBranchCode(getCellValue(row.getCell(4)));
+            fileParseConf.setPacsName(getCellValue(row.getCell(31)));
+            fileParseConf.setPacsCode(getCellValue(row.getCell(32)));
+            return fileParseConf;
+        } catch (Exception e1) {
+            throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+        }
+    }
+
     @PostMapping("/fileParser")
     public Object excelReader1(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes) {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
 
         if (!"xlsx".equalsIgnoreCase(fileExtension)) {
-            return responceService.failure(400, "Invalid file type");
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
         }
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -224,7 +278,7 @@ public class IssFileParserResource {
                 !getCellValue(row.getCell(0)).contains("Financial") &&
                 !getCellValue(row.getCell(0)).contains("Year")
             ) {
-                return responceService.failure(400, "Invalid file type");
+                throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
             }
         } catch (Exception e1) {}
 
@@ -259,7 +313,7 @@ public class IssFileParserResource {
             imgbyte = files.getBytes();
             Files.write(path, imgbyte);
         } catch (IOException e) {
-            return responceService.failure(400, "file not saved successfully");
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
         }
 
         IssPortalFile issPortalFile = new IssPortalFile();
@@ -444,8 +498,7 @@ public class IssFileParserResource {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return responceService.success(200, "File parsed successfully", issFileParserList);
+        return ResponseEntity.ok().body(issFileParserList);
     }
 
     @PostMapping("/validateFile")
@@ -877,7 +930,7 @@ public class IssFileParserResource {
             application.setApplicationStatus(0l);
             application.recordStatus(1l);
             application.setIssFileParser(issFileParser);
-            application.setFinancialYear(issFileParser.getFinancialYear());
+            application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
             applicationList.add(application);
         }
 
@@ -888,25 +941,23 @@ public class IssFileParserResource {
         return ResponseEntity.ok().body(applicationLogListToSave);
     }
 
-    @GetMapping("/submit-batch")
-    public List<String> submitBatch() {
+    @PostMapping("/submit-batch")
+    public List<String> submitBatch(@RequestBody IssPortalFile issPortalFile) {
         List<CBSMiddleareInputPayload> cbsMiddleareInputPayloadList = new ArrayList<>();
         List<String> cbsResponceStringList = new ArrayList<>();
-        Set<String> finantialYearList = applicationRepository.findUniqueFinancialYear();
-        for (String finantialYear : finantialYearList) {
-            List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndFinancialYear(
-                null,
-                0l,
-                finantialYear
-            );
 
-            int batchSize = 1000;
+        List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
+            null,
+            0l,
+            issPortalFile.getId()
+        );
 
-            for (int i = 1; i < applicationList.size(); i += batchSize) {
-                List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
-                String processBatch = processBatch(batch);
-                cbsResponceStringList.add(processBatch);
-            }
+        int batchSize = 1000;
+
+        for (int i = 1; i < applicationList.size(); i += batchSize) {
+            List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
+            String processBatch = processBatch(batch);
+            cbsResponceStringList.add(processBatch);
         }
 
         return cbsResponceStringList;
@@ -1199,8 +1250,6 @@ public class IssFileParserResource {
 
         //call fasalrin submit api
         try {
-            // fetch from CBS Middleware portal
-            cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
             // Set the request URL
             String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatchs";
             // Set the request headers
@@ -1341,7 +1390,7 @@ public class IssFileParserResource {
                 application.setApplicationStatus(0l);
                 application.recordStatus(1l);
                 application.setIssFileParser(result);
-                application.setFinancialYear(result.getFinancialYear());
+                application.setIssFilePortalId(issPortalFileSave.getId());
                 applicationRepository.save(application);
 
                 ApplicationLog applicationLog = findOneByIssFileParser.get();
@@ -1802,6 +1851,21 @@ public class IssFileParserResource {
             JSONObject jsonObject = new JSONObject(encDecObject);
 
             byte[] encryptedBytes = cipher.doFinal(jsonObject.toString().getBytes());
+            return Hex.encodeHexString(encryptedBytes);
+        } catch (Exception e) {
+            return "error in encryption: " + e;
+        }
+    }
+
+    public String encryptionStrings(String encDecObject) {
+        try {
+            SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
+
+            Cipher cipher = Cipher.getInstance(applicationProperties.getAlgorithm());
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
+
+            byte[] encryptedBytes = cipher.doFinal(encDecObject.getBytes());
             return Hex.encodeHexString(encryptedBytes);
         } catch (Exception e) {
             return "error in encryption: " + e;

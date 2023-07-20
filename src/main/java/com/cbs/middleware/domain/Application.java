@@ -37,8 +37,8 @@ public class Application implements Serializable {
     @Column(name = "recipient_unique_id")
     private String recipientUniqueId;
 
-    @Column(name = "financial_year")
-    private String financialYear;
+    @Column(name = "iss_file_portal_id")
+    private Long issFilePortalId;
 
     @Column(name = "farmer_id")
     private String farmerId;
@@ -166,16 +166,16 @@ public class Application implements Serializable {
         return this;
     }
 
+    public Long getIssFilePortalId() {
+        return issFilePortalId;
+    }
+
+    public void setIssFilePortalId(Long issFilePortalId) {
+        this.issFilePortalId = issFilePortalId;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
     // setters here
-
-    public String getFinancialYear() {
-        return financialYear;
-    }
-
-    public void setFinancialYear(String financialYear) {
-        this.financialYear = financialYear;
-    }
 
     @Override
     public boolean equals(Object o) {

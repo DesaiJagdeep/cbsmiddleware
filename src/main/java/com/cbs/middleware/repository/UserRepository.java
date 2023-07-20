@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    String USERS_BY_LOGIN_CACHE = "usersByLogin";
+    String BRANCH_USERS_BY_LOGIN_CACHE = "usersByLogin";
 
-    String USERS_BY_EMAIL_CACHE = "usersByEmail";
+    String BRANCH_USERS_BY_EMAIL_CACHE = "usersByEmail";
     Optional<User> findOneByActivationKey(String activationKey);
     List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
     Optional<User> findOneByResetKey(String resetKey);
@@ -25,11 +25,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneByLogin(String login);
 
     @EntityGraph(attributePaths = "authorities")
-    @Cacheable(cacheNames = USERS_BY_LOGIN_CACHE)
+    @Cacheable(cacheNames = BRANCH_USERS_BY_LOGIN_CACHE)
     Optional<User> findOneWithAuthoritiesByLogin(String login);
 
     @EntityGraph(attributePaths = "authorities")
-    @Cacheable(cacheNames = USERS_BY_EMAIL_CACHE)
+    @Cacheable(cacheNames = BRANCH_USERS_BY_EMAIL_CACHE)
     Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
 
     Page<User> findAllByIdNotNullAndActivatedIsTrue(Pageable pageable);

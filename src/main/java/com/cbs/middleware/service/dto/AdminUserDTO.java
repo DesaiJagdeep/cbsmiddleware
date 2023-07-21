@@ -30,7 +30,16 @@ public class AdminUserDTO implements Serializable {
     private String lastName;
 
     @Size(max = 10)
+    private String branchName;
+
+    @Size(max = 10)
     private String branchCode;
+
+    @Size(max = 10)
+    private String pacsName;
+
+    @Size(max = 10)
+    private String pacsNumber;
 
     @Email
     @Size(min = 5, max = 254)
@@ -71,6 +80,10 @@ public class AdminUserDTO implements Serializable {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.branchCode = user.getBranchCode();
+        this.pacsName = user.getPacsName();
+        this.pacsNumber = user.getPacsNumber();
+
         this.branchCode = user.getBranchCode();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
@@ -133,6 +146,30 @@ public class AdminUserDTO implements Serializable {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public String getPacsName() {
+        return pacsName;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public String getPacsNumber() {
+        return pacsNumber;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public void setActivated(boolean activated) {

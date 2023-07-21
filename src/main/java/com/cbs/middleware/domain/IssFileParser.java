@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "iss_file_parser")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class IssFileParser implements Serializable {
+public class IssFileParser extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "application_transaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Application implements Serializable {
+public class Application extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +42,12 @@ public class Application implements Serializable {
 
     @Column(name = "farmer_id")
     private String farmerId;
+
+    @Column(name = "application_number")
+    private String applicationNumber;
+
+    @Column(name = "application_errors")
+    private String applicationErrors;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "issPortalFile" }, allowSetters = true)
@@ -90,6 +96,14 @@ public class Application implements Serializable {
 
     public Long getRecordStatus() {
         return this.recordStatus;
+    }
+
+    public String getApplicationNumber() {
+        return applicationNumber;
+    }
+
+    public void setApplicationNumber(String applicationNumber) {
+        this.applicationNumber = applicationNumber;
     }
 
     public Application recordStatus(Long recordStatus) {
@@ -186,6 +200,14 @@ public class Application implements Serializable {
             return false;
         }
         return id != null && id.equals(((Application) o).id);
+    }
+
+    public String getApplicationErrors() {
+        return applicationErrors;
+    }
+
+    public void setApplicationErrors(String applicationErrors) {
+        this.applicationErrors = applicationErrors;
     }
 
     @Override

@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "application_log_history")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class ApplicationLogHistory implements Serializable {
+public class ApplicationLogHistory extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

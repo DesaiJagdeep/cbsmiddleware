@@ -13,4 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Long>, JpaSpecificationExecutor<IssPortalFile> {
     Optional<IssPortalFile> findByUniqueName(String uniqueId);
+
+    boolean existsByFileName(String originalFilename);
+
+    boolean existsByFileNameAndFinancialYear(String originalFilename, String financialYear);
 }

@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "iss_portal_file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class IssPortalFile implements Serializable {
+public class IssPortalFile extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
-    Permission findAllByObjectAndActionAndRole(String object, String action, String role);
+    Permission findOneByObjectAndActionAndRole(String object, String action, String role);
 }

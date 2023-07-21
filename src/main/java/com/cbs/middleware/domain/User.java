@@ -57,6 +57,18 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "branch_code")
     private String branchCode;
 
+    @Size(max = 254)
+    @Column(name = "branch_name")
+    private String branchName;
+
+    @Size(max = 254)
+    @Column(name = "pacs_name")
+    private String pacsName;
+
+    @Size(max = 254)
+    @Column(name = "pacs_number")
+    private String pacsNumber;
+
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
@@ -119,6 +131,30 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getBranchName() {
+        return branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public String getPacsName() {
+        return pacsName;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public String getPacsNumber() {
+        return pacsNumber;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public void setFirstName(String firstName) {

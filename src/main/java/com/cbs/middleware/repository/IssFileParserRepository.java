@@ -45,4 +45,12 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
     List<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile);
 
     Page<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile, Pageable page);
+
+    Page<IssFileParser> findAllByBranchCode(String branchCode, Pageable page);
+
+    Page<IssFileParser> findAllByPacsNumber(String pacsNumber, Pageable page);
+
+    Optional<IssFileParser> findOneByIdAndPacsNumber(Long id, String string);
+
+    Optional<IssFileParser> findOneByIdAndBranchCode(Long id, String string);
 }

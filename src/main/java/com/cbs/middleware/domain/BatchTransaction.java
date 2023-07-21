@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "batch_transaction")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class BatchTransaction implements Serializable {
+public class BatchTransaction extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,6 +23,9 @@ public class BatchTransaction implements Serializable {
 
     @Column(name = "batch_details")
     private String batchDetails;
+
+    @Column(name = "batch_errors")
+    private String batchErrors;
 
     @Column(name = "application_count")
     private Long applicationCount;
@@ -66,6 +69,14 @@ public class BatchTransaction implements Serializable {
 
     public String getBatchDetails() {
         return this.batchDetails;
+    }
+
+    public String getBatchErrors() {
+        return batchErrors;
+    }
+
+    public void setBatchErrors(String batchErrors) {
+        this.batchErrors = batchErrors;
     }
 
     public BatchTransaction batchDetails(String batchDetails) {
@@ -129,7 +140,8 @@ public class BatchTransaction implements Serializable {
         this.batchAckId = batchAckId;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -144,21 +156,16 @@ public class BatchTransaction implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "BatchTransaction{" +
-            "id=" + getId() +
-            ", status='" + getStatus() + "'" +
-            ", batchDetails='" + getBatchDetails() + "'" +
-            ", applicationCount=" + getApplicationCount() +
-            ", notes='" + getNotes() + "'" +
-            ", batchId='" + getBatchId() + "'" +
-            ", batchAckId='" + getBatchAckId() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "BatchTransaction{" + "id=" + getId() + ", status='" + getStatus() + "'" + ", batchDetails='"
+				+ getBatchDetails() + "'" + ", applicationCount=" + getApplicationCount() + ", notes='" + getNotes()
+				+ "'" + ", batchId='" + getBatchId() + "'" + ", batchAckId='" + getBatchAckId() + "'" + "}";
+	}
 }

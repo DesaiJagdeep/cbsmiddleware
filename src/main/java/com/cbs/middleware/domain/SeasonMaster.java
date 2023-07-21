@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "season_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class SeasonMaster implements Serializable {
+public class SeasonMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "financial_year")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class FinancialYear implements Serializable {
+public class FinancialYear extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

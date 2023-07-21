@@ -1,23 +1,33 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.repository.IssPortalFileRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -54,6 +64,35 @@ public class IssPortalFileResource {
         this.issPortalFileQueryService = issPortalFileQueryService;
     }
 
+    @GetMapping("/download-file/{idIFP}")
+    @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+    public Object excelDownload(@PathVariable Long idIFP) {
+        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
+        if (findByUniqueName.isPresent()) {
+            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByUniqueName.get().getUniqueName());
+
+            if (!Files.exists(file)) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            byte[] fileBytes;
+            try {
+                fileBytes = Files.readAllBytes(file);
+                ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", findByUniqueName.get().getUniqueName());
+
+                return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
+            } catch (IOException e) {
+                throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+            }
+        } else {
+            throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+        }
+    }
+
     /**
      * {@code POST  /iss-portal-files} : Create a new issPortalFile.
      *
@@ -62,6 +101,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-portal-files")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssPortalFile> createIssPortalFile(@RequestBody IssPortalFile issPortalFile) throws URISyntaxException {
         log.debug("REST request to save IssPortalFile : {}", issPortalFile);
         if (issPortalFile.getId() != null) {
@@ -85,6 +125,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-portal-files/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssPortalFile> updateIssPortalFile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssPortalFile issPortalFile
@@ -120,6 +161,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/iss-portal-files/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssPortalFile> partialUpdateIssPortalFile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssPortalFile issPortalFile
@@ -194,6 +236,7 @@ public class IssPortalFileResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/iss-portal-files/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteIssPortalFile(@PathVariable Long id) {
         log.debug("REST request to delete IssPortalFile : {}", id);
         issPortalFileService.delete(id);

@@ -97,6 +97,13 @@ public class PermissionResource {
         return ResponseEntity.ok(permissionList);
     }
 
+    @GetMapping("/permission1")
+    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    public Permission getAllPermissions1() {
+        Permission permission = permissionRepository.findOneByObjectAndActionAndRole("FILE_DOWNLOAD", "DOWNLOAD", "ROLE_BRANCH_ADMIN");
+        return permission;
+    }
+
     /**
      * GET /permissions/:id : get the "id" permission.
      *

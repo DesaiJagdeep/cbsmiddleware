@@ -48,4 +48,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     //    Set<String> findUniqueFinancialYear();
     //
     //    List<Application> findAllByBatchIdAndApplicationStatusAndFinancialYear(Object object, long l, String finantialYear);
+
+    Application findOneByUniqueId(String uniqueId);
 }

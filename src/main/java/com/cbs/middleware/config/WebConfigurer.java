@@ -4,9 +4,27 @@ import static java.net.URLDecoder.decode;
 
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssPortalFile;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Clock;
+import io.jsonwebtoken.CompressionCodecResolver;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.JwtHandler;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.io.Decoder;
+import io.jsonwebtoken.io.Deserializer;
+import io.jsonwebtoken.security.SignatureException;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.security.Key;
+import java.util.Date;
+import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import org.slf4j.Logger;
@@ -113,5 +131,135 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     @Bean
     public ApplicationLog applicationLog() {
         return new ApplicationLog();
+    }
+
+    @Bean
+    public JwtParser jwtParser() {
+        return new JwtParser() {
+            @Override
+            public JwtParser setSigningKeyResolver(SigningKeyResolver signingKeyResolver) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setSigningKey(Key key) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setSigningKey(String base64EncodedSecretKey) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setSigningKey(byte[] key) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setCompressionCodecResolver(CompressionCodecResolver compressionCodecResolver) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setClock(Clock clock) {
+                return null;
+            }
+
+            @Override
+            public JwtParser setAllowedClockSkewSeconds(long seconds) throws IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireSubject(String subject) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireNotBefore(Date notBefore) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireIssuer(String issuer) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireIssuedAt(Date issuedAt) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireId(String id) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireExpiration(Date expiration) {
+                return null;
+            }
+
+            @Override
+            public JwtParser requireAudience(String audience) {
+                return null;
+            }
+
+            @Override
+            public JwtParser require(String claimName, Object value) {
+                return null;
+            }
+
+            @Override
+            public Jwt<Header, String> parsePlaintextJwt(String plaintextJwt)
+                throws UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public Jws<String> parsePlaintextJws(String plaintextJws)
+                throws UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public Jwt<Header, Claims> parseClaimsJwt(String claimsJwt)
+                throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public Jws<Claims> parseClaimsJws(String claimsJws)
+                throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public <T> T parse(String jwt, JwtHandler<T> handler)
+                throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public Jwt parse(String jwt) throws ExpiredJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
+                return null;
+            }
+
+            @Override
+            public boolean isSigned(String jwt) {
+                return false;
+            }
+
+            @Override
+            public JwtParser deserializeJsonWith(Deserializer<Map<String, ?>> deserializer) {
+                return null;
+            }
+
+            @Override
+            public JwtParser base64UrlDecodeWith(Decoder<String, byte[]> base64UrlDecoder) {
+                return null;
+            }
+        };
     }
 }

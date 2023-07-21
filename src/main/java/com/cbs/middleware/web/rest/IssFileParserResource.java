@@ -11,12 +11,15 @@ import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.ApplicationPayload;
+import com.cbs.middleware.domain.ApplicationsByBatchAckId;
 import com.cbs.middleware.domain.BasicDetails;
+import com.cbs.middleware.domain.BatchAckId;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.BatchTransaction;
 import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.domain.CastCategoryMaster;
 import com.cbs.middleware.domain.CropMaster;
+import com.cbs.middleware.domain.DataByBatchAckId;
 import com.cbs.middleware.domain.DesignationMaster;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
@@ -31,6 +34,7 @@ import com.cbs.middleware.domain.RelativeMaster;
 import com.cbs.middleware.domain.ResidentialDetails;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.domain.SubmitApiRespDecryption;
+import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -73,8 +77,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
@@ -109,6 +115,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -220,35 +228,6 @@ public class IssFileParserResource {
      * @throws Exception
      */
 
-    @GetMapping("/download-file/{idIFP}")
-    //@PreAuthorize("@authentication.hasPermision('',#idIFP,'FILE_DOWNLOAD','DOWNLOAD')")
-    public Object excelDownload(@PathVariable Long idIFP) {
-        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
-        if (findByUniqueName.isPresent()) {
-            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByUniqueName.get().getUniqueName());
-
-            if (!Files.exists(file)) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-
-            byte[] fileBytes;
-            try {
-                fileBytes = Files.readAllBytes(file);
-                ByteArrayResource resource = new ByteArrayResource(fileBytes);
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("attachment", findByUniqueName.get().getUniqueName());
-
-                return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
-            } catch (IOException e) {
-                throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
-            }
-        } else {
-            throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
-        }
-    }
-
     @PostMapping("/file-parse-conf/{financialYear}")
     public Object excelReaderConfirmation(
         @RequestParam("file") MultipartFile files,
@@ -259,6 +238,10 @@ public class IssFileParserResource {
         FileParseConf fileParseConf = new FileParseConf();
         if (!"xlsx".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        if (issPortalFileRepository.existsByFileNameAndFinancialYear(files.getOriginalFilename(), financialYear)) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
         }
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -274,8 +257,7 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(6);
-            //			rbaControl.authenticate(getCellValue(row.getCell(4)),ENTITY_NAME);
-
+            rbaControl.authenticate(getCellValue(row.getCell(4)), getCellValue(row.getCell(32)), ENTITY_NAME);
         } catch (Exception e1) {}
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -306,12 +288,20 @@ public class IssFileParserResource {
         }
     }
 
-    @PostMapping("/fileParser")
-    public Object excelReader1(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes) {
+    @PostMapping("/fileParser/{financialYear}")
+    public Object excelReader1(
+        @RequestParam("file") MultipartFile files,
+        @PathVariable String financialYear,
+        RedirectAttributes redirectAttributes
+    ) {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
 
         if (!"xlsx".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        if (issPortalFileRepository.existsByFileNameAndFinancialYear(files.getOriginalFilename(), financialYear)) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
         }
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -327,7 +317,7 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(6);
-            /* rbaControl.authenticate(getCellValue(row.getCell(4)),ENTITY_NAME); */
+            rbaControl.authenticate(getCellValue(row.getCell(4)), getCellValue(row.getCell(32)), ENTITY_NAME);
         } catch (Exception e1) {}
 
         File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
@@ -554,7 +544,7 @@ public class IssFileParserResource {
     }
 
     @PostMapping("/validateFile")
-    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'FILE_VALIDATE','VALIDATE')")
+    @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','FILE_VALIDATE','VALIDATE')")
     public ResponseEntity<Set<ApplicationLog>> validateFile(@RequestBody IssPortalFile issPortalFile) {
         if (issPortalFile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -994,417 +984,8 @@ public class IssFileParserResource {
         return ResponseEntity.ok().body(applicationLogListToSave);
     }
 
-    @PostMapping("/submit-batch")
-    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'SUBMIT_BATCH','SUBMIT')")
-    public List<String> submitBatch(@RequestBody IssPortalFile issPortalFile) {
-        List<CBSMiddleareInputPayload> cbsMiddleareInputPayloadList = new ArrayList<>();
-        List<String> cbsResponceStringList = new ArrayList<>();
-
-        List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
-            null,
-            0l,
-            issPortalFile.getId()
-        );
-
-        int batchSize = 1000;
-
-        for (int i = 1; i < applicationList.size(); i += batchSize) {
-            List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
-            String processBatch = processBatch(batch);
-            cbsResponceStringList.add(processBatch);
-        }
-
-        return cbsResponceStringList;
-    }
-
-    private String processBatch(List<Application> applicationTransactionList) {
-        // Batch ID (14 Digits): <6 character DDMMYY>+<3 character Bank code as per
-        // NCIP>+< 5 digit
-        // running number>
-        // If Today’s date is 29 Aug 2022 the Batch id can be 29082202300001
-        String cbsResponceString = "";
-        List<ApplicationPayload> applicationsList = new ArrayList<>();
-        BatchData batchData = new BatchData();
-        Date currentDate = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
-        String formattedDate = dateFormat.format(currentDate);
-
-        String batchId = formattedDate + applicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
-
-        // this code added for just maintaining batch id after poc done remove
-        // ----------
-        DesignationMaster designationMaster = new DesignationMaster();
-        designationMaster.setDesignationCode(batchId);
-        designationMasterRepository.save(designationMaster);
-        // -------------------------------------
-
-        batchData.setBatchId(batchId);
-        batchData.setFinancialYear(applicationTransactionList.get(0).getIssFileParser().getFinancialYear());
-
-        for (Application applicationTransaction : applicationTransactionList) {
-            IssFileParser issFileParser = applicationTransaction.getIssFileParser();
-
-            ApplicationPayload applicationPayload = new ApplicationPayload();
-            String uniqueId = batchData.getBatchId() + generateRandomNumber();
-
-            applicationPayload.setUniqueId(uniqueId);
-            // application.setUniqueId("1207231567261098695");
-
-            applicationPayload.setRecordStatus(applicationProperties.getRecordStatusForFarmerAndLoan());
-
-            // "basicDetails": {
-            // "beneficiaryName": "SANGALE LATA BAPURAO",
-            // "aadhaarNumber": "731934678958",
-            // "beneficiaryPassbookName": "SANGALE LATA BAPURAO",
-            // "mobile": "9325498957",
-            // "dob": "1987-01-01",
-            // "gender": 2,
-            // "socialCategory": 4,
-            // "farmerCategory": 1,
-            // "farmerType": 3,
-            // "primaryOccupation": 1,
-            // "relativeType": 4,
-            // "relativeName": "SANGLE BAPURAO"
-            // },
-
-            BasicDetails basicDetails = new BasicDetails();
-            basicDetails.setBeneficiaryName(issFileParser.getFarmerName().trim());
-            basicDetails.setAadhaarNumber(issFileParser.getAadharNumber());
-            basicDetails.setBeneficiaryPassbookName(issFileParser.getFarmerName());
-            basicDetails.setMobile(issFileParser.getMobileNo());
-            basicDetails.setDob("" + issFileParser.getDateofBirth());
-
-            if ("male".equalsIgnoreCase(issFileParser.getGender())) {
-                basicDetails.setGender(1);
-            } else if ("female".equalsIgnoreCase(issFileParser.getGender())) {
-                basicDetails.setGender(2);
-            } else {
-                basicDetails.setGender(3);
-            }
-
-            Optional<Integer> CastCategoryCode = MasterDataCacheService.CastCategoryMasterList
-                .stream()
-                .filter(c -> c.getCastCategoryName().toLowerCase().contains(issFileParser.getSocialCategory().toLowerCase()))
-                .map(CastCategoryMaster::getCastCategoryCode)
-                .findFirst();
-
-            if (CastCategoryCode.isPresent()) {
-                basicDetails.setSocialCategory(CastCategoryCode.get());
-            }
-
-            Optional<Integer> farmerCategoryCode = MasterDataCacheService.FarmerCategoryMasterList
-                .stream()
-                .filter(f -> f.getFarmerCategory().toLowerCase().contains(issFileParser.getFarmersCategory().toLowerCase()))
-                .map(FarmerCategoryMaster::getFarmerCategoryCode)
-                .findFirst();
-
-            if (farmerCategoryCode.isPresent()) {
-                basicDetails.setFarmerCategory(farmerCategoryCode.get());
-            }
-
-            Optional<Integer> farmerTypeCode = MasterDataCacheService.FarmerTypeMasterList
-                .stream()
-                .filter(f -> f.getFarmerType().toLowerCase().contains(issFileParser.getFarmerType().toLowerCase()))
-                .map(FarmerTypeMaster::getFarmerTypeCode)
-                .findFirst();
-
-            if (farmerTypeCode.isPresent()) {
-                basicDetails.setFarmerType(farmerTypeCode.get());
-            }
-
-            Optional<Integer> occupationMasterCode = MasterDataCacheService.OccupationMasterList
-                .stream()
-                .filter(f -> f.getOccupationName().toLowerCase().contains(issFileParser.getPrimaryOccupation().toLowerCase()))
-                .map(OccupationMaster::getOccupationCode)
-                .findFirst();
-
-            if (occupationMasterCode.isPresent()) {
-                basicDetails.setPrimaryOccupation(occupationMasterCode.get());
-            }
-
-            Optional<Integer> relativeMasterCode = MasterDataCacheService.RelativeMasterList
-                .stream()
-                .filter(f -> f.getRelativeName().toLowerCase().contains(issFileParser.getRelativeType().toLowerCase()))
-                .map(RelativeMaster::getRelativeCode)
-                .findFirst();
-
-            if (relativeMasterCode.isPresent()) {
-                basicDetails.setRelativeType(relativeMasterCode.get());
-            }
-
-            basicDetails.setRelativeName(issFileParser.getRelativeName().trim());
-
-            applicationPayload.setBasicDetails(basicDetails);
-
-            // "residentialDetails": {
-            // "residentialVillage": "557043",
-            // "residentialAddress": "A BIRANGUDI PO KALASTAL INDAPUR DIST PUNE",
-            // "residentialPincode": "413105"
-            // },
-
-            ResidentialDetails residentialDetails = new ResidentialDetails();
-
-            residentialDetails.setResidentialVillage("" + issFileParser.getVillageCode());
-            residentialDetails.setResidentialAddress(issFileParser.getAddress());
-            residentialDetails.setResidentialPincode("" + issFileParser.getPinCode());
-
-            applicationPayload.setResidentialDetails(residentialDetails);
-
-            // "accountDetails": {
-            // "accountNumber": "198001700004317",
-            // "ifsc": "HDFC0CPDCCB",
-            // "branchCode": "198",
-            // "accountHolder": 1,
-            // "jointAccountHolders": []
-            // },
-
-            AccountDetails accountDetails = new AccountDetails();
-            accountDetails.setAccountNumber("" + issFileParser.getAccountNumber());
-            accountDetails.setIfsc(issFileParser.getIfsc());
-            accountDetails.setBranchCode(issFileParser.getSchemeWiseBranchCode());
-
-            // add account holder code from account honder type
-
-            Optional<Integer> accountHolderMasterCode = MasterDataCacheService.AccountHolderMasterList
-                .stream()
-                .filter(f -> f.getAccountHolder().toLowerCase().contains(issFileParser.getAccountHolderType().toLowerCase()))
-                .map(AccountHolderMaster::getAccountHolderCode)
-                .findFirst();
-
-            if (accountHolderMasterCode.isPresent()) {
-                accountDetails.setAccountHolder(accountHolderMasterCode.get());
-            }
-
-            // fields need to map in xcel
-            JointAccountHolders jointAccountHolders = new JointAccountHolders();
-            jointAccountHolders.setName(null);
-            jointAccountHolders.setAadhaarNumber(null);
-            List<JointAccountHolders> JointAccountHoldersList = new ArrayList<JointAccountHolders>();
-            accountDetails.setJointAccountHolders(JointAccountHoldersList);
-
-            applicationPayload.setAccountDetails(accountDetails);
-
-            // "loanDetails": {
-            // "kccLoanSanctionedDate": "2022-04-26",
-            // "kccLimitSanctionedAmount": 60800,
-            // "kccDrawingLimitForFY": 60800
-            // },
-
-            LoanDetails loanDetails = new LoanDetails();
-            loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
-            loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
-            loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
-            applicationPayload.setLoanDetails(loanDetails);
-            // "activities": [
-            // {
-            // "activityType": 1,
-            // "loanSanctionedDate": "2022-04-26",
-            // "loanSanctionedAmount": 60800,
-            // "activityRows": [
-            // {
-            // "landVillage": "557043",
-            // "cropCode": "011507800",
-            // "surveyNumber": "265/1",
-            // "khataNumber": "1247", //satBaraSubsurveyNo
-            // "landArea": 0.19, //"areaHect": 0.19,
-            // "landType": 1, // "landType": "Irrigated",
-            // "season": 3
-            // }
-            // ]
-            // }
-            // ]
-            // }
-            List<Activities> activityList = new ArrayList<>();
-            Activities activities = new Activities();
-
-            // added activity type code as on season name
-            Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                .stream()
-                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                .map(ActivityType::getActivityTypeCode)
-                .findFirst();
-
-            if (activityTypeCode.isPresent()) {
-                activities.setActivityType((long) activityTypeCode.get());
-            }
-
-            activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
-            activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
-
-            ActivityRows activityRows = new ActivityRows();
-            List<ActivityRows> activityRowsList = new ArrayList<>();
-            activityRows.setLandVillage("" + issFileParser.getVillageCode());
-
-            // add crop code from crop name
-            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                .stream()
-                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                .map(CropMaster::getCropCode)
-                .findFirst();
-
-            /*
-             * String findCropCodeByCropNameIsContaining = cropMasterRepository
-             * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
-             *
-             * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
-             */
-
-            if (cropNameMasterCode.isPresent()) {
-                activityRows.setCropCode(cropNameMasterCode.get());
-            }
-
-            activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-            activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
-            activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
-
-            // add land type code and season code from land type and season name
-            Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
-                .stream()
-                .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
-                .map(LandTypeMaster::getLandTypeCode)
-                .findFirst();
-
-            if (landTypeMasterCode.isPresent()) {
-                activityRows.setLandType(landTypeMasterCode.get());
-            }
-
-            Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
-                .stream()
-                .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                .map(SeasonMaster::getSeasonCode)
-                .findFirst();
-
-            if (seasonMasterCode.isPresent()) {
-                activityRows.setSeason(seasonMasterCode.get());
-            }
-
-            activityRowsList.add(activityRows);
-            activities.setActivityRows(activityRowsList);
-
-            activityList.add(activities);
-
-            applicationPayload.setActivities(activityList);
-
-            applicationsList.add(applicationPayload);
-
-            applicationTransaction.setBatchId(batchId);
-            applicationTransaction.setUniqueId(uniqueId);
-
-            applicationRepository.save(applicationTransaction);
-        }
-
-        batchData.setApplications(applicationsList);
-
-        String encryption = encryption(batchData);
-
-        // Making input payload
-        CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
-        cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-        cbsMiddleareInputPayload.setData(encryption);
-
-        // call fasalrin submit api
-        try {
-            // Set the request URL
-            String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatchs";
-            // Set the request headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            // Create the HttpEntity object with headers and body
-            HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
-            // Make the HTTP POST request
-            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
-            cbsResponceString = responseEntity.getBody();
-
-            SubmitApiRespDecryption submitApiRespDecryption = null;
-            CBSResponce convertValue = null;
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-
-                if (convertValue.isStatus()) {
-                    String decryption = decryption("" + convertValue.getData());
-                    objectMapper = new ObjectMapper();
-                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
-
-                    BatchTransaction batchTransaction = new BatchTransaction();
-                    batchTransaction.setBatchId(batchId);
-                    batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
-                    batchTransaction.setStatus("Processing");
-
-                    batchTransactionRepository.save(batchTransaction);
-                } else {
-                    BatchTransaction batchTransaction = new BatchTransaction();
-                    batchTransaction.setBatchId(batchId);
-                    batchTransaction.setStatus("Discarded");
-                    batchTransaction.setBatchDetails(convertValue.getError());
-                    batchTransactionRepository.save(batchTransaction);
-                }
-            } catch (Exception e) {
-                System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>" + e);
-            }
-        } catch (Exception e) {
-            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
-        }
-
-        return cbsResponceString;
-    }
-
-    @GetMapping("/testApi")
-    public Object test() {
-        SubmitApiRespDecryption submitApiRespDecryption = null;
-        CBSResponce convertValue = null;
-        String cbsResponceString =
-            "{\r\n" +
-            "    \"status\": true,\r\n" +
-            "    \"data\": \"3e90f0b81ba90788e513015c561924ef40531bed68a253c69668532d31ddb0b4e362fddf73fe3a3368ca8ee672de94a8b9128b2afbdd7c6bbb59177b89e57c6c\",\r\n" +
-            "    \"error\": \"\"\r\n" +
-            "}";
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-
-            if (convertValue.isStatus()) {
-                String decryption = decryption("" + convertValue.getData());
-                objectMapper = new ObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
-            }
-        } catch (Exception e) {
-            System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>" + e);
-        }
-        return submitApiRespDecryption;
-    }
-
-    @PostMapping("/submitBatchToCBS")
-    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'SUBMIT_BATCH','SUBMIT')")
-    public String submitBatchToCBS(@RequestBody CBSMiddleareInputPayload cBSMiddleareInputPayload) {
-        // fetch from CBS Middleware portal
-
-        cBSMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-
-        // Set the request URL
-        String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatch";
-
-        // Set the request headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Create the HttpEntity object with headers and body
-        HttpEntity<Object> requestEntity = new HttpEntity<>(cBSMiddleareInputPayload, headers);
-
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
-        return responseEntity.getBody();
-    }
-
     @PutMapping("/iss-file-parsers/{id}")
-    //@PreAuthorize("@authentication.hasPermision('',#issFileParser.branchCode,'UPDATE_RECORD','EDIT')")
+    @PreAuthorize("@authentication.hasPermision('','',#id,'UPDATE_RECORD','EDIT')")
     public Object issFileErrorResolve(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -1896,7 +1477,7 @@ public class IssFileParserResource {
     }
 
     // @PostMapping("/encryption")
-    public String encryption(BatchData encDecObject) {
+    public String encryption(Object encDecObject) {
         try {
             SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
             IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
@@ -2032,7 +1613,7 @@ public class IssFileParserResource {
     }
 
     @GetMapping("/issPortalFile/{idISP}/issFileParsers")
-    //@PreAuthorize("@authentication.hasPermision('',#idISP,'VIEW_RECORD','VIEW')")
+    @PreAuthorize("@authentication.hasPermision('','',#idISP,'VIEW_RECORD','VIEW')")
     public ResponseEntity<List<IssFileParser>> getAllIssFileParsers1(
         @PathVariable Long idISP,
         IssFileParserCriteria criteria,
@@ -2065,7 +1646,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-file-parsers")
-    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> createIssFileParser(@RequestBody IssFileParser issFileParser) throws URISyntaxException {
         log.debug("REST request to save IssFileParser : {}", issFileParser);
         if (issFileParser.getId() != null) {
@@ -2091,7 +1672,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-file-parserss/{id}")
-    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> updateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -2130,7 +1711,7 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/iss-file-parsers/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> partialUpdateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
@@ -2163,18 +1744,37 @@ public class IssFileParserResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
      *         of issFileParsers in body.
      */
+
+    private Map<String, String> getBranchOrPacksNumber() {
+        Map<String, String> branchOrPacksNumber = new HashMap<>();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
+            branchOrPacksNumber.put("packsNumber", optUser.get().getPacsNumber());
+            return branchOrPacksNumber;
+        } else {
+            branchOrPacksNumber.put("branchNumber", optUser.get().getBranchCode());
+            return branchOrPacksNumber;
+        }
+    }
+
     @GetMapping("/iss-file-parsers")
+    @PreAuthorize("@authentication.hasPermision('','','','VIEW_RECORD','VIEW')")
     public ResponseEntity<List<IssFileParser>> getAllIssFileParsers(
         IssFileParserCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get IssFileParsers by criteria: {}", criteria);
-        Page<IssFileParser> page = issFileParserQueryService.findByCriteria(criteria, pageable);
 
-        /*
-         * rbaControl.authenticate(page.getContent().get(0).getBranchCode(),ENTITY_NAME)
-         * ;
-         */
+        Page<IssFileParser> page = null;
+        Map<String, String> branchOrPacksNumber = getBranchOrPacksNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get("packsNumber"))) {
+            page = issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get("packsNumber"));
+        } else {
+            page = issFileParserQueryService.findByCriteriaBranchNumber(criteria, pageable, branchOrPacksNumber.get("branchNumber"));
+        }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -2201,9 +1801,18 @@ public class IssFileParserResource {
      *         the issFileParser, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/iss-file-parsers/{id}")
+    @PreAuthorize("@authentication.hasPermision('','',#id,'VIEW_RECORD','VIEW')")
     public ResponseEntity<IssFileParser> getIssFileParser(@PathVariable Long id) {
         log.debug("REST request to get IssFileParser : {}", id);
-        Optional<IssFileParser> issFileParser = issFileParserService.findOne(id);
+        Optional<IssFileParser> issFileParser = null;
+        Map<String, String> branchOrPacksNumber = getBranchOrPacksNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get("packsNumber"))) {
+            issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get("packsNumber"));
+        } else {
+            issFileParser = issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get("branchNumber"));
+        }
+
         return ResponseUtil.wrapOrNotFound(issFileParser);
     }
 
@@ -2214,6 +1823,7 @@ public class IssFileParserResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/iss-file-parsers/{id}")
+    @PreAuthorize("@authentication.hasPermision('','',#id,'DELETE_RECORD','DELETE')")
     public ResponseEntity<Void> deleteIssFileParser(@PathVariable Long id) {
         log.debug("REST request to delete IssFileParser : {}", id);
         issFileParserService.delete(id);

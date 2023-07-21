@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "farmer_type_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class FarmerTypeMaster implements Serializable {
+public class FarmerTypeMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

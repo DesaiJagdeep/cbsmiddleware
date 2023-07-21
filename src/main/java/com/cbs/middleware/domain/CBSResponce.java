@@ -6,6 +6,7 @@ public class CBSResponce {
     private Object data;
     private String error;
     private String level;
+    private String batchId;
 
     public boolean isStatus() {
         return status;
@@ -37,5 +38,13 @@ public class CBSResponce {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
     }
 }

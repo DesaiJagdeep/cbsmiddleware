@@ -59,6 +59,20 @@ public class IssFileParserQueryService extends QueryService<IssFileParser> {
     }
 
     @Transactional(readOnly = true)
+    public Page<IssFileParser> findByCriteriaBranchNumber(IssFileParserCriteria criteria, Pageable page, String branchCode) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<IssFileParser> specification = createSpecification(criteria);
+        return issFileParserRepository.findAllByBranchCode(branchCode, page);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<IssFileParser> findByCriteriaPackNumber(IssFileParserCriteria criteria, Pageable page, String pacsNumber) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<IssFileParser> specification = createSpecification(criteria);
+        return issFileParserRepository.findAllByPacsNumber(pacsNumber, page);
+    }
+
+    @Transactional(readOnly = true)
     public Page<IssFileParser> findByIssPortalCriteria(IssPortalFile issPortalFile, IssFileParserCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<IssFileParser> specification = createSpecification(criteria);

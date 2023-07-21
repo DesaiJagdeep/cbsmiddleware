@@ -1,6 +1,7 @@
 package com.cbs.middleware.security.jwt;
 
 import com.cbs.middleware.management.SecurityMetersService;
+import com.cbs.middleware.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -11,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,6 +40,9 @@ public class TokenProvider {
     private final long tokenValidityInMillisecondsForRememberMe;
 
     private final SecurityMetersService securityMetersService;
+
+    @Autowired
+    UserRepository userRepository;
 
     public TokenProvider(JHipsterProperties jHipsterProperties, SecurityMetersService securityMetersService) {
         byte[] keyBytes;
@@ -73,12 +78,21 @@ public class TokenProvider {
             validity = new Date(now + this.tokenValidityInMilliseconds);
         }
 
+        Map<String, Object> mapObj = new HashMap<>();
+        Optional<com.cbs.middleware.domain.User> findOneByLogin = userRepository.findOneByLogin(authentication.getName());
+        if (findOneByLogin.isPresent()) {
+            mapObj.put("branchName", findOneByLogin.get().getBranchName());
+            mapObj.put("branchCode", findOneByLogin.get().getBranchCode());
+            mapObj.put("pacsName", findOneByLogin.get().getPacsName());
+            mapObj.put("pacsNumber", findOneByLogin.get().getPacsNumber());
+        }
         return Jwts
             .builder()
             .setSubject(authentication.getName())
             .claim(AUTHORITIES_KEY, authorities)
             .signWith(key, SignatureAlgorithm.HS512)
             .setExpiration(validity)
+            .setHeaderParams(mapObj)
             .compact();
     }
 
@@ -117,7 +131,8 @@ public class TokenProvider {
             this.securityMetersService.trackTokenInvalidSignature();
 
             log.trace(INVALID_JWT_TOKEN, e);
-        } catch (IllegalArgumentException e) { // TODO: should we let it bubble (no catch), to avoid defensive programming and follow the fail-fast principle?
+        } catch (IllegalArgumentException e) { // TODO: should we let it bubble (no catch), to avoid defensive
+            // programming and follow the fail-fast principle?
             log.error("Token validation error {}", e.getMessage());
         }
 

@@ -153,6 +153,20 @@ public class UserService {
         if (userDTO.getEmail() != null) {
             user.setEmail(userDTO.getEmail().toLowerCase());
         }
+
+        if (userDTO.getBranchCode() != null) {
+            user.setBranchCode(userDTO.getBranchCode());
+        }
+        if (userDTO.getBranchName() != null) {
+            user.setBranchName(userDTO.getBranchName());
+        }
+        if (userDTO.getPacsName() != null) {
+            user.setPacsName(userDTO.getPacsName());
+        }
+        if (userDTO.getPacsNumber() != null) {
+            user.setPacsNumber(userDTO.getPacsNumber());
+        }
+
         user.setImageUrl(userDTO.getImageUrl());
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
@@ -199,6 +213,18 @@ public class UserService {
                 if (userDTO.getEmail() != null) {
                     user.setEmail(userDTO.getEmail().toLowerCase());
                 }
+                if (userDTO.getBranchCode() != null) {
+                    user.setBranchCode(userDTO.getBranchCode());
+                }
+                if (userDTO.getBranchName() != null) {
+                    user.setBranchName(userDTO.getBranchName());
+                }
+                if (userDTO.getPacsName() != null) {
+                    user.setPacsName(userDTO.getPacsName());
+                }
+                if (userDTO.getPacsNumber() != null) {
+                    user.setPacsNumber(userDTO.getPacsNumber());
+                }
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
@@ -229,7 +255,8 @@ public class UserService {
     }
 
     /**
-     * Update basic information (first name, last name, email, language) for the current user.
+     * Update basic information (first name, last name, email, language) for the
+     * current user.
      *
      * @param firstName first name of user.
      * @param lastName  last name of user.
@@ -247,6 +274,7 @@ public class UserService {
                 if (email != null) {
                     user.setEmail(email.toLowerCase());
                 }
+
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
                 this.clearUserCaches(user);
@@ -309,6 +337,7 @@ public class UserService {
 
     /**
      * Gets a list of all the authorities.
+     *
      * @return a list of all the authorities.
      */
     @Transactional(readOnly = true)

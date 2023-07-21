@@ -19,6 +19,9 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "iss_portal_id")
+    private Long issPortalId;
+
     @Column(name = "error_type")
     private String errorType;
 
@@ -155,6 +158,14 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
         return this;
     }
 
+    public Long getIssPortalId() {
+        return issPortalId;
+    }
+
+    public void setIssPortalId(Long issPortalId) {
+        this.issPortalId = issPortalId;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
@@ -230,7 +241,7 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
     // prettier-ignore
 	@Override
 	public String toString() {
-		return "ApplicationLog{" + "id=" + getId() 
+		return "ApplicationLog{" + "id=" + getId()
 //		+ ", errorType='" + getErrorType() + "'" + ", errorCode='"
 //				+ getErrorCode() + "'" + ", errorMessage='" + getErrorMessage() + "'" + ", columnNumber="
 //				+ getColumnNumber() + ", sevierity='" + getSevierity() + "'" + ", expectedSolution='"

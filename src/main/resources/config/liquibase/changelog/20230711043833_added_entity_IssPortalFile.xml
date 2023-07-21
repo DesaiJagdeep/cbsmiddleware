@@ -47,6 +47,13 @@
             <column name="notes" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="branch_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            
             <column name="error_record_count" type="bigint">
                 <constraints nullable="true" />
             </column>

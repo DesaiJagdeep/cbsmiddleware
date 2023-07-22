@@ -6,6 +6,7 @@ import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BankBranchMasterMapper;
 import com.cbs.middleware.domain.BankMaster;
 import com.cbs.middleware.domain.BranchDetailsMapper;
+import com.cbs.middleware.domain.CBSMiddleareInputPayload;
 import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
 import com.cbs.middleware.repository.BankMasterRepository;
@@ -30,6 +31,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -79,6 +81,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/bank-branch-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> createBankBranchMaster(@RequestBody BankBranchMaster bankBranchMaster)
         throws URISyntaxException {
         log.debug("REST request to save BankBranchMaster : {}", bankBranchMaster);
@@ -103,6 +106,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bank-branch-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> updateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -138,6 +142,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/bank-branch-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> partialUpdateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -191,6 +196,7 @@ public class BankBranchMasterResource {
     private RestTemplate restTemplate;
 
     @GetMapping("/save-bank-branch-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<List<BankBranchMasterMapper>> saveAllBankBranchMasters() {
         String cbsResponceString = "";
         List<BankMaster> findAll = bankMasterRepository.findAll();
@@ -277,6 +283,7 @@ public class BankBranchMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/bank-branch-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteBankBranchMaster(@PathVariable Long id) {
         log.debug("REST request to delete BankBranchMaster : {}", id);
         bankBranchMasterService.delete(id);

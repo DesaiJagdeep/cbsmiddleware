@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -61,6 +62,7 @@ public class CropMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/crop-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<CropMaster> createCropMaster(@RequestBody CropMaster cropMaster) throws URISyntaxException {
         log.debug("REST request to save CropMaster : {}", cropMaster);
         if (cropMaster.getId() != null) {
@@ -74,6 +76,7 @@ public class CropMasterResource {
     }
 
     @PostMapping("/crop-master-list")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<List<CropMaster>> createCropMasters(@RequestBody List<CropMaster> cropMaster) throws URISyntaxException {
         log.debug("REST request to save CropMaster : {}", cropMaster);
 
@@ -98,6 +101,7 @@ public class CropMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/crop-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<CropMaster> updateCropMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CropMaster cropMaster
@@ -133,6 +137,7 @@ public class CropMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/crop-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<CropMaster> partialUpdateCropMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody CropMaster cropMaster
@@ -191,6 +196,7 @@ public class CropMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/crop-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteCropMaster(@PathVariable Long id) {
         log.debug("REST request to delete CropMaster : {}", id);
         cropMasterService.delete(id);

@@ -257,7 +257,12 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(6);
-            rbaControl.authenticate(getCellValue(row.getCell(4)), getCellValue(row.getCell(32)), ENTITY_NAME);
+            rbaControl.authenticateByCode(
+                getCellValue(row.getCell(2)),
+                getCellValue(row.getCell(4)),
+                getCellValue(row.getCell(32)),
+                ENTITY_NAME
+            );
         } catch (Exception e1) {}
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -317,7 +322,12 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(6);
-            rbaControl.authenticate(getCellValue(row.getCell(4)), getCellValue(row.getCell(32)), ENTITY_NAME);
+            rbaControl.authenticateByCode(
+                getCellValue(row.getCell(2)),
+                getCellValue(row.getCell(4)),
+                getCellValue(row.getCell(32)),
+                ENTITY_NAME
+            );
         } catch (Exception e1) {}
 
         File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);

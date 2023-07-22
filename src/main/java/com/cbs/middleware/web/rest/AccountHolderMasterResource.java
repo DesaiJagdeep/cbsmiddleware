@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -57,6 +58,7 @@ public class AccountHolderMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/account-holder-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<AccountHolderMaster> createAccountHolderMaster(@RequestBody AccountHolderMaster accountHolderMaster)
         throws URISyntaxException {
         log.debug("REST request to save AccountHolderMaster : {}", accountHolderMaster);
@@ -81,6 +83,7 @@ public class AccountHolderMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/account-holder-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<AccountHolderMaster> updateAccountHolderMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody AccountHolderMaster accountHolderMaster
@@ -116,6 +119,7 @@ public class AccountHolderMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/account-holder-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<AccountHolderMaster> partialUpdateAccountHolderMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody AccountHolderMaster accountHolderMaster
@@ -176,6 +180,7 @@ public class AccountHolderMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/account-holder-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteAccountHolderMaster(@PathVariable Long id) {
         log.debug("REST request to delete AccountHolderMaster : {}", id);
         accountHolderMasterService.delete(id);

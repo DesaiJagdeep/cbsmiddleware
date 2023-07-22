@@ -8,6 +8,7 @@ import com.cbs.middleware.domain.ApplicationsByBatchAckId;
 import com.cbs.middleware.domain.BatchAckId;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.BatchTransaction;
+import com.cbs.middleware.domain.CBSMiddleareInputPayload;
 import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.domain.DataByBatchAckId;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
@@ -50,6 +51,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -132,6 +134,7 @@ public class CronJobResource {
      */
 
     @GetMapping("/cronJob")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus("New");
         for (BatchTransaction batchTransaction : batchTransactionList) {

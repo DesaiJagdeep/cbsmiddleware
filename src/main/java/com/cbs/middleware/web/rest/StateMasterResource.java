@@ -15,9 +15,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -54,6 +62,7 @@ public class StateMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/state-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<StateMaster> createStateMaster(@RequestBody StateMaster stateMaster) throws URISyntaxException {
         log.debug("REST request to save StateMaster : {}", stateMaster);
         if (stateMaster.getId() != null) {
@@ -77,6 +86,7 @@ public class StateMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/state-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<StateMaster> updateStateMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody StateMaster stateMaster
@@ -112,6 +122,7 @@ public class StateMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/state-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<StateMaster> partialUpdateStateMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody StateMaster stateMaster
@@ -170,6 +181,7 @@ public class StateMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/state-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteStateMaster(@PathVariable Long id) {
         log.debug("REST request to delete StateMaster : {}", id);
         stateMasterService.delete(id);

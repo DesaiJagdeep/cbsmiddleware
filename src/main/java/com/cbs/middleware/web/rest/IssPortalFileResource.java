@@ -101,7 +101,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-portal-files")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<IssPortalFile> createIssPortalFile(@RequestBody IssPortalFile issPortalFile) throws URISyntaxException {
         log.debug("REST request to save IssPortalFile : {}", issPortalFile);
         if (issPortalFile.getId() != null) {
@@ -125,7 +125,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-portal-files/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<IssPortalFile> updateIssPortalFile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssPortalFile issPortalFile
@@ -161,7 +161,7 @@ public class IssPortalFileResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/iss-portal-files/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<IssPortalFile> partialUpdateIssPortalFile(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssPortalFile issPortalFile
@@ -236,7 +236,7 @@ public class IssPortalFileResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/iss-portal-files/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteIssPortalFile(@PathVariable Long id) {
         log.debug("REST request to delete IssPortalFile : {}", id);
         issPortalFileService.delete(id);

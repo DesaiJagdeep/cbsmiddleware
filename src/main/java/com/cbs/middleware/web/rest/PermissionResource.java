@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +27,8 @@ import tech.jhipster.web.util.HeaderUtil;
 @RequestMapping("/api")
 public class PermissionResource {
 
-    //    @Autowired
-    //    CustomeObject customeObject;
+    // @Autowired
+    // CustomeObject customeObject;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -48,7 +49,7 @@ public class PermissionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/permissionCreate")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    @PreAuthorize("@authentication.superAdminPermission()")
     public ResponseEntity<List<Permission>> createPermissionCustom(@RequestBody List<Permission> permission) throws URISyntaxException {
         List<Permission> result = new ArrayList<>();
         for (Permission permission2 : permission) {
@@ -72,7 +73,7 @@ public class PermissionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/permission")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    @PreAuthorize("@authentication.superAdminPermission()")
     public ResponseEntity<Permission> updatePermission(@RequestBody Permission permission) throws URISyntaxException {
         if (permission.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -88,20 +89,13 @@ public class PermissionResource {
      *         in body
      */
     @GetMapping("/permission")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    @PreAuthorize("@authentication.superAdminPermission()")
     public ResponseEntity<List<Permission>> getAllPermissions() {
         List<Permission> permissionList = permissionRepository.findAll();
         if (permissionList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(permissionList);
-    }
-
-    @GetMapping("/permission1")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
-    public Permission getAllPermissions1() {
-        Permission permission = permissionRepository.findOneByObjectAndActionAndRole("FILE_DOWNLOAD", "DOWNLOAD", "ROLE_BRANCH_ADMIN");
-        return permission;
     }
 
     /**
@@ -112,7 +106,7 @@ public class PermissionResource {
      *         or with status 404 (Not Found)
      */
     @GetMapping("/permission/{id}")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    @PreAuthorize("@authentication.superAdminPermission()")
     public ResponseEntity<Permission> getPermission(@PathVariable Long id) {
         Optional<Permission> permission = permissionRepository.findById(id);
         if (!permission.isPresent()) {
@@ -129,7 +123,7 @@ public class PermissionResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/permission/{id}")
-    //    @PreAuthorize("@authentication.commonPermissionsTo('superAdmin')")
+    @PreAuthorize("@authentication.superAdminPermission()")
     public ResponseEntity<Void> deletePermission(@PathVariable Long id) {
         permissionRepository.deleteById(id);
         return ResponseEntity

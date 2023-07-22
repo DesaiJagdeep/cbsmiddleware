@@ -66,8 +66,6 @@ public class RBAControl {
 
     public boolean hasPermision(Long userId, Long issPortalId, Long issFileParserId, String object, String action) throws Exception {
         String branchCodeFromId = "";
-        String branchNameFromId = "";
-        String pacsNameFromId = "";
         String pacsNumberFromId = "";
 
         boolean returnData = false;
@@ -112,24 +110,14 @@ public class RBAControl {
             Jws<Claims> parseClaimsJws = jwtParser.parseClaimsJws(token1);
             JwsHeader header = parseClaimsJws.getHeader();
 
-            String branchNameFromToken = "";
-            if (header.get("branchName") != null) {
-                branchNameFromToken = "" + header.get("branchName");
-            }
-
             String branchCodeFromToken = "";
             if (header.get("branchName") != null) {
-                branchNameFromToken = "" + header.get("branchCode");
-            }
-
-            String pacsNameFromToken = "";
-            if (header.get("branchName") != null) {
-                branchNameFromToken = "" + header.get("pacsName");
+                branchCodeFromToken = "" + header.get("branchCode");
             }
 
             String pacsNumberFromToken = "";
             if (header.get("branchName") != null) {
-                branchNameFromToken = "" + header.get("pacsNumber");
+                pacsNumberFromToken = "" + header.get("pacsNumber");
             }
 
             Optional<IssPortalFile> issFilePortal = null;
@@ -137,8 +125,6 @@ public class RBAControl {
                 issFilePortal = issPortalFileRepository.findById(issPortalId);
                 if (issFilePortal.isPresent()) {
                     branchCodeFromId = "" + issFilePortal.get().getBranchCode();
-                    branchNameFromId = "" + issFilePortal.get().getBranchCode();
-                    pacsNameFromId = "" + issFilePortal.get().getBranchCode();
                     pacsNumberFromId = "" + issFilePortal.get().getBranchCode();
                 }
             }
@@ -149,8 +135,6 @@ public class RBAControl {
                 if (issFileParser.isPresent()) {
                     branchCodeFromId = "" + issFileParser.get().getIssPortalFile().getBranchCode();
                     branchCodeFromId = "" + issFilePortal.get().getBranchCode();
-                    branchNameFromId = "" + issFilePortal.get().getBranchCode();
-                    pacsNameFromId = "" + issFilePortal.get().getBranchCode();
                     pacsNumberFromId = "" + issFilePortal.get().getBranchCode();
                 }
             }
@@ -172,6 +156,7 @@ public class RBAControl {
                     return false;
                 }
             }
+
             if (permission.getScope().equalsIgnoreCase(SELF)) {
                 if (StringUtils.isBlank(branchCodeFromId) && StringUtils.isBlank(pacsNumberFromId) && "VIEW".equalsIgnoreCase(action)) {
                     return true;
@@ -192,7 +177,7 @@ public class RBAControl {
         return returnData;
     }
 
-    public void authenticate(String branchCode, String packsNumber, String ENTITY_NAME) {
+    public void authenticateByCode(String bankCode, String branchCode, String packsNumber, String ENTITY_NAME) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth == null) {
@@ -207,14 +192,48 @@ public class RBAControl {
                 throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
             } else if (user.get().getBranchCode().equalsIgnoreCase(branchCode)) {
                 throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+            } else if (user.get().getBankCode().equalsIgnoreCase(bankCode)) {
+                throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
             }
         } else {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         }
     }
 
-    /** RBAC function for common permission */
-    public boolean commonPermissionsTo(String scope) throws Exception {
+    /** RBAC function for on database object record permission */
+    public boolean onDatabaseRecordPermission(String object, String action) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userRepository.findOneByLogin(auth.getName());
+        if (!user.isPresent()) {
+            return false;
+        }
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        if (authorities.size() == 1) {
+            GrantedAuthority authority = authorities.stream().findFirst().get();
+
+            if (authority.toString().equals(AuthoritiesConstants.ANONYMOUS)) {
+                return false;
+            } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+                return true;
+            }
+            Permission permission = permissionRepository.findOneByObjectAndActionAndRole(object, action, authority.toString());
+
+            if (permission == null) {
+                return false;
+            }
+            if (permission.getPermission().equalsIgnoreCase(YES)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            throw new Exception("Provide single role to user");
+        }
+    }
+
+    /** RBAC function for super admin permission */
+    public boolean superAdminPermission() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findOneByLogin(auth.getName());
         if (!user.isPresent()) {
@@ -226,13 +245,7 @@ public class RBAControl {
             GrantedAuthority authority = authorities.stream().findFirst().get();
             if (authority.toString().equals(AuthoritiesConstants.ANONYMOUS)) {
                 return false;
-            } else if (
-                scope.equalsIgnoreCase(ALL) &&
-                authority.toString().equals(AuthoritiesConstants.ADMIN) ||
-                authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)
-            ) {
-                return true;
-            } else if (admin.equalsIgnoreCase(scope) && authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
                 return true;
             } else {
                 return false;

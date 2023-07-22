@@ -15,16 +15,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.cbs.middleware.domain.FarmerCategoryMaster}.
+ * REST controller for managing
+ * {@link com.cbs.middleware.domain.FarmerCategoryMaster}.
  */
 @RestController
 @RequestMapping("/api")
@@ -53,10 +62,14 @@ public class FarmerCategoryMasterResource {
      * {@code POST  /farmer-category-masters} : Create a new farmerCategoryMaster.
      *
      * @param farmerCategoryMaster the farmerCategoryMaster to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new farmerCategoryMaster, or with status {@code 400 (Bad Request)} if the farmerCategoryMaster has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new farmerCategoryMaster, or with status
+     *         {@code 400 (Bad Request)} if the farmerCategoryMaster has already an
+     *         ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/farmer-category-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<FarmerCategoryMaster> createFarmerCategoryMaster(@RequestBody FarmerCategoryMaster farmerCategoryMaster)
         throws URISyntaxException {
         log.debug("REST request to save FarmerCategoryMaster : {}", farmerCategoryMaster);
@@ -71,16 +84,20 @@ public class FarmerCategoryMasterResource {
     }
 
     /**
-     * {@code PUT  /farmer-category-masters/:id} : Updates an existing farmerCategoryMaster.
+     * {@code PUT  /farmer-category-masters/:id} : Updates an existing
+     * farmerCategoryMaster.
      *
-     * @param id the id of the farmerCategoryMaster to save.
+     * @param id                   the id of the farmerCategoryMaster to save.
      * @param farmerCategoryMaster the farmerCategoryMaster to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated farmerCategoryMaster,
-     * or with status {@code 400 (Bad Request)} if the farmerCategoryMaster is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the farmerCategoryMaster couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated farmerCategoryMaster, or with status
+     *         {@code 400 (Bad Request)} if the farmerCategoryMaster is not valid,
+     *         or with status {@code 500 (Internal Server Error)} if the
+     *         farmerCategoryMaster couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/farmer-category-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<FarmerCategoryMaster> updateFarmerCategoryMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody FarmerCategoryMaster farmerCategoryMaster
@@ -105,17 +122,21 @@ public class FarmerCategoryMasterResource {
     }
 
     /**
-     * {@code PATCH  /farmer-category-masters/:id} : Partial updates given fields of an existing farmerCategoryMaster, field will ignore if it is null
+     * {@code PATCH  /farmer-category-masters/:id} : Partial updates given fields of
+     * an existing farmerCategoryMaster, field will ignore if it is null
      *
-     * @param id the id of the farmerCategoryMaster to save.
+     * @param id                   the id of the farmerCategoryMaster to save.
      * @param farmerCategoryMaster the farmerCategoryMaster to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated farmerCategoryMaster,
-     * or with status {@code 400 (Bad Request)} if the farmerCategoryMaster is not valid,
-     * or with status {@code 404 (Not Found)} if the farmerCategoryMaster is not found,
-     * or with status {@code 500 (Internal Server Error)} if the farmerCategoryMaster couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated farmerCategoryMaster, or with status
+     *         {@code 400 (Bad Request)} if the farmerCategoryMaster is not valid,
+     *         or with status {@code 404 (Not Found)} if the farmerCategoryMaster is
+     *         not found, or with status {@code 500 (Internal Server Error)} if the
+     *         farmerCategoryMaster couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/farmer-category-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<FarmerCategoryMaster> partialUpdateFarmerCategoryMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody FarmerCategoryMaster farmerCategoryMaster
@@ -144,7 +165,8 @@ public class FarmerCategoryMasterResource {
      * {@code GET  /farmer-category-masters} : get all the farmerCategoryMasters.
      *
      * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of farmerCategoryMasters in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of farmerCategoryMasters in body.
      */
     @GetMapping("/farmer-category-masters")
     public ResponseEntity<List<FarmerCategoryMaster>> getAllFarmerCategoryMasters(
@@ -157,10 +179,12 @@ public class FarmerCategoryMasterResource {
     }
 
     /**
-     * {@code GET  /farmer-category-masters/:id} : get the "id" farmerCategoryMaster.
+     * {@code GET  /farmer-category-masters/:id} : get the "id"
+     * farmerCategoryMaster.
      *
      * @param id the id of the farmerCategoryMaster to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the farmerCategoryMaster, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the farmerCategoryMaster, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/farmer-category-masters/{id}")
     public ResponseEntity<FarmerCategoryMaster> getFarmerCategoryMaster(@PathVariable Long id) {
@@ -170,12 +194,14 @@ public class FarmerCategoryMasterResource {
     }
 
     /**
-     * {@code DELETE  /farmer-category-masters/:id} : delete the "id" farmerCategoryMaster.
+     * {@code DELETE  /farmer-category-masters/:id} : delete the "id"
+     * farmerCategoryMaster.
      *
      * @param id the id of the farmerCategoryMaster to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/farmer-category-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteFarmerCategoryMaster(@PathVariable Long id) {
         log.debug("REST request to delete FarmerCategoryMaster : {}", id);
         farmerCategoryMasterService.delete(id);

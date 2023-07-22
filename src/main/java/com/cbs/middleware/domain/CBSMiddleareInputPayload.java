@@ -1,4 +1,4 @@
-package com.cbs.middleware.web.rest;
+package com.cbs.middleware.domain;
 
 public class CBSMiddleareInputPayload {
 

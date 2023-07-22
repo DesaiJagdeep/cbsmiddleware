@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +52,7 @@ public class FinancialYearResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/financial-year")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<FinancialYear> createApplication(@RequestBody FinancialYear financialYear) throws URISyntaxException {
         log.debug("REST request to save FinancialYear : {}", financialYear);
         if (financialYear.getId() != null) {
@@ -74,6 +76,7 @@ public class FinancialYearResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/financial-year/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<FinancialYear> updateApplication(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody FinancialYear financialYear
@@ -132,6 +135,7 @@ public class FinancialYearResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/financial-year/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteApplication(@PathVariable Long id) {
         log.debug("REST request to delete FinancialYear : {}", id);
         financialYearRepository.deleteById(id);

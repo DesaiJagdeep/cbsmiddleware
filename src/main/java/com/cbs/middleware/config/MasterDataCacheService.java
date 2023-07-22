@@ -88,16 +88,5 @@ public class MasterDataCacheService implements ApplicationRunner {
             e.printStackTrace();
             System.err.println("Error in MasterDataCacheService.CastCategoryMasterList" + e);
         }
-
-        System.out.println("+++++++++++++++++++++++++" + CastCategoryMasterList);
-        System.out.println("+++++++++++++++++++++++++" + FarmerTypeMasterList);
-        System.out.println("+++++++++++++++++++++++++" + FarmerCategoryMasterList);
-        System.out.println("+++++++++++++++++++++++++" + OccupationMasterList);
-        System.out.println("+++++++++++++++++++++++++" + RelativeMasterList);
-        System.out.println("+++++++++++++++++++++++++" + AccountHolderMasterList);
-        System.out.println("+++++++++++++++++++++++++" + LandTypeMasterList);
-        System.out.println("+++++++++++++++++++++++++" + SeasonMasterList);
-        System.out.println("+++++++++++++++++++++++++" + ActivityTypeMasterList);
-        System.out.println("+++++++++++++++++++++++++" + CropMasterList);
     }
 }

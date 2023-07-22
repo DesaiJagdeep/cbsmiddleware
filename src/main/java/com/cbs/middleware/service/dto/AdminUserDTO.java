@@ -29,16 +29,19 @@ public class AdminUserDTO implements Serializable {
     @Size(max = 50)
     private String lastName;
 
-    @Size(max = 10)
+    @Size(max = 50)
+    private String bankCode;
+
+    @Size(max = 50)
     private String branchName;
 
-    @Size(max = 10)
+    @Size(max = 50)
     private String branchCode;
 
-    @Size(max = 10)
+    @Size(max = 50)
     private String pacsName;
 
-    @Size(max = 10)
+    @Size(max = 50)
     private String pacsNumber;
 
     @Email
@@ -83,13 +86,21 @@ public class AdminUserDTO implements Serializable {
         this.branchCode = user.getBranchCode();
         this.pacsName = user.getPacsName();
         this.pacsNumber = user.getPacsNumber();
-
+        this.bankCode = user.getBankCode();
         this.branchCode = user.getBranchCode();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     public void setId(Long id) {

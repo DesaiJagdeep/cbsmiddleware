@@ -9,10 +9,12 @@ import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.SecurityUtils;
 import com.cbs.middleware.service.dto.AdminUserDTO;
 import com.cbs.middleware.service.dto.UserDTO;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -154,17 +156,8 @@ public class UserService {
             user.setEmail(userDTO.getEmail().toLowerCase());
         }
 
-        if (userDTO.getBranchCode() != null) {
-            user.setBranchCode(userDTO.getBranchCode());
-        }
-        if (userDTO.getBranchName() != null) {
-            user.setBranchName(userDTO.getBranchName());
-        }
-        if (userDTO.getPacsName() != null) {
-            user.setPacsName(userDTO.getPacsName());
-        }
-        if (userDTO.getPacsNumber() != null) {
-            user.setPacsNumber(userDTO.getPacsNumber());
+        if (StringUtils.isNotBlank(userDTO.getBankCode())) {
+            user.setBankCode(userDTO.getBankCode());
         }
 
         user.setImageUrl(userDTO.getImageUrl());
@@ -173,7 +166,7 @@ public class UserService {
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
-        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
+        String encryptedPassword = passwordEncoder.encode(Constants.DefaultPassword);
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
@@ -187,6 +180,41 @@ public class UserService {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
+
+            for (Authority authority : authorities) {
+                if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
+                    if (StringUtils.isBlank(userDTO.getBankCode())) {
+                        throw new BadRequestAlertException("provide bank code", "USER", "bankCodeNotExist");
+                    }
+                } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+                    if (StringUtils.isBlank(userDTO.getBranchCode())) {
+                        throw new BadRequestAlertException("provide branch code", "USER", "branchCodeNotExist");
+                    } else {
+                        user.setBranchCode(userDTO.getBranchCode());
+                    }
+
+                    if (StringUtils.isNotBlank(userDTO.getBranchName())) {
+                        user.setBranchName(userDTO.getBranchName());
+                    }
+                } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+                    if (StringUtils.isBlank(userDTO.getBranchCode()) && StringUtils.isBlank(userDTO.getPacsNumber())) {
+                        throw new BadRequestAlertException("provide branch code and packs code", "USER", "branch&packsCodeNotExist");
+                    } else {
+                        user.setBranchCode(userDTO.getBranchCode());
+                        user.setPacsNumber(userDTO.getPacsNumber());
+                    }
+
+                    if (StringUtils.isNotBlank(userDTO.getBranchName())) {
+                        user.setBranchName(userDTO.getBranchName());
+                    }
+
+                    if (StringUtils.isNotBlank(userDTO.getPacsName())) {
+                        user.setPacsName(userDTO.getPacsName());
+                    }
+                } else {
+                    throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");
+                }
+            }
         }
         userRepository.save(user);
         this.clearUserCaches(user);
@@ -213,18 +241,11 @@ public class UserService {
                 if (userDTO.getEmail() != null) {
                     user.setEmail(userDTO.getEmail().toLowerCase());
                 }
-                if (userDTO.getBranchCode() != null) {
-                    user.setBranchCode(userDTO.getBranchCode());
+
+                if (StringUtils.isNoneBlank(userDTO.getBankCode())) {
+                    user.setBankCode(userDTO.getBankCode());
                 }
-                if (userDTO.getBranchName() != null) {
-                    user.setBranchName(userDTO.getBranchName());
-                }
-                if (userDTO.getPacsName() != null) {
-                    user.setPacsName(userDTO.getPacsName());
-                }
-                if (userDTO.getPacsNumber() != null) {
-                    user.setPacsNumber(userDTO.getPacsNumber());
-                }
+
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
@@ -237,6 +258,48 @@ public class UserService {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .forEach(managedAuthorities::add);
+
+                for (Authority authority : managedAuthorities) {
+                    if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
+                        if (StringUtils.isBlank(userDTO.getBankCode())) {
+                            throw new BadRequestAlertException("provide bank code", "USER", "bankCodeNotExist");
+                        }
+                        user.setBranchCode("");
+                        user.setBranchName("");
+                        user.setPacsName("");
+                        user.setPacsNumber("");
+                    } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+                        if (StringUtils.isBlank(userDTO.getBranchCode())) {
+                            throw new BadRequestAlertException("provide branch code", "USER", "branchCodeNotExist");
+                        } else {
+                            user.setBranchCode(userDTO.getBranchCode());
+                        }
+
+                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
+                            user.setBranchName(userDTO.getBranchName());
+                        }
+                        user.setPacsName("");
+                        user.setPacsNumber("");
+                    } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+                        if (StringUtils.isBlank(userDTO.getBranchCode()) && StringUtils.isBlank(userDTO.getPacsNumber())) {
+                            throw new BadRequestAlertException("provide branch code and packs code", "USER", "branch&packsCodeNotExist");
+                        } else {
+                            user.setBranchCode(userDTO.getBranchCode());
+                            user.setPacsNumber(userDTO.getPacsNumber());
+                        }
+
+                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
+                            user.setBranchName(userDTO.getBranchName());
+                        }
+
+                        if (StringUtils.isNotBlank(userDTO.getPacsName())) {
+                            user.setPacsName(userDTO.getPacsName());
+                        }
+                    } else {
+                        throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");
+                    }
+                }
+                userRepository.save(user);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;

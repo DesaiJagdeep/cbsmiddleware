@@ -11,6 +11,7 @@ import com.cbs.middleware.service.criteria.ApplicationLogCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,7 +39,8 @@ import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.cbs.middleware.domain.ApplicationLog}.
+ * REST controller for managing
+ * {@link com.cbs.middleware.domain.ApplicationLog}.
  */
 @RestController
 @RequestMapping("/api")
@@ -74,7 +76,9 @@ public class ApplicationLogResource {
      * {@code POST  /application-logs} : Create a new applicationLog.
      *
      * @param applicationLog the applicationLog to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new applicationLog, or with status {@code 400 (Bad Request)} if the applicationLog has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new applicationLog, or with status {@code 400 (Bad Request)}
+     *         if the applicationLog has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/application-logs")
@@ -93,11 +97,13 @@ public class ApplicationLogResource {
     /**
      * {@code PUT  /application-logs/:id} : Updates an existing applicationLog.
      *
-     * @param id the id of the applicationLog to save.
+     * @param id             the id of the applicationLog to save.
      * @param applicationLog the applicationLog to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated applicationLog,
-     * or with status {@code 400 (Bad Request)} if the applicationLog is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the applicationLog couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated applicationLog, or with status {@code 400 (Bad Request)}
+     *         if the applicationLog is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the applicationLog couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/application-logs/{id}")
@@ -125,14 +131,17 @@ public class ApplicationLogResource {
     }
 
     /**
-     * {@code PATCH  /application-logs/:id} : Partial updates given fields of an existing applicationLog, field will ignore if it is null
+     * {@code PATCH  /application-logs/:id} : Partial updates given fields of an
+     * existing applicationLog, field will ignore if it is null
      *
-     * @param id the id of the applicationLog to save.
+     * @param id             the id of the applicationLog to save.
      * @param applicationLog the applicationLog to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated applicationLog,
-     * or with status {@code 400 (Bad Request)} if the applicationLog is not valid,
-     * or with status {@code 404 (Not Found)} if the applicationLog is not found,
-     * or with status {@code 500 (Internal Server Error)} if the applicationLog couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated applicationLog, or with status {@code 400 (Bad Request)}
+     *         if the applicationLog is not valid, or with status
+     *         {@code 404 (Not Found)} if the applicationLog is not found, or with
+     *         status {@code 500 (Internal Server Error)} if the applicationLog
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/application-logs/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -165,7 +174,8 @@ public class ApplicationLogResource {
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of applicationLogs in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of applicationLogs in body.
      */
     @GetMapping("/application-logs")
     public ResponseEntity<List<ApplicationLog>> getAllApplicationLogs(
@@ -179,17 +189,23 @@ public class ApplicationLogResource {
     }
 
     @GetMapping("/application-error-records/{IPId}")
-    public ResponseEntity<List<ApplicationLog>> getAllApplicationLogs(@PathVariable Long IPId) {
-        List<ApplicationLog> applicationLogList = applicationLogRepository.findAllByIssPortalId(IPId);
+    public ResponseEntity<List<IssFileParser>> getAllApplicationLogs(@PathVariable Long IPId) {
+        List<ApplicationLog> applicationLogList = applicationLogRepository.findAllByIssPortalIdAndStatus(IPId, "ERROR");
 
-        return ResponseEntity.ok().body(applicationLogList);
+        List<IssFileParser> issFileParserList = new ArrayList<>();
+        for (ApplicationLog applicationLog : applicationLogList) {
+            issFileParserList.add(applicationLog.getIssFileParser());
+        }
+
+        return ResponseEntity.ok().body(issFileParserList);
     }
 
     /**
      * {@code GET  /application-logs/count} : count all the applicationLogs.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
+     *         in body.
      */
     @GetMapping("/application-logs/count")
     public ResponseEntity<Long> countApplicationLogs(ApplicationLogCriteria criteria) {
@@ -201,7 +217,8 @@ public class ApplicationLogResource {
      * {@code GET  /application-logs/:id} : get the "id" applicationLog.
      *
      * @param id the id of the applicationLog to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the applicationLog, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the applicationLog, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/application-logs/{id}")
     public ResponseEntity<ApplicationLog> getApplicationLog(@PathVariable Long id) {

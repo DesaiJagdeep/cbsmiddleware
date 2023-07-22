@@ -54,6 +54,10 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     private String email;
 
     @Size(min = 5, max = 254)
+    @Column(name = "bank_code")
+    private String bankCode;
+
+    @Size(min = 5, max = 254)
     @Column(name = "branch_code")
     private String branchCode;
 
@@ -139,6 +143,14 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setBranchName(String branchName) {
         this.branchName = branchName;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     public String getPacsName() {

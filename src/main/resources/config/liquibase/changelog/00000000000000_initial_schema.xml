@@ -33,7 +33,7 @@
             <column name="activation_key" type="varchar(20)"/>
             <column name="reset_key" type="varchar(20)"/>
             
-            
+            <column name="bank_code" type="varchar(100)"/>
             <column name="branch_code" type="varchar(100)"/>
             <column name="branch_name" type="varchar(100)"/>
             <column name="pacs_name" type="varchar(100)"/>

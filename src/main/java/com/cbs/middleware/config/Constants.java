@@ -15,6 +15,8 @@ public final class Constants {
 
     public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
 
+    public static final String DefaultPassword = "Bank@123";
+
     //public static final String ORIGINAL_FILE_PATH = "D://PDCC//file//originalFiles/";
 
     private Constants() {}

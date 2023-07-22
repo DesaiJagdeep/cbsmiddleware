@@ -48,5 +48,5 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
 
     Optional<ApplicationLog> findOneByIssFileParser(IssFileParser issFileParser);
 
-    List<ApplicationLog> findAllByIssPortalId(Long iPId);
+    List<ApplicationLog> findAllByIssPortalIdAndStatus(Long iPId, String status);
 }

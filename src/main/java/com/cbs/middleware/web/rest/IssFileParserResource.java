@@ -1505,7 +1505,7 @@ public class IssFileParserResource {
             }
             return new String(cipher.doFinal(val));
         } catch (Exception e) {
-            System.out.println("Error while decrypting: " + e.toString());
+            log.error("Error while decrypting: " + e);
         }
         return null;
     }

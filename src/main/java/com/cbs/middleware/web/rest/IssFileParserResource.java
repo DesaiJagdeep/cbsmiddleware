@@ -2,38 +2,12 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.config.MasterDataCacheService;
-import com.cbs.middleware.domain.AccountDetails;
-import com.cbs.middleware.domain.AccountHolderMaster;
-import com.cbs.middleware.domain.Activities;
-import com.cbs.middleware.domain.ActivityRows;
-import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.ApplicationPayload;
-import com.cbs.middleware.domain.ApplicationsByBatchAckId;
-import com.cbs.middleware.domain.BasicDetails;
-import com.cbs.middleware.domain.BatchAckId;
 import com.cbs.middleware.domain.BatchData;
-import com.cbs.middleware.domain.BatchTransaction;
-import com.cbs.middleware.domain.CBSResponce;
-import com.cbs.middleware.domain.CastCategoryMaster;
-import com.cbs.middleware.domain.CropMaster;
-import com.cbs.middleware.domain.DataByBatchAckId;
-import com.cbs.middleware.domain.DesignationMaster;
-import com.cbs.middleware.domain.FarmerCategoryMaster;
-import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.FileParseConf;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
-import com.cbs.middleware.domain.JointAccountHolders;
-import com.cbs.middleware.domain.LandTypeMaster;
-import com.cbs.middleware.domain.LoanDetails;
-import com.cbs.middleware.domain.OccupationMaster;
-import com.cbs.middleware.domain.RelativeMaster;
-import com.cbs.middleware.domain.ResidentialDetails;
-import com.cbs.middleware.domain.SeasonMaster;
-import com.cbs.middleware.domain.SubmitApiRespDecryption;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
@@ -58,8 +32,6 @@ import com.cbs.middleware.service.IssFileParserService;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -70,12 +42,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -105,14 +75,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -127,7 +92,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -163,9 +127,6 @@ public class IssFileParserResource {
 
     @Autowired
     SeasonMasterRepository seasonMasterRepository;
-
-    @Autowired
-    private RestTemplate restTemplate;
 
     @Autowired
     IssPortalFileRepository issPortalFileRepository;
@@ -268,7 +229,6 @@ public class IssFileParserResource {
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(6); // Get the current row
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + getCellValue(row.getCell(0)));
 
             String fYear = getCellValue(row.getCell(0));
             if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}")) {
@@ -322,6 +282,7 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(6);
+
             rbaControl.authenticateByCode(
                 getCellValue(row.getCell(2)),
                 getCellValue(row.getCell(4)),
@@ -532,7 +493,15 @@ public class IssFileParserResource {
 
                     issFileParser.setRecoveryDate(getDateCellValue(row.getCell(50)));
                     issFileParser.setIssPortalFile(issPortalFile);
-                    issFileParserList.add(issFileParser);
+
+                    if (
+                        StringUtils.isNotBlank(issFileParser.getFinancialYear()) &&
+                        StringUtils.isNotBlank(issFileParser.getBankName()) &&
+                        StringUtils.isNotBlank(issFileParser.getBankCode()) &&
+                        StringUtils.isNotBlank(issFileParser.getBranchCode())
+                    ) {
+                        issFileParserList.add(issFileParser);
+                    }
                 }
             }
 

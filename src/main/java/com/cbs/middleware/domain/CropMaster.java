@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "crop_master")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class CropMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -110,10 +110,22 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
         return getClass().hashCode();
     }
 
+    @Override
+    public String toString() {
+        return (
+            "CropMaster [id=" +
+            id +
+            ", cropCode=" +
+            cropCode +
+            ", cropName=" +
+            cropName +
+            ", categoryCode=" +
+            categoryCode +
+            ", categoryName=" +
+            categoryName +
+            "]"
+        );
+    }
     // prettier-ignore
-	@Override
-	public String toString() {
-		return "CropMaster{" + "id=" + getId() + ", cropCode='" + getCropCode() + "'" + ", cropName='" + getCropName()
-				+ "'" + ", categoryCode='" + getCategoryCode() + "'" + "}";
-	}
+
 }

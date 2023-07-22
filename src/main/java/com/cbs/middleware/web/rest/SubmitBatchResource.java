@@ -254,6 +254,8 @@ public class SubmitBatchResource {
 
             if (CastCategoryCode.isPresent()) {
                 basicDetails.setSocialCategory(CastCategoryCode.get());
+            } else {
+                basicDetails.setSocialCategory(4);
             }
 
             Optional<Integer> farmerCategoryCode = MasterDataCacheService.FarmerCategoryMasterList
@@ -502,6 +504,8 @@ public class SubmitBatchResource {
 
             if (seasonMasterCode.isPresent()) {
                 activityRows.setSeason(seasonMasterCode.get());
+            } else {
+                activityRows.setSeason(3);
             }
 
             activityRowsList.add(activityRows);
@@ -678,5 +682,378 @@ public class SubmitBatchResource {
         applicationLog.setErrorType("Validation Error");
         applicationLog.setStatus("ERROR");
         return applicationLog;
+    }
+
+    // -----------------------------------------------testing
+    // api--------------------------------------------
+
+    @PostMapping("/submit-batch-test")
+    @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','SUBMIT_BATCH','SUBMIT')")
+    public List<CBSMiddleareInputPayload> submitBatchTest(@RequestBody IssPortalFile issPortalFile) {
+        List<CBSMiddleareInputPayload> cbsResponceStringList = new ArrayList<>();
+
+        List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
+            null,
+            0l,
+            issPortalFile.getId()
+        );
+
+        int batchSize = 1000;
+
+        for (int i = 1; i < applicationList.size(); i += batchSize) {
+            List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
+            CBSMiddleareInputPayload cbsResponce = processBatchTest(batch);
+            cbsResponceStringList.add(cbsResponce);
+        }
+
+        return cbsResponceStringList;
+    }
+
+    private CBSMiddleareInputPayload processBatchTest(List<Application> applicationTransactionList) {
+        // Batch ID (14 Digits): <6 character DDMMYY>+<3 character Bank code as per
+        // NCIP>+< 5 digit
+        // running number>
+        // If Today’s date is 29 Aug 2022 the Batch id can be 29082202300001
+        String cbsResponceString = "";
+        List<ApplicationPayload> applicationsList = new ArrayList<>();
+        BatchData batchData = new BatchData();
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
+        String formattedDate = dateFormat.format(currentDate);
+
+        String batchId = formattedDate + applicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
+
+        // this code added for just maintaining batch id after poc done remove
+        // ----------
+        DesignationMaster designationMaster = new DesignationMaster();
+        designationMaster.setDesignationCode(batchId);
+        designationMasterRepository.save(designationMaster);
+        // -------------------------------------
+
+        batchData.setBatchId(batchId);
+        batchData.setFinancialYear(applicationTransactionList.get(0).getIssFileParser().getFinancialYear());
+        List<Application> applicationTransactionListSave = new ArrayList<>();
+        for (Application applicationTransaction : applicationTransactionList) {
+            IssFileParser issFileParser = applicationTransaction.getIssFileParser();
+
+            ApplicationPayload applicationPayload = new ApplicationPayload();
+            String uniqueId = batchData.getBatchId() + generateRandomNumber();
+
+            applicationPayload.setUniqueId(uniqueId);
+            // application.setUniqueId("1207231567261098695");
+
+            applicationPayload.setRecordStatus(applicationProperties.getRecordStatusForFarmerAndLoan());
+
+            // "basicDetails": {
+            // "beneficiaryName": "SANGALE LATA BAPURAO",
+            // "aadhaarNumber": "731934678958",
+            // "beneficiaryPassbookName": "SANGALE LATA BAPURAO",
+            // "mobile": "9325498957",
+            // "dob": "1987-01-01",
+            // "gender": 2,
+            // "socialCategory": 4,
+            // "farmerCategory": 1,
+            // "farmerType": 3,
+            // "primaryOccupation": 1,
+            // "relativeType": 4,
+            // "relativeName": "SANGLE BAPURAO"
+            // },
+
+            BasicDetails basicDetails = new BasicDetails();
+            basicDetails.setBeneficiaryName(issFileParser.getFarmerName().trim());
+            basicDetails.setAadhaarNumber(issFileParser.getAadharNumber());
+            basicDetails.setBeneficiaryPassbookName(issFileParser.getFarmerName());
+            basicDetails.setMobile(issFileParser.getMobileNo());
+            basicDetails.setDob("" + issFileParser.getDateofBirth());
+
+            if ("male".equalsIgnoreCase(issFileParser.getGender())) {
+                basicDetails.setGender(1);
+            } else if ("female".equalsIgnoreCase(issFileParser.getGender())) {
+                basicDetails.setGender(2);
+            } else {
+                basicDetails.setGender(3);
+            }
+
+            Optional<Integer> CastCategoryCode = MasterDataCacheService.CastCategoryMasterList
+                .stream()
+                .filter(c -> c.getCastCategoryName().toLowerCase().contains(issFileParser.getSocialCategory().toLowerCase()))
+                .map(CastCategoryMaster::getCastCategoryCode)
+                .findFirst();
+
+            if (CastCategoryCode.isPresent()) {
+                basicDetails.setSocialCategory(CastCategoryCode.get());
+            }
+
+            Optional<Integer> farmerCategoryCode = MasterDataCacheService.FarmerCategoryMasterList
+                .stream()
+                .filter(f -> f.getFarmerCategory().toLowerCase().contains(issFileParser.getFarmersCategory().toLowerCase()))
+                .map(FarmerCategoryMaster::getFarmerCategoryCode)
+                .findFirst();
+
+            if (farmerCategoryCode.isPresent()) {
+                basicDetails.setFarmerCategory(farmerCategoryCode.get());
+            }
+
+            Optional<Integer> farmerTypeCode = MasterDataCacheService.FarmerTypeMasterList
+                .stream()
+                .filter(f -> f.getFarmerType().toLowerCase().contains(issFileParser.getFarmerType().toLowerCase()))
+                .map(FarmerTypeMaster::getFarmerTypeCode)
+                .findFirst();
+
+            if (farmerTypeCode.isPresent()) {
+                basicDetails.setFarmerType(farmerTypeCode.get());
+            }
+
+            Optional<Integer> occupationMasterCode = MasterDataCacheService.OccupationMasterList
+                .stream()
+                .filter(f -> f.getOccupationName().toLowerCase().contains(issFileParser.getPrimaryOccupation().toLowerCase()))
+                .map(OccupationMaster::getOccupationCode)
+                .findFirst();
+
+            if (occupationMasterCode.isPresent()) {
+                basicDetails.setPrimaryOccupation(occupationMasterCode.get());
+            }
+
+            String relativeType = issFileParser.getRelativeType();
+
+            if (
+                StringUtils.isNotBlank(issFileParser.getRelativeType()) &&
+                issFileParser.getRelativeType().contains("Mother") ||
+                relativeType.contains("Father") ||
+                relativeType.contains("Wife") ||
+                relativeType.contains("Husband") ||
+                relativeType.contains("Son") ||
+                relativeType.contains("Other")
+            ) {
+                switch (issFileParser.getRelativeType().toLowerCase()) {
+                    case "mother":
+                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                            basicDetails.setRelativeType(1);
+                        } else if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                        ) {
+                            basicDetails.setRelativeType(2);
+                        }
+
+                        break;
+                    case "father":
+                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                            basicDetails.setRelativeType(1);
+                        } else if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                        ) {
+                            basicDetails.setRelativeType(2);
+                        }
+                        break;
+                    case "wife":
+                        basicDetails.setRelativeType(3);
+                        break;
+                    case "husband":
+                        basicDetails.setRelativeType(4);
+                        break;
+                    case "son":
+                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                            basicDetails.setRelativeType(1);
+                        } else if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                        ) {
+                            basicDetails.setRelativeType(2);
+                        }
+                        break;
+                    case "brother":
+                        basicDetails.setRelativeType(3);
+                        break;
+                    case "other":
+                        basicDetails.setRelativeType(3);
+                        break;
+                    default:
+                        basicDetails.setRelativeType(3);
+                        break;
+                }
+            } else {
+                Optional<Integer> relativeMasterCode = MasterDataCacheService.RelativeMasterList
+                    .stream()
+                    .filter(f -> f.getRelativeName().toLowerCase().contains(relativeType))
+                    .map(RelativeMaster::getRelativeCode)
+                    .findFirst();
+
+                if (relativeMasterCode.isPresent()) {
+                    basicDetails.setRelativeType(relativeMasterCode.get());
+                } else {
+                    basicDetails.setRelativeType(3);
+                }
+            }
+
+            basicDetails.setRelativeName(issFileParser.getRelativeName().trim());
+
+            applicationPayload.setBasicDetails(basicDetails);
+
+            // "residentialDetails": {
+            // "residentialVillage": "557043",
+            // "residentialAddress": "A BIRANGUDI PO KALASTAL INDAPUR DIST PUNE",
+            // "residentialPincode": "413105"
+            // },
+
+            ResidentialDetails residentialDetails = new ResidentialDetails();
+
+            residentialDetails.setResidentialVillage("" + issFileParser.getVillageCode());
+            residentialDetails.setResidentialAddress(issFileParser.getAddress());
+            residentialDetails.setResidentialPincode("" + issFileParser.getPinCode());
+
+            applicationPayload.setResidentialDetails(residentialDetails);
+
+            // "accountDetails": {
+            // "accountNumber": "198001700004317",
+            // "ifsc": "HDFC0CPDCCB",
+            // "branchCode": "198",
+            // "accountHolder": 1,
+            // "jointAccountHolders": []
+            // },
+
+            AccountDetails accountDetails = new AccountDetails();
+            accountDetails.setAccountNumber("" + issFileParser.getAccountNumber());
+            accountDetails.setIfsc(issFileParser.getIfsc());
+            accountDetails.setBranchCode(issFileParser.getSchemeWiseBranchCode());
+
+            // add account holder code from account honder type
+
+            Optional<Integer> accountHolderMasterCode = MasterDataCacheService.AccountHolderMasterList
+                .stream()
+                .filter(f -> f.getAccountHolder().toLowerCase().contains(issFileParser.getAccountHolderType().toLowerCase()))
+                .map(AccountHolderMaster::getAccountHolderCode)
+                .findFirst();
+
+            if (accountHolderMasterCode.isPresent()) {
+                accountDetails.setAccountHolder(accountHolderMasterCode.get());
+            }
+
+            // fields need to map in xcel
+            JointAccountHolders jointAccountHolders = new JointAccountHolders();
+            jointAccountHolders.setName(null);
+            jointAccountHolders.setAadhaarNumber(null);
+            List<JointAccountHolders> JointAccountHoldersList = new ArrayList<JointAccountHolders>();
+            accountDetails.setJointAccountHolders(JointAccountHoldersList);
+
+            applicationPayload.setAccountDetails(accountDetails);
+
+            // "loanDetails": {
+            // "kccLoanSanctionedDate": "2022-04-26",
+            // "kccLimitSanctionedAmount": 60800,
+            // "kccDrawingLimitForFY": 60800
+            // },
+
+            LoanDetails loanDetails = new LoanDetails();
+            loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+            loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+            applicationPayload.setLoanDetails(loanDetails);
+            // "activities": [
+            // {
+            // "activityType": 1,
+            // "loanSanctionedDate": "2022-04-26",
+            // "loanSanctionedAmount": 60800,
+            // "activityRows": [
+            // {
+            // "landVillage": "557043",
+            // "cropCode": "011507800",
+            // "surveyNumber": "265/1",
+            // "khataNumber": "1247", //satBaraSubsurveyNo
+            // "landArea": 0.19, //"areaHect": 0.19,
+            // "landType": 1, // "landType": "Irrigated",
+            // "season": 3
+            // }
+            // ]
+            // }
+            // ]
+            // }
+            List<Activities> activityList = new ArrayList<>();
+            Activities activities = new Activities();
+
+            // added activity type code as on season name
+            Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                .stream()
+                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                .map(ActivityType::getActivityTypeCode)
+                .findFirst();
+
+            if (activityTypeCode.isPresent()) {
+                activities.setActivityType((long) activityTypeCode.get());
+            } else {
+                activities.setActivityType(1l);
+            }
+
+            activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+
+            ActivityRows activityRows = new ActivityRows();
+            List<ActivityRows> activityRowsList = new ArrayList<>();
+            activityRows.setLandVillage("" + issFileParser.getVillageCode());
+
+            // add crop code from crop name
+            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                .stream()
+                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                .map(CropMaster::getCropCode)
+                .findFirst();
+            /*
+             * String findCropCodeByCropNameIsContaining = cropMasterRepository
+             * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
+             *
+             * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
+             */
+
+            if (cropNameMasterCode.isPresent()) {
+                activityRows.setCropCode(cropNameMasterCode.get());
+            }
+
+            activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+            activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+            activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
+
+            // add land type code and season code from land type and season name
+            Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
+                .stream()
+                .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
+                .map(LandTypeMaster::getLandTypeCode)
+                .findFirst();
+
+            if (landTypeMasterCode.isPresent()) {
+                activityRows.setLandType(landTypeMasterCode.get());
+            }
+
+            Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
+                .stream()
+                .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                .map(SeasonMaster::getSeasonCode)
+                .findFirst();
+
+            if (seasonMasterCode.isPresent()) {
+                activityRows.setSeason(seasonMasterCode.get());
+            }
+
+            activityRowsList.add(activityRows);
+            activities.setActivityRows(activityRowsList);
+
+            activityList.add(activities);
+
+            applicationPayload.setActivities(activityList);
+
+            applicationsList.add(applicationPayload);
+
+            applicationTransaction.setBatchId(batchId);
+            applicationTransaction.setUniqueId(uniqueId);
+            applicationTransactionListSave.add(applicationTransaction);
+        }
+
+        batchData.setApplications(applicationsList);
+
+        // String encryption = encryption(batchData);
+
+        // Making input payload
+        CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
+        cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
+        cbsMiddleareInputPayload.setData(batchData);
+
+        return cbsMiddleareInputPayload;
     }
 }

@@ -41,13 +41,10 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     List<Application> findAllByIssFilePortalId(Long id);
 
-    List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object object, long l, Long id);
-    //    List<Application> findAllByBatchIdAndApplicationStatus(Object object, long l);
-    //
-    //    @Query("SELECT DISTINCT a.financialYear FROM Application a")
-    //    Set<String> findUniqueFinancialYear();
-    //
-    //    List<Application> findAllByBatchIdAndApplicationStatusAndFinancialYear(Object object, long l, String finantialYear);
+    // @Query("select application from Application application  where application.batchId is null and  application.applicationStatus=0 and application.issFilePortalId =:issFilePortalId")
+    //List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId") Long issFilePortalId);
+
+    List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Long errorStatus, Long issFilePortalId);
 
     Application findOneByUniqueId(String uniqueId);
 }

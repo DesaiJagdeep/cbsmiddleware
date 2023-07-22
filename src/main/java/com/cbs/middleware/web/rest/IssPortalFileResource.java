@@ -65,7 +65,7 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/download-file/{idIFP}")
-    @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+    // @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
         Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
         if (findByUniqueName.isPresent()) {

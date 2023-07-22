@@ -81,6 +81,7 @@ public class TokenProvider {
         Map<String, Object> mapObj = new HashMap<>();
         Optional<com.cbs.middleware.domain.User> findOneByLogin = userRepository.findOneByLogin(authentication.getName());
         if (findOneByLogin.isPresent()) {
+            mapObj.put("bankCode", findOneByLogin.get().getBankCode());
             mapObj.put("branchName", findOneByLogin.get().getBranchName());
             mapObj.put("branchCode", findOneByLogin.get().getBranchCode());
             mapObj.put("pacsName", findOneByLogin.get().getPacsName());

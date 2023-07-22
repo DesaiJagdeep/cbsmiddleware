@@ -179,7 +179,9 @@ public class RBAControl {
 
     public void authenticateByCode(String bankCode, String branchCode, String packsNumber, String ENTITY_NAME) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+        System.out.println(">>>>>>>>>>>>>bankCode>>>>>>>>>>>>>>>>>>" + bankCode);
+        System.out.println(">>>>>>>>>>>>>>>branchCode>>>>>>>>>>>>>>>>" + branchCode);
+        System.out.println(">>>>>>>>>>>>>>>>>>>packsNumber>>>>>>>>>>>>" + packsNumber);
         if (auth == null) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         }
@@ -190,9 +192,9 @@ public class RBAControl {
         if (user.isPresent()) {
             if (StringUtils.isNotBlank(user.get().getPacsNumber()) && !user.get().getPacsNumber().equalsIgnoreCase(packsNumber)) {
                 throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
-            } else if (user.get().getBranchCode().equalsIgnoreCase(branchCode)) {
+            } else if (StringUtils.isNotBlank(user.get().getBranchCode()) && !user.get().getBranchCode().equalsIgnoreCase(branchCode)) {
                 throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
-            } else if (user.get().getBankCode().equalsIgnoreCase(bankCode)) {
+            } else if (StringUtils.isNotBlank(user.get().getBankCode()) && !user.get().getBankCode().equalsIgnoreCase(bankCode)) {
                 throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
             }
         } else {

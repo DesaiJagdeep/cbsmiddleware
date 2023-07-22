@@ -208,7 +208,6 @@ public class BankBranchMasterResource {
             st.append("\"}");
 
             String encryption = fileParserResource.encryptionStrings("" + st);
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + encryption);
             //Making input payload
             CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
             cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);

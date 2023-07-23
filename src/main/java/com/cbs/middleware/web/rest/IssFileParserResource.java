@@ -1765,7 +1765,7 @@ public class IssFileParserResource {
      */
 
     @GetMapping("/iss-file-parsers")
-    @PreAuthorize("@authentication.hasPermision('','','','VIEW_RECORD','VIEW')")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('VIEW_RECORD','VIEW')")
     public ResponseEntity<List<IssFileParser>> getAllIssFileParsers(
         IssFileParserCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable

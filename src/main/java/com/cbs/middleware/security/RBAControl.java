@@ -1,5 +1,6 @@
 package com.cbs.middleware.security;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.Permission;
@@ -56,13 +57,8 @@ public class RBAControl {
 
     private static String SELF = "SELF";
     private static String OWN = "OWN";
-    private static String ALL = "ALL";
     private static String YES = "YES";
     private static String NO = "NO";
-    private static String CREATE = "CREATE";
-    private static String VIEW = "VIEW";
-    private static String admin = "admin";
-    private static String user = "user";
 
     public boolean hasPermision(Long userId, Long issPortalId, Long issFileParserId, String object, String action) throws Exception {
         String branchCodeFromId = "";
@@ -111,13 +107,13 @@ public class RBAControl {
             JwsHeader header = parseClaimsJws.getHeader();
 
             String branchCodeFromToken = "";
-            if (header.get("branchName") != null) {
-                branchCodeFromToken = "" + header.get("branchCode");
+            if (header.get(Constants.BRANCH_CODE_KEY) != null) {
+                branchCodeFromToken = "" + header.get(Constants.BRANCH_CODE_KEY);
             }
 
             String pacsNumberFromToken = "";
-            if (header.get("branchName") != null) {
-                pacsNumberFromToken = "" + header.get("pacsNumber");
+            if (header.get(Constants.PACKS_CODE_KEY) != null) {
+                pacsNumberFromToken = "" + header.get(Constants.PACKS_CODE_KEY);
             }
 
             Optional<IssPortalFile> issFilePortal = null;
@@ -179,9 +175,6 @@ public class RBAControl {
 
     public void authenticateByCode(String bankCode, String branchCode, String packsNumber, String ENTITY_NAME) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(">>>>>>>>>>>>>bankCode>>>>>>>>>>>>>>>>>>" + bankCode);
-        System.out.println(">>>>>>>>>>>>>>>branchCode>>>>>>>>>>>>>>>>" + branchCode);
-        System.out.println(">>>>>>>>>>>>>>>>>>>packsNumber>>>>>>>>>>>>" + packsNumber);
         if (auth == null) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         }

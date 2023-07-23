@@ -54,4 +54,6 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
     Optional<IssFileParser> findOneByIdAndPacsNumber(Long id, String string);
 
     Optional<IssFileParser> findOneByIdAndBranchCode(Long id, String string);
+
+    Optional<IssFileParser> findOneByIdAndBankCode(Long id, String string);
 }

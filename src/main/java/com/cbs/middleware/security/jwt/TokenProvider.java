@@ -1,5 +1,6 @@
 package com.cbs.middleware.security.jwt;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.management.SecurityMetersService;
 import com.cbs.middleware.repository.UserRepository;
 import io.jsonwebtoken.*;
@@ -81,11 +82,9 @@ public class TokenProvider {
         Map<String, Object> mapObj = new HashMap<>();
         Optional<com.cbs.middleware.domain.User> findOneByLogin = userRepository.findOneByLogin(authentication.getName());
         if (findOneByLogin.isPresent()) {
-            mapObj.put("bankCode", findOneByLogin.get().getBankCode());
-            mapObj.put("branchName", findOneByLogin.get().getBranchName());
-            mapObj.put("branchCode", findOneByLogin.get().getBranchCode());
-            mapObj.put("pacsName", findOneByLogin.get().getPacsName());
-            mapObj.put("pacsNumber", findOneByLogin.get().getPacsNumber());
+            mapObj.put(Constants.BANK_CODE_KEY, findOneByLogin.get().getBankCode());
+            mapObj.put(Constants.BRANCH_CODE_KEY, findOneByLogin.get().getBranchCode());
+            mapObj.put(Constants.PACKS_CODE_KEY, findOneByLogin.get().getPacsNumber());
         }
         return Jwts
             .builder()

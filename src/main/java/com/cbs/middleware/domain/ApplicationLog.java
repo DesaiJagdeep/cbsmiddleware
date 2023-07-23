@@ -57,6 +57,15 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
     private IssFileParser issFileParser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public ApplicationLog(String errorMessage, IssFileParser issFileParser) {
+        super();
+        this.errorMessage = errorMessage;
+        this.issFileParser = issFileParser;
+    }
+
+    public ApplicationLog() {
+        super();
+    }
 
     public Long getId() {
         return this.id;

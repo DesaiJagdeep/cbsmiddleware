@@ -2,12 +2,21 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.config.MasterDataCacheService;
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.BatchData;
+import com.cbs.middleware.domain.CastCategoryMaster;
+import com.cbs.middleware.domain.FarmerCategoryMaster;
+import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.FileParseConf;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.domain.LandTypeMaster;
+import com.cbs.middleware.domain.OccupationMaster;
+import com.cbs.middleware.domain.RelativeMaster;
+import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
@@ -484,15 +493,7 @@ public class IssFileParserResource {
 
                     issFileParser.setBlockName(getCellValue(row.getCell(24)));
 
-                    if (
-                        getCellValue(row.getCell(25)) != null &&
-                        getCellValue(row.getCell(25)).contains(".") &&
-                        getCellValue(row.getCell(25)).matches("^[0-9.]+$")
-                    ) {
-                        issFileParser.setVillageCode("" + Math.round(Double.parseDouble(getCellValue(row.getCell(25)))));
-                    } else {
-                        issFileParser.setVillageCode(getCellValue(row.getCell(25)));
-                    }
+                    issFileParser.setVillageCode(getCellValue(row.getCell(25)));
 
                     issFileParser.setVillageName(getCellValue(row.getCell(26)));
 
@@ -602,10 +603,7 @@ public class IssFileParserResource {
             .collect(Collectors.toList());
         for (IssFileParser issFileParser : invalidFinancialYearList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Financial Year is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Financial Year is not in yyyy-yyyy format", issFileParser));
         }
 
         // Filter invalid Aadhaar numbers
@@ -616,10 +614,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidAadhaarList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("adhar number is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Aadhar number is incorrect format", issFileParser));
         }
 
         // Filter invalid beneficiary Name and beneficiary Passbook Name and
@@ -632,10 +627,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidBeneficiaryNameList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("beneficiary Name is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Beneficiary Name is incorrect format", issFileParser));
         }
 
         // Filter invalid Mobile number
@@ -646,10 +638,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidMobileNumberList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Mobile number is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Mobile number is incorrect format", issFileParser));
         }
 
         // Filter invalid dob
@@ -661,10 +650,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidDOBList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Date of birth is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Date of birth is not in yyyy-mm-dd format", issFileParser));
         }
 
         // Filter invalid gender
@@ -676,10 +662,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidGenderList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Gender is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Gender is incorrect format", issFileParser));
         }
 
         // Filter invalid socialCategory
@@ -691,10 +674,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidSocialCategoryList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Social Category is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Social Category is not in SC, ST, OBC, GEN format", issFileParser));
         }
 
         // Filter invalid farmerCategory
@@ -705,10 +685,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidFarmerCategoryList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Farmer Category is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Farmer Category is not in OWNER, SHARECROPPER, TENANT format", issFileParser));
         }
 
         // Filter invalid farmerType
@@ -719,10 +696,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidFarmerTypeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Farmer type is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Farmer type is not in SMALL, OTHER, MARGINAL format", issFileParser));
         }
 
         // Filter invalid primaryOccupation
@@ -734,24 +708,22 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidPrimaryOccupationList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Farmer primary occupation is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(
+                new ApplicationLog("Farmer primary occupation is not in FARMER, FISHRIES, ANIMAL HUSBANDARY format", issFileParser)
+            );
         }
 
         // Filter invalid relativeType
         List<IssFileParser> invalidRelativeTypeList = findAllByIssPortalFile
             .stream()
-            .filter(person -> !validateRelativeType(person.getRelativeType()))
+            .filter(person -> StringUtils.isBlank(person.getRelativeType()))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidRelativeTypeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Relative Type is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(
+                new ApplicationLog("Relative Type is not in SON OF, DAUGHTER OF, CARE OF, WIFE OF format", issFileParser)
+            );
         }
 
         // Filter invalid relativeName
@@ -763,10 +735,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidRelativeNameList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Relative name is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Relative name is incorrect format", issFileParser));
         }
 
         // Filter invalid residentialPincode
@@ -777,10 +746,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidResidentialPincodeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Residential pin code is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Residential pin code is incorrect format", issFileParser));
         }
 
         // Filter invalid accountNumber
@@ -791,10 +757,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidAccountNumberList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Account Number is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Account Number is incorrect format", issFileParser));
         }
 
         // Filter invalid Scheme Wise Branch Code
@@ -805,10 +768,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidBranchCodeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Scheme Wise Branch Code is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Scheme Wise Branch Code is incorrect format", issFileParser));
         }
 
         // Filter invalid ifsc
@@ -819,10 +779,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidIFSCCodeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("IFSC Code is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("IFSC Code is incorrect format", issFileParser));
         }
 
         // Filter invalid kccLoanSanctionedDate //loanSanctionedDate
@@ -833,10 +790,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidKccLoanSanctionedDateList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Loan Sanctioned Date is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Loan Sanctioned Date is incorrect format", issFileParser));
         }
 
         // Filter invalid kccLoanSanctionedAmount // kccDrawingLimitforFY // Loan
@@ -848,10 +802,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidkccLoanSanctionedAmountList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Loan Sanction Amount is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Loan Sanction Amount is incorrect format", issFileParser));
         }
 
         // Filter invalid landVillage
@@ -862,10 +813,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidLandVillageList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Land Village Code is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Land Village Code is incorrect format", issFileParser));
         }
 
         // Filter invalid cropCode
@@ -876,10 +824,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidCropCodeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Crop Name is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
         }
 
         // Filter invalid surveyNumber
@@ -890,10 +835,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidSurveyNumberList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Survey Number is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Survey Number is incorrect format", issFileParser));
         }
 
         // Filter invalid khataNumber or Sat Bara number
@@ -904,10 +846,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidSatBaraNumberList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Sat Bara number is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Sat Bara number is incorrect format", issFileParser));
         }
 
         // Filter invalid landArea
@@ -918,10 +857,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidLandAreaList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Land Area Hect is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Land Area Hect is incorrect format", issFileParser));
         }
 
         // Filter invalid landType
@@ -932,10 +868,7 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidLandTypeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Land Type is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(new ApplicationLog("Land Type is not in IRRIGATED, NON-IRRIGATED format", issFileParser));
         }
 
         // Filter invalid season //activityType
@@ -946,10 +879,9 @@ public class IssFileParserResource {
 
         for (IssFileParser issFileParser : invalidSeasonList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            ApplicationLog applicationLog = new ApplicationLog();
-            applicationLog.setIssFileParser(issFileParser);
-            applicationLog.setErrorMessage("Season is incorrect format");
-            applicationLogList.add(applicationLog);
+            applicationLogList.add(
+                new ApplicationLog("Season is not in KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE format", issFileParser)
+            );
         }
 
         // --------------------------------------------------------------
@@ -966,7 +898,7 @@ public class IssFileParserResource {
                 str = str.append(applicationLog.getErrorMessage());
                 index = index + 1;
                 if (collect.size() != index) {
-                    str = str.append(", ");
+                    str = str.append(". ");
                 }
             }
             ApplicationLog applicationLog = new ApplicationLog();
@@ -998,16 +930,16 @@ public class IssFileParserResource {
             .collect(Collectors.toList());
 
         List<Application> applicationList = new ArrayList<>();
-        for (IssFileParser issFileParser : correctedRecordsInFile) {
-            Application application = new Application();
-            application.setApplicationStatus(0l);
-            application.recordStatus(1l);
-            application.setIssFileParser(issFileParser);
-            application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
-            applicationList.add(application);
-        }
+        if (!correctedRecordsInFile.isEmpty()) {
+            for (IssFileParser issFileParser : correctedRecordsInFile) {
+                Application application = new Application();
+                application.setApplicationStatus(0l);
+                application.recordStatus(1l);
+                application.setIssFileParser(issFileParser);
+                application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                applicationList.add(application);
+            }
 
-        if (!applicationList.isEmpty()) {
             applicationRepository.saveAll(applicationList);
         }
 
@@ -1116,38 +1048,64 @@ public class IssFileParserResource {
 
         // gender
         if (!validateGender(issFileParser.getGender())) {
-            applicationLogList.add(generateApplicationLog("Incorect Gender", "Provide correcr Gender", "HIGH"));
+            applicationLogList.add(
+                generateApplicationLog("Incorect Gender:Correct as male or female", "Provide Gender like male, female", "HIGH")
+            );
         }
 
         // socialCategory
         if (!validateSocialCategory(issFileParser.getSocialCategory())) {
             applicationLogList.add(
-                generateApplicationLog("socialCategory is in incorrect format", "Provide correct Social Category", "HIGH")
+                generateApplicationLog(
+                    "socialCategory is in incorrect format: Correct as SC or ST or OBC or GEN",
+                    "Provide Social Category like SC, ST, OBC, GEN",
+                    "HIGH"
+                )
             );
         }
 
         // farmerCategory
         if (!validateFarmerCategory(issFileParser.getFarmersCategory())) {
             applicationLogList.add(
-                generateApplicationLog("Farmer Category is in incorrect format", "Provide correct Farmer Category", "HIGH")
+                generateApplicationLog(
+                    "Farmer Category is in incorrect format: Correct as OWNER or SHARECROPPER or TENANT",
+                    "Provide Farmer Category like OWNER, SHARECROPPER, TENANT",
+                    "HIGH"
+                )
             );
         }
 
         // farmerType
         if (!validateFarmerType(issFileParser.getFarmerType())) {
-            applicationLogList.add(generateApplicationLog("Farmer Type is in incorrect format", "Provide correct Farmer Type", "HIGH"));
+            applicationLogList.add(
+                generateApplicationLog(
+                    "Farmer Type is in incorrect format: Correct as  SMALL or OTHER or MARGINAL",
+                    "Provide Farmer Type like SMALL, OTHER, MARGINAL",
+                    "HIGH"
+                )
+            );
         }
 
         // primaryOccupation
         if (!validatePrimaryOccupation(issFileParser.getPrimaryOccupation())) {
             applicationLogList.add(
-                generateApplicationLog("Primary Occupation is in incorrect format", "Provide correct Primary Occupation", "HIGH")
+                generateApplicationLog(
+                    "Primary Occupation is in incorrect format: Correct as FARMER or FISHRIES or ANIMAL HUSBANDARY",
+                    "Provide Primary Occupation like FARMER, FISHRIES, ANIMAL HUSBANDARY",
+                    "HIGH"
+                )
             );
         }
 
         // relativeType
-        if (!validateRelativeType(issFileParser.getRelativeType())) {
-            applicationLogList.add(generateApplicationLog("Relative Type is in incorrect format", "Provide correct Relative Type", "HIGH"));
+        if (StringUtils.isBlank(issFileParser.getRelativeType())) {
+            applicationLogList.add(
+                generateApplicationLog(
+                    "Relative Type is in incorrect format: Correct as SON OF or DAUGHTER OF or CARE OF or WIFE OF",
+                    "Provide Relative Type like SON OF, DAUGHTER OF, CARE OF, WIFE OF",
+                    "HIGH"
+                )
+            );
         }
 
         // relativeName
@@ -1182,7 +1140,11 @@ public class IssFileParserResource {
         // accountHolder
         if (!validateAccountHolder(issFileParser.getAccountHolderType())) {
             applicationLogList.add(
-                generateApplicationLog("Account Holder is in incorrect format", "Provide correct Account Holder", "HIGH")
+                generateApplicationLog(
+                    "Account Holder is in incorrect format: Correct as SINGLE or JOINT",
+                    "Provide Account Holder like SINGLE, JOINT",
+                    "HIGH"
+                )
             );
         }
 
@@ -1228,13 +1190,6 @@ public class IssFileParserResource {
 
         // activityType
 
-        /*
-         * if (!validateRelativeName(issFileParser.activityType())) {
-         * applicationLogList.add(
-         * generateApplicationLog("Farmer Category is in incorrect format",
-         * "Provide Farmer Category", "HIGH")); }
-         */
-
         // loanSanctionedDate
         if (!validateDate(issFileParser.getLoanSactionDate())) {
             applicationLogList.add(generateApplicationLog("Farmer Category is in incorrect format", "Provide Farmer Category", "HIGH"));
@@ -1255,7 +1210,7 @@ public class IssFileParserResource {
 
         // cropCode
         if (!cropMasterRepository.existsByCropName(issFileParser.getCropName())) {
-            applicationLogList.add(generateApplicationLog("Crop Code is in incorrect format", "Provide correct Crop Code", "HIGH"));
+            applicationLogList.add(generateApplicationLog("Crop Name is in incorrect format", "Provide correct Crop Name", "HIGH"));
         }
 
         // surveyNumber
@@ -1277,12 +1232,20 @@ public class IssFileParserResource {
 
         // landType
         if (!validateLandType(issFileParser.getLandType())) {
-            applicationLogList.add(generateApplicationLog("Land Type is in incorrect format", "Provide correct Land Type", "HIGH"));
+            applicationLogList.add(
+                generateApplicationLog("Land Type is in incorrect format", "Land Type like IRRIGATED, NON-IRRIGATED", "HIGH")
+            );
         }
 
         // season
         if (!validateSeasonName(issFileParser.getSeasonName())) {
-            applicationLogList.add(generateApplicationLog("Season Name is in incorrect format", "Provide correct Season Name", "HIGH"));
+            applicationLogList.add(
+                generateApplicationLog(
+                    "Season Name is in incorrect format: Correct as KHARIF or RABI or SUMMER/ZAID/OTHERS or HORTICULTURE or SUGARCANE",
+                    "Season Name like KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE",
+                    "HIGH"
+                )
+            );
         }
 
         // plantationCode
@@ -1308,32 +1271,46 @@ public class IssFileParserResource {
 
     private boolean validateSeasonName(String seasonName) {
         boolean flag = false;
-        if (seasonName == null || "".equalsIgnoreCase(seasonName)) {
+        if (StringUtils.isBlank(seasonName)) {
             return flag;
         }
 
-        if (seasonMasterRepository.findBySeasonNameIsContaining(seasonName).isEmpty()) {
+        if (
+            MasterDataCacheService.SeasonMasterList
+                .stream()
+                .filter(f -> f.getSeasonName().toLowerCase().contains(seasonName.toLowerCase()))
+                .map(SeasonMaster::getSeasonCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validateLandType(String landType) {
         boolean flag = false;
-        if (landType == null || "".equalsIgnoreCase(landType)) {
+        if (StringUtils.isBlank(landType)) {
             return flag;
         }
-        if (landTypeMasterRepository.findByLandTypeIsContaining(landType).isEmpty()) {
+        if (
+            MasterDataCacheService.LandTypeMasterList
+                .stream()
+                .filter(f -> f.getLandType().toLowerCase().contains(landType.toLowerCase()))
+                .map(LandTypeMaster::getLandTypeCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validateAmount(String amount) {
         boolean flag = false;
-        if (amount == null || "".equalsIgnoreCase(amount)) {
+        if (StringUtils.isBlank(amount)) {
             return flag;
         }
         Pattern patternLongAmount = Pattern.compile("\\d+\\.\\d+");
@@ -1352,79 +1329,101 @@ public class IssFileParserResource {
 
     private boolean validateAccountHolder(String accountHolder) {
         boolean flag = false;
-        if (accountHolder == null || "".equalsIgnoreCase(accountHolder)) {
+        if (StringUtils.isBlank(accountHolder)) {
             return flag;
         }
 
-        if (accountHolderMasterRepository.findByAccountHolderIsContaining(accountHolder).isEmpty()) {
+        if (
+            MasterDataCacheService.AccountHolderMasterList
+                .stream()
+                .filter(f -> f.getAccountHolder().toLowerCase().contains(accountHolder.toLowerCase()))
+                .map(AccountHolderMaster::getAccountHolderCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
-        }
-    }
-
-    private boolean validateRelativeType(String relativeName) {
-        boolean flag = false;
-        if (relativeName == null || "".equalsIgnoreCase(relativeName)) {
-            return flag;
-        }
-
-        if (relativeMasterRepository.findByRelativeNameIsContaining(relativeName).isEmpty()) {
-            return true;
-        } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validatePrimaryOccupation(String occupationName) {
         boolean flag = false;
-        if (occupationName == null || "".equalsIgnoreCase(occupationName)) {
+        if (StringUtils.isBlank(occupationName)) {
             return flag;
         }
 
-        if (occupationMasterRepository.findByOccupationNameIsContaining(occupationName).isEmpty()) {
+        if (
+            MasterDataCacheService.OccupationMasterList
+                .stream()
+                .filter(f -> f.getOccupationName().toLowerCase().contains(occupationName.toLowerCase()))
+                .map(OccupationMaster::getOccupationCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validateFarmerType(String farmerType) {
         boolean flag = false;
-        if (farmerType == null || "".equalsIgnoreCase(farmerType)) {
+        if (StringUtils.isBlank(farmerType)) {
             return flag;
         }
 
-        if (farmerTypeMasterRepository.findByFarmerTypeIsContaining(farmerType).isEmpty()) {
+        if (
+            MasterDataCacheService.FarmerTypeMasterList
+                .stream()
+                .filter(f -> f.getFarmerType().toLowerCase().contains(farmerType.toLowerCase()))
+                .map(FarmerTypeMaster::getFarmerTypeCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validateFarmerCategory(String farmerCategory) {
         boolean flag = false;
-        if (farmerCategory == null || "".equalsIgnoreCase(farmerCategory)) {
+        if (StringUtils.isBlank(farmerCategory)) {
             return flag;
         }
 
-        if (farmerCategoryMasterRepository.findByFarmerCategoryIsContaining(farmerCategory).isEmpty()) {
+        if (
+            MasterDataCacheService.FarmerCategoryMasterList
+                .stream()
+                .filter(f -> f.getFarmerCategory().toLowerCase().contains(farmerCategory.toLowerCase()))
+                .map(FarmerCategoryMaster::getFarmerCategoryCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
         boolean flag = false;
-        if (castCategoryName == null || "".equalsIgnoreCase(castCategoryName)) {
+        if (StringUtils.isBlank(castCategoryName)) {
             return flag;
         }
 
-        if (castCategoryMasterRepository.findByCastCategoryNameIsContaining(castCategoryName).isEmpty()) {
+        if (
+            MasterDataCacheService.CastCategoryMasterList
+                .stream()
+                .filter(c -> c.getCastCategoryName().toLowerCase().contains(castCategoryName.toLowerCase()))
+                .map(CastCategoryMaster::getCastCategoryCode)
+                .findFirst()
+                .isPresent()
+        ) {
             return true;
         } else {
-            return true;
+            return false;
         }
     }
 
@@ -1506,7 +1505,6 @@ public class IssFileParserResource {
         return null;
     }
 
-    // @PostMapping("/encryption")
     public String encryption(Object encDecObject) {
         try {
             SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
@@ -1539,7 +1537,6 @@ public class IssFileParserResource {
         }
     }
 
-    // @PostMapping("/decryption")
     public String decryption(String encDecObject) {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
         final byte[] keyParse = applicationProperties.getSecretKey().getBytes();
@@ -1622,14 +1619,6 @@ public class IssFileParserResource {
         }
 
         return cellValue;
-    }
-
-    private int generateRandomNumber() {
-        Random random = new Random();
-        int min = 10000;
-        int max = 99999;
-
-        return random.nextInt(max - min + 1) + min;
     }
 
     ApplicationLog generateApplicationLog(String ErrorMsg, String expectedSolution, String sevierity) {
@@ -1775,20 +1764,6 @@ public class IssFileParserResource {
      *         of issFileParsers in body.
      */
 
-    private Map<String, String> getBranchOrPacksNumber() {
-        Map<String, String> branchOrPacksNumber = new HashMap<>();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
-        if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
-            branchOrPacksNumber.put("packsNumber", optUser.get().getPacsNumber());
-            return branchOrPacksNumber;
-        } else {
-            branchOrPacksNumber.put("branchNumber", optUser.get().getBranchCode());
-            return branchOrPacksNumber;
-        }
-    }
-
     @GetMapping("/iss-file-parsers")
     @PreAuthorize("@authentication.hasPermision('','','','VIEW_RECORD','VIEW')")
     public ResponseEntity<List<IssFileParser>> getAllIssFileParsers(
@@ -1798,12 +1773,22 @@ public class IssFileParserResource {
         log.debug("REST request to get IssFileParsers by criteria: {}", criteria);
 
         Page<IssFileParser> page = null;
-        Map<String, String> branchOrPacksNumber = getBranchOrPacksNumber();
+        Map<String, String> branchOrPacksNumber = getCodeNumber();
 
-        if (StringUtils.isNotBlank(branchOrPacksNumber.get("packsNumber"))) {
-            page = issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get("packsNumber"));
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page =
+                issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            page =
+                issFileParserQueryService.findByCriteriaBranchNumber(
+                    criteria,
+                    pageable,
+                    branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = issFileParserQueryService.findByCriteria(criteria, pageable);
         } else {
-            page = issFileParserQueryService.findByCriteriaBranchNumber(criteria, pageable, branchOrPacksNumber.get("branchNumber"));
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -1835,14 +1820,17 @@ public class IssFileParserResource {
     public ResponseEntity<IssFileParser> getIssFileParser(@PathVariable Long id) {
         log.debug("REST request to get IssFileParser : {}", id);
         Optional<IssFileParser> issFileParser = null;
-        Map<String, String> branchOrPacksNumber = getBranchOrPacksNumber();
+        Map<String, String> branchOrPacksNumber = getCodeNumber();
 
-        if (StringUtils.isNotBlank(branchOrPacksNumber.get("packsNumber"))) {
-            issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get("packsNumber"));
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            issFileParser = issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            issFileParser = issFileParserRepository.findOneByIdAndBankCode(id, branchOrPacksNumber.get(Constants.BANK_CODE_KEY));
         } else {
-            issFileParser = issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get("branchNumber"));
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
-
         return ResponseUtil.wrapOrNotFound(issFileParser);
     }
 
@@ -1861,5 +1849,28 @@ public class IssFileParserResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    /**
+     * Function for get bank code, branch code and packs code from user token
+     * @return
+     */
+    private Map<String, String> getCodeNumber() {
+        Map<String, String> branchOrPacksNumber = new HashMap<>();
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
+            branchOrPacksNumber.put(Constants.PACKS_CODE_KEY, optUser.get().getPacsNumber());
+            return branchOrPacksNumber;
+        } else if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
+            branchOrPacksNumber.put(Constants.BRANCH_CODE_KEY, optUser.get().getBranchCode());
+            return branchOrPacksNumber;
+        } else if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
+            branchOrPacksNumber.put(Constants.BANK_CODE_KEY, optUser.get().getBranchCode());
+            return branchOrPacksNumber;
+        } else {
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
     }
 }

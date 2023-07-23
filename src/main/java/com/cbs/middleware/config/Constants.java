@@ -19,5 +19,9 @@ public final class Constants {
 
     //public static final String ORIGINAL_FILE_PATH = "D://PDCC//file//originalFiles/";
 
+    public static final String PACKS_CODE_KEY = "packsCode";
+    public static final String BRANCH_CODE_KEY = "branchCode";
+    public static final String BANK_CODE_KEY = "bankCode";
+
     private Constants() {}
 }

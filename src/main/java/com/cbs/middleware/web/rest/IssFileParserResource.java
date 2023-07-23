@@ -1816,7 +1816,7 @@ public class IssFileParserResource {
      *         the issFileParser, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/iss-file-parsers/{id}")
-    @PreAuthorize("@authentication.hasPermision('','',#id,'VIEW_RECORD','VIEW')")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('VIEW_RECORD','VIEW')")
     public ResponseEntity<IssFileParser> getIssFileParser(@PathVariable Long id) {
         log.debug("REST request to get IssFileParser : {}", id);
         Optional<IssFileParser> issFileParser = null;
@@ -1862,15 +1862,13 @@ public class IssFileParserResource {
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
             branchOrPacksNumber.put(Constants.PACKS_CODE_KEY, optUser.get().getPacsNumber());
-            return branchOrPacksNumber;
-        } else if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
+        } else if (StringUtils.isNotBlank(optUser.get().getBranchCode())) {
             branchOrPacksNumber.put(Constants.BRANCH_CODE_KEY, optUser.get().getBranchCode());
-            return branchOrPacksNumber;
-        } else if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
-            branchOrPacksNumber.put(Constants.BANK_CODE_KEY, optUser.get().getBranchCode());
-            return branchOrPacksNumber;
+        } else if (StringUtils.isNotBlank(optUser.get().getBankCode())) {
+            branchOrPacksNumber.put(Constants.BANK_CODE_KEY, optUser.get().getBankCode());
         } else {
             throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
+        return branchOrPacksNumber;
     }
 }

@@ -40,7 +40,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,9 +194,13 @@ public class CronJobResource {
                                     applicationsByBatchAckId.getUniqueId()
                                 );
 
-                                applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
                                 applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
-                                applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+
+                                if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                    applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                    applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                }
+
                                 applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
                                 applicationListSave.add(applicationByUniqueId);
                             }

@@ -33,6 +33,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -136,7 +137,10 @@ public class CronJobResource {
     @GetMapping("/cronJob")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
-        List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus("New");
+        List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
+        List<BatchTransaction> batchTransactionListSave = new ArrayList<>();
+        List<Application> applicationListSave = new ArrayList<>();
+
         for (BatchTransaction batchTransaction : batchTransactionList) {
             String cbsResponceString = "";
             BatchAckId batchAckId = new BatchAckId();
@@ -151,7 +155,7 @@ public class CronJobResource {
 
             try {
                 // Set the request URL
-                String url = applicationProperties.getCBSMiddlewareBaseURL() + "/databybatchackid";
+                String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databybatchackid;
                 // Set the request headers
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -169,44 +173,47 @@ public class CronJobResource {
                     convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
 
                     if (convertValue.isStatus()) {
-                        if (StringUtils.isNotBlank(convertValue.getError())) {
-                            batchTransaction.setBatchDetails("Batch is not processed yet");
-                            batchTransactionRepository.save(batchTransaction);
-                        } else {
-                            String decryption = decryption("" + convertValue.getData());
-                            objectMapper = new ObjectMapper();
-                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                            DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
+                        String decryption = decryption("" + convertValue.getData());
+                        objectMapper = new ObjectMapper();
+                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
 
-                            if (dataByBatchAckId.getStatus() == 0) {
-                                batchTransaction.setStatus("Discarded");
-                            } else if (dataByBatchAckId.getStatus() == 1) {
-                                batchTransaction.setStatus("Pending for processing");
-                            } else if (dataByBatchAckId.getStatus() == 2) {
-                                batchTransaction.setStatus("Processing");
-                            } else if (dataByBatchAckId.getStatus() == 3) {
-                                batchTransaction.setStatus("Processed");
-                            }
+                        if (dataByBatchAckId.getStatus() == Constants.ZERO) {
+                            batchTransaction.setStatus(Constants.DISCARDED);
+                        } else if (dataByBatchAckId.getStatus() == Constants.ONE) {
+                            batchTransaction.setStatus(Constants.PENDING_FOR_PROCESSING);
+                        } else if (dataByBatchAckId.getStatus() == Constants.TWO) {
+                            batchTransaction.setStatus(Constants.PROCESSING);
+                        } else if (dataByBatchAckId.getStatus() == Constants.THREE) {
+                            batchTransaction.setStatus(Constants.PROCESSED);
+                        }
+                        batchTransactionListSave.add(batchTransaction);
 
-                            batchTransactionRepository.save(batchTransaction);
-
+                        if (!dataByBatchAckId.getApplications().isEmpty()) {
                             for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
-                                Application findOneByUniqueId = applicationRepository.findOneByUniqueId(
+                                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                                     applicationsByBatchAckId.getUniqueId()
                                 );
 
-                                findOneByUniqueId.setApplicationNumber(findOneByUniqueId.getApplicationNumber());
-                                findOneByUniqueId.setApplicationStatus(1l);
-                                findOneByUniqueId.setApplicationStatus(0l);
-                                findOneByUniqueId.setFarmerId(findOneByUniqueId.getFarmerId());
-                                findOneByUniqueId.setRecipientUniqueId(findOneByUniqueId.getRecipientUniqueId());
-                                applicationRepository.save(findOneByUniqueId);
+                                applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                applicationByUniqueId.setApplicationStatus(1l);
+                                applicationByUniqueId.setApplicationStatus(0l);
+                                applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+                                applicationListSave.add(applicationByUniqueId);
                             }
+                            applicationRepository.saveAll(applicationListSave);
                         }
-                    } else {}
+                    } else {
+                        batchTransaction.setBatchDetails("Batch is not processed yet");
+                        batchTransactionListSave.add(batchTransaction);
+                    }
+                    if (!batchTransactionListSave.isEmpty()) {
+                        batchTransactionRepository.saveAll(batchTransactionListSave);
+                    }
                 }
             } catch (Exception e) {
-                // TODO: handle exception
+                log.error("Error in cronjob: " + e);
             }
         }
     }

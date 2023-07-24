@@ -2,18 +2,20 @@ package com.cbs.middleware.domain;
 
 public class ApplicationsByBatchAckId {
 
-    /*
-     * "uniqueId": "1707231561234598695", "recordStatus": "1", "applicationStatus":
-     * 0, "errors":
-     * "activityType is Non Integer; Activity type OF Khata number is NOT proper; Activity type OF surveyNumber number is NOT proper; Activity type OF cropCode number is NOT proper; Activity type OR landArea number is NOT proper; Activity type OF landType is NOT proper; Activity type OF season is NOT proper; Activity type OF plantationCode is NOT proper; Activity type OF plantationArea is NOT proper; Activity type OF liveStockType is NOT proper; Activity type OF liveStockCode is NOT proper; Activity type OF unitCount is NOT proper ; Activity type OF totalUnits is NOT proper; Activity type OF inlandType is NOT proper; Activity type OF totalArea is NOT proper ; Activity type OF marineType is NOT proper; "
-     * , "recipientUniqueID": "2227149017037758299"
-     */
+    //    "uniqueId": "1907231562701031471",
+    //    "recordStatus": "1",
+    //    "applicationNumber": "2127149017017075478",
+    //    "applicationStatus": 1,
+    //    "farmerId": "23021748757",
+    //    "recipientUniqueID": "2127149017044470362"
 
     private String uniqueId;
     private String recordStatus;
+    private String applicationNumber;
     private Integer applicationStatus;
-    private String errors;
+    private String farmerId;
     private String recipientUniqueID;
+    private String errors;
 
     public String getUniqueId() {
         return uniqueId;
@@ -25,6 +27,14 @@ public class ApplicationsByBatchAckId {
 
     public String getRecordStatus() {
         return recordStatus;
+    }
+
+    public String getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(String farmerId) {
+        this.farmerId = farmerId;
     }
 
     public void setRecordStatus(String recordStatus) {
@@ -41,6 +51,14 @@ public class ApplicationsByBatchAckId {
 
     public String getErrors() {
         return errors;
+    }
+
+    public String getApplicationNumber() {
+        return applicationNumber;
+    }
+
+    public void setApplicationNumber(String applicationNumber) {
+        this.applicationNumber = applicationNumber;
     }
 
     public void setErrors(String errors) {

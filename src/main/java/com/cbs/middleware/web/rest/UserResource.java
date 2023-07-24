@@ -114,7 +114,7 @@ public class UserResource {
      *                                  email is already in use.
      */
     @PostMapping("/users")
-    @PreAuthorize("@authentication.hasPermision('','USER','CREATE')")
+    @PreAuthorize("@authentication.hasPermision('','','','USER','CREATE')")
     public ResponseEntity<User> createUser(@Valid @RequestBody AdminUserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
@@ -147,7 +147,7 @@ public class UserResource {
      *                                   already in use.
      */
     @PutMapping("/users")
-    @PreAuthorize("@authentication.hasPermision(#userDTO.id,'','USER','EDIT')")
+    @PreAuthorize("@authentication.hasPermision(#userDTO.id,'','','USER','EDIT')")
     public ResponseEntity<AdminUserDTO> updateUser(@Valid @RequestBody AdminUserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());

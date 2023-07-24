@@ -536,7 +536,7 @@ public class SubmitBatchResource {
         // call fasalrin submit api
         try {
             // Set the request URL
-            String url = applicationProperties.getCBSMiddlewareBaseURL() + "/submitbatch";
+            String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.submitbatch;
             // Set the request headers
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);

@@ -193,14 +193,11 @@ public class CronJobResource {
                                 Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                                     applicationsByBatchAckId.getUniqueId()
                                 );
-
                                 applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
-
                                 if (applicationsByBatchAckId.getApplicationStatus() == 1) {
                                     applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
                                     applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
                                 }
-
                                 applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
                                 applicationListSave.add(applicationByUniqueId);
                             }

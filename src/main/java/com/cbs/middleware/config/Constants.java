@@ -27,18 +27,25 @@ public final class Constants {
     public static final String PROCESSED = "Processed";
     public static final String NEW = "New";
 
-    public static final int ZERO = 0; // Discarded
-    public static final int ONE = 1; // Pending for processing
-    public static final int TWO = 2; // Processing
-    public static final int THREE = 3; // Processed
-    public static final int FOURE = 4; // new
+    public static final Integer DISCARDED_BATCH_STATUS_CODE = 0; // Discarded
+    public static final Integer PENDING_FOR_PROCESSING_BATCH_STATUS_CODE = 1; // Pending for processing
+    public static final Integer PROCESSING_BATCH_STATUS_CODE = 2; // Processing
+    public static final Integer PROCESSED_BATCH_STATUS_CODE = 3; // Processed
+    public static final Integer NEW_BATCH_STATUS_CODE = 4; // new
 
     public static final Integer COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL = 1;
     public static final Integer COMPLETE_FARMER_DETAIL = 2;
     public static final Integer LOAN_DETAIL = 3;
 
+    public static final Integer APPLICATION_SUCCESS_STATUS = 1;
+    public static final Integer APPLICATION_FAILLURE_STATUS = 0;
+    public static final Integer APPLICATION_INITIAL_STATUS_FOR_LOAD = 2;
+
     public static final String databybatchackid = "/databybatchackid";
     public static final String submitbatch = "/submitbatch";
+
+    public static final String MALE = "male";
+    public static final String FEMAIL = "female";
 
     private Constants() {}
 }

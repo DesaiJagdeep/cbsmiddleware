@@ -166,7 +166,7 @@ public class SubmitBatchResource {
 
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
             null,
-            0l,
+            Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
             issPortalFile.getId()
         );
 
@@ -238,9 +238,9 @@ public class SubmitBatchResource {
             basicDetails.setMobile(issFileParser.getMobileNo());
             basicDetails.setDob("" + issFileParser.getDateofBirth());
 
-            if ("male".equalsIgnoreCase(issFileParser.getGender())) {
+            if (Constants.MALE.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(1);
-            } else if ("female".equalsIgnoreCase(issFileParser.getGender())) {
+            } else if (Constants.FEMAIL.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(2);
             } else {
                 basicDetails.setGender(3);
@@ -301,20 +301,26 @@ public class SubmitBatchResource {
             ) {
                 switch (issFileParser.getRelativeType().toLowerCase()) {
                     case "mother":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }
 
                         break;
                     case "father":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }
@@ -326,10 +332,13 @@ public class SubmitBatchResource {
                         basicDetails.setRelativeType(4);
                         break;
                     case "son":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }
@@ -694,7 +703,7 @@ public class SubmitBatchResource {
 
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
             null,
-            0l,
+            Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
             issPortalFile.getId()
         );
 
@@ -766,9 +775,9 @@ public class SubmitBatchResource {
             basicDetails.setMobile(issFileParser.getMobileNo());
             basicDetails.setDob("" + issFileParser.getDateofBirth());
 
-            if ("male".equalsIgnoreCase(issFileParser.getGender())) {
+            if (Constants.MALE.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(1);
-            } else if ("female".equalsIgnoreCase(issFileParser.getGender())) {
+            } else if (Constants.FEMAIL.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(2);
             } else {
                 basicDetails.setGender(3);
@@ -827,20 +836,26 @@ public class SubmitBatchResource {
             ) {
                 switch (issFileParser.getRelativeType().toLowerCase()) {
                     case "mother":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }
 
                         break;
                     case "father":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }
@@ -852,10 +867,13 @@ public class SubmitBatchResource {
                         basicDetails.setRelativeType(4);
                         break;
                     case "son":
-                        if (StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("male")) {
+                        if (
+                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase(Constants.MALE)
+                        ) {
                             basicDetails.setRelativeType(1);
                         } else if (
-                            StringUtils.isNotBlank(issFileParser.getGender()) && issFileParser.getGender().equalsIgnoreCase("female")
+                            StringUtils.isNotBlank(issFileParser.getGender()) &&
+                            issFileParser.getGender().equalsIgnoreCase(Constants.FEMAIL)
                         ) {
                             basicDetails.setRelativeType(2);
                         }

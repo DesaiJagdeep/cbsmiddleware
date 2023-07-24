@@ -177,13 +177,13 @@ public class CronJobResource {
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                         DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
 
-                        if (dataByBatchAckId.getStatus() == Constants.ZERO) {
+                        if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
                             batchTransaction.setStatus(Constants.DISCARDED);
-                        } else if (dataByBatchAckId.getStatus() == Constants.ONE) {
+                        } else if (dataByBatchAckId.getStatus() == Constants.PENDING_FOR_PROCESSING_BATCH_STATUS_CODE) {
                             batchTransaction.setStatus(Constants.PENDING_FOR_PROCESSING);
-                        } else if (dataByBatchAckId.getStatus() == Constants.TWO) {
+                        } else if (dataByBatchAckId.getStatus() == Constants.PROCESSING_BATCH_STATUS_CODE) {
                             batchTransaction.setStatus(Constants.PROCESSING);
-                        } else if (dataByBatchAckId.getStatus() == Constants.THREE) {
+                        } else if (dataByBatchAckId.getStatus() == Constants.PROCESSED_BATCH_STATUS_CODE) {
                             batchTransaction.setStatus(Constants.PROCESSED);
                         }
                         batchTransactionListSave.add(batchTransaction);

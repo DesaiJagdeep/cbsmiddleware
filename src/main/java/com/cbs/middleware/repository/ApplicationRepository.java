@@ -44,7 +44,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     // @Query("select application from Application application  where application.batchId is null and  application.applicationStatus=0 and application.issFilePortalId =:issFilePortalId")
     //List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId") Long issFilePortalId);
 
-    List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Long errorStatus, Long issFilePortalId);
+    List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Integer errorStatus, Long issFilePortalId);
 
     Application findOneByUniqueId(String uniqueId);
 }

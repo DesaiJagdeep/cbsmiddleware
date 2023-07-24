@@ -15,7 +15,6 @@ import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.LandTypeMaster;
 import com.cbs.middleware.domain.OccupationMaster;
-import com.cbs.middleware.domain.RelativeMaster;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
@@ -63,7 +62,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -933,7 +931,8 @@ public class IssFileParserResource {
         if (!correctedRecordsInFile.isEmpty()) {
             for (IssFileParser issFileParser : correctedRecordsInFile) {
                 Application application = new Application();
-                application.recordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
                 application.setIssFileParser(issFileParser);
                 application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
                 applicationList.add(application);
@@ -985,7 +984,8 @@ public class IssFileParserResource {
 
                 // adding file data entry to application tracking table
                 Application application = new Application();
-                application.recordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
                 application.setIssFileParser(result);
                 application.setIssFilePortalId(issPortalFileSave.getId());
                 applicationRepository.save(application);

@@ -27,9 +27,9 @@ public class ApplicationCriteria implements Serializable, Criteria {
 
     private StringFilter uniqueId;
 
-    private LongFilter recordStatus;
+    private IntegerFilter recordStatus;
 
-    private LongFilter applicationStatus;
+    private IntegerFilter applicationStatus;
 
     private LongFilter kccStatus;
 
@@ -106,33 +106,33 @@ public class ApplicationCriteria implements Serializable, Criteria {
         this.uniqueId = uniqueId;
     }
 
-    public LongFilter getRecordStatus() {
+    public IntegerFilter getRecordStatus() {
         return recordStatus;
     }
 
-    public LongFilter recordStatus() {
+    public IntegerFilter recordStatus() {
         if (recordStatus == null) {
-            recordStatus = new LongFilter();
+            recordStatus = new IntegerFilter();
         }
         return recordStatus;
     }
 
-    public void setRecordStatus(LongFilter recordStatus) {
+    public void setRecordStatus(IntegerFilter recordStatus) {
         this.recordStatus = recordStatus;
     }
 
-    public LongFilter getApplicationStatus() {
+    public IntegerFilter getApplicationStatus() {
         return applicationStatus;
     }
 
-    public LongFilter applicationStatus() {
+    public IntegerFilter applicationStatus() {
         if (applicationStatus == null) {
-            applicationStatus = new LongFilter();
+            applicationStatus = new IntegerFilter();
         }
         return applicationStatus;
     }
 
-    public void setApplicationStatus(LongFilter applicationStatus) {
+    public void setApplicationStatus(IntegerFilter applicationStatus) {
         this.applicationStatus = applicationStatus;
     }
 

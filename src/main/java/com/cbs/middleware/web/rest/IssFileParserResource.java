@@ -933,8 +933,7 @@ public class IssFileParserResource {
         if (!correctedRecordsInFile.isEmpty()) {
             for (IssFileParser issFileParser : correctedRecordsInFile) {
                 Application application = new Application();
-                application.setApplicationStatus(0l);
-                application.recordStatus(1l);
+                application.recordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
                 application.setIssFileParser(issFileParser);
                 application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
                 applicationList.add(application);
@@ -986,8 +985,7 @@ public class IssFileParserResource {
 
                 // adding file data entry to application tracking table
                 Application application = new Application();
-                application.setApplicationStatus(0l);
-                application.recordStatus(1l);
+                application.recordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
                 application.setIssFileParser(result);
                 application.setIssFilePortalId(issPortalFileSave.getId());
                 applicationRepository.save(application);

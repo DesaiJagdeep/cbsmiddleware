@@ -33,6 +33,10 @@ public final class Constants {
     public static final int THREE = 3; // Processed
     public static final int FOURE = 4; // new
 
+    public static final Integer COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL = 1;
+    public static final Integer COMPLETE_FARMER_DETAIL = 2;
+    public static final Integer LOAN_DETAIL = 3;
+
     public static final String databybatchackid = "/databybatchackid";
     public static final String submitbatch = "/submitbatch";
 

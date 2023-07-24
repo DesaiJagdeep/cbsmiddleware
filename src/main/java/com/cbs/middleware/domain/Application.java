@@ -26,10 +26,10 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     private String uniqueId;
 
     @Column(name = "record_status")
-    private Long recordStatus;
+    private Integer recordStatus;
 
     @Column(name = "application_status")
-    private Long applicationStatus;
+    private Integer applicationStatus;
 
     @Column(name = "kcc_status")
     private Long kccStatus;
@@ -94,7 +94,7 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
         this.uniqueId = uniqueId;
     }
 
-    public Long getRecordStatus() {
+    public Integer getRecordStatus() {
         return this.recordStatus;
     }
 
@@ -106,25 +106,25 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
         this.applicationNumber = applicationNumber;
     }
 
-    public Application recordStatus(Long recordStatus) {
+    public Application recordStatus(Integer recordStatus) {
         this.setRecordStatus(recordStatus);
         return this;
     }
 
-    public void setRecordStatus(Long recordStatus) {
+    public void setRecordStatus(Integer recordStatus) {
         this.recordStatus = recordStatus;
     }
 
-    public Long getApplicationStatus() {
+    public Integer getApplicationStatus() {
         return this.applicationStatus;
     }
 
-    public Application applicationStatus(Long applicationStatus) {
+    public Application applicationStatus(Integer applicationStatus) {
         this.setApplicationStatus(applicationStatus);
         return this;
     }
 
-    public void setApplicationStatus(Long applicationStatus) {
+    public void setApplicationStatus(Integer applicationStatus) {
         this.applicationStatus = applicationStatus;
     }
 

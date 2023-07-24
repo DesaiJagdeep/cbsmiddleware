@@ -47,13 +47,13 @@ class ApplicationResourceIT {
     private static final String DEFAULT_UNIQUE_ID = "AAAAAAAAAA";
     private static final String UPDATED_UNIQUE_ID = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_RECORD_STATUS = 1L;
-    private static final Long UPDATED_RECORD_STATUS = 2L;
-    private static final Long SMALLER_RECORD_STATUS = 1L - 1L;
+    private static final Integer DEFAULT_RECORD_STATUS = 1;
+    private static final Integer UPDATED_RECORD_STATUS = 2;
+    private static final Integer SMALLER_RECORD_STATUS = 1 - 1;
 
-    private static final Long DEFAULT_APPLICATION_STATUS = 1L;
-    private static final Long UPDATED_APPLICATION_STATUS = 2L;
-    private static final Long SMALLER_APPLICATION_STATUS = 1L - 1L;
+    private static final Integer DEFAULT_APPLICATION_STATUS = 1;
+    private static final Integer UPDATED_APPLICATION_STATUS = 2;
+    private static final Integer SMALLER_APPLICATION_STATUS = 1 - 1;
 
     private static final Long DEFAULT_KCC_STATUS = 1L;
     private static final Long UPDATED_KCC_STATUS = 2L;

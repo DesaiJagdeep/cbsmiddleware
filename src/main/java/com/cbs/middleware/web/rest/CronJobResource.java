@@ -196,8 +196,7 @@ public class CronJobResource {
                                 );
 
                                 applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
-                                applicationByUniqueId.setApplicationStatus(1l);
-                                applicationByUniqueId.setApplicationStatus(0l);
+                                applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
                                 applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
                                 applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
                                 applicationListSave.add(applicationByUniqueId);

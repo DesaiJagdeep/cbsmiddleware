@@ -22,6 +22,9 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
     @Column(name = "iss_portal_id")
     private Long issPortalId;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @Column(name = "error_type")
     private String errorType;
 
@@ -78,6 +81,14 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getErrorType() {

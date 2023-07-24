@@ -533,7 +533,7 @@ public class SubmitBatchResource {
 
         batchData.setApplications(applicationsList);
 
-        String encryption = encryption(batchData);
+        String encryption = encryptObject(batchData);
 
         // Making input payload
         CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
@@ -616,7 +616,7 @@ public class SubmitBatchResource {
         return null;
     }
 
-    public String encryption(Object encDecObject) {
+    public String encryptObject(Object encDecObject) {
         try {
             SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
             IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
@@ -627,21 +627,6 @@ public class SubmitBatchResource {
             JSONObject jsonObject = new JSONObject(encDecObject);
 
             byte[] encryptedBytes = cipher.doFinal(jsonObject.toString().getBytes());
-            return Hex.encodeHexString(encryptedBytes);
-        } catch (Exception e) {
-            return "error in encryption: " + e;
-        }
-    }
-
-    public String encryptionStrings(String encDecObject) {
-        try {
-            SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
-
-            Cipher cipher = Cipher.getInstance(applicationProperties.getAlgorithm());
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
-
-            byte[] encryptedBytes = cipher.doFinal(encDecObject.getBytes());
             return Hex.encodeHexString(encryptedBytes);
         } catch (Exception e) {
             return "error in encryption: " + e;

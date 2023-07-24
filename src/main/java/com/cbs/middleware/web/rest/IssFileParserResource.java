@@ -912,6 +912,7 @@ public class IssFileParserResource {
             applicationLog.setErrorType("Validation Error");
             applicationLog.setErrorRecordCount(collect.size());
             applicationLog.setIssPortalId(issPortalFile.getId());
+            applicationLog.setFileName(issPortalFile.getFileName());
             applicationLogListToSave.add(applicationLog);
         }
 

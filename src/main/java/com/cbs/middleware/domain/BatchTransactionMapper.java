@@ -37,6 +37,8 @@ public class BatchTransactionMapper implements Serializable {
 
     private Long appPendingForExecCount;
 
+    private Long kccApplErrCount;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -82,6 +84,14 @@ public class BatchTransactionMapper implements Serializable {
 
     public void setIssPortalId(Long issPortalId) {
         this.issPortalId = issPortalId;
+    }
+
+    public Long getKccApplErrCount() {
+        return kccApplErrCount;
+    }
+
+    public void setKccApplErrCount(Long kccApplErrCount) {
+        this.kccApplErrCount = kccApplErrCount;
     }
 
     public Long getAppPendingForExecCount() {

@@ -35,6 +35,8 @@ public class BatchTransactionMapper implements Serializable {
 
     private String packsName;
 
+    private Long appPendingForExecCount;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -72,6 +74,22 @@ public class BatchTransactionMapper implements Serializable {
 
     public String getPacksName() {
         return packsName;
+    }
+
+    public String getIssPortalId() {
+        return issPortalId;
+    }
+
+    public void setIssPortalId(String issPortalId) {
+        this.issPortalId = issPortalId;
+    }
+
+    public Long getAppPendingForExecCount() {
+        return appPendingForExecCount;
+    }
+
+    public void setAppPendingForExecCount(Long appPendingForExecCount) {
+        this.appPendingForExecCount = appPendingForExecCount;
     }
 
     public void setPacksName(String packsName) {

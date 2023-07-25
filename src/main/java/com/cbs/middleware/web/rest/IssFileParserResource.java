@@ -931,12 +931,14 @@ public class IssFileParserResource {
         List<Application> applicationList = new ArrayList<>();
         if (!correctedRecordsInFile.isEmpty()) {
             for (IssFileParser issFileParser : correctedRecordsInFile) {
-                Application application = new Application();
-                application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-                application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-                application.setIssFileParser(issFileParser);
-                application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
-                applicationList.add(application);
+                if (!issFileParserRepository.existsById(issFileParser.getId())) {
+                    Application application = new Application();
+                    application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                    application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+                    application.setIssFileParser(issFileParser);
+                    application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                    applicationList.add(application);
+                }
             }
 
             applicationRepository.saveAll(applicationList);

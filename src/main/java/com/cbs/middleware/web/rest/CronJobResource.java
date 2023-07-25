@@ -137,7 +137,6 @@ public class CronJobResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
-        List<BatchTransaction> batchTransactionListSave = new ArrayList<>();
         List<Application> applicationListSave = new ArrayList<>();
 
         for (BatchTransaction batchTransaction : batchTransactionList) {
@@ -186,30 +185,36 @@ public class CronJobResource {
                         } else if (dataByBatchAckId.getStatus() == Constants.PROCESSED_BATCH_STATUS_CODE) {
                             batchTransaction.setStatus(Constants.PROCESSED);
                         }
-                        batchTransactionListSave.add(batchTransaction);
 
+                        Long kccApplErrCount = 0l;
                         if (!dataByBatchAckId.getApplications().isEmpty()) {
                             for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
                                 Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                                     applicationsByBatchAckId.getUniqueId()
                                 );
+
                                 applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
+                                applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
                                 if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                    applicationByUniqueId.setKccStatus(1l);
                                     applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
                                     applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                } else {
+                                    applicationByUniqueId.setKccStatus(0l);
+                                    applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                    kccApplErrCount = kccApplErrCount + 1l;
                                 }
-                                applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
                                 applicationListSave.add(applicationByUniqueId);
                             }
                             applicationRepository.saveAll(applicationListSave);
                         }
                     } else {
                         batchTransaction.setBatchDetails("Batch is not processed yet");
-                        batchTransactionListSave.add(batchTransaction);
                     }
-                    if (!batchTransactionListSave.isEmpty()) {
-                        batchTransactionRepository.saveAll(batchTransactionListSave);
-                    }
+
+                    batchTransactionRepository.save(batchTransaction);
                 }
             } catch (Exception e) {
                 log.error("Error in cronjob: " + e);

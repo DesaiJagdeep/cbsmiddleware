@@ -36,6 +36,13 @@
              <column name="batch_errors" type="text">
                 <constraints nullable="true" />
             </column>
+            
+            <column name="kcc_appl_err_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            
+            
+            
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

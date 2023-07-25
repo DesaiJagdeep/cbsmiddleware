@@ -36,6 +36,9 @@ public class BatchTransaction extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "batch_id")
     private String batchId;
 
+    @Column(name = "kcc_appl_err_count")
+    private Long kccApplErrCount;
+
     @Column(name = "batch_ack_id")
     private String batchAckId;
 
@@ -108,6 +111,14 @@ public class BatchTransaction extends AbstractAuditingEntity<Long> implements Se
     public BatchTransaction notes(String notes) {
         this.setNotes(notes);
         return this;
+    }
+
+    public Long getKccApplErrCount() {
+        return kccApplErrCount;
+    }
+
+    public void setKccApplErrCount(Long kccApplErrCount) {
+        this.kccApplErrCount = kccApplErrCount;
     }
 
     public void setNotes(String notes) {

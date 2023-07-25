@@ -9,7 +9,6 @@ import com.cbs.middleware.service.criteria.BatchTransactionCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -20,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -75,6 +75,7 @@ public class BatchTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/batch-transactions")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BatchTransaction> createBatchTransaction(@RequestBody BatchTransaction batchTransaction)
         throws URISyntaxException {
         log.debug("REST request to save BatchTransaction : {}", batchTransaction);
@@ -101,6 +102,7 @@ public class BatchTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/batch-transactions/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BatchTransaction> updateBatchTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BatchTransaction batchTransaction
@@ -139,6 +141,7 @@ public class BatchTransactionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/batch-transactions/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BatchTransaction> partialUpdateBatchTransaction(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BatchTransaction batchTransaction
@@ -214,6 +217,7 @@ public class BatchTransactionResource {
      *         the batchTransaction, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/batch-transactions/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<BatchTransaction> getBatchTransaction(@PathVariable Long id) {
         log.debug("REST request to get BatchTransaction : {}", id);
         Optional<BatchTransaction> batchTransaction = batchTransactionService.findOne(id);

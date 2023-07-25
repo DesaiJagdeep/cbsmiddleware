@@ -27,7 +27,7 @@ public class BatchTransactionMapper implements Serializable {
 
     private String batchAckId;
 
-    private String issPortalId;
+    private Long issPortalId;
 
     private String fileName;
 
@@ -76,11 +76,11 @@ public class BatchTransactionMapper implements Serializable {
         return packsName;
     }
 
-    public String getIssPortalId() {
+    public Long getIssPortalId() {
         return issPortalId;
     }
 
-    public void setIssPortalId(String issPortalId) {
+    public void setIssPortalId(Long issPortalId) {
         this.issPortalId = issPortalId;
     }
 

@@ -98,18 +98,22 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
                 JSONObject jsonObject = new JSONObject(batchTransaction);
                 BatchTransactionMapper batchTransactionMapper = objectMapper.readValue(jsonObject.toString(), BatchTransactionMapper.class);
 
-                Optional<IssPortalFile> findById = issPortalFileRepository.findById(
+                Optional<IssPortalFile> findIssPortalFileById = issPortalFileRepository.findById(
                     applicationRepository.findIssFilePortalIdByBatchId(batchTransaction.getBatchId()).get(0)
                 );
 
-                // Long appPendingForExecCount=;
-                batchTransactionMapper.setAppPendingForExecCount(
-                    applicationRepository.countByIssFilePortalIdAndBatchIdNull(findById.get().getId())
-                );
-                batchTransactionMapper.setFileName(findById.get().getFileName());
-                batchTransactionMapper.setBranchName(findById.get().getBranchName());
-                batchTransactionMapper.setPacksName(findById.get().getPacsName());
-                batchTransactionMapperList.add(batchTransactionMapper);
+                if (findIssPortalFileById.isPresent()) {
+                    IssPortalFile issPortalFile = findIssPortalFileById.get();
+
+                    batchTransactionMapper.setAppPendingForExecCount(
+                        applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
+                    );
+                    batchTransactionMapper.setIssPortalId(issPortalFile.getId());
+                    batchTransactionMapper.setFileName(issPortalFile.getFileName());
+                    batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
+                    batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+                    batchTransactionMapperList.add(batchTransactionMapper);
+                }
             } catch (Exception e) {
                 log.error("Error in portal responce api: " + e);
             }

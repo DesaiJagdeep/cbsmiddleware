@@ -51,7 +51,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);
 
-    //@Query("select count(*) from Application application where application.batchId is null and application.issFilePortalId =:issFilePortalId")
-    @Query(nativeQuery = true, value = "select count(*) from  application_transaction where batch_id is null and iss_file_portal_id=1;")
+    @Query(
+        "select count(*) from Application application where application.batchId is null and application.issFilePortalId =:issFilePortalId"
+    )
     Long countByIssFilePortalIdAndBatchIdNull(@Param("issFilePortalId") Long issFilePortalId);
 }

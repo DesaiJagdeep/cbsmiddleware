@@ -4,6 +4,7 @@ import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.ApplicationLogHistory;
 import com.cbs.middleware.domain.ApplicationsByBatchAckId;
 import com.cbs.middleware.domain.BatchAckId;
 import com.cbs.middleware.domain.BatchData;
@@ -12,6 +13,7 @@ import com.cbs.middleware.domain.CBSMiddleareInputPayload;
 import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.domain.DataByBatchAckId;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
+import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.BatchTransactionRepository;
@@ -35,6 +37,7 @@ import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -93,6 +96,9 @@ public class CronJobResource {
     ApplicationLogRepository applicationLogRepository;
 
     @Autowired
+    ApplicationLogHistoryRepository applicationLogHistoryRepository;
+
+    @Autowired
     CropMasterRepository cropMasterRepository;
 
     @Autowired
@@ -132,92 +138,130 @@ public class CronJobResource {
      *
      * @throws Exception
      */
-
     @GetMapping("/cronJob")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
-        List<Application> applicationListSave = new ArrayList<>();
 
-        for (BatchTransaction batchTransaction : batchTransactionList) {
-            String cbsResponceString = "";
-            BatchAckId batchAckId = new BatchAckId();
-            batchAckId.setBatchAckId(batchTransaction.getBatchAckId());
+        if (!batchTransactionList.isEmpty()) {
+            for (BatchTransaction batchTransaction : batchTransactionList) {
+                List<Application> applicationListSave = new ArrayList<>();
+                String cbsResponceString = "";
+                BatchAckId batchAckId = new BatchAckId();
+                batchAckId.setBatchAckId(batchTransaction.getBatchAckId());
 
-            String encryption = encryption(batchAckId);
+                String encryption = encryption(batchAckId);
 
-            // Making input payload
-            CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
-            cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-            cbsMiddleareInputPayload.setData(encryption);
+                List<ApplicationLog> applicationLogListToSave = new ArrayList<>();
 
-            try {
-                // Set the request URL
-                String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databybatchackid;
-                // Set the request headers
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                // Create the HttpEntity object with headers and body
-                HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
-                // Make the HTTP POST request
-                ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+                // Making input payload
+                CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
+                cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
+                cbsMiddleareInputPayload.setData(encryption);
 
-                if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-                    cbsResponceString = responseEntity.getBody();
+                try {
+                    // Set the request URL
+                    String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databybatchackid;
+                    // Set the request headers
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    // Create the HttpEntity object with headers and body
+                    HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
+                    // Make the HTTP POST request
+                    ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
-                    CBSResponce convertValue = null;
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+                    if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+                        cbsResponceString = responseEntity.getBody();
 
-                    if (convertValue.isStatus()) {
-                        String decryption = decryption("" + convertValue.getData());
-                        objectMapper = new ObjectMapper();
+                        CBSResponce convertValue = null;
+                        ObjectMapper objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                        DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
+                        convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
 
-                        if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
-                            batchTransaction.setStatus(Constants.DISCARDED);
-                        } else if (dataByBatchAckId.getStatus() == Constants.PENDING_FOR_PROCESSING_BATCH_STATUS_CODE) {
-                            batchTransaction.setStatus(Constants.PENDING_FOR_PROCESSING);
-                        } else if (dataByBatchAckId.getStatus() == Constants.PROCESSING_BATCH_STATUS_CODE) {
-                            batchTransaction.setStatus(Constants.PROCESSING);
-                        } else if (dataByBatchAckId.getStatus() == Constants.PROCESSED_BATCH_STATUS_CODE) {
-                            batchTransaction.setStatus(Constants.PROCESSED);
-                        }
+                        if (convertValue.isStatus()) {
+                            String decryption = decryption("" + convertValue.getData());
+                            objectMapper = new ObjectMapper();
+                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                            DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
 
-                        Long kccApplErrCount = 0l;
-                        if (!dataByBatchAckId.getApplications().isEmpty()) {
-                            for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
-                                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
-                                    applicationsByBatchAckId.getUniqueId()
-                                );
+                            if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
+                                batchTransaction.setStatus(Constants.DISCARDED);
+                            } else if (dataByBatchAckId.getStatus() == Constants.PENDING_FOR_PROCESSING_BATCH_STATUS_CODE) {
+                                batchTransaction.setStatus(Constants.PENDING_FOR_PROCESSING);
+                            } else if (dataByBatchAckId.getStatus() == Constants.PROCESSING_BATCH_STATUS_CODE) {
+                                batchTransaction.setStatus(Constants.PROCESSING);
+                            } else if (dataByBatchAckId.getStatus() == Constants.PROCESSED_BATCH_STATUS_CODE) {
+                                batchTransaction.setStatus(Constants.PROCESSED);
+                            }
 
-                                applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
-                                applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+                            Long kccApplErrCount = 0l;
+                            if (!dataByBatchAckId.getApplications().isEmpty()) {
+                                for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
+                                    Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
+                                        applicationsByBatchAckId.getUniqueId()
+                                    );
 
-                                if (applicationsByBatchAckId.getApplicationStatus() == 1) {
-                                    applicationByUniqueId.setKccStatus(1l);
-                                    applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
-                                    applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
-                                } else {
-                                    applicationByUniqueId.setKccStatus(0l);
-                                    applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
-                                    kccApplErrCount = kccApplErrCount + 1l;
+                                    applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
+                                    applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
+                                    if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                        applicationByUniqueId.setKccStatus(1l);
+                                        applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                        applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                    } else {
+                                        applicationByUniqueId.setKccStatus(0l);
+                                        applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                        kccApplErrCount = kccApplErrCount + 1l;
+
+                                        ApplicationLog applicationLog = new ApplicationLog();
+                                        Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
+                                            applicationByUniqueId.getIssFileParser()
+                                        );
+                                        if (applicationLogSaved.isPresent()) {
+                                            applicationLog = applicationLogSaved.get();
+                                            JSONObject jsonObject = new JSONObject(applicationLog);
+                                            ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
+                                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                            ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
+                                                jsonObject.toString(),
+                                                ApplicationLogHistory.class
+                                            );
+
+                                            applicationLogHistoryRepository.save(applicationLogHistory);
+                                        }
+
+                                        applicationLog.setIssFileParser(applicationByUniqueId.getIssFileParser());
+                                        applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                        applicationLog.setSevierity(Constants.HighSevierity);
+                                        applicationLog.setExpectedSolution("Provide correct information");
+                                        applicationLog.setStatus(Constants.ERROR);
+                                        applicationLog.setErrorType(Constants.kccError);
+                                        applicationLog.setIssPortalId(applicationByUniqueId.getIssFileParser().getIssPortalFile().getId());
+                                        applicationLog.setFileName(
+                                            applicationByUniqueId.getIssFileParser().getIssPortalFile().getFileName()
+                                        );
+                                        applicationLogListToSave.add(applicationLog);
+                                    }
+
+                                    applicationListSave.add(applicationByUniqueId);
                                 }
 
-                                applicationListSave.add(applicationByUniqueId);
+                                if (!applicationListSave.isEmpty()) {
+                                    applicationRepository.saveAll(applicationListSave);
+                                }
+                                if (!applicationLogListToSave.isEmpty()) {
+                                    applicationLogRepository.saveAll(applicationLogListToSave);
+                                }
                             }
-                            applicationRepository.saveAll(applicationListSave);
+                        } else {
+                            batchTransaction.setBatchDetails("Batch is not processed yet");
                         }
-                    } else {
-                        batchTransaction.setBatchDetails("Batch is not processed yet");
-                    }
 
-                    batchTransactionRepository.save(batchTransaction);
+                        batchTransactionRepository.save(batchTransaction);
+                    }
+                } catch (Exception e) {
+                    log.error("Error in cronjob: " + e);
                 }
-            } catch (Exception e) {
-                log.error("Error in cronjob: " + e);
             }
         }
     }

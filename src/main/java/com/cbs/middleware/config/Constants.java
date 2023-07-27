@@ -44,6 +44,7 @@ public final class Constants {
 
     public static final String databybatchackid = "/databybatchackid";
     public static final String submitbatch = "/submitbatch";
+    public static final String databyrecipientuniqueids = "/databyrecipientuniqueids";
 
     public static final String MALE = "male";
     public static final String FEMAIL = "female";

@@ -1230,9 +1230,7 @@ public class IssFileParserResource {
 
         // marineType
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + validationErrorBuilder);
-
-        if (validationErrorBuilder.isEmpty()) {
+        if (validationErrorBuilder == null || validationErrorBuilder.toString().equals("")) {
             applicationLog.setStatus(Constants.FIXED);
         } else {
             applicationLog.setIssFileParser(issFileParser);

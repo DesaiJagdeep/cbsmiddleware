@@ -38,12 +38,14 @@
     <include file="config/liquibase/changelog/20230718120922_added_entity_ActivityType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712051569_added_entity_FinancialYear.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230718120759_added_entity_permission.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230711043899_added_entity_IssChildPortal.xml" relativeToChangelogFile="false"/>
     
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20230710064404_added_entity_constraints_IssFileParser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712044312_added_entity_constraints_ApplicationLog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712045701_added_entity_constraints_ApplicationLogHistory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712051056_added_entity_constraints_Application.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230711043899_added_entity_constraints_IssChildPortal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

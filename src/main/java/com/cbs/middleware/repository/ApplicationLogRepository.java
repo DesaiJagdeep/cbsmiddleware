@@ -1,5 +1,6 @@
 package com.cbs.middleware.repository;
 
+import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 import java.util.List;
@@ -49,4 +50,6 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     Optional<ApplicationLog> findOneByIssFileParser(IssFileParser issFileParser);
 
     List<ApplicationLog> findAllByIssPortalIdAndStatus(Long iPId, String status);
+
+    List<ApplicationLog> findAllByIssPortalIdAndErrorTypeAndStatus(Long issPortalFileId, String validationerror, String error);
 }

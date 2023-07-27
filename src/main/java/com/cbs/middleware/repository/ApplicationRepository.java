@@ -1,12 +1,14 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.IssFileParser;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -41,8 +43,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     List<Application> findAllByIssFilePortalId(Long id);
 
-    // @Query("select application from Application application  where application.batchId is null and  application.applicationStatus=0 and application.issFilePortalId =:issFilePortalId")
-    //List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId") Long issFilePortalId);
+    // @Query("select application from Application application where
+    // application.batchId is null and application.applicationStatus=0 and
+    // application.issFilePortalId =:issFilePortalId")
+    // List<Application>
+    // findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId")
+    // Long issFilePortalId);
 
     List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Integer errorStatus, Long issFilePortalId);
 
@@ -55,4 +61,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         "select count(*) from Application application where application.batchId is null and application.issFilePortalId =:issFilePortalId"
     )
     Long countByIssFilePortalIdAndBatchIdNull(@Param("issFilePortalId") Long issFilePortalId);
+
+    @Query("select count(*) from Application application where application.issFilePortalId =:issFilePortalId")
+    Integer countByIssFilePortalId(@Param("issFilePortalId") Long issFilePortalId);
+
+    Optional<Application> findOneByIssFileParser(IssFileParser issFileParser);
 }

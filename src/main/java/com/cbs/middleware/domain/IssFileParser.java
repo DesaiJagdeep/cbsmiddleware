@@ -895,7 +895,7 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     public String toString() {
         return "IssFileParser{" +
             "id=" + getId() +
-            ", financialYear='" + getFinancialYear() + "'" +
+ //           ", financialYear='" + getFinancialYear() + "'" +
 //            ", bankName='" + getBankName() + "'" +
 //            ", bankCode='" + getBankCode() + "'" +
 //            ", branchName='" + getBranchName() + "'" +

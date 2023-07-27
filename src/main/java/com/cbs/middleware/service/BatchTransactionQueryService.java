@@ -112,6 +112,7 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
                     batchTransactionMapper.setFileName(issPortalFile.getFileName());
                     batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
                     batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+
                     batchTransactionMapperList.add(batchTransactionMapper);
                 }
             } catch (Exception e) {

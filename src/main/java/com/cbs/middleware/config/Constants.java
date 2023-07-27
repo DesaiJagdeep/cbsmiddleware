@@ -14,6 +14,7 @@ public final class Constants {
     public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
 
     public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
+    public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
 
     public static final String DefaultPassword = "Bank@123";
 
@@ -46,6 +47,16 @@ public final class Constants {
 
     public static final String MALE = "male";
     public static final String FEMAIL = "female";
+
+    public static final String ERROR = "ERROR";
+    public static final String FIXED = "FIXED";
+    public static final String SUCCESS = "SUCCESS";
+
+    public static final String validationError = "Validation Error";
+    public static final String kccError = "KCC Error";
+
+    public static final String HighSevierity = "HIGH";
+    public static final String lowSevierity = "LOW";
 
     private Constants() {}
 }

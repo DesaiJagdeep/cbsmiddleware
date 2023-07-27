@@ -6,25 +6,8 @@ import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.CBSMiddleareInputPayload;
 import com.cbs.middleware.domain.CBSResponce;
-import com.cbs.middleware.domain.DataByBatchAckId;
 import com.cbs.middleware.domain.DataByRecipientUniqueIDInputPayload;
-import com.cbs.middleware.repository.AccountHolderMasterRepository;
-import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
-import com.cbs.middleware.repository.ApplicationLogRepository;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.BatchTransactionRepository;
-import com.cbs.middleware.repository.CastCategoryMasterRepository;
-import com.cbs.middleware.repository.CropMasterRepository;
-import com.cbs.middleware.repository.DesignationMasterRepository;
-import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
-import com.cbs.middleware.repository.FarmerTypeMasterRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.repository.LandTypeMasterRepository;
-import com.cbs.middleware.repository.OccupationMasterRepository;
-import com.cbs.middleware.repository.RelativeMasterRepository;
-import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.security.RBAControl;
-import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
@@ -65,7 +47,7 @@ public class ApplicationDetailResource {
 
     private final Logger log = LoggerFactory.getLogger(ApplicationDetailResource.class);
 
-    private static final String ENTITY_NAME = "issFileParser";
+    private static final String ENTITY_NAME = "ApplicationDetailResource";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -74,55 +56,7 @@ public class ApplicationDetailResource {
     ApplicationProperties applicationProperties;
 
     @Autowired
-    DesignationMasterRepository designationMasterRepository;
-
-    @Autowired
-    SeasonMasterRepository seasonMasterRepository;
-
-    @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    IssPortalFileRepository issPortalFileRepository;
-
-    @Autowired
-    ResponceService responceService;
-
-    @Autowired
-    ApplicationLogRepository applicationLogRepository;
-
-    @Autowired
-    ApplicationLogHistoryRepository applicationLogHistoryRepository;
-
-    @Autowired
-    CropMasterRepository cropMasterRepository;
-
-    @Autowired
-    ApplicationRepository applicationRepository;
-
-    @Autowired
-    LandTypeMasterRepository landTypeMasterRepository;
-
-    @Autowired
-    AccountHolderMasterRepository accountHolderMasterRepository;
-
-    @Autowired
-    RelativeMasterRepository relativeMasterRepository;
-
-    @Autowired
-    OccupationMasterRepository occupationMasterRepository;
-
-    @Autowired
-    FarmerTypeMasterRepository farmerTypeMasterRepository;
-
-    @Autowired
-    FarmerCategoryMasterRepository farmerCategoryMasterRepository;
-
-    @Autowired
-    CastCategoryMasterRepository castCategoryMasterRepository;
-
-    @Autowired
-    BatchTransactionRepository batchTransactionRepository;
 
     @Autowired
     RBAControl rbaControl;
@@ -139,7 +73,7 @@ public class ApplicationDetailResource {
 
     @PostMapping("/application-detail")
     // @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
-    public ResponseEntity<Object> updateRecordsInBatchTran(@RequestBody DataByRecipientUniqueIDInputPayload inputPayload) {
+    public ResponseEntity<Object> getApplicationDetail(@RequestBody DataByRecipientUniqueIDInputPayload inputPayload) {
         if (inputPayload == null || inputPayload.getBatchAckId().isEmpty() || inputPayload.getRecipientUniqueIds().size() == 0) {
             throw new BadRequestAlertException("Invalid input payload, add required values", ENTITY_NAME, "objectInvalid");
         }
@@ -149,7 +83,6 @@ public class ApplicationDetailResource {
         CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
         cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
         cbsMiddleareInputPayload.setData(encryption);
-
         try {
             // Set the request URL
             String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databyrecipientuniqueids;
@@ -171,10 +104,9 @@ public class ApplicationDetailResource {
 
                 if (convertValue.isStatus()) {
                     String decryption = decryption("" + convertValue.getData());
-                    objectMapper = new ObjectMapper();
-                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    JSONArray databyrecipientuniqueids = objectMapper.readValue(decryption, JSONArray.class);
-                    return ResponseEntity.ok().body(databyrecipientuniqueids);
+
+                    JSONArray JSONArray = new JSONArray(decryption);
+                    return ResponseEntity.ok().body(JSONArray.toString(4));
                 } else {
                     return ResponseEntity.badRequest().body(convertValue.getError());
                 }

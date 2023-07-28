@@ -53,7 +53,9 @@
             <column name="pacs_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+            <column name="kcc_error_record_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <column name="error_record_count" type="bigint">
                 <constraints nullable="true" />
             </column>

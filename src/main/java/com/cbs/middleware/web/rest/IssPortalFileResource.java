@@ -179,7 +179,6 @@ public class IssPortalFileResource {
         }
 
         Optional<IssPortalFile> result = issPortalFileService.partialUpdate(issPortalFile);
-
         return ResponseUtil.wrapOrNotFound(
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issPortalFile.getId().toString())
@@ -195,6 +194,16 @@ public class IssPortalFileResource {
      */
     @GetMapping("/iss-portal-files")
     public ResponseEntity<List<IssPortalFile>> getAllIssPortalFiles(
+        IssPortalFileCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
+        List<IssPortalFile> page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
+        return ResponseEntity.ok().body(page);
+    }
+
+    @GetMapping("/iss-portal-files1")
+    public ResponseEntity<List<IssPortalFile>> getAllIssPortalFiles1(
         IssPortalFileCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {

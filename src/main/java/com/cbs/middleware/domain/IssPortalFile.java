@@ -2,7 +2,12 @@ package com.cbs.middleware.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * A IssPortalFile.
@@ -64,6 +69,12 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "kcc_error_record_count")
     private Integer kccErrorRecordCount;
 
+    @Column(name = "app_submited_to_kcc_count")
+    private Long appSubmitedToKccCount;
+
+    @Column(name = "app_pending_to_submit_count")
+    private Long appPendingToSubmitCount;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -86,6 +97,22 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     public IssPortalFile fileName(String fileName) {
         this.setFileName(fileName);
         return this;
+    }
+
+    public Long getAppSubmitedToKccCount() {
+        return appSubmitedToKccCount;
+    }
+
+    public void setAppSubmitedToKccCount(Long appSubmitedToKccCount) {
+        this.appSubmitedToKccCount = appSubmitedToKccCount;
+    }
+
+    public Long getAppPendingToSubmitCount() {
+        return appPendingToSubmitCount;
+    }
+
+    public void setAppPendingToSubmitCount(Long appPendingToSubmitCount) {
+        this.appPendingToSubmitCount = appPendingToSubmitCount;
     }
 
     public void setFileName(String fileName) {

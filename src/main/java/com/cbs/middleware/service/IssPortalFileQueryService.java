@@ -1,13 +1,15 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.*; // for static metamodels
-import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -16,10 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
 
 /**
- * Service for executing complex queries for {@link IssPortalFile} entities in the database.
- * The main input is a {@link IssPortalFileCriteria} which gets converted to {@link Specification},
- * in a way that all the filters must apply.
- * It returns a {@link List} of {@link IssPortalFile} or a {@link Page} of {@link IssPortalFile} which fulfills the criteria.
+ * Service for executing complex queries for {@link IssPortalFile} entities in
+ * the database. The main input is a {@link IssPortalFileCriteria} which gets
+ * converted to {@link Specification}, in a way that all the filters must apply.
+ * It returns a {@link List} of {@link IssPortalFile} or a {@link Page} of
+ * {@link IssPortalFile} which fulfills the criteria.
  */
 @Service
 @Transactional(readOnly = true)
@@ -29,13 +32,19 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
     private final IssPortalFileRepository issPortalFileRepository;
 
+    @Autowired
+    ApplicationRepository applicationRepository;
+
     public IssPortalFileQueryService(IssPortalFileRepository issPortalFileRepository) {
         this.issPortalFileRepository = issPortalFileRepository;
     }
 
     /**
-     * Return a {@link List} of {@link IssPortalFile} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
+     * Return a {@link List} of {@link IssPortalFile} which matches the criteria
+     * from the database.
+     *
+     * @param criteria The object which holds all the filters, which the entities
+     *                 should match.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
@@ -46,9 +55,12 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
     }
 
     /**
-     * Return a {@link Page} of {@link IssPortalFile} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
+     * Return a {@link Page} of {@link IssPortalFile} which matches the criteria
+     * from the database.
+     *
+     * @param criteria The object which holds all the filters, which the entities
+     *                 should match.
+     * @param page     The page, which should be returned.
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
@@ -60,7 +72,9 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
     /**
      * Return the number of matching entities in the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
+     *
+     * @param criteria The object which holds all the filters, which the entities
+     *                 should match.
      * @return the number of matching entities.
      */
     @Transactional(readOnly = true)
@@ -72,7 +86,9 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
     /**
      * Function to convert {@link IssPortalFileCriteria} to a {@link Specification}
-     * @param criteria The object which holds all the filters, which the entities should match.
+     *
+     * @param criteria The object which holds all the filters, which the entities
+     *                 should match.
      * @return the matching {@link Specification} of the entity.
      */
     protected Specification<IssPortalFile> createSpecification(IssPortalFileCriteria criteria) {
@@ -120,5 +136,22 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             }
         }
         return specification;
+    }
+
+    public List<IssPortalFile> findByCriteriaCount(IssPortalFileCriteria criteria, Pageable pageable) {
+        final Specification<IssPortalFile> specification = createSpecification(criteria);
+
+        List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
+        Page<IssPortalFile> findAll = issPortalFileRepository.findAll(specification, pageable);
+
+        for (IssPortalFile issPortalFile : findAll) {
+            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+
+            issPortalFile.setAppSubmitedToKccCount(applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId()));
+
+            issPortalFileMapperList.add(issPortalFile);
+        }
+
+        return issPortalFileMapperList;
     }
 }

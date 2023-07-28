@@ -931,8 +931,6 @@ public class IssFileParserResource {
             .filter(c1 -> issFileParserValidationErrorSet.stream().noneMatch(c2 -> c1.getId() == c2.getId()))
             .collect(Collectors.toList());
 
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + correctedRecordsInFile);
-
         List<Application> applicationList = new ArrayList<>();
         if (!correctedRecordsInFile.isEmpty()) {
             for (IssFileParser issFileParser : correctedRecordsInFile) {
@@ -975,7 +973,11 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("Application log not found", ENTITY_NAME, "applognotfound");
         }
 
-        if (findOneByIssFileParser.isPresent() && findOneByIssFileParser.get().getStatus().equalsIgnoreCase(Constants.FIXED)) {
+        if (
+            findOneByIssFileParser.isPresent() &&
+            findOneByIssFileParser.get().getStatus().equalsIgnoreCase(Constants.FIXED) &&
+            !findOneByIssFileParser.get().getErrorType().equalsIgnoreCase(Constants.kccError)
+        ) {
             ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setStatus(Constants.FIXED);
             applicationLog.setErrorMessage("Given application not have any error");
@@ -988,8 +990,18 @@ public class IssFileParserResource {
         if (Constants.FIXED.equalsIgnoreCase(validateOneFileDataObject.getStatus())) {
             // fetching iss portal file and updating error record count
             IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
-            if (issPortalFile.getErrorRecordCount() != null && issPortalFile.getErrorRecordCount() != 0) {
+            if (
+                issPortalFile.getErrorRecordCount() != null &&
+                Constants.validationError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
+                issPortalFile.getErrorRecordCount() != 0
+            ) {
                 issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
+            } else if (
+                issPortalFile.getKccErrorRecordCount() != null &&
+                Constants.kccError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
+                issPortalFile.getErrorRecordCount() != 0
+            ) {
+                issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
             }
 
             IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);

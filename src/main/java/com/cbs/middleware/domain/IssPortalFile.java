@@ -61,6 +61,9 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "error_record_count")
     private Integer errorRecordCount;
 
+    @Column(name = "kcc_error_record_count")
+    private Integer kccErrorRecordCount;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -113,6 +116,14 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     public void setBranchCode(Long branchCode) {
         this.branchCode = branchCode;
+    }
+
+    public Integer getKccErrorRecordCount() {
+        return kccErrorRecordCount;
+    }
+
+    public void setKccErrorRecordCount(Integer kccErrorRecordCount) {
+        this.kccErrorRecordCount = kccErrorRecordCount;
     }
 
     public String getFinancialYear() {

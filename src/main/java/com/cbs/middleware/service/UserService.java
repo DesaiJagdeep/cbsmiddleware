@@ -263,7 +263,11 @@ public class UserService {
                     if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
                         if (StringUtils.isBlank(userDTO.getBankCode())) {
                             throw new BadRequestAlertException("provide bank code", "USER", "bankCodeNotExist");
+                        } else {
+                            user.setBankCode(userDTO.getBankCode());
+                            user.setBankName(userDTO.getBankName());
                         }
+
                         user.setBranchCode("");
                         user.setBranchName("");
                         user.setPacsName("");
@@ -273,6 +277,13 @@ public class UserService {
                             throw new BadRequestAlertException("provide branch code", "USER", "branchCodeNotExist");
                         } else {
                             user.setBranchCode(userDTO.getBranchCode());
+                        }
+
+                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
+                            user.setBranchName(userDTO.getBranchName());
+                        }
+                        if (StringUtils.isNotBlank(userDTO.getBankName())) {
+                            user.setBankName(userDTO.getBankName());
                         }
 
                         if (StringUtils.isNotBlank(userDTO.getBranchName())) {
@@ -294,6 +305,9 @@ public class UserService {
 
                         if (StringUtils.isNotBlank(userDTO.getPacsName())) {
                             user.setPacsName(userDTO.getPacsName());
+                        }
+                        if (StringUtils.isNotBlank(userDTO.getBankName())) {
+                            user.setBankName(userDTO.getBankName());
                         }
                     } else {
                         throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");

@@ -4,6 +4,7 @@ import com.cbs.middleware.security.jwt.JWTFilter;
 import com.cbs.middleware.security.jwt.TokenProvider;
 import com.cbs.middleware.web.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,9 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        String authoroty = authentication.getAuthorities().stream().findFirst().get().getAuthority();
+
+        return new ResponseEntity<>(new JWTToken(jwt, authoroty), httpHeaders, HttpStatus.OK);
     }
 
     /**
@@ -51,9 +55,11 @@ public class UserJWTController {
     static class JWTToken {
 
         private String idToken;
+        private String authority;
 
-        JWTToken(String idToken) {
+        JWTToken(String idToken, String authority) {
             this.idToken = idToken;
+            this.authority = authority;
         }
 
         @JsonProperty("id_token")
@@ -63,6 +69,14 @@ public class UserJWTController {
 
         void setIdToken(String idToken) {
             this.idToken = idToken;
+        }
+
+        public String getAuthority() {
+            return authority;
+        }
+
+        public void setAuthority(String authority) {
+            this.authority = authority;
         }
     }
 }

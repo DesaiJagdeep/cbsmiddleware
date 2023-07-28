@@ -33,6 +33,9 @@ public class AdminUserDTO implements Serializable {
     private String bankCode;
 
     @Size(max = 50)
+    private String bankName;
+
+    @Size(max = 50)
     private String branchName;
 
     @Size(max = 50)
@@ -84,10 +87,11 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.branchCode = user.getBranchCode();
+        this.branchName = user.getBranchName();
         this.pacsName = user.getPacsName();
         this.pacsNumber = user.getPacsNumber();
         this.bankCode = user.getBankCode();
-        this.branchCode = user.getBranchCode();
+        this.bankName = user.getBankName();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
@@ -109,6 +113,14 @@ public class AdminUserDTO implements Serializable {
 
     public String getLogin() {
         return login;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
     public void setLogin(String login) {

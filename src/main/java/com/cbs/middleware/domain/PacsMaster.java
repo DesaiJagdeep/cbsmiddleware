@@ -24,6 +24,9 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "pacs_number")
     private String pacsNumber;
 
+    @Column(name = "branch_code")
+    private String branchCode;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -61,11 +64,20 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
         return this;
     }
 
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
+    }
+
     public void setPacsNumber(String pacsNumber) {
         this.pacsNumber = pacsNumber;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -80,17 +92,15 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "PacsMaster{" +
-            "id=" + getId() +
-            ", pacsName='" + getPacsName() + "'" +
-            ", pacsNumber='" + getPacsNumber() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "PacsMaster{" + "id=" + getId() + ", pacsName='" + getPacsName() + "'" + ", pacsNumber='"
+				+ getPacsNumber() + "'" + "}";
+	}
 }

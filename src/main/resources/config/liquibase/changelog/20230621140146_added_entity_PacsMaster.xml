@@ -20,6 +20,11 @@
             <column name="pacs_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+             <column name="branch_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            
+            
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

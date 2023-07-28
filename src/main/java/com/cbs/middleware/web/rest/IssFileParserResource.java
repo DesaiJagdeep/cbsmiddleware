@@ -973,11 +973,7 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("Application log not found", ENTITY_NAME, "applognotfound");
         }
 
-        if (
-            findOneByIssFileParser.isPresent() &&
-            findOneByIssFileParser.get().getStatus().equalsIgnoreCase(Constants.FIXED) &&
-            !findOneByIssFileParser.get().getErrorType().equalsIgnoreCase(Constants.kccError)
-        ) {
+        if (findOneByIssFileParser.isPresent() && findOneByIssFileParser.get().getStatus().equalsIgnoreCase(Constants.FIXED)) {
             ApplicationLog applicationLog = new ApplicationLog();
             applicationLog.setStatus(Constants.FIXED);
             applicationLog.setErrorMessage("Given application not have any error");
@@ -987,51 +983,47 @@ public class IssFileParserResource {
 
         ApplicationLog validateOneFileDataObject = getValidateOneFileDataObject(issFileParser, findOneByIssFileParser.get());
 
-        if (Constants.FIXED.equalsIgnoreCase(validateOneFileDataObject.getStatus())) {
-            // fetching iss portal file and updating error record count
-            IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
-            if (
-                issPortalFile.getErrorRecordCount() != null &&
-                Constants.validationError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
-                issPortalFile.getErrorRecordCount() != 0
-            ) {
-                issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
-            } else if (
-                issPortalFile.getKccErrorRecordCount() != null &&
-                Constants.kccError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
-                issPortalFile.getErrorRecordCount() != 0
-            ) {
-                issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
-            }
-
-            IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
-
-            // saving iss file data after validating
-            issFileParser.setIssPortalFile(issPortalFileSave);
-            IssFileParser result = issFileParserService.update(issFileParser);
-
-            // adding file data entry to application tracking table
-            Application application = new Application();
-            application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-            application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-            application.setIssFileParser(result);
-            application.setIssFilePortalId(issPortalFileSave.getId());
-            applicationRepository.save(application);
-
-            // adding status fixed in application log
-            ApplicationLog applicationLog = findOneByIssFileParser.get();
-            applicationLog.setStatus(Constants.FIXED);
-            applicationLog.setSevierity("");
-            applicationLog.setErrorRecordCount(0);
-            applicationLogRepository.save(applicationLog);
-
-            return ResponseEntity
-                .ok()
-                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issFileParser.getId().toString()))
-                .body(result);
-        } else {
-            return ResponseEntity.badRequest().body(validateOneFileDataObject);
+        // fetching iss portal file and updating error record count
+        IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
+        if (
+            issPortalFile.getErrorRecordCount() != null &&
+            Constants.validationError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
+            issPortalFile.getErrorRecordCount() != 0
+        ) {
+            issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
+        } else if (
+            issPortalFile.getKccErrorRecordCount() != null &&
+            Constants.kccError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
+            issPortalFile.getErrorRecordCount() != 0
+        ) {
+            issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
         }
+
+        IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
+
+        // saving iss file data after validating
+        issFileParser.setIssPortalFile(issPortalFileSave);
+        IssFileParser result = issFileParserService.update(issFileParser);
+
+        // adding file data entry to application tracking table
+        Application application = new Application();
+        application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+        application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+        application.setIssFileParser(result);
+        application.setIssFilePortalId(issPortalFileSave.getId());
+        applicationRepository.save(application);
+
+        // adding status fixed in application log
+        ApplicationLog applicationLog = findOneByIssFileParser.get();
+        applicationLog.setStatus(Constants.FIXED);
+        applicationLog.setSevierity("");
+        applicationLog.setErrorRecordCount(0);
+        applicationLogRepository.save(applicationLog);
+
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issFileParser.getId().toString()))
+            .body(result);
     }
 
     public ApplicationLog getValidateOneFileDataObject(IssFileParser issFileParser, ApplicationLog applicationLog) {
@@ -1243,7 +1235,10 @@ public class IssFileParserResource {
         // marineType
 
         if (validationErrorBuilder == null || validationErrorBuilder.toString().equals("")) {
+            applicationLog.setIssFileParser(issFileParser);
             applicationLog.setStatus(Constants.FIXED);
+            applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
+            applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
         } else {
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setErrorMessage("" + validationErrorBuilder);

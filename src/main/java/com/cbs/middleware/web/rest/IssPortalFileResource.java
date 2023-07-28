@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.IssPortalFileQueryService;
@@ -19,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
@@ -44,6 +46,9 @@ public class IssPortalFileResource {
     private final Logger log = LoggerFactory.getLogger(IssPortalFileResource.class);
 
     private static final String ENTITY_NAME = "issPortalFile";
+
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -97,7 +102,9 @@ public class IssPortalFileResource {
      * {@code POST  /iss-portal-files} : Create a new issPortalFile.
      *
      * @param issPortalFile the issPortalFile to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new issPortalFile, or with status {@code 400 (Bad Request)} if the issPortalFile has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new issPortalFile, or with status {@code 400 (Bad Request)}
+     *         if the issPortalFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-portal-files")
@@ -117,11 +124,13 @@ public class IssPortalFileResource {
     /**
      * {@code PUT  /iss-portal-files/:id} : Updates an existing issPortalFile.
      *
-     * @param id the id of the issPortalFile to save.
+     * @param id            the id of the issPortalFile to save.
      * @param issPortalFile the issPortalFile to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated issPortalFile,
-     * or with status {@code 400 (Bad Request)} if the issPortalFile is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the issPortalFile couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated issPortalFile, or with status {@code 400 (Bad Request)}
+     *         if the issPortalFile is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the issPortalFile couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-portal-files/{id}")
@@ -150,14 +159,17 @@ public class IssPortalFileResource {
     }
 
     /**
-     * {@code PATCH  /iss-portal-files/:id} : Partial updates given fields of an existing issPortalFile, field will ignore if it is null
+     * {@code PATCH  /iss-portal-files/:id} : Partial updates given fields of an
+     * existing issPortalFile, field will ignore if it is null
      *
-     * @param id the id of the issPortalFile to save.
+     * @param id            the id of the issPortalFile to save.
      * @param issPortalFile the issPortalFile to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated issPortalFile,
-     * or with status {@code 400 (Bad Request)} if the issPortalFile is not valid,
-     * or with status {@code 404 (Not Found)} if the issPortalFile is not found,
-     * or with status {@code 500 (Internal Server Error)} if the issPortalFile couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated issPortalFile, or with status {@code 400 (Bad Request)}
+     *         if the issPortalFile is not valid, or with status
+     *         {@code 404 (Not Found)} if the issPortalFile is not found, or with
+     *         status {@code 500 (Internal Server Error)} if the issPortalFile
+     *         couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/iss-portal-files/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -190,7 +202,8 @@ public class IssPortalFileResource {
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of issPortalFiles in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of issPortalFiles in body.
      */
     @GetMapping("/iss-portal-files")
     public ResponseEntity<List<IssPortalFile>> getAllIssPortalFiles(
@@ -217,7 +230,8 @@ public class IssPortalFileResource {
      * {@code GET  /iss-portal-files/count} : count all the issPortalFiles.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
+     *         in body.
      */
     @GetMapping("/iss-portal-files/count")
     public ResponseEntity<Long> countIssPortalFiles(IssPortalFileCriteria criteria) {
@@ -229,12 +243,22 @@ public class IssPortalFileResource {
      * {@code GET  /iss-portal-files/:id} : get the "id" issPortalFile.
      *
      * @param id the id of the issPortalFile to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the issPortalFile, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the issPortalFile, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/iss-portal-files/{id}")
     public ResponseEntity<IssPortalFile> getIssPortalFile(@PathVariable Long id) {
         log.debug("REST request to get IssPortalFile : {}", id);
         Optional<IssPortalFile> issPortalFile = issPortalFileService.findOne(id);
+
+        if (!issPortalFile.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        issPortalFile.get().setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(id));
+
+        issPortalFile.get().setAppSubmitedToKccCount(applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(id));
+
         return ResponseUtil.wrapOrNotFound(issPortalFile);
     }
 

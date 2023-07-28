@@ -59,6 +59,14 @@
             <column name="error_record_count" type="bigint">
                 <constraints nullable="true" />
             </column>
+             <column name="app_submited_to_kcc_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+             <column name="app_pending_to_submit_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            
+            
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

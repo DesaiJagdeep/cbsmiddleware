@@ -76,4 +76,9 @@ public class PacsMasterServiceImpl implements PacsMasterService {
         log.debug("Request to delete PacsMaster : {}", id);
         pacsMasterRepository.deleteById(id);
     }
+
+    @Override
+    public Page<PacsMaster> findAllWithEagerRelationships(Pageable pageable) {
+        return pacsMasterRepository.findAllWithEagerRelationships(pageable);
+    }
 }

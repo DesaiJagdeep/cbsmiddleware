@@ -214,17 +214,20 @@ public class CronJobResource {
                                         applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
                                         kccApplErrCount = kccApplErrCount + 1l;
 
-                                        //setting kscc error count in portal file object
+                                        // setting kscc error count in portal file object
                                         Optional<IssPortalFile> findById = issPortalFileRepository.findById(
                                             applicationByUniqueId.getIssFilePortalId()
                                         );
                                         if (findById.isPresent()) {
                                             IssPortalFile IssPortalFile = findById.get();
+                                            if (IssPortalFile.getKccErrorRecordCount() == null) {
+                                                IssPortalFile.setKccErrorRecordCount(0);
+                                            }
                                             IssPortalFile.setKccErrorRecordCount(IssPortalFile.getKccErrorRecordCount() + 1);
                                             issPortalFileRepository.save(IssPortalFile);
                                         }
 
-                                        //moving application log to history if exist
+                                        // moving application log to history if exist
                                         ApplicationLog applicationLog = new ApplicationLog();
                                         Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
                                             applicationByUniqueId.getIssFileParser()
@@ -242,7 +245,7 @@ public class CronJobResource {
                                             applicationLogHistoryRepository.save(applicationLogHistory);
                                         }
 
-                                        //updating new error log entry
+                                        // updating new error log entry
                                         applicationLog.setIssFileParser(applicationByUniqueId.getIssFileParser());
                                         applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
                                         applicationLog.setSevierity(Constants.HighSevierity);

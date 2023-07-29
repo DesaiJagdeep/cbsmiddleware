@@ -187,12 +187,16 @@ public class CronJobResource {
 
                             if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
                                 batchTransaction.setStatus(Constants.DISCARDED);
+                                batchTransaction.setBatchDetails("Batch is discarded");
                             } else if (dataByBatchAckId.getStatus() == Constants.PENDING_FOR_PROCESSING_BATCH_STATUS_CODE) {
                                 batchTransaction.setStatus(Constants.PENDING_FOR_PROCESSING);
+                                batchTransaction.setBatchDetails("Batch is pending for processing");
                             } else if (dataByBatchAckId.getStatus() == Constants.PROCESSING_BATCH_STATUS_CODE) {
                                 batchTransaction.setStatus(Constants.PROCESSING);
+                                batchTransaction.setBatchDetails("Batch is processing");
                             } else if (dataByBatchAckId.getStatus() == Constants.PROCESSED_BATCH_STATUS_CODE) {
                                 batchTransaction.setStatus(Constants.PROCESSED);
+                                batchTransaction.setBatchDetails("Batch is processed");
                             }
 
                             Long kccApplErrCount = 0l;

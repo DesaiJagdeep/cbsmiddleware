@@ -39,4 +39,7 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
         "select bankBranchMaster from BankBranchMaster bankBranchMaster left join fetch bankBranchMaster.bankMaster where bankBranchMaster.id =:id"
     )
     Optional<BankBranchMaster> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select bankBranchMaster.branchCode from BankBranchMaster bankBranchMaster where bankBranchMaster.branchName =:branchName")
+    String findBranchCodeByBranchName(@Param("branchName") String branchName);
 }

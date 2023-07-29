@@ -37,4 +37,7 @@ public interface PacsMasterRepository extends JpaRepository<PacsMaster, Long> {
 
     @Query("select pacsMaster from PacsMaster pacsMaster left join fetch pacsMaster.bankBranchMaster where pacsMaster.id =:id")
     Optional<PacsMaster> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select pacsMaster.pacsNumber from PacsMaster pacsMaster where pacsMaster.pacsName =:pacsName")
+    String findPacsNumberByPacsName(@Param("pacsName") String pacsName);
 }

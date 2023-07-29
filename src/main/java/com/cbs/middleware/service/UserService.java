@@ -4,6 +4,9 @@ import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Authority;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AuthorityRepository;
+import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.BankMasterRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.SecurityUtils;
@@ -12,11 +15,16 @@ import com.cbs.middleware.service.dto.UserDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +50,15 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+
+    @Autowired
+    BankMasterRepository bankMasterRepository;
+
+    @Autowired
+    BankBranchMasterRepository bankBranchMasterRepository;
+
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
 
     public UserService(
         UserRepository userRepository,
@@ -183,33 +200,42 @@ public class UserService {
 
             for (Authority authority : authorities) {
                 if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
-                    if (StringUtils.isBlank(userDTO.getBankCode())) {
-                        throw new BadRequestAlertException("provide bank code", "USER", "bankCodeNotExist");
+                    if (StringUtils.isBlank(userDTO.getBankName())) {
+                        throw new BadRequestAlertException("provide bank name", "USER", "bankNameNotExist");
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
                     }
                 } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
-                    if (StringUtils.isBlank(userDTO.getBranchCode())) {
-                        throw new BadRequestAlertException("provide branch code", "USER", "branchCodeNotExist");
+                    if (StringUtils.isBlank(userDTO.getBankName()) && StringUtils.isBlank(userDTO.getBranchName())) {
+                        throw new BadRequestAlertException("provide bank name and branch Name", "USER", "bankNameBranchNameNotExist");
                     } else {
-                        user.setBranchCode(userDTO.getBranchCode());
-                    }
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
-                    if (StringUtils.isNotBlank(userDTO.getBranchName())) {
                         user.setBranchName(userDTO.getBranchName());
+                        user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
                     }
                 } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
-                    if (StringUtils.isBlank(userDTO.getBranchCode()) && StringUtils.isBlank(userDTO.getPacsNumber())) {
-                        throw new BadRequestAlertException("provide branch code and packs code", "USER", "branch&packsCodeNotExist");
+                    if (
+                        StringUtils.isBlank(userDTO.getBankName()) &&
+                        StringUtils.isBlank(userDTO.getBranchName()) &&
+                        StringUtils.isBlank(userDTO.getPacsName())
+                    ) {
+                        throw new BadRequestAlertException(
+                            "provide bank name, branch name and packs name",
+                            "USER",
+                            "bankNameBranchNamePacksCodeNotExist"
+                        );
                     } else {
-                        user.setBranchCode(userDTO.getBranchCode());
-                        user.setPacsNumber(userDTO.getPacsNumber());
-                    }
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
-                    if (StringUtils.isNotBlank(userDTO.getBranchName())) {
                         user.setBranchName(userDTO.getBranchName());
-                    }
+                        user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
 
-                    if (StringUtils.isNotBlank(userDTO.getPacsName())) {
                         user.setPacsName(userDTO.getPacsName());
+                        user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
                     }
                 } else {
                     throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");
@@ -261,53 +287,50 @@ public class UserService {
 
                 for (Authority authority : managedAuthorities) {
                     if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
-                        if (StringUtils.isBlank(userDTO.getBankCode())) {
-                            throw new BadRequestAlertException("provide bank code", "USER", "bankCodeNotExist");
+                        if (StringUtils.isBlank(userDTO.getBankName())) {
+                            throw new BadRequestAlertException("provide bank name", "USER", "bankNameNotExist");
                         } else {
-                            user.setBankCode(userDTO.getBankCode());
                             user.setBankName(userDTO.getBankName());
-                        }
+                            user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
-                        user.setBranchCode("");
-                        user.setBranchName("");
-                        user.setPacsName("");
-                        user.setPacsNumber("");
+                            user.setBranchCode("");
+                            user.setBranchName("");
+                            user.setPacsName("");
+                            user.setPacsNumber("");
+                        }
                     } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
-                        if (StringUtils.isBlank(userDTO.getBranchCode())) {
-                            throw new BadRequestAlertException("provide branch code", "USER", "branchCodeNotExist");
+                        if (StringUtils.isBlank(userDTO.getBankName()) && StringUtils.isBlank(userDTO.getBranchName())) {
+                            throw new BadRequestAlertException("provide bank name and branch Name", "USER", "bankNameBranchNameNotExist");
                         } else {
-                            user.setBranchCode(userDTO.getBranchCode());
-                        }
-
-                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
-                            user.setBranchName(userDTO.getBranchName());
-                        }
-                        if (StringUtils.isNotBlank(userDTO.getBankName())) {
                             user.setBankName(userDTO.getBankName());
-                        }
+                            user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
-                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
                             user.setBranchName(userDTO.getBranchName());
+                            user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+
+                            user.setPacsName("");
+                            user.setPacsNumber("");
                         }
-                        user.setPacsName("");
-                        user.setPacsNumber("");
                     } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
-                        if (StringUtils.isBlank(userDTO.getBranchCode()) && StringUtils.isBlank(userDTO.getPacsNumber())) {
-                            throw new BadRequestAlertException("provide branch code and packs code", "USER", "branch&packsCodeNotExist");
+                        if (
+                            StringUtils.isBlank(userDTO.getBankName()) &&
+                            StringUtils.isBlank(userDTO.getBranchName()) &&
+                            StringUtils.isBlank(userDTO.getPacsName())
+                        ) {
+                            throw new BadRequestAlertException(
+                                "provide bank name, branch name and packs name",
+                                "USER",
+                                "bankNameBranchNamePacksCodeNotExist"
+                            );
                         } else {
-                            user.setBranchCode(userDTO.getBranchCode());
-                            user.setPacsNumber(userDTO.getPacsNumber());
-                        }
-
-                        if (StringUtils.isNotBlank(userDTO.getBranchName())) {
-                            user.setBranchName(userDTO.getBranchName());
-                        }
-
-                        if (StringUtils.isNotBlank(userDTO.getPacsName())) {
-                            user.setPacsName(userDTO.getPacsName());
-                        }
-                        if (StringUtils.isNotBlank(userDTO.getBankName())) {
                             user.setBankName(userDTO.getBankName());
+                            user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
+
+                            user.setBranchName(userDTO.getBranchName());
+                            user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+
+                            user.setPacsName(userDTO.getPacsName());
+                            user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
                         }
                     } else {
                         throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");

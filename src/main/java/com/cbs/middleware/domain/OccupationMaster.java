@@ -19,7 +19,7 @@ public class OccupationMaster extends AbstractAuditingEntity<Long> implements Se
     private Long id;
 
     @Column(name = "occupation_code")
-    private Integer occupationCode;
+    private Integer occupationCode = 0;
 
     @Column(name = "occupation_name")
     private String occupationName;

@@ -46,6 +46,8 @@
     <include file="config/liquibase/changelog/20230712045701_added_entity_constraints_ApplicationLogHistory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712051056_added_entity_constraints_Application.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230711043899_added_entity_constraints_IssChildPortal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621135333_added_entity_constraints_BankBranchMaster.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230621140146_added_entity_constraints_PacsMaster.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

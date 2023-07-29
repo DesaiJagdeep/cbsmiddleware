@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity PacsMaster.
+    -->
+    <changeSet id="20230621140146-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="bank_branch_master_id"
+                                 baseTableName="pacs_master"
+                                 constraintName="fk_pacs_master__bank_branch_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bank_branch_master"/>
+    </changeSet>
+</databaseChangeLog>

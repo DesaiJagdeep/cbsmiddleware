@@ -22,6 +22,7 @@ describe('PacsMaster Form Service', () => {
             id: expect.any(Object),
             pacsName: expect.any(Object),
             pacsNumber: expect.any(Object),
+            bankBranchMaster: expect.any(Object),
           })
         );
       });
@@ -34,6 +35,7 @@ describe('PacsMaster Form Service', () => {
             id: expect.any(Object),
             pacsName: expect.any(Object),
             pacsNumber: expect.any(Object),
+            bankBranchMaster: expect.any(Object),
           })
         );
       });

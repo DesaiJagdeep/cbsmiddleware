@@ -56,8 +56,20 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.bankBranchMaster.bankCode" for="field_bankCode">Bank Code</label>
-          <input type="text" class="form-control" name="bankCode" id="field_bankCode" data-cy="bankCode" formControlName="bankCode" />
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.bankBranchMaster.bankMaster" for="field_bankMaster">Bank Master</label>
+          <select
+            class="form-control"
+            id="field_bankMaster"
+            data-cy="bankMaster"
+            name="bankMaster"
+            formControlName="bankMaster"
+            [compareWith]="compareBankMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="bankMasterOption" *ngFor="let bankMasterOption of bankMastersSharedCollection">
+              {{ bankMasterOption.bankName }}
+            </option>
+          </select>
         </div>
       </div>
 

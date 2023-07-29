@@ -23,7 +23,7 @@ describe('BankBranchMaster Form Service', () => {
             branchCode: expect.any(Object),
             branchName: expect.any(Object),
             branchAddress: expect.any(Object),
-            bankCode: expect.any(Object),
+            bankMaster: expect.any(Object),
           })
         );
       });
@@ -37,7 +37,7 @@ describe('BankBranchMaster Form Service', () => {
             branchCode: expect.any(Object),
             branchName: expect.any(Object),
             branchAddress: expect.any(Object),
-            bankCode: expect.any(Object),
+            bankMaster: expect.any(Object),
           })
         );
       });

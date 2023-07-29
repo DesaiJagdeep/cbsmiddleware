@@ -2,20 +2,29 @@ package com.cbs.middleware.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.service.BankBranchMasterService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link BankBranchMasterResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class BankBranchMasterResourceIT {
@@ -38,9 +48,6 @@ class BankBranchMasterResourceIT {
     private static final String DEFAULT_BRANCH_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_BRANCH_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_CODE = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_CODE = "BBBBBBBBBB";
-
     private static final String ENTITY_API_URL = "/api/bank-branch-masters";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -49,6 +56,12 @@ class BankBranchMasterResourceIT {
 
     @Autowired
     private BankBranchMasterRepository bankBranchMasterRepository;
+
+    @Mock
+    private BankBranchMasterRepository bankBranchMasterRepositoryMock;
+
+    @Mock
+    private BankBranchMasterService bankBranchMasterServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -68,8 +81,7 @@ class BankBranchMasterResourceIT {
         BankBranchMaster bankBranchMaster = new BankBranchMaster()
             .branchCode(DEFAULT_BRANCH_CODE)
             .branchName(DEFAULT_BRANCH_NAME)
-            .branchAddress(DEFAULT_BRANCH_ADDRESS)
-            .bankCode(DEFAULT_BANK_CODE);
+            .branchAddress(DEFAULT_BRANCH_ADDRESS);
         return bankBranchMaster;
     }
 
@@ -83,8 +95,7 @@ class BankBranchMasterResourceIT {
         BankBranchMaster bankBranchMaster = new BankBranchMaster()
             .branchCode(UPDATED_BRANCH_CODE)
             .branchName(UPDATED_BRANCH_NAME)
-            .branchAddress(UPDATED_BRANCH_ADDRESS)
-            .bankCode(UPDATED_BANK_CODE);
+            .branchAddress(UPDATED_BRANCH_ADDRESS);
         return bankBranchMaster;
     }
 
@@ -111,7 +122,6 @@ class BankBranchMasterResourceIT {
         assertThat(testBankBranchMaster.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
         assertThat(testBankBranchMaster.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
         assertThat(testBankBranchMaster.getBranchAddress()).isEqualTo(DEFAULT_BRANCH_ADDRESS);
-        assertThat(testBankBranchMaster.getBankCode()).isEqualTo(DEFAULT_BANK_CODE);
     }
 
     @Test
@@ -148,8 +158,24 @@ class BankBranchMasterResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(bankBranchMaster.getId().intValue())))
             .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE)))
             .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
-            .andExpect(jsonPath("$.[*].branchAddress").value(hasItem(DEFAULT_BRANCH_ADDRESS)))
-            .andExpect(jsonPath("$.[*].bankCode").value(hasItem(DEFAULT_BANK_CODE)));
+            .andExpect(jsonPath("$.[*].branchAddress").value(hasItem(DEFAULT_BRANCH_ADDRESS)));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBankBranchMastersWithEagerRelationshipsIsEnabled() throws Exception {
+        when(bankBranchMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBankBranchMasterMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(bankBranchMasterServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllBankBranchMastersWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(bankBranchMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restBankBranchMasterMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(bankBranchMasterRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -166,8 +192,7 @@ class BankBranchMasterResourceIT {
             .andExpect(jsonPath("$.id").value(bankBranchMaster.getId().intValue()))
             .andExpect(jsonPath("$.branchCode").value(DEFAULT_BRANCH_CODE))
             .andExpect(jsonPath("$.branchName").value(DEFAULT_BRANCH_NAME))
-            .andExpect(jsonPath("$.branchAddress").value(DEFAULT_BRANCH_ADDRESS))
-            .andExpect(jsonPath("$.bankCode").value(DEFAULT_BANK_CODE));
+            .andExpect(jsonPath("$.branchAddress").value(DEFAULT_BRANCH_ADDRESS));
     }
 
     @Test
@@ -189,11 +214,7 @@ class BankBranchMasterResourceIT {
         BankBranchMaster updatedBankBranchMaster = bankBranchMasterRepository.findById(bankBranchMaster.getId()).get();
         // Disconnect from session so that the updates on updatedBankBranchMaster are not directly saved in db
         em.detach(updatedBankBranchMaster);
-        updatedBankBranchMaster
-            .branchCode(UPDATED_BRANCH_CODE)
-            .branchName(UPDATED_BRANCH_NAME)
-            .branchAddress(UPDATED_BRANCH_ADDRESS)
-            .bankCode(UPDATED_BANK_CODE);
+        updatedBankBranchMaster.branchCode(UPDATED_BRANCH_CODE).branchName(UPDATED_BRANCH_NAME).branchAddress(UPDATED_BRANCH_ADDRESS);
 
         restBankBranchMasterMockMvc
             .perform(
@@ -210,7 +231,6 @@ class BankBranchMasterResourceIT {
         assertThat(testBankBranchMaster.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
         assertThat(testBankBranchMaster.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testBankBranchMaster.getBranchAddress()).isEqualTo(UPDATED_BRANCH_ADDRESS);
-        assertThat(testBankBranchMaster.getBankCode()).isEqualTo(UPDATED_BANK_CODE);
     }
 
     @Test
@@ -300,7 +320,6 @@ class BankBranchMasterResourceIT {
         assertThat(testBankBranchMaster.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
         assertThat(testBankBranchMaster.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testBankBranchMaster.getBranchAddress()).isEqualTo(UPDATED_BRANCH_ADDRESS);
-        assertThat(testBankBranchMaster.getBankCode()).isEqualTo(DEFAULT_BANK_CODE);
     }
 
     @Test
@@ -318,8 +337,7 @@ class BankBranchMasterResourceIT {
         partialUpdatedBankBranchMaster
             .branchCode(UPDATED_BRANCH_CODE)
             .branchName(UPDATED_BRANCH_NAME)
-            .branchAddress(UPDATED_BRANCH_ADDRESS)
-            .bankCode(UPDATED_BANK_CODE);
+            .branchAddress(UPDATED_BRANCH_ADDRESS);
 
         restBankBranchMasterMockMvc
             .perform(
@@ -336,7 +354,6 @@ class BankBranchMasterResourceIT {
         assertThat(testBankBranchMaster.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
         assertThat(testBankBranchMaster.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testBankBranchMaster.getBranchAddress()).isEqualTo(UPDATED_BRANCH_ADDRESS);
-        assertThat(testBankBranchMaster.getBankCode()).isEqualTo(UPDATED_BANK_CODE);
     }
 
     @Test

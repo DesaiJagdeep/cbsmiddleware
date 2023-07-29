@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "bank_branch_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Serializable {
+public class BankBranchMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,11 +27,8 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "branch_address")
     private String branchAddress;
 
-    @Column(name = "ifsc_code")
-    private String ifscCode;
-
-    @Column(name = "bank_code")
-    private String bankCode;
+    @ManyToOne
+    private BankMaster bankMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -46,14 +43,6 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getIfscCode() {
-        return ifscCode;
-    }
-
-    public void setIfscCode(String ifscCode) {
-        this.ifscCode = ifscCode;
     }
 
     public String getBranchCode() {
@@ -95,17 +84,17 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
         this.branchAddress = branchAddress;
     }
 
-    public String getBankCode() {
-        return this.bankCode;
+    public BankMaster getBankMaster() {
+        return this.bankMaster;
     }
 
-    public BankBranchMaster bankCode(String bankCode) {
-        this.setBankCode(bankCode);
+    public void setBankMaster(BankMaster bankMaster) {
+        this.bankMaster = bankMaster;
+    }
+
+    public BankBranchMaster bankMaster(BankMaster bankMaster) {
+        this.setBankMaster(bankMaster);
         return this;
-    }
-
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -135,7 +124,6 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
             ", branchCode='" + getBranchCode() + "'" +
             ", branchName='" + getBranchName() + "'" +
             ", branchAddress='" + getBranchAddress() + "'" +
-            ", bankCode='" + getBankCode() + "'" +
             "}";
     }
 }

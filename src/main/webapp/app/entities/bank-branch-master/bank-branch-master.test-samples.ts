@@ -5,17 +5,15 @@ export const sampleWithRequiredData: IBankBranchMaster = {
 };
 
 export const sampleWithPartialData: IBankBranchMaster = {
-  id: 24375,
-  branchAddress: 'synthesizing Practical',
-  bankCode: 'Algerian Heard',
+  id: 61937,
+  branchAddress: 'Account',
 };
 
 export const sampleWithFullData: IBankBranchMaster = {
-  id: 22835,
-  branchCode: 'software Licensed multi-byte',
-  branchName: 'Riyal',
-  branchAddress: 'yellow AGP Australia',
-  bankCode: 'Lead Tasty',
+  id: 55851,
+  branchCode: 'Glens',
+  branchName: 'Adaptive integrate compressing',
+  branchAddress: 'Licensed multi-byte Metal',
 };
 
 export const sampleWithNewData: NewBankBranchMaster = {

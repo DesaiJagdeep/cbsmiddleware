@@ -19,7 +19,8 @@
       },
       "id": "ID",
       "pacsName": "Pacs Name",
-      "pacsNumber": "Pacs Number"
+      "pacsNumber": "Pacs Number",
+      "bankBranchMaster": "Bank Branch Master"
     }
   }
 }

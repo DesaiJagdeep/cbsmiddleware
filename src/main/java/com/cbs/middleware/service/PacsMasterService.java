@@ -42,6 +42,14 @@ public interface PacsMasterService {
     Page<PacsMaster> findAll(Pageable pageable);
 
     /**
+     * Get all the pacsMasters with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<PacsMaster> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" pacsMaster.
      *
      * @param id the id of the entity.

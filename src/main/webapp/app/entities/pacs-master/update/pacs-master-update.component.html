@@ -33,6 +33,25 @@
             formControlName="pacsNumber"
           />
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.pacsMaster.bankBranchMaster" for="field_bankBranchMaster"
+            >Bank Branch Master</label
+          >
+          <select
+            class="form-control"
+            id="field_bankBranchMaster"
+            data-cy="bankBranchMaster"
+            name="bankBranchMaster"
+            formControlName="bankBranchMaster"
+            [compareWith]="compareBankBranchMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="bankBranchMasterOption" *ngFor="let bankBranchMasterOption of bankBranchMastersSharedCollection">
+              {{ bankBranchMasterOption.branchName }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

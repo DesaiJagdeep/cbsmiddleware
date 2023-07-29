@@ -20,6 +20,7 @@ type PacsMasterFormGroupContent = {
   id: FormControl<IPacsMaster['id'] | NewPacsMaster['id']>;
   pacsName: FormControl<IPacsMaster['pacsName']>;
   pacsNumber: FormControl<IPacsMaster['pacsNumber']>;
+  bankBranchMaster: FormControl<IPacsMaster['bankBranchMaster']>;
 };
 
 export type PacsMasterFormGroup = FormGroup<PacsMasterFormGroupContent>;
@@ -41,6 +42,7 @@ export class PacsMasterFormService {
       ),
       pacsName: new FormControl(pacsMasterRawValue.pacsName),
       pacsNumber: new FormControl(pacsMasterRawValue.pacsNumber),
+      bankBranchMaster: new FormControl(pacsMasterRawValue.bankBranchMaster),
     });
   }
 

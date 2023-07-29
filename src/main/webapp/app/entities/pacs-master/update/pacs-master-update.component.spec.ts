@@ -9,6 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { PacsMasterFormService } from './pacs-master-form.service';
 import { PacsMasterService } from '../service/pacs-master.service';
 import { IPacsMaster } from '../pacs-master.model';
+import { IBankBranchMaster } from 'app/entities/bank-branch-master/bank-branch-master.model';
+import { BankBranchMasterService } from 'app/entities/bank-branch-master/service/bank-branch-master.service';
 
 import { PacsMasterUpdateComponent } from './pacs-master-update.component';
 
@@ -18,6 +20,7 @@ describe('PacsMaster Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let pacsMasterFormService: PacsMasterFormService;
   let pacsMasterService: PacsMasterService;
+  let bankBranchMasterService: BankBranchMasterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +43,43 @@ describe('PacsMaster Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     pacsMasterFormService = TestBed.inject(PacsMasterFormService);
     pacsMasterService = TestBed.inject(PacsMasterService);
+    bankBranchMasterService = TestBed.inject(BankBranchMasterService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call BankBranchMaster query and add missing value', () => {
       const pacsMaster: IPacsMaster = { id: 456 };
+      const bankBranchMaster: IBankBranchMaster = { id: 35632 };
+      pacsMaster.bankBranchMaster = bankBranchMaster;
+
+      const bankBranchMasterCollection: IBankBranchMaster[] = [{ id: 68510 }];
+      jest.spyOn(bankBranchMasterService, 'query').mockReturnValue(of(new HttpResponse({ body: bankBranchMasterCollection })));
+      const additionalBankBranchMasters = [bankBranchMaster];
+      const expectedCollection: IBankBranchMaster[] = [...additionalBankBranchMasters, ...bankBranchMasterCollection];
+      jest.spyOn(bankBranchMasterService, 'addBankBranchMasterToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ pacsMaster });
       comp.ngOnInit();
 
+      expect(bankBranchMasterService.query).toHaveBeenCalled();
+      expect(bankBranchMasterService.addBankBranchMasterToCollectionIfMissing).toHaveBeenCalledWith(
+        bankBranchMasterCollection,
+        ...additionalBankBranchMasters.map(expect.objectContaining)
+      );
+      expect(comp.bankBranchMastersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const pacsMaster: IPacsMaster = { id: 456 };
+      const bankBranchMaster: IBankBranchMaster = { id: 10010 };
+      pacsMaster.bankBranchMaster = bankBranchMaster;
+
+      activatedRoute.data = of({ pacsMaster });
+      comp.ngOnInit();
+
+      expect(comp.bankBranchMastersSharedCollection).toContain(bankBranchMaster);
       expect(comp.pacsMaster).toEqual(pacsMaster);
     });
   });
@@ -120,6 +149,18 @@ describe('PacsMaster Management Update Component', () => {
       expect(pacsMasterService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareBankBranchMaster', () => {
+      it('Should forward to bankBranchMasterService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(bankBranchMasterService, 'compareBankBranchMaster');
+        comp.compareBankBranchMaster(entity, entity2);
+        expect(bankBranchMasterService.compareBankBranchMaster).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

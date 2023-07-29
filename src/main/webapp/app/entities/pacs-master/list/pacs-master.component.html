@@ -50,6 +50,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="bankBranchMaster.branchName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.pacsMaster.bankBranchMaster">Bank Branch Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -60,6 +66,13 @@
           </td>
           <td>{{ pacsMaster.pacsName }}</td>
           <td>{{ pacsMaster.pacsNumber }}</td>
+          <td>
+            <div *ngIf="pacsMaster.bankBranchMaster">
+              <a [routerLink]="['/bank-branch-master', pacsMaster.bankBranchMaster.id, 'view']">{{
+                pacsMaster.bankBranchMaster.branchName
+              }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

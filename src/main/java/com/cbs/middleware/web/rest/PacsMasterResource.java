@@ -15,17 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -62,7 +54,6 @@ public class PacsMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/pacs-masters")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<PacsMaster> createPacsMaster(@RequestBody PacsMaster pacsMaster) throws URISyntaxException {
         log.debug("REST request to save PacsMaster : {}", pacsMaster);
         if (pacsMaster.getId() != null) {
@@ -86,7 +77,6 @@ public class PacsMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/pacs-masters/{id}")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<PacsMaster> updatePacsMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PacsMaster pacsMaster
@@ -122,7 +112,6 @@ public class PacsMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/pacs-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<PacsMaster> partialUpdatePacsMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody PacsMaster pacsMaster
@@ -151,12 +140,21 @@ public class PacsMasterResource {
      * {@code GET  /pacs-masters} : get all the pacsMasters.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pacsMasters in body.
      */
     @GetMapping("/pacs-masters")
-    public ResponseEntity<List<PacsMaster>> getAllPacsMasters(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<PacsMaster>> getAllPacsMasters(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
         log.debug("REST request to get a page of PacsMasters");
-        Page<PacsMaster> page = pacsMasterService.findAll(pageable);
+        Page<PacsMaster> page;
+        if (eagerload) {
+            page = pacsMasterService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = pacsMasterService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -181,7 +179,6 @@ public class PacsMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/pacs-masters/{id}")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deletePacsMaster(@PathVariable Long id) {
         log.debug("REST request to delete PacsMaster : {}", id);
         pacsMasterService.delete(id);

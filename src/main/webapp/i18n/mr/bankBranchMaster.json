@@ -21,7 +21,7 @@
       "branchCode": "Branch Code",
       "branchName": "Branch Name",
       "branchAddress": "Branch Address",
-      "bankCode": "Bank Code"
+      "bankMaster": "Bank Master"
     }
   }
 }

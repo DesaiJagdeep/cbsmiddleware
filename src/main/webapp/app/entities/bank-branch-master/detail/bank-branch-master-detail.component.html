@@ -28,9 +28,11 @@
         <dd>
           <span>{{ bankBranchMaster.branchAddress }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.bankCode">Bank Code</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.bankBranchMaster.bankMaster">Bank Master</span></dt>
         <dd>
-          <span>{{ bankBranchMaster.bankCode }}</span>
+          <div *ngIf="bankBranchMaster.bankMaster">
+            <a [routerLink]="['/bank-master', bankBranchMaster.bankMaster.id, 'view']">{{ bankBranchMaster.bankMaster.bankName }}</a>
+          </div>
         </dd>
       </dl>
 

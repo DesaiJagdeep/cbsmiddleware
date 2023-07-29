@@ -1,47 +1,23 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.config.ApplicationProperties;
-import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.BankBranchMaster;
-import com.cbs.middleware.domain.BankBranchMasterMapper;
-import com.cbs.middleware.domain.BankMaster;
-import com.cbs.middleware.domain.BranchDetailsMapper;
-import com.cbs.middleware.domain.CBSMiddleareInputPayload;
-import com.cbs.middleware.domain.CBSResponce;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
-import com.cbs.middleware.repository.BankMasterRepository;
 import com.cbs.middleware.service.BankBranchMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -81,7 +57,6 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/bank-branch-masters")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> createBankBranchMaster(@RequestBody BankBranchMaster bankBranchMaster)
         throws URISyntaxException {
         log.debug("REST request to save BankBranchMaster : {}", bankBranchMaster);
@@ -106,7 +81,6 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bank-branch-masters/{id}")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> updateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -142,7 +116,6 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/bank-branch-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> partialUpdateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -171,95 +144,23 @@ public class BankBranchMasterResource {
      * {@code GET  /bank-branch-masters} : get all the bankBranchMasters.
      *
      * @param pageable the pagination information.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bankBranchMasters in body.
      */
     @GetMapping("/bank-branch-masters")
     public ResponseEntity<List<BankBranchMaster>> getAllBankBranchMasters(
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
     ) {
         log.debug("REST request to get a page of BankBranchMasters");
-        Page<BankBranchMaster> page = bankBranchMasterService.findAll(pageable);
+        Page<BankBranchMaster> page;
+        if (eagerload) {
+            page = bankBranchMasterService.findAllWithEagerRelationships(pageable);
+        } else {
+            page = bankBranchMasterService.findAll(pageable);
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    @Autowired
-    BankMasterRepository bankMasterRepository;
-
-    @Autowired
-    IssFileParserResource fileParserResource;
-
-    @Autowired
-    ApplicationProperties applicationProperties;
-
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @GetMapping("/save-bank-branch-masters")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
-    public ResponseEntity<List<BankBranchMasterMapper>> saveAllBankBranchMasters() {
-        String cbsResponceString = "";
-        List<BankMaster> findAll = bankMasterRepository.findAll();
-        List<BankBranchMasterMapper> jsonArrayList = new ArrayList<>();
-        for (BankMaster bankMaster : findAll) {
-            StringBuilder st = new StringBuilder();
-            st.append("{\"bankCode\":\"");
-            st.append(bankMaster.getBankCode());
-            st.append("\"}");
-
-            String encryption = fileParserResource.encryptionStrings("" + st);
-            //Making input payload
-            CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
-            cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-            cbsMiddleareInputPayload.setData(encryption);
-
-            //call fasalrin submit api
-            try {
-                // Set the request URL
-                String url = applicationProperties.getCBSMiddlewareBaseURL() + "/branches";
-                // Set the request headers
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                // Create the HttpEntity object with headers and body
-                HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
-                // Make the HTTP POST request
-                ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
-                cbsResponceString = responseEntity.getBody();
-
-                BankBranchMasterMapper submitApiRespDecryption = null;
-                CBSResponce convertValue = null;
-                ObjectMapper objectMapper = new ObjectMapper();
-                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-
-                if (convertValue.isStatus()) {
-                    String decryption = fileParserResource.decryption("" + convertValue.getData());
-
-                    objectMapper = new ObjectMapper();
-                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    submitApiRespDecryption = objectMapper.readValue(decryption, BankBranchMasterMapper.class);
-
-                    jsonArrayList.add(submitApiRespDecryption);
-
-                    for (BankBranchMasterMapper bankBranchMasterMapper : jsonArrayList) {
-                        for (BranchDetailsMapper branchDetailsMapper : bankBranchMasterMapper.getBranches()) {
-                            BankBranchMaster bankBranchMaster = new BankBranchMaster();
-                            bankBranchMaster.setBankCode(bankBranchMasterMapper.getBankCode());
-                            bankBranchMaster.setBranchCode(branchDetailsMapper.getBranchCode());
-                            bankBranchMaster.setBranchName(branchDetailsMapper.getBranchName());
-                            bankBranchMaster.setIfscCode(branchDetailsMapper.getIfscCode());
-
-                            bankBranchMasterRepository.save(bankBranchMaster);
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        }
-
-        return ResponseEntity.ok().body(jsonArrayList);
     }
 
     /**
@@ -282,7 +183,6 @@ public class BankBranchMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/bank-branch-masters/{id}")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteBankBranchMaster(@PathVariable Long id) {
         log.debug("REST request to delete BankBranchMaster : {}", id);
         bankBranchMasterService.delete(id);

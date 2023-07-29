@@ -14,17 +14,20 @@
     {
       "fieldName": "branchAddress",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "bankCode",
-      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": false,
   "name": "BankBranchMaster",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "bankName",
+      "otherEntityName": "bankMaster",
+      "relationshipName": "bankMaster",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "searchEngine": false,
   "service": "serviceImpl"
 }

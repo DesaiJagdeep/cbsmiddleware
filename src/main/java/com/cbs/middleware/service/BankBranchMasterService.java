@@ -42,6 +42,14 @@ public interface BankBranchMasterService {
     Page<BankBranchMaster> findAll(Pageable pageable);
 
     /**
+     * Get all the bankBranchMasters with eager load of many-to-many relationships.
+     *
+     * @param pageable the pagination information.
+     * @return the list of entities.
+     */
+    Page<BankBranchMaster> findAllWithEagerRelationships(Pageable pageable);
+
+    /**
      * Get the "id" bankBranchMaster.
      *
      * @param id the id of the entity.

@@ -22,6 +22,14 @@
         <dd>
           <span>{{ pacsMaster.pacsNumber }}</span>
         </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.pacsMaster.bankBranchMaster">Bank Branch Master</span></dt>
+        <dd>
+          <div *ngIf="pacsMaster.bankBranchMaster">
+            <a [routerLink]="['/bank-branch-master', pacsMaster.bankBranchMaster.id, 'view']">{{
+              pacsMaster.bankBranchMaster.branchName
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

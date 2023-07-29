@@ -21,7 +21,7 @@ type BankBranchMasterFormGroupContent = {
   branchCode: FormControl<IBankBranchMaster['branchCode']>;
   branchName: FormControl<IBankBranchMaster['branchName']>;
   branchAddress: FormControl<IBankBranchMaster['branchAddress']>;
-  bankCode: FormControl<IBankBranchMaster['bankCode']>;
+  bankMaster: FormControl<IBankBranchMaster['bankMaster']>;
 };
 
 export type BankBranchMasterFormGroup = FormGroup<BankBranchMasterFormGroupContent>;
@@ -44,7 +44,7 @@ export class BankBranchMasterFormService {
       branchCode: new FormControl(bankBranchMasterRawValue.branchCode),
       branchName: new FormControl(bankBranchMasterRawValue.branchName),
       branchAddress: new FormControl(bankBranchMasterRawValue.branchAddress),
-      bankCode: new FormControl(bankBranchMasterRawValue.bankCode),
+      bankMaster: new FormControl(bankBranchMasterRawValue.bankMaster),
     });
   }
 

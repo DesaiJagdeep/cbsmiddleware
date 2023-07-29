@@ -106,6 +106,7 @@ export class PacsMasterComponent implements OnInit {
     const queryObject = {
       page: pageToLoad - 1,
       size: this.itemsPerPage,
+      eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.pacsMasterService.query(queryObject).pipe(tap(() => (this.isLoading = false)));

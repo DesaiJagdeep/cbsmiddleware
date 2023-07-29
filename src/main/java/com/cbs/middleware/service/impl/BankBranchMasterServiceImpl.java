@@ -54,9 +54,6 @@ public class BankBranchMasterServiceImpl implements BankBranchMasterService {
                 if (bankBranchMaster.getBranchAddress() != null) {
                     existingBankBranchMaster.setBranchAddress(bankBranchMaster.getBranchAddress());
                 }
-                if (bankBranchMaster.getBankCode() != null) {
-                    existingBankBranchMaster.setBankCode(bankBranchMaster.getBankCode());
-                }
 
                 return existingBankBranchMaster;
             })
@@ -70,11 +67,15 @@ public class BankBranchMasterServiceImpl implements BankBranchMasterService {
         return bankBranchMasterRepository.findAll(pageable);
     }
 
+    public Page<BankBranchMaster> findAllWithEagerRelationships(Pageable pageable) {
+        return bankBranchMasterRepository.findAllWithEagerRelationships(pageable);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public Optional<BankBranchMaster> findOne(Long id) {
         log.debug("Request to get BankBranchMaster : {}", id);
-        return bankBranchMasterRepository.findById(id);
+        return bankBranchMasterRepository.findOneWithEagerRelationships(id);
     }
 
     @Override

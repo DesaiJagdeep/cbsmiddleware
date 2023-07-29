@@ -16,7 +16,14 @@
   "name": "PacsMaster",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "branchName",
+      "otherEntityName": "bankBranchMaster",
+      "relationshipName": "bankBranchMaster",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "searchEngine": false,
   "service": "serviceImpl"
 }

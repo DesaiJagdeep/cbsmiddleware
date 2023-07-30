@@ -4,7 +4,6 @@ import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
@@ -30,7 +29,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -87,7 +94,7 @@ public class IssPortalFileResource {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("attachment", findByUniqueName.get().getUniqueName());
+                headers.setContentDispositionFormData("filename", findByUniqueName.get().getUniqueName());
 
                 return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
             } catch (IOException e) {

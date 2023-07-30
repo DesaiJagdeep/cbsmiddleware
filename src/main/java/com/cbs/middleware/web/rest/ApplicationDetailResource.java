@@ -71,7 +71,7 @@ public class ApplicationDetailResource {
      * @throws Exception
      */
 
-    @PostMapping("/application-detail")
+    @PostMapping("/beneficiary-informations")
     // @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<Object> getApplicationDetail(@RequestBody DataByRecipientUniqueIDInputPayload inputPayload) {
         if (inputPayload == null || inputPayload.getBatchAckId().isEmpty() || inputPayload.getRecipientUniqueIds().size() == 0) {

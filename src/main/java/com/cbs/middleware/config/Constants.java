@@ -56,6 +56,8 @@ public final class Constants {
     public static final String validationError = "Validation Error";
     public static final String kccError = "KCC Error";
 
+    public static final String downloadKccError = "KCCError";
+
     public static final String HighSevierity = "HIGH";
     public static final String lowSevierity = "LOW";
 

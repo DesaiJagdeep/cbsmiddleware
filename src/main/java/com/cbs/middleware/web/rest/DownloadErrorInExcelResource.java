@@ -10,16 +10,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -64,13 +64,20 @@ public class DownloadErrorInExcelResource {
      * @throws Exception
      */
 
-    @GetMapping("/error-excel/{issPortalFileId}")
-    public ResponseEntity<byte[]> errorExcel(@PathVariable Long issPortalFileId) {
-        List<ApplicationLog> ApplicationLogList = applicationLogRepository.findAllByIssPortalIdAndErrorTypeAndStatus(
-            issPortalFileId,
-            Constants.validationError,
-            Constants.ERROR
-        );
+    @GetMapping("/error-excel/{issPortalFileId}/error-type/{errorType}")
+    public ResponseEntity<byte[]> errorExcel(@PathVariable Long issPortalFileId, @PathVariable String errorType) {
+        List<ApplicationLog> ApplicationLogList = new ArrayList<>();
+        if (Constants.downloadKccError.equalsIgnoreCase(errorType)) {
+            ApplicationLogList =
+                applicationLogRepository.findAllByIssPortalIdAndErrorTypeAndStatus(issPortalFileId, Constants.kccError, Constants.ERROR);
+        } else {
+            ApplicationLogList =
+                applicationLogRepository.findAllByIssPortalIdAndErrorTypeAndStatus(
+                    issPortalFileId,
+                    Constants.validationError,
+                    Constants.ERROR
+                );
+        }
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
@@ -208,11 +215,26 @@ public class DownloadErrorInExcelResource {
             // Set up the HTTP headers for the response
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "ErrorDetail.xlsx");
+            String fileNameWithOutExt = FilenameUtils.removeExtension(
+                ApplicationLogList.get(0).getIssFileParser().getIssPortalFile().getFileName()
+            );
+            headers.setContentDispositionFormData("filename", fileNameWithOutExt + "-" + getUniqueName() + ".xlsx");
             return new ResponseEntity<>(excelContent, headers, 200);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);
         }
+    }
+
+    public String getUniqueName() {
+        Calendar cal = new GregorianCalendar();
+        return (
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MILLISECOND)
+        );
     }
 
     public static byte[] objectToBytes(BatchData encDecObject) {

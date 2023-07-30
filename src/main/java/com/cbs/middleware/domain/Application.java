@@ -43,6 +43,9 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "farmer_id")
     private String farmerId;
 
+    @Column(name = "batch_ack_id")
+    private String batchAckId;
+
     @Column(name = "application_number")
     private String applicationNumber;
 
@@ -75,6 +78,14 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     public Application batchId(String batchId) {
         this.setBatchId(batchId);
         return this;
+    }
+
+    public String getBatchAckId() {
+        return batchAckId;
+    }
+
+    public void setBatchAckId(String batchAckId) {
+        this.batchAckId = batchAckId;
     }
 
     public void setBatchId(String batchId) {

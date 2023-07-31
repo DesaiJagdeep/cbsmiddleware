@@ -44,9 +44,9 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        String authoroty = authentication.getAuthorities().stream().findFirst().get().getAuthority();
-
-        return new ResponseEntity<>(new JWTToken(jwt, authoroty), httpHeaders, HttpStatus.OK);
+        String username = authentication.getName();
+        String authority = authentication.getAuthorities().stream().findFirst().get().getAuthority();
+        return new ResponseEntity<>(new JWTToken(jwt, authority, username), httpHeaders, HttpStatus.OK);
     }
 
     /**
@@ -54,12 +54,14 @@ public class UserJWTController {
      */
     static class JWTToken {
 
+        private String userName;
         private String idToken;
         private String authority;
 
-        JWTToken(String idToken, String authority) {
+        JWTToken(String idToken, String authority, String userName) {
             this.idToken = idToken;
             this.authority = authority;
+            this.userName = userName;
         }
 
         @JsonProperty("id_token")
@@ -77,6 +79,14 @@ public class UserJWTController {
 
         public void setAuthority(String authority) {
             this.authority = authority;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public void setUserName(String userName) {
+            this.userName = userName;
         }
     }
 }

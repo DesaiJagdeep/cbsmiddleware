@@ -218,7 +218,13 @@ public class DownloadErrorInExcelResource {
             String fileNameWithOutExt = FilenameUtils.removeExtension(
                 ApplicationLogList.get(0).getIssFileParser().getIssPortalFile().getFileName()
             );
+
             headers.setContentDispositionFormData("filename", fileNameWithOutExt + "-" + getUniqueName() + ".xlsx");
+
+            List<String> contentDispositionList = new ArrayList<>();
+            contentDispositionList.add("Content-Disposition");
+
+            headers.setAccessControlExposeHeaders(contentDispositionList);
             return new ResponseEntity<>(excelContent, headers, 200);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);

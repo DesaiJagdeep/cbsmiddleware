@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -94,7 +95,12 @@ public class IssPortalFileResource {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("filename", findByUniqueName.get().getUniqueName());
+                headers.setContentDispositionFormData("filename", findByUniqueName.get().getFileName());
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
 
                 return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
             } catch (IOException e) {

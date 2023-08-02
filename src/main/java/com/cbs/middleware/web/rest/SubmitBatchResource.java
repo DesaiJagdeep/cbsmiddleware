@@ -170,9 +170,9 @@ public class SubmitBatchResource {
             issPortalFile.getId()
         );
 
-        int batchSize = 1000;
+        int batchSize = 999;
 
-        for (int i = 1; i < applicationList.size(); i += batchSize) {
+        for (int i = 0; i < applicationList.size(); i += batchSize) {
             List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
             CBSResponce cbsResponce = processBatch(batch);
             cbsResponceStringList.add(cbsResponce);
@@ -692,9 +692,9 @@ public class SubmitBatchResource {
             issPortalFile.getId()
         );
 
-        int batchSize = 1000;
+        int batchSize = 999;
 
-        for (int i = 1; i < applicationList.size(); i += batchSize) {
+        for (int i = 0; i < applicationList.size(); i += batchSize) {
             List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
             CBSMiddleareInputPayload cbsResponce = processBatchTest(batch);
             cbsResponceStringList.add(cbsResponce);

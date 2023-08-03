@@ -1,6 +1,8 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.BankBranchMaster;
+import com.cbs.middleware.domain.BankMaster;
+import com.cbs.middleware.domain.domainUtil.BranchForPacksList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -42,4 +44,6 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
 
     @Query("select bankBranchMaster.branchCode from BankBranchMaster bankBranchMaster where bankBranchMaster.branchName =:branchName")
     String findBranchCodeByBranchName(@Param("branchName") String branchName);
+
+    List<BankBranchMaster> findAllByBankMaster(BankMaster bankMaster);
 }

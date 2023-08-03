@@ -1,11 +1,20 @@
 package com.cbs.middleware.service.impl;
 
 import com.cbs.middleware.domain.BankBranchMaster;
+import com.cbs.middleware.domain.BankMaster;
+import com.cbs.middleware.domain.PacsMaster;
+import com.cbs.middleware.domain.domainUtil.BranchForPacksList;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.BankBranchMasterService;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,6 +30,9 @@ public class BankBranchMasterServiceImpl implements BankBranchMasterService {
     private final Logger log = LoggerFactory.getLogger(BankBranchMasterServiceImpl.class);
 
     private final BankBranchMasterRepository bankBranchMasterRepository;
+
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
 
     public BankBranchMasterServiceImpl(BankBranchMasterRepository bankBranchMasterRepository) {
         this.bankBranchMasterRepository = bankBranchMasterRepository;

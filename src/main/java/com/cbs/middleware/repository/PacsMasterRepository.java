@@ -1,5 +1,6 @@
 package com.cbs.middleware.repository;
 
+import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.PacsMaster;
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +41,6 @@ public interface PacsMasterRepository extends JpaRepository<PacsMaster, Long> {
 
     @Query("select pacsMaster.pacsNumber from PacsMaster pacsMaster where pacsMaster.pacsName =:pacsName")
     String findPacsNumberByPacsName(@Param("pacsName") String pacsName);
+
+    List<PacsMaster> findAllByBankBranchMaster(BankBranchMaster bankBranchMaster);
 }

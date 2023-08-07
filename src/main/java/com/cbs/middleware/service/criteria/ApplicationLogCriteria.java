@@ -43,6 +43,8 @@ public class ApplicationLogCriteria implements Serializable, Criteria {
 
     private LongFilter issFileParserId;
 
+    private LongFilter issPortalId;
+
     private Boolean distinct;
 
     public ApplicationLogCriteria() {}
@@ -59,6 +61,7 @@ public class ApplicationLogCriteria implements Serializable, Criteria {
         this.rowNumber = other.rowNumber == null ? null : other.rowNumber.copy();
         this.batchId = other.batchId == null ? null : other.batchId.copy();
         this.issFileParserId = other.issFileParserId == null ? null : other.issFileParserId.copy();
+        this.issPortalId = other.issPortalId == null ? null : other.issPortalId.copy();
         this.distinct = other.distinct;
     }
 
@@ -261,6 +264,7 @@ public class ApplicationLogCriteria implements Serializable, Criteria {
             Objects.equals(rowNumber, that.rowNumber) &&
             Objects.equals(batchId, that.batchId) &&
             Objects.equals(issFileParserId, that.issFileParserId) &&
+            Objects.equals(issPortalId, that.issPortalId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -279,6 +283,7 @@ public class ApplicationLogCriteria implements Serializable, Criteria {
             rowNumber,
             batchId,
             issFileParserId,
+            issPortalId,
             distinct
         );
     }
@@ -298,7 +303,16 @@ public class ApplicationLogCriteria implements Serializable, Criteria {
             (rowNumber != null ? "rowNumber=" + rowNumber + ", " : "") +
             (batchId != null ? "batchId=" + batchId + ", " : "") +
             (issFileParserId != null ? "issFileParserId=" + issFileParserId + ", " : "") +
+            (issPortalId != null ? "issPortalId=" + issPortalId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
+    }
+
+    public LongFilter getIssPortalId() {
+        return issPortalId;
+    }
+
+    public void setIssPortalId(LongFilter issPortalId) {
+        this.issPortalId = issPortalId;
     }
 }

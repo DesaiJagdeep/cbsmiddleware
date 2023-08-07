@@ -122,6 +122,9 @@ public class ApplicationLogQueryService extends QueryService<ApplicationLog> {
                         )
                     );
             }
+            if (criteria.getIssPortalId() != null) {
+                specification = specification.and(buildSpecification(criteria.getIssPortalId(), ApplicationLog_.issPortalId));
+            }
         }
         return specification;
     }

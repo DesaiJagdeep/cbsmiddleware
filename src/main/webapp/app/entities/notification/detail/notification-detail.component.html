@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="notification">
+      <h2 data-cy="notificationDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.notification.detail.title">Notification</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ notification.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.title">Title</span></dt>
+        <dd>
+          <span>{{ notification.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.content">Content</span></dt>
+        <dd>
+          <span>{{ notification.content }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.isRead">Is Read</span></dt>
+        <dd>
+          <span>{{ notification.isRead }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.createdAt">Created At</span></dt>
+        <dd>
+          <span>{{ notification.createdAt | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.recipient">Recipient</span></dt>
+        <dd>
+          <span>{{ notification.recipient }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.sender">Sender</span></dt>
+        <dd>
+          <span>{{ notification.sender }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.notification.type">Type</span></dt>
+        <dd>
+          <span>{{ notification.type }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/notification', notification.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

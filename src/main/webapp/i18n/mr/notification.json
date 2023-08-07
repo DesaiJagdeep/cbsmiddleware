@@ -1,0 +1,30 @@
+{
+  "cbsMiddlewareApp": {
+    "notification": {
+      "home": {
+        "title": "Notifications",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Notification तयार करा",
+        "createOrEditLabel": "Notification तयार किंवा संपादित करा",
+        "notFound": "No Notifications found"
+      },
+      "created": "Notification [identifier: {{ param }}] तयार आहे",
+      "updated": "Notification [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Notification [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Notification [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Notification"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "isRead": "Is Read",
+      "createdAt": "Created At",
+      "recipient": "Recipient",
+      "sender": "Sender",
+      "type": "Type"
+    }
+  }
+}

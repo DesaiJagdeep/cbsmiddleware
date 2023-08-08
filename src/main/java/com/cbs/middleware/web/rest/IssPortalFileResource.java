@@ -1,8 +1,14 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
+import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
@@ -57,6 +63,15 @@ public class IssPortalFileResource {
 
     @Autowired
     ApplicationRepository applicationRepository;
+
+    @Autowired
+    IssFileParserRepository fileParserRepository;
+
+    @Autowired
+    ApplicationLogRepository applicationLogRepository;
+
+    @Autowired
+    ApplicationLogHistoryRepository applicationLogHistoryRepository;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -289,10 +304,27 @@ public class IssPortalFileResource {
      * @param id the id of the issPortalFile to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+
     @DeleteMapping("/iss-portal-files/{id}")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteIssPortalFile(@PathVariable Long id) {
         log.debug("REST request to delete IssPortalFile : {}", id);
+
+        List<ApplicationLog> findAllByIssPortalId = applicationLogRepository.findAllByIssPortalId(id);
+        List<Application> findAllByIssFilePortalId = applicationRepository.findAllByIssFilePortalId(id);
+        IssPortalFile issPortalFile = new IssPortalFile();
+        issPortalFile.setId(id);
+        List<IssFileParser> issFileParsersList = fileParserRepository.findAllByIssPortalFile(issPortalFile);
+        if (!findAllByIssFilePortalId.isEmpty()) {
+            applicationRepository.deleteAll(findAllByIssFilePortalId);
+        }
+        if (!findAllByIssFilePortalId.isEmpty()) {
+            applicationLogRepository.deleteAll(findAllByIssPortalId);
+        }
+        if (!issFileParsersList.isEmpty()) {
+            fileParserRepository.deleteAll(issFileParsersList);
+        }
+
         issPortalFileService.delete(id);
         return ResponseEntity
             .noContent()

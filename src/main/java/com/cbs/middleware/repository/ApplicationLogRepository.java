@@ -52,4 +52,6 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     List<ApplicationLog> findAllByIssPortalIdAndStatus(Long iPId, String status);
 
     List<ApplicationLog> findAllByIssPortalIdAndErrorTypeAndStatus(Long issPortalFileId, String validationerror, String error);
+
+    List<ApplicationLog> findAllByIssPortalId(Long id);
 }

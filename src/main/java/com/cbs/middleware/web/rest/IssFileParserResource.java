@@ -439,6 +439,15 @@ public class IssFileParserResource {
                 Row row = sheet.getRow(rowIndex); // Get the current row
                 IssFileParser issFileParser = new IssFileParser();
                 if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+
                     String fYear = getCellValue(row.getCell(0));
                     if (fYear.matches("\\d{4}/\\d{4}")) {
                         issFileParser.setFinancialYear(fYear.replace("/", "-"));

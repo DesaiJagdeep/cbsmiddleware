@@ -91,4 +91,9 @@ public class NotificationServiceImpl implements NotificationService {
         log.debug("Request to delete Notification : {}", id);
         notificationRepository.deleteById(id);
     }
+
+    @Override
+    public Page<Notification> findTop10ByIsReadFalse(Pageable pageable) {
+        return notificationRepository.findTop10ByIsReadFalse(pageable);
+    }
 }

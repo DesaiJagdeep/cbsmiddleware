@@ -225,7 +225,15 @@ public class IssPortalFileResource {
     ) {
         log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
         List<IssPortalFile> page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
-        return ResponseEntity.ok().body(page);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", "" + page.size());
+        List<String> contentDispositionList = new ArrayList<>();
+        contentDispositionList.add("X-Total-Count");
+
+        headers.setAccessControlExposeHeaders(contentDispositionList);
+
+        return ResponseEntity.ok().headers(headers).body(page);
     }
 
     @GetMapping("/iss-portal-files1")

@@ -139,6 +139,7 @@ public class CronJobResource {
      *
      * @throws Exception
      */
+
     @GetMapping("/cronJob")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
@@ -215,7 +216,15 @@ public class CronJobResource {
                                         applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
                                     } else {
                                         applicationByUniqueId.setKccStatus(0l);
-                                        applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
+
+                                        try {
+                                            if (applicationsByBatchAckId.getErrors() != null) {
+                                                applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                            } else {
+                                                applicationByUniqueId.setApplicationErrors("CBS Portal not provided fail case information");
+                                            }
+                                        } catch (Exception e) {}
+
                                         kccApplErrCount = kccApplErrCount + 1l;
 
                                         // setting kscc error count in portal file object
@@ -251,7 +260,15 @@ public class CronJobResource {
 
                                         // updating new error log entry
                                         applicationLog.setIssFileParser(applicationByUniqueId.getIssFileParser());
-                                        applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
+
+                                        try {
+                                            if (applicationsByBatchAckId.getErrors() != null) {
+                                                applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                            } else {
+                                                applicationLog.setErrorMessage("CBS Portal not provided fail case information");
+                                            }
+                                        } catch (Exception e) {}
+
                                         applicationLog.setSevierity(Constants.HighSevierity);
                                         applicationLog.setExpectedSolution("Provide correct information");
                                         applicationLog.setStatus(Constants.ERROR);

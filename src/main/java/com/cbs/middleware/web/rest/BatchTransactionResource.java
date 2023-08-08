@@ -9,6 +9,7 @@ import com.cbs.middleware.service.criteria.BatchTransactionCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -193,7 +194,14 @@ public class BatchTransactionResource {
         log.debug("REST request to get BatchTransactions by criteria: {}", criteria);
         List<BatchTransactionMapper> page = batchTransactionQueryService.findByCriteriaByMapper(criteria, pageable);
 
-        return ResponseEntity.ok().body(page);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", "" + page.size());
+        List<String> contentDispositionList = new ArrayList<>();
+        contentDispositionList.add("X-Total-Count");
+
+        headers.setAccessControlExposeHeaders(contentDispositionList);
+
+        return ResponseEntity.ok().headers(headers).body(page);
     }
 
     /**

@@ -225,23 +225,67 @@ public class IssFileParserResource {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(5); // Get the current row
 
-            if (
-                getCellValue(row.getCell(4)) != null &&
-                !getCellValue(row.getCell(4)).contains("Branch") &&
-                !getCellValue(row.getCell(4)).contains("Code")
-            ) {
+            String branchCode1 = getCellValue(row.getCell(4));
+            if (StringUtils.isNoneBlank(branchCode1)) {
+                branchCode1 = branchCode1.trim().replace("\n", " ").toLowerCase();
+
+                if (!branchCode1.contains("branch") || !branchCode1.contains("code")) {
+                    throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
+                }
+            } else {
                 throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
             }
 
             row = sheet.getRow(6);
 
+            boolean flag = false;
+            String fYear = getCellValue(row.getCell(0));
+
+            if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+                flag = true;
+            }
+
+            String ifsc = getCellValue(row.getCell(6));
+            if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+                flag = true;
+            }
+
+            String aadharNumber = getCellValue(row.getCell(10));
+            if (StringUtils.isNotBlank(aadharNumber) && !validateAadhaarNumber(aadharNumber)) {
+                flag = true;
+            }
+
+            String villageCode = getCellValue(row.getCell(25));
+            if (StringUtils.isNotBlank(villageCode) && !villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
+                flag = true;
+            }
+            String pinCode = getCellValue(row.getCell(28));
+            if (StringUtils.isNotBlank(pinCode) && !pinCode.matches("^[0-9]{6}$")) {
+                flag = true;
+            }
+
+            String accountNumber = getCellValue(row.getCell(30));
+            if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
+                flag = true;
+            }
+            String landtype = getCellValue(row.getCell(44));
+
+            if (StringUtils.isNotBlank(landtype) && landtype.equalsIgnoreCase("irrigated") && landtype.equalsIgnoreCase("non-irrigated")) {
+                flag = true;
+            }
+            if (flag) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+
             String bankCode = getCellValue(row.getCell(2));
             String branchCode = getCellValue(row.getCell(4));
             String packsCode = getCellValue(row.getCell(32));
 
-            if (StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(branchCode) && StringUtils.isNotBlank(packsCode)) {
+            if (StringUtils.isBlank(bankCode) || StringUtils.isBlank(branchCode) || StringUtils.isBlank(packsCode)) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            } else if (StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(branchCode) && StringUtils.isNotBlank(packsCode)) {
                 if (!bankCode.matches("\\d+") && !bankCode.matches("\\d+") && !bankCode.matches("\\d+")) {
-                    throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+                    throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
                 }
             }
 

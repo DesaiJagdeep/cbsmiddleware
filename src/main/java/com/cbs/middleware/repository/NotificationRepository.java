@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    Page<Notification> findTop10ByIsReadFalse(Pageable pageable);
+    Page<Notification> findTop6ByIsReadFalse(Pageable pageable);
 }

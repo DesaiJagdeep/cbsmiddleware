@@ -93,7 +93,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Page<Notification> findTop10ByIsReadFalse(Pageable pageable) {
-        return notificationRepository.findTop10ByIsReadFalse(pageable);
+    public Page<Notification> findTop6ByIsReadFalse(Pageable pageable) {
+        return notificationRepository.findTop6ByIsReadFalse(pageable);
     }
 }

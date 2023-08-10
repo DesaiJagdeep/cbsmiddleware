@@ -152,9 +152,8 @@ public class NotificationResource {
     @GetMapping("/notifications")
     public ResponseEntity<List<Notification>> getAllNotifications(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Notifications");
-        Page<Notification> page = notificationService.findTop10ByIsReadFalse(pageable);
+        Page<Notification> page = notificationService.findTop6ByIsReadFalse(pageable);
 
-        //Page<Notification> page = notificationService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

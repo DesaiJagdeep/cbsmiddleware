@@ -56,5 +56,5 @@ public interface NotificationService {
      */
     void delete(Long id);
 
-    Page<Notification> findTop10ByIsReadFalse(Pageable pageable);
+    Page<Notification> findTop6ByIsReadFalse(Pageable pageable);
 }

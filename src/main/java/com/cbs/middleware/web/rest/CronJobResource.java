@@ -55,6 +55,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -140,8 +141,9 @@ public class CronJobResource {
      * @throws Exception
      */
 
-    @GetMapping("/cronJob")
-    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
+    //@GetMapping("/cronJob")
+    @Scheduled(cron = "0 0 6 * * ?")
+    //@PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public void updateRecordsInBatchTran() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
 
@@ -223,7 +225,9 @@ public class CronJobResource {
                                             } else {
                                                 applicationByUniqueId.setApplicationErrors("CBS Portal not provided fail case information");
                                             }
-                                        } catch (Exception e) {}
+                                        } catch (Exception e) {
+                                            log.error("Exception in cron job", e);
+                                        }
 
                                         kccApplErrCount = kccApplErrCount + 1l;
 
@@ -249,7 +253,7 @@ public class CronJobResource {
                                             applicationLog = applicationLogSaved.get();
                                             JSONObject jsonObject = new JSONObject(applicationLog);
                                             ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
-                                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                            applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                                             ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
                                                 jsonObject.toString(),
                                                 ApplicationLogHistory.class
@@ -267,7 +271,9 @@ public class CronJobResource {
                                             } else {
                                                 applicationLog.setErrorMessage("CBS Portal not provided fail case information");
                                             }
-                                        } catch (Exception e) {}
+                                        } catch (Exception e) {
+                                            log.error("Exception in cron job", e);
+                                        }
 
                                         applicationLog.setSevierity(Constants.HighSevierity);
                                         applicationLog.setExpectedSolution("Provide correct information");
@@ -311,7 +317,7 @@ public class CronJobResource {
             objectOutputStream.close();
             return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error in coversion of objectToBytes" + e);
         }
         return null;
     }

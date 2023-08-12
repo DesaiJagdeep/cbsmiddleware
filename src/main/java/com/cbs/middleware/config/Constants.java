@@ -16,7 +16,7 @@ public final class Constants {
     public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
     public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
 
-    public static final String DefaultPassword = "Bank@123";
+    public static final String DefaultPassword = "User@123";
 
     public static final String PACKS_CODE_KEY = "packsCode";
     public static final String BRANCH_CODE_KEY = "branchCode";

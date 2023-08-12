@@ -34,6 +34,9 @@ public class ApplicationLogHistory extends AbstractAuditingEntity<Long> implemen
     @Column(name = "error_message")
     private String errorMessage;
 
+    @Column(name = "file_name")
+    private String fileName;
+
     @Column(name = "jhi_row_number")
     private Long rowNumber;
 
@@ -186,6 +189,14 @@ public class ApplicationLogHistory extends AbstractAuditingEntity<Long> implemen
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     @Override
     public boolean equals(Object o) {

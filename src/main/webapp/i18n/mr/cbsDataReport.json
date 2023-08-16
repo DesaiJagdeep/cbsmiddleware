@@ -1,0 +1,24 @@
+{
+  "cbsMiddlewareApp": {
+    "cbsDataReport": {
+      "home": {
+        "title": "Cbs Data Reports",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Cbs Data Report तयार करा",
+        "createOrEditLabel": "Cbs Data Report तयार किंवा संपादित करा",
+        "notFound": "No Cbs Data Reports found"
+      },
+      "created": "Cbs Data Report [identifier: {{ param }}] तयार आहे",
+      "updated": "Cbs Data Report [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Cbs Data Report [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Cbs Data Report [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Cbs Data Report"
+      },
+      "id": "ID",
+      "farmerName": "Farmer Name"
+    }
+  }
+}

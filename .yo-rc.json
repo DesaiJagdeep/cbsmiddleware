@@ -45,14 +45,15 @@
       "ApplicationLogHistory",
       "Application",
       "ActivityType",
-      "Notification"
+      "Notification",
+      "CbsDataReport"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",
     "jwtSecretKey": "ZWQ3ZjlmZjljYmI5NTBkMGRkMjE2YjQ0ZDliMWU0OTNkZTBmZTI2NzhjNTg1MzM3NjgzMmU1MTM0MjEzODc3MTQ1YmI2NDFjZThjMmE4YTQwNGE3MWNkODhkMGFhODU3ZTRiOGRmMmJjMTBlNTY0NGRlMGRhOTk5MDVlNjIyYTA=",
     "languages": ["en", "hi", "mr"],
-    "lastLiquibaseTimestamp": 1691413258000,
+    "lastLiquibaseTimestamp": 1692177855000,
     "messageBroker": false,
     "microfrontend": false,
     "microfrontends": [],

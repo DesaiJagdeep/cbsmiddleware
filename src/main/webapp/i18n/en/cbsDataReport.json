@@ -1,0 +1,24 @@
+{
+  "cbsMiddlewareApp": {
+    "cbsDataReport": {
+      "home": {
+        "title": "Cbs Data Reports",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cbs Data Report",
+        "createOrEditLabel": "Create or edit a Cbs Data Report",
+        "notFound": "No Cbs Data Reports found"
+      },
+      "created": "A new Cbs Data Report is created with identifier {{ param }}",
+      "updated": "A Cbs Data Report is updated with identifier {{ param }}",
+      "deleted": "A Cbs Data Report is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cbs Data Report {{ id }}?"
+      },
+      "detail": {
+        "title": "Cbs Data Report"
+      },
+      "id": "ID",
+      "farmerName": "Farmer Name"
+    }
+  }
+}

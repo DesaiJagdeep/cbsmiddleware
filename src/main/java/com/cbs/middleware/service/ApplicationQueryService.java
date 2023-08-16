@@ -88,6 +88,20 @@ public class ApplicationQueryService extends QueryService<Application> {
             if (criteria.getBatchId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBatchId(), Application_.batchId));
             }
+            if (criteria.getFinancialYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), Application_.financialYear));
+            }
+
+            if (criteria.getBankCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBankCode(), Application_.bankCode));
+            }
+            if (criteria.getBranchCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchCode(), Application_.branchCode));
+            }
+            if (criteria.getPacksCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPacksCode(), Application_.packsCode));
+            }
+
             if (criteria.getUniqueId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getUniqueId(), Application_.uniqueId));
             }

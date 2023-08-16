@@ -22,6 +22,18 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "batch_id")
     private String batchId;
 
+    @Column(name = "financial_year")
+    private String financialYear;
+
+    @Column(name = "bank_code")
+    private Long bankCode;
+
+    @Column(name = "branch_code")
+    private Long branchCode;
+
+    @Column(name = "packs_code")
+    private Long packsCode;
+
     @Column(name = "unique_id")
     private String uniqueId;
 
@@ -65,6 +77,38 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     public Application id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public String getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
+    }
+
+    public Long getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(Long bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public Long getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(Long branchCode) {
+        this.branchCode = branchCode;
+    }
+
+    public Long getPacksCode() {
+        return packsCode;
+    }
+
+    public void setPacksCode(Long packsCode) {
+        this.packsCode = packsCode;
     }
 
     public void setId(Long id) {

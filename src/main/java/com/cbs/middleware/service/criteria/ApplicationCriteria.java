@@ -7,13 +7,13 @@ import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
 
 /**
- * Criteria class for the {@link com.cbs.middleware.domain.Application} entity. This class is used
- * in {@link com.cbs.middleware.web.rest.ApplicationResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
+ * Criteria class for the {@link com.cbs.middleware.domain.Application} entity.
+ * This class is used in {@link com.cbs.middleware.web.rest.ApplicationResource}
+ * to receive all the possible filtering options from the Http GET request
+ * parameters. For example the following could be a valid request:
  * {@code /applications?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
+ * As Spring is unable to properly convert the types, unless specific
+ * {@link Filter} class are used, we need to use fix type specific filters.
  */
 @ParameterObject
 @SuppressWarnings("common-java:DuplicatedBlocks")
@@ -24,6 +24,14 @@ public class ApplicationCriteria implements Serializable, Criteria {
     private LongFilter id;
 
     private StringFilter batchId;
+
+    private StringFilter financialYear;
+
+    private LongFilter bankCode;
+
+    private LongFilter branchCode;
+
+    private LongFilter packsCode;
 
     private StringFilter uniqueId;
 
@@ -46,6 +54,9 @@ public class ApplicationCriteria implements Serializable, Criteria {
     public ApplicationCriteria(ApplicationCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.batchId = other.batchId == null ? null : other.batchId.copy();
+        this.bankCode = other.bankCode == null ? null : other.bankCode.copy();
+        this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
+        this.packsCode = other.packsCode == null ? null : other.packsCode.copy();
         this.uniqueId = other.uniqueId == null ? null : other.uniqueId.copy();
         this.recordStatus = other.recordStatus == null ? null : other.recordStatus.copy();
         this.applicationStatus = other.applicationStatus == null ? null : other.applicationStatus.copy();
@@ -54,6 +65,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
         this.farmerId = other.farmerId == null ? null : other.farmerId.copy();
         this.issFileParserId = other.issFileParserId == null ? null : other.issFileParserId.copy();
         this.distinct = other.distinct;
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
     }
 
     @Override
@@ -89,6 +101,66 @@ public class ApplicationCriteria implements Serializable, Criteria {
 
     public void setBatchId(StringFilter batchId) {
         this.batchId = batchId;
+    }
+
+    public LongFilter getBankCode() {
+        return bankCode;
+    }
+
+    public LongFilter bankCode() {
+        if (bankCode == null) {
+            bankCode = new LongFilter();
+        }
+        return bankCode;
+    }
+
+    public void setBankCode(LongFilter bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public LongFilter getBranchCode() {
+        return branchCode;
+    }
+
+    public LongFilter branchCode() {
+        if (branchCode == null) {
+            branchCode = new LongFilter();
+        }
+        return branchCode;
+    }
+
+    public void setBranchCode(LongFilter branchCode) {
+        this.branchCode = branchCode;
+    }
+
+    public LongFilter getPacksCode() {
+        return packsCode;
+    }
+
+    public LongFilter packsCode() {
+        if (packsCode == null) {
+            packsCode = new LongFilter();
+        }
+        return packsCode;
+    }
+
+    public void setPacksCode(LongFilter packsCode) {
+        this.packsCode = packsCode;
+    }
+
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+            financialYear = new StringFilter();
+        }
+        return financialYear;
+    }
+
+    public StringFilter getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
     }
 
     public StringFilter getUniqueId() {
@@ -215,6 +287,10 @@ public class ApplicationCriteria implements Serializable, Criteria {
         final ApplicationCriteria that = (ApplicationCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(financialYear, that.financialYear) &&
+            Objects.equals(bankCode, that.bankCode) &&
+            Objects.equals(branchCode, that.branchCode) &&
+            Objects.equals(packsCode, that.packsCode) &&
             Objects.equals(batchId, that.batchId) &&
             Objects.equals(uniqueId, that.uniqueId) &&
             Objects.equals(recordStatus, that.recordStatus) &&
@@ -232,6 +308,10 @@ public class ApplicationCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             batchId,
+            financialYear,
+            bankCode,
+            branchCode,
+            packsCode,
             uniqueId,
             recordStatus,
             applicationStatus,
@@ -244,19 +324,21 @@ public class ApplicationCriteria implements Serializable, Criteria {
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "ApplicationCriteria{" +
-            (id != null ? "id=" + id + ", " : "") +
-            (batchId != null ? "batchId=" + batchId + ", " : "") +
-            (uniqueId != null ? "uniqueId=" + uniqueId + ", " : "") +
-            (recordStatus != null ? "recordStatus=" + recordStatus + ", " : "") +
-            (applicationStatus != null ? "applicationStatus=" + applicationStatus + ", " : "") +
-            (kccStatus != null ? "kccStatus=" + kccStatus + ", " : "") +
-            (recipientUniqueId != null ? "recipientUniqueId=" + recipientUniqueId + ", " : "") +
-            (farmerId != null ? "farmerId=" + farmerId + ", " : "") +
-            (issFileParserId != null ? "issFileParserId=" + issFileParserId + ", " : "") +
-            (distinct != null ? "distinct=" + distinct + ", " : "") +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "ApplicationCriteria{" + (id != null ? "id=" + id + ", " : "")
+				+ (batchId != null ? "batchId=" + batchId + ", " : "")
+				+ (financialYear != null ? "financialYear=" + financialYear + ", " : "")
+				+ (bankCode != null ? "bankCode=" + bankCode + ", " : "")
+				+ (branchCode != null ? "branchCode=" + branchCode + ", " : "")
+				+ (packsCode != null ? "packsCode=" + packsCode + ", " : "")
+				+ (uniqueId != null ? "uniqueId=" + uniqueId + ", " : "")
+				+ (recordStatus != null ? "recordStatus=" + recordStatus + ", " : "")
+				+ (applicationStatus != null ? "applicationStatus=" + applicationStatus + ", " : "")
+				+ (kccStatus != null ? "kccStatus=" + kccStatus + ", " : "")
+				+ (recipientUniqueId != null ? "recipientUniqueId=" + recipientUniqueId + ", " : "")
+				+ (farmerId != null ? "farmerId=" + farmerId + ", " : "")
+				+ (issFileParserId != null ? "issFileParserId=" + issFileParserId + ", " : "")
+				+ (distinct != null ? "distinct=" + distinct + ", " : "") + "}";
+	}
 }

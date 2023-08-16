@@ -1,6 +1,7 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.domainUtil.Report;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.service.ApplicationQueryService;
 import com.cbs.middleware.service.ApplicationService;
@@ -18,8 +19,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -58,7 +69,9 @@ public class ApplicationResource {
      * {@code POST  /applications} : Create a new application.
      *
      * @param application the application to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new application, or with status {@code 400 (Bad Request)} if the application has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new application, or with status {@code 400 (Bad Request)} if
+     *         the application has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/applications")
@@ -77,11 +90,13 @@ public class ApplicationResource {
     /**
      * {@code PUT  /applications/:id} : Updates an existing application.
      *
-     * @param id the id of the application to save.
+     * @param id          the id of the application to save.
      * @param application the application to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated application,
-     * or with status {@code 400 (Bad Request)} if the application is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the application couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated application, or with status {@code 400 (Bad Request)} if
+     *         the application is not valid, or with status
+     *         {@code 500 (Internal Server Error)} if the application couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/applications/{id}")
@@ -109,14 +124,17 @@ public class ApplicationResource {
     }
 
     /**
-     * {@code PATCH  /applications/:id} : Partial updates given fields of an existing application, field will ignore if it is null
+     * {@code PATCH  /applications/:id} : Partial updates given fields of an
+     * existing application, field will ignore if it is null
      *
-     * @param id the id of the application to save.
+     * @param id          the id of the application to save.
      * @param application the application to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated application,
-     * or with status {@code 400 (Bad Request)} if the application is not valid,
-     * or with status {@code 404 (Not Found)} if the application is not found,
-     * or with status {@code 500 (Internal Server Error)} if the application couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated application, or with status {@code 400 (Bad Request)} if
+     *         the application is not valid, or with status {@code 404 (Not Found)}
+     *         if the application is not found, or with status
+     *         {@code 500 (Internal Server Error)} if the application couldn't be
+     *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/applications/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -149,7 +167,8 @@ public class ApplicationResource {
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of applications in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of applications in body.
      */
     @GetMapping("/applications")
     public ResponseEntity<List<Application>> getAllApplications(
@@ -166,7 +185,8 @@ public class ApplicationResource {
      * {@code GET  /applications/count} : count all the applications.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
+     *         in body.
      */
     @GetMapping("/applications/count")
     public ResponseEntity<Long> countApplications(ApplicationCriteria criteria) {
@@ -175,10 +195,70 @@ public class ApplicationResource {
     }
 
     /**
+     *
+     * @param year
+     * @param bankName
+     * @param branchName
+     * @param packsName
+     * @param criteria
+     * @param pageable
+     * @return
+     */
+
+    @GetMapping("/cbs-data-report")
+    public ResponseEntity<Report> getAllCbsDataReport(
+        ApplicationCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get CbsDataReports by criteria: {}", criteria);
+
+        Report report = new Report();
+
+        ApplicationCriteria applicationCriteria = new ApplicationCriteria();
+        applicationCriteria.setFinancialYear(criteria.getFinancialYear());
+
+        if (criteria.getBankCode() != null) {
+            applicationCriteria.setBankCode(criteria.getBankCode());
+        }
+
+        if (criteria.getBranchCode() != null) {
+            applicationCriteria.setBranchCode(criteria.getBranchCode());
+        }
+
+        if (criteria.getPacksCode() != null) {
+            applicationCriteria.setPacksCode(criteria.getPacksCode());
+        }
+
+        report.setRecordsInYear(applicationQueryService.countByCriteria(applicationCriteria));
+
+        StringFilter stringFilter = new StringFilter();
+        stringFilter.setNotEquals(null);
+        applicationCriteria.setBatchId(stringFilter);
+        report.setRecordSubmittedToKCC(applicationQueryService.countByCriteria(applicationCriteria));
+
+        IntegerFilter filter = new IntegerFilter();
+        filter.setEquals(1);
+        applicationCriteria.setApplicationStatus(filter);
+        report.setAcceptedRecordByKCC(applicationQueryService.countByCriteria(applicationCriteria));
+
+        filter = new IntegerFilter();
+        filter.setEquals(0);
+        applicationCriteria.setApplicationStatus(filter);
+        report.setRejectedRecordByKCC(applicationQueryService.countByCriteria(applicationCriteria));
+
+        Page<Application> page = applicationQueryService.findByCriteria(criteria, pageable);
+        report.setApplicationList(page.getContent());
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(report);
+    }
+
+    /**
      * {@code GET  /applications/:id} : get the "id" application.
      *
      * @param id the id of the application to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the application, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the application, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/applications/{id}")
     public ResponseEntity<Application> getApplication(@PathVariable Long id) {

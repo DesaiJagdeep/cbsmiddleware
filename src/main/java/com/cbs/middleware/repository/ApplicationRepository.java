@@ -43,8 +43,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     List<Application> findAllByIssFilePortalId(Long id);
 
-    //@Query("select application from Application application where application.batchId is null and application.applicationStatus=2 and application.issFilePortalId =:issFilePortalId")
-    // List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId")  Long issFilePortalId);
+    // @Query("select application from Application application where
+    // application.batchId is null and application.applicationStatus=2 and
+    // application.issFilePortalId =:issFilePortalId")
+    // List<Application>
+    // findAllByBatchIdAndApplicationStatusAndIssFilePortalId(@Param("issFilePortalId")
+    // Long issFilePortalId);
 
     List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Integer errorStatus, Long issFilePortalId);
 
@@ -67,4 +71,17 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     Integer countByIssFilePortalId(@Param("issFilePortalId") Long issFilePortalId);
 
     Optional<Application> findOneByIssFileParser(IssFileParser issFileParser);
+
+    @Query(
+        "select count(*) from Application application where application.batchId is not null and application.financialYear =:financialYear"
+    )
+    Long countByFinancialYearAndBatchIdNotNull(@Param("financialYear") String financialYear);
+
+    @Query(
+        "select count(*) from Application application where application.financialYear =:financialYear and application.applicationStatus =:applicationStatus"
+    )
+    Long countByFinancialYearAndApplicationStatus(
+        @Param("financialYear") String financialYear,
+        @Param("applicationStatus") Integer applicationStatus
+    );
 }

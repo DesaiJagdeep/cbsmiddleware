@@ -1,0 +1,16 @@
+{
+  "changelogDate": "20230816092415",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CbsDataReport",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

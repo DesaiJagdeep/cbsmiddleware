@@ -9,7 +9,7 @@ import com.cbs.middleware.service.ApplicationLogQueryService;
 import com.cbs.middleware.service.ApplicationLogService;
 import com.cbs.middleware.service.criteria.ApplicationLogCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -203,7 +203,7 @@ public class ApplicationLogResource {
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = applicationLogQueryService.findByCriteria(criteria, pageable);
         } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

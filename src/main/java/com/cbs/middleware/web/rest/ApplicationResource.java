@@ -2,14 +2,13 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
-import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.domainUtil.Report;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.service.ApplicationQueryService;
 import com.cbs.middleware.service.ApplicationService;
 import com.cbs.middleware.service.criteria.ApplicationCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -206,7 +205,7 @@ public class ApplicationResource {
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = applicationQueryService.findByCriteria(criteria, pageable);
         } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

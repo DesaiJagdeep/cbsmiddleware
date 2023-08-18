@@ -15,7 +15,7 @@ import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.io.IOException;
 import java.net.URI;
@@ -77,6 +77,12 @@ public class IssPortalFileResource {
 
     @Autowired
     ApplicationLogHistoryRepository applicationLogHistoryRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -238,11 +244,6 @@ public class IssPortalFileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
      *         of issPortalFiles in body.
      */
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     @GetMapping("/iss-portal-files")
     public ResponseEntity<List<IssPortalFile>> getAllIssPortalFiles(
@@ -268,7 +269,7 @@ public class IssPortalFileResource {
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
         } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
         log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);

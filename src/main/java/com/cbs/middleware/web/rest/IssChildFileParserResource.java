@@ -35,6 +35,7 @@ import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -224,6 +225,8 @@ public class IssChildFileParserResource {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
         } catch (UnAuthRequestAlertException e) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (EncryptedDocumentException e1) {
             throw new EncryptedDocumentException("EncryptedDocumentException");
         } catch (IOException e1) {

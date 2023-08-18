@@ -38,6 +38,7 @@ import com.cbs.middleware.service.IssFileParserService;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.io.ByteArrayOutputStream;
@@ -281,6 +282,8 @@ public class IssFileParserResource {
             return fileParseConf;
         } catch (BadRequestAlertException e) {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (UnAuthRequestAlertException e) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (EncryptedDocumentException e1) {
@@ -396,6 +399,8 @@ public class IssFileParserResource {
             }
         } catch (BadRequestAlertException e) {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (UnAuthRequestAlertException e) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (EncryptedDocumentException e1) {
@@ -1812,7 +1817,7 @@ public class IssFileParserResource {
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = issFileParserQueryService.findByCriteria(criteria, pageable);
         } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
@@ -1853,7 +1858,7 @@ public class IssFileParserResource {
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndBankCode(id, branchOrPacksNumber.get(Constants.BANK_CODE_KEY));
         } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
         return ResponseUtil.wrapOrNotFound(issFileParser);
     }

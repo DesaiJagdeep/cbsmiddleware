@@ -133,4 +133,14 @@ public class ApplicationQueryService extends QueryService<Application> {
         }
         return specification;
     }
+
+    public Page<Application> findByCriteriaByPacsCode(Long PacsCode, Pageable pageable) {
+        log.debug("find by criteria : {}, page: {}", pageable);
+        return applicationRepository.findAllByPacksCode(PacsCode, pageable);
+    }
+
+    public Page<Application> findByCriteriaByBranchCode(Long BranchCode, ApplicationCriteria criteria, Pageable pageable) {
+        log.debug("find by criteria : {}, page: {}", criteria, pageable);
+        return applicationRepository.findAllByBranchCode(BranchCode, pageable);
+    }
 }

@@ -16,7 +16,6 @@ import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.LandTypeMaster;
 import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.SeasonMaster;
-import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -32,7 +31,6 @@ import com.cbs.middleware.repository.LandTypeMasterRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
-import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.IssFileParserQueryService;
@@ -41,6 +39,7 @@ import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -59,7 +58,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -93,8 +91,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -181,10 +177,10 @@ public class IssFileParserResource {
     BatchTransactionRepository batchTransactionRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    RBAControl rbaControl;
 
     @Autowired
-    RBAControl rbaControl;
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public IssFileParserResource(
         IssFileParserService issFileParserService,
@@ -224,59 +220,33 @@ public class IssFileParserResource {
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(5); // Get the current row
-
+            boolean flag = false;
             String branchCode1 = getCellValue(row.getCell(4));
-            if (StringUtils.isNoneBlank(branchCode1)) {
+            if (StringUtils.isNotBlank(branchCode1)) {
                 branchCode1 = branchCode1.trim().replace("\n", " ").toLowerCase();
-
                 if (!branchCode1.contains("branch") || !branchCode1.contains("code")) {
-                    throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
+                    flag = true;
                 }
             } else {
-                throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
-            }
-
-            row = sheet.getRow(6);
-
-            boolean flag = false;
-            String fYear = getCellValue(row.getCell(0));
-
-            if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
                 flag = true;
             }
 
-            String ifsc = getCellValue(row.getCell(6));
-            if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+            String recoveryDate = getCellValue(row.getCell(50));
+            if (StringUtils.isNoneBlank(recoveryDate)) {
+                recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
+
+                if (!recoveryDate.contains("recovery") || !recoveryDate.contains("date")) {
+                    flag = true;
+                }
+            } else {
                 flag = true;
             }
 
-            String aadharNumber = getCellValue(row.getCell(10));
-            if (StringUtils.isNotBlank(aadharNumber) && !validateAadhaarNumber(aadharNumber)) {
-                flag = true;
-            }
-
-            String villageCode = getCellValue(row.getCell(25));
-            if (StringUtils.isNotBlank(villageCode) && !villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
-                flag = true;
-            }
-            String pinCode = getCellValue(row.getCell(28));
-            if (StringUtils.isNotBlank(pinCode) && !pinCode.matches("^[0-9]{6}$")) {
-                flag = true;
-            }
-
-            String accountNumber = getCellValue(row.getCell(30));
-            if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
-                flag = true;
-            }
-            String landtype = getCellValue(row.getCell(44));
-
-            if (StringUtils.isNotBlank(landtype) && landtype.equalsIgnoreCase("irrigated") && landtype.equalsIgnoreCase("non-irrigated")) {
-                flag = true;
-            }
             if (flag) {
                 throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
             }
 
+            row = sheet.getRow(6);
             String bankCode = getCellValue(row.getCell(2));
             String branchCode = getCellValue(row.getCell(4));
             String packsCode = getCellValue(row.getCell(32));
@@ -290,19 +260,6 @@ public class IssFileParserResource {
             }
 
             rbaControl.authenticateByCode(bankCode, branchCode, packsCode, ENTITY_NAME);
-        } catch (BadRequestAlertException e) {
-            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
-        } catch (UnAuthRequestAlertException e) {
-            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
-        } catch (EncryptedDocumentException e1) {
-            throw new EncryptedDocumentException("EncryptedDocumentException");
-        } catch (IOException e1) {
-            throw new IOException("IOException");
-        }
-
-        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
-            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
-            Row row = sheet.getRow(6); // Get the current row
 
             String fYear = getCellValue(row.getCell(0));
             if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}")) {
@@ -316,11 +273,11 @@ public class IssFileParserResource {
             }
 
             fileParseConf.setBankName(getCellValue(row.getCell(1)));
-            fileParseConf.setBankCode(getCellValue(row.getCell(2)));
+            fileParseConf.setBankCode(bankCode);
             fileParseConf.setBranchName(getCellValue(row.getCell(3)));
-            fileParseConf.setBranchCode(getCellValue(row.getCell(4)));
+            fileParseConf.setBranchCode(branchCode);
             fileParseConf.setPacsName(getCellValue(row.getCell(31)));
-            fileParseConf.setPacsCode(getCellValue(row.getCell(32)));
+            fileParseConf.setPacsCode(packsCode);
             return fileParseConf;
         } catch (BadRequestAlertException e) {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
@@ -353,14 +310,31 @@ public class IssFileParserResource {
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(5); // Get the current row
-            if (
-                getCellValue(row.getCell(0)) != null &&
-                !getCellValue(row.getCell(0)).contains("Financial") &&
-                !getCellValue(row.getCell(0)).contains("Year")
-            ) {
-                throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
+            boolean flagForLabel = false;
+            String branchCode1 = getCellValue(row.getCell(4));
+            if (StringUtils.isNotBlank(branchCode1)) {
+                branchCode1 = branchCode1.trim().replace("\n", " ").toLowerCase();
+                if (!branchCode1.contains("branch") || !branchCode1.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
             }
 
+            String recoveryDate = getCellValue(row.getCell(50));
+            if (StringUtils.isNoneBlank(recoveryDate)) {
+                recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
+
+                if (!recoveryDate.contains("recovery") || !recoveryDate.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
             row = sheet.getRow(6);
             if (
                 StringUtils.isBlank(getCellValue(row.getCell(2))) &&
@@ -412,7 +386,9 @@ public class IssFileParserResource {
             }
             String landtype = getCellValue(row.getCell(44));
 
-            if (StringUtils.isNotBlank(landtype) && landtype.equalsIgnoreCase("irrigated") && landtype.equalsIgnoreCase("non-irrigated")) {
+            if (
+                StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
+            ) {
                 flag = true;
             }
             if (flag) {
@@ -1821,7 +1797,7 @@ public class IssFileParserResource {
         log.debug("REST request to get IssFileParsers by criteria: {}", criteria);
 
         Page<IssFileParser> page = null;
-        Map<String, String> branchOrPacksNumber = getCodeNumber();
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page =
@@ -1868,7 +1844,7 @@ public class IssFileParserResource {
     public ResponseEntity<IssFileParser> getIssFileParser(@PathVariable Long id) {
         log.debug("REST request to get IssFileParser : {}", id);
         Optional<IssFileParser> issFileParser = null;
-        Map<String, String> branchOrPacksNumber = getCodeNumber();
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
@@ -1897,27 +1873,5 @@ public class IssFileParserResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    /**
-     * Function for get bank code, branch code and packs code from user token
-     *
-     * @return
-     */
-    private Map<String, String> getCodeNumber() {
-        Map<String, String> branchOrPacksNumber = new HashMap<>();
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
-        if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
-            branchOrPacksNumber.put(Constants.PACKS_CODE_KEY, optUser.get().getPacsNumber());
-        } else if (StringUtils.isNotBlank(optUser.get().getBranchCode())) {
-            branchOrPacksNumber.put(Constants.BRANCH_CODE_KEY, optUser.get().getBranchCode());
-        } else if (StringUtils.isNotBlank(optUser.get().getBankCode())) {
-            branchOrPacksNumber.put(Constants.BANK_CODE_KEY, optUser.get().getBankCode());
-        } else {
-            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
-        }
-        return branchOrPacksNumber;
     }
 }

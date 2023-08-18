@@ -1,19 +1,26 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.domainUtil.Report;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.service.ApplicationQueryService;
 import com.cbs.middleware.service.ApplicationService;
 import com.cbs.middleware.service.criteria.ApplicationCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +61,9 @@ public class ApplicationResource {
     private final ApplicationRepository applicationRepository;
 
     private final ApplicationQueryService applicationQueryService;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public ApplicationResource(
         ApplicationService applicationService,
@@ -175,8 +185,30 @@ public class ApplicationResource {
         ApplicationCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
+        Page<Application> page = null;
         log.debug("REST request to get Applications by criteria: {}", criteria);
-        Page<Application> page = applicationQueryService.findByCriteria(criteria, pageable);
+
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page =
+                applicationQueryService.findByCriteriaByPacsCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
+                    pageable
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            page =
+                applicationQueryService.findByCriteriaByBranchCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)),
+                    criteria,
+                    pageable
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = applicationQueryService.findByCriteria(criteria, pageable);
+        } else {
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

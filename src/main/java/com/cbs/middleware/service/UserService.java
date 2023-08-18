@@ -405,6 +405,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Page<AdminUserDTO> getAllManagedUsersByBranchCode(String BranchCode, Pageable pageable) {
+        return userRepository.findAllByBranchCode(BranchCode, pageable).map(AdminUserDTO::new);
+    }
+
+    @Transactional(readOnly = true)
     public Page<UserDTO> getAllPublicUsers(Pageable pageable) {
         return userRepository.findAllByIdNotNullAndActivatedIsTrue(pageable).map(UserDTO::new);
     }

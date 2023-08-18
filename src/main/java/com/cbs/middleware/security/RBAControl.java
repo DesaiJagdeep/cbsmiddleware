@@ -227,6 +227,48 @@ public class RBAControl {
         }
     }
 
+    /**
+     *
+     */
+    public boolean userCheck(String login, String object, String action) throws Exception {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + login);
+        String loginNameFromAPI = "";
+
+        boolean returnData = false;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return false;
+        }
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        if (!optUser.isPresent()) {
+            return false;
+        }
+        if (StringUtils.isNotBlank(login)) {
+            Optional<User> userFromId = userRepository.findOneByLogin(login);
+            if (userFromId.isPresent()) {
+                loginNameFromAPI = userFromId.get().getLogin();
+            }
+        }
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        if (authorities.size() == 1) {
+            GrantedAuthority authority = authorities.stream().findFirst().get();
+
+            if (AuthoritiesConstants.ANONYMOUS.equals(authority.toString())) {
+                return false;
+            } else if (AuthoritiesConstants.ADMIN.equals(authority.toString())) {
+                return true;
+            } else if (AuthoritiesConstants.ROLE_BRANCH_ADMIN.equals(authority.toString())) {
+                return true;
+            } else if (AuthoritiesConstants.ROLE_BRANCH_USER.equals(authority.toString())) {
+                if (loginNameFromAPI.equalsIgnoreCase(optUser.get().getLogin())) {
+                    return true;
+                }
+            }
+        }
+        return returnData;
+    }
+
     /** RBAC function for super admin permission */
     public boolean superAdminPermission() throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

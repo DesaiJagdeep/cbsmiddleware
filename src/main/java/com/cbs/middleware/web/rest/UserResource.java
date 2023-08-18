@@ -9,11 +9,15 @@ import com.cbs.middleware.service.UserService;
 import com.cbs.middleware.service.dto.AdminUserDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 import org.slf4j.Logger;
@@ -26,7 +30,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -147,13 +161,19 @@ public class UserResource {
      *                                   already in use.
      */
     @PutMapping("/users")
-    @PreAuthorize("@authentication.hasPermision(#userDTO.id,'','','USER','EDIT')")
+    @PreAuthorize("@authentication.userCheck(#userDTO.login,'USER','EDIT')")
     public ResponseEntity<AdminUserDTO> updateUser(@Valid @RequestBody AdminUserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new EmailAlreadyUsedException();
         }
+
+        changeRole(auth, userDTO, existingUser.get());
+
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new LoginAlreadyUsedException();
@@ -166,6 +186,49 @@ public class UserResource {
         );
     }
 
+    private AdminUserDTO changeRole(Authentication auth, AdminUserDTO adminUserDTO, User user) {
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (AuthoritiesConstants.ANONYMOUS.equals(authority.toString())) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+        } else if (AuthoritiesConstants.ADMIN.equals(authority.toString())) {
+            return adminUserDTO;
+        } else if (AuthoritiesConstants.ROLE_BRANCH_ADMIN.equals(authority.toString())) {
+            if (!adminUserDTO.getAuthorities().isEmpty()) {
+                if (adminUserDTO.getAuthorities().iterator().next().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
+                    throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+                }
+            }
+
+            adminUserDTO.setBankCode(user.getBankCode());
+            adminUserDTO.setBankName(user.getBankName());
+
+            adminUserDTO.setBranchName(user.getBranchName());
+            adminUserDTO.setBranchCode(user.getBranchCode());
+
+            return adminUserDTO;
+        } else if (AuthoritiesConstants.ROLE_BRANCH_USER.equals(authority.toString())) {
+            if (!adminUserDTO.getAuthorities().isEmpty()) {
+                String role = adminUserDTO.getAuthorities().iterator().next();
+                if (role.equalsIgnoreCase(AuthoritiesConstants.ADMIN) || role.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+                    throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+                }
+            }
+
+            adminUserDTO.setBankCode(user.getBankCode());
+            adminUserDTO.setBankName(user.getBankName());
+
+            adminUserDTO.setBranchName(user.getBranchName());
+            adminUserDTO.setBranchCode(user.getBranchCode());
+
+            adminUserDTO.setPacsName(user.getPacsName());
+            adminUserDTO.setPacsNumber(user.getPacsNumber());
+
+            return adminUserDTO;
+        }
+        return adminUserDTO;
+    }
+
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this
      * are only allowed for the administrators.
@@ -175,14 +238,27 @@ public class UserResource {
      *         all users.
      */
     @GetMapping("/users")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<AdminUserDTO>> getAllUsers(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get all User for an admin");
         if (!onlyContainsAllowedProperties(pageable)) {
             return ResponseEntity.badRequest().build();
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Page<AdminUserDTO> page = null;
 
-        final Page<AdminUserDTO> page = userService.getAllManagedUsers(pageable);
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            page = userService.getAllManagedUsers(pageable);
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+            Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+            if (optUser.isPresent()) {
+                String branchCode = optUser.get().getBranchCode();
+                page = userService.getAllManagedUsersByBranchCode(branchCode, pageable);
+            }
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -199,7 +275,7 @@ public class UserResource {
      *         the "login" user, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/users/{login}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    @PreAuthorize("@authentication.userCheck(#login,'USER','EDIT')")
     public ResponseEntity<AdminUserDTO> getUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
         log.debug("REST request to get User : {}", login);
         return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));

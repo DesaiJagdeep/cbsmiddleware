@@ -84,4 +84,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         @Param("financialYear") String financialYear,
         @Param("applicationStatus") Integer applicationStatus
     );
+
+    Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
+
+    Page<Application> findAllByBranchCode(Long branchCode, Pageable pageable);
 }

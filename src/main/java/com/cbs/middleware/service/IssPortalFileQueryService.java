@@ -154,4 +154,34 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
         return issPortalFileMapperList;
     }
+
+    public List<IssPortalFile> findByCriteriaCountByBranchCode(Long branchCode, IssPortalFileCriteria criteria, Pageable pageable) {
+        List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
+        Page<IssPortalFile> findAll = issPortalFileRepository.findAllByBranchCode(branchCode, pageable);
+
+        for (IssPortalFile issPortalFile : findAll) {
+            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+
+            issPortalFile.setAppSubmitedToKccCount(applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId()));
+
+            issPortalFileMapperList.add(issPortalFile);
+        }
+
+        return issPortalFileMapperList;
+    }
+
+    public List<IssPortalFile> findByCriteriaCountByPacsCode(Long pacsCode, Pageable pageable) {
+        List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
+        Page<IssPortalFile> findAll = issPortalFileRepository.findAllByPacsCode(pacsCode, pageable);
+
+        for (IssPortalFile issPortalFile : findAll) {
+            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+
+            issPortalFile.setAppSubmitedToKccCount(applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId()));
+
+            issPortalFileMapperList.add(issPortalFile);
+        }
+
+        return issPortalFileMapperList;
+    }
 }

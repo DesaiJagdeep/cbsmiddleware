@@ -1,21 +1,24 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
-import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.service.ApplicationLogQueryService;
 import com.cbs.middleware.service.ApplicationLogService;
 import com.cbs.middleware.service.criteria.ApplicationLogCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +64,9 @@ public class ApplicationLogResource {
 
     @Autowired
     IssFileParserRepository issFileParserRepository;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public ApplicationLogResource(
         ApplicationLogService applicationLogService,
@@ -183,7 +189,23 @@ public class ApplicationLogResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get ApplicationLogs by criteria: {}", criteria);
-        Page<ApplicationLog> page = applicationLogQueryService.findByCriteria(criteria, pageable);
+        Page<ApplicationLog> page = null;
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page = applicationLogQueryService.findByCriteria(criteria, pageable);
+            //			page = applicationLogQueryService.findByCriteriaCountByPacsCode(
+            //					Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)), pageable);
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            page = applicationLogQueryService.findByCriteria(criteria, pageable);
+            //			page = applicationLogQueryService.findByCriteriaCountByBranchCode(
+            //					Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)), criteria, pageable);
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = applicationLogQueryService.findByCriteria(criteria, pageable);
+        } else {
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

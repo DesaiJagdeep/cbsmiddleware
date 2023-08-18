@@ -10,10 +10,13 @@ import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,8 +25,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,13 +238,40 @@ public class IssPortalFileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
      *         of issPortalFiles in body.
      */
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
+
     @GetMapping("/iss-portal-files")
     public ResponseEntity<List<IssPortalFile>> getAllIssPortalFiles(
         IssPortalFileCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
+        List<IssPortalFile> page = null;
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page =
+                issPortalFileQueryService.findByCriteriaCountByPacsCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
+                    pageable
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            page =
+                issPortalFileQueryService.findByCriteriaCountByBranchCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)),
+                    criteria,
+                    pageable
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
+        } else {
+            throw new UnAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+
         log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
-        List<IssPortalFile> page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", "" + page.size());
@@ -249,6 +281,45 @@ public class IssPortalFileResource {
         headers.setAccessControlExposeHeaders(contentDispositionList);
 
         return ResponseEntity.ok().headers(headers).body(page);
+        //
+        //			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        //			List<IssPortalFile> page = null;
+        //
+        //			Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        //			GrantedAuthority authority = authorities.stream().findFirst().get();
+        //
+        //			if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+        //				page = issPortalFileQueryService.findByCriteriaCount(criteria, pageable);
+        //			} else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+        //
+        //				Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        //				if (optUser.isPresent()) {
+        //					String branchCode = optUser.get().getBranchCode();
+        //					page = issPortalFileQueryService.findByCriteriaCountByBranchCode(Long.parseLong(branchCode), criteria,
+        //							pageable);
+        //				}
+        //
+        //			} else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+        //
+        //				Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        //				if (optUser.isPresent()) {
+        //					String pacsCode = optUser.get().getPacsNumber();
+        //					page = issPortalFileQueryService.findByCriteriaCountByPacsCode(Long.parseLong(pacsCode), pageable);
+        //				}
+        //
+        //			}
+        //
+        //			log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
+        //
+        //			HttpHeaders headers = new HttpHeaders();
+        //			headers.add("X-Total-Count", "" + page.size());
+        //			List<String> contentDispositionList = new ArrayList<>();
+        //			contentDispositionList.add("X-Total-Count");
+        //
+        //			headers.setAccessControlExposeHeaders(contentDispositionList);
+        //
+        //			return ResponseEntity.ok().headers(headers).body(page);
+
     }
 
     @GetMapping("/iss-portal-files1")
@@ -318,7 +389,7 @@ public class IssPortalFileResource {
         if (!findAllByIssFilePortalId.isEmpty()) {
             applicationRepository.deleteAll(findAllByIssFilePortalId);
         }
-        if (!findAllByIssFilePortalId.isEmpty()) {
+        if (!findAllByIssPortalId.isEmpty()) {
             applicationLogRepository.deleteAll(findAllByIssPortalId);
         }
         if (!issFileParsersList.isEmpty()) {

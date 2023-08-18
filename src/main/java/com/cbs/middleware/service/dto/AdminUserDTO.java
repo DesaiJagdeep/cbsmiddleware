@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 /**
@@ -28,6 +29,9 @@ public class AdminUserDTO implements Serializable {
 
     @Size(max = 50)
     private String lastName;
+
+    @Size(max = 50)
+    private String mobileNumber;
 
     @Size(max = 50)
     private String bankCode;
@@ -92,6 +96,7 @@ public class AdminUserDTO implements Serializable {
         this.pacsNumber = user.getPacsNumber();
         this.bankCode = user.getBankCode();
         this.bankName = user.getBankName();
+        this.mobileNumber = user.getMobileNumber();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
@@ -137,6 +142,14 @@ public class AdminUserDTO implements Serializable {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public void setLastName(String lastName) {

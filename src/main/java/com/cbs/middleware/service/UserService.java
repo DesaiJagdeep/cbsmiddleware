@@ -183,6 +183,10 @@ public class UserService {
         } else {
             user.setLangKey(userDTO.getLangKey());
         }
+
+        if (StringUtils.isNotBlank(userDTO.getMobileNumber())) {
+            user.setMobileNumber(userDTO.getMobileNumber());
+        }
         String encryptedPassword = passwordEncoder.encode(Constants.DefaultPassword);
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
@@ -271,7 +275,9 @@ public class UserService {
                 if (StringUtils.isNoneBlank(userDTO.getBankCode())) {
                     user.setBankCode(userDTO.getBankCode());
                 }
-
+                if (StringUtils.isNotBlank(userDTO.getMobileNumber())) {
+                    user.setMobileNumber(userDTO.getMobileNumber());
+                }
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
@@ -374,7 +380,6 @@ public class UserService {
                 if (email != null) {
                     user.setEmail(email.toLowerCase());
                 }
-
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
                 this.clearUserCaches(user);

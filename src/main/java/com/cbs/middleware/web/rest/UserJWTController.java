@@ -1,11 +1,14 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.User;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.jwt.JWTFilter;
 import com.cbs.middleware.security.jwt.TokenProvider;
 import com.cbs.middleware.web.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Optional;
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserJWTController {
 
     private final TokenProvider tokenProvider;
+
+    @Autowired
+    UserRepository repository;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -46,7 +52,12 @@ public class UserJWTController {
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         String username = authentication.getName();
         String authority = authentication.getAuthorities().stream().findFirst().get().getAuthority();
-        return new ResponseEntity<>(new JWTToken(jwt, authority, username), httpHeaders, HttpStatus.OK);
+
+        Optional<User> findOneByLogin = repository.findOneByLogin(authentication.getName());
+
+        String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
+
+        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName), httpHeaders, HttpStatus.OK);
     }
 
     /**
@@ -57,11 +68,13 @@ public class UserJWTController {
         private String userName;
         private String idToken;
         private String authority;
+        private String fullName;
 
-        JWTToken(String idToken, String authority, String userName) {
+        JWTToken(String idToken, String authority, String userName, String fullName) {
             this.idToken = idToken;
             this.authority = authority;
             this.userName = userName;
+            this.fullName = fullName;
         }
 
         @JsonProperty("id_token")
@@ -87,6 +100,14 @@ public class UserJWTController {
 
         public void setUserName(String userName) {
             this.userName = userName;
+        }
+
+        public String getFullName() {
+            return fullName;
+        }
+
+        public void setFullName(String fullName) {
+            this.fullName = fullName;
         }
     }
 }

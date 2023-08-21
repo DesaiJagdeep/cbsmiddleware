@@ -452,7 +452,7 @@ public class IssFileParserResource {
         issPortalFile.setStatus("Uploaded");
         issPortalFile.setNotes("");
 
-        issPortalFile = issPortalFileRepository.save(issPortalFile);
+        boolean isSavePortalObj = false;
 
         int startRowIndex = 6; // Starting row index
         List<IssFileParser> issFileParserList = new ArrayList<>();
@@ -476,133 +476,150 @@ public class IssFileParserResource {
                     String fYear = getCellValue(row.getCell(0));
                     if (fYear.matches("\\d{4}/\\d{4}")) {
                         issFileParser.setFinancialYear(fYear.replace("/", "-"));
+                        fYear = fYear.replace("/", "-");
                     } else {
                         issFileParser.setFinancialYear(fYear);
                     }
 
-                    issFileParser.setBankName(getCellValue(row.getCell(1)));
-
-                    issFileParser.setBankCode(getCellValue(row.getCell(2)));
-
-                    issFileParser.setBranchName(getCellValue(row.getCell(3)));
-
-                    issFileParser.setBranchCode(getCellValue(row.getCell(4)));
-
-                    issFileParser.setSchemeWiseBranchCode(getCellValue(row.getCell(5)));
-
-                    issFileParser.setIfsc(getCellValue(row.getCell(6)));
-
-                    issFileParser.setLoanAccountNumberkcc(getCellValue(row.getCell(7)));
-
-                    issFileParser.setFarmerName(getCellValue(row.getCell(8)));
-
-                    issFileParser.setGender(getCellValue(row.getCell(9)));
-
-                    issFileParser.setAadharNumber(getCellValue(row.getCell(10)));
-
-                    issFileParser.setDateofBirth(getDateCellValue(row.getCell(11)));
-
-                    issFileParser.setAgeAtTimeOfSanction(getCellValue(row.getCell(12)));
-
-                    issFileParser.setMobileNo(getCellValue(row.getCell(13)));
-
-                    issFileParser.setFarmersCategory(getCellValue(row.getCell(14)));
-
-                    issFileParser.setFarmerType(getCellValue(row.getCell(15)));
-
-                    issFileParser.setSocialCategory(getCellValue(row.getCell(16)));
-
-                    issFileParser.setRelativeType(getCellValue(row.getCell(17)));
-
-                    issFileParser.setRelativeName(getCellValue(row.getCell(18)));
-
-                    issFileParser.setStateName(getCellValue(row.getCell(19)));
-
-                    issFileParser.setStateCode(getCellValue(row.getCell(20)));
-
-                    issFileParser.setDistrictName(getCellValue(row.getCell(21)));
-
-                    issFileParser.setDistrictCode(getCellValue(row.getCell(22)));
-
-                    issFileParser.setBlockCode(getCellValue(row.getCell(23)));
-
-                    issFileParser.setBlockName(getCellValue(row.getCell(24)));
-
-                    issFileParser.setVillageCode(getCellValue(row.getCell(25)));
-
-                    issFileParser.setVillageName(getCellValue(row.getCell(26)));
-
-                    issFileParser.setAddress(getCellValue(row.getCell(27)));
-
-                    issFileParser.setPinCode(getCellValue(row.getCell(28)));
-
-                    issFileParser.setAccountType(getCellValue(row.getCell(29)));
-
-                    issFileParser.setAccountNumber(getCellValue(row.getCell(30)));
-
-                    issFileParser.setPacsName(getCellValue(row.getCell(31)));
-
-                    issFileParser.setPacsNumber(getCellValue(row.getCell(32)));
-
-                    issFileParser.setAccountHolderType(getCellValue(row.getCell(33)));
-
-                    issFileParser.setPrimaryOccupation(getCellValue(row.getCell(34)));
-
-                    issFileParser.setLoanSactionDate(getDateCellValue(row.getCell(35)));
-
-                    issFileParser.setLoanSanctionAmount(getCellValue(row.getCell(36)));
-
-                    issFileParser.setTenureOFLoan(getCellValue(row.getCell(37)));
-
-                    issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
-
-                    issFileParser.setCropName(getCellValue(row.getCell(39)));
-
-                    issFileParser.setSurveyNo(getCellValue(row.getCell(40)));
-
-                    issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(41)));
-
-                    issFileParser.setSeasonName(getCellValue(row.getCell(42)));
-
-                    issFileParser.setAreaHect(getCellValue(row.getCell(43)));
-
-                    issFileParser.setLandType(getCellValue(row.getCell(44)));
-
-                    issFileParser.setDisbursementDate(getDateCellValue(row.getCell(45)));
-
-                    issFileParser.setDisburseAmount(getCellValue(row.getCell(46)));
-
-                    issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(47)));
-
-                    issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(48)));
-
-                    issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(49)));
-
-                    issFileParser.setRecoveryDate(getDateCellValue(row.getCell(50)));
-                    issFileParser.setIssPortalFile(issPortalFile);
+                    //skipping records if exists
 
                     if (
-                        StringUtils.isNotBlank(issFileParser.getFinancialYear()) &&
-                        StringUtils.isNotBlank(issFileParser.getBankName()) &&
-                        StringUtils.isNotBlank(issFileParser.getBankCode()) &&
-                        StringUtils.isNotBlank(issFileParser.getBranchCode())
+                        !issFileParserRepository
+                            .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndCropName(
+                                fYear,
+                                getCellValue(row.getCell(30)),
+                                getDateCellValue(row.getCell(35)),
+                                getCellValue(row.getCell(39))
+                            )
+                            .isPresent()
                     ) {
+                        issFileParser.setBankName(getCellValue(row.getCell(1)));
+
+                        issFileParser.setBankCode(getCellValue(row.getCell(2)));
+
+                        issFileParser.setBranchName(getCellValue(row.getCell(3)));
+
+                        issFileParser.setBranchCode(getCellValue(row.getCell(4)));
+
+                        issFileParser.setSchemeWiseBranchCode(getCellValue(row.getCell(5)));
+
+                        issFileParser.setIfsc(getCellValue(row.getCell(6)));
+
+                        issFileParser.setLoanAccountNumberkcc(getCellValue(row.getCell(7)));
+
+                        issFileParser.setFarmerName(getCellValue(row.getCell(8)));
+
+                        issFileParser.setGender(getCellValue(row.getCell(9)));
+
+                        issFileParser.setAadharNumber(getCellValue(row.getCell(10)));
+
+                        issFileParser.setDateofBirth(getDateCellValue(row.getCell(11)));
+
+                        issFileParser.setAgeAtTimeOfSanction(getCellValue(row.getCell(12)));
+
+                        issFileParser.setMobileNo(getCellValue(row.getCell(13)));
+
+                        issFileParser.setFarmersCategory(getCellValue(row.getCell(14)));
+
+                        issFileParser.setFarmerType(getCellValue(row.getCell(15)));
+
+                        issFileParser.setSocialCategory(getCellValue(row.getCell(16)));
+
+                        issFileParser.setRelativeType(getCellValue(row.getCell(17)));
+
+                        issFileParser.setRelativeName(getCellValue(row.getCell(18)));
+
+                        issFileParser.setStateName(getCellValue(row.getCell(19)));
+
+                        issFileParser.setStateCode(getCellValue(row.getCell(20)));
+
+                        issFileParser.setDistrictName(getCellValue(row.getCell(21)));
+
+                        issFileParser.setDistrictCode(getCellValue(row.getCell(22)));
+
+                        issFileParser.setBlockCode(getCellValue(row.getCell(23)));
+
+                        issFileParser.setBlockName(getCellValue(row.getCell(24)));
+
+                        issFileParser.setVillageCode(getCellValue(row.getCell(25)));
+
+                        issFileParser.setVillageName(getCellValue(row.getCell(26)));
+
+                        issFileParser.setAddress(getCellValue(row.getCell(27)));
+
+                        issFileParser.setPinCode(getCellValue(row.getCell(28)));
+
+                        issFileParser.setAccountType(getCellValue(row.getCell(29)));
+
+                        issFileParser.setAccountNumber(getCellValue(row.getCell(30)));
+
+                        issFileParser.setPacsName(getCellValue(row.getCell(31)));
+
+                        issFileParser.setPacsNumber(getCellValue(row.getCell(32)));
+
+                        issFileParser.setAccountHolderType(getCellValue(row.getCell(33)));
+
+                        issFileParser.setPrimaryOccupation(getCellValue(row.getCell(34)));
+
+                        issFileParser.setLoanSactionDate(getDateCellValue(row.getCell(35)));
+
+                        issFileParser.setLoanSanctionAmount(getCellValue(row.getCell(36)));
+
+                        issFileParser.setTenureOFLoan(getCellValue(row.getCell(37)));
+
+                        issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
+
+                        issFileParser.setCropName(getCellValue(row.getCell(39)));
+
+                        issFileParser.setSurveyNo(getCellValue(row.getCell(40)));
+
+                        issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(41)));
+
+                        issFileParser.setSeasonName(getCellValue(row.getCell(42)));
+
+                        issFileParser.setAreaHect(getCellValue(row.getCell(43)));
+
+                        issFileParser.setLandType(getCellValue(row.getCell(44)));
+
+                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(45)));
+
+                        issFileParser.setDisburseAmount(getCellValue(row.getCell(46)));
+
+                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(47)));
+
+                        issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(48)));
+
+                        issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(49)));
+
+                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(50)));
+
+                        if (isSavePortalObj) {
+                            issPortalFile = issPortalFileRepository.save(issPortalFile);
+                            isSavePortalObj = true;
+                        }
+
+                        issFileParser.setIssPortalFile(issPortalFile);
+
                         issFileParserList.add(issFileParser);
                     }
                 }
             }
 
-            issPortalFile.setApplicationCount("" + issFileParserList.size());
-            issPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
-            issPortalFile.setBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getBranchCode())));
-            issPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
-            issPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
-            issPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
+            if (!issFileParserList.isEmpty()) {
+                issPortalFile.setApplicationCount("" + issFileParserList.size());
+                issPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
+                issPortalFile.setBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getBranchCode())));
+                issPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
+                issPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
+                issPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
 
-            issPortalFileRepository.save(issPortalFile);
+                issPortalFileRepository.save(issPortalFile);
 
-            issFileParserRepository.saveAll(issFileParserList);
-            return ResponseEntity.ok().body(issFileParserList);
+                issFileParserRepository.saveAll(issFileParserList);
+                return ResponseEntity.ok().body(issFileParserList);
+            } else {
+                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
+            }
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }

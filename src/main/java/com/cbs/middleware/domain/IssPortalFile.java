@@ -75,6 +75,9 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "app_pending_to_submit_count")
     private Long appPendingToSubmitCount;
 
+    @Column(name = "app_accepted_by_kcc_count")
+    private Long appAcceptedByKccCount;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -105,6 +108,14 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     public void setAppSubmitedToKccCount(Long appSubmitedToKccCount) {
         this.appSubmitedToKccCount = appSubmitedToKccCount;
+    }
+
+    public Long getAppAcceptedByKccCount() {
+        return appAcceptedByKccCount;
+    }
+
+    public void setAppAcceptedByKccCount(Long appAcceptedByKccCount) {
+        this.appAcceptedByKccCount = appAcceptedByKccCount;
     }
 
     public Long getAppPendingToSubmitCount() {

@@ -2,8 +2,12 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.BankCode;
 import com.cbs.middleware.domain.domainUtil.Report;
 import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.BankMasterRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.ApplicationQueryService;
 import com.cbs.middleware.service.ApplicationService;
 import com.cbs.middleware.service.criteria.ApplicationCriteria;
@@ -236,6 +240,24 @@ public class ApplicationResource {
      * @return
      */
 
+    @Autowired
+    BankMasterRepository bankMasterRepository;
+
+    @Autowired
+    BankBranchMasterRepository bankBranchMasterRepository;
+
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
+
+    @PostMapping("/bank-code")
+    public BankCode getCodes(@RequestBody BankCode bankCode) {
+        bankCode.setBankCode(bankMasterRepository.findBankCodeByBankName(bankCode.getBankName()));
+        bankCode.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(bankCode.getBranchName()));
+        bankCode.setPacksCode(pacsMasterRepository.findPacsNumberByPacsName(bankCode.getPacksName()));
+
+        return bankCode;
+    }
+
     @GetMapping("/cbs-data-report")
     public ResponseEntity<Report> getAllCbsDataReport(
         ApplicationCriteria criteria,
@@ -260,22 +282,20 @@ public class ApplicationResource {
             applicationCriteria.setPacksCode(criteria.getPacksCode());
         }
 
-        report.setRecordsInYear(applicationQueryService.countByCriteria(applicationCriteria));
-
-        StringFilter stringFilter = new StringFilter();
-        stringFilter.setNotEquals(null);
-        applicationCriteria.setBatchId(stringFilter);
-        report.setRecordSubmittedToKCC(applicationQueryService.countByCriteria(applicationCriteria));
-
         IntegerFilter filter = new IntegerFilter();
         filter.setEquals(1);
         applicationCriteria.setApplicationStatus(filter);
-        report.setAcceptedRecordByKCC(applicationQueryService.countByCriteria(applicationCriteria));
+        long successCount = applicationQueryService.countByCriteria(applicationCriteria);
+        report.setAcceptedRecordByKCC(successCount);
 
         filter = new IntegerFilter();
         filter.setEquals(0);
         applicationCriteria.setApplicationStatus(filter);
-        report.setRejectedRecordByKCC(applicationQueryService.countByCriteria(applicationCriteria));
+        long failureCount = applicationQueryService.countByCriteria(applicationCriteria);
+        report.setRejectedRecordByKCC(failureCount);
+
+        report.setRecordSubmittedToKCC(successCount + failureCount);
+        report.setRecordsInYear(successCount + failureCount);
 
         Page<Application> page = applicationQueryService.findByCriteria(criteria, pageable);
         report.setApplicationList(page.getContent());

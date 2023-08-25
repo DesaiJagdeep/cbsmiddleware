@@ -225,6 +225,24 @@ public class UserResource {
             adminUserDTO.setPacsNumber(user.getPacsNumber());
 
             return adminUserDTO;
+        } else if (AuthoritiesConstants.ROLE_PACS_USER.equals(authority.toString())) {
+            if (!adminUserDTO.getAuthorities().isEmpty()) {
+                String role = adminUserDTO.getAuthorities().iterator().next();
+                if (role.equalsIgnoreCase(AuthoritiesConstants.ADMIN) || role.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+                    throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+                }
+            }
+
+            adminUserDTO.setBankCode(user.getBankCode());
+            adminUserDTO.setBankName(user.getBankName());
+
+            adminUserDTO.setBranchName(user.getBranchName());
+            adminUserDTO.setBranchCode(user.getBranchCode());
+
+            adminUserDTO.setPacsName(user.getPacsName());
+            adminUserDTO.setPacsNumber(user.getPacsNumber());
+
+            return adminUserDTO;
         }
         return adminUserDTO;
     }

@@ -231,7 +231,6 @@ public class RBAControl {
      *
      */
     public boolean userCheck(String login, String object, String action) throws Exception {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + login);
         String loginNameFromAPI = "";
 
         boolean returnData = false;
@@ -261,6 +260,10 @@ public class RBAControl {
             } else if (AuthoritiesConstants.ROLE_BRANCH_ADMIN.equals(authority.toString())) {
                 return true;
             } else if (AuthoritiesConstants.ROLE_BRANCH_USER.equals(authority.toString())) {
+                if (loginNameFromAPI.equalsIgnoreCase(optUser.get().getLogin())) {
+                    return true;
+                }
+            } else if (AuthoritiesConstants.ROLE_PACS_USER.equals(authority.toString())) {
                 if (loginNameFromAPI.equalsIgnoreCase(optUser.get().getLogin())) {
                     return true;
                 }

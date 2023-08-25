@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.FarmerCategoryMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +54,9 @@ public class FarmerCategoryMasterResource {
 
     private final FarmerCategoryMasterRepository farmerCategoryMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public FarmerCategoryMasterResource(
         FarmerCategoryMasterService farmerCategoryMasterService,
         FarmerCategoryMasterRepository farmerCategoryMasterRepository
@@ -77,6 +84,19 @@ public class FarmerCategoryMasterResource {
             throw new BadRequestAlertException("A new farmerCategoryMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         FarmerCategoryMaster result = farmerCategoryMasterService.save(farmerCategoryMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Farmer Category Master Created",
+                "Farmer Category Master: " + result.getFarmerCategory() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "FarmerCategoryMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/farmer-category-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -115,6 +135,18 @@ public class FarmerCategoryMasterResource {
         }
 
         FarmerCategoryMaster result = farmerCategoryMasterService.update(farmerCategoryMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Farmer Category Master Updated",
+                "Farmer Category Master: " + result.getFarmerCategory() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "FarmerCategoryMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, farmerCategoryMaster.getId().toString()))
@@ -204,7 +236,24 @@ public class FarmerCategoryMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteFarmerCategoryMaster(@PathVariable Long id) {
         log.debug("REST request to delete FarmerCategoryMaster : {}", id);
+        Optional<FarmerCategoryMaster> farmerCategoryMaster = farmerCategoryMasterService.findOne(id);
+        if (!farmerCategoryMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        FarmerCategoryMaster result = farmerCategoryMaster.get();
+
         farmerCategoryMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Farmer Category Master Deleted",
+            "Farmer Category Master: " + result.getFarmerCategory() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "FarmerCategoryMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

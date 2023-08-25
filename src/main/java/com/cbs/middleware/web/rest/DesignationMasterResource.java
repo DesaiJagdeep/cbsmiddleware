@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.DesignationMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.DesignationMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.DesignationMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class DesignationMasterResource {
 
     private final DesignationMasterRepository designationMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public DesignationMasterResource(
         DesignationMasterService designationMasterService,
         DesignationMasterRepository designationMasterRepository
@@ -73,6 +80,19 @@ public class DesignationMasterResource {
             throw new BadRequestAlertException("A new designationMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DesignationMaster result = designationMasterService.save(designationMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Designation Master Created",
+                "Designation Master: " + result.getDesignationName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "DesignationMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .created(new URI("/api/designation-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -108,6 +128,19 @@ public class DesignationMasterResource {
         }
 
         DesignationMaster result = designationMasterService.update(designationMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Designation Master Updated",
+                "Designation Master: " + result.getDesignationName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "DesignationMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, designationMaster.getId().toString()))
@@ -190,7 +223,26 @@ public class DesignationMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteDesignationMaster(@PathVariable Long id) {
         log.debug("REST request to delete DesignationMaster : {}", id);
+
+        Optional<DesignationMaster> designationMaster = designationMasterService.findOne(id);
+        if (!designationMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        DesignationMaster result = designationMaster.get();
+
         designationMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Designation Master Deleted",
+            "Designation Master: " + result.getDesignationName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "DesignationMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

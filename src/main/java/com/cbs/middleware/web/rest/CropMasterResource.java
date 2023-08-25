@@ -1,7 +1,9 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.CropMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.CropMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CropMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +52,9 @@ public class CropMasterResource {
 
     private final CropMasterRepository cropMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public CropMasterResource(CropMasterService cropMasterService, CropMasterRepository cropMasterRepository) {
         this.cropMasterService = cropMasterService;
         this.cropMasterRepository = cropMasterRepository;
@@ -69,6 +75,19 @@ public class CropMasterResource {
             throw new BadRequestAlertException("A new cropMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CropMaster result = cropMasterService.save(cropMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Crop Master Created",
+                "Crop Master: " + result.getCropName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "CropMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/crop-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -119,6 +138,19 @@ public class CropMasterResource {
         }
 
         CropMaster result = cropMasterService.update(cropMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Crop Master Updated",
+                "Crop Master: " + result.getCropName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "CropMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, cropMaster.getId().toString()))
@@ -199,7 +231,24 @@ public class CropMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteCropMaster(@PathVariable Long id) {
         log.debug("REST request to delete CropMaster : {}", id);
+        Optional<CropMaster> cropMaster = cropMasterService.findOne(id);
+        if (!cropMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        CropMaster result = cropMaster.get();
         cropMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Crop Master Deleted",
+            "Crop Master: " + result.getCropName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "CropMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

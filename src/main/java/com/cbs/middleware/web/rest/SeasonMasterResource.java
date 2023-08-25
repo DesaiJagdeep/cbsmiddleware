@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.SeasonMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.service.SeasonMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class SeasonMasterResource {
 
     private final SeasonMasterRepository seasonMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public SeasonMasterResource(SeasonMasterService seasonMasterService, SeasonMasterRepository seasonMasterRepository) {
         this.seasonMasterService = seasonMasterService;
         this.seasonMasterRepository = seasonMasterRepository;
@@ -69,6 +76,19 @@ public class SeasonMasterResource {
             throw new BadRequestAlertException("A new seasonMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         SeasonMaster result = seasonMasterService.save(seasonMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Season Master Created",
+                "Season Master: " + result.getSeasonName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "SeasonMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/season-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,19 @@ public class SeasonMasterResource {
         }
 
         SeasonMaster result = seasonMasterService.update(seasonMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Season Master Updated",
+                "Season Master: " + result.getSeasonName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "SeasonMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, seasonMaster.getId().toString()))
@@ -190,7 +223,25 @@ public class SeasonMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteSeasonMaster(@PathVariable Long id) {
         log.debug("REST request to delete SeasonMaster : {}", id);
+
+        Optional<SeasonMaster> seasonMaster = seasonMasterService.findOne(id);
+        if (!seasonMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        SeasonMaster result = seasonMaster.get();
+
         seasonMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Season Master Deleted",
+            "Season Master: " + result.getSeasonName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "SeasonMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

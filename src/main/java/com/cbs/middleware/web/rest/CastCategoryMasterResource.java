@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.CastCategoryMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.CastCategoryMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CastCategoryMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class CastCategoryMasterResource {
 
     private final CastCategoryMasterRepository castCategoryMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public CastCategoryMasterResource(
         CastCategoryMasterService castCategoryMasterService,
         CastCategoryMasterRepository castCategoryMasterRepository
@@ -73,6 +80,19 @@ public class CastCategoryMasterResource {
             throw new BadRequestAlertException("A new castCategoryMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CastCategoryMaster result = castCategoryMasterService.save(castCategoryMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Cast Category Master Created",
+                "Cast Category Master: " + result.getCastCategoryName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "CastCategoryMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/cast-category-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -108,6 +128,18 @@ public class CastCategoryMasterResource {
         }
 
         CastCategoryMaster result = castCategoryMasterService.update(castCategoryMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Cast Category Master Updated",
+                "Cast Category Master: " + result.getCastCategoryName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "CastCategoryMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, castCategoryMaster.getId().toString()))
@@ -190,7 +222,27 @@ public class CastCategoryMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteCastCategoryMaster(@PathVariable Long id) {
         log.debug("REST request to delete CastCategoryMaster : {}", id);
+        Optional<CastCategoryMaster> castCategoryMaster = castCategoryMasterService.findOne(id);
+        if (!castCategoryMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        CastCategoryMaster result = castCategoryMaster.get();
+
         castCategoryMasterService.delete(id);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Cast Category Master Deleted",
+                "Cast Category Master : " + result.getCastCategoryName() + "Deleted",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "CastCategoryMasterDeleted" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

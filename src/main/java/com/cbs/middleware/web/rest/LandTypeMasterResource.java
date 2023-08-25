@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.LandTypeMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.LandTypeMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.LandTypeMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class LandTypeMasterResource {
 
     private final LandTypeMasterRepository landTypeMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public LandTypeMasterResource(LandTypeMasterService landTypeMasterService, LandTypeMasterRepository landTypeMasterRepository) {
         this.landTypeMasterService = landTypeMasterService;
         this.landTypeMasterRepository = landTypeMasterRepository;
@@ -69,6 +76,19 @@ public class LandTypeMasterResource {
             throw new BadRequestAlertException("A new landTypeMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         LandTypeMaster result = landTypeMasterService.save(landTypeMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Land Type Master Created",
+                "Land Type Master: " + result.getLandType() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "LandTypeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/land-type-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,18 @@ public class LandTypeMasterResource {
         }
 
         LandTypeMaster result = landTypeMasterService.update(landTypeMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Land Type Master Updated",
+                "Land Type Master: " + result.getLandType() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "LandTypeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, landTypeMaster.getId().toString()))
@@ -184,7 +216,25 @@ public class LandTypeMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteLandTypeMaster(@PathVariable Long id) {
         log.debug("REST request to delete LandTypeMaster : {}", id);
+
+        Optional<LandTypeMaster> landTypeMaster = landTypeMasterService.findOne(id);
+        if (!landTypeMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        LandTypeMaster result = landTypeMaster.get();
+
         landTypeMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Land Type Master Deleted",
+            "Land Type Master: " + result.getLandType() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "LandTypeMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

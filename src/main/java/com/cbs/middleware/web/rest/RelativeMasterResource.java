@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.RelativeMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.service.RelativeMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class RelativeMasterResource {
 
     private final RelativeMasterRepository relativeMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public RelativeMasterResource(RelativeMasterService relativeMasterService, RelativeMasterRepository relativeMasterRepository) {
         this.relativeMasterService = relativeMasterService;
         this.relativeMasterRepository = relativeMasterRepository;
@@ -69,6 +76,19 @@ public class RelativeMasterResource {
             throw new BadRequestAlertException("A new relativeMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         RelativeMaster result = relativeMasterService.save(relativeMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Relative Master Created",
+                "Relative Master: " + result.getRelativeName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "RelativeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/relative-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,19 @@ public class RelativeMasterResource {
         }
 
         RelativeMaster result = relativeMasterService.update(relativeMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Relative Master Updated",
+                "Relative Master: " + result.getRelativeName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "RelativeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, relativeMaster.getId().toString()))
@@ -184,7 +217,23 @@ public class RelativeMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteRelativeMaster(@PathVariable Long id) {
         log.debug("REST request to delete RelativeMaster : {}", id);
+        Optional<RelativeMaster> relativeMaster = relativeMasterService.findOne(id);
+        if (!relativeMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        RelativeMaster result = relativeMaster.get();
         relativeMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Relative Master Deleted",
+            "Relative Master: " + result.getRelativeName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "RelativeMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

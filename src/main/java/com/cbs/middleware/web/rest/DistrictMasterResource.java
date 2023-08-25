@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.DistrictMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.DistrictMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.DistrictMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class DistrictMasterResource {
 
     private final DistrictMasterRepository districtMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public DistrictMasterResource(DistrictMasterService districtMasterService, DistrictMasterRepository districtMasterRepository) {
         this.districtMasterService = districtMasterService;
         this.districtMasterRepository = districtMasterRepository;
@@ -69,6 +76,19 @@ public class DistrictMasterResource {
             throw new BadRequestAlertException("A new districtMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         DistrictMaster result = districtMasterService.save(districtMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "District Master Created",
+                "District Master: " + result.getDistrictName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "DistrictMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/district-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,18 @@ public class DistrictMasterResource {
         }
 
         DistrictMaster result = districtMasterService.update(districtMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "District Master Updated",
+                "District Master: " + result.getDistrictName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "DistrictMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, districtMaster.getId().toString()))
@@ -184,7 +216,23 @@ public class DistrictMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteDistrictMaster(@PathVariable Long id) {
         log.debug("REST request to delete DistrictMaster : {}", id);
+        Optional<DistrictMaster> districtMaster = districtMasterService.findOne(id);
+        if (!districtMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        DistrictMaster result = districtMaster.get();
         districtMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "District Master Deleted",
+            "District Master: " + result.getDistrictName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "DistrictMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

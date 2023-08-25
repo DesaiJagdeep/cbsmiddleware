@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.StateMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.StateMasterRepository;
 import com.cbs.middleware.service.StateMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class StateMasterResource {
 
     private final StateMasterRepository stateMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public StateMasterResource(StateMasterService stateMasterService, StateMasterRepository stateMasterRepository) {
         this.stateMasterService = stateMasterService;
         this.stateMasterRepository = stateMasterRepository;
@@ -69,6 +76,19 @@ public class StateMasterResource {
             throw new BadRequestAlertException("A new stateMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         StateMaster result = stateMasterService.save(stateMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "State Master Created",
+                "State Master: " + result.getStateName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "StateMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/state-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,19 @@ public class StateMasterResource {
         }
 
         StateMaster result = stateMasterService.update(stateMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "State Master Updated",
+                "State Master: " + result.getStateName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "StateMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, stateMaster.getId().toString()))
@@ -184,7 +217,25 @@ public class StateMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteStateMaster(@PathVariable Long id) {
         log.debug("REST request to delete StateMaster : {}", id);
+
+        Optional<StateMaster> stateMaster = stateMasterService.findOne(id);
+        if (!stateMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        StateMaster result = stateMaster.get();
+
         stateMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "State Master Deleted",
+            "State Master: " + result.getStateName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "StateMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

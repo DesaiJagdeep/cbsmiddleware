@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.OccupationMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.service.OccupationMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class OccupationMasterResource {
 
     private final OccupationMasterRepository occupationMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public OccupationMasterResource(
         OccupationMasterService occupationMasterService,
         OccupationMasterRepository occupationMasterRepository
@@ -73,6 +80,19 @@ public class OccupationMasterResource {
             throw new BadRequestAlertException("A new occupationMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         OccupationMaster result = occupationMasterService.save(occupationMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Occupation Master Created",
+                "Occupation Master: " + result.getOccupationName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "OccupationMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/occupation-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -108,6 +128,19 @@ public class OccupationMasterResource {
         }
 
         OccupationMaster result = occupationMasterService.update(occupationMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Occupation Master Updated",
+                "Occupation Master: " + result.getOccupationName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "OccupationMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, occupationMaster.getId().toString()))
@@ -190,7 +223,25 @@ public class OccupationMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteOccupationMaster(@PathVariable Long id) {
         log.debug("REST request to delete OccupationMaster : {}", id);
+
+        Optional<OccupationMaster> occupationMaster = occupationMasterService.findOne(id);
+        if (!occupationMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        OccupationMaster result = occupationMaster.get();
+
         occupationMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Occupation Master Deleted",
+            "Occupation Master: " + result.getOccupationName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "OccupationMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

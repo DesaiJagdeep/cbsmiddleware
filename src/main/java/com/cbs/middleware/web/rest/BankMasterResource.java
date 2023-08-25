@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.BankMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.BankMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.BankMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class BankMasterResource {
 
     private final BankMasterRepository bankMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public BankMasterResource(BankMasterService bankMasterService, BankMasterRepository bankMasterRepository) {
         this.bankMasterService = bankMasterService;
         this.bankMasterRepository = bankMasterRepository;
@@ -69,6 +76,20 @@ public class BankMasterResource {
             throw new BadRequestAlertException("A new bankMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         BankMaster result = bankMasterService.save(bankMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Master Created",
+                "Bank Master: " + result.getBankName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "BankMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .created(new URI("/api/bank-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -115,6 +136,20 @@ public class BankMasterResource {
         }
 
         BankMaster result = bankMasterService.update(bankMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Master Updated",
+                "Bank Master: " + result.getBankName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "BankMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bankMaster.getId().toString()))
@@ -195,7 +230,27 @@ public class BankMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteBankMaster(@PathVariable Long id) {
         log.debug("REST request to delete BankMaster : {}", id);
+        Optional<BankMaster> bankMaster = bankMasterService.findOne(id);
+        if (!bankMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        BankMaster result = bankMaster.get();
+
         bankMasterService.delete(id);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Master Created",
+                "Bank Master: " + result.getBankName() + " deleted",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "BankMasterDeleted" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

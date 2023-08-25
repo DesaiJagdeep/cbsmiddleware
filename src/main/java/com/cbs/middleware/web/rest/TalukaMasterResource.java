@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.TalukaMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.service.TalukaMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +53,9 @@ public class TalukaMasterResource {
 
     private final TalukaMasterRepository talukaMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public TalukaMasterResource(TalukaMasterService talukaMasterService, TalukaMasterRepository talukaMasterRepository) {
         this.talukaMasterService = talukaMasterService;
         this.talukaMasterRepository = talukaMasterRepository;
@@ -69,6 +76,19 @@ public class TalukaMasterResource {
             throw new BadRequestAlertException("A new talukaMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         TalukaMaster result = talukaMasterService.save(talukaMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Taluka Master Created",
+                "Taluka Master: " + result.getTalukaName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "TalukaMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/taluka-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -104,6 +124,19 @@ public class TalukaMasterResource {
         }
 
         TalukaMaster result = talukaMasterService.update(talukaMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Taluka Master Updated",
+                "Taluka Master: " + result.getTalukaName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "TalukaMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, talukaMaster.getId().toString()))
@@ -184,7 +217,25 @@ public class TalukaMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteTalukaMaster(@PathVariable Long id) {
         log.debug("REST request to delete TalukaMaster : {}", id);
+
+        Optional<TalukaMaster> talukaMaster = talukaMasterService.findOne(id);
+        if (!talukaMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        TalukaMaster result = talukaMaster.get();
         talukaMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Taluka Master Deleted",
+            "Taluka Master: " + result.getTalukaName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "TalukaMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

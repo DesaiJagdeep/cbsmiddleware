@@ -130,8 +130,8 @@ public class AccountHolderMasterResource {
         AccountHolderMaster result = accountHolderMasterService.update(accountHolderMaster);
         if (result != null) {
             Notification notification = new Notification(
-                "Account Holder Master Created",
-                "Account Holder Master: " + result.getAccountHolder() + " Created",
+                "Account Holder Master Updated",
+                "Account Holder Master: " + result.getAccountHolder() + " Updated",
                 false,
                 result.getCreatedDate(),
                 "", //recipient

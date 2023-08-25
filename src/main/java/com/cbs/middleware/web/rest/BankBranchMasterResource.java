@@ -1,11 +1,14 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BankMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.PacsMaster;
 import com.cbs.middleware.domain.domainUtil.BranchForPacksList;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
 import com.cbs.middleware.repository.BankMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.BankBranchMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -24,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,6 +61,9 @@ public class BankBranchMasterResource {
     @Autowired
     PacsMasterRepository pacsMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -82,6 +89,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/bank-branch-masters")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> createBankBranchMaster(@RequestBody BankBranchMaster bankBranchMaster)
         throws URISyntaxException {
         log.debug("REST request to save BankBranchMaster : {}", bankBranchMaster);
@@ -89,6 +97,20 @@ public class BankBranchMasterResource {
             throw new BadRequestAlertException("A new bankBranchMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         BankBranchMaster result = bankBranchMasterService.save(bankBranchMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Branch Master Created",
+                "Bank Branch Master: " + result.getBranchName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "AccountHolderMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .created(new URI("/api/bank-branch-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -108,6 +130,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bank-branch-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> updateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -125,6 +148,19 @@ public class BankBranchMasterResource {
         }
 
         BankBranchMaster result = bankBranchMasterService.update(bankBranchMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Branch Master Updated",
+                "Bank Branch Master: " + result.getBranchName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "AccountHolderMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bankBranchMaster.getId().toString()))
@@ -146,6 +182,7 @@ public class BankBranchMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/bank-branch-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<BankBranchMaster> partialUpdateBankBranchMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody BankBranchMaster bankBranchMaster
@@ -242,9 +279,30 @@ public class BankBranchMasterResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/bank-branch-masters/{id}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteBankBranchMaster(@PathVariable Long id) {
         log.debug("REST request to delete BankBranchMaster : {}", id);
+
+        Optional<BankBranchMaster> bankBranchMaster = bankBranchMasterService.findOne(id);
+        if (!bankBranchMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        BankBranchMaster result = bankBranchMaster.get();
         bankBranchMasterService.delete(id);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Bank Branch Master Created",
+                "Bank Branch Master: " + result.getBranchName() + "deleted",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "AccountHolderMasterDeleted" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

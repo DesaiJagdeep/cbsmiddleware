@@ -1,6 +1,9 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.PacsMaster;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.PacsMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
@@ -11,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +45,9 @@ public class PacsMasterResource {
 
     private final PacsMasterRepository pacsMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public PacsMasterResource(PacsMasterService pacsMasterService, PacsMasterRepository pacsMasterRepository) {
         this.pacsMasterService = pacsMasterService;
         this.pacsMasterRepository = pacsMasterRepository;
@@ -60,6 +67,19 @@ public class PacsMasterResource {
             throw new BadRequestAlertException("A new pacsMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PacsMaster result = pacsMasterService.save(pacsMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Pacs Master Created",
+                "Pacs Master: " + result.getPacsName() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "PacsMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/pacs-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -94,6 +114,18 @@ public class PacsMasterResource {
         }
 
         PacsMaster result = pacsMasterService.update(pacsMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Pacs Master Created",
+                "Pacs Master: " + result.getPacsName() + " Updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "PacsMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, pacsMaster.getId().toString()))
@@ -181,7 +213,25 @@ public class PacsMasterResource {
     @DeleteMapping("/pacs-masters/{id}")
     public ResponseEntity<Void> deletePacsMaster(@PathVariable Long id) {
         log.debug("REST request to delete PacsMaster : {}", id);
+
+        Optional<PacsMaster> pacsMaster = pacsMasterService.findOne(id);
+        if (!pacsMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        PacsMaster result = pacsMaster.get();
+
         pacsMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Pac sMaster Deleted",
+            "Pacs Master: " + result.getPacsName() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "PacsMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

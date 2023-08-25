@@ -1,5 +1,6 @@
 package com.cbs.middleware.service;
 
+import com.cbs.middleware.config.Constants;
 // for static metamodels
 import com.cbs.middleware.domain.BatchTransaction;
 import com.cbs.middleware.domain.BatchTransactionMapper;
@@ -9,11 +10,15 @@ import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.BatchTransactionRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.criteria.BatchTransactionCriteria;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +50,9 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 
     @Autowired
     IssPortalFileRepository issPortalFileRepository;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public BatchTransactionQueryService(BatchTransactionRepository batchTransactionRepository) {
         this.batchTransactionRepository = batchTransactionRepository;
@@ -105,15 +113,45 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
                 if (findIssPortalFileById.isPresent()) {
                     IssPortalFile issPortalFile = findIssPortalFileById.get();
 
-                    batchTransactionMapper.setAppPendingForExecCount(
-                        applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
-                    );
-                    batchTransactionMapper.setIssPortalId(issPortalFile.getId());
-                    batchTransactionMapper.setFileName(issPortalFile.getFileName());
-                    batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
-                    batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+                    Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
-                    batchTransactionMapperList.add(batchTransactionMapper);
+                    if (
+                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)) &&
+                        branchOrPacksNumber.get(Constants.PACKS_CODE_KEY).equalsIgnoreCase("" + issPortalFile.getPacsCode())
+                    ) {
+                        batchTransactionMapper.setAppPendingForExecCount(
+                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
+                        );
+                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
+                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
+                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
+                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+
+                        batchTransactionMapperList.add(batchTransactionMapper);
+                    } else if (
+                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)) &&
+                        branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY).equalsIgnoreCase("" + issPortalFile.getBranchCode())
+                    ) {
+                        batchTransactionMapper.setAppPendingForExecCount(
+                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
+                        );
+                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
+                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
+                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
+                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+
+                        batchTransactionMapperList.add(batchTransactionMapper);
+                    } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+                        batchTransactionMapper.setAppPendingForExecCount(
+                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
+                        );
+                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
+                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
+                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
+                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
+
+                        batchTransactionMapperList.add(batchTransactionMapper);
+                    }
                 }
             } catch (Exception e) {
                 log.error("Error in portal responce api: " + e);

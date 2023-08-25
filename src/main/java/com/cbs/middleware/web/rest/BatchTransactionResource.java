@@ -1,5 +1,6 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.BatchTransaction;
 import com.cbs.middleware.domain.BatchTransactionMapper;
 import com.cbs.middleware.repository.BatchTransactionRepository;
@@ -7,14 +8,19 @@ import com.cbs.middleware.service.BatchTransactionQueryService;
 import com.cbs.middleware.service.BatchTransactionService;
 import com.cbs.middleware.service.criteria.BatchTransactionCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,6 +61,9 @@ public class BatchTransactionResource {
     private final BatchTransactionRepository batchTransactionRepository;
 
     private final BatchTransactionQueryService batchTransactionQueryService;
+
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public BatchTransactionResource(
         BatchTransactionService batchTransactionService,
@@ -191,9 +200,14 @@ public class BatchTransactionResource {
         BatchTransactionCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (branchOrPacksNumber.isEmpty()) {
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+
         log.debug("REST request to get BatchTransactions by criteria: {}", criteria);
         List<BatchTransactionMapper> page = batchTransactionQueryService.findByCriteriaByMapper(criteria, pageable);
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", "" + page.size());
         List<String> contentDispositionList = new ArrayList<>();

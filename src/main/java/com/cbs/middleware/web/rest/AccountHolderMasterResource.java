@@ -1,7 +1,9 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.AccountHolderMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -11,6 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +52,9 @@ public class AccountHolderMasterResource {
 
     private final AccountHolderMasterRepository accountHolderMasterRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public AccountHolderMasterResource(
         AccountHolderMasterService accountHolderMasterService,
         AccountHolderMasterRepository accountHolderMasterRepository
@@ -73,6 +79,20 @@ public class AccountHolderMasterResource {
             throw new BadRequestAlertException("A new accountHolderMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
         AccountHolderMaster result = accountHolderMasterService.save(accountHolderMaster);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Account Holder Master Created",
+                "Account Holder Master: " + result.getAccountHolder() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "AccountHolderMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .created(new URI("/api/account-holder-masters/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -108,6 +128,18 @@ public class AccountHolderMasterResource {
         }
 
         AccountHolderMaster result = accountHolderMasterService.update(accountHolderMaster);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Account Holder Master Created",
+                "Account Holder Master: " + result.getAccountHolder() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "AccountHolderMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, accountHolderMaster.getId().toString()))
@@ -190,7 +222,25 @@ public class AccountHolderMasterResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteAccountHolderMaster(@PathVariable Long id) {
         log.debug("REST request to delete AccountHolderMaster : {}", id);
+        Optional<AccountHolderMaster> accountHolderMaster = accountHolderMasterService.findOne(id);
+        if (!accountHolderMaster.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        AccountHolderMaster result = accountHolderMaster.get();
+
         accountHolderMasterService.delete(id);
+
+        Notification notification = new Notification(
+            "Account Holder Master Deleted",
+            "Account Holder Master: " + result.getAccountHolder() + " Deleted",
+            false,
+            result.getCreatedDate(),
+            "", //recipient
+            result.getCreatedBy(), //sender
+            "AccountHolderMasterDeleted" //type
+        );
+        notificationRepository.save(notification);
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

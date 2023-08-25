@@ -14,6 +14,7 @@ import com.cbs.middleware.domain.IssChildPortalFile;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.LandTypeMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
@@ -29,6 +30,7 @@ import com.cbs.middleware.repository.IssChildPortalFileRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.repository.LandTypeMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
@@ -157,6 +159,9 @@ public class IssChildFileParserResource {
 
     @Autowired
     RBAControl rbaControl;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
     public IssChildFileParserResource(IssFileParserRepository issFileParserRepository) {
         this.issFileParserRepository = issFileParserRepository;
@@ -406,6 +411,19 @@ public class IssChildFileParserResource {
 
                 issChildPortalFile = issChildPortalFileRepository.save(issChildPortalFile);
                 Set<ApplicationLog> validateFile = validateFile(issFileParserList, issChildPortalFile);
+
+                if (issFileParserList.get(0) != null) {
+                    Notification notification = new Notification(
+                        "Error correction file uploaded",
+                        "Error correction file : " + files.getOriginalFilename() + " uploaded",
+                        false,
+                        issFileParserList.get(0).getCreatedDate(),
+                        "", //recipient
+                        issFileParserList.get(0).getCreatedBy(), //sender
+                        "ErrorCorrectionFileUploaded" //type
+                    );
+                    notificationRepository.save(notification);
+                }
 
                 return ResponseEntity.ok().body(validateFile);
             } else {

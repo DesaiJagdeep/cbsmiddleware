@@ -46,6 +46,20 @@ public class Notification implements Serializable {
         return this.id;
     }
 
+    public Notification() {
+        super();
+    }
+
+    public Notification(String title, String content, Boolean isRead, Instant createdAt, String recipient, String sender, String type) {
+        this.title = title;
+        this.content = content;
+        this.isRead = isRead;
+        this.createdAt = createdAt;
+        this.recipient = recipient;
+        this.sender = sender;
+        this.type = type;
+    }
+
     public Notification id(Long id) {
         this.setId(id);
         return this;
@@ -146,7 +160,8 @@ public class Notification implements Serializable {
         this.type = type;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -161,22 +176,16 @@ public class Notification implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "Notification{" +
-            "id=" + getId() +
-            ", title='" + getTitle() + "'" +
-            ", content='" + getContent() + "'" +
-            ", isRead='" + getIsRead() + "'" +
-            ", createdAt='" + getCreatedAt() + "'" +
-            ", recipient='" + getRecipient() + "'" +
-            ", sender='" + getSender() + "'" +
-            ", type='" + getType() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "Notification{" + "id=" + getId() + ", title='" + getTitle() + "'" + ", content='" + getContent() + "'"
+				+ ", isRead='" + getIsRead() + "'" + ", createdAt='" + getCreatedAt() + "'" + ", recipient='"
+				+ getRecipient() + "'" + ", sender='" + getSender() + "'" + ", type='" + getType() + "'" + "}";
+	}
 }

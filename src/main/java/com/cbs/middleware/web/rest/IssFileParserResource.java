@@ -14,6 +14,7 @@ import com.cbs.middleware.domain.FileParseConf;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.LandTypeMaster;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
@@ -28,6 +29,7 @@ import com.cbs.middleware.repository.FarmerTypeMasterRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.repository.LandTypeMasterRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
@@ -54,6 +56,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -182,6 +185,9 @@ public class IssFileParserResource {
 
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
     public IssFileParserResource(
         IssFileParserService issFileParserService,
@@ -616,6 +622,20 @@ public class IssFileParserResource {
                 issPortalFileRepository.save(issPortalFile);
 
                 issFileParserRepository.saveAll(issFileParserList);
+
+                if (issFileParserList.get(0) != null) {
+                    Notification notification = new Notification(
+                        "Application record file uploaded",
+                        "Application record file uploaded : " + files.getOriginalFilename() + " uploaded",
+                        false,
+                        issFileParserList.get(0).getCreatedDate(),
+                        "", //recipient
+                        issFileParserList.get(0).getCreatedBy(), //sender
+                        "ApplicationRecordFileUploaded" //type
+                    );
+                    notificationRepository.save(notification);
+                }
+
                 return ResponseEntity.ok().body(issFileParserList);
             } else {
                 throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
@@ -998,6 +1018,17 @@ public class IssFileParserResource {
             applicationRepository.saveAll(applicationList);
         }
 
+        Notification notification = new Notification(
+            "Application record file validated",
+            "Application record file : " + findById.get().getFileName() + " validated",
+            false,
+            Instant.now(),
+            "", //recipient
+            "", //sender
+            "ApplicationRecordFileValidated" //type
+        );
+        notificationRepository.save(notification);
+
         return ResponseEntity.ok().body(applicationLogListToSave);
     }
 
@@ -1070,6 +1101,19 @@ public class IssFileParserResource {
         applicationLog.setSevierity("");
         applicationLog.setErrorRecordCount(0);
         applicationLogRepository.save(applicationLog);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Application Updated",
+                "Application by farmer name : " + result.getFarmerName() + " is updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "ActivityTypeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
 
         return ResponseEntity
             .ok()

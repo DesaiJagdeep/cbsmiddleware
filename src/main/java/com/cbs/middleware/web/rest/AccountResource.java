@@ -2,22 +2,34 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.SecurityUtils;
 import com.cbs.middleware.service.MailService;
 import com.cbs.middleware.service.UserService;
 import com.cbs.middleware.service.dto.AdminUserDTO;
 import com.cbs.middleware.service.dto.PasswordChangeDTO;
-import com.cbs.middleware.web.rest.errors.*;
+import com.cbs.middleware.service.dto.ResetPasswordDTO;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
+import com.cbs.middleware.web.rest.errors.InvalidPasswordException;
+import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
 import com.cbs.middleware.web.rest.vm.KeyAndPasswordVM;
 import com.cbs.middleware.web.rest.vm.ManagedUserVM;
-import java.util.*;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST controller for managing the current user's account.
@@ -25,6 +37,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class AccountResource {
+
+    private static final String ENTITY_NAME = "account";
 
     private static class AccountResourceException extends RuntimeException {
 
@@ -146,6 +160,26 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+    }
+
+    /**
+     * {@code POST  /account/change-password} : changes the current user's password.
+     *
+     * @param passwordChangeDto current and new password.
+     * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
+     */
+    @PostMapping(path = "/account/reset-password-admin")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    public void resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        if (isPasswordLengthInvalid(resetPasswordDTO.getNewPassword())) {
+            throw new InvalidPasswordException();
+        }
+
+        if (!resetPasswordDTO.getNewPassword().equals(resetPasswordDTO.getConfirmPassword())) {
+            throw new BadRequestAlertException("New password and confirm password not equal", ENTITY_NAME, "idinvalid");
+        }
+
+        userService.resetPassword(resetPasswordDTO);
     }
 
     /**

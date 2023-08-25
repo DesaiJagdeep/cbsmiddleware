@@ -1,7 +1,10 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.ActivityType;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.ActivityTypeRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.ActivityTypeQueryService;
 import com.cbs.middleware.service.ActivityTypeService;
 import com.cbs.middleware.service.criteria.ActivityTypeCriteria;
@@ -13,6 +16,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +49,9 @@ public class ActivityTypeResource {
 
     private final ActivityTypeQueryService activityTypeQueryService;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public ActivityTypeResource(
         ActivityTypeService activityTypeService,
         ActivityTypeRepository activityTypeRepository,
@@ -70,6 +77,18 @@ public class ActivityTypeResource {
             throw new BadRequestAlertException("A new activityType cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ActivityType result = activityTypeService.save(activityType);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Activity Type Master Created",
+                "Activity Type Master: " + result.getActivityType() + " Created",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "ActivityTypeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .created(new URI("/api/activity-types/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -105,6 +124,18 @@ public class ActivityTypeResource {
         }
 
         ActivityType result = activityTypeService.update(activityType);
+        if (result != null) {
+            Notification notification = new Notification(
+                "Activity Type Master Created",
+                "Activity Type Master: " + result.getActivityType() + " updated",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "ActivityTypeMasterUpdated" //type
+            );
+            notificationRepository.save(notification);
+        }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, activityType.getId().toString()))
@@ -201,7 +232,26 @@ public class ActivityTypeResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteActivityType(@PathVariable Long id) {
         log.debug("REST request to delete ActivityType : {}", id);
+        Optional<ActivityType> activityType = activityTypeService.findOne(id);
+        if (!activityType.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        ActivityType result = activityType.get();
         activityTypeService.delete(id);
+
+        if (result != null) {
+            Notification notification = new Notification(
+                "Activity Type Master Created",
+                "Activity Type Master: " + result.getActivityType() + " deleted",
+                false,
+                result.getCreatedDate(),
+                "", //recipient
+                result.getCreatedBy(), //sender
+                "ActivityTypeMasterDeleted" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

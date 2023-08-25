@@ -5,11 +5,13 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
@@ -92,6 +94,9 @@ public class IssPortalFileResource {
     private final IssPortalFileRepository issPortalFileRepository;
 
     private final IssPortalFileQueryService issPortalFileQueryService;
+
+    @Autowired
+    NotificationRepository notificationRepository;
 
     public IssPortalFileResource(
         IssPortalFileService issPortalFileService,
@@ -381,11 +386,15 @@ public class IssPortalFileResource {
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_DELETE','DELETE')")
     public ResponseEntity<Void> deleteIssPortalFile(@PathVariable Long id) {
         log.debug("REST request to delete IssPortalFile : {}", id);
+        Optional<IssPortalFile> issPortalFileObj = issPortalFileService.findOne(id);
+
+        if (!issPortalFileObj.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
 
         List<ApplicationLog> findAllByIssPortalId = applicationLogRepository.findAllByIssPortalId(id);
         List<Application> findAllByIssFilePortalId = applicationRepository.findAllByIssFilePortalId(id);
-        IssPortalFile issPortalFile = new IssPortalFile();
-        issPortalFile.setId(id);
+        IssPortalFile issPortalFile = issPortalFileObj.get();
         List<IssFileParser> issFileParsersList = fileParserRepository.findAllByIssPortalFile(issPortalFile);
         if (!findAllByIssFilePortalId.isEmpty()) {
             applicationRepository.deleteAll(findAllByIssFilePortalId);
@@ -398,6 +407,20 @@ public class IssPortalFileResource {
         }
 
         issPortalFileService.delete(id);
+
+        if (issPortalFile != null) {
+            Notification notification = new Notification(
+                "Application records file deleted",
+                "Application records file: " + issPortalFile.getFileName() + " is deleted",
+                false,
+                issPortalFile.getCreatedDate(),
+                "", //recipient
+                issPortalFile.getCreatedBy(), //sender
+                "ApplicationRecordFiledeleted" //type
+            );
+            notificationRepository.save(notification);
+        }
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

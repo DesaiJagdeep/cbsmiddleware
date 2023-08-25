@@ -11,6 +11,7 @@ import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.SecurityUtils;
 import com.cbs.middleware.service.dto.AdminUserDTO;
+import com.cbs.middleware.service.dto.ResetPasswordDTO;
 import com.cbs.middleware.service.dto.UserDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.time.Instant;
@@ -402,6 +403,19 @@ public class UserService {
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
+        Optional<User> findOneByLogin = userRepository.findOneByLogin(resetPasswordDTO.getLogin());
+        if (!findOneByLogin.isPresent()) {
+            throw new BadRequestAlertException("User not found", "userManagement", "notFound");
+        }
+        User user = findOneByLogin.get();
+        this.clearUserCaches(user);
+        String encryptedPassword = passwordEncoder.encode(resetPasswordDTO.getNewPassword());
+        user.setPassword(encryptedPassword);
+        userRepository.save(user);
     }
 
     @Transactional(readOnly = true)

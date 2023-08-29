@@ -124,6 +124,36 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'cbsMiddlewareApp.application.home.title' },
         loadChildren: () => import('./application/application.module').then(m => m.ApplicationModule),
       },
+      {
+        path: 'court-case-setting',
+        data: { pageTitle: 'cbsMiddlewareApp.courtCaseSetting.home.title' },
+        loadChildren: () => import('./court-case-setting/court-case-setting.module').then(m => m.CourtCaseSettingModule),
+      },
+      {
+        path: 'activity-type',
+        data: { pageTitle: 'cbsMiddlewareApp.activityType.home.title' },
+        loadChildren: () => import('./activity-type/activity-type.module').then(m => m.ActivityTypeModule),
+      },
+      {
+        path: 'notification',
+        data: { pageTitle: 'cbsMiddlewareApp.notification.home.title' },
+        loadChildren: () => import('./notification/notification.module').then(m => m.NotificationModule),
+      },
+      {
+        path: 'cbs-data-report',
+        data: { pageTitle: 'cbsMiddlewareApp.cbsDataReport.home.title' },
+        loadChildren: () => import('./cbs-data-report/cbs-data-report.module').then(m => m.CbsDataReportModule),
+      },
+      {
+        path: 'court-case',
+        data: { pageTitle: 'cbsMiddlewareApp.courtCase.home.title' },
+        loadChildren: () => import('./court-case/court-case.module').then(m => m.CourtCaseModule),
+      },
+      {
+        path: 'court-case-details',
+        data: { pageTitle: 'cbsMiddlewareApp.courtCaseDetails.home.title' },
+        loadChildren: () => import('./court-case-details/court-case-details.module').then(m => m.CourtCaseDetailsModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

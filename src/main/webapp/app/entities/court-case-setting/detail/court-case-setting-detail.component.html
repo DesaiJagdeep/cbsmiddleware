@@ -1,0 +1,102 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courtCaseSetting">
+      <h2 data-cy="courtCaseSettingDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.detail.title">Court Case Setting</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.dinank">Dinank</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.dinank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.shakhaVevsthapak">Shakha Vevsthapak</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.shakhaVevsthapak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.suchak">Suchak</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.suchak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.aanumodak">Aanumodak</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.aanumodak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliAdhikari">Vasuli Adhikari</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.vasuliAdhikari }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.arOffice">Ar Office</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.arOffice }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavNumber">Tharav Number</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.tharavNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavDinank">Tharav Dinank</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.tharavDinank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.karjFedNotice">Karj Fed Notice</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.karjFedNotice | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeOne">One Zero One Notice One</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.oneZeroOneNoticeOne | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeTwo">One Zero One Notice Two</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.oneZeroOneNoticeTwo | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vishayKramank">Vishay Kramank</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.vishayKramank }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.war">War</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.war }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vel">Vel</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.vel }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.maganiNotice">Magani Notice</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.maganiNotice | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.etarKharch">Etar Kharch</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.etarKharch }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.noticeKharch">Notice Kharch</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.noticeKharch }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliKharch">Vasuli Kharch</span></dt>
+        <dd>
+          <span>{{ courtCaseSetting.vasuliKharch }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/court-case-setting', courtCaseSetting.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

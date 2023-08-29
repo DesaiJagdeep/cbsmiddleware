@@ -1,0 +1,45 @@
+{
+  "cbsMiddlewareApp": {
+    "courtCaseDetails": {
+      "home": {
+        "title": "Court Case Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Court Case Details",
+        "createOrEditLabel": "Create or edit a Court Case Details",
+        "notFound": "No Court Case Details found"
+      },
+      "created": "A new Court Case Details is created with identifier {{ param }}",
+      "updated": "A Court Case Details is updated with identifier {{ param }}",
+      "deleted": "A Court Case Details is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Court Case Details {{ id }}?"
+      },
+      "detail": {
+        "title": "Court Case Details"
+      },
+      "id": "ID",
+      "kramank": "Kramank",
+      "dinank": "Dinank",
+      "caseDinank": "Case Dinank",
+      "sabhasad": "Sabhasad",
+      "sabhasadAccNo": "Sabhasad Acc No",
+      "karjPrakarType": "Karj Prakar Type",
+      "karjPrakar": "Karj Prakar",
+      "certificateMilale": "Certificate Milale",
+      "certificateDinnank": "Certificate Dinnank",
+      "certificateRakkam": "Certificate Rakkam",
+      "yenebaki": "Yenebaki",
+      "vyaj": "Vyaj",
+      "etar": "Etar",
+      "dimmandMilale": "Dimmand Milale",
+      "dimmandDinnank": "Dimmand Dinnank",
+      "japtiAadhesh": "Japti Aadhesh",
+      "japtiAadheshDinnank": "Japti Aadhesh Dinnank",
+      "sthavr": "Sthavr",
+      "jangam": "Jangam",
+      "vikriAadhesh": "Vikri Aadhesh",
+      "vikriAddheshDinnank": "Vikri Addhesh Dinnank",
+      "etarTapshil": "Etar Tapshil"
+    }
+  }
+}

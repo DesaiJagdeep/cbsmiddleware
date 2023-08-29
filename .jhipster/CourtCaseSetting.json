@@ -1,0 +1,84 @@
+{
+  "changelogDate": "20230829094111",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "dinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "shakhaVevsthapak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "suchak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aanumodak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vasuliAdhikari",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arOffice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tharavNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "tharavDinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "karjFedNotice",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "oneZeroOneNoticeOne",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "oneZeroOneNoticeTwo",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "vishayKramank",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "war",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maganiNotice",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "etarKharch",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "noticeKharch",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vasuliKharch",
+      "fieldType": "Double"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CourtCaseSetting",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

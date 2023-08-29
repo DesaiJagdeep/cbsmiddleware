@@ -1,0 +1,41 @@
+{
+  "cbsMiddlewareApp": {
+    "courtCaseSetting": {
+      "home": {
+        "title": "CourtCaseSettings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Court Case Setting बनाएँ",
+        "createOrEditLabel": "Court Case Setting बनाएँ या संपादित करें",
+        "notFound": "No Court Case Settings found"
+      },
+      "created": "एक नया Court Case Setting [identifier: {{ param }}] तैयार है",
+      "updated": "एक Court Case Setting [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Court Case Setting [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Court Case Setting [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Court Case Setting"
+      },
+      "id": "ID",
+      "dinank": "Dinank",
+      "shakhaVevsthapak": "Shakha Vevsthapak",
+      "suchak": "Suchak",
+      "aanumodak": "Aanumodak",
+      "vasuliAdhikari": "Vasuli Adhikari",
+      "arOffice": "Ar Office",
+      "tharavNumber": "Tharav Number",
+      "tharavDinank": "Tharav Dinank",
+      "karjFedNotice": "Karj Fed Notice",
+      "oneZeroOneNoticeOne": "One Zero One Notice One",
+      "oneZeroOneNoticeTwo": "One Zero One Notice Two",
+      "vishayKramank": "Vishay Kramank",
+      "war": "War",
+      "vel": "Vel",
+      "maganiNotice": "Magani Notice",
+      "etarKharch": "Etar Kharch",
+      "noticeKharch": "Notice Kharch",
+      "vasuliKharch": "Vasuli Kharch"
+    }
+  }
+}

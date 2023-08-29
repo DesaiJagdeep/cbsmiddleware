@@ -1,0 +1,255 @@
+<div>
+  <h2 id="page-heading" data-cy="CourtCaseDetailsHeading">
+    <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.home.title">Court Case Details</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-court-case-details"
+        [routerLink]="['/court-case-details/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.home.createLabel"> Create a new Court Case Details </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courtCaseDetails?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.home.notFound">No Court Case Details found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="courtCaseDetails && courtCaseDetails.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kramank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.kramank">Kramank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.dinank">Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="caseDinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.caseDinank">Case Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sabhasad">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.sabhasad">Sabhasad</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sabhasadAccNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.sabhasadAccNo">Sabhasad Acc No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjPrakarType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.karjPrakarType">Karj Prakar Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjPrakar">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.karjPrakar">Karj Prakar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="certificateMilale">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.certificateMilale">Certificate Milale</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="certificateDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.certificateDinnank">Certificate Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="certificateRakkam">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.certificateRakkam">Certificate Rakkam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="yenebaki">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.yenebaki">Yenebaki</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.vyaj">Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="etar">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.etar">Etar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dimmandMilale">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.dimmandMilale">Dimmand Milale</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dimmandDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.dimmandDinnank">Dimmand Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="japtiAadhesh">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.japtiAadhesh">Japti Aadhesh</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="japtiAadheshDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.japtiAadheshDinnank">Japti Aadhesh Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sthavr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.sthavr">Sthavr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jangam">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.jangam">Jangam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vikriAadhesh">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.vikriAadhesh">Vikri Aadhesh</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vikriAddheshDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.vikriAddheshDinnank">Vikri Addhesh Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="etarTapshil">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseDetails.etarTapshil">Etar Tapshil</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courtCaseDetails of courtCaseDetails; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/court-case-details', courtCaseDetails.id, 'view']">{{ courtCaseDetails.id }}</a>
+          </td>
+          <td>{{ courtCaseDetails.kramank }}</td>
+          <td>{{ courtCaseDetails.dinank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.caseDinank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.sabhasad }}</td>
+          <td>{{ courtCaseDetails.sabhasadAccNo }}</td>
+          <td>{{ courtCaseDetails.karjPrakarType }}</td>
+          <td>{{ courtCaseDetails.karjPrakar }}</td>
+          <td>{{ courtCaseDetails.certificateMilale }}</td>
+          <td>{{ courtCaseDetails.certificateDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.certificateRakkam }}</td>
+          <td>{{ courtCaseDetails.yenebaki }}</td>
+          <td>{{ courtCaseDetails.vyaj }}</td>
+          <td>{{ courtCaseDetails.etar }}</td>
+          <td>{{ courtCaseDetails.dimmandMilale }}</td>
+          <td>{{ courtCaseDetails.dimmandDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.japtiAadhesh }}</td>
+          <td>{{ courtCaseDetails.japtiAadheshDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.sthavr }}</td>
+          <td>{{ courtCaseDetails.jangam }}</td>
+          <td>{{ courtCaseDetails.vikriAadhesh }}</td>
+          <td>{{ courtCaseDetails.vikriAddheshDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseDetails.etarTapshil }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/court-case-details', courtCaseDetails.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/court-case-details', courtCaseDetails.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(courtCaseDetails)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courtCaseDetails && courtCaseDetails.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

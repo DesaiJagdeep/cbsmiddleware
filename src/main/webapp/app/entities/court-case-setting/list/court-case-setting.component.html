@@ -1,0 +1,227 @@
+<div>
+  <h2 id="page-heading" data-cy="CourtCaseSettingHeading">
+    <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.home.title">Court Case Settings</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-court-case-setting"
+        [routerLink]="['/court-case-setting/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.home.createLabel"> Create a new Court Case Setting </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courtCaseSettings?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.home.notFound">No Court Case Settings found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="courtCaseSettings && courtCaseSettings.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.dinank">Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shakhaVevsthapak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.shakhaVevsthapak">Shakha Vevsthapak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="suchak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.suchak">Suchak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="aanumodak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.aanumodak">Aanumodak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vasuliAdhikari">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliAdhikari">Vasuli Adhikari</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="arOffice">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.arOffice">Ar Office</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavNumber">Tharav Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavDinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavDinank">Tharav Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjFedNotice">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.karjFedNotice">Karj Fed Notice</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="oneZeroOneNoticeOne">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeOne">One Zero One Notice One</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="oneZeroOneNoticeTwo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeTwo">One Zero One Notice Two</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vishayKramank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vishayKramank">Vishay Kramank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="war">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.war">War</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vel">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vel">Vel</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maganiNotice">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.maganiNotice">Magani Notice</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="etarKharch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.etarKharch">Etar Kharch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noticeKharch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.noticeKharch">Notice Kharch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vasuliKharch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliKharch">Vasuli Kharch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courtCaseSetting of courtCaseSettings; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/court-case-setting', courtCaseSetting.id, 'view']">{{ courtCaseSetting.id }}</a>
+          </td>
+          <td>{{ courtCaseSetting.dinank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.shakhaVevsthapak }}</td>
+          <td>{{ courtCaseSetting.suchak }}</td>
+          <td>{{ courtCaseSetting.aanumodak }}</td>
+          <td>{{ courtCaseSetting.vasuliAdhikari }}</td>
+          <td>{{ courtCaseSetting.arOffice }}</td>
+          <td>{{ courtCaseSetting.tharavNumber }}</td>
+          <td>{{ courtCaseSetting.tharavDinank | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.karjFedNotice | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.oneZeroOneNoticeOne | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.oneZeroOneNoticeTwo | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.vishayKramank }}</td>
+          <td>{{ courtCaseSetting.war }}</td>
+          <td>{{ courtCaseSetting.vel }}</td>
+          <td>{{ courtCaseSetting.maganiNotice | formatMediumDatetime }}</td>
+          <td>{{ courtCaseSetting.etarKharch }}</td>
+          <td>{{ courtCaseSetting.noticeKharch }}</td>
+          <td>{{ courtCaseSetting.vasuliKharch }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/court-case-setting', courtCaseSetting.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/court-case-setting', courtCaseSetting.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(courtCaseSetting)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courtCaseSettings && courtCaseSettings.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

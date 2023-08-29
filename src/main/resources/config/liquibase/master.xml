@@ -42,6 +42,9 @@
     
     <include file="config/liquibase/changelog/20230807130058_added_entity_Notification.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230816092415_added_entity_CbsDataReport.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230829094111_added_entity_CourtCaseSetting.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230829103147_added_entity_CourtCase.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230829105042_added_entity_CourtCaseDetails.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20230710064404_added_entity_constraints_IssFileParser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712044312_added_entity_constraints_ApplicationLog.xml" relativeToChangelogFile="false"/>

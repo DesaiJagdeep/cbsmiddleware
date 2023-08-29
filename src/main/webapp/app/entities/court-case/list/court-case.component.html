@@ -1,0 +1,437 @@
+<div>
+  <h2 id="page-heading" data-cy="CourtCaseHeading">
+    <span jhiTranslate="cbsMiddlewareApp.courtCase.home.title">Court Cases</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCase.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-court-case"
+        [routerLink]="['/court-case/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.courtCase.home.createLabel"> Create a new Court Case </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="courtCases?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.courtCase.home.notFound">No Court Cases found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="courtCases && courtCases.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="code">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.code">Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="caseDinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.caseDinank">Case Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.bankName">Bank Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="talukaName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.talukaName">Taluka Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="talukaCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.talukaCode">Taluka Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sabasadSavingAccNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadSavingAccNo">Sabasad Saving Acc No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sabasadName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadName">Sabasad Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sabasadAddress">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadAddress">Sabasad Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjPrakar">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.karjPrakar">Karj Prakar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vasuliAdhikari">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vasuliAdhikari">Vasuli Adhikari</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ekunJama">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.ekunJama">Ekun Jama</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="baki">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.baki">Baki</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="arOffice">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.arOffice">Ar Office</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ekunVyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.ekunVyaj">Ekun Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jamaVyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jamaVyaj">Jama Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dandVyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.dandVyaj">Dand Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjRakkam">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.karjRakkam">Karj Rakkam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="thakDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.thakDinnank">Thak Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karjDinnank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.karjDinnank">Karj Dinnank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="mudatSampteDinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.mudatSampteDinank">Mudat Sampte Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="mudat">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.mudat">Mudat</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vyaj">Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="haptaRakkam">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.haptaRakkam">Hapta Rakkam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shakhaVevsthapak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.shakhaVevsthapak">Shakha Vevsthapak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="suchak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.suchak">Suchak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="anumodak">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.anumodak">Anumodak</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dava">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.dava">Dava</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vyajDar">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vyajDar">Vyaj Dar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sarcharge">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.sarcharge">Sarcharge</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jyadaVyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jyadaVyaj">Jyada Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="yeneVyaj">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.yeneVyaj">Yene Vyaj</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vasuliKharch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vasuliKharch">Vasuli Kharch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="etharKharch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.etharKharch">Ethar Kharch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vima">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vima">Vima</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="notice">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.notice">Notice</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.tharavNumber">Tharav Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavDinank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.tharavDinank">Tharav Dinank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vishayKramank">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vishayKramank">Vishay Kramank</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noticeOne">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.noticeOne">Notice One</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noticeTwo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.noticeTwo">Notice Two</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="war">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.war">War</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vel">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.vel">Vel</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jamindarOne">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarOne">Jamindar One</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jamindarOneAddress">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarOneAddress">Jamindar One Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jamindarTwo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarTwo">Jamindar Two</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="jamindarTwoAddress">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarTwoAddress">Jamindar Two Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="taranType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.taranType">Taran Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="taranDetails">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.courtCase.taranDetails">Taran Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let courtCase of courtCases; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/court-case', courtCase.id, 'view']">{{ courtCase.id }}</a>
+          </td>
+          <td>{{ courtCase.code }}</td>
+          <td>{{ courtCase.caseDinank | formatMediumDatetime }}</td>
+          <td>{{ courtCase.bankName }}</td>
+          <td>{{ courtCase.talukaName }}</td>
+          <td>{{ courtCase.talukaCode }}</td>
+          <td>{{ courtCase.sabasadSavingAccNo }}</td>
+          <td>{{ courtCase.sabasadName }}</td>
+          <td>{{ courtCase.sabasadAddress }}</td>
+          <td>{{ courtCase.karjPrakar }}</td>
+          <td>{{ courtCase.vasuliAdhikari }}</td>
+          <td>{{ courtCase.ekunJama }}</td>
+          <td>{{ courtCase.baki }}</td>
+          <td>{{ courtCase.arOffice }}</td>
+          <td>{{ courtCase.ekunVyaj }}</td>
+          <td>{{ courtCase.jamaVyaj }}</td>
+          <td>{{ courtCase.dandVyaj }}</td>
+          <td>{{ courtCase.karjRakkam }}</td>
+          <td>{{ courtCase.thakDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCase.karjDinnank | formatMediumDatetime }}</td>
+          <td>{{ courtCase.mudatSampteDinank | formatMediumDatetime }}</td>
+          <td>{{ courtCase.mudat }}</td>
+          <td>{{ courtCase.vyaj }}</td>
+          <td>{{ courtCase.haptaRakkam }}</td>
+          <td>{{ courtCase.shakhaVevsthapak }}</td>
+          <td>{{ courtCase.suchak }}</td>
+          <td>{{ courtCase.anumodak }}</td>
+          <td>{{ courtCase.dava }}</td>
+          <td>{{ courtCase.vyajDar }}</td>
+          <td>{{ courtCase.sarcharge }}</td>
+          <td>{{ courtCase.jyadaVyaj }}</td>
+          <td>{{ courtCase.yeneVyaj }}</td>
+          <td>{{ courtCase.vasuliKharch }}</td>
+          <td>{{ courtCase.etharKharch }}</td>
+          <td>{{ courtCase.vima }}</td>
+          <td>{{ courtCase.notice }}</td>
+          <td>{{ courtCase.tharavNumber }}</td>
+          <td>{{ courtCase.tharavDinank | formatMediumDatetime }}</td>
+          <td>{{ courtCase.vishayKramank }}</td>
+          <td>{{ courtCase.noticeOne | formatMediumDatetime }}</td>
+          <td>{{ courtCase.noticeTwo | formatMediumDatetime }}</td>
+          <td>{{ courtCase.war }}</td>
+          <td>{{ courtCase.vel }}</td>
+          <td>{{ courtCase.jamindarOne }}</td>
+          <td>{{ courtCase.jamindarOneAddress }}</td>
+          <td>{{ courtCase.jamindarTwo }}</td>
+          <td>{{ courtCase.jamindarTwoAddress }}</td>
+          <td>{{ courtCase.taranType }}</td>
+          <td>{{ courtCase.taranDetails }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/court-case', courtCase.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/court-case', courtCase.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(courtCase)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="courtCases && courtCases.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

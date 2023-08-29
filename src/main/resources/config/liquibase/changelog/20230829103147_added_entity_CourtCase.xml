@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity CourtCase.
+    -->
+    <changeSet id="20230829103147-1" author="jhipster">
+        <createTable tableName="court_case">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="code" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="case_dinank" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_code" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="sabasad_saving_acc_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sabasad_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sabasad_address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="karj_prakar" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="vasuli_adhikari" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="ekun_jama" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="baki" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="ar_office" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="ekun_vyaj" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="jama_vyaj" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="dand_vyaj" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="karj_rakkam" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="thak_dinnank" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="karj_dinnank" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="mudat_sampte_dinank" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="mudat" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="vyaj" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hapta_rakkam" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="shakha_vevsthapak" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="suchak" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="anumodak" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dava" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="vyaj_dar" type="${floatType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="sarcharge" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="jyada_vyaj" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="yene_vyaj" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="vasuli_kharch" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="ethar_kharch" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="vima" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="notice" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="tharav_number" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="tharav_dinank" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="vishay_kramank" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="notice_one" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="notice_two" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="war" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="vel" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jamindar_one" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jamindar_one_address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jamindar_two" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jamindar_two_address" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taran_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taran_details" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="court_case" columnName="case_dinank" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="thak_dinnank" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="karj_dinnank" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="mudat_sampte_dinank" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="tharav_dinank" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="notice_one" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="court_case" columnName="notice_two" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20230829103147-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/court_case.csv"
+                  separator=";"
+                  tableName="court_case"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="code" type="numeric"/>
+            <column name="case_dinank" type="date"/>
+            <column name="bank_name" type="string"/>
+            <column name="taluka_name" type="string"/>
+            <column name="taluka_code" type="numeric"/>
+            <column name="sabasad_saving_acc_no" type="string"/>
+            <column name="sabasad_name" type="string"/>
+            <column name="sabasad_address" type="string"/>
+            <column name="karj_prakar" type="string"/>
+            <column name="vasuli_adhikari" type="string"/>
+            <column name="ekun_jama" type="numeric"/>
+            <column name="baki" type="numeric"/>
+            <column name="ar_office" type="string"/>
+            <column name="ekun_vyaj" type="numeric"/>
+            <column name="jama_vyaj" type="numeric"/>
+            <column name="dand_vyaj" type="numeric"/>
+            <column name="karj_rakkam" type="numeric"/>
+            <column name="thak_dinnank" type="date"/>
+            <column name="karj_dinnank" type="date"/>
+            <column name="mudat_sampte_dinank" type="date"/>
+            <column name="mudat" type="string"/>
+            <column name="vyaj" type="string"/>
+            <column name="hapta_rakkam" type="numeric"/>
+            <column name="shakha_vevsthapak" type="string"/>
+            <column name="suchak" type="string"/>
+            <column name="anumodak" type="string"/>
+            <column name="dava" type="numeric"/>
+            <column name="vyaj_dar" type="numeric"/>
+            <column name="sarcharge" type="numeric"/>
+            <column name="jyada_vyaj" type="numeric"/>
+            <column name="yene_vyaj" type="numeric"/>
+            <column name="vasuli_kharch" type="numeric"/>
+            <column name="ethar_kharch" type="numeric"/>
+            <column name="vima" type="numeric"/>
+            <column name="notice" type="numeric"/>
+            <column name="tharav_number" type="numeric"/>
+            <column name="tharav_dinank" type="date"/>
+            <column name="vishay_kramank" type="numeric"/>
+            <column name="notice_one" type="date"/>
+            <column name="notice_two" type="date"/>
+            <column name="war" type="string"/>
+            <column name="vel" type="string"/>
+            <column name="jamindar_one" type="string"/>
+            <column name="jamindar_one_address" type="string"/>
+            <column name="jamindar_two" type="string"/>
+            <column name="jamindar_two_address" type="string"/>
+            <column name="taran_type" type="string"/>
+            <column name="taran_details" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

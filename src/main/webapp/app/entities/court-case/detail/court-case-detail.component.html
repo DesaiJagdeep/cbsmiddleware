@@ -1,0 +1,220 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="courtCase">
+      <h2 data-cy="courtCaseDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.courtCase.detail.title">Court Case</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ courtCase.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.code">Code</span></dt>
+        <dd>
+          <span>{{ courtCase.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.caseDinank">Case Dinank</span></dt>
+        <dd>
+          <span>{{ courtCase.caseDinank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.bankName">Bank Name</span></dt>
+        <dd>
+          <span>{{ courtCase.bankName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.talukaName">Taluka Name</span></dt>
+        <dd>
+          <span>{{ courtCase.talukaName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.talukaCode">Taluka Code</span></dt>
+        <dd>
+          <span>{{ courtCase.talukaCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadSavingAccNo">Sabasad Saving Acc No</span></dt>
+        <dd>
+          <span>{{ courtCase.sabasadSavingAccNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadName">Sabasad Name</span></dt>
+        <dd>
+          <span>{{ courtCase.sabasadName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.sabasadAddress">Sabasad Address</span></dt>
+        <dd>
+          <span>{{ courtCase.sabasadAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.karjPrakar">Karj Prakar</span></dt>
+        <dd>
+          <span>{{ courtCase.karjPrakar }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vasuliAdhikari">Vasuli Adhikari</span></dt>
+        <dd>
+          <span>{{ courtCase.vasuliAdhikari }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.ekunJama">Ekun Jama</span></dt>
+        <dd>
+          <span>{{ courtCase.ekunJama }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.baki">Baki</span></dt>
+        <dd>
+          <span>{{ courtCase.baki }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.arOffice">Ar Office</span></dt>
+        <dd>
+          <span>{{ courtCase.arOffice }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.ekunVyaj">Ekun Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.ekunVyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jamaVyaj">Jama Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.jamaVyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.dandVyaj">Dand Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.dandVyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.karjRakkam">Karj Rakkam</span></dt>
+        <dd>
+          <span>{{ courtCase.karjRakkam }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.thakDinnank">Thak Dinnank</span></dt>
+        <dd>
+          <span>{{ courtCase.thakDinnank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.karjDinnank">Karj Dinnank</span></dt>
+        <dd>
+          <span>{{ courtCase.karjDinnank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.mudatSampteDinank">Mudat Sampte Dinank</span></dt>
+        <dd>
+          <span>{{ courtCase.mudatSampteDinank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.mudat">Mudat</span></dt>
+        <dd>
+          <span>{{ courtCase.mudat }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vyaj">Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.vyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.haptaRakkam">Hapta Rakkam</span></dt>
+        <dd>
+          <span>{{ courtCase.haptaRakkam }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.shakhaVevsthapak">Shakha Vevsthapak</span></dt>
+        <dd>
+          <span>{{ courtCase.shakhaVevsthapak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.suchak">Suchak</span></dt>
+        <dd>
+          <span>{{ courtCase.suchak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.anumodak">Anumodak</span></dt>
+        <dd>
+          <span>{{ courtCase.anumodak }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.dava">Dava</span></dt>
+        <dd>
+          <span>{{ courtCase.dava }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vyajDar">Vyaj Dar</span></dt>
+        <dd>
+          <span>{{ courtCase.vyajDar }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.sarcharge">Sarcharge</span></dt>
+        <dd>
+          <span>{{ courtCase.sarcharge }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jyadaVyaj">Jyada Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.jyadaVyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.yeneVyaj">Yene Vyaj</span></dt>
+        <dd>
+          <span>{{ courtCase.yeneVyaj }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vasuliKharch">Vasuli Kharch</span></dt>
+        <dd>
+          <span>{{ courtCase.vasuliKharch }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.etharKharch">Ethar Kharch</span></dt>
+        <dd>
+          <span>{{ courtCase.etharKharch }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vima">Vima</span></dt>
+        <dd>
+          <span>{{ courtCase.vima }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.notice">Notice</span></dt>
+        <dd>
+          <span>{{ courtCase.notice }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.tharavNumber">Tharav Number</span></dt>
+        <dd>
+          <span>{{ courtCase.tharavNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.tharavDinank">Tharav Dinank</span></dt>
+        <dd>
+          <span>{{ courtCase.tharavDinank | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vishayKramank">Vishay Kramank</span></dt>
+        <dd>
+          <span>{{ courtCase.vishayKramank }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.noticeOne">Notice One</span></dt>
+        <dd>
+          <span>{{ courtCase.noticeOne | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.noticeTwo">Notice Two</span></dt>
+        <dd>
+          <span>{{ courtCase.noticeTwo | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.war">War</span></dt>
+        <dd>
+          <span>{{ courtCase.war }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.vel">Vel</span></dt>
+        <dd>
+          <span>{{ courtCase.vel }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarOne">Jamindar One</span></dt>
+        <dd>
+          <span>{{ courtCase.jamindarOne }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarOneAddress">Jamindar One Address</span></dt>
+        <dd>
+          <span>{{ courtCase.jamindarOneAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarTwo">Jamindar Two</span></dt>
+        <dd>
+          <span>{{ courtCase.jamindarTwo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.jamindarTwoAddress">Jamindar Two Address</span></dt>
+        <dd>
+          <span>{{ courtCase.jamindarTwoAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.taranType">Taran Type</span></dt>
+        <dd>
+          <span>{{ courtCase.taranType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.courtCase.taranDetails">Taran Details</span></dt>
+        <dd>
+          <span>{{ courtCase.taranDetails }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/court-case', courtCase.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

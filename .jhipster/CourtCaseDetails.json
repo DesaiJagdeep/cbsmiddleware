@@ -1,0 +1,100 @@
+{
+  "changelogDate": "20230829105042",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "kramank",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "dinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "caseDinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "sabhasad",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sabhasadAccNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "karjPrakarType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "karjPrakar",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "certificateMilale",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "certificateDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "certificateRakkam",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "yenebaki",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "etar",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dimmandMilale",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dimmandDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "japtiAadhesh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "japtiAadheshDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "sthavr",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jangam",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vikriAadhesh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vikriAddheshDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "etarTapshil",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CourtCaseDetails",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

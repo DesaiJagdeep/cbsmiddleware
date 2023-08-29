@@ -1,0 +1,259 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-court-case-setting-heading"
+        data-cy="CourtCaseSettingCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.courtCaseSetting.home.createOrEditLabel"
+      >
+        Create or edit a Court Case Setting
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.dinank" for="field_dinank">Dinank</label>
+          <div class="d-flex">
+            <input
+              id="field_dinank"
+              data-cy="dinank"
+              type="datetime-local"
+              class="form-control"
+              name="dinank"
+              formControlName="dinank"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.shakhaVevsthapak" for="field_shakhaVevsthapak"
+            >Shakha Vevsthapak</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="shakhaVevsthapak"
+            id="field_shakhaVevsthapak"
+            data-cy="shakhaVevsthapak"
+            formControlName="shakhaVevsthapak"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.suchak" for="field_suchak">Suchak</label>
+          <input type="text" class="form-control" name="suchak" id="field_suchak" data-cy="suchak" formControlName="suchak" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.aanumodak" for="field_aanumodak">Aanumodak</label>
+          <input type="text" class="form-control" name="aanumodak" id="field_aanumodak" data-cy="aanumodak" formControlName="aanumodak" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliAdhikari" for="field_vasuliAdhikari"
+            >Vasuli Adhikari</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="vasuliAdhikari"
+            id="field_vasuliAdhikari"
+            data-cy="vasuliAdhikari"
+            formControlName="vasuliAdhikari"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.arOffice" for="field_arOffice">Ar Office</label>
+          <input type="text" class="form-control" name="arOffice" id="field_arOffice" data-cy="arOffice" formControlName="arOffice" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavNumber" for="field_tharavNumber"
+            >Tharav Number</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="tharavNumber"
+            id="field_tharavNumber"
+            data-cy="tharavNumber"
+            formControlName="tharavNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.tharavDinank" for="field_tharavDinank"
+            >Tharav Dinank</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_tharavDinank"
+              data-cy="tharavDinank"
+              type="datetime-local"
+              class="form-control"
+              name="tharavDinank"
+              formControlName="tharavDinank"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.karjFedNotice" for="field_karjFedNotice"
+            >Karj Fed Notice</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_karjFedNotice"
+              data-cy="karjFedNotice"
+              type="datetime-local"
+              class="form-control"
+              name="karjFedNotice"
+              formControlName="karjFedNotice"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeOne" for="field_oneZeroOneNoticeOne"
+            >One Zero One Notice One</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_oneZeroOneNoticeOne"
+              data-cy="oneZeroOneNoticeOne"
+              type="datetime-local"
+              class="form-control"
+              name="oneZeroOneNoticeOne"
+              formControlName="oneZeroOneNoticeOne"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.oneZeroOneNoticeTwo" for="field_oneZeroOneNoticeTwo"
+            >One Zero One Notice Two</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_oneZeroOneNoticeTwo"
+              data-cy="oneZeroOneNoticeTwo"
+              type="datetime-local"
+              class="form-control"
+              name="oneZeroOneNoticeTwo"
+              formControlName="oneZeroOneNoticeTwo"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vishayKramank" for="field_vishayKramank"
+            >Vishay Kramank</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="vishayKramank"
+            id="field_vishayKramank"
+            data-cy="vishayKramank"
+            formControlName="vishayKramank"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.war" for="field_war">War</label>
+          <input type="text" class="form-control" name="war" id="field_war" data-cy="war" formControlName="war" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vel" for="field_vel">Vel</label>
+          <input type="text" class="form-control" name="vel" id="field_vel" data-cy="vel" formControlName="vel" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.maganiNotice" for="field_maganiNotice"
+            >Magani Notice</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_maganiNotice"
+              data-cy="maganiNotice"
+              type="datetime-local"
+              class="form-control"
+              name="maganiNotice"
+              formControlName="maganiNotice"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.etarKharch" for="field_etarKharch">Etar Kharch</label>
+          <input
+            type="number"
+            class="form-control"
+            name="etarKharch"
+            id="field_etarKharch"
+            data-cy="etarKharch"
+            formControlName="etarKharch"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.noticeKharch" for="field_noticeKharch"
+            >Notice Kharch</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="noticeKharch"
+            id="field_noticeKharch"
+            data-cy="noticeKharch"
+            formControlName="noticeKharch"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.courtCaseSetting.vasuliKharch" for="field_vasuliKharch"
+            >Vasuli Kharch</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="vasuliKharch"
+            id="field_vasuliKharch"
+            data-cy="vasuliKharch"
+            formControlName="vasuliKharch"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

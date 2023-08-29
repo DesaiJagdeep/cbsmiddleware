@@ -1,0 +1,45 @@
+{
+  "cbsMiddlewareApp": {
+    "courtCaseDetails": {
+      "home": {
+        "title": "Court Case Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Court Case Details तयार करा",
+        "createOrEditLabel": "Court Case Details तयार किंवा संपादित करा",
+        "notFound": "No Court Case Details found"
+      },
+      "created": "Court Case Details [identifier: {{ param }}] तयार आहे",
+      "updated": "Court Case Details [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Court Case Details [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Court Case Details [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Court Case Details"
+      },
+      "id": "ID",
+      "kramank": "Kramank",
+      "dinank": "Dinank",
+      "caseDinank": "Case Dinank",
+      "sabhasad": "Sabhasad",
+      "sabhasadAccNo": "Sabhasad Acc No",
+      "karjPrakarType": "Karj Prakar Type",
+      "karjPrakar": "Karj Prakar",
+      "certificateMilale": "Certificate Milale",
+      "certificateDinnank": "Certificate Dinnank",
+      "certificateRakkam": "Certificate Rakkam",
+      "yenebaki": "Yenebaki",
+      "vyaj": "Vyaj",
+      "etar": "Etar",
+      "dimmandMilale": "Dimmand Milale",
+      "dimmandDinnank": "Dimmand Dinnank",
+      "japtiAadhesh": "Japti Aadhesh",
+      "japtiAadheshDinnank": "Japti Aadhesh Dinnank",
+      "sthavr": "Sthavr",
+      "jangam": "Jangam",
+      "vikriAadhesh": "Vikri Aadhesh",
+      "vikriAddheshDinnank": "Vikri Addhesh Dinnank",
+      "etarTapshil": "Etar Tapshil"
+    }
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "changelogDate": "20230829103147",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "caseDinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bankName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talukaName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talukaCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "sabasadSavingAccNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sabasadName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sabasadAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "karjPrakar",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vasuliAdhikari",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ekunJama",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "baki",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "arOffice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "ekunVyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jamaVyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dandVyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "karjRakkam",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "thakDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "karjDinnank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "mudatSampteDinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "mudat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vyaj",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "haptaRakkam",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "shakhaVevsthapak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "suchak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "anumodak",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dava",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vyajDar",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "sarcharge",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jyadaVyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "yeneVyaj",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vasuliKharch",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "etharKharch",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "vima",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "notice",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "tharavNumber",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "tharavDinank",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "vishayKramank",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "noticeOne",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "noticeTwo",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "war",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jamindarOne",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jamindarOneAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jamindarTwo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jamindarTwoAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taranType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taranDetails",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CourtCase",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

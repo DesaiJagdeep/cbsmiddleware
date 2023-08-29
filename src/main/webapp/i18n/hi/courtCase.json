@@ -1,0 +1,71 @@
+{
+  "cbsMiddlewareApp": {
+    "courtCase": {
+      "home": {
+        "title": "CourtCases",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Court Case बनाएँ",
+        "createOrEditLabel": "Court Case बनाएँ या संपादित करें",
+        "notFound": "No Court Cases found"
+      },
+      "created": "एक नया Court Case [identifier: {{ param }}] तैयार है",
+      "updated": "एक Court Case [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Court Case [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Court Case [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Court Case"
+      },
+      "id": "ID",
+      "code": "Code",
+      "caseDinank": "Case Dinank",
+      "bankName": "Bank Name",
+      "talukaName": "Taluka Name",
+      "talukaCode": "Taluka Code",
+      "sabasadSavingAccNo": "Sabasad Saving Acc No",
+      "sabasadName": "Sabasad Name",
+      "sabasadAddress": "Sabasad Address",
+      "karjPrakar": "Karj Prakar",
+      "vasuliAdhikari": "Vasuli Adhikari",
+      "ekunJama": "Ekun Jama",
+      "baki": "Baki",
+      "arOffice": "Ar Office",
+      "ekunVyaj": "Ekun Vyaj",
+      "jamaVyaj": "Jama Vyaj",
+      "dandVyaj": "Dand Vyaj",
+      "karjRakkam": "Karj Rakkam",
+      "thakDinnank": "Thak Dinnank",
+      "karjDinnank": "Karj Dinnank",
+      "mudatSampteDinank": "Mudat Sampte Dinank",
+      "mudat": "Mudat",
+      "vyaj": "Vyaj",
+      "haptaRakkam": "Hapta Rakkam",
+      "shakhaVevsthapak": "Shakha Vevsthapak",
+      "suchak": "Suchak",
+      "anumodak": "Anumodak",
+      "dava": "Dava",
+      "vyajDar": "Vyaj Dar",
+      "sarcharge": "Sarcharge",
+      "jyadaVyaj": "Jyada Vyaj",
+      "yeneVyaj": "Yene Vyaj",
+      "vasuliKharch": "Vasuli Kharch",
+      "etharKharch": "Ethar Kharch",
+      "vima": "Vima",
+      "notice": "Notice",
+      "tharavNumber": "Tharav Number",
+      "tharavDinank": "Tharav Dinank",
+      "vishayKramank": "Vishay Kramank",
+      "noticeOne": "Notice One",
+      "noticeTwo": "Notice Two",
+      "war": "War",
+      "vel": "Vel",
+      "jamindarOne": "Jamindar One",
+      "jamindarOneAddress": "Jamindar One Address",
+      "jamindarTwo": "Jamindar Two",
+      "jamindarTwoAddress": "Jamindar Two Address",
+      "taranType": "Taran Type",
+      "taranDetails": "Taran Details"
+    }
+  }
+}

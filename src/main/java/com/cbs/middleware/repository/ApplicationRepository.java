@@ -85,6 +85,14 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         @Param("applicationStatus") Integer applicationStatus
     );
 
+    @Query(
+        "select count(*) from Application application where application.issFilePortalId =:issFilePortalId and application.applicationStatus =:applicationStatus"
+    )
+    Long countByIssFilePortalIdAndApplicationStatus(
+        @Param("issFilePortalId") Long issFilePortalId,
+        @Param("applicationStatus") Integer applicationStatus
+    );
+
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
     Page<Application> findAllByBranchCode(Long branchCode, Pageable pageable);

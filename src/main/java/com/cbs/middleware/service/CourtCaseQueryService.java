@@ -85,152 +85,85 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), CourtCase_.id));
             }
-            if (criteria.getCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCode(), CourtCase_.code));
+            if (criteria.getSrNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSrNo(), CourtCase_.srNo));
             }
-            if (criteria.getCaseDinank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCaseDinank(), CourtCase_.caseDinank));
+            if (criteria.getAccountNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAccountNo(), CourtCase_.accountNo));
             }
-            if (criteria.getBankName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankName(), CourtCase_.bankName));
+            if (criteria.getNameOfDefaulter() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNameOfDefaulter(), CourtCase_.nameOfDefaulter));
             }
-            if (criteria.getTalukaName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTalukaName(), CourtCase_.talukaName));
+            if (criteria.getAddress() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAddress(), CourtCase_.address));
             }
-            if (criteria.getTalukaCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTalukaCode(), CourtCase_.talukaCode));
+            if (criteria.getLoanType() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLoanType(), CourtCase_.loanType));
             }
-            if (criteria.getSabasadSavingAccNo() != null) {
+            if (criteria.getLoanAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLoanAmount(), CourtCase_.loanAmount));
+            }
+            if (criteria.getLoanDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLoanDate(), CourtCase_.loanDate));
+            }
+            if (criteria.getTermOfLoan() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTermOfLoan(), CourtCase_.termOfLoan));
+            }
+            if (criteria.getInterestRate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInterestRate(), CourtCase_.interestRate));
+            }
+            if (criteria.getInstallmentAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInstallmentAmount(), CourtCase_.installmentAmount));
+            }
+            if (criteria.getTotalCredit() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalCredit(), CourtCase_.totalCredit));
+            }
+            if (criteria.getBalance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBalance(), CourtCase_.balance));
+            }
+            if (criteria.getInterestPaid() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInterestPaid(), CourtCase_.interestPaid));
+            }
+            if (criteria.getPenalInterestPaid() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPenalInterestPaid(), CourtCase_.penalInterestPaid));
+            }
+            if (criteria.getDueAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDueAmount(), CourtCase_.dueAmount));
+            }
+            if (criteria.getDueDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDueDate(), CourtCase_.dueDate));
+            }
+            if (criteria.getDueInterest() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDueInterest(), CourtCase_.dueInterest));
+            }
+            if (criteria.getDuePenalInterest() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDuePenalInterest(), CourtCase_.duePenalInterest));
+            }
+            if (criteria.getDueMoreInterest() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDueMoreInterest(), CourtCase_.dueMoreInterest));
+            }
+            if (criteria.getInterestRecivable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInterestRecivable(), CourtCase_.interestRecivable));
+            }
+            if (criteria.getGaurentorOne() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGaurentorOne(), CourtCase_.gaurentorOne));
+            }
+            if (criteria.getGaurentorOneAddress() != null) {
                 specification =
-                    specification.and(buildStringSpecification(criteria.getSabasadSavingAccNo(), CourtCase_.sabasadSavingAccNo));
+                    specification.and(buildStringSpecification(criteria.getGaurentorOneAddress(), CourtCase_.gaurentorOneAddress));
             }
-            if (criteria.getSabasadName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSabasadName(), CourtCase_.sabasadName));
+            if (criteria.getGaurentorTwo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGaurentorTwo(), CourtCase_.gaurentorTwo));
             }
-            if (criteria.getSabasadAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSabasadAddress(), CourtCase_.sabasadAddress));
-            }
-            if (criteria.getKarjPrakar() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getKarjPrakar(), CourtCase_.karjPrakar));
-            }
-            if (criteria.getVasuliAdhikari() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVasuliAdhikari(), CourtCase_.vasuliAdhikari));
-            }
-            if (criteria.getEkunJama() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getEkunJama(), CourtCase_.ekunJama));
-            }
-            if (criteria.getBaki() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBaki(), CourtCase_.baki));
-            }
-            if (criteria.getArOffice() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getArOffice(), CourtCase_.arOffice));
-            }
-            if (criteria.getEkunVyaj() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getEkunVyaj(), CourtCase_.ekunVyaj));
-            }
-            if (criteria.getJamaVyaj() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getJamaVyaj(), CourtCase_.jamaVyaj));
-            }
-            if (criteria.getDandVyaj() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDandVyaj(), CourtCase_.dandVyaj));
-            }
-            if (criteria.getKarjRakkam() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getKarjRakkam(), CourtCase_.karjRakkam));
-            }
-            if (criteria.getThakDinnank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getThakDinnank(), CourtCase_.thakDinnank));
-            }
-            if (criteria.getKarjDinnank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getKarjDinnank(), CourtCase_.karjDinnank));
-            }
-            if (criteria.getMudatSampteDinank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMudatSampteDinank(), CourtCase_.mudatSampteDinank));
-            }
-            if (criteria.getMudat() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMudat(), CourtCase_.mudat));
-            }
-            if (criteria.getVyaj() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVyaj(), CourtCase_.vyaj));
-            }
-            if (criteria.getHaptaRakkam() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getHaptaRakkam(), CourtCase_.haptaRakkam));
-            }
-            if (criteria.getShakhaVevsthapak() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getShakhaVevsthapak(), CourtCase_.shakhaVevsthapak));
-            }
-            if (criteria.getSuchak() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSuchak(), CourtCase_.suchak));
-            }
-            if (criteria.getAnumodak() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAnumodak(), CourtCase_.anumodak));
-            }
-            if (criteria.getDava() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDava(), CourtCase_.dava));
-            }
-            if (criteria.getVyajDar() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVyajDar(), CourtCase_.vyajDar));
-            }
-            if (criteria.getSarcharge() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSarcharge(), CourtCase_.sarcharge));
-            }
-            if (criteria.getJyadaVyaj() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getJyadaVyaj(), CourtCase_.jyadaVyaj));
-            }
-            if (criteria.getYeneVyaj() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getYeneVyaj(), CourtCase_.yeneVyaj));
-            }
-            if (criteria.getVasuliKharch() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVasuliKharch(), CourtCase_.vasuliKharch));
-            }
-            if (criteria.getEtharKharch() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getEtharKharch(), CourtCase_.etharKharch));
-            }
-            if (criteria.getVima() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVima(), CourtCase_.vima));
-            }
-            if (criteria.getNotice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNotice(), CourtCase_.notice));
-            }
-            if (criteria.getTharavNumber() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTharavNumber(), CourtCase_.tharavNumber));
-            }
-            if (criteria.getTharavDinank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTharavDinank(), CourtCase_.tharavDinank));
-            }
-            if (criteria.getVishayKramank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVishayKramank(), CourtCase_.vishayKramank));
-            }
-            if (criteria.getNoticeOne() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNoticeOne(), CourtCase_.noticeOne));
-            }
-            if (criteria.getNoticeTwo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNoticeTwo(), CourtCase_.noticeTwo));
-            }
-            if (criteria.getWar() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getWar(), CourtCase_.war));
-            }
-            if (criteria.getVel() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVel(), CourtCase_.vel));
-            }
-            if (criteria.getJamindarOne() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getJamindarOne(), CourtCase_.jamindarOne));
-            }
-            if (criteria.getJamindarOneAddress() != null) {
+            if (criteria.getGaurentorTwoAddress() != null) {
                 specification =
-                    specification.and(buildStringSpecification(criteria.getJamindarOneAddress(), CourtCase_.jamindarOneAddress));
+                    specification.and(buildStringSpecification(criteria.getGaurentorTwoAddress(), CourtCase_.gaurentorTwoAddress));
             }
-            if (criteria.getJamindarTwo() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getJamindarTwo(), CourtCase_.jamindarTwo));
+            if (criteria.getFirstNoticeDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFirstNoticeDate(), CourtCase_.firstNoticeDate));
             }
-            if (criteria.getJamindarTwoAddress() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getJamindarTwoAddress(), CourtCase_.jamindarTwoAddress));
-            }
-            if (criteria.getTaranType() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTaranType(), CourtCase_.taranType));
-            }
-            if (criteria.getTaranDetails() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTaranDetails(), CourtCase_.taranDetails));
+            if (criteria.getSecondNoticeDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSecondNoticeDate(), CourtCase_.secondNoticeDate));
             }
         }
         return specification;

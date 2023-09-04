@@ -5,23 +5,18 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ICourtCase, NewCourtCase } from '../court-case.model';
 
 export type PartialUpdateCourtCase = Partial<ICourtCase> & Pick<ICourtCase, 'id'>;
 
-type RestOf<T extends ICourtCase | NewCourtCase> = Omit<
-  T,
-  'caseDinank' | 'thakDinnank' | 'karjDinnank' | 'mudatSampteDinank' | 'tharavDinank' | 'noticeOne' | 'noticeTwo'
-> & {
-  caseDinank?: string | null;
-  thakDinnank?: string | null;
-  karjDinnank?: string | null;
-  mudatSampteDinank?: string | null;
-  tharavDinank?: string | null;
-  noticeOne?: string | null;
-  noticeTwo?: string | null;
+type RestOf<T extends ICourtCase | NewCourtCase> = Omit<T, 'loanDate' | 'dueDate' | 'firstNoticeDate' | 'secondNoticeDate'> & {
+  loanDate?: string | null;
+  dueDate?: string | null;
+  firstNoticeDate?: string | null;
+  secondNoticeDate?: string | null;
 };
 
 export type RestCourtCase = RestOf<ICourtCase>;
@@ -108,26 +103,20 @@ export class CourtCaseService {
   protected convertDateFromClient<T extends ICourtCase | NewCourtCase | PartialUpdateCourtCase>(courtCase: T): RestOf<T> {
     return {
       ...courtCase,
-      caseDinank: courtCase.caseDinank?.toJSON() ?? null,
-      thakDinnank: courtCase.thakDinnank?.toJSON() ?? null,
-      karjDinnank: courtCase.karjDinnank?.toJSON() ?? null,
-      mudatSampteDinank: courtCase.mudatSampteDinank?.toJSON() ?? null,
-      tharavDinank: courtCase.tharavDinank?.toJSON() ?? null,
-      noticeOne: courtCase.noticeOne?.toJSON() ?? null,
-      noticeTwo: courtCase.noticeTwo?.toJSON() ?? null,
+      loanDate: courtCase.loanDate?.format(DATE_FORMAT) ?? null,
+      dueDate: courtCase.dueDate?.format(DATE_FORMAT) ?? null,
+      firstNoticeDate: courtCase.firstNoticeDate?.format(DATE_FORMAT) ?? null,
+      secondNoticeDate: courtCase.secondNoticeDate?.format(DATE_FORMAT) ?? null,
     };
   }
 
   protected convertDateFromServer(restCourtCase: RestCourtCase): ICourtCase {
     return {
       ...restCourtCase,
-      caseDinank: restCourtCase.caseDinank ? dayjs(restCourtCase.caseDinank) : undefined,
-      thakDinnank: restCourtCase.thakDinnank ? dayjs(restCourtCase.thakDinnank) : undefined,
-      karjDinnank: restCourtCase.karjDinnank ? dayjs(restCourtCase.karjDinnank) : undefined,
-      mudatSampteDinank: restCourtCase.mudatSampteDinank ? dayjs(restCourtCase.mudatSampteDinank) : undefined,
-      tharavDinank: restCourtCase.tharavDinank ? dayjs(restCourtCase.tharavDinank) : undefined,
-      noticeOne: restCourtCase.noticeOne ? dayjs(restCourtCase.noticeOne) : undefined,
-      noticeTwo: restCourtCase.noticeTwo ? dayjs(restCourtCase.noticeTwo) : undefined,
+      loanDate: restCourtCase.loanDate ? dayjs(restCourtCase.loanDate) : undefined,
+      dueDate: restCourtCase.dueDate ? dayjs(restCourtCase.dueDate) : undefined,
+      firstNoticeDate: restCourtCase.firstNoticeDate ? dayjs(restCourtCase.firstNoticeDate) : undefined,
+      secondNoticeDate: restCourtCase.secondNoticeDate ? dayjs(restCourtCase.secondNoticeDate) : undefined,
     };
   }
 

@@ -45,149 +45,83 @@ public class CourtCaseServiceImpl implements CourtCaseService {
         return courtCaseRepository
             .findById(courtCase.getId())
             .map(existingCourtCase -> {
-                if (courtCase.getCode() != null) {
-                    existingCourtCase.setCode(courtCase.getCode());
+                if (courtCase.getSrNo() != null) {
+                    existingCourtCase.setSrNo(courtCase.getSrNo());
                 }
-                if (courtCase.getCaseDinank() != null) {
-                    existingCourtCase.setCaseDinank(courtCase.getCaseDinank());
+                if (courtCase.getAccountNo() != null) {
+                    existingCourtCase.setAccountNo(courtCase.getAccountNo());
                 }
-                if (courtCase.getBankName() != null) {
-                    existingCourtCase.setBankName(courtCase.getBankName());
+                if (courtCase.getNameOfDefaulter() != null) {
+                    existingCourtCase.setNameOfDefaulter(courtCase.getNameOfDefaulter());
                 }
-                if (courtCase.getTalukaName() != null) {
-                    existingCourtCase.setTalukaName(courtCase.getTalukaName());
+                if (courtCase.getAddress() != null) {
+                    existingCourtCase.setAddress(courtCase.getAddress());
                 }
-                if (courtCase.getTalukaCode() != null) {
-                    existingCourtCase.setTalukaCode(courtCase.getTalukaCode());
+                if (courtCase.getLoanType() != null) {
+                    existingCourtCase.setLoanType(courtCase.getLoanType());
                 }
-                if (courtCase.getSabasadSavingAccNo() != null) {
-                    existingCourtCase.setSabasadSavingAccNo(courtCase.getSabasadSavingAccNo());
+                if (courtCase.getLoanAmount() != null) {
+                    existingCourtCase.setLoanAmount(courtCase.getLoanAmount());
                 }
-                if (courtCase.getSabasadName() != null) {
-                    existingCourtCase.setSabasadName(courtCase.getSabasadName());
+                if (courtCase.getLoanDate() != null) {
+                    existingCourtCase.setLoanDate(courtCase.getLoanDate());
                 }
-                if (courtCase.getSabasadAddress() != null) {
-                    existingCourtCase.setSabasadAddress(courtCase.getSabasadAddress());
+                if (courtCase.getTermOfLoan() != null) {
+                    existingCourtCase.setTermOfLoan(courtCase.getTermOfLoan());
                 }
-                if (courtCase.getKarjPrakar() != null) {
-                    existingCourtCase.setKarjPrakar(courtCase.getKarjPrakar());
+                if (courtCase.getInterestRate() != null) {
+                    existingCourtCase.setInterestRate(courtCase.getInterestRate());
                 }
-                if (courtCase.getVasuliAdhikari() != null) {
-                    existingCourtCase.setVasuliAdhikari(courtCase.getVasuliAdhikari());
+                if (courtCase.getInstallmentAmount() != null) {
+                    existingCourtCase.setInstallmentAmount(courtCase.getInstallmentAmount());
                 }
-                if (courtCase.getEkunJama() != null) {
-                    existingCourtCase.setEkunJama(courtCase.getEkunJama());
+                if (courtCase.getTotalCredit() != null) {
+                    existingCourtCase.setTotalCredit(courtCase.getTotalCredit());
                 }
-                if (courtCase.getBaki() != null) {
-                    existingCourtCase.setBaki(courtCase.getBaki());
+                if (courtCase.getBalance() != null) {
+                    existingCourtCase.setBalance(courtCase.getBalance());
                 }
-                if (courtCase.getArOffice() != null) {
-                    existingCourtCase.setArOffice(courtCase.getArOffice());
+                if (courtCase.getInterestPaid() != null) {
+                    existingCourtCase.setInterestPaid(courtCase.getInterestPaid());
                 }
-                if (courtCase.getEkunVyaj() != null) {
-                    existingCourtCase.setEkunVyaj(courtCase.getEkunVyaj());
+                if (courtCase.getPenalInterestPaid() != null) {
+                    existingCourtCase.setPenalInterestPaid(courtCase.getPenalInterestPaid());
                 }
-                if (courtCase.getJamaVyaj() != null) {
-                    existingCourtCase.setJamaVyaj(courtCase.getJamaVyaj());
+                if (courtCase.getDueAmount() != null) {
+                    existingCourtCase.setDueAmount(courtCase.getDueAmount());
                 }
-                if (courtCase.getDandVyaj() != null) {
-                    existingCourtCase.setDandVyaj(courtCase.getDandVyaj());
+                if (courtCase.getDueDate() != null) {
+                    existingCourtCase.setDueDate(courtCase.getDueDate());
                 }
-                if (courtCase.getKarjRakkam() != null) {
-                    existingCourtCase.setKarjRakkam(courtCase.getKarjRakkam());
+                if (courtCase.getDueInterest() != null) {
+                    existingCourtCase.setDueInterest(courtCase.getDueInterest());
                 }
-                if (courtCase.getThakDinnank() != null) {
-                    existingCourtCase.setThakDinnank(courtCase.getThakDinnank());
+                if (courtCase.getDuePenalInterest() != null) {
+                    existingCourtCase.setDuePenalInterest(courtCase.getDuePenalInterest());
                 }
-                if (courtCase.getKarjDinnank() != null) {
-                    existingCourtCase.setKarjDinnank(courtCase.getKarjDinnank());
+                if (courtCase.getDueMoreInterest() != null) {
+                    existingCourtCase.setDueMoreInterest(courtCase.getDueMoreInterest());
                 }
-                if (courtCase.getMudatSampteDinank() != null) {
-                    existingCourtCase.setMudatSampteDinank(courtCase.getMudatSampteDinank());
+                if (courtCase.getInterestRecivable() != null) {
+                    existingCourtCase.setInterestRecivable(courtCase.getInterestRecivable());
                 }
-                if (courtCase.getMudat() != null) {
-                    existingCourtCase.setMudat(courtCase.getMudat());
+                if (courtCase.getGaurentorOne() != null) {
+                    existingCourtCase.setGaurentorOne(courtCase.getGaurentorOne());
                 }
-                if (courtCase.getVyaj() != null) {
-                    existingCourtCase.setVyaj(courtCase.getVyaj());
+                if (courtCase.getGaurentorOneAddress() != null) {
+                    existingCourtCase.setGaurentorOneAddress(courtCase.getGaurentorOneAddress());
                 }
-                if (courtCase.getHaptaRakkam() != null) {
-                    existingCourtCase.setHaptaRakkam(courtCase.getHaptaRakkam());
+                if (courtCase.getGaurentorTwo() != null) {
+                    existingCourtCase.setGaurentorTwo(courtCase.getGaurentorTwo());
                 }
-                if (courtCase.getShakhaVevsthapak() != null) {
-                    existingCourtCase.setShakhaVevsthapak(courtCase.getShakhaVevsthapak());
+                if (courtCase.getGaurentorTwoAddress() != null) {
+                    existingCourtCase.setGaurentorTwoAddress(courtCase.getGaurentorTwoAddress());
                 }
-                if (courtCase.getSuchak() != null) {
-                    existingCourtCase.setSuchak(courtCase.getSuchak());
+                if (courtCase.getFirstNoticeDate() != null) {
+                    existingCourtCase.setFirstNoticeDate(courtCase.getFirstNoticeDate());
                 }
-                if (courtCase.getAnumodak() != null) {
-                    existingCourtCase.setAnumodak(courtCase.getAnumodak());
-                }
-                if (courtCase.getDava() != null) {
-                    existingCourtCase.setDava(courtCase.getDava());
-                }
-                if (courtCase.getVyajDar() != null) {
-                    existingCourtCase.setVyajDar(courtCase.getVyajDar());
-                }
-                if (courtCase.getSarcharge() != null) {
-                    existingCourtCase.setSarcharge(courtCase.getSarcharge());
-                }
-                if (courtCase.getJyadaVyaj() != null) {
-                    existingCourtCase.setJyadaVyaj(courtCase.getJyadaVyaj());
-                }
-                if (courtCase.getYeneVyaj() != null) {
-                    existingCourtCase.setYeneVyaj(courtCase.getYeneVyaj());
-                }
-                if (courtCase.getVasuliKharch() != null) {
-                    existingCourtCase.setVasuliKharch(courtCase.getVasuliKharch());
-                }
-                if (courtCase.getEtharKharch() != null) {
-                    existingCourtCase.setEtharKharch(courtCase.getEtharKharch());
-                }
-                if (courtCase.getVima() != null) {
-                    existingCourtCase.setVima(courtCase.getVima());
-                }
-                if (courtCase.getNotice() != null) {
-                    existingCourtCase.setNotice(courtCase.getNotice());
-                }
-                if (courtCase.getTharavNumber() != null) {
-                    existingCourtCase.setTharavNumber(courtCase.getTharavNumber());
-                }
-                if (courtCase.getTharavDinank() != null) {
-                    existingCourtCase.setTharavDinank(courtCase.getTharavDinank());
-                }
-                if (courtCase.getVishayKramank() != null) {
-                    existingCourtCase.setVishayKramank(courtCase.getVishayKramank());
-                }
-                if (courtCase.getNoticeOne() != null) {
-                    existingCourtCase.setNoticeOne(courtCase.getNoticeOne());
-                }
-                if (courtCase.getNoticeTwo() != null) {
-                    existingCourtCase.setNoticeTwo(courtCase.getNoticeTwo());
-                }
-                if (courtCase.getWar() != null) {
-                    existingCourtCase.setWar(courtCase.getWar());
-                }
-                if (courtCase.getVel() != null) {
-                    existingCourtCase.setVel(courtCase.getVel());
-                }
-                if (courtCase.getJamindarOne() != null) {
-                    existingCourtCase.setJamindarOne(courtCase.getJamindarOne());
-                }
-                if (courtCase.getJamindarOneAddress() != null) {
-                    existingCourtCase.setJamindarOneAddress(courtCase.getJamindarOneAddress());
-                }
-                if (courtCase.getJamindarTwo() != null) {
-                    existingCourtCase.setJamindarTwo(courtCase.getJamindarTwo());
-                }
-                if (courtCase.getJamindarTwoAddress() != null) {
-                    existingCourtCase.setJamindarTwoAddress(courtCase.getJamindarTwoAddress());
-                }
-                if (courtCase.getTaranType() != null) {
-                    existingCourtCase.setTaranType(courtCase.getTaranType());
-                }
-                if (courtCase.getTaranDetails() != null) {
-                    existingCourtCase.setTaranDetails(courtCase.getTaranDetails());
+                if (courtCase.getSecondNoticeDate() != null) {
+                    existingCourtCase.setSecondNoticeDate(courtCase.getSecondNoticeDate());
                 }
 
                 return existingCourtCase;

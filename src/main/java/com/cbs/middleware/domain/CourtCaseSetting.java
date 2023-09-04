@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -19,59 +19,47 @@ public class CourtCaseSetting implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "dinank")
-    private Instant dinank;
+    @Column(name = "vasuli_adhikari_name")
+    private String vasuliAdhikariName;
 
-    @Column(name = "shakha_vevsthapak")
-    private String shakhaVevsthapak;
+    @Column(name = "ar_office_name")
+    private String arOfficeName;
 
-    @Column(name = "suchak")
-    private String suchak;
+    @Column(name = "chairman_name")
+    private String chairmanName;
 
-    @Column(name = "aanumodak")
-    private String aanumodak;
+    @Column(name = "sachiv_name")
+    private String sachivName;
 
-    @Column(name = "vasuli_adhikari")
-    private String vasuliAdhikari;
+    @Column(name = "suchak_name")
+    private String suchakName;
 
-    @Column(name = "ar_office")
-    private String arOffice;
+    @Column(name = "anumodak_name")
+    private String anumodakName;
 
-    @Column(name = "tharav_number")
-    private Long tharavNumber;
+    @Column(name = "vasuli_expense")
+    private Double vasuliExpense;
 
-    @Column(name = "tharav_dinank")
-    private Instant tharavDinank;
+    @Column(name = "other_expense")
+    private Double otherExpense;
 
-    @Column(name = "karj_fed_notice")
-    private Instant karjFedNotice;
+    @Column(name = "notice_expense")
+    private Double noticeExpense;
 
-    @Column(name = "one_zero_one_notice_one")
-    private Instant oneZeroOneNoticeOne;
+    @Column(name = "meeting_no")
+    private Long meetingNo;
 
-    @Column(name = "one_zero_one_notice_two")
-    private Instant oneZeroOneNoticeTwo;
+    @Column(name = "meeting_date")
+    private LocalDate meetingDate;
 
-    @Column(name = "vishay_kramank")
-    private String vishayKramank;
+    @Column(name = "subject_no")
+    private Long subjectNo;
 
-    @Column(name = "war")
-    private String war;
+    @Column(name = "meeting_day")
+    private String meetingDay;
 
-    @Column(name = "vel")
-    private String vel;
-
-    @Column(name = "magani_notice")
-    private Instant maganiNotice;
-
-    @Column(name = "etar_kharch")
-    private Double etarKharch;
-
-    @Column(name = "notice_kharch")
-    private Double noticeKharch;
-
-    @Column(name = "vasuli_kharch")
-    private Double vasuliKharch;
+    @Column(name = "meeting_time")
+    private String meetingTime;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -88,238 +76,186 @@ public class CourtCaseSetting implements Serializable {
         this.id = id;
     }
 
-    public Instant getDinank() {
-        return this.dinank;
+    public String getVasuliAdhikariName() {
+        return this.vasuliAdhikariName;
     }
 
-    public CourtCaseSetting dinank(Instant dinank) {
-        this.setDinank(dinank);
+    public CourtCaseSetting vasuliAdhikariName(String vasuliAdhikariName) {
+        this.setVasuliAdhikariName(vasuliAdhikariName);
         return this;
     }
 
-    public void setDinank(Instant dinank) {
-        this.dinank = dinank;
+    public void setVasuliAdhikariName(String vasuliAdhikariName) {
+        this.vasuliAdhikariName = vasuliAdhikariName;
     }
 
-    public String getShakhaVevsthapak() {
-        return this.shakhaVevsthapak;
+    public String getArOfficeName() {
+        return this.arOfficeName;
     }
 
-    public CourtCaseSetting shakhaVevsthapak(String shakhaVevsthapak) {
-        this.setShakhaVevsthapak(shakhaVevsthapak);
+    public CourtCaseSetting arOfficeName(String arOfficeName) {
+        this.setArOfficeName(arOfficeName);
         return this;
     }
 
-    public void setShakhaVevsthapak(String shakhaVevsthapak) {
-        this.shakhaVevsthapak = shakhaVevsthapak;
+    public void setArOfficeName(String arOfficeName) {
+        this.arOfficeName = arOfficeName;
     }
 
-    public String getSuchak() {
-        return this.suchak;
+    public String getChairmanName() {
+        return this.chairmanName;
     }
 
-    public CourtCaseSetting suchak(String suchak) {
-        this.setSuchak(suchak);
+    public CourtCaseSetting chairmanName(String chairmanName) {
+        this.setChairmanName(chairmanName);
         return this;
     }
 
-    public void setSuchak(String suchak) {
-        this.suchak = suchak;
+    public void setChairmanName(String chairmanName) {
+        this.chairmanName = chairmanName;
     }
 
-    public String getAanumodak() {
-        return this.aanumodak;
+    public String getSachivName() {
+        return this.sachivName;
     }
 
-    public CourtCaseSetting aanumodak(String aanumodak) {
-        this.setAanumodak(aanumodak);
+    public CourtCaseSetting sachivName(String sachivName) {
+        this.setSachivName(sachivName);
         return this;
     }
 
-    public void setAanumodak(String aanumodak) {
-        this.aanumodak = aanumodak;
+    public void setSachivName(String sachivName) {
+        this.sachivName = sachivName;
     }
 
-    public String getVasuliAdhikari() {
-        return this.vasuliAdhikari;
+    public String getSuchakName() {
+        return this.suchakName;
     }
 
-    public CourtCaseSetting vasuliAdhikari(String vasuliAdhikari) {
-        this.setVasuliAdhikari(vasuliAdhikari);
+    public CourtCaseSetting suchakName(String suchakName) {
+        this.setSuchakName(suchakName);
         return this;
     }
 
-    public void setVasuliAdhikari(String vasuliAdhikari) {
-        this.vasuliAdhikari = vasuliAdhikari;
+    public void setSuchakName(String suchakName) {
+        this.suchakName = suchakName;
     }
 
-    public String getArOffice() {
-        return this.arOffice;
+    public String getAnumodakName() {
+        return this.anumodakName;
     }
 
-    public CourtCaseSetting arOffice(String arOffice) {
-        this.setArOffice(arOffice);
+    public CourtCaseSetting anumodakName(String anumodakName) {
+        this.setAnumodakName(anumodakName);
         return this;
     }
 
-    public void setArOffice(String arOffice) {
-        this.arOffice = arOffice;
+    public void setAnumodakName(String anumodakName) {
+        this.anumodakName = anumodakName;
     }
 
-    public Long getTharavNumber() {
-        return this.tharavNumber;
+    public Double getVasuliExpense() {
+        return this.vasuliExpense;
     }
 
-    public CourtCaseSetting tharavNumber(Long tharavNumber) {
-        this.setTharavNumber(tharavNumber);
+    public CourtCaseSetting vasuliExpense(Double vasuliExpense) {
+        this.setVasuliExpense(vasuliExpense);
         return this;
     }
 
-    public void setTharavNumber(Long tharavNumber) {
-        this.tharavNumber = tharavNumber;
+    public void setVasuliExpense(Double vasuliExpense) {
+        this.vasuliExpense = vasuliExpense;
     }
 
-    public Instant getTharavDinank() {
-        return this.tharavDinank;
+    public Double getOtherExpense() {
+        return this.otherExpense;
     }
 
-    public CourtCaseSetting tharavDinank(Instant tharavDinank) {
-        this.setTharavDinank(tharavDinank);
+    public CourtCaseSetting otherExpense(Double otherExpense) {
+        this.setOtherExpense(otherExpense);
         return this;
     }
 
-    public void setTharavDinank(Instant tharavDinank) {
-        this.tharavDinank = tharavDinank;
+    public void setOtherExpense(Double otherExpense) {
+        this.otherExpense = otherExpense;
     }
 
-    public Instant getKarjFedNotice() {
-        return this.karjFedNotice;
+    public Double getNoticeExpense() {
+        return this.noticeExpense;
     }
 
-    public CourtCaseSetting karjFedNotice(Instant karjFedNotice) {
-        this.setKarjFedNotice(karjFedNotice);
+    public CourtCaseSetting noticeExpense(Double noticeExpense) {
+        this.setNoticeExpense(noticeExpense);
         return this;
     }
 
-    public void setKarjFedNotice(Instant karjFedNotice) {
-        this.karjFedNotice = karjFedNotice;
+    public void setNoticeExpense(Double noticeExpense) {
+        this.noticeExpense = noticeExpense;
     }
 
-    public Instant getOneZeroOneNoticeOne() {
-        return this.oneZeroOneNoticeOne;
+    public Long getMeetingNo() {
+        return this.meetingNo;
     }
 
-    public CourtCaseSetting oneZeroOneNoticeOne(Instant oneZeroOneNoticeOne) {
-        this.setOneZeroOneNoticeOne(oneZeroOneNoticeOne);
+    public CourtCaseSetting meetingNo(Long meetingNo) {
+        this.setMeetingNo(meetingNo);
         return this;
     }
 
-    public void setOneZeroOneNoticeOne(Instant oneZeroOneNoticeOne) {
-        this.oneZeroOneNoticeOne = oneZeroOneNoticeOne;
+    public void setMeetingNo(Long meetingNo) {
+        this.meetingNo = meetingNo;
     }
 
-    public Instant getOneZeroOneNoticeTwo() {
-        return this.oneZeroOneNoticeTwo;
+    public LocalDate getMeetingDate() {
+        return this.meetingDate;
     }
 
-    public CourtCaseSetting oneZeroOneNoticeTwo(Instant oneZeroOneNoticeTwo) {
-        this.setOneZeroOneNoticeTwo(oneZeroOneNoticeTwo);
+    public CourtCaseSetting meetingDate(LocalDate meetingDate) {
+        this.setMeetingDate(meetingDate);
         return this;
     }
 
-    public void setOneZeroOneNoticeTwo(Instant oneZeroOneNoticeTwo) {
-        this.oneZeroOneNoticeTwo = oneZeroOneNoticeTwo;
+    public void setMeetingDate(LocalDate meetingDate) {
+        this.meetingDate = meetingDate;
     }
 
-    public String getVishayKramank() {
-        return this.vishayKramank;
+    public Long getSubjectNo() {
+        return this.subjectNo;
     }
 
-    public CourtCaseSetting vishayKramank(String vishayKramank) {
-        this.setVishayKramank(vishayKramank);
+    public CourtCaseSetting subjectNo(Long subjectNo) {
+        this.setSubjectNo(subjectNo);
         return this;
     }
 
-    public void setVishayKramank(String vishayKramank) {
-        this.vishayKramank = vishayKramank;
+    public void setSubjectNo(Long subjectNo) {
+        this.subjectNo = subjectNo;
     }
 
-    public String getWar() {
-        return this.war;
+    public String getMeetingDay() {
+        return this.meetingDay;
     }
 
-    public CourtCaseSetting war(String war) {
-        this.setWar(war);
+    public CourtCaseSetting meetingDay(String meetingDay) {
+        this.setMeetingDay(meetingDay);
         return this;
     }
 
-    public void setWar(String war) {
-        this.war = war;
+    public void setMeetingDay(String meetingDay) {
+        this.meetingDay = meetingDay;
     }
 
-    public String getVel() {
-        return this.vel;
+    public String getMeetingTime() {
+        return this.meetingTime;
     }
 
-    public CourtCaseSetting vel(String vel) {
-        this.setVel(vel);
+    public CourtCaseSetting meetingTime(String meetingTime) {
+        this.setMeetingTime(meetingTime);
         return this;
     }
 
-    public void setVel(String vel) {
-        this.vel = vel;
-    }
-
-    public Instant getMaganiNotice() {
-        return this.maganiNotice;
-    }
-
-    public CourtCaseSetting maganiNotice(Instant maganiNotice) {
-        this.setMaganiNotice(maganiNotice);
-        return this;
-    }
-
-    public void setMaganiNotice(Instant maganiNotice) {
-        this.maganiNotice = maganiNotice;
-    }
-
-    public Double getEtarKharch() {
-        return this.etarKharch;
-    }
-
-    public CourtCaseSetting etarKharch(Double etarKharch) {
-        this.setEtarKharch(etarKharch);
-        return this;
-    }
-
-    public void setEtarKharch(Double etarKharch) {
-        this.etarKharch = etarKharch;
-    }
-
-    public Double getNoticeKharch() {
-        return this.noticeKharch;
-    }
-
-    public CourtCaseSetting noticeKharch(Double noticeKharch) {
-        this.setNoticeKharch(noticeKharch);
-        return this;
-    }
-
-    public void setNoticeKharch(Double noticeKharch) {
-        this.noticeKharch = noticeKharch;
-    }
-
-    public Double getVasuliKharch() {
-        return this.vasuliKharch;
-    }
-
-    public CourtCaseSetting vasuliKharch(Double vasuliKharch) {
-        this.setVasuliKharch(vasuliKharch);
-        return this;
-    }
-
-    public void setVasuliKharch(Double vasuliKharch) {
-        this.vasuliKharch = vasuliKharch;
+    public void setMeetingTime(String meetingTime) {
+        this.meetingTime = meetingTime;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -346,24 +282,20 @@ public class CourtCaseSetting implements Serializable {
     public String toString() {
         return "CourtCaseSetting{" +
             "id=" + getId() +
-            ", dinank='" + getDinank() + "'" +
-            ", shakhaVevsthapak='" + getShakhaVevsthapak() + "'" +
-            ", suchak='" + getSuchak() + "'" +
-            ", aanumodak='" + getAanumodak() + "'" +
-            ", vasuliAdhikari='" + getVasuliAdhikari() + "'" +
-            ", arOffice='" + getArOffice() + "'" +
-            ", tharavNumber=" + getTharavNumber() +
-            ", tharavDinank='" + getTharavDinank() + "'" +
-            ", karjFedNotice='" + getKarjFedNotice() + "'" +
-            ", oneZeroOneNoticeOne='" + getOneZeroOneNoticeOne() + "'" +
-            ", oneZeroOneNoticeTwo='" + getOneZeroOneNoticeTwo() + "'" +
-            ", vishayKramank='" + getVishayKramank() + "'" +
-            ", war='" + getWar() + "'" +
-            ", vel='" + getVel() + "'" +
-            ", maganiNotice='" + getMaganiNotice() + "'" +
-            ", etarKharch=" + getEtarKharch() +
-            ", noticeKharch=" + getNoticeKharch() +
-            ", vasuliKharch=" + getVasuliKharch() +
+            ", vasuliAdhikariName='" + getVasuliAdhikariName() + "'" +
+            ", arOfficeName='" + getArOfficeName() + "'" +
+            ", chairmanName='" + getChairmanName() + "'" +
+            ", sachivName='" + getSachivName() + "'" +
+            ", suchakName='" + getSuchakName() + "'" +
+            ", anumodakName='" + getAnumodakName() + "'" +
+            ", vasuliExpense=" + getVasuliExpense() +
+            ", otherExpense=" + getOtherExpense() +
+            ", noticeExpense=" + getNoticeExpense() +
+            ", meetingNo=" + getMeetingNo() +
+            ", meetingDate='" + getMeetingDate() + "'" +
+            ", subjectNo=" + getSubjectNo() +
+            ", meetingDay='" + getMeetingDay() + "'" +
+            ", meetingTime='" + getMeetingTime() + "'" +
             "}";
     }
 }

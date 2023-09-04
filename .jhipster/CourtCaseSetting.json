@@ -3,76 +3,60 @@
   "dto": "no",
   "fields": [
     {
-      "fieldName": "dinank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "shakhaVevsthapak",
+      "fieldName": "vasuliAdhikariName",
       "fieldType": "String"
     },
     {
-      "fieldName": "suchak",
+      "fieldName": "arOfficeName",
       "fieldType": "String"
     },
     {
-      "fieldName": "aanumodak",
+      "fieldName": "chairmanName",
       "fieldType": "String"
     },
     {
-      "fieldName": "vasuliAdhikari",
+      "fieldName": "sachivName",
       "fieldType": "String"
     },
     {
-      "fieldName": "arOffice",
+      "fieldName": "suchakName",
       "fieldType": "String"
     },
     {
-      "fieldName": "tharavNumber",
+      "fieldName": "anumodakName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vasuliExpense",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "otherExpense",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "noticeExpense",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "meetingNo",
       "fieldType": "Long"
     },
     {
-      "fieldName": "tharavDinank",
-      "fieldType": "Instant"
+      "fieldName": "meetingDate",
+      "fieldType": "LocalDate"
     },
     {
-      "fieldName": "karjFedNotice",
-      "fieldType": "Instant"
+      "fieldName": "subjectNo",
+      "fieldType": "Long"
     },
     {
-      "fieldName": "oneZeroOneNoticeOne",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "oneZeroOneNoticeTwo",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "vishayKramank",
+      "fieldName": "meetingDay",
       "fieldType": "String"
     },
     {
-      "fieldName": "war",
+      "fieldName": "meetingTime",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "vel",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "maganiNotice",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "etarKharch",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "noticeKharch",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "vasuliKharch",
-      "fieldType": "Double"
     }
   ],
   "jpaMetamodelFiltering": true,

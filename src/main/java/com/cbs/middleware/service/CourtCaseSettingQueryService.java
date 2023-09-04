@@ -85,62 +85,48 @@ public class CourtCaseSettingQueryService extends QueryService<CourtCaseSetting>
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), CourtCaseSetting_.id));
             }
-            if (criteria.getDinank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDinank(), CourtCaseSetting_.dinank));
-            }
-            if (criteria.getShakhaVevsthapak() != null) {
+            if (criteria.getVasuliAdhikariName() != null) {
                 specification =
-                    specification.and(buildStringSpecification(criteria.getShakhaVevsthapak(), CourtCaseSetting_.shakhaVevsthapak));
+                    specification.and(buildStringSpecification(criteria.getVasuliAdhikariName(), CourtCaseSetting_.vasuliAdhikariName));
             }
-            if (criteria.getSuchak() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSuchak(), CourtCaseSetting_.suchak));
+            if (criteria.getArOfficeName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArOfficeName(), CourtCaseSetting_.arOfficeName));
             }
-            if (criteria.getAanumodak() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAanumodak(), CourtCaseSetting_.aanumodak));
+            if (criteria.getChairmanName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getChairmanName(), CourtCaseSetting_.chairmanName));
             }
-            if (criteria.getVasuliAdhikari() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVasuliAdhikari(), CourtCaseSetting_.vasuliAdhikari));
+            if (criteria.getSachivName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSachivName(), CourtCaseSetting_.sachivName));
             }
-            if (criteria.getArOffice() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getArOffice(), CourtCaseSetting_.arOffice));
+            if (criteria.getSuchakName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSuchakName(), CourtCaseSetting_.suchakName));
             }
-            if (criteria.getTharavNumber() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTharavNumber(), CourtCaseSetting_.tharavNumber));
+            if (criteria.getAnumodakName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAnumodakName(), CourtCaseSetting_.anumodakName));
             }
-            if (criteria.getTharavDinank() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTharavDinank(), CourtCaseSetting_.tharavDinank));
+            if (criteria.getVasuliExpense() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getVasuliExpense(), CourtCaseSetting_.vasuliExpense));
             }
-            if (criteria.getKarjFedNotice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getKarjFedNotice(), CourtCaseSetting_.karjFedNotice));
+            if (criteria.getOtherExpense() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOtherExpense(), CourtCaseSetting_.otherExpense));
             }
-            if (criteria.getOneZeroOneNoticeOne() != null) {
-                specification =
-                    specification.and(buildRangeSpecification(criteria.getOneZeroOneNoticeOne(), CourtCaseSetting_.oneZeroOneNoticeOne));
+            if (criteria.getNoticeExpense() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNoticeExpense(), CourtCaseSetting_.noticeExpense));
             }
-            if (criteria.getOneZeroOneNoticeTwo() != null) {
-                specification =
-                    specification.and(buildRangeSpecification(criteria.getOneZeroOneNoticeTwo(), CourtCaseSetting_.oneZeroOneNoticeTwo));
+            if (criteria.getMeetingNo() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMeetingNo(), CourtCaseSetting_.meetingNo));
             }
-            if (criteria.getVishayKramank() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVishayKramank(), CourtCaseSetting_.vishayKramank));
+            if (criteria.getMeetingDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMeetingDate(), CourtCaseSetting_.meetingDate));
             }
-            if (criteria.getWar() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getWar(), CourtCaseSetting_.war));
+            if (criteria.getSubjectNo() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSubjectNo(), CourtCaseSetting_.subjectNo));
             }
-            if (criteria.getVel() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVel(), CourtCaseSetting_.vel));
+            if (criteria.getMeetingDay() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMeetingDay(), CourtCaseSetting_.meetingDay));
             }
-            if (criteria.getMaganiNotice() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMaganiNotice(), CourtCaseSetting_.maganiNotice));
-            }
-            if (criteria.getEtarKharch() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getEtarKharch(), CourtCaseSetting_.etarKharch));
-            }
-            if (criteria.getNoticeKharch() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNoticeKharch(), CourtCaseSetting_.noticeKharch));
-            }
-            if (criteria.getVasuliKharch() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVasuliKharch(), CourtCaseSetting_.vasuliKharch));
+            if (criteria.getMeetingTime() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMeetingTime(), CourtCaseSetting_.meetingTime));
             }
         }
         return specification;

@@ -3,196 +3,108 @@
   "dto": "no",
   "fields": [
     {
-      "fieldName": "code",
-      "fieldType": "Long"
-    },
-    {
-      "fieldName": "caseDinank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "bankName",
+      "fieldName": "srNo",
       "fieldType": "String"
     },
     {
-      "fieldName": "talukaName",
+      "fieldName": "accountNo",
       "fieldType": "String"
     },
     {
-      "fieldName": "talukaCode",
-      "fieldType": "Long"
-    },
-    {
-      "fieldName": "sabasadSavingAccNo",
+      "fieldName": "nameOfDefaulter",
       "fieldType": "String"
     },
     {
-      "fieldName": "sabasadName",
+      "fieldName": "address",
       "fieldType": "String"
     },
     {
-      "fieldName": "sabasadAddress",
+      "fieldName": "loanType",
       "fieldType": "String"
     },
     {
-      "fieldName": "karjPrakar",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "vasuliAdhikari",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "ekunJama",
+      "fieldName": "loanAmount",
       "fieldType": "Double"
     },
     {
-      "fieldName": "baki",
-      "fieldType": "Double"
+      "fieldName": "loanDate",
+      "fieldType": "LocalDate"
     },
     {
-      "fieldName": "arOffice",
+      "fieldName": "termOfLoan",
       "fieldType": "String"
     },
     {
-      "fieldName": "ekunVyaj",
+      "fieldName": "interestRate",
       "fieldType": "Double"
     },
     {
-      "fieldName": "jamaVyaj",
+      "fieldName": "installmentAmount",
       "fieldType": "Double"
     },
     {
-      "fieldName": "dandVyaj",
+      "fieldName": "totalCredit",
       "fieldType": "Double"
     },
     {
-      "fieldName": "karjRakkam",
+      "fieldName": "balance",
       "fieldType": "Double"
     },
     {
-      "fieldName": "thakDinnank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "karjDinnank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "mudatSampteDinank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "mudat",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "vyaj",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "haptaRakkam",
+      "fieldName": "interestPaid",
       "fieldType": "Double"
     },
     {
-      "fieldName": "shakhaVevsthapak",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "suchak",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "anumodak",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "dava",
+      "fieldName": "penalInterestPaid",
       "fieldType": "Double"
     },
     {
-      "fieldName": "vyajDar",
-      "fieldType": "Float"
-    },
-    {
-      "fieldName": "sarcharge",
+      "fieldName": "dueAmount",
       "fieldType": "Double"
     },
     {
-      "fieldName": "jyadaVyaj",
+      "fieldName": "dueDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "dueInterest",
       "fieldType": "Double"
     },
     {
-      "fieldName": "yeneVyaj",
+      "fieldName": "duePenalInterest",
       "fieldType": "Double"
     },
     {
-      "fieldName": "vasuliKharch",
+      "fieldName": "dueMoreInterest",
       "fieldType": "Double"
     },
     {
-      "fieldName": "etharKharch",
+      "fieldName": "interestRecivable",
       "fieldType": "Double"
     },
     {
-      "fieldName": "vima",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "notice",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "tharavNumber",
-      "fieldType": "Long"
-    },
-    {
-      "fieldName": "tharavDinank",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "vishayKramank",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "noticeOne",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "noticeTwo",
-      "fieldType": "Instant"
-    },
-    {
-      "fieldName": "war",
+      "fieldName": "gaurentorOne",
       "fieldType": "String"
     },
     {
-      "fieldName": "vel",
+      "fieldName": "gaurentorOneAddress",
       "fieldType": "String"
     },
     {
-      "fieldName": "jamindarOne",
+      "fieldName": "gaurentorTwo",
       "fieldType": "String"
     },
     {
-      "fieldName": "jamindarOneAddress",
+      "fieldName": "gaurentorTwoAddress",
       "fieldType": "String"
     },
     {
-      "fieldName": "jamindarTwo",
-      "fieldType": "String"
+      "fieldName": "firstNoticeDate",
+      "fieldType": "LocalDate"
     },
     {
-      "fieldName": "jamindarTwoAddress",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "taranType",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "taranDetails",
-      "fieldType": "String"
+      "fieldName": "secondNoticeDate",
+      "fieldType": "LocalDate"
     }
   ],
   "jpaMetamodelFiltering": true,

@@ -9,8 +9,8 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.service.criteria.CourtCaseCriteria;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,169 +32,99 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class CourtCaseResourceIT {
 
-    private static final Long DEFAULT_CODE = 1L;
-    private static final Long UPDATED_CODE = 2L;
-    private static final Long SMALLER_CODE = 1L - 1L;
+    private static final String DEFAULT_SR_NO = "AAAAAAAAAA";
+    private static final String UPDATED_SR_NO = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_CASE_DINANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CASE_DINANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_ACCOUNT_NO = "AAAAAAAAAA";
+    private static final String UPDATED_ACCOUNT_NO = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NAME_OF_DEFAULTER = "AAAAAAAAAA";
+    private static final String UPDATED_NAME_OF_DEFAULTER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TALUKA_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_TALUKA_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_TALUKA_CODE = 1L;
-    private static final Long UPDATED_TALUKA_CODE = 2L;
-    private static final Long SMALLER_TALUKA_CODE = 1L - 1L;
+    private static final String DEFAULT_LOAN_TYPE = "AAAAAAAAAA";
+    private static final String UPDATED_LOAN_TYPE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SABASAD_SAVING_ACC_NO = "AAAAAAAAAA";
-    private static final String UPDATED_SABASAD_SAVING_ACC_NO = "BBBBBBBBBB";
+    private static final Double DEFAULT_LOAN_AMOUNT = 1D;
+    private static final Double UPDATED_LOAN_AMOUNT = 2D;
+    private static final Double SMALLER_LOAN_AMOUNT = 1D - 1D;
 
-    private static final String DEFAULT_SABASAD_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_SABASAD_NAME = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_LOAN_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LOAN_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_LOAN_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final String DEFAULT_SABASAD_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_SABASAD_ADDRESS = "BBBBBBBBBB";
+    private static final String DEFAULT_TERM_OF_LOAN = "AAAAAAAAAA";
+    private static final String UPDATED_TERM_OF_LOAN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_KARJ_PRAKAR = "AAAAAAAAAA";
-    private static final String UPDATED_KARJ_PRAKAR = "BBBBBBBBBB";
+    private static final Double DEFAULT_INTEREST_RATE = 1D;
+    private static final Double UPDATED_INTEREST_RATE = 2D;
+    private static final Double SMALLER_INTEREST_RATE = 1D - 1D;
 
-    private static final String DEFAULT_VASULI_ADHIKARI = "AAAAAAAAAA";
-    private static final String UPDATED_VASULI_ADHIKARI = "BBBBBBBBBB";
+    private static final Double DEFAULT_INSTALLMENT_AMOUNT = 1D;
+    private static final Double UPDATED_INSTALLMENT_AMOUNT = 2D;
+    private static final Double SMALLER_INSTALLMENT_AMOUNT = 1D - 1D;
 
-    private static final Double DEFAULT_EKUN_JAMA = 1D;
-    private static final Double UPDATED_EKUN_JAMA = 2D;
-    private static final Double SMALLER_EKUN_JAMA = 1D - 1D;
+    private static final Double DEFAULT_TOTAL_CREDIT = 1D;
+    private static final Double UPDATED_TOTAL_CREDIT = 2D;
+    private static final Double SMALLER_TOTAL_CREDIT = 1D - 1D;
 
-    private static final Double DEFAULT_BAKI = 1D;
-    private static final Double UPDATED_BAKI = 2D;
-    private static final Double SMALLER_BAKI = 1D - 1D;
+    private static final Double DEFAULT_BALANCE = 1D;
+    private static final Double UPDATED_BALANCE = 2D;
+    private static final Double SMALLER_BALANCE = 1D - 1D;
 
-    private static final String DEFAULT_AR_OFFICE = "AAAAAAAAAA";
-    private static final String UPDATED_AR_OFFICE = "BBBBBBBBBB";
+    private static final Double DEFAULT_INTEREST_PAID = 1D;
+    private static final Double UPDATED_INTEREST_PAID = 2D;
+    private static final Double SMALLER_INTEREST_PAID = 1D - 1D;
 
-    private static final Double DEFAULT_EKUN_VYAJ = 1D;
-    private static final Double UPDATED_EKUN_VYAJ = 2D;
-    private static final Double SMALLER_EKUN_VYAJ = 1D - 1D;
+    private static final Double DEFAULT_PENAL_INTEREST_PAID = 1D;
+    private static final Double UPDATED_PENAL_INTEREST_PAID = 2D;
+    private static final Double SMALLER_PENAL_INTEREST_PAID = 1D - 1D;
 
-    private static final Double DEFAULT_JAMA_VYAJ = 1D;
-    private static final Double UPDATED_JAMA_VYAJ = 2D;
-    private static final Double SMALLER_JAMA_VYAJ = 1D - 1D;
+    private static final Double DEFAULT_DUE_AMOUNT = 1D;
+    private static final Double UPDATED_DUE_AMOUNT = 2D;
+    private static final Double SMALLER_DUE_AMOUNT = 1D - 1D;
 
-    private static final Double DEFAULT_DAND_VYAJ = 1D;
-    private static final Double UPDATED_DAND_VYAJ = 2D;
-    private static final Double SMALLER_DAND_VYAJ = 1D - 1D;
+    private static final LocalDate DEFAULT_DUE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DUE_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_DUE_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final Double DEFAULT_KARJ_RAKKAM = 1D;
-    private static final Double UPDATED_KARJ_RAKKAM = 2D;
-    private static final Double SMALLER_KARJ_RAKKAM = 1D - 1D;
+    private static final Double DEFAULT_DUE_INTEREST = 1D;
+    private static final Double UPDATED_DUE_INTEREST = 2D;
+    private static final Double SMALLER_DUE_INTEREST = 1D - 1D;
 
-    private static final Instant DEFAULT_THAK_DINNANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_THAK_DINNANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Double DEFAULT_DUE_PENAL_INTEREST = 1D;
+    private static final Double UPDATED_DUE_PENAL_INTEREST = 2D;
+    private static final Double SMALLER_DUE_PENAL_INTEREST = 1D - 1D;
 
-    private static final Instant DEFAULT_KARJ_DINNANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_KARJ_DINNANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Double DEFAULT_DUE_MORE_INTEREST = 1D;
+    private static final Double UPDATED_DUE_MORE_INTEREST = 2D;
+    private static final Double SMALLER_DUE_MORE_INTEREST = 1D - 1D;
 
-    private static final Instant DEFAULT_MUDAT_SAMPTE_DINANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_MUDAT_SAMPTE_DINANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Double DEFAULT_INTEREST_RECIVABLE = 1D;
+    private static final Double UPDATED_INTEREST_RECIVABLE = 2D;
+    private static final Double SMALLER_INTEREST_RECIVABLE = 1D - 1D;
 
-    private static final String DEFAULT_MUDAT = "AAAAAAAAAA";
-    private static final String UPDATED_MUDAT = "BBBBBBBBBB";
+    private static final String DEFAULT_GAURENTOR_ONE = "AAAAAAAAAA";
+    private static final String UPDATED_GAURENTOR_ONE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VYAJ = "AAAAAAAAAA";
-    private static final String UPDATED_VYAJ = "BBBBBBBBBB";
+    private static final String DEFAULT_GAURENTOR_ONE_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_GAURENTOR_ONE_ADDRESS = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_HAPTA_RAKKAM = 1D;
-    private static final Double UPDATED_HAPTA_RAKKAM = 2D;
-    private static final Double SMALLER_HAPTA_RAKKAM = 1D - 1D;
+    private static final String DEFAULT_GAURENTOR_TWO = "AAAAAAAAAA";
+    private static final String UPDATED_GAURENTOR_TWO = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SHAKHA_VEVSTHAPAK = "AAAAAAAAAA";
-    private static final String UPDATED_SHAKHA_VEVSTHAPAK = "BBBBBBBBBB";
+    private static final String DEFAULT_GAURENTOR_TWO_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_GAURENTOR_TWO_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SUCHAK = "AAAAAAAAAA";
-    private static final String UPDATED_SUCHAK = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_FIRST_NOTICE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_FIRST_NOTICE_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_FIRST_NOTICE_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final String DEFAULT_ANUMODAK = "AAAAAAAAAA";
-    private static final String UPDATED_ANUMODAK = "BBBBBBBBBB";
-
-    private static final Double DEFAULT_DAVA = 1D;
-    private static final Double UPDATED_DAVA = 2D;
-    private static final Double SMALLER_DAVA = 1D - 1D;
-
-    private static final Float DEFAULT_VYAJ_DAR = 1F;
-    private static final Float UPDATED_VYAJ_DAR = 2F;
-    private static final Float SMALLER_VYAJ_DAR = 1F - 1F;
-
-    private static final Double DEFAULT_SARCHARGE = 1D;
-    private static final Double UPDATED_SARCHARGE = 2D;
-    private static final Double SMALLER_SARCHARGE = 1D - 1D;
-
-    private static final Double DEFAULT_JYADA_VYAJ = 1D;
-    private static final Double UPDATED_JYADA_VYAJ = 2D;
-    private static final Double SMALLER_JYADA_VYAJ = 1D - 1D;
-
-    private static final Double DEFAULT_YENE_VYAJ = 1D;
-    private static final Double UPDATED_YENE_VYAJ = 2D;
-    private static final Double SMALLER_YENE_VYAJ = 1D - 1D;
-
-    private static final Double DEFAULT_VASULI_KHARCH = 1D;
-    private static final Double UPDATED_VASULI_KHARCH = 2D;
-    private static final Double SMALLER_VASULI_KHARCH = 1D - 1D;
-
-    private static final Double DEFAULT_ETHAR_KHARCH = 1D;
-    private static final Double UPDATED_ETHAR_KHARCH = 2D;
-    private static final Double SMALLER_ETHAR_KHARCH = 1D - 1D;
-
-    private static final Double DEFAULT_VIMA = 1D;
-    private static final Double UPDATED_VIMA = 2D;
-    private static final Double SMALLER_VIMA = 1D - 1D;
-
-    private static final Double DEFAULT_NOTICE = 1D;
-    private static final Double UPDATED_NOTICE = 2D;
-    private static final Double SMALLER_NOTICE = 1D - 1D;
-
-    private static final Long DEFAULT_THARAV_NUMBER = 1L;
-    private static final Long UPDATED_THARAV_NUMBER = 2L;
-    private static final Long SMALLER_THARAV_NUMBER = 1L - 1L;
-
-    private static final Instant DEFAULT_THARAV_DINANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_THARAV_DINANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Integer DEFAULT_VISHAY_KRAMANK = 1;
-    private static final Integer UPDATED_VISHAY_KRAMANK = 2;
-    private static final Integer SMALLER_VISHAY_KRAMANK = 1 - 1;
-
-    private static final Instant DEFAULT_NOTICE_ONE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_NOTICE_ONE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_NOTICE_TWO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_NOTICE_TWO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final String DEFAULT_WAR = "AAAAAAAAAA";
-    private static final String UPDATED_WAR = "BBBBBBBBBB";
-
-    private static final String DEFAULT_VEL = "AAAAAAAAAA";
-    private static final String UPDATED_VEL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_JAMINDAR_ONE = "AAAAAAAAAA";
-    private static final String UPDATED_JAMINDAR_ONE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_JAMINDAR_ONE_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_JAMINDAR_ONE_ADDRESS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_JAMINDAR_TWO = "AAAAAAAAAA";
-    private static final String UPDATED_JAMINDAR_TWO = "BBBBBBBBBB";
-
-    private static final String DEFAULT_JAMINDAR_TWO_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_JAMINDAR_TWO_ADDRESS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_TARAN_TYPE = "AAAAAAAAAA";
-    private static final String UPDATED_TARAN_TYPE = "BBBBBBBBBB";
-
-    private static final String DEFAULT_TARAN_DETAILS = "AAAAAAAAAA";
-    private static final String UPDATED_TARAN_DETAILS = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_SECOND_NOTICE_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_SECOND_NOTICE_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_SECOND_NOTICE_DATE = LocalDate.ofEpochDay(-1L);
 
     private static final String ENTITY_API_URL = "/api/court-cases";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -221,54 +151,32 @@ class CourtCaseResourceIT {
      */
     public static CourtCase createEntity(EntityManager em) {
         CourtCase courtCase = new CourtCase()
-            .code(DEFAULT_CODE)
-            .caseDinank(DEFAULT_CASE_DINANK)
-            .bankName(DEFAULT_BANK_NAME)
-            .talukaName(DEFAULT_TALUKA_NAME)
-            .talukaCode(DEFAULT_TALUKA_CODE)
-            .sabasadSavingAccNo(DEFAULT_SABASAD_SAVING_ACC_NO)
-            .sabasadName(DEFAULT_SABASAD_NAME)
-            .sabasadAddress(DEFAULT_SABASAD_ADDRESS)
-            .karjPrakar(DEFAULT_KARJ_PRAKAR)
-            .vasuliAdhikari(DEFAULT_VASULI_ADHIKARI)
-            .ekunJama(DEFAULT_EKUN_JAMA)
-            .baki(DEFAULT_BAKI)
-            .arOffice(DEFAULT_AR_OFFICE)
-            .ekunVyaj(DEFAULT_EKUN_VYAJ)
-            .jamaVyaj(DEFAULT_JAMA_VYAJ)
-            .dandVyaj(DEFAULT_DAND_VYAJ)
-            .karjRakkam(DEFAULT_KARJ_RAKKAM)
-            .thakDinnank(DEFAULT_THAK_DINNANK)
-            .karjDinnank(DEFAULT_KARJ_DINNANK)
-            .mudatSampteDinank(DEFAULT_MUDAT_SAMPTE_DINANK)
-            .mudat(DEFAULT_MUDAT)
-            .vyaj(DEFAULT_VYAJ)
-            .haptaRakkam(DEFAULT_HAPTA_RAKKAM)
-            .shakhaVevsthapak(DEFAULT_SHAKHA_VEVSTHAPAK)
-            .suchak(DEFAULT_SUCHAK)
-            .anumodak(DEFAULT_ANUMODAK)
-            .dava(DEFAULT_DAVA)
-            .vyajDar(DEFAULT_VYAJ_DAR)
-            .sarcharge(DEFAULT_SARCHARGE)
-            .jyadaVyaj(DEFAULT_JYADA_VYAJ)
-            .yeneVyaj(DEFAULT_YENE_VYAJ)
-            .vasuliKharch(DEFAULT_VASULI_KHARCH)
-            .etharKharch(DEFAULT_ETHAR_KHARCH)
-            .vima(DEFAULT_VIMA)
-            .notice(DEFAULT_NOTICE)
-            .tharavNumber(DEFAULT_THARAV_NUMBER)
-            .tharavDinank(DEFAULT_THARAV_DINANK)
-            .vishayKramank(DEFAULT_VISHAY_KRAMANK)
-            .noticeOne(DEFAULT_NOTICE_ONE)
-            .noticeTwo(DEFAULT_NOTICE_TWO)
-            .war(DEFAULT_WAR)
-            .vel(DEFAULT_VEL)
-            .jamindarOne(DEFAULT_JAMINDAR_ONE)
-            .jamindarOneAddress(DEFAULT_JAMINDAR_ONE_ADDRESS)
-            .jamindarTwo(DEFAULT_JAMINDAR_TWO)
-            .jamindarTwoAddress(DEFAULT_JAMINDAR_TWO_ADDRESS)
-            .taranType(DEFAULT_TARAN_TYPE)
-            .taranDetails(DEFAULT_TARAN_DETAILS);
+            .srNo(DEFAULT_SR_NO)
+            .accountNo(DEFAULT_ACCOUNT_NO)
+            .nameOfDefaulter(DEFAULT_NAME_OF_DEFAULTER)
+            .address(DEFAULT_ADDRESS)
+            .loanType(DEFAULT_LOAN_TYPE)
+            .loanAmount(DEFAULT_LOAN_AMOUNT)
+            .loanDate(DEFAULT_LOAN_DATE)
+            .termOfLoan(DEFAULT_TERM_OF_LOAN)
+            .interestRate(DEFAULT_INTEREST_RATE)
+            .installmentAmount(DEFAULT_INSTALLMENT_AMOUNT)
+            .totalCredit(DEFAULT_TOTAL_CREDIT)
+            .balance(DEFAULT_BALANCE)
+            .interestPaid(DEFAULT_INTEREST_PAID)
+            .penalInterestPaid(DEFAULT_PENAL_INTEREST_PAID)
+            .dueAmount(DEFAULT_DUE_AMOUNT)
+            .dueDate(DEFAULT_DUE_DATE)
+            .dueInterest(DEFAULT_DUE_INTEREST)
+            .duePenalInterest(DEFAULT_DUE_PENAL_INTEREST)
+            .dueMoreInterest(DEFAULT_DUE_MORE_INTEREST)
+            .interestRecivable(DEFAULT_INTEREST_RECIVABLE)
+            .gaurentorOne(DEFAULT_GAURENTOR_ONE)
+            .gaurentorOneAddress(DEFAULT_GAURENTOR_ONE_ADDRESS)
+            .gaurentorTwo(DEFAULT_GAURENTOR_TWO)
+            .gaurentorTwoAddress(DEFAULT_GAURENTOR_TWO_ADDRESS)
+            .firstNoticeDate(DEFAULT_FIRST_NOTICE_DATE)
+            .secondNoticeDate(DEFAULT_SECOND_NOTICE_DATE);
         return courtCase;
     }
 
@@ -280,54 +188,32 @@ class CourtCaseResourceIT {
      */
     public static CourtCase createUpdatedEntity(EntityManager em) {
         CourtCase courtCase = new CourtCase()
-            .code(UPDATED_CODE)
-            .caseDinank(UPDATED_CASE_DINANK)
-            .bankName(UPDATED_BANK_NAME)
-            .talukaName(UPDATED_TALUKA_NAME)
-            .talukaCode(UPDATED_TALUKA_CODE)
-            .sabasadSavingAccNo(UPDATED_SABASAD_SAVING_ACC_NO)
-            .sabasadName(UPDATED_SABASAD_NAME)
-            .sabasadAddress(UPDATED_SABASAD_ADDRESS)
-            .karjPrakar(UPDATED_KARJ_PRAKAR)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .ekunJama(UPDATED_EKUN_JAMA)
-            .baki(UPDATED_BAKI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .ekunVyaj(UPDATED_EKUN_VYAJ)
-            .jamaVyaj(UPDATED_JAMA_VYAJ)
-            .dandVyaj(UPDATED_DAND_VYAJ)
-            .karjRakkam(UPDATED_KARJ_RAKKAM)
-            .thakDinnank(UPDATED_THAK_DINNANK)
-            .karjDinnank(UPDATED_KARJ_DINNANK)
-            .mudatSampteDinank(UPDATED_MUDAT_SAMPTE_DINANK)
-            .mudat(UPDATED_MUDAT)
-            .vyaj(UPDATED_VYAJ)
-            .haptaRakkam(UPDATED_HAPTA_RAKKAM)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .anumodak(UPDATED_ANUMODAK)
-            .dava(UPDATED_DAVA)
-            .vyajDar(UPDATED_VYAJ_DAR)
-            .sarcharge(UPDATED_SARCHARGE)
-            .jyadaVyaj(UPDATED_JYADA_VYAJ)
-            .yeneVyaj(UPDATED_YENE_VYAJ)
-            .vasuliKharch(UPDATED_VASULI_KHARCH)
-            .etharKharch(UPDATED_ETHAR_KHARCH)
-            .vima(UPDATED_VIMA)
-            .notice(UPDATED_NOTICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .noticeOne(UPDATED_NOTICE_ONE)
-            .noticeTwo(UPDATED_NOTICE_TWO)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .jamindarOne(UPDATED_JAMINDAR_ONE)
-            .jamindarOneAddress(UPDATED_JAMINDAR_ONE_ADDRESS)
-            .jamindarTwo(UPDATED_JAMINDAR_TWO)
-            .jamindarTwoAddress(UPDATED_JAMINDAR_TWO_ADDRESS)
-            .taranType(UPDATED_TARAN_TYPE)
-            .taranDetails(UPDATED_TARAN_DETAILS);
+            .srNo(UPDATED_SR_NO)
+            .accountNo(UPDATED_ACCOUNT_NO)
+            .nameOfDefaulter(UPDATED_NAME_OF_DEFAULTER)
+            .address(UPDATED_ADDRESS)
+            .loanType(UPDATED_LOAN_TYPE)
+            .loanAmount(UPDATED_LOAN_AMOUNT)
+            .loanDate(UPDATED_LOAN_DATE)
+            .termOfLoan(UPDATED_TERM_OF_LOAN)
+            .interestRate(UPDATED_INTEREST_RATE)
+            .installmentAmount(UPDATED_INSTALLMENT_AMOUNT)
+            .totalCredit(UPDATED_TOTAL_CREDIT)
+            .balance(UPDATED_BALANCE)
+            .interestPaid(UPDATED_INTEREST_PAID)
+            .penalInterestPaid(UPDATED_PENAL_INTEREST_PAID)
+            .dueAmount(UPDATED_DUE_AMOUNT)
+            .dueDate(UPDATED_DUE_DATE)
+            .dueInterest(UPDATED_DUE_INTEREST)
+            .duePenalInterest(UPDATED_DUE_PENAL_INTEREST)
+            .dueMoreInterest(UPDATED_DUE_MORE_INTEREST)
+            .interestRecivable(UPDATED_INTEREST_RECIVABLE)
+            .gaurentorOne(UPDATED_GAURENTOR_ONE)
+            .gaurentorOneAddress(UPDATED_GAURENTOR_ONE_ADDRESS)
+            .gaurentorTwo(UPDATED_GAURENTOR_TWO)
+            .gaurentorTwoAddress(UPDATED_GAURENTOR_TWO_ADDRESS)
+            .firstNoticeDate(UPDATED_FIRST_NOTICE_DATE)
+            .secondNoticeDate(UPDATED_SECOND_NOTICE_DATE);
         return courtCase;
     }
 
@@ -349,54 +235,32 @@ class CourtCaseResourceIT {
         List<CourtCase> courtCaseList = courtCaseRepository.findAll();
         assertThat(courtCaseList).hasSize(databaseSizeBeforeCreate + 1);
         CourtCase testCourtCase = courtCaseList.get(courtCaseList.size() - 1);
-        assertThat(testCourtCase.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testCourtCase.getCaseDinank()).isEqualTo(DEFAULT_CASE_DINANK);
-        assertThat(testCourtCase.getBankName()).isEqualTo(DEFAULT_BANK_NAME);
-        assertThat(testCourtCase.getTalukaName()).isEqualTo(DEFAULT_TALUKA_NAME);
-        assertThat(testCourtCase.getTalukaCode()).isEqualTo(DEFAULT_TALUKA_CODE);
-        assertThat(testCourtCase.getSabasadSavingAccNo()).isEqualTo(DEFAULT_SABASAD_SAVING_ACC_NO);
-        assertThat(testCourtCase.getSabasadName()).isEqualTo(DEFAULT_SABASAD_NAME);
-        assertThat(testCourtCase.getSabasadAddress()).isEqualTo(DEFAULT_SABASAD_ADDRESS);
-        assertThat(testCourtCase.getKarjPrakar()).isEqualTo(DEFAULT_KARJ_PRAKAR);
-        assertThat(testCourtCase.getVasuliAdhikari()).isEqualTo(DEFAULT_VASULI_ADHIKARI);
-        assertThat(testCourtCase.getEkunJama()).isEqualTo(DEFAULT_EKUN_JAMA);
-        assertThat(testCourtCase.getBaki()).isEqualTo(DEFAULT_BAKI);
-        assertThat(testCourtCase.getArOffice()).isEqualTo(DEFAULT_AR_OFFICE);
-        assertThat(testCourtCase.getEkunVyaj()).isEqualTo(DEFAULT_EKUN_VYAJ);
-        assertThat(testCourtCase.getJamaVyaj()).isEqualTo(DEFAULT_JAMA_VYAJ);
-        assertThat(testCourtCase.getDandVyaj()).isEqualTo(DEFAULT_DAND_VYAJ);
-        assertThat(testCourtCase.getKarjRakkam()).isEqualTo(DEFAULT_KARJ_RAKKAM);
-        assertThat(testCourtCase.getThakDinnank()).isEqualTo(DEFAULT_THAK_DINNANK);
-        assertThat(testCourtCase.getKarjDinnank()).isEqualTo(DEFAULT_KARJ_DINNANK);
-        assertThat(testCourtCase.getMudatSampteDinank()).isEqualTo(DEFAULT_MUDAT_SAMPTE_DINANK);
-        assertThat(testCourtCase.getMudat()).isEqualTo(DEFAULT_MUDAT);
-        assertThat(testCourtCase.getVyaj()).isEqualTo(DEFAULT_VYAJ);
-        assertThat(testCourtCase.getHaptaRakkam()).isEqualTo(DEFAULT_HAPTA_RAKKAM);
-        assertThat(testCourtCase.getShakhaVevsthapak()).isEqualTo(DEFAULT_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCase.getSuchak()).isEqualTo(DEFAULT_SUCHAK);
-        assertThat(testCourtCase.getAnumodak()).isEqualTo(DEFAULT_ANUMODAK);
-        assertThat(testCourtCase.getDava()).isEqualTo(DEFAULT_DAVA);
-        assertThat(testCourtCase.getVyajDar()).isEqualTo(DEFAULT_VYAJ_DAR);
-        assertThat(testCourtCase.getSarcharge()).isEqualTo(DEFAULT_SARCHARGE);
-        assertThat(testCourtCase.getJyadaVyaj()).isEqualTo(DEFAULT_JYADA_VYAJ);
-        assertThat(testCourtCase.getYeneVyaj()).isEqualTo(DEFAULT_YENE_VYAJ);
-        assertThat(testCourtCase.getVasuliKharch()).isEqualTo(DEFAULT_VASULI_KHARCH);
-        assertThat(testCourtCase.getEtharKharch()).isEqualTo(DEFAULT_ETHAR_KHARCH);
-        assertThat(testCourtCase.getVima()).isEqualTo(DEFAULT_VIMA);
-        assertThat(testCourtCase.getNotice()).isEqualTo(DEFAULT_NOTICE);
-        assertThat(testCourtCase.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
-        assertThat(testCourtCase.getTharavDinank()).isEqualTo(DEFAULT_THARAV_DINANK);
-        assertThat(testCourtCase.getVishayKramank()).isEqualTo(DEFAULT_VISHAY_KRAMANK);
-        assertThat(testCourtCase.getNoticeOne()).isEqualTo(DEFAULT_NOTICE_ONE);
-        assertThat(testCourtCase.getNoticeTwo()).isEqualTo(DEFAULT_NOTICE_TWO);
-        assertThat(testCourtCase.getWar()).isEqualTo(DEFAULT_WAR);
-        assertThat(testCourtCase.getVel()).isEqualTo(DEFAULT_VEL);
-        assertThat(testCourtCase.getJamindarOne()).isEqualTo(DEFAULT_JAMINDAR_ONE);
-        assertThat(testCourtCase.getJamindarOneAddress()).isEqualTo(DEFAULT_JAMINDAR_ONE_ADDRESS);
-        assertThat(testCourtCase.getJamindarTwo()).isEqualTo(DEFAULT_JAMINDAR_TWO);
-        assertThat(testCourtCase.getJamindarTwoAddress()).isEqualTo(DEFAULT_JAMINDAR_TWO_ADDRESS);
-        assertThat(testCourtCase.getTaranType()).isEqualTo(DEFAULT_TARAN_TYPE);
-        assertThat(testCourtCase.getTaranDetails()).isEqualTo(DEFAULT_TARAN_DETAILS);
+        assertThat(testCourtCase.getSrNo()).isEqualTo(DEFAULT_SR_NO);
+        assertThat(testCourtCase.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
+        assertThat(testCourtCase.getNameOfDefaulter()).isEqualTo(DEFAULT_NAME_OF_DEFAULTER);
+        assertThat(testCourtCase.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testCourtCase.getLoanType()).isEqualTo(DEFAULT_LOAN_TYPE);
+        assertThat(testCourtCase.getLoanAmount()).isEqualTo(DEFAULT_LOAN_AMOUNT);
+        assertThat(testCourtCase.getLoanDate()).isEqualTo(DEFAULT_LOAN_DATE);
+        assertThat(testCourtCase.getTermOfLoan()).isEqualTo(DEFAULT_TERM_OF_LOAN);
+        assertThat(testCourtCase.getInterestRate()).isEqualTo(DEFAULT_INTEREST_RATE);
+        assertThat(testCourtCase.getInstallmentAmount()).isEqualTo(DEFAULT_INSTALLMENT_AMOUNT);
+        assertThat(testCourtCase.getTotalCredit()).isEqualTo(DEFAULT_TOTAL_CREDIT);
+        assertThat(testCourtCase.getBalance()).isEqualTo(DEFAULT_BALANCE);
+        assertThat(testCourtCase.getInterestPaid()).isEqualTo(DEFAULT_INTEREST_PAID);
+        assertThat(testCourtCase.getPenalInterestPaid()).isEqualTo(DEFAULT_PENAL_INTEREST_PAID);
+        assertThat(testCourtCase.getDueAmount()).isEqualTo(DEFAULT_DUE_AMOUNT);
+        assertThat(testCourtCase.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
+        assertThat(testCourtCase.getDueInterest()).isEqualTo(DEFAULT_DUE_INTEREST);
+        assertThat(testCourtCase.getDuePenalInterest()).isEqualTo(DEFAULT_DUE_PENAL_INTEREST);
+        assertThat(testCourtCase.getDueMoreInterest()).isEqualTo(DEFAULT_DUE_MORE_INTEREST);
+        assertThat(testCourtCase.getInterestRecivable()).isEqualTo(DEFAULT_INTEREST_RECIVABLE);
+        assertThat(testCourtCase.getGaurentorOne()).isEqualTo(DEFAULT_GAURENTOR_ONE);
+        assertThat(testCourtCase.getGaurentorOneAddress()).isEqualTo(DEFAULT_GAURENTOR_ONE_ADDRESS);
+        assertThat(testCourtCase.getGaurentorTwo()).isEqualTo(DEFAULT_GAURENTOR_TWO);
+        assertThat(testCourtCase.getGaurentorTwoAddress()).isEqualTo(DEFAULT_GAURENTOR_TWO_ADDRESS);
+        assertThat(testCourtCase.getFirstNoticeDate()).isEqualTo(DEFAULT_FIRST_NOTICE_DATE);
+        assertThat(testCourtCase.getSecondNoticeDate()).isEqualTo(DEFAULT_SECOND_NOTICE_DATE);
     }
 
     @Test
@@ -429,54 +293,32 @@ class CourtCaseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(courtCase.getId().intValue())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].caseDinank").value(hasItem(DEFAULT_CASE_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)))
-            .andExpect(jsonPath("$.[*].talukaName").value(hasItem(DEFAULT_TALUKA_NAME)))
-            .andExpect(jsonPath("$.[*].talukaCode").value(hasItem(DEFAULT_TALUKA_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].sabasadSavingAccNo").value(hasItem(DEFAULT_SABASAD_SAVING_ACC_NO)))
-            .andExpect(jsonPath("$.[*].sabasadName").value(hasItem(DEFAULT_SABASAD_NAME)))
-            .andExpect(jsonPath("$.[*].sabasadAddress").value(hasItem(DEFAULT_SABASAD_ADDRESS)))
-            .andExpect(jsonPath("$.[*].karjPrakar").value(hasItem(DEFAULT_KARJ_PRAKAR)))
-            .andExpect(jsonPath("$.[*].vasuliAdhikari").value(hasItem(DEFAULT_VASULI_ADHIKARI)))
-            .andExpect(jsonPath("$.[*].ekunJama").value(hasItem(DEFAULT_EKUN_JAMA.doubleValue())))
-            .andExpect(jsonPath("$.[*].baki").value(hasItem(DEFAULT_BAKI.doubleValue())))
-            .andExpect(jsonPath("$.[*].arOffice").value(hasItem(DEFAULT_AR_OFFICE)))
-            .andExpect(jsonPath("$.[*].ekunVyaj").value(hasItem(DEFAULT_EKUN_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].jamaVyaj").value(hasItem(DEFAULT_JAMA_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].dandVyaj").value(hasItem(DEFAULT_DAND_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].karjRakkam").value(hasItem(DEFAULT_KARJ_RAKKAM.doubleValue())))
-            .andExpect(jsonPath("$.[*].thakDinnank").value(hasItem(DEFAULT_THAK_DINNANK.toString())))
-            .andExpect(jsonPath("$.[*].karjDinnank").value(hasItem(DEFAULT_KARJ_DINNANK.toString())))
-            .andExpect(jsonPath("$.[*].mudatSampteDinank").value(hasItem(DEFAULT_MUDAT_SAMPTE_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].mudat").value(hasItem(DEFAULT_MUDAT)))
-            .andExpect(jsonPath("$.[*].vyaj").value(hasItem(DEFAULT_VYAJ)))
-            .andExpect(jsonPath("$.[*].haptaRakkam").value(hasItem(DEFAULT_HAPTA_RAKKAM.doubleValue())))
-            .andExpect(jsonPath("$.[*].shakhaVevsthapak").value(hasItem(DEFAULT_SHAKHA_VEVSTHAPAK)))
-            .andExpect(jsonPath("$.[*].suchak").value(hasItem(DEFAULT_SUCHAK)))
-            .andExpect(jsonPath("$.[*].anumodak").value(hasItem(DEFAULT_ANUMODAK)))
-            .andExpect(jsonPath("$.[*].dava").value(hasItem(DEFAULT_DAVA.doubleValue())))
-            .andExpect(jsonPath("$.[*].vyajDar").value(hasItem(DEFAULT_VYAJ_DAR.doubleValue())))
-            .andExpect(jsonPath("$.[*].sarcharge").value(hasItem(DEFAULT_SARCHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].jyadaVyaj").value(hasItem(DEFAULT_JYADA_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].yeneVyaj").value(hasItem(DEFAULT_YENE_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].vasuliKharch").value(hasItem(DEFAULT_VASULI_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].etharKharch").value(hasItem(DEFAULT_ETHAR_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].vima").value(hasItem(DEFAULT_VIMA.doubleValue())))
-            .andExpect(jsonPath("$.[*].notice").value(hasItem(DEFAULT_NOTICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].tharavDinank").value(hasItem(DEFAULT_THARAV_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].vishayKramank").value(hasItem(DEFAULT_VISHAY_KRAMANK)))
-            .andExpect(jsonPath("$.[*].noticeOne").value(hasItem(DEFAULT_NOTICE_ONE.toString())))
-            .andExpect(jsonPath("$.[*].noticeTwo").value(hasItem(DEFAULT_NOTICE_TWO.toString())))
-            .andExpect(jsonPath("$.[*].war").value(hasItem(DEFAULT_WAR)))
-            .andExpect(jsonPath("$.[*].vel").value(hasItem(DEFAULT_VEL)))
-            .andExpect(jsonPath("$.[*].jamindarOne").value(hasItem(DEFAULT_JAMINDAR_ONE)))
-            .andExpect(jsonPath("$.[*].jamindarOneAddress").value(hasItem(DEFAULT_JAMINDAR_ONE_ADDRESS)))
-            .andExpect(jsonPath("$.[*].jamindarTwo").value(hasItem(DEFAULT_JAMINDAR_TWO)))
-            .andExpect(jsonPath("$.[*].jamindarTwoAddress").value(hasItem(DEFAULT_JAMINDAR_TWO_ADDRESS)))
-            .andExpect(jsonPath("$.[*].taranType").value(hasItem(DEFAULT_TARAN_TYPE)))
-            .andExpect(jsonPath("$.[*].taranDetails").value(hasItem(DEFAULT_TARAN_DETAILS)));
+            .andExpect(jsonPath("$.[*].srNo").value(hasItem(DEFAULT_SR_NO)))
+            .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
+            .andExpect(jsonPath("$.[*].nameOfDefaulter").value(hasItem(DEFAULT_NAME_OF_DEFAULTER)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].loanType").value(hasItem(DEFAULT_LOAN_TYPE)))
+            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].loanDate").value(hasItem(DEFAULT_LOAN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].termOfLoan").value(hasItem(DEFAULT_TERM_OF_LOAN)))
+            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE.doubleValue())))
+            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT.doubleValue())))
+            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID.doubleValue())))
+            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE.doubleValue())))
+            .andExpect(jsonPath("$.[*].gaurentorOne").value(hasItem(DEFAULT_GAURENTOR_ONE)))
+            .andExpect(jsonPath("$.[*].gaurentorOneAddress").value(hasItem(DEFAULT_GAURENTOR_ONE_ADDRESS)))
+            .andExpect(jsonPath("$.[*].gaurentorTwo").value(hasItem(DEFAULT_GAURENTOR_TWO)))
+            .andExpect(jsonPath("$.[*].gaurentorTwoAddress").value(hasItem(DEFAULT_GAURENTOR_TWO_ADDRESS)))
+            .andExpect(jsonPath("$.[*].firstNoticeDate").value(hasItem(DEFAULT_FIRST_NOTICE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].secondNoticeDate").value(hasItem(DEFAULT_SECOND_NOTICE_DATE.toString())));
     }
 
     @Test
@@ -491,54 +333,32 @@ class CourtCaseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(courtCase.getId().intValue()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.intValue()))
-            .andExpect(jsonPath("$.caseDinank").value(DEFAULT_CASE_DINANK.toString()))
-            .andExpect(jsonPath("$.bankName").value(DEFAULT_BANK_NAME))
-            .andExpect(jsonPath("$.talukaName").value(DEFAULT_TALUKA_NAME))
-            .andExpect(jsonPath("$.talukaCode").value(DEFAULT_TALUKA_CODE.intValue()))
-            .andExpect(jsonPath("$.sabasadSavingAccNo").value(DEFAULT_SABASAD_SAVING_ACC_NO))
-            .andExpect(jsonPath("$.sabasadName").value(DEFAULT_SABASAD_NAME))
-            .andExpect(jsonPath("$.sabasadAddress").value(DEFAULT_SABASAD_ADDRESS))
-            .andExpect(jsonPath("$.karjPrakar").value(DEFAULT_KARJ_PRAKAR))
-            .andExpect(jsonPath("$.vasuliAdhikari").value(DEFAULT_VASULI_ADHIKARI))
-            .andExpect(jsonPath("$.ekunJama").value(DEFAULT_EKUN_JAMA.doubleValue()))
-            .andExpect(jsonPath("$.baki").value(DEFAULT_BAKI.doubleValue()))
-            .andExpect(jsonPath("$.arOffice").value(DEFAULT_AR_OFFICE))
-            .andExpect(jsonPath("$.ekunVyaj").value(DEFAULT_EKUN_VYAJ.doubleValue()))
-            .andExpect(jsonPath("$.jamaVyaj").value(DEFAULT_JAMA_VYAJ.doubleValue()))
-            .andExpect(jsonPath("$.dandVyaj").value(DEFAULT_DAND_VYAJ.doubleValue()))
-            .andExpect(jsonPath("$.karjRakkam").value(DEFAULT_KARJ_RAKKAM.doubleValue()))
-            .andExpect(jsonPath("$.thakDinnank").value(DEFAULT_THAK_DINNANK.toString()))
-            .andExpect(jsonPath("$.karjDinnank").value(DEFAULT_KARJ_DINNANK.toString()))
-            .andExpect(jsonPath("$.mudatSampteDinank").value(DEFAULT_MUDAT_SAMPTE_DINANK.toString()))
-            .andExpect(jsonPath("$.mudat").value(DEFAULT_MUDAT))
-            .andExpect(jsonPath("$.vyaj").value(DEFAULT_VYAJ))
-            .andExpect(jsonPath("$.haptaRakkam").value(DEFAULT_HAPTA_RAKKAM.doubleValue()))
-            .andExpect(jsonPath("$.shakhaVevsthapak").value(DEFAULT_SHAKHA_VEVSTHAPAK))
-            .andExpect(jsonPath("$.suchak").value(DEFAULT_SUCHAK))
-            .andExpect(jsonPath("$.anumodak").value(DEFAULT_ANUMODAK))
-            .andExpect(jsonPath("$.dava").value(DEFAULT_DAVA.doubleValue()))
-            .andExpect(jsonPath("$.vyajDar").value(DEFAULT_VYAJ_DAR.doubleValue()))
-            .andExpect(jsonPath("$.sarcharge").value(DEFAULT_SARCHARGE.doubleValue()))
-            .andExpect(jsonPath("$.jyadaVyaj").value(DEFAULT_JYADA_VYAJ.doubleValue()))
-            .andExpect(jsonPath("$.yeneVyaj").value(DEFAULT_YENE_VYAJ.doubleValue()))
-            .andExpect(jsonPath("$.vasuliKharch").value(DEFAULT_VASULI_KHARCH.doubleValue()))
-            .andExpect(jsonPath("$.etharKharch").value(DEFAULT_ETHAR_KHARCH.doubleValue()))
-            .andExpect(jsonPath("$.vima").value(DEFAULT_VIMA.doubleValue()))
-            .andExpect(jsonPath("$.notice").value(DEFAULT_NOTICE.doubleValue()))
-            .andExpect(jsonPath("$.tharavNumber").value(DEFAULT_THARAV_NUMBER.intValue()))
-            .andExpect(jsonPath("$.tharavDinank").value(DEFAULT_THARAV_DINANK.toString()))
-            .andExpect(jsonPath("$.vishayKramank").value(DEFAULT_VISHAY_KRAMANK))
-            .andExpect(jsonPath("$.noticeOne").value(DEFAULT_NOTICE_ONE.toString()))
-            .andExpect(jsonPath("$.noticeTwo").value(DEFAULT_NOTICE_TWO.toString()))
-            .andExpect(jsonPath("$.war").value(DEFAULT_WAR))
-            .andExpect(jsonPath("$.vel").value(DEFAULT_VEL))
-            .andExpect(jsonPath("$.jamindarOne").value(DEFAULT_JAMINDAR_ONE))
-            .andExpect(jsonPath("$.jamindarOneAddress").value(DEFAULT_JAMINDAR_ONE_ADDRESS))
-            .andExpect(jsonPath("$.jamindarTwo").value(DEFAULT_JAMINDAR_TWO))
-            .andExpect(jsonPath("$.jamindarTwoAddress").value(DEFAULT_JAMINDAR_TWO_ADDRESS))
-            .andExpect(jsonPath("$.taranType").value(DEFAULT_TARAN_TYPE))
-            .andExpect(jsonPath("$.taranDetails").value(DEFAULT_TARAN_DETAILS));
+            .andExpect(jsonPath("$.srNo").value(DEFAULT_SR_NO))
+            .andExpect(jsonPath("$.accountNo").value(DEFAULT_ACCOUNT_NO))
+            .andExpect(jsonPath("$.nameOfDefaulter").value(DEFAULT_NAME_OF_DEFAULTER))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
+            .andExpect(jsonPath("$.loanType").value(DEFAULT_LOAN_TYPE))
+            .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.loanDate").value(DEFAULT_LOAN_DATE.toString()))
+            .andExpect(jsonPath("$.termOfLoan").value(DEFAULT_TERM_OF_LOAN))
+            .andExpect(jsonPath("$.interestRate").value(DEFAULT_INTEREST_RATE.doubleValue()))
+            .andExpect(jsonPath("$.installmentAmount").value(DEFAULT_INSTALLMENT_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.totalCredit").value(DEFAULT_TOTAL_CREDIT.doubleValue()))
+            .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.doubleValue()))
+            .andExpect(jsonPath("$.interestPaid").value(DEFAULT_INTEREST_PAID.doubleValue()))
+            .andExpect(jsonPath("$.penalInterestPaid").value(DEFAULT_PENAL_INTEREST_PAID.doubleValue()))
+            .andExpect(jsonPath("$.dueAmount").value(DEFAULT_DUE_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
+            .andExpect(jsonPath("$.dueInterest").value(DEFAULT_DUE_INTEREST.doubleValue()))
+            .andExpect(jsonPath("$.duePenalInterest").value(DEFAULT_DUE_PENAL_INTEREST.doubleValue()))
+            .andExpect(jsonPath("$.dueMoreInterest").value(DEFAULT_DUE_MORE_INTEREST.doubleValue()))
+            .andExpect(jsonPath("$.interestRecivable").value(DEFAULT_INTEREST_RECIVABLE.doubleValue()))
+            .andExpect(jsonPath("$.gaurentorOne").value(DEFAULT_GAURENTOR_ONE))
+            .andExpect(jsonPath("$.gaurentorOneAddress").value(DEFAULT_GAURENTOR_ONE_ADDRESS))
+            .andExpect(jsonPath("$.gaurentorTwo").value(DEFAULT_GAURENTOR_TWO))
+            .andExpect(jsonPath("$.gaurentorTwoAddress").value(DEFAULT_GAURENTOR_TWO_ADDRESS))
+            .andExpect(jsonPath("$.firstNoticeDate").value(DEFAULT_FIRST_NOTICE_DATE.toString()))
+            .andExpect(jsonPath("$.secondNoticeDate").value(DEFAULT_SECOND_NOTICE_DATE.toString()));
     }
 
     @Test
@@ -561,3460 +381,2108 @@ class CourtCaseResourceIT {
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsEqualToSomething() throws Exception {
+    void getAllCourtCasesBySrNoIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code equals to DEFAULT_CODE
-        defaultCourtCaseShouldBeFound("code.equals=" + DEFAULT_CODE);
+        // Get all the courtCaseList where srNo equals to DEFAULT_SR_NO
+        defaultCourtCaseShouldBeFound("srNo.equals=" + DEFAULT_SR_NO);
 
-        // Get all the courtCaseList where code equals to UPDATED_CODE
-        defaultCourtCaseShouldNotBeFound("code.equals=" + UPDATED_CODE);
+        // Get all the courtCaseList where srNo equals to UPDATED_SR_NO
+        defaultCourtCaseShouldNotBeFound("srNo.equals=" + UPDATED_SR_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsInShouldWork() throws Exception {
+    void getAllCourtCasesBySrNoIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code in DEFAULT_CODE or UPDATED_CODE
-        defaultCourtCaseShouldBeFound("code.in=" + DEFAULT_CODE + "," + UPDATED_CODE);
+        // Get all the courtCaseList where srNo in DEFAULT_SR_NO or UPDATED_SR_NO
+        defaultCourtCaseShouldBeFound("srNo.in=" + DEFAULT_SR_NO + "," + UPDATED_SR_NO);
 
-        // Get all the courtCaseList where code equals to UPDATED_CODE
-        defaultCourtCaseShouldNotBeFound("code.in=" + UPDATED_CODE);
+        // Get all the courtCaseList where srNo equals to UPDATED_SR_NO
+        defaultCourtCaseShouldNotBeFound("srNo.in=" + UPDATED_SR_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesBySrNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code is not null
-        defaultCourtCaseShouldBeFound("code.specified=true");
+        // Get all the courtCaseList where srNo is not null
+        defaultCourtCaseShouldBeFound("srNo.specified=true");
 
-        // Get all the courtCaseList where code is null
-        defaultCourtCaseShouldNotBeFound("code.specified=false");
+        // Get all the courtCaseList where srNo is null
+        defaultCourtCaseShouldNotBeFound("srNo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesBySrNoContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code is greater than or equal to DEFAULT_CODE
-        defaultCourtCaseShouldBeFound("code.greaterThanOrEqual=" + DEFAULT_CODE);
+        // Get all the courtCaseList where srNo contains DEFAULT_SR_NO
+        defaultCourtCaseShouldBeFound("srNo.contains=" + DEFAULT_SR_NO);
 
-        // Get all the courtCaseList where code is greater than or equal to UPDATED_CODE
-        defaultCourtCaseShouldNotBeFound("code.greaterThanOrEqual=" + UPDATED_CODE);
+        // Get all the courtCaseList where srNo contains UPDATED_SR_NO
+        defaultCourtCaseShouldNotBeFound("srNo.contains=" + UPDATED_SR_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesBySrNoNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code is less than or equal to DEFAULT_CODE
-        defaultCourtCaseShouldBeFound("code.lessThanOrEqual=" + DEFAULT_CODE);
+        // Get all the courtCaseList where srNo does not contain DEFAULT_SR_NO
+        defaultCourtCaseShouldNotBeFound("srNo.doesNotContain=" + DEFAULT_SR_NO);
 
-        // Get all the courtCaseList where code is less than or equal to SMALLER_CODE
-        defaultCourtCaseShouldNotBeFound("code.lessThanOrEqual=" + SMALLER_CODE);
+        // Get all the courtCaseList where srNo does not contain UPDATED_SR_NO
+        defaultCourtCaseShouldBeFound("srNo.doesNotContain=" + UPDATED_SR_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByAccountNoIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code is less than DEFAULT_CODE
-        defaultCourtCaseShouldNotBeFound("code.lessThan=" + DEFAULT_CODE);
+        // Get all the courtCaseList where accountNo equals to DEFAULT_ACCOUNT_NO
+        defaultCourtCaseShouldBeFound("accountNo.equals=" + DEFAULT_ACCOUNT_NO);
 
-        // Get all the courtCaseList where code is less than UPDATED_CODE
-        defaultCourtCaseShouldBeFound("code.lessThan=" + UPDATED_CODE);
+        // Get all the courtCaseList where accountNo equals to UPDATED_ACCOUNT_NO
+        defaultCourtCaseShouldNotBeFound("accountNo.equals=" + UPDATED_ACCOUNT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCodeIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByAccountNoIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where code is greater than DEFAULT_CODE
-        defaultCourtCaseShouldNotBeFound("code.greaterThan=" + DEFAULT_CODE);
+        // Get all the courtCaseList where accountNo in DEFAULT_ACCOUNT_NO or UPDATED_ACCOUNT_NO
+        defaultCourtCaseShouldBeFound("accountNo.in=" + DEFAULT_ACCOUNT_NO + "," + UPDATED_ACCOUNT_NO);
 
-        // Get all the courtCaseList where code is greater than SMALLER_CODE
-        defaultCourtCaseShouldBeFound("code.greaterThan=" + SMALLER_CODE);
+        // Get all the courtCaseList where accountNo equals to UPDATED_ACCOUNT_NO
+        defaultCourtCaseShouldNotBeFound("accountNo.in=" + UPDATED_ACCOUNT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCaseDinankIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByAccountNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where caseDinank equals to DEFAULT_CASE_DINANK
-        defaultCourtCaseShouldBeFound("caseDinank.equals=" + DEFAULT_CASE_DINANK);
+        // Get all the courtCaseList where accountNo is not null
+        defaultCourtCaseShouldBeFound("accountNo.specified=true");
 
-        // Get all the courtCaseList where caseDinank equals to UPDATED_CASE_DINANK
-        defaultCourtCaseShouldNotBeFound("caseDinank.equals=" + UPDATED_CASE_DINANK);
+        // Get all the courtCaseList where accountNo is null
+        defaultCourtCaseShouldNotBeFound("accountNo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCaseDinankIsInShouldWork() throws Exception {
+    void getAllCourtCasesByAccountNoContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where caseDinank in DEFAULT_CASE_DINANK or UPDATED_CASE_DINANK
-        defaultCourtCaseShouldBeFound("caseDinank.in=" + DEFAULT_CASE_DINANK + "," + UPDATED_CASE_DINANK);
+        // Get all the courtCaseList where accountNo contains DEFAULT_ACCOUNT_NO
+        defaultCourtCaseShouldBeFound("accountNo.contains=" + DEFAULT_ACCOUNT_NO);
 
-        // Get all the courtCaseList where caseDinank equals to UPDATED_CASE_DINANK
-        defaultCourtCaseShouldNotBeFound("caseDinank.in=" + UPDATED_CASE_DINANK);
+        // Get all the courtCaseList where accountNo contains UPDATED_ACCOUNT_NO
+        defaultCourtCaseShouldNotBeFound("accountNo.contains=" + UPDATED_ACCOUNT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByCaseDinankIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByAccountNoNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where caseDinank is not null
-        defaultCourtCaseShouldBeFound("caseDinank.specified=true");
+        // Get all the courtCaseList where accountNo does not contain DEFAULT_ACCOUNT_NO
+        defaultCourtCaseShouldNotBeFound("accountNo.doesNotContain=" + DEFAULT_ACCOUNT_NO);
 
-        // Get all the courtCaseList where caseDinank is null
-        defaultCourtCaseShouldNotBeFound("caseDinank.specified=false");
+        // Get all the courtCaseList where accountNo does not contain UPDATED_ACCOUNT_NO
+        defaultCourtCaseShouldBeFound("accountNo.doesNotContain=" + UPDATED_ACCOUNT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBankNameIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByNameOfDefaulterIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where bankName equals to DEFAULT_BANK_NAME
-        defaultCourtCaseShouldBeFound("bankName.equals=" + DEFAULT_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter equals to DEFAULT_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldBeFound("nameOfDefaulter.equals=" + DEFAULT_NAME_OF_DEFAULTER);
 
-        // Get all the courtCaseList where bankName equals to UPDATED_BANK_NAME
-        defaultCourtCaseShouldNotBeFound("bankName.equals=" + UPDATED_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter equals to UPDATED_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldNotBeFound("nameOfDefaulter.equals=" + UPDATED_NAME_OF_DEFAULTER);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBankNameIsInShouldWork() throws Exception {
+    void getAllCourtCasesByNameOfDefaulterIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where bankName in DEFAULT_BANK_NAME or UPDATED_BANK_NAME
-        defaultCourtCaseShouldBeFound("bankName.in=" + DEFAULT_BANK_NAME + "," + UPDATED_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter in DEFAULT_NAME_OF_DEFAULTER or UPDATED_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldBeFound("nameOfDefaulter.in=" + DEFAULT_NAME_OF_DEFAULTER + "," + UPDATED_NAME_OF_DEFAULTER);
 
-        // Get all the courtCaseList where bankName equals to UPDATED_BANK_NAME
-        defaultCourtCaseShouldNotBeFound("bankName.in=" + UPDATED_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter equals to UPDATED_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldNotBeFound("nameOfDefaulter.in=" + UPDATED_NAME_OF_DEFAULTER);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBankNameIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByNameOfDefaulterIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where bankName is not null
-        defaultCourtCaseShouldBeFound("bankName.specified=true");
+        // Get all the courtCaseList where nameOfDefaulter is not null
+        defaultCourtCaseShouldBeFound("nameOfDefaulter.specified=true");
 
-        // Get all the courtCaseList where bankName is null
-        defaultCourtCaseShouldNotBeFound("bankName.specified=false");
+        // Get all the courtCaseList where nameOfDefaulter is null
+        defaultCourtCaseShouldNotBeFound("nameOfDefaulter.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBankNameContainsSomething() throws Exception {
+    void getAllCourtCasesByNameOfDefaulterContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where bankName contains DEFAULT_BANK_NAME
-        defaultCourtCaseShouldBeFound("bankName.contains=" + DEFAULT_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter contains DEFAULT_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldBeFound("nameOfDefaulter.contains=" + DEFAULT_NAME_OF_DEFAULTER);
 
-        // Get all the courtCaseList where bankName contains UPDATED_BANK_NAME
-        defaultCourtCaseShouldNotBeFound("bankName.contains=" + UPDATED_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter contains UPDATED_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldNotBeFound("nameOfDefaulter.contains=" + UPDATED_NAME_OF_DEFAULTER);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBankNameNotContainsSomething() throws Exception {
+    void getAllCourtCasesByNameOfDefaulterNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where bankName does not contain DEFAULT_BANK_NAME
-        defaultCourtCaseShouldNotBeFound("bankName.doesNotContain=" + DEFAULT_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter does not contain DEFAULT_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldNotBeFound("nameOfDefaulter.doesNotContain=" + DEFAULT_NAME_OF_DEFAULTER);
 
-        // Get all the courtCaseList where bankName does not contain UPDATED_BANK_NAME
-        defaultCourtCaseShouldBeFound("bankName.doesNotContain=" + UPDATED_BANK_NAME);
+        // Get all the courtCaseList where nameOfDefaulter does not contain UPDATED_NAME_OF_DEFAULTER
+        defaultCourtCaseShouldBeFound("nameOfDefaulter.doesNotContain=" + UPDATED_NAME_OF_DEFAULTER);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaNameIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByAddressIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaName equals to DEFAULT_TALUKA_NAME
-        defaultCourtCaseShouldBeFound("talukaName.equals=" + DEFAULT_TALUKA_NAME);
+        // Get all the courtCaseList where address equals to DEFAULT_ADDRESS
+        defaultCourtCaseShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
 
-        // Get all the courtCaseList where talukaName equals to UPDATED_TALUKA_NAME
-        defaultCourtCaseShouldNotBeFound("talukaName.equals=" + UPDATED_TALUKA_NAME);
+        // Get all the courtCaseList where address equals to UPDATED_ADDRESS
+        defaultCourtCaseShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaNameIsInShouldWork() throws Exception {
+    void getAllCourtCasesByAddressIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaName in DEFAULT_TALUKA_NAME or UPDATED_TALUKA_NAME
-        defaultCourtCaseShouldBeFound("talukaName.in=" + DEFAULT_TALUKA_NAME + "," + UPDATED_TALUKA_NAME);
+        // Get all the courtCaseList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
+        defaultCourtCaseShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
 
-        // Get all the courtCaseList where talukaName equals to UPDATED_TALUKA_NAME
-        defaultCourtCaseShouldNotBeFound("talukaName.in=" + UPDATED_TALUKA_NAME);
+        // Get all the courtCaseList where address equals to UPDATED_ADDRESS
+        defaultCourtCaseShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaNameIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByAddressIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaName is not null
-        defaultCourtCaseShouldBeFound("talukaName.specified=true");
+        // Get all the courtCaseList where address is not null
+        defaultCourtCaseShouldBeFound("address.specified=true");
 
-        // Get all the courtCaseList where talukaName is null
-        defaultCourtCaseShouldNotBeFound("talukaName.specified=false");
+        // Get all the courtCaseList where address is null
+        defaultCourtCaseShouldNotBeFound("address.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaNameContainsSomething() throws Exception {
+    void getAllCourtCasesByAddressContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaName contains DEFAULT_TALUKA_NAME
-        defaultCourtCaseShouldBeFound("talukaName.contains=" + DEFAULT_TALUKA_NAME);
+        // Get all the courtCaseList where address contains DEFAULT_ADDRESS
+        defaultCourtCaseShouldBeFound("address.contains=" + DEFAULT_ADDRESS);
 
-        // Get all the courtCaseList where talukaName contains UPDATED_TALUKA_NAME
-        defaultCourtCaseShouldNotBeFound("talukaName.contains=" + UPDATED_TALUKA_NAME);
+        // Get all the courtCaseList where address contains UPDATED_ADDRESS
+        defaultCourtCaseShouldNotBeFound("address.contains=" + UPDATED_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaNameNotContainsSomething() throws Exception {
+    void getAllCourtCasesByAddressNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaName does not contain DEFAULT_TALUKA_NAME
-        defaultCourtCaseShouldNotBeFound("talukaName.doesNotContain=" + DEFAULT_TALUKA_NAME);
+        // Get all the courtCaseList where address does not contain DEFAULT_ADDRESS
+        defaultCourtCaseShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADDRESS);
 
-        // Get all the courtCaseList where talukaName does not contain UPDATED_TALUKA_NAME
-        defaultCourtCaseShouldBeFound("talukaName.doesNotContain=" + UPDATED_TALUKA_NAME);
+        // Get all the courtCaseList where address does not contain UPDATED_ADDRESS
+        defaultCourtCaseShouldBeFound("address.doesNotContain=" + UPDATED_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanTypeIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode equals to DEFAULT_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.equals=" + DEFAULT_TALUKA_CODE);
+        // Get all the courtCaseList where loanType equals to DEFAULT_LOAN_TYPE
+        defaultCourtCaseShouldBeFound("loanType.equals=" + DEFAULT_LOAN_TYPE);
 
-        // Get all the courtCaseList where talukaCode equals to UPDATED_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.equals=" + UPDATED_TALUKA_CODE);
+        // Get all the courtCaseList where loanType equals to UPDATED_LOAN_TYPE
+        defaultCourtCaseShouldNotBeFound("loanType.equals=" + UPDATED_LOAN_TYPE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsInShouldWork() throws Exception {
+    void getAllCourtCasesByLoanTypeIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode in DEFAULT_TALUKA_CODE or UPDATED_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.in=" + DEFAULT_TALUKA_CODE + "," + UPDATED_TALUKA_CODE);
+        // Get all the courtCaseList where loanType in DEFAULT_LOAN_TYPE or UPDATED_LOAN_TYPE
+        defaultCourtCaseShouldBeFound("loanType.in=" + DEFAULT_LOAN_TYPE + "," + UPDATED_LOAN_TYPE);
 
-        // Get all the courtCaseList where talukaCode equals to UPDATED_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.in=" + UPDATED_TALUKA_CODE);
+        // Get all the courtCaseList where loanType equals to UPDATED_LOAN_TYPE
+        defaultCourtCaseShouldNotBeFound("loanType.in=" + UPDATED_LOAN_TYPE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByLoanTypeIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode is not null
-        defaultCourtCaseShouldBeFound("talukaCode.specified=true");
+        // Get all the courtCaseList where loanType is not null
+        defaultCourtCaseShouldBeFound("loanType.specified=true");
 
-        // Get all the courtCaseList where talukaCode is null
-        defaultCourtCaseShouldNotBeFound("talukaCode.specified=false");
+        // Get all the courtCaseList where loanType is null
+        defaultCourtCaseShouldNotBeFound("loanType.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanTypeContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode is greater than or equal to DEFAULT_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.greaterThanOrEqual=" + DEFAULT_TALUKA_CODE);
+        // Get all the courtCaseList where loanType contains DEFAULT_LOAN_TYPE
+        defaultCourtCaseShouldBeFound("loanType.contains=" + DEFAULT_LOAN_TYPE);
 
-        // Get all the courtCaseList where talukaCode is greater than or equal to UPDATED_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.greaterThanOrEqual=" + UPDATED_TALUKA_CODE);
+        // Get all the courtCaseList where loanType contains UPDATED_LOAN_TYPE
+        defaultCourtCaseShouldNotBeFound("loanType.contains=" + UPDATED_LOAN_TYPE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanTypeNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode is less than or equal to DEFAULT_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.lessThanOrEqual=" + DEFAULT_TALUKA_CODE);
+        // Get all the courtCaseList where loanType does not contain DEFAULT_LOAN_TYPE
+        defaultCourtCaseShouldNotBeFound("loanType.doesNotContain=" + DEFAULT_LOAN_TYPE);
 
-        // Get all the courtCaseList where talukaCode is less than or equal to SMALLER_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.lessThanOrEqual=" + SMALLER_TALUKA_CODE);
+        // Get all the courtCaseList where loanType does not contain UPDATED_LOAN_TYPE
+        defaultCourtCaseShouldBeFound("loanType.doesNotContain=" + UPDATED_LOAN_TYPE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByLoanAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode is less than DEFAULT_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.lessThan=" + DEFAULT_TALUKA_CODE);
+        // Get all the courtCaseList where loanAmount equals to DEFAULT_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.equals=" + DEFAULT_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where talukaCode is less than UPDATED_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.lessThan=" + UPDATED_TALUKA_CODE);
+        // Get all the courtCaseList where loanAmount equals to UPDATED_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.equals=" + UPDATED_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByTalukaCodeIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByLoanAmountIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where talukaCode is greater than DEFAULT_TALUKA_CODE
-        defaultCourtCaseShouldNotBeFound("talukaCode.greaterThan=" + DEFAULT_TALUKA_CODE);
+        // Get all the courtCaseList where loanAmount in DEFAULT_LOAN_AMOUNT or UPDATED_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.in=" + DEFAULT_LOAN_AMOUNT + "," + UPDATED_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where talukaCode is greater than SMALLER_TALUKA_CODE
-        defaultCourtCaseShouldBeFound("talukaCode.greaterThan=" + SMALLER_TALUKA_CODE);
+        // Get all the courtCaseList where loanAmount equals to UPDATED_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.in=" + UPDATED_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadSavingAccNoIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadSavingAccNo equals to DEFAULT_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldBeFound("sabasadSavingAccNo.equals=" + DEFAULT_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is not null
+        defaultCourtCaseShouldBeFound("loanAmount.specified=true");
 
-        // Get all the courtCaseList where sabasadSavingAccNo equals to UPDATED_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldNotBeFound("sabasadSavingAccNo.equals=" + UPDATED_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is null
+        defaultCourtCaseShouldNotBeFound("loanAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadSavingAccNoIsInShouldWork() throws Exception {
+    void getAllCourtCasesByLoanAmountIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadSavingAccNo in DEFAULT_SABASAD_SAVING_ACC_NO or UPDATED_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldBeFound("sabasadSavingAccNo.in=" + DEFAULT_SABASAD_SAVING_ACC_NO + "," + UPDATED_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is greater than or equal to DEFAULT_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.greaterThanOrEqual=" + DEFAULT_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where sabasadSavingAccNo equals to UPDATED_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldNotBeFound("sabasadSavingAccNo.in=" + UPDATED_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is greater than or equal to UPDATED_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.greaterThanOrEqual=" + UPDATED_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadSavingAccNoIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByLoanAmountIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadSavingAccNo is not null
-        defaultCourtCaseShouldBeFound("sabasadSavingAccNo.specified=true");
+        // Get all the courtCaseList where loanAmount is less than or equal to DEFAULT_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.lessThanOrEqual=" + DEFAULT_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where sabasadSavingAccNo is null
-        defaultCourtCaseShouldNotBeFound("sabasadSavingAccNo.specified=false");
+        // Get all the courtCaseList where loanAmount is less than or equal to SMALLER_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.lessThanOrEqual=" + SMALLER_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadSavingAccNoContainsSomething() throws Exception {
+    void getAllCourtCasesByLoanAmountIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadSavingAccNo contains DEFAULT_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldBeFound("sabasadSavingAccNo.contains=" + DEFAULT_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is less than DEFAULT_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.lessThan=" + DEFAULT_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where sabasadSavingAccNo contains UPDATED_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldNotBeFound("sabasadSavingAccNo.contains=" + UPDATED_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is less than UPDATED_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.lessThan=" + UPDATED_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadSavingAccNoNotContainsSomething() throws Exception {
+    void getAllCourtCasesByLoanAmountIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadSavingAccNo does not contain DEFAULT_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldNotBeFound("sabasadSavingAccNo.doesNotContain=" + DEFAULT_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is greater than DEFAULT_LOAN_AMOUNT
+        defaultCourtCaseShouldNotBeFound("loanAmount.greaterThan=" + DEFAULT_LOAN_AMOUNT);
 
-        // Get all the courtCaseList where sabasadSavingAccNo does not contain UPDATED_SABASAD_SAVING_ACC_NO
-        defaultCourtCaseShouldBeFound("sabasadSavingAccNo.doesNotContain=" + UPDATED_SABASAD_SAVING_ACC_NO);
+        // Get all the courtCaseList where loanAmount is greater than SMALLER_LOAN_AMOUNT
+        defaultCourtCaseShouldBeFound("loanAmount.greaterThan=" + SMALLER_LOAN_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadNameIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanDateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadName equals to DEFAULT_SABASAD_NAME
-        defaultCourtCaseShouldBeFound("sabasadName.equals=" + DEFAULT_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate equals to DEFAULT_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.equals=" + DEFAULT_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadName equals to UPDATED_SABASAD_NAME
-        defaultCourtCaseShouldNotBeFound("sabasadName.equals=" + UPDATED_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate equals to UPDATED_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.equals=" + UPDATED_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadNameIsInShouldWork() throws Exception {
+    void getAllCourtCasesByLoanDateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadName in DEFAULT_SABASAD_NAME or UPDATED_SABASAD_NAME
-        defaultCourtCaseShouldBeFound("sabasadName.in=" + DEFAULT_SABASAD_NAME + "," + UPDATED_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate in DEFAULT_LOAN_DATE or UPDATED_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.in=" + DEFAULT_LOAN_DATE + "," + UPDATED_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadName equals to UPDATED_SABASAD_NAME
-        defaultCourtCaseShouldNotBeFound("sabasadName.in=" + UPDATED_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate equals to UPDATED_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.in=" + UPDATED_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadNameIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByLoanDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadName is not null
-        defaultCourtCaseShouldBeFound("sabasadName.specified=true");
+        // Get all the courtCaseList where loanDate is not null
+        defaultCourtCaseShouldBeFound("loanDate.specified=true");
 
-        // Get all the courtCaseList where sabasadName is null
-        defaultCourtCaseShouldNotBeFound("sabasadName.specified=false");
+        // Get all the courtCaseList where loanDate is null
+        defaultCourtCaseShouldNotBeFound("loanDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadNameContainsSomething() throws Exception {
+    void getAllCourtCasesByLoanDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadName contains DEFAULT_SABASAD_NAME
-        defaultCourtCaseShouldBeFound("sabasadName.contains=" + DEFAULT_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate is greater than or equal to DEFAULT_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.greaterThanOrEqual=" + DEFAULT_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadName contains UPDATED_SABASAD_NAME
-        defaultCourtCaseShouldNotBeFound("sabasadName.contains=" + UPDATED_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate is greater than or equal to UPDATED_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.greaterThanOrEqual=" + UPDATED_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadNameNotContainsSomething() throws Exception {
+    void getAllCourtCasesByLoanDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadName does not contain DEFAULT_SABASAD_NAME
-        defaultCourtCaseShouldNotBeFound("sabasadName.doesNotContain=" + DEFAULT_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate is less than or equal to DEFAULT_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.lessThanOrEqual=" + DEFAULT_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadName does not contain UPDATED_SABASAD_NAME
-        defaultCourtCaseShouldBeFound("sabasadName.doesNotContain=" + UPDATED_SABASAD_NAME);
+        // Get all the courtCaseList where loanDate is less than or equal to SMALLER_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.lessThanOrEqual=" + SMALLER_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadAddressIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByLoanDateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadAddress equals to DEFAULT_SABASAD_ADDRESS
-        defaultCourtCaseShouldBeFound("sabasadAddress.equals=" + DEFAULT_SABASAD_ADDRESS);
+        // Get all the courtCaseList where loanDate is less than DEFAULT_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.lessThan=" + DEFAULT_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadAddress equals to UPDATED_SABASAD_ADDRESS
-        defaultCourtCaseShouldNotBeFound("sabasadAddress.equals=" + UPDATED_SABASAD_ADDRESS);
+        // Get all the courtCaseList where loanDate is less than UPDATED_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.lessThan=" + UPDATED_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadAddressIsInShouldWork() throws Exception {
+    void getAllCourtCasesByLoanDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadAddress in DEFAULT_SABASAD_ADDRESS or UPDATED_SABASAD_ADDRESS
-        defaultCourtCaseShouldBeFound("sabasadAddress.in=" + DEFAULT_SABASAD_ADDRESS + "," + UPDATED_SABASAD_ADDRESS);
+        // Get all the courtCaseList where loanDate is greater than DEFAULT_LOAN_DATE
+        defaultCourtCaseShouldNotBeFound("loanDate.greaterThan=" + DEFAULT_LOAN_DATE);
 
-        // Get all the courtCaseList where sabasadAddress equals to UPDATED_SABASAD_ADDRESS
-        defaultCourtCaseShouldNotBeFound("sabasadAddress.in=" + UPDATED_SABASAD_ADDRESS);
+        // Get all the courtCaseList where loanDate is greater than SMALLER_LOAN_DATE
+        defaultCourtCaseShouldBeFound("loanDate.greaterThan=" + SMALLER_LOAN_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadAddressIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByTermOfLoanIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadAddress is not null
-        defaultCourtCaseShouldBeFound("sabasadAddress.specified=true");
+        // Get all the courtCaseList where termOfLoan equals to DEFAULT_TERM_OF_LOAN
+        defaultCourtCaseShouldBeFound("termOfLoan.equals=" + DEFAULT_TERM_OF_LOAN);
 
-        // Get all the courtCaseList where sabasadAddress is null
-        defaultCourtCaseShouldNotBeFound("sabasadAddress.specified=false");
+        // Get all the courtCaseList where termOfLoan equals to UPDATED_TERM_OF_LOAN
+        defaultCourtCaseShouldNotBeFound("termOfLoan.equals=" + UPDATED_TERM_OF_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadAddressContainsSomething() throws Exception {
+    void getAllCourtCasesByTermOfLoanIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadAddress contains DEFAULT_SABASAD_ADDRESS
-        defaultCourtCaseShouldBeFound("sabasadAddress.contains=" + DEFAULT_SABASAD_ADDRESS);
+        // Get all the courtCaseList where termOfLoan in DEFAULT_TERM_OF_LOAN or UPDATED_TERM_OF_LOAN
+        defaultCourtCaseShouldBeFound("termOfLoan.in=" + DEFAULT_TERM_OF_LOAN + "," + UPDATED_TERM_OF_LOAN);
 
-        // Get all the courtCaseList where sabasadAddress contains UPDATED_SABASAD_ADDRESS
-        defaultCourtCaseShouldNotBeFound("sabasadAddress.contains=" + UPDATED_SABASAD_ADDRESS);
+        // Get all the courtCaseList where termOfLoan equals to UPDATED_TERM_OF_LOAN
+        defaultCourtCaseShouldNotBeFound("termOfLoan.in=" + UPDATED_TERM_OF_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySabasadAddressNotContainsSomething() throws Exception {
+    void getAllCourtCasesByTermOfLoanIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sabasadAddress does not contain DEFAULT_SABASAD_ADDRESS
-        defaultCourtCaseShouldNotBeFound("sabasadAddress.doesNotContain=" + DEFAULT_SABASAD_ADDRESS);
+        // Get all the courtCaseList where termOfLoan is not null
+        defaultCourtCaseShouldBeFound("termOfLoan.specified=true");
 
-        // Get all the courtCaseList where sabasadAddress does not contain UPDATED_SABASAD_ADDRESS
-        defaultCourtCaseShouldBeFound("sabasadAddress.doesNotContain=" + UPDATED_SABASAD_ADDRESS);
+        // Get all the courtCaseList where termOfLoan is null
+        defaultCourtCaseShouldNotBeFound("termOfLoan.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjPrakarIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByTermOfLoanContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjPrakar equals to DEFAULT_KARJ_PRAKAR
-        defaultCourtCaseShouldBeFound("karjPrakar.equals=" + DEFAULT_KARJ_PRAKAR);
+        // Get all the courtCaseList where termOfLoan contains DEFAULT_TERM_OF_LOAN
+        defaultCourtCaseShouldBeFound("termOfLoan.contains=" + DEFAULT_TERM_OF_LOAN);
 
-        // Get all the courtCaseList where karjPrakar equals to UPDATED_KARJ_PRAKAR
-        defaultCourtCaseShouldNotBeFound("karjPrakar.equals=" + UPDATED_KARJ_PRAKAR);
+        // Get all the courtCaseList where termOfLoan contains UPDATED_TERM_OF_LOAN
+        defaultCourtCaseShouldNotBeFound("termOfLoan.contains=" + UPDATED_TERM_OF_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjPrakarIsInShouldWork() throws Exception {
+    void getAllCourtCasesByTermOfLoanNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjPrakar in DEFAULT_KARJ_PRAKAR or UPDATED_KARJ_PRAKAR
-        defaultCourtCaseShouldBeFound("karjPrakar.in=" + DEFAULT_KARJ_PRAKAR + "," + UPDATED_KARJ_PRAKAR);
+        // Get all the courtCaseList where termOfLoan does not contain DEFAULT_TERM_OF_LOAN
+        defaultCourtCaseShouldNotBeFound("termOfLoan.doesNotContain=" + DEFAULT_TERM_OF_LOAN);
 
-        // Get all the courtCaseList where karjPrakar equals to UPDATED_KARJ_PRAKAR
-        defaultCourtCaseShouldNotBeFound("karjPrakar.in=" + UPDATED_KARJ_PRAKAR);
+        // Get all the courtCaseList where termOfLoan does not contain UPDATED_TERM_OF_LOAN
+        defaultCourtCaseShouldBeFound("termOfLoan.doesNotContain=" + UPDATED_TERM_OF_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjPrakarIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByInterestRateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjPrakar is not null
-        defaultCourtCaseShouldBeFound("karjPrakar.specified=true");
+        // Get all the courtCaseList where interestRate equals to DEFAULT_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.equals=" + DEFAULT_INTEREST_RATE);
 
-        // Get all the courtCaseList where karjPrakar is null
-        defaultCourtCaseShouldNotBeFound("karjPrakar.specified=false");
+        // Get all the courtCaseList where interestRate equals to UPDATED_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.equals=" + UPDATED_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjPrakarContainsSomething() throws Exception {
+    void getAllCourtCasesByInterestRateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjPrakar contains DEFAULT_KARJ_PRAKAR
-        defaultCourtCaseShouldBeFound("karjPrakar.contains=" + DEFAULT_KARJ_PRAKAR);
+        // Get all the courtCaseList where interestRate in DEFAULT_INTEREST_RATE or UPDATED_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.in=" + DEFAULT_INTEREST_RATE + "," + UPDATED_INTEREST_RATE);
 
-        // Get all the courtCaseList where karjPrakar contains UPDATED_KARJ_PRAKAR
-        defaultCourtCaseShouldNotBeFound("karjPrakar.contains=" + UPDATED_KARJ_PRAKAR);
+        // Get all the courtCaseList where interestRate equals to UPDATED_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.in=" + UPDATED_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjPrakarNotContainsSomething() throws Exception {
+    void getAllCourtCasesByInterestRateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjPrakar does not contain DEFAULT_KARJ_PRAKAR
-        defaultCourtCaseShouldNotBeFound("karjPrakar.doesNotContain=" + DEFAULT_KARJ_PRAKAR);
+        // Get all the courtCaseList where interestRate is not null
+        defaultCourtCaseShouldBeFound("interestRate.specified=true");
 
-        // Get all the courtCaseList where karjPrakar does not contain UPDATED_KARJ_PRAKAR
-        defaultCourtCaseShouldBeFound("karjPrakar.doesNotContain=" + UPDATED_KARJ_PRAKAR);
+        // Get all the courtCaseList where interestRate is null
+        defaultCourtCaseShouldNotBeFound("interestRate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVasuliAdhikariIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestRateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vasuliAdhikari equals to DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseShouldBeFound("vasuliAdhikari.equals=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is greater than or equal to DEFAULT_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.greaterThanOrEqual=" + DEFAULT_INTEREST_RATE);
 
-        // Get all the courtCaseList where vasuliAdhikari equals to UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseShouldNotBeFound("vasuliAdhikari.equals=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is greater than or equal to UPDATED_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.greaterThanOrEqual=" + UPDATED_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVasuliAdhikariIsInShouldWork() throws Exception {
+    void getAllCourtCasesByInterestRateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vasuliAdhikari in DEFAULT_VASULI_ADHIKARI or UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseShouldBeFound("vasuliAdhikari.in=" + DEFAULT_VASULI_ADHIKARI + "," + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is less than or equal to DEFAULT_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.lessThanOrEqual=" + DEFAULT_INTEREST_RATE);
 
-        // Get all the courtCaseList where vasuliAdhikari equals to UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseShouldNotBeFound("vasuliAdhikari.in=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is less than or equal to SMALLER_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.lessThanOrEqual=" + SMALLER_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVasuliAdhikariIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByInterestRateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vasuliAdhikari is not null
-        defaultCourtCaseShouldBeFound("vasuliAdhikari.specified=true");
+        // Get all the courtCaseList where interestRate is less than DEFAULT_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.lessThan=" + DEFAULT_INTEREST_RATE);
 
-        // Get all the courtCaseList where vasuliAdhikari is null
-        defaultCourtCaseShouldNotBeFound("vasuliAdhikari.specified=false");
+        // Get all the courtCaseList where interestRate is less than UPDATED_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.lessThan=" + UPDATED_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVasuliAdhikariContainsSomething() throws Exception {
+    void getAllCourtCasesByInterestRateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vasuliAdhikari contains DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseShouldBeFound("vasuliAdhikari.contains=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is greater than DEFAULT_INTEREST_RATE
+        defaultCourtCaseShouldNotBeFound("interestRate.greaterThan=" + DEFAULT_INTEREST_RATE);
 
-        // Get all the courtCaseList where vasuliAdhikari contains UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseShouldNotBeFound("vasuliAdhikari.contains=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseList where interestRate is greater than SMALLER_INTEREST_RATE
+        defaultCourtCaseShouldBeFound("interestRate.greaterThan=" + SMALLER_INTEREST_RATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVasuliAdhikariNotContainsSomething() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vasuliAdhikari does not contain DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseShouldNotBeFound("vasuliAdhikari.doesNotContain=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseList where installmentAmount equals to DEFAULT_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.equals=" + DEFAULT_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where vasuliAdhikari does not contain UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseShouldBeFound("vasuliAdhikari.doesNotContain=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseList where installmentAmount equals to UPDATED_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.equals=" + UPDATED_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama equals to DEFAULT_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.equals=" + DEFAULT_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount in DEFAULT_INSTALLMENT_AMOUNT or UPDATED_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.in=" + DEFAULT_INSTALLMENT_AMOUNT + "," + UPDATED_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where ekunJama equals to UPDATED_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.equals=" + UPDATED_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount equals to UPDATED_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.in=" + UPDATED_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsInShouldWork() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama in DEFAULT_EKUN_JAMA or UPDATED_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.in=" + DEFAULT_EKUN_JAMA + "," + UPDATED_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is not null
+        defaultCourtCaseShouldBeFound("installmentAmount.specified=true");
 
-        // Get all the courtCaseList where ekunJama equals to UPDATED_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.in=" + UPDATED_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is null
+        defaultCourtCaseShouldNotBeFound("installmentAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama is not null
-        defaultCourtCaseShouldBeFound("ekunJama.specified=true");
+        // Get all the courtCaseList where installmentAmount is greater than or equal to DEFAULT_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.greaterThanOrEqual=" + DEFAULT_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where ekunJama is null
-        defaultCourtCaseShouldNotBeFound("ekunJama.specified=false");
+        // Get all the courtCaseList where installmentAmount is greater than or equal to UPDATED_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.greaterThanOrEqual=" + UPDATED_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama is greater than or equal to DEFAULT_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.greaterThanOrEqual=" + DEFAULT_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is less than or equal to DEFAULT_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.lessThanOrEqual=" + DEFAULT_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where ekunJama is greater than or equal to UPDATED_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.greaterThanOrEqual=" + UPDATED_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is less than or equal to SMALLER_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.lessThanOrEqual=" + SMALLER_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama is less than or equal to DEFAULT_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.lessThanOrEqual=" + DEFAULT_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is less than DEFAULT_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.lessThan=" + DEFAULT_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where ekunJama is less than or equal to SMALLER_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.lessThanOrEqual=" + SMALLER_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is less than UPDATED_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.lessThan=" + UPDATED_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByInstallmentAmountIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama is less than DEFAULT_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.lessThan=" + DEFAULT_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is greater than DEFAULT_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldNotBeFound("installmentAmount.greaterThan=" + DEFAULT_INSTALLMENT_AMOUNT);
 
-        // Get all the courtCaseList where ekunJama is less than UPDATED_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.lessThan=" + UPDATED_EKUN_JAMA);
+        // Get all the courtCaseList where installmentAmount is greater than SMALLER_INSTALLMENT_AMOUNT
+        defaultCourtCaseShouldBeFound("installmentAmount.greaterThan=" + SMALLER_INSTALLMENT_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunJamaIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByTotalCreditIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunJama is greater than DEFAULT_EKUN_JAMA
-        defaultCourtCaseShouldNotBeFound("ekunJama.greaterThan=" + DEFAULT_EKUN_JAMA);
+        // Get all the courtCaseList where totalCredit equals to DEFAULT_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.equals=" + DEFAULT_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where ekunJama is greater than SMALLER_EKUN_JAMA
-        defaultCourtCaseShouldBeFound("ekunJama.greaterThan=" + SMALLER_EKUN_JAMA);
+        // Get all the courtCaseList where totalCredit equals to UPDATED_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.equals=" + UPDATED_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByTotalCreditIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki equals to DEFAULT_BAKI
-        defaultCourtCaseShouldBeFound("baki.equals=" + DEFAULT_BAKI);
+        // Get all the courtCaseList where totalCredit in DEFAULT_TOTAL_CREDIT or UPDATED_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.in=" + DEFAULT_TOTAL_CREDIT + "," + UPDATED_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where baki equals to UPDATED_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.equals=" + UPDATED_BAKI);
+        // Get all the courtCaseList where totalCredit equals to UPDATED_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.in=" + UPDATED_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsInShouldWork() throws Exception {
+    void getAllCourtCasesByTotalCreditIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki in DEFAULT_BAKI or UPDATED_BAKI
-        defaultCourtCaseShouldBeFound("baki.in=" + DEFAULT_BAKI + "," + UPDATED_BAKI);
+        // Get all the courtCaseList where totalCredit is not null
+        defaultCourtCaseShouldBeFound("totalCredit.specified=true");
 
-        // Get all the courtCaseList where baki equals to UPDATED_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.in=" + UPDATED_BAKI);
+        // Get all the courtCaseList where totalCredit is null
+        defaultCourtCaseShouldNotBeFound("totalCredit.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByTotalCreditIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki is not null
-        defaultCourtCaseShouldBeFound("baki.specified=true");
+        // Get all the courtCaseList where totalCredit is greater than or equal to DEFAULT_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.greaterThanOrEqual=" + DEFAULT_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where baki is null
-        defaultCourtCaseShouldNotBeFound("baki.specified=false");
+        // Get all the courtCaseList where totalCredit is greater than or equal to UPDATED_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.greaterThanOrEqual=" + UPDATED_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByTotalCreditIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki is greater than or equal to DEFAULT_BAKI
-        defaultCourtCaseShouldBeFound("baki.greaterThanOrEqual=" + DEFAULT_BAKI);
+        // Get all the courtCaseList where totalCredit is less than or equal to DEFAULT_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.lessThanOrEqual=" + DEFAULT_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where baki is greater than or equal to UPDATED_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.greaterThanOrEqual=" + UPDATED_BAKI);
+        // Get all the courtCaseList where totalCredit is less than or equal to SMALLER_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.lessThanOrEqual=" + SMALLER_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByTotalCreditIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki is less than or equal to DEFAULT_BAKI
-        defaultCourtCaseShouldBeFound("baki.lessThanOrEqual=" + DEFAULT_BAKI);
+        // Get all the courtCaseList where totalCredit is less than DEFAULT_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.lessThan=" + DEFAULT_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where baki is less than or equal to SMALLER_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.lessThanOrEqual=" + SMALLER_BAKI);
+        // Get all the courtCaseList where totalCredit is less than UPDATED_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.lessThan=" + UPDATED_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByTotalCreditIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki is less than DEFAULT_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.lessThan=" + DEFAULT_BAKI);
+        // Get all the courtCaseList where totalCredit is greater than DEFAULT_TOTAL_CREDIT
+        defaultCourtCaseShouldNotBeFound("totalCredit.greaterThan=" + DEFAULT_TOTAL_CREDIT);
 
-        // Get all the courtCaseList where baki is less than UPDATED_BAKI
-        defaultCourtCaseShouldBeFound("baki.lessThan=" + UPDATED_BAKI);
+        // Get all the courtCaseList where totalCredit is greater than SMALLER_TOTAL_CREDIT
+        defaultCourtCaseShouldBeFound("totalCredit.greaterThan=" + SMALLER_TOTAL_CREDIT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByBakiIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByBalanceIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where baki is greater than DEFAULT_BAKI
-        defaultCourtCaseShouldNotBeFound("baki.greaterThan=" + DEFAULT_BAKI);
+        // Get all the courtCaseList where balance equals to DEFAULT_BALANCE
+        defaultCourtCaseShouldBeFound("balance.equals=" + DEFAULT_BALANCE);
 
-        // Get all the courtCaseList where baki is greater than SMALLER_BAKI
-        defaultCourtCaseShouldBeFound("baki.greaterThan=" + SMALLER_BAKI);
+        // Get all the courtCaseList where balance equals to UPDATED_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.equals=" + UPDATED_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByArOfficeIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByBalanceIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where arOffice equals to DEFAULT_AR_OFFICE
-        defaultCourtCaseShouldBeFound("arOffice.equals=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseList where balance in DEFAULT_BALANCE or UPDATED_BALANCE
+        defaultCourtCaseShouldBeFound("balance.in=" + DEFAULT_BALANCE + "," + UPDATED_BALANCE);
 
-        // Get all the courtCaseList where arOffice equals to UPDATED_AR_OFFICE
-        defaultCourtCaseShouldNotBeFound("arOffice.equals=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseList where balance equals to UPDATED_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.in=" + UPDATED_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByArOfficeIsInShouldWork() throws Exception {
+    void getAllCourtCasesByBalanceIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where arOffice in DEFAULT_AR_OFFICE or UPDATED_AR_OFFICE
-        defaultCourtCaseShouldBeFound("arOffice.in=" + DEFAULT_AR_OFFICE + "," + UPDATED_AR_OFFICE);
+        // Get all the courtCaseList where balance is not null
+        defaultCourtCaseShouldBeFound("balance.specified=true");
 
-        // Get all the courtCaseList where arOffice equals to UPDATED_AR_OFFICE
-        defaultCourtCaseShouldNotBeFound("arOffice.in=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseList where balance is null
+        defaultCourtCaseShouldNotBeFound("balance.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByArOfficeIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByBalanceIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where arOffice is not null
-        defaultCourtCaseShouldBeFound("arOffice.specified=true");
+        // Get all the courtCaseList where balance is greater than or equal to DEFAULT_BALANCE
+        defaultCourtCaseShouldBeFound("balance.greaterThanOrEqual=" + DEFAULT_BALANCE);
 
-        // Get all the courtCaseList where arOffice is null
-        defaultCourtCaseShouldNotBeFound("arOffice.specified=false");
+        // Get all the courtCaseList where balance is greater than or equal to UPDATED_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.greaterThanOrEqual=" + UPDATED_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByArOfficeContainsSomething() throws Exception {
+    void getAllCourtCasesByBalanceIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where arOffice contains DEFAULT_AR_OFFICE
-        defaultCourtCaseShouldBeFound("arOffice.contains=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseList where balance is less than or equal to DEFAULT_BALANCE
+        defaultCourtCaseShouldBeFound("balance.lessThanOrEqual=" + DEFAULT_BALANCE);
 
-        // Get all the courtCaseList where arOffice contains UPDATED_AR_OFFICE
-        defaultCourtCaseShouldNotBeFound("arOffice.contains=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseList where balance is less than or equal to SMALLER_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.lessThanOrEqual=" + SMALLER_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByArOfficeNotContainsSomething() throws Exception {
+    void getAllCourtCasesByBalanceIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where arOffice does not contain DEFAULT_AR_OFFICE
-        defaultCourtCaseShouldNotBeFound("arOffice.doesNotContain=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseList where balance is less than DEFAULT_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.lessThan=" + DEFAULT_BALANCE);
 
-        // Get all the courtCaseList where arOffice does not contain UPDATED_AR_OFFICE
-        defaultCourtCaseShouldBeFound("arOffice.doesNotContain=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseList where balance is less than UPDATED_BALANCE
+        defaultCourtCaseShouldBeFound("balance.lessThan=" + UPDATED_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByBalanceIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj equals to DEFAULT_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.equals=" + DEFAULT_EKUN_VYAJ);
+        // Get all the courtCaseList where balance is greater than DEFAULT_BALANCE
+        defaultCourtCaseShouldNotBeFound("balance.greaterThan=" + DEFAULT_BALANCE);
 
-        // Get all the courtCaseList where ekunVyaj equals to UPDATED_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.equals=" + UPDATED_EKUN_VYAJ);
+        // Get all the courtCaseList where balance is greater than SMALLER_BALANCE
+        defaultCourtCaseShouldBeFound("balance.greaterThan=" + SMALLER_BALANCE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsInShouldWork() throws Exception {
+    void getAllCourtCasesByInterestPaidIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj in DEFAULT_EKUN_VYAJ or UPDATED_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.in=" + DEFAULT_EKUN_VYAJ + "," + UPDATED_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid equals to DEFAULT_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.equals=" + DEFAULT_INTEREST_PAID);
 
-        // Get all the courtCaseList where ekunVyaj equals to UPDATED_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.in=" + UPDATED_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid equals to UPDATED_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.equals=" + UPDATED_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByInterestPaidIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj is not null
-        defaultCourtCaseShouldBeFound("ekunVyaj.specified=true");
+        // Get all the courtCaseList where interestPaid in DEFAULT_INTEREST_PAID or UPDATED_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.in=" + DEFAULT_INTEREST_PAID + "," + UPDATED_INTEREST_PAID);
 
-        // Get all the courtCaseList where ekunVyaj is null
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.specified=false");
+        // Get all the courtCaseList where interestPaid equals to UPDATED_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.in=" + UPDATED_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestPaidIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj is greater than or equal to DEFAULT_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.greaterThanOrEqual=" + DEFAULT_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is not null
+        defaultCourtCaseShouldBeFound("interestPaid.specified=true");
 
-        // Get all the courtCaseList where ekunVyaj is greater than or equal to UPDATED_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.greaterThanOrEqual=" + UPDATED_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is null
+        defaultCourtCaseShouldNotBeFound("interestPaid.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestPaidIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj is less than or equal to DEFAULT_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.lessThanOrEqual=" + DEFAULT_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is greater than or equal to DEFAULT_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.greaterThanOrEqual=" + DEFAULT_INTEREST_PAID);
 
-        // Get all the courtCaseList where ekunVyaj is less than or equal to SMALLER_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.lessThanOrEqual=" + SMALLER_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is greater than or equal to UPDATED_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.greaterThanOrEqual=" + UPDATED_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByInterestPaidIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj is less than DEFAULT_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.lessThan=" + DEFAULT_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is less than or equal to DEFAULT_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.lessThanOrEqual=" + DEFAULT_INTEREST_PAID);
 
-        // Get all the courtCaseList where ekunVyaj is less than UPDATED_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.lessThan=" + UPDATED_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is less than or equal to SMALLER_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.lessThanOrEqual=" + SMALLER_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByEkunVyajIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByInterestPaidIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where ekunVyaj is greater than DEFAULT_EKUN_VYAJ
-        defaultCourtCaseShouldNotBeFound("ekunVyaj.greaterThan=" + DEFAULT_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is less than DEFAULT_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.lessThan=" + DEFAULT_INTEREST_PAID);
 
-        // Get all the courtCaseList where ekunVyaj is greater than SMALLER_EKUN_VYAJ
-        defaultCourtCaseShouldBeFound("ekunVyaj.greaterThan=" + SMALLER_EKUN_VYAJ);
+        // Get all the courtCaseList where interestPaid is less than UPDATED_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.lessThan=" + UPDATED_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestPaidIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj equals to DEFAULT_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.equals=" + DEFAULT_JAMA_VYAJ);
+        // Get all the courtCaseList where interestPaid is greater than DEFAULT_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("interestPaid.greaterThan=" + DEFAULT_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj equals to UPDATED_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.equals=" + UPDATED_JAMA_VYAJ);
+        // Get all the courtCaseList where interestPaid is greater than SMALLER_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("interestPaid.greaterThan=" + SMALLER_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsInShouldWork() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj in DEFAULT_JAMA_VYAJ or UPDATED_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.in=" + DEFAULT_JAMA_VYAJ + "," + UPDATED_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid equals to DEFAULT_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.equals=" + DEFAULT_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj equals to UPDATED_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.in=" + UPDATED_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid equals to UPDATED_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.equals=" + UPDATED_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj is not null
-        defaultCourtCaseShouldBeFound("jamaVyaj.specified=true");
+        // Get all the courtCaseList where penalInterestPaid in DEFAULT_PENAL_INTEREST_PAID or UPDATED_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.in=" + DEFAULT_PENAL_INTEREST_PAID + "," + UPDATED_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj is null
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.specified=false");
+        // Get all the courtCaseList where penalInterestPaid equals to UPDATED_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.in=" + UPDATED_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj is greater than or equal to DEFAULT_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.greaterThanOrEqual=" + DEFAULT_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is not null
+        defaultCourtCaseShouldBeFound("penalInterestPaid.specified=true");
 
-        // Get all the courtCaseList where jamaVyaj is greater than or equal to UPDATED_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.greaterThanOrEqual=" + UPDATED_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is null
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj is less than or equal to DEFAULT_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.lessThanOrEqual=" + DEFAULT_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is greater than or equal to DEFAULT_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.greaterThanOrEqual=" + DEFAULT_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj is less than or equal to SMALLER_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.lessThanOrEqual=" + SMALLER_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is greater than or equal to UPDATED_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.greaterThanOrEqual=" + UPDATED_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj is less than DEFAULT_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.lessThan=" + DEFAULT_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is less than or equal to DEFAULT_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.lessThanOrEqual=" + DEFAULT_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj is less than UPDATED_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.lessThan=" + UPDATED_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is less than or equal to SMALLER_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.lessThanOrEqual=" + SMALLER_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJamaVyajIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jamaVyaj is greater than DEFAULT_JAMA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jamaVyaj.greaterThan=" + DEFAULT_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is less than DEFAULT_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.lessThan=" + DEFAULT_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where jamaVyaj is greater than SMALLER_JAMA_VYAJ
-        defaultCourtCaseShouldBeFound("jamaVyaj.greaterThan=" + SMALLER_JAMA_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is less than UPDATED_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.lessThan=" + UPDATED_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByPenalInterestPaidIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj equals to DEFAULT_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.equals=" + DEFAULT_DAND_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is greater than DEFAULT_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldNotBeFound("penalInterestPaid.greaterThan=" + DEFAULT_PENAL_INTEREST_PAID);
 
-        // Get all the courtCaseList where dandVyaj equals to UPDATED_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.equals=" + UPDATED_DAND_VYAJ);
+        // Get all the courtCaseList where penalInterestPaid is greater than SMALLER_PENAL_INTEREST_PAID
+        defaultCourtCaseShouldBeFound("penalInterestPaid.greaterThan=" + SMALLER_PENAL_INTEREST_PAID);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj in DEFAULT_DAND_VYAJ or UPDATED_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.in=" + DEFAULT_DAND_VYAJ + "," + UPDATED_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount equals to DEFAULT_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.equals=" + DEFAULT_DUE_AMOUNT);
 
-        // Get all the courtCaseList where dandVyaj equals to UPDATED_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.in=" + UPDATED_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount equals to UPDATED_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.equals=" + UPDATED_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueAmountIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj is not null
-        defaultCourtCaseShouldBeFound("dandVyaj.specified=true");
+        // Get all the courtCaseList where dueAmount in DEFAULT_DUE_AMOUNT or UPDATED_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.in=" + DEFAULT_DUE_AMOUNT + "," + UPDATED_DUE_AMOUNT);
 
-        // Get all the courtCaseList where dandVyaj is null
-        defaultCourtCaseShouldNotBeFound("dandVyaj.specified=false");
+        // Get all the courtCaseList where dueAmount equals to UPDATED_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.in=" + UPDATED_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj is greater than or equal to DEFAULT_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.greaterThanOrEqual=" + DEFAULT_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is not null
+        defaultCourtCaseShouldBeFound("dueAmount.specified=true");
 
-        // Get all the courtCaseList where dandVyaj is greater than or equal to UPDATED_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.greaterThanOrEqual=" + UPDATED_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is null
+        defaultCourtCaseShouldNotBeFound("dueAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueAmountIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj is less than or equal to DEFAULT_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.lessThanOrEqual=" + DEFAULT_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is greater than or equal to DEFAULT_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.greaterThanOrEqual=" + DEFAULT_DUE_AMOUNT);
 
-        // Get all the courtCaseList where dandVyaj is less than or equal to SMALLER_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.lessThanOrEqual=" + SMALLER_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is greater than or equal to UPDATED_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.greaterThanOrEqual=" + UPDATED_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByDueAmountIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj is less than DEFAULT_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.lessThan=" + DEFAULT_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is less than or equal to DEFAULT_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.lessThanOrEqual=" + DEFAULT_DUE_AMOUNT);
 
-        // Get all the courtCaseList where dandVyaj is less than UPDATED_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.lessThan=" + UPDATED_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is less than or equal to SMALLER_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.lessThanOrEqual=" + SMALLER_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDandVyajIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByDueAmountIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dandVyaj is greater than DEFAULT_DAND_VYAJ
-        defaultCourtCaseShouldNotBeFound("dandVyaj.greaterThan=" + DEFAULT_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is less than DEFAULT_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.lessThan=" + DEFAULT_DUE_AMOUNT);
 
-        // Get all the courtCaseList where dandVyaj is greater than SMALLER_DAND_VYAJ
-        defaultCourtCaseShouldBeFound("dandVyaj.greaterThan=" + SMALLER_DAND_VYAJ);
+        // Get all the courtCaseList where dueAmount is less than UPDATED_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.lessThan=" + UPDATED_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueAmountIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam equals to DEFAULT_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.equals=" + DEFAULT_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueAmount is greater than DEFAULT_DUE_AMOUNT
+        defaultCourtCaseShouldNotBeFound("dueAmount.greaterThan=" + DEFAULT_DUE_AMOUNT);
 
-        // Get all the courtCaseList where karjRakkam equals to UPDATED_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.equals=" + UPDATED_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueAmount is greater than SMALLER_DUE_AMOUNT
+        defaultCourtCaseShouldBeFound("dueAmount.greaterThan=" + SMALLER_DUE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueDateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam in DEFAULT_KARJ_RAKKAM or UPDATED_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.in=" + DEFAULT_KARJ_RAKKAM + "," + UPDATED_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate equals to DEFAULT_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.equals=" + DEFAULT_DUE_DATE);
 
-        // Get all the courtCaseList where karjRakkam equals to UPDATED_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.in=" + UPDATED_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate equals to UPDATED_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.equals=" + UPDATED_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueDateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam is not null
-        defaultCourtCaseShouldBeFound("karjRakkam.specified=true");
+        // Get all the courtCaseList where dueDate in DEFAULT_DUE_DATE or UPDATED_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.in=" + DEFAULT_DUE_DATE + "," + UPDATED_DUE_DATE);
 
-        // Get all the courtCaseList where karjRakkam is null
-        defaultCourtCaseShouldNotBeFound("karjRakkam.specified=false");
+        // Get all the courtCaseList where dueDate equals to UPDATED_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.in=" + UPDATED_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam is greater than or equal to DEFAULT_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.greaterThanOrEqual=" + DEFAULT_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is not null
+        defaultCourtCaseShouldBeFound("dueDate.specified=true");
 
-        // Get all the courtCaseList where karjRakkam is greater than or equal to UPDATED_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.greaterThanOrEqual=" + UPDATED_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is null
+        defaultCourtCaseShouldNotBeFound("dueDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam is less than or equal to DEFAULT_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.lessThanOrEqual=" + DEFAULT_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is greater than or equal to DEFAULT_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.greaterThanOrEqual=" + DEFAULT_DUE_DATE);
 
-        // Get all the courtCaseList where karjRakkam is less than or equal to SMALLER_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.lessThanOrEqual=" + SMALLER_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is greater than or equal to UPDATED_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.greaterThanOrEqual=" + UPDATED_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByDueDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam is less than DEFAULT_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.lessThan=" + DEFAULT_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is less than or equal to DEFAULT_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.lessThanOrEqual=" + DEFAULT_DUE_DATE);
 
-        // Get all the courtCaseList where karjRakkam is less than UPDATED_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.lessThan=" + UPDATED_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is less than or equal to SMALLER_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.lessThanOrEqual=" + SMALLER_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjRakkamIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByDueDateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjRakkam is greater than DEFAULT_KARJ_RAKKAM
-        defaultCourtCaseShouldNotBeFound("karjRakkam.greaterThan=" + DEFAULT_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is less than DEFAULT_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.lessThan=" + DEFAULT_DUE_DATE);
 
-        // Get all the courtCaseList where karjRakkam is greater than SMALLER_KARJ_RAKKAM
-        defaultCourtCaseShouldBeFound("karjRakkam.greaterThan=" + SMALLER_KARJ_RAKKAM);
+        // Get all the courtCaseList where dueDate is less than UPDATED_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.lessThan=" + UPDATED_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByThakDinnankIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where thakDinnank equals to DEFAULT_THAK_DINNANK
-        defaultCourtCaseShouldBeFound("thakDinnank.equals=" + DEFAULT_THAK_DINNANK);
+        // Get all the courtCaseList where dueDate is greater than DEFAULT_DUE_DATE
+        defaultCourtCaseShouldNotBeFound("dueDate.greaterThan=" + DEFAULT_DUE_DATE);
 
-        // Get all the courtCaseList where thakDinnank equals to UPDATED_THAK_DINNANK
-        defaultCourtCaseShouldNotBeFound("thakDinnank.equals=" + UPDATED_THAK_DINNANK);
+        // Get all the courtCaseList where dueDate is greater than SMALLER_DUE_DATE
+        defaultCourtCaseShouldBeFound("dueDate.greaterThan=" + SMALLER_DUE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByThakDinnankIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueInterestIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where thakDinnank in DEFAULT_THAK_DINNANK or UPDATED_THAK_DINNANK
-        defaultCourtCaseShouldBeFound("thakDinnank.in=" + DEFAULT_THAK_DINNANK + "," + UPDATED_THAK_DINNANK);
+        // Get all the courtCaseList where dueInterest equals to DEFAULT_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.equals=" + DEFAULT_DUE_INTEREST);
 
-        // Get all the courtCaseList where thakDinnank equals to UPDATED_THAK_DINNANK
-        defaultCourtCaseShouldNotBeFound("thakDinnank.in=" + UPDATED_THAK_DINNANK);
+        // Get all the courtCaseList where dueInterest equals to UPDATED_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.equals=" + UPDATED_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByThakDinnankIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueInterestIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where thakDinnank is not null
-        defaultCourtCaseShouldBeFound("thakDinnank.specified=true");
+        // Get all the courtCaseList where dueInterest in DEFAULT_DUE_INTEREST or UPDATED_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.in=" + DEFAULT_DUE_INTEREST + "," + UPDATED_DUE_INTEREST);
 
-        // Get all the courtCaseList where thakDinnank is null
-        defaultCourtCaseShouldNotBeFound("thakDinnank.specified=false");
+        // Get all the courtCaseList where dueInterest equals to UPDATED_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.in=" + UPDATED_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjDinnankIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueInterestIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjDinnank equals to DEFAULT_KARJ_DINNANK
-        defaultCourtCaseShouldBeFound("karjDinnank.equals=" + DEFAULT_KARJ_DINNANK);
+        // Get all the courtCaseList where dueInterest is not null
+        defaultCourtCaseShouldBeFound("dueInterest.specified=true");
 
-        // Get all the courtCaseList where karjDinnank equals to UPDATED_KARJ_DINNANK
-        defaultCourtCaseShouldNotBeFound("karjDinnank.equals=" + UPDATED_KARJ_DINNANK);
+        // Get all the courtCaseList where dueInterest is null
+        defaultCourtCaseShouldNotBeFound("dueInterest.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjDinnankIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueInterestIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjDinnank in DEFAULT_KARJ_DINNANK or UPDATED_KARJ_DINNANK
-        defaultCourtCaseShouldBeFound("karjDinnank.in=" + DEFAULT_KARJ_DINNANK + "," + UPDATED_KARJ_DINNANK);
+        // Get all the courtCaseList where dueInterest is greater than or equal to DEFAULT_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.greaterThanOrEqual=" + DEFAULT_DUE_INTEREST);
 
-        // Get all the courtCaseList where karjDinnank equals to UPDATED_KARJ_DINNANK
-        defaultCourtCaseShouldNotBeFound("karjDinnank.in=" + UPDATED_KARJ_DINNANK);
+        // Get all the courtCaseList where dueInterest is greater than or equal to UPDATED_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.greaterThanOrEqual=" + UPDATED_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByKarjDinnankIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueInterestIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where karjDinnank is not null
-        defaultCourtCaseShouldBeFound("karjDinnank.specified=true");
+        // Get all the courtCaseList where dueInterest is less than or equal to DEFAULT_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.lessThanOrEqual=" + DEFAULT_DUE_INTEREST);
 
-        // Get all the courtCaseList where karjDinnank is null
-        defaultCourtCaseShouldNotBeFound("karjDinnank.specified=false");
+        // Get all the courtCaseList where dueInterest is less than or equal to SMALLER_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.lessThanOrEqual=" + SMALLER_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatSampteDinankIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueInterestIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudatSampteDinank equals to DEFAULT_MUDAT_SAMPTE_DINANK
-        defaultCourtCaseShouldBeFound("mudatSampteDinank.equals=" + DEFAULT_MUDAT_SAMPTE_DINANK);
+        // Get all the courtCaseList where dueInterest is less than DEFAULT_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.lessThan=" + DEFAULT_DUE_INTEREST);
 
-        // Get all the courtCaseList where mudatSampteDinank equals to UPDATED_MUDAT_SAMPTE_DINANK
-        defaultCourtCaseShouldNotBeFound("mudatSampteDinank.equals=" + UPDATED_MUDAT_SAMPTE_DINANK);
+        // Get all the courtCaseList where dueInterest is less than UPDATED_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.lessThan=" + UPDATED_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatSampteDinankIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueInterestIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudatSampteDinank in DEFAULT_MUDAT_SAMPTE_DINANK or UPDATED_MUDAT_SAMPTE_DINANK
-        defaultCourtCaseShouldBeFound("mudatSampteDinank.in=" + DEFAULT_MUDAT_SAMPTE_DINANK + "," + UPDATED_MUDAT_SAMPTE_DINANK);
+        // Get all the courtCaseList where dueInterest is greater than DEFAULT_DUE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueInterest.greaterThan=" + DEFAULT_DUE_INTEREST);
 
-        // Get all the courtCaseList where mudatSampteDinank equals to UPDATED_MUDAT_SAMPTE_DINANK
-        defaultCourtCaseShouldNotBeFound("mudatSampteDinank.in=" + UPDATED_MUDAT_SAMPTE_DINANK);
+        // Get all the courtCaseList where dueInterest is greater than SMALLER_DUE_INTEREST
+        defaultCourtCaseShouldBeFound("dueInterest.greaterThan=" + SMALLER_DUE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatSampteDinankIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudatSampteDinank is not null
-        defaultCourtCaseShouldBeFound("mudatSampteDinank.specified=true");
+        // Get all the courtCaseList where duePenalInterest equals to DEFAULT_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.equals=" + DEFAULT_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where mudatSampteDinank is null
-        defaultCourtCaseShouldNotBeFound("mudatSampteDinank.specified=false");
+        // Get all the courtCaseList where duePenalInterest equals to UPDATED_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.equals=" + UPDATED_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudat equals to DEFAULT_MUDAT
-        defaultCourtCaseShouldBeFound("mudat.equals=" + DEFAULT_MUDAT);
+        // Get all the courtCaseList where duePenalInterest in DEFAULT_DUE_PENAL_INTEREST or UPDATED_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.in=" + DEFAULT_DUE_PENAL_INTEREST + "," + UPDATED_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where mudat equals to UPDATED_MUDAT
-        defaultCourtCaseShouldNotBeFound("mudat.equals=" + UPDATED_MUDAT);
+        // Get all the courtCaseList where duePenalInterest equals to UPDATED_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.in=" + UPDATED_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudat in DEFAULT_MUDAT or UPDATED_MUDAT
-        defaultCourtCaseShouldBeFound("mudat.in=" + DEFAULT_MUDAT + "," + UPDATED_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is not null
+        defaultCourtCaseShouldBeFound("duePenalInterest.specified=true");
 
-        // Get all the courtCaseList where mudat equals to UPDATED_MUDAT
-        defaultCourtCaseShouldNotBeFound("mudat.in=" + UPDATED_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is null
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudat is not null
-        defaultCourtCaseShouldBeFound("mudat.specified=true");
+        // Get all the courtCaseList where duePenalInterest is greater than or equal to DEFAULT_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.greaterThanOrEqual=" + DEFAULT_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where mudat is null
-        defaultCourtCaseShouldNotBeFound("mudat.specified=false");
+        // Get all the courtCaseList where duePenalInterest is greater than or equal to UPDATED_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.greaterThanOrEqual=" + UPDATED_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatContainsSomething() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudat contains DEFAULT_MUDAT
-        defaultCourtCaseShouldBeFound("mudat.contains=" + DEFAULT_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is less than or equal to DEFAULT_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.lessThanOrEqual=" + DEFAULT_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where mudat contains UPDATED_MUDAT
-        defaultCourtCaseShouldNotBeFound("mudat.contains=" + UPDATED_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is less than or equal to SMALLER_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.lessThanOrEqual=" + SMALLER_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByMudatNotContainsSomething() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where mudat does not contain DEFAULT_MUDAT
-        defaultCourtCaseShouldNotBeFound("mudat.doesNotContain=" + DEFAULT_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is less than DEFAULT_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.lessThan=" + DEFAULT_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where mudat does not contain UPDATED_MUDAT
-        defaultCourtCaseShouldBeFound("mudat.doesNotContain=" + UPDATED_MUDAT);
+        // Get all the courtCaseList where duePenalInterest is less than UPDATED_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.lessThan=" + UPDATED_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDuePenalInterestIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyaj equals to DEFAULT_VYAJ
-        defaultCourtCaseShouldBeFound("vyaj.equals=" + DEFAULT_VYAJ);
+        // Get all the courtCaseList where duePenalInterest is greater than DEFAULT_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldNotBeFound("duePenalInterest.greaterThan=" + DEFAULT_DUE_PENAL_INTEREST);
 
-        // Get all the courtCaseList where vyaj equals to UPDATED_VYAJ
-        defaultCourtCaseShouldNotBeFound("vyaj.equals=" + UPDATED_VYAJ);
+        // Get all the courtCaseList where duePenalInterest is greater than SMALLER_DUE_PENAL_INTEREST
+        defaultCourtCaseShouldBeFound("duePenalInterest.greaterThan=" + SMALLER_DUE_PENAL_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyaj in DEFAULT_VYAJ or UPDATED_VYAJ
-        defaultCourtCaseShouldBeFound("vyaj.in=" + DEFAULT_VYAJ + "," + UPDATED_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest equals to DEFAULT_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.equals=" + DEFAULT_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where vyaj equals to UPDATED_VYAJ
-        defaultCourtCaseShouldNotBeFound("vyaj.in=" + UPDATED_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest equals to UPDATED_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.equals=" + UPDATED_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyaj is not null
-        defaultCourtCaseShouldBeFound("vyaj.specified=true");
+        // Get all the courtCaseList where dueMoreInterest in DEFAULT_DUE_MORE_INTEREST or UPDATED_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.in=" + DEFAULT_DUE_MORE_INTEREST + "," + UPDATED_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where vyaj is null
-        defaultCourtCaseShouldNotBeFound("vyaj.specified=false");
+        // Get all the courtCaseList where dueMoreInterest equals to UPDATED_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.in=" + UPDATED_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajContainsSomething() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyaj contains DEFAULT_VYAJ
-        defaultCourtCaseShouldBeFound("vyaj.contains=" + DEFAULT_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest is not null
+        defaultCourtCaseShouldBeFound("dueMoreInterest.specified=true");
 
-        // Get all the courtCaseList where vyaj contains UPDATED_VYAJ
-        defaultCourtCaseShouldNotBeFound("vyaj.contains=" + UPDATED_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest is null
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajNotContainsSomething() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyaj does not contain DEFAULT_VYAJ
-        defaultCourtCaseShouldNotBeFound("vyaj.doesNotContain=" + DEFAULT_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest is greater than or equal to DEFAULT_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.greaterThanOrEqual=" + DEFAULT_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where vyaj does not contain UPDATED_VYAJ
-        defaultCourtCaseShouldBeFound("vyaj.doesNotContain=" + UPDATED_VYAJ);
+        // Get all the courtCaseList where dueMoreInterest is greater than or equal to UPDATED_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.greaterThanOrEqual=" + UPDATED_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam equals to DEFAULT_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.equals=" + DEFAULT_HAPTA_RAKKAM);
+        // Get all the courtCaseList where dueMoreInterest is less than or equal to DEFAULT_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.lessThanOrEqual=" + DEFAULT_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where haptaRakkam equals to UPDATED_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.equals=" + UPDATED_HAPTA_RAKKAM);
+        // Get all the courtCaseList where dueMoreInterest is less than or equal to SMALLER_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.lessThanOrEqual=" + SMALLER_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsInShouldWork() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam in DEFAULT_HAPTA_RAKKAM or UPDATED_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.in=" + DEFAULT_HAPTA_RAKKAM + "," + UPDATED_HAPTA_RAKKAM);
+        // Get all the courtCaseList where dueMoreInterest is less than DEFAULT_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.lessThan=" + DEFAULT_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where haptaRakkam equals to UPDATED_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.in=" + UPDATED_HAPTA_RAKKAM);
+        // Get all the courtCaseList where dueMoreInterest is less than UPDATED_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.lessThan=" + UPDATED_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByDueMoreInterestIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam is not null
-        defaultCourtCaseShouldBeFound("haptaRakkam.specified=true");
+        // Get all the courtCaseList where dueMoreInterest is greater than DEFAULT_DUE_MORE_INTEREST
+        defaultCourtCaseShouldNotBeFound("dueMoreInterest.greaterThan=" + DEFAULT_DUE_MORE_INTEREST);
 
-        // Get all the courtCaseList where haptaRakkam is null
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.specified=false");
+        // Get all the courtCaseList where dueMoreInterest is greater than SMALLER_DUE_MORE_INTEREST
+        defaultCourtCaseShouldBeFound("dueMoreInterest.greaterThan=" + SMALLER_DUE_MORE_INTEREST);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam is greater than or equal to DEFAULT_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.greaterThanOrEqual=" + DEFAULT_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable equals to DEFAULT_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.equals=" + DEFAULT_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where haptaRakkam is greater than or equal to UPDATED_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.greaterThanOrEqual=" + UPDATED_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable equals to UPDATED_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.equals=" + UPDATED_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam is less than or equal to DEFAULT_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.lessThanOrEqual=" + DEFAULT_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable in DEFAULT_INTEREST_RECIVABLE or UPDATED_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.in=" + DEFAULT_INTEREST_RECIVABLE + "," + UPDATED_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where haptaRakkam is less than or equal to SMALLER_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.lessThanOrEqual=" + SMALLER_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable equals to UPDATED_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.in=" + UPDATED_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam is less than DEFAULT_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.lessThan=" + DEFAULT_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable is not null
+        defaultCourtCaseShouldBeFound("interestRecivable.specified=true");
 
-        // Get all the courtCaseList where haptaRakkam is less than UPDATED_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.lessThan=" + UPDATED_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable is null
+        defaultCourtCaseShouldNotBeFound("interestRecivable.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByHaptaRakkamIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where haptaRakkam is greater than DEFAULT_HAPTA_RAKKAM
-        defaultCourtCaseShouldNotBeFound("haptaRakkam.greaterThan=" + DEFAULT_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable is greater than or equal to DEFAULT_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.greaterThanOrEqual=" + DEFAULT_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where haptaRakkam is greater than SMALLER_HAPTA_RAKKAM
-        defaultCourtCaseShouldBeFound("haptaRakkam.greaterThan=" + SMALLER_HAPTA_RAKKAM);
+        // Get all the courtCaseList where interestRecivable is greater than or equal to UPDATED_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.greaterThanOrEqual=" + UPDATED_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByShakhaVevsthapakIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where shakhaVevsthapak equals to DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldBeFound("shakhaVevsthapak.equals=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where interestRecivable is less than or equal to DEFAULT_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.lessThanOrEqual=" + DEFAULT_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where shakhaVevsthapak equals to UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldNotBeFound("shakhaVevsthapak.equals=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where interestRecivable is less than or equal to SMALLER_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.lessThanOrEqual=" + SMALLER_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByShakhaVevsthapakIsInShouldWork() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where shakhaVevsthapak in DEFAULT_SHAKHA_VEVSTHAPAK or UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldBeFound("shakhaVevsthapak.in=" + DEFAULT_SHAKHA_VEVSTHAPAK + "," + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where interestRecivable is less than DEFAULT_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.lessThan=" + DEFAULT_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where shakhaVevsthapak equals to UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldNotBeFound("shakhaVevsthapak.in=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where interestRecivable is less than UPDATED_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.lessThan=" + UPDATED_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByShakhaVevsthapakIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByInterestRecivableIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where shakhaVevsthapak is not null
-        defaultCourtCaseShouldBeFound("shakhaVevsthapak.specified=true");
+        // Get all the courtCaseList where interestRecivable is greater than DEFAULT_INTEREST_RECIVABLE
+        defaultCourtCaseShouldNotBeFound("interestRecivable.greaterThan=" + DEFAULT_INTEREST_RECIVABLE);
 
-        // Get all the courtCaseList where shakhaVevsthapak is null
-        defaultCourtCaseShouldNotBeFound("shakhaVevsthapak.specified=false");
+        // Get all the courtCaseList where interestRecivable is greater than SMALLER_INTEREST_RECIVABLE
+        defaultCourtCaseShouldBeFound("interestRecivable.greaterThan=" + SMALLER_INTEREST_RECIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByShakhaVevsthapakContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where shakhaVevsthapak contains DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldBeFound("shakhaVevsthapak.contains=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where gaurentorOne equals to DEFAULT_GAURENTOR_ONE
+        defaultCourtCaseShouldBeFound("gaurentorOne.equals=" + DEFAULT_GAURENTOR_ONE);
 
-        // Get all the courtCaseList where shakhaVevsthapak contains UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldNotBeFound("shakhaVevsthapak.contains=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where gaurentorOne equals to UPDATED_GAURENTOR_ONE
+        defaultCourtCaseShouldNotBeFound("gaurentorOne.equals=" + UPDATED_GAURENTOR_ONE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByShakhaVevsthapakNotContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where shakhaVevsthapak does not contain DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldNotBeFound("shakhaVevsthapak.doesNotContain=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where gaurentorOne in DEFAULT_GAURENTOR_ONE or UPDATED_GAURENTOR_ONE
+        defaultCourtCaseShouldBeFound("gaurentorOne.in=" + DEFAULT_GAURENTOR_ONE + "," + UPDATED_GAURENTOR_ONE);
 
-        // Get all the courtCaseList where shakhaVevsthapak does not contain UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseShouldBeFound("shakhaVevsthapak.doesNotContain=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseList where gaurentorOne equals to UPDATED_GAURENTOR_ONE
+        defaultCourtCaseShouldNotBeFound("gaurentorOne.in=" + UPDATED_GAURENTOR_ONE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySuchakIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where suchak equals to DEFAULT_SUCHAK
-        defaultCourtCaseShouldBeFound("suchak.equals=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseList where gaurentorOne is not null
+        defaultCourtCaseShouldBeFound("gaurentorOne.specified=true");
 
-        // Get all the courtCaseList where suchak equals to UPDATED_SUCHAK
-        defaultCourtCaseShouldNotBeFound("suchak.equals=" + UPDATED_SUCHAK);
+        // Get all the courtCaseList where gaurentorOne is null
+        defaultCourtCaseShouldNotBeFound("gaurentorOne.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySuchakIsInShouldWork() throws Exception {
+    void getAllCourtCasesByGaurentorOneContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where suchak in DEFAULT_SUCHAK or UPDATED_SUCHAK
-        defaultCourtCaseShouldBeFound("suchak.in=" + DEFAULT_SUCHAK + "," + UPDATED_SUCHAK);
+        // Get all the courtCaseList where gaurentorOne contains DEFAULT_GAURENTOR_ONE
+        defaultCourtCaseShouldBeFound("gaurentorOne.contains=" + DEFAULT_GAURENTOR_ONE);
 
-        // Get all the courtCaseList where suchak equals to UPDATED_SUCHAK
-        defaultCourtCaseShouldNotBeFound("suchak.in=" + UPDATED_SUCHAK);
+        // Get all the courtCaseList where gaurentorOne contains UPDATED_GAURENTOR_ONE
+        defaultCourtCaseShouldNotBeFound("gaurentorOne.contains=" + UPDATED_GAURENTOR_ONE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySuchakIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByGaurentorOneNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where suchak is not null
-        defaultCourtCaseShouldBeFound("suchak.specified=true");
+        // Get all the courtCaseList where gaurentorOne does not contain DEFAULT_GAURENTOR_ONE
+        defaultCourtCaseShouldNotBeFound("gaurentorOne.doesNotContain=" + DEFAULT_GAURENTOR_ONE);
 
-        // Get all the courtCaseList where suchak is null
-        defaultCourtCaseShouldNotBeFound("suchak.specified=false");
+        // Get all the courtCaseList where gaurentorOne does not contain UPDATED_GAURENTOR_ONE
+        defaultCourtCaseShouldBeFound("gaurentorOne.doesNotContain=" + UPDATED_GAURENTOR_ONE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySuchakContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneAddressIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where suchak contains DEFAULT_SUCHAK
-        defaultCourtCaseShouldBeFound("suchak.contains=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseList where gaurentorOneAddress equals to DEFAULT_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorOneAddress.equals=" + DEFAULT_GAURENTOR_ONE_ADDRESS);
 
-        // Get all the courtCaseList where suchak contains UPDATED_SUCHAK
-        defaultCourtCaseShouldNotBeFound("suchak.contains=" + UPDATED_SUCHAK);
+        // Get all the courtCaseList where gaurentorOneAddress equals to UPDATED_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorOneAddress.equals=" + UPDATED_GAURENTOR_ONE_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySuchakNotContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneAddressIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where suchak does not contain DEFAULT_SUCHAK
-        defaultCourtCaseShouldNotBeFound("suchak.doesNotContain=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseList where gaurentorOneAddress in DEFAULT_GAURENTOR_ONE_ADDRESS or UPDATED_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorOneAddress.in=" + DEFAULT_GAURENTOR_ONE_ADDRESS + "," + UPDATED_GAURENTOR_ONE_ADDRESS);
 
-        // Get all the courtCaseList where suchak does not contain UPDATED_SUCHAK
-        defaultCourtCaseShouldBeFound("suchak.doesNotContain=" + UPDATED_SUCHAK);
+        // Get all the courtCaseList where gaurentorOneAddress equals to UPDATED_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorOneAddress.in=" + UPDATED_GAURENTOR_ONE_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByAnumodakIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorOneAddressIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where anumodak equals to DEFAULT_ANUMODAK
-        defaultCourtCaseShouldBeFound("anumodak.equals=" + DEFAULT_ANUMODAK);
+        // Get all the courtCaseList where gaurentorOneAddress is not null
+        defaultCourtCaseShouldBeFound("gaurentorOneAddress.specified=true");
 
-        // Get all the courtCaseList where anumodak equals to UPDATED_ANUMODAK
-        defaultCourtCaseShouldNotBeFound("anumodak.equals=" + UPDATED_ANUMODAK);
+        // Get all the courtCaseList where gaurentorOneAddress is null
+        defaultCourtCaseShouldNotBeFound("gaurentorOneAddress.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByAnumodakIsInShouldWork() throws Exception {
+    void getAllCourtCasesByGaurentorOneAddressContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where anumodak in DEFAULT_ANUMODAK or UPDATED_ANUMODAK
-        defaultCourtCaseShouldBeFound("anumodak.in=" + DEFAULT_ANUMODAK + "," + UPDATED_ANUMODAK);
+        // Get all the courtCaseList where gaurentorOneAddress contains DEFAULT_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorOneAddress.contains=" + DEFAULT_GAURENTOR_ONE_ADDRESS);
 
-        // Get all the courtCaseList where anumodak equals to UPDATED_ANUMODAK
-        defaultCourtCaseShouldNotBeFound("anumodak.in=" + UPDATED_ANUMODAK);
+        // Get all the courtCaseList where gaurentorOneAddress contains UPDATED_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorOneAddress.contains=" + UPDATED_GAURENTOR_ONE_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByAnumodakIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByGaurentorOneAddressNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where anumodak is not null
-        defaultCourtCaseShouldBeFound("anumodak.specified=true");
+        // Get all the courtCaseList where gaurentorOneAddress does not contain DEFAULT_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorOneAddress.doesNotContain=" + DEFAULT_GAURENTOR_ONE_ADDRESS);
 
-        // Get all the courtCaseList where anumodak is null
-        defaultCourtCaseShouldNotBeFound("anumodak.specified=false");
+        // Get all the courtCaseList where gaurentorOneAddress does not contain UPDATED_GAURENTOR_ONE_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorOneAddress.doesNotContain=" + UPDATED_GAURENTOR_ONE_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByAnumodakContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where anumodak contains DEFAULT_ANUMODAK
-        defaultCourtCaseShouldBeFound("anumodak.contains=" + DEFAULT_ANUMODAK);
+        // Get all the courtCaseList where gaurentorTwo equals to DEFAULT_GAURENTOR_TWO
+        defaultCourtCaseShouldBeFound("gaurentorTwo.equals=" + DEFAULT_GAURENTOR_TWO);
 
-        // Get all the courtCaseList where anumodak contains UPDATED_ANUMODAK
-        defaultCourtCaseShouldNotBeFound("anumodak.contains=" + UPDATED_ANUMODAK);
+        // Get all the courtCaseList where gaurentorTwo equals to UPDATED_GAURENTOR_TWO
+        defaultCourtCaseShouldNotBeFound("gaurentorTwo.equals=" + UPDATED_GAURENTOR_TWO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByAnumodakNotContainsSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where anumodak does not contain DEFAULT_ANUMODAK
-        defaultCourtCaseShouldNotBeFound("anumodak.doesNotContain=" + DEFAULT_ANUMODAK);
+        // Get all the courtCaseList where gaurentorTwo in DEFAULT_GAURENTOR_TWO or UPDATED_GAURENTOR_TWO
+        defaultCourtCaseShouldBeFound("gaurentorTwo.in=" + DEFAULT_GAURENTOR_TWO + "," + UPDATED_GAURENTOR_TWO);
 
-        // Get all the courtCaseList where anumodak does not contain UPDATED_ANUMODAK
-        defaultCourtCaseShouldBeFound("anumodak.doesNotContain=" + UPDATED_ANUMODAK);
+        // Get all the courtCaseList where gaurentorTwo equals to UPDATED_GAURENTOR_TWO
+        defaultCourtCaseShouldNotBeFound("gaurentorTwo.in=" + UPDATED_GAURENTOR_TWO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava equals to DEFAULT_DAVA
-        defaultCourtCaseShouldBeFound("dava.equals=" + DEFAULT_DAVA);
+        // Get all the courtCaseList where gaurentorTwo is not null
+        defaultCourtCaseShouldBeFound("gaurentorTwo.specified=true");
 
-        // Get all the courtCaseList where dava equals to UPDATED_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.equals=" + UPDATED_DAVA);
+        // Get all the courtCaseList where gaurentorTwo is null
+        defaultCourtCaseShouldNotBeFound("gaurentorTwo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsInShouldWork() throws Exception {
+    void getAllCourtCasesByGaurentorTwoContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava in DEFAULT_DAVA or UPDATED_DAVA
-        defaultCourtCaseShouldBeFound("dava.in=" + DEFAULT_DAVA + "," + UPDATED_DAVA);
+        // Get all the courtCaseList where gaurentorTwo contains DEFAULT_GAURENTOR_TWO
+        defaultCourtCaseShouldBeFound("gaurentorTwo.contains=" + DEFAULT_GAURENTOR_TWO);
 
-        // Get all the courtCaseList where dava equals to UPDATED_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.in=" + UPDATED_DAVA);
+        // Get all the courtCaseList where gaurentorTwo contains UPDATED_GAURENTOR_TWO
+        defaultCourtCaseShouldNotBeFound("gaurentorTwo.contains=" + UPDATED_GAURENTOR_TWO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByGaurentorTwoNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava is not null
-        defaultCourtCaseShouldBeFound("dava.specified=true");
+        // Get all the courtCaseList where gaurentorTwo does not contain DEFAULT_GAURENTOR_TWO
+        defaultCourtCaseShouldNotBeFound("gaurentorTwo.doesNotContain=" + DEFAULT_GAURENTOR_TWO);
 
-        // Get all the courtCaseList where dava is null
-        defaultCourtCaseShouldNotBeFound("dava.specified=false");
+        // Get all the courtCaseList where gaurentorTwo does not contain UPDATED_GAURENTOR_TWO
+        defaultCourtCaseShouldBeFound("gaurentorTwo.doesNotContain=" + UPDATED_GAURENTOR_TWO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoAddressIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava is greater than or equal to DEFAULT_DAVA
-        defaultCourtCaseShouldBeFound("dava.greaterThanOrEqual=" + DEFAULT_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress equals to DEFAULT_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorTwoAddress.equals=" + DEFAULT_GAURENTOR_TWO_ADDRESS);
 
-        // Get all the courtCaseList where dava is greater than or equal to UPDATED_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.greaterThanOrEqual=" + UPDATED_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress equals to UPDATED_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorTwoAddress.equals=" + UPDATED_GAURENTOR_TWO_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoAddressIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava is less than or equal to DEFAULT_DAVA
-        defaultCourtCaseShouldBeFound("dava.lessThanOrEqual=" + DEFAULT_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress in DEFAULT_GAURENTOR_TWO_ADDRESS or UPDATED_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorTwoAddress.in=" + DEFAULT_GAURENTOR_TWO_ADDRESS + "," + UPDATED_GAURENTOR_TWO_ADDRESS);
 
-        // Get all the courtCaseList where dava is less than or equal to SMALLER_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.lessThanOrEqual=" + SMALLER_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress equals to UPDATED_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorTwoAddress.in=" + UPDATED_GAURENTOR_TWO_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoAddressIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava is less than DEFAULT_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.lessThan=" + DEFAULT_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress is not null
+        defaultCourtCaseShouldBeFound("gaurentorTwoAddress.specified=true");
 
-        // Get all the courtCaseList where dava is less than UPDATED_DAVA
-        defaultCourtCaseShouldBeFound("dava.lessThan=" + UPDATED_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress is null
+        defaultCourtCaseShouldNotBeFound("gaurentorTwoAddress.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByDavaIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoAddressContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where dava is greater than DEFAULT_DAVA
-        defaultCourtCaseShouldNotBeFound("dava.greaterThan=" + DEFAULT_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress contains DEFAULT_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorTwoAddress.contains=" + DEFAULT_GAURENTOR_TWO_ADDRESS);
 
-        // Get all the courtCaseList where dava is greater than SMALLER_DAVA
-        defaultCourtCaseShouldBeFound("dava.greaterThan=" + SMALLER_DAVA);
+        // Get all the courtCaseList where gaurentorTwoAddress contains UPDATED_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorTwoAddress.contains=" + UPDATED_GAURENTOR_TWO_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByGaurentorTwoAddressNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar equals to DEFAULT_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.equals=" + DEFAULT_VYAJ_DAR);
+        // Get all the courtCaseList where gaurentorTwoAddress does not contain DEFAULT_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldNotBeFound("gaurentorTwoAddress.doesNotContain=" + DEFAULT_GAURENTOR_TWO_ADDRESS);
 
-        // Get all the courtCaseList where vyajDar equals to UPDATED_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.equals=" + UPDATED_VYAJ_DAR);
+        // Get all the courtCaseList where gaurentorTwoAddress does not contain UPDATED_GAURENTOR_TWO_ADDRESS
+        defaultCourtCaseShouldBeFound("gaurentorTwoAddress.doesNotContain=" + UPDATED_GAURENTOR_TWO_ADDRESS);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsInShouldWork() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar in DEFAULT_VYAJ_DAR or UPDATED_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.in=" + DEFAULT_VYAJ_DAR + "," + UPDATED_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate equals to DEFAULT_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.equals=" + DEFAULT_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where vyajDar equals to UPDATED_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.in=" + UPDATED_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate equals to UPDATED_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.equals=" + UPDATED_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar is not null
-        defaultCourtCaseShouldBeFound("vyajDar.specified=true");
+        // Get all the courtCaseList where firstNoticeDate in DEFAULT_FIRST_NOTICE_DATE or UPDATED_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.in=" + DEFAULT_FIRST_NOTICE_DATE + "," + UPDATED_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where vyajDar is null
-        defaultCourtCaseShouldNotBeFound("vyajDar.specified=false");
+        // Get all the courtCaseList where firstNoticeDate equals to UPDATED_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.in=" + UPDATED_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar is greater than or equal to DEFAULT_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.greaterThanOrEqual=" + DEFAULT_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is not null
+        defaultCourtCaseShouldBeFound("firstNoticeDate.specified=true");
 
-        // Get all the courtCaseList where vyajDar is greater than or equal to UPDATED_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.greaterThanOrEqual=" + UPDATED_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is null
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar is less than or equal to DEFAULT_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.lessThanOrEqual=" + DEFAULT_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is greater than or equal to DEFAULT_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.greaterThanOrEqual=" + DEFAULT_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where vyajDar is less than or equal to SMALLER_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.lessThanOrEqual=" + SMALLER_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is greater than or equal to UPDATED_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.greaterThanOrEqual=" + UPDATED_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsLessThanSomething() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar is less than DEFAULT_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.lessThan=" + DEFAULT_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is less than or equal to DEFAULT_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.lessThanOrEqual=" + DEFAULT_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where vyajDar is less than UPDATED_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.lessThan=" + UPDATED_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is less than or equal to SMALLER_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.lessThanOrEqual=" + SMALLER_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByVyajDarIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where vyajDar is greater than DEFAULT_VYAJ_DAR
-        defaultCourtCaseShouldNotBeFound("vyajDar.greaterThan=" + DEFAULT_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is less than DEFAULT_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.lessThan=" + DEFAULT_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where vyajDar is greater than SMALLER_VYAJ_DAR
-        defaultCourtCaseShouldBeFound("vyajDar.greaterThan=" + SMALLER_VYAJ_DAR);
+        // Get all the courtCaseList where firstNoticeDate is less than UPDATED_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.lessThan=" + UPDATED_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsEqualToSomething() throws Exception {
+    void getAllCourtCasesByFirstNoticeDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge equals to DEFAULT_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.equals=" + DEFAULT_SARCHARGE);
+        // Get all the courtCaseList where firstNoticeDate is greater than DEFAULT_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("firstNoticeDate.greaterThan=" + DEFAULT_FIRST_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge equals to UPDATED_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.equals=" + UPDATED_SARCHARGE);
+        // Get all the courtCaseList where firstNoticeDate is greater than SMALLER_FIRST_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("firstNoticeDate.greaterThan=" + SMALLER_FIRST_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsInShouldWork() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge in DEFAULT_SARCHARGE or UPDATED_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.in=" + DEFAULT_SARCHARGE + "," + UPDATED_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate equals to DEFAULT_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.equals=" + DEFAULT_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge equals to UPDATED_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.in=" + UPDATED_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate equals to UPDATED_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.equals=" + UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsNullOrNotNull() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge is not null
-        defaultCourtCaseShouldBeFound("sarcharge.specified=true");
+        // Get all the courtCaseList where secondNoticeDate in DEFAULT_SECOND_NOTICE_DATE or UPDATED_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.in=" + DEFAULT_SECOND_NOTICE_DATE + "," + UPDATED_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge is null
-        defaultCourtCaseShouldNotBeFound("sarcharge.specified=false");
+        // Get all the courtCaseList where secondNoticeDate equals to UPDATED_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.in=" + UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge is greater than or equal to DEFAULT_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.greaterThanOrEqual=" + DEFAULT_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is not null
+        defaultCourtCaseShouldBeFound("secondNoticeDate.specified=true");
 
-        // Get all the courtCaseList where sarcharge is greater than or equal to UPDATED_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.greaterThanOrEqual=" + UPDATED_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is null
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge is less than or equal to DEFAULT_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.lessThanOrEqual=" + DEFAULT_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is greater than or equal to DEFAULT_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.greaterThanOrEqual=" + DEFAULT_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge is less than or equal to SMALLER_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.lessThanOrEqual=" + SMALLER_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is greater than or equal to UPDATED_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.greaterThanOrEqual=" + UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsLessThanSomething() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge is less than DEFAULT_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.lessThan=" + DEFAULT_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is less than or equal to DEFAULT_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.lessThanOrEqual=" + DEFAULT_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge is less than UPDATED_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.lessThan=" + UPDATED_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is less than or equal to SMALLER_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.lessThanOrEqual=" + SMALLER_SECOND_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesBySarchargeIsGreaterThanSomething() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where sarcharge is greater than DEFAULT_SARCHARGE
-        defaultCourtCaseShouldNotBeFound("sarcharge.greaterThan=" + DEFAULT_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is less than DEFAULT_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.lessThan=" + DEFAULT_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where sarcharge is greater than SMALLER_SARCHARGE
-        defaultCourtCaseShouldBeFound("sarcharge.greaterThan=" + SMALLER_SARCHARGE);
+        // Get all the courtCaseList where secondNoticeDate is less than UPDATED_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.lessThan=" + UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCasesByJyadaVyajIsEqualToSomething() throws Exception {
+    void getAllCourtCasesBySecondNoticeDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseRepository.saveAndFlush(courtCase);
 
-        // Get all the courtCaseList where jyadaVyaj equals to DEFAULT_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.equals=" + DEFAULT_JYADA_VYAJ);
+        // Get all the courtCaseList where secondNoticeDate is greater than DEFAULT_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldNotBeFound("secondNoticeDate.greaterThan=" + DEFAULT_SECOND_NOTICE_DATE);
 
-        // Get all the courtCaseList where jyadaVyaj equals to UPDATED_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.equals=" + UPDATED_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj in DEFAULT_JYADA_VYAJ or UPDATED_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.in=" + DEFAULT_JYADA_VYAJ + "," + UPDATED_JYADA_VYAJ);
-
-        // Get all the courtCaseList where jyadaVyaj equals to UPDATED_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.in=" + UPDATED_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj is not null
-        defaultCourtCaseShouldBeFound("jyadaVyaj.specified=true");
-
-        // Get all the courtCaseList where jyadaVyaj is null
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj is greater than or equal to DEFAULT_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.greaterThanOrEqual=" + DEFAULT_JYADA_VYAJ);
-
-        // Get all the courtCaseList where jyadaVyaj is greater than or equal to UPDATED_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.greaterThanOrEqual=" + UPDATED_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj is less than or equal to DEFAULT_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.lessThanOrEqual=" + DEFAULT_JYADA_VYAJ);
-
-        // Get all the courtCaseList where jyadaVyaj is less than or equal to SMALLER_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.lessThanOrEqual=" + SMALLER_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj is less than DEFAULT_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.lessThan=" + DEFAULT_JYADA_VYAJ);
-
-        // Get all the courtCaseList where jyadaVyaj is less than UPDATED_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.lessThan=" + UPDATED_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJyadaVyajIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jyadaVyaj is greater than DEFAULT_JYADA_VYAJ
-        defaultCourtCaseShouldNotBeFound("jyadaVyaj.greaterThan=" + DEFAULT_JYADA_VYAJ);
-
-        // Get all the courtCaseList where jyadaVyaj is greater than SMALLER_JYADA_VYAJ
-        defaultCourtCaseShouldBeFound("jyadaVyaj.greaterThan=" + SMALLER_JYADA_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj equals to DEFAULT_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.equals=" + DEFAULT_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj equals to UPDATED_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.equals=" + UPDATED_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj in DEFAULT_YENE_VYAJ or UPDATED_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.in=" + DEFAULT_YENE_VYAJ + "," + UPDATED_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj equals to UPDATED_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.in=" + UPDATED_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj is not null
-        defaultCourtCaseShouldBeFound("yeneVyaj.specified=true");
-
-        // Get all the courtCaseList where yeneVyaj is null
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj is greater than or equal to DEFAULT_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.greaterThanOrEqual=" + DEFAULT_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj is greater than or equal to UPDATED_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.greaterThanOrEqual=" + UPDATED_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj is less than or equal to DEFAULT_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.lessThanOrEqual=" + DEFAULT_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj is less than or equal to SMALLER_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.lessThanOrEqual=" + SMALLER_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj is less than DEFAULT_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.lessThan=" + DEFAULT_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj is less than UPDATED_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.lessThan=" + UPDATED_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByYeneVyajIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where yeneVyaj is greater than DEFAULT_YENE_VYAJ
-        defaultCourtCaseShouldNotBeFound("yeneVyaj.greaterThan=" + DEFAULT_YENE_VYAJ);
-
-        // Get all the courtCaseList where yeneVyaj is greater than SMALLER_YENE_VYAJ
-        defaultCourtCaseShouldBeFound("yeneVyaj.greaterThan=" + SMALLER_YENE_VYAJ);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch equals to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.equals=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch equals to UPDATED_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.equals=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch in DEFAULT_VASULI_KHARCH or UPDATED_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.in=" + DEFAULT_VASULI_KHARCH + "," + UPDATED_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch equals to UPDATED_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.in=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch is not null
-        defaultCourtCaseShouldBeFound("vasuliKharch.specified=true");
-
-        // Get all the courtCaseList where vasuliKharch is null
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch is greater than or equal to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.greaterThanOrEqual=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch is greater than or equal to UPDATED_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.greaterThanOrEqual=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch is less than or equal to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.lessThanOrEqual=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch is less than or equal to SMALLER_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.lessThanOrEqual=" + SMALLER_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch is less than DEFAULT_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.lessThan=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch is less than UPDATED_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.lessThan=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVasuliKharchIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vasuliKharch is greater than DEFAULT_VASULI_KHARCH
-        defaultCourtCaseShouldNotBeFound("vasuliKharch.greaterThan=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseList where vasuliKharch is greater than SMALLER_VASULI_KHARCH
-        defaultCourtCaseShouldBeFound("vasuliKharch.greaterThan=" + SMALLER_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch equals to DEFAULT_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.equals=" + DEFAULT_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch equals to UPDATED_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.equals=" + UPDATED_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch in DEFAULT_ETHAR_KHARCH or UPDATED_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.in=" + DEFAULT_ETHAR_KHARCH + "," + UPDATED_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch equals to UPDATED_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.in=" + UPDATED_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch is not null
-        defaultCourtCaseShouldBeFound("etharKharch.specified=true");
-
-        // Get all the courtCaseList where etharKharch is null
-        defaultCourtCaseShouldNotBeFound("etharKharch.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch is greater than or equal to DEFAULT_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.greaterThanOrEqual=" + DEFAULT_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch is greater than or equal to UPDATED_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.greaterThanOrEqual=" + UPDATED_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch is less than or equal to DEFAULT_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.lessThanOrEqual=" + DEFAULT_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch is less than or equal to SMALLER_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.lessThanOrEqual=" + SMALLER_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch is less than DEFAULT_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.lessThan=" + DEFAULT_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch is less than UPDATED_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.lessThan=" + UPDATED_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByEtharKharchIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where etharKharch is greater than DEFAULT_ETHAR_KHARCH
-        defaultCourtCaseShouldNotBeFound("etharKharch.greaterThan=" + DEFAULT_ETHAR_KHARCH);
-
-        // Get all the courtCaseList where etharKharch is greater than SMALLER_ETHAR_KHARCH
-        defaultCourtCaseShouldBeFound("etharKharch.greaterThan=" + SMALLER_ETHAR_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima equals to DEFAULT_VIMA
-        defaultCourtCaseShouldBeFound("vima.equals=" + DEFAULT_VIMA);
-
-        // Get all the courtCaseList where vima equals to UPDATED_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.equals=" + UPDATED_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima in DEFAULT_VIMA or UPDATED_VIMA
-        defaultCourtCaseShouldBeFound("vima.in=" + DEFAULT_VIMA + "," + UPDATED_VIMA);
-
-        // Get all the courtCaseList where vima equals to UPDATED_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.in=" + UPDATED_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima is not null
-        defaultCourtCaseShouldBeFound("vima.specified=true");
-
-        // Get all the courtCaseList where vima is null
-        defaultCourtCaseShouldNotBeFound("vima.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima is greater than or equal to DEFAULT_VIMA
-        defaultCourtCaseShouldBeFound("vima.greaterThanOrEqual=" + DEFAULT_VIMA);
-
-        // Get all the courtCaseList where vima is greater than or equal to UPDATED_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.greaterThanOrEqual=" + UPDATED_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima is less than or equal to DEFAULT_VIMA
-        defaultCourtCaseShouldBeFound("vima.lessThanOrEqual=" + DEFAULT_VIMA);
-
-        // Get all the courtCaseList where vima is less than or equal to SMALLER_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.lessThanOrEqual=" + SMALLER_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima is less than DEFAULT_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.lessThan=" + DEFAULT_VIMA);
-
-        // Get all the courtCaseList where vima is less than UPDATED_VIMA
-        defaultCourtCaseShouldBeFound("vima.lessThan=" + UPDATED_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVimaIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vima is greater than DEFAULT_VIMA
-        defaultCourtCaseShouldNotBeFound("vima.greaterThan=" + DEFAULT_VIMA);
-
-        // Get all the courtCaseList where vima is greater than SMALLER_VIMA
-        defaultCourtCaseShouldBeFound("vima.greaterThan=" + SMALLER_VIMA);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice equals to DEFAULT_NOTICE
-        defaultCourtCaseShouldBeFound("notice.equals=" + DEFAULT_NOTICE);
-
-        // Get all the courtCaseList where notice equals to UPDATED_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.equals=" + UPDATED_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice in DEFAULT_NOTICE or UPDATED_NOTICE
-        defaultCourtCaseShouldBeFound("notice.in=" + DEFAULT_NOTICE + "," + UPDATED_NOTICE);
-
-        // Get all the courtCaseList where notice equals to UPDATED_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.in=" + UPDATED_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice is not null
-        defaultCourtCaseShouldBeFound("notice.specified=true");
-
-        // Get all the courtCaseList where notice is null
-        defaultCourtCaseShouldNotBeFound("notice.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice is greater than or equal to DEFAULT_NOTICE
-        defaultCourtCaseShouldBeFound("notice.greaterThanOrEqual=" + DEFAULT_NOTICE);
-
-        // Get all the courtCaseList where notice is greater than or equal to UPDATED_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.greaterThanOrEqual=" + UPDATED_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice is less than or equal to DEFAULT_NOTICE
-        defaultCourtCaseShouldBeFound("notice.lessThanOrEqual=" + DEFAULT_NOTICE);
-
-        // Get all the courtCaseList where notice is less than or equal to SMALLER_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.lessThanOrEqual=" + SMALLER_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice is less than DEFAULT_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.lessThan=" + DEFAULT_NOTICE);
-
-        // Get all the courtCaseList where notice is less than UPDATED_NOTICE
-        defaultCourtCaseShouldBeFound("notice.lessThan=" + UPDATED_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where notice is greater than DEFAULT_NOTICE
-        defaultCourtCaseShouldNotBeFound("notice.greaterThan=" + DEFAULT_NOTICE);
-
-        // Get all the courtCaseList where notice is greater than SMALLER_NOTICE
-        defaultCourtCaseShouldBeFound("notice.greaterThan=" + SMALLER_NOTICE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber equals to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.equals=" + DEFAULT_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber equals to UPDATED_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.equals=" + UPDATED_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber in DEFAULT_THARAV_NUMBER or UPDATED_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.in=" + DEFAULT_THARAV_NUMBER + "," + UPDATED_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber equals to UPDATED_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.in=" + UPDATED_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber is not null
-        defaultCourtCaseShouldBeFound("tharavNumber.specified=true");
-
-        // Get all the courtCaseList where tharavNumber is null
-        defaultCourtCaseShouldNotBeFound("tharavNumber.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber is greater than or equal to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.greaterThanOrEqual=" + DEFAULT_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber is greater than or equal to UPDATED_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.greaterThanOrEqual=" + UPDATED_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber is less than or equal to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.lessThanOrEqual=" + DEFAULT_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber is less than or equal to SMALLER_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.lessThanOrEqual=" + SMALLER_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber is less than DEFAULT_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.lessThan=" + DEFAULT_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber is less than UPDATED_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.lessThan=" + UPDATED_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavNumberIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavNumber is greater than DEFAULT_THARAV_NUMBER
-        defaultCourtCaseShouldNotBeFound("tharavNumber.greaterThan=" + DEFAULT_THARAV_NUMBER);
-
-        // Get all the courtCaseList where tharavNumber is greater than SMALLER_THARAV_NUMBER
-        defaultCourtCaseShouldBeFound("tharavNumber.greaterThan=" + SMALLER_THARAV_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavDinankIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavDinank equals to DEFAULT_THARAV_DINANK
-        defaultCourtCaseShouldBeFound("tharavDinank.equals=" + DEFAULT_THARAV_DINANK);
-
-        // Get all the courtCaseList where tharavDinank equals to UPDATED_THARAV_DINANK
-        defaultCourtCaseShouldNotBeFound("tharavDinank.equals=" + UPDATED_THARAV_DINANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavDinankIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavDinank in DEFAULT_THARAV_DINANK or UPDATED_THARAV_DINANK
-        defaultCourtCaseShouldBeFound("tharavDinank.in=" + DEFAULT_THARAV_DINANK + "," + UPDATED_THARAV_DINANK);
-
-        // Get all the courtCaseList where tharavDinank equals to UPDATED_THARAV_DINANK
-        defaultCourtCaseShouldNotBeFound("tharavDinank.in=" + UPDATED_THARAV_DINANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTharavDinankIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where tharavDinank is not null
-        defaultCourtCaseShouldBeFound("tharavDinank.specified=true");
-
-        // Get all the courtCaseList where tharavDinank is null
-        defaultCourtCaseShouldNotBeFound("tharavDinank.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank equals to DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.equals=" + DEFAULT_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank equals to UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.equals=" + UPDATED_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank in DEFAULT_VISHAY_KRAMANK or UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.in=" + DEFAULT_VISHAY_KRAMANK + "," + UPDATED_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank equals to UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.in=" + UPDATED_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank is not null
-        defaultCourtCaseShouldBeFound("vishayKramank.specified=true");
-
-        // Get all the courtCaseList where vishayKramank is null
-        defaultCourtCaseShouldNotBeFound("vishayKramank.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank is greater than or equal to DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.greaterThanOrEqual=" + DEFAULT_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank is greater than or equal to UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.greaterThanOrEqual=" + UPDATED_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank is less than or equal to DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.lessThanOrEqual=" + DEFAULT_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank is less than or equal to SMALLER_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.lessThanOrEqual=" + SMALLER_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank is less than DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.lessThan=" + DEFAULT_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank is less than UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.lessThan=" + UPDATED_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVishayKramankIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vishayKramank is greater than DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseShouldNotBeFound("vishayKramank.greaterThan=" + DEFAULT_VISHAY_KRAMANK);
-
-        // Get all the courtCaseList where vishayKramank is greater than SMALLER_VISHAY_KRAMANK
-        defaultCourtCaseShouldBeFound("vishayKramank.greaterThan=" + SMALLER_VISHAY_KRAMANK);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeOneIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeOne equals to DEFAULT_NOTICE_ONE
-        defaultCourtCaseShouldBeFound("noticeOne.equals=" + DEFAULT_NOTICE_ONE);
-
-        // Get all the courtCaseList where noticeOne equals to UPDATED_NOTICE_ONE
-        defaultCourtCaseShouldNotBeFound("noticeOne.equals=" + UPDATED_NOTICE_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeOneIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeOne in DEFAULT_NOTICE_ONE or UPDATED_NOTICE_ONE
-        defaultCourtCaseShouldBeFound("noticeOne.in=" + DEFAULT_NOTICE_ONE + "," + UPDATED_NOTICE_ONE);
-
-        // Get all the courtCaseList where noticeOne equals to UPDATED_NOTICE_ONE
-        defaultCourtCaseShouldNotBeFound("noticeOne.in=" + UPDATED_NOTICE_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeOneIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeOne is not null
-        defaultCourtCaseShouldBeFound("noticeOne.specified=true");
-
-        // Get all the courtCaseList where noticeOne is null
-        defaultCourtCaseShouldNotBeFound("noticeOne.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeTwoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeTwo equals to DEFAULT_NOTICE_TWO
-        defaultCourtCaseShouldBeFound("noticeTwo.equals=" + DEFAULT_NOTICE_TWO);
-
-        // Get all the courtCaseList where noticeTwo equals to UPDATED_NOTICE_TWO
-        defaultCourtCaseShouldNotBeFound("noticeTwo.equals=" + UPDATED_NOTICE_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeTwoIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeTwo in DEFAULT_NOTICE_TWO or UPDATED_NOTICE_TWO
-        defaultCourtCaseShouldBeFound("noticeTwo.in=" + DEFAULT_NOTICE_TWO + "," + UPDATED_NOTICE_TWO);
-
-        // Get all the courtCaseList where noticeTwo equals to UPDATED_NOTICE_TWO
-        defaultCourtCaseShouldNotBeFound("noticeTwo.in=" + UPDATED_NOTICE_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByNoticeTwoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where noticeTwo is not null
-        defaultCourtCaseShouldBeFound("noticeTwo.specified=true");
-
-        // Get all the courtCaseList where noticeTwo is null
-        defaultCourtCaseShouldNotBeFound("noticeTwo.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByWarIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where war equals to DEFAULT_WAR
-        defaultCourtCaseShouldBeFound("war.equals=" + DEFAULT_WAR);
-
-        // Get all the courtCaseList where war equals to UPDATED_WAR
-        defaultCourtCaseShouldNotBeFound("war.equals=" + UPDATED_WAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByWarIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where war in DEFAULT_WAR or UPDATED_WAR
-        defaultCourtCaseShouldBeFound("war.in=" + DEFAULT_WAR + "," + UPDATED_WAR);
-
-        // Get all the courtCaseList where war equals to UPDATED_WAR
-        defaultCourtCaseShouldNotBeFound("war.in=" + UPDATED_WAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByWarIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where war is not null
-        defaultCourtCaseShouldBeFound("war.specified=true");
-
-        // Get all the courtCaseList where war is null
-        defaultCourtCaseShouldNotBeFound("war.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByWarContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where war contains DEFAULT_WAR
-        defaultCourtCaseShouldBeFound("war.contains=" + DEFAULT_WAR);
-
-        // Get all the courtCaseList where war contains UPDATED_WAR
-        defaultCourtCaseShouldNotBeFound("war.contains=" + UPDATED_WAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByWarNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where war does not contain DEFAULT_WAR
-        defaultCourtCaseShouldNotBeFound("war.doesNotContain=" + DEFAULT_WAR);
-
-        // Get all the courtCaseList where war does not contain UPDATED_WAR
-        defaultCourtCaseShouldBeFound("war.doesNotContain=" + UPDATED_WAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVelIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vel equals to DEFAULT_VEL
-        defaultCourtCaseShouldBeFound("vel.equals=" + DEFAULT_VEL);
-
-        // Get all the courtCaseList where vel equals to UPDATED_VEL
-        defaultCourtCaseShouldNotBeFound("vel.equals=" + UPDATED_VEL);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVelIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vel in DEFAULT_VEL or UPDATED_VEL
-        defaultCourtCaseShouldBeFound("vel.in=" + DEFAULT_VEL + "," + UPDATED_VEL);
-
-        // Get all the courtCaseList where vel equals to UPDATED_VEL
-        defaultCourtCaseShouldNotBeFound("vel.in=" + UPDATED_VEL);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVelIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vel is not null
-        defaultCourtCaseShouldBeFound("vel.specified=true");
-
-        // Get all the courtCaseList where vel is null
-        defaultCourtCaseShouldNotBeFound("vel.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVelContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vel contains DEFAULT_VEL
-        defaultCourtCaseShouldBeFound("vel.contains=" + DEFAULT_VEL);
-
-        // Get all the courtCaseList where vel contains UPDATED_VEL
-        defaultCourtCaseShouldNotBeFound("vel.contains=" + UPDATED_VEL);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByVelNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where vel does not contain DEFAULT_VEL
-        defaultCourtCaseShouldNotBeFound("vel.doesNotContain=" + DEFAULT_VEL);
-
-        // Get all the courtCaseList where vel does not contain UPDATED_VEL
-        defaultCourtCaseShouldBeFound("vel.doesNotContain=" + UPDATED_VEL);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOne equals to DEFAULT_JAMINDAR_ONE
-        defaultCourtCaseShouldBeFound("jamindarOne.equals=" + DEFAULT_JAMINDAR_ONE);
-
-        // Get all the courtCaseList where jamindarOne equals to UPDATED_JAMINDAR_ONE
-        defaultCourtCaseShouldNotBeFound("jamindarOne.equals=" + UPDATED_JAMINDAR_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOne in DEFAULT_JAMINDAR_ONE or UPDATED_JAMINDAR_ONE
-        defaultCourtCaseShouldBeFound("jamindarOne.in=" + DEFAULT_JAMINDAR_ONE + "," + UPDATED_JAMINDAR_ONE);
-
-        // Get all the courtCaseList where jamindarOne equals to UPDATED_JAMINDAR_ONE
-        defaultCourtCaseShouldNotBeFound("jamindarOne.in=" + UPDATED_JAMINDAR_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOne is not null
-        defaultCourtCaseShouldBeFound("jamindarOne.specified=true");
-
-        // Get all the courtCaseList where jamindarOne is null
-        defaultCourtCaseShouldNotBeFound("jamindarOne.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOne contains DEFAULT_JAMINDAR_ONE
-        defaultCourtCaseShouldBeFound("jamindarOne.contains=" + DEFAULT_JAMINDAR_ONE);
-
-        // Get all the courtCaseList where jamindarOne contains UPDATED_JAMINDAR_ONE
-        defaultCourtCaseShouldNotBeFound("jamindarOne.contains=" + UPDATED_JAMINDAR_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOne does not contain DEFAULT_JAMINDAR_ONE
-        defaultCourtCaseShouldNotBeFound("jamindarOne.doesNotContain=" + DEFAULT_JAMINDAR_ONE);
-
-        // Get all the courtCaseList where jamindarOne does not contain UPDATED_JAMINDAR_ONE
-        defaultCourtCaseShouldBeFound("jamindarOne.doesNotContain=" + UPDATED_JAMINDAR_ONE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOneAddress equals to DEFAULT_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarOneAddress.equals=" + DEFAULT_JAMINDAR_ONE_ADDRESS);
-
-        // Get all the courtCaseList where jamindarOneAddress equals to UPDATED_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarOneAddress.equals=" + UPDATED_JAMINDAR_ONE_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneAddressIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOneAddress in DEFAULT_JAMINDAR_ONE_ADDRESS or UPDATED_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarOneAddress.in=" + DEFAULT_JAMINDAR_ONE_ADDRESS + "," + UPDATED_JAMINDAR_ONE_ADDRESS);
-
-        // Get all the courtCaseList where jamindarOneAddress equals to UPDATED_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarOneAddress.in=" + UPDATED_JAMINDAR_ONE_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneAddressIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOneAddress is not null
-        defaultCourtCaseShouldBeFound("jamindarOneAddress.specified=true");
-
-        // Get all the courtCaseList where jamindarOneAddress is null
-        defaultCourtCaseShouldNotBeFound("jamindarOneAddress.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneAddressContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOneAddress contains DEFAULT_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarOneAddress.contains=" + DEFAULT_JAMINDAR_ONE_ADDRESS);
-
-        // Get all the courtCaseList where jamindarOneAddress contains UPDATED_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarOneAddress.contains=" + UPDATED_JAMINDAR_ONE_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarOneAddressNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarOneAddress does not contain DEFAULT_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarOneAddress.doesNotContain=" + DEFAULT_JAMINDAR_ONE_ADDRESS);
-
-        // Get all the courtCaseList where jamindarOneAddress does not contain UPDATED_JAMINDAR_ONE_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarOneAddress.doesNotContain=" + UPDATED_JAMINDAR_ONE_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwo equals to DEFAULT_JAMINDAR_TWO
-        defaultCourtCaseShouldBeFound("jamindarTwo.equals=" + DEFAULT_JAMINDAR_TWO);
-
-        // Get all the courtCaseList where jamindarTwo equals to UPDATED_JAMINDAR_TWO
-        defaultCourtCaseShouldNotBeFound("jamindarTwo.equals=" + UPDATED_JAMINDAR_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwo in DEFAULT_JAMINDAR_TWO or UPDATED_JAMINDAR_TWO
-        defaultCourtCaseShouldBeFound("jamindarTwo.in=" + DEFAULT_JAMINDAR_TWO + "," + UPDATED_JAMINDAR_TWO);
-
-        // Get all the courtCaseList where jamindarTwo equals to UPDATED_JAMINDAR_TWO
-        defaultCourtCaseShouldNotBeFound("jamindarTwo.in=" + UPDATED_JAMINDAR_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwo is not null
-        defaultCourtCaseShouldBeFound("jamindarTwo.specified=true");
-
-        // Get all the courtCaseList where jamindarTwo is null
-        defaultCourtCaseShouldNotBeFound("jamindarTwo.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwo contains DEFAULT_JAMINDAR_TWO
-        defaultCourtCaseShouldBeFound("jamindarTwo.contains=" + DEFAULT_JAMINDAR_TWO);
-
-        // Get all the courtCaseList where jamindarTwo contains UPDATED_JAMINDAR_TWO
-        defaultCourtCaseShouldNotBeFound("jamindarTwo.contains=" + UPDATED_JAMINDAR_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwo does not contain DEFAULT_JAMINDAR_TWO
-        defaultCourtCaseShouldNotBeFound("jamindarTwo.doesNotContain=" + DEFAULT_JAMINDAR_TWO);
-
-        // Get all the courtCaseList where jamindarTwo does not contain UPDATED_JAMINDAR_TWO
-        defaultCourtCaseShouldBeFound("jamindarTwo.doesNotContain=" + UPDATED_JAMINDAR_TWO);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwoAddress equals to DEFAULT_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarTwoAddress.equals=" + DEFAULT_JAMINDAR_TWO_ADDRESS);
-
-        // Get all the courtCaseList where jamindarTwoAddress equals to UPDATED_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarTwoAddress.equals=" + UPDATED_JAMINDAR_TWO_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoAddressIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwoAddress in DEFAULT_JAMINDAR_TWO_ADDRESS or UPDATED_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarTwoAddress.in=" + DEFAULT_JAMINDAR_TWO_ADDRESS + "," + UPDATED_JAMINDAR_TWO_ADDRESS);
-
-        // Get all the courtCaseList where jamindarTwoAddress equals to UPDATED_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarTwoAddress.in=" + UPDATED_JAMINDAR_TWO_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoAddressIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwoAddress is not null
-        defaultCourtCaseShouldBeFound("jamindarTwoAddress.specified=true");
-
-        // Get all the courtCaseList where jamindarTwoAddress is null
-        defaultCourtCaseShouldNotBeFound("jamindarTwoAddress.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoAddressContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwoAddress contains DEFAULT_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarTwoAddress.contains=" + DEFAULT_JAMINDAR_TWO_ADDRESS);
-
-        // Get all the courtCaseList where jamindarTwoAddress contains UPDATED_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarTwoAddress.contains=" + UPDATED_JAMINDAR_TWO_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByJamindarTwoAddressNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where jamindarTwoAddress does not contain DEFAULT_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldNotBeFound("jamindarTwoAddress.doesNotContain=" + DEFAULT_JAMINDAR_TWO_ADDRESS);
-
-        // Get all the courtCaseList where jamindarTwoAddress does not contain UPDATED_JAMINDAR_TWO_ADDRESS
-        defaultCourtCaseShouldBeFound("jamindarTwoAddress.doesNotContain=" + UPDATED_JAMINDAR_TWO_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranTypeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranType equals to DEFAULT_TARAN_TYPE
-        defaultCourtCaseShouldBeFound("taranType.equals=" + DEFAULT_TARAN_TYPE);
-
-        // Get all the courtCaseList where taranType equals to UPDATED_TARAN_TYPE
-        defaultCourtCaseShouldNotBeFound("taranType.equals=" + UPDATED_TARAN_TYPE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranTypeIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranType in DEFAULT_TARAN_TYPE or UPDATED_TARAN_TYPE
-        defaultCourtCaseShouldBeFound("taranType.in=" + DEFAULT_TARAN_TYPE + "," + UPDATED_TARAN_TYPE);
-
-        // Get all the courtCaseList where taranType equals to UPDATED_TARAN_TYPE
-        defaultCourtCaseShouldNotBeFound("taranType.in=" + UPDATED_TARAN_TYPE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranTypeIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranType is not null
-        defaultCourtCaseShouldBeFound("taranType.specified=true");
-
-        // Get all the courtCaseList where taranType is null
-        defaultCourtCaseShouldNotBeFound("taranType.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranTypeContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranType contains DEFAULT_TARAN_TYPE
-        defaultCourtCaseShouldBeFound("taranType.contains=" + DEFAULT_TARAN_TYPE);
-
-        // Get all the courtCaseList where taranType contains UPDATED_TARAN_TYPE
-        defaultCourtCaseShouldNotBeFound("taranType.contains=" + UPDATED_TARAN_TYPE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranTypeNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranType does not contain DEFAULT_TARAN_TYPE
-        defaultCourtCaseShouldNotBeFound("taranType.doesNotContain=" + DEFAULT_TARAN_TYPE);
-
-        // Get all the courtCaseList where taranType does not contain UPDATED_TARAN_TYPE
-        defaultCourtCaseShouldBeFound("taranType.doesNotContain=" + UPDATED_TARAN_TYPE);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranDetailsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranDetails equals to DEFAULT_TARAN_DETAILS
-        defaultCourtCaseShouldBeFound("taranDetails.equals=" + DEFAULT_TARAN_DETAILS);
-
-        // Get all the courtCaseList where taranDetails equals to UPDATED_TARAN_DETAILS
-        defaultCourtCaseShouldNotBeFound("taranDetails.equals=" + UPDATED_TARAN_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranDetailsIsInShouldWork() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranDetails in DEFAULT_TARAN_DETAILS or UPDATED_TARAN_DETAILS
-        defaultCourtCaseShouldBeFound("taranDetails.in=" + DEFAULT_TARAN_DETAILS + "," + UPDATED_TARAN_DETAILS);
-
-        // Get all the courtCaseList where taranDetails equals to UPDATED_TARAN_DETAILS
-        defaultCourtCaseShouldNotBeFound("taranDetails.in=" + UPDATED_TARAN_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranDetailsIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranDetails is not null
-        defaultCourtCaseShouldBeFound("taranDetails.specified=true");
-
-        // Get all the courtCaseList where taranDetails is null
-        defaultCourtCaseShouldNotBeFound("taranDetails.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranDetailsContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranDetails contains DEFAULT_TARAN_DETAILS
-        defaultCourtCaseShouldBeFound("taranDetails.contains=" + DEFAULT_TARAN_DETAILS);
-
-        // Get all the courtCaseList where taranDetails contains UPDATED_TARAN_DETAILS
-        defaultCourtCaseShouldNotBeFound("taranDetails.contains=" + UPDATED_TARAN_DETAILS);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCasesByTaranDetailsNotContainsSomething() throws Exception {
-        // Initialize the database
-        courtCaseRepository.saveAndFlush(courtCase);
-
-        // Get all the courtCaseList where taranDetails does not contain DEFAULT_TARAN_DETAILS
-        defaultCourtCaseShouldNotBeFound("taranDetails.doesNotContain=" + DEFAULT_TARAN_DETAILS);
-
-        // Get all the courtCaseList where taranDetails does not contain UPDATED_TARAN_DETAILS
-        defaultCourtCaseShouldBeFound("taranDetails.doesNotContain=" + UPDATED_TARAN_DETAILS);
+        // Get all the courtCaseList where secondNoticeDate is greater than SMALLER_SECOND_NOTICE_DATE
+        defaultCourtCaseShouldBeFound("secondNoticeDate.greaterThan=" + SMALLER_SECOND_NOTICE_DATE);
     }
 
     /**
@@ -4026,54 +2494,32 @@ class CourtCaseResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(courtCase.getId().intValue())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].caseDinank").value(hasItem(DEFAULT_CASE_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].bankName").value(hasItem(DEFAULT_BANK_NAME)))
-            .andExpect(jsonPath("$.[*].talukaName").value(hasItem(DEFAULT_TALUKA_NAME)))
-            .andExpect(jsonPath("$.[*].talukaCode").value(hasItem(DEFAULT_TALUKA_CODE.intValue())))
-            .andExpect(jsonPath("$.[*].sabasadSavingAccNo").value(hasItem(DEFAULT_SABASAD_SAVING_ACC_NO)))
-            .andExpect(jsonPath("$.[*].sabasadName").value(hasItem(DEFAULT_SABASAD_NAME)))
-            .andExpect(jsonPath("$.[*].sabasadAddress").value(hasItem(DEFAULT_SABASAD_ADDRESS)))
-            .andExpect(jsonPath("$.[*].karjPrakar").value(hasItem(DEFAULT_KARJ_PRAKAR)))
-            .andExpect(jsonPath("$.[*].vasuliAdhikari").value(hasItem(DEFAULT_VASULI_ADHIKARI)))
-            .andExpect(jsonPath("$.[*].ekunJama").value(hasItem(DEFAULT_EKUN_JAMA.doubleValue())))
-            .andExpect(jsonPath("$.[*].baki").value(hasItem(DEFAULT_BAKI.doubleValue())))
-            .andExpect(jsonPath("$.[*].arOffice").value(hasItem(DEFAULT_AR_OFFICE)))
-            .andExpect(jsonPath("$.[*].ekunVyaj").value(hasItem(DEFAULT_EKUN_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].jamaVyaj").value(hasItem(DEFAULT_JAMA_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].dandVyaj").value(hasItem(DEFAULT_DAND_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].karjRakkam").value(hasItem(DEFAULT_KARJ_RAKKAM.doubleValue())))
-            .andExpect(jsonPath("$.[*].thakDinnank").value(hasItem(DEFAULT_THAK_DINNANK.toString())))
-            .andExpect(jsonPath("$.[*].karjDinnank").value(hasItem(DEFAULT_KARJ_DINNANK.toString())))
-            .andExpect(jsonPath("$.[*].mudatSampteDinank").value(hasItem(DEFAULT_MUDAT_SAMPTE_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].mudat").value(hasItem(DEFAULT_MUDAT)))
-            .andExpect(jsonPath("$.[*].vyaj").value(hasItem(DEFAULT_VYAJ)))
-            .andExpect(jsonPath("$.[*].haptaRakkam").value(hasItem(DEFAULT_HAPTA_RAKKAM.doubleValue())))
-            .andExpect(jsonPath("$.[*].shakhaVevsthapak").value(hasItem(DEFAULT_SHAKHA_VEVSTHAPAK)))
-            .andExpect(jsonPath("$.[*].suchak").value(hasItem(DEFAULT_SUCHAK)))
-            .andExpect(jsonPath("$.[*].anumodak").value(hasItem(DEFAULT_ANUMODAK)))
-            .andExpect(jsonPath("$.[*].dava").value(hasItem(DEFAULT_DAVA.doubleValue())))
-            .andExpect(jsonPath("$.[*].vyajDar").value(hasItem(DEFAULT_VYAJ_DAR.doubleValue())))
-            .andExpect(jsonPath("$.[*].sarcharge").value(hasItem(DEFAULT_SARCHARGE.doubleValue())))
-            .andExpect(jsonPath("$.[*].jyadaVyaj").value(hasItem(DEFAULT_JYADA_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].yeneVyaj").value(hasItem(DEFAULT_YENE_VYAJ.doubleValue())))
-            .andExpect(jsonPath("$.[*].vasuliKharch").value(hasItem(DEFAULT_VASULI_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].etharKharch").value(hasItem(DEFAULT_ETHAR_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].vima").value(hasItem(DEFAULT_VIMA.doubleValue())))
-            .andExpect(jsonPath("$.[*].notice").value(hasItem(DEFAULT_NOTICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].tharavDinank").value(hasItem(DEFAULT_THARAV_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].vishayKramank").value(hasItem(DEFAULT_VISHAY_KRAMANK)))
-            .andExpect(jsonPath("$.[*].noticeOne").value(hasItem(DEFAULT_NOTICE_ONE.toString())))
-            .andExpect(jsonPath("$.[*].noticeTwo").value(hasItem(DEFAULT_NOTICE_TWO.toString())))
-            .andExpect(jsonPath("$.[*].war").value(hasItem(DEFAULT_WAR)))
-            .andExpect(jsonPath("$.[*].vel").value(hasItem(DEFAULT_VEL)))
-            .andExpect(jsonPath("$.[*].jamindarOne").value(hasItem(DEFAULT_JAMINDAR_ONE)))
-            .andExpect(jsonPath("$.[*].jamindarOneAddress").value(hasItem(DEFAULT_JAMINDAR_ONE_ADDRESS)))
-            .andExpect(jsonPath("$.[*].jamindarTwo").value(hasItem(DEFAULT_JAMINDAR_TWO)))
-            .andExpect(jsonPath("$.[*].jamindarTwoAddress").value(hasItem(DEFAULT_JAMINDAR_TWO_ADDRESS)))
-            .andExpect(jsonPath("$.[*].taranType").value(hasItem(DEFAULT_TARAN_TYPE)))
-            .andExpect(jsonPath("$.[*].taranDetails").value(hasItem(DEFAULT_TARAN_DETAILS)));
+            .andExpect(jsonPath("$.[*].srNo").value(hasItem(DEFAULT_SR_NO)))
+            .andExpect(jsonPath("$.[*].accountNo").value(hasItem(DEFAULT_ACCOUNT_NO)))
+            .andExpect(jsonPath("$.[*].nameOfDefaulter").value(hasItem(DEFAULT_NAME_OF_DEFAULTER)))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].loanType").value(hasItem(DEFAULT_LOAN_TYPE)))
+            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].loanDate").value(hasItem(DEFAULT_LOAN_DATE.toString())))
+            .andExpect(jsonPath("$.[*].termOfLoan").value(hasItem(DEFAULT_TERM_OF_LOAN)))
+            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE.doubleValue())))
+            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT.doubleValue())))
+            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID.doubleValue())))
+            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE.doubleValue())))
+            .andExpect(jsonPath("$.[*].gaurentorOne").value(hasItem(DEFAULT_GAURENTOR_ONE)))
+            .andExpect(jsonPath("$.[*].gaurentorOneAddress").value(hasItem(DEFAULT_GAURENTOR_ONE_ADDRESS)))
+            .andExpect(jsonPath("$.[*].gaurentorTwo").value(hasItem(DEFAULT_GAURENTOR_TWO)))
+            .andExpect(jsonPath("$.[*].gaurentorTwoAddress").value(hasItem(DEFAULT_GAURENTOR_TWO_ADDRESS)))
+            .andExpect(jsonPath("$.[*].firstNoticeDate").value(hasItem(DEFAULT_FIRST_NOTICE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].secondNoticeDate").value(hasItem(DEFAULT_SECOND_NOTICE_DATE.toString())));
 
         // Check, that the count call also returns 1
         restCourtCaseMockMvc
@@ -4122,54 +2568,32 @@ class CourtCaseResourceIT {
         // Disconnect from session so that the updates on updatedCourtCase are not directly saved in db
         em.detach(updatedCourtCase);
         updatedCourtCase
-            .code(UPDATED_CODE)
-            .caseDinank(UPDATED_CASE_DINANK)
-            .bankName(UPDATED_BANK_NAME)
-            .talukaName(UPDATED_TALUKA_NAME)
-            .talukaCode(UPDATED_TALUKA_CODE)
-            .sabasadSavingAccNo(UPDATED_SABASAD_SAVING_ACC_NO)
-            .sabasadName(UPDATED_SABASAD_NAME)
-            .sabasadAddress(UPDATED_SABASAD_ADDRESS)
-            .karjPrakar(UPDATED_KARJ_PRAKAR)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .ekunJama(UPDATED_EKUN_JAMA)
-            .baki(UPDATED_BAKI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .ekunVyaj(UPDATED_EKUN_VYAJ)
-            .jamaVyaj(UPDATED_JAMA_VYAJ)
-            .dandVyaj(UPDATED_DAND_VYAJ)
-            .karjRakkam(UPDATED_KARJ_RAKKAM)
-            .thakDinnank(UPDATED_THAK_DINNANK)
-            .karjDinnank(UPDATED_KARJ_DINNANK)
-            .mudatSampteDinank(UPDATED_MUDAT_SAMPTE_DINANK)
-            .mudat(UPDATED_MUDAT)
-            .vyaj(UPDATED_VYAJ)
-            .haptaRakkam(UPDATED_HAPTA_RAKKAM)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .anumodak(UPDATED_ANUMODAK)
-            .dava(UPDATED_DAVA)
-            .vyajDar(UPDATED_VYAJ_DAR)
-            .sarcharge(UPDATED_SARCHARGE)
-            .jyadaVyaj(UPDATED_JYADA_VYAJ)
-            .yeneVyaj(UPDATED_YENE_VYAJ)
-            .vasuliKharch(UPDATED_VASULI_KHARCH)
-            .etharKharch(UPDATED_ETHAR_KHARCH)
-            .vima(UPDATED_VIMA)
-            .notice(UPDATED_NOTICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .noticeOne(UPDATED_NOTICE_ONE)
-            .noticeTwo(UPDATED_NOTICE_TWO)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .jamindarOne(UPDATED_JAMINDAR_ONE)
-            .jamindarOneAddress(UPDATED_JAMINDAR_ONE_ADDRESS)
-            .jamindarTwo(UPDATED_JAMINDAR_TWO)
-            .jamindarTwoAddress(UPDATED_JAMINDAR_TWO_ADDRESS)
-            .taranType(UPDATED_TARAN_TYPE)
-            .taranDetails(UPDATED_TARAN_DETAILS);
+            .srNo(UPDATED_SR_NO)
+            .accountNo(UPDATED_ACCOUNT_NO)
+            .nameOfDefaulter(UPDATED_NAME_OF_DEFAULTER)
+            .address(UPDATED_ADDRESS)
+            .loanType(UPDATED_LOAN_TYPE)
+            .loanAmount(UPDATED_LOAN_AMOUNT)
+            .loanDate(UPDATED_LOAN_DATE)
+            .termOfLoan(UPDATED_TERM_OF_LOAN)
+            .interestRate(UPDATED_INTEREST_RATE)
+            .installmentAmount(UPDATED_INSTALLMENT_AMOUNT)
+            .totalCredit(UPDATED_TOTAL_CREDIT)
+            .balance(UPDATED_BALANCE)
+            .interestPaid(UPDATED_INTEREST_PAID)
+            .penalInterestPaid(UPDATED_PENAL_INTEREST_PAID)
+            .dueAmount(UPDATED_DUE_AMOUNT)
+            .dueDate(UPDATED_DUE_DATE)
+            .dueInterest(UPDATED_DUE_INTEREST)
+            .duePenalInterest(UPDATED_DUE_PENAL_INTEREST)
+            .dueMoreInterest(UPDATED_DUE_MORE_INTEREST)
+            .interestRecivable(UPDATED_INTEREST_RECIVABLE)
+            .gaurentorOne(UPDATED_GAURENTOR_ONE)
+            .gaurentorOneAddress(UPDATED_GAURENTOR_ONE_ADDRESS)
+            .gaurentorTwo(UPDATED_GAURENTOR_TWO)
+            .gaurentorTwoAddress(UPDATED_GAURENTOR_TWO_ADDRESS)
+            .firstNoticeDate(UPDATED_FIRST_NOTICE_DATE)
+            .secondNoticeDate(UPDATED_SECOND_NOTICE_DATE);
 
         restCourtCaseMockMvc
             .perform(
@@ -4183,54 +2607,32 @@ class CourtCaseResourceIT {
         List<CourtCase> courtCaseList = courtCaseRepository.findAll();
         assertThat(courtCaseList).hasSize(databaseSizeBeforeUpdate);
         CourtCase testCourtCase = courtCaseList.get(courtCaseList.size() - 1);
-        assertThat(testCourtCase.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testCourtCase.getCaseDinank()).isEqualTo(UPDATED_CASE_DINANK);
-        assertThat(testCourtCase.getBankName()).isEqualTo(UPDATED_BANK_NAME);
-        assertThat(testCourtCase.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
-        assertThat(testCourtCase.getTalukaCode()).isEqualTo(UPDATED_TALUKA_CODE);
-        assertThat(testCourtCase.getSabasadSavingAccNo()).isEqualTo(UPDATED_SABASAD_SAVING_ACC_NO);
-        assertThat(testCourtCase.getSabasadName()).isEqualTo(UPDATED_SABASAD_NAME);
-        assertThat(testCourtCase.getSabasadAddress()).isEqualTo(UPDATED_SABASAD_ADDRESS);
-        assertThat(testCourtCase.getKarjPrakar()).isEqualTo(UPDATED_KARJ_PRAKAR);
-        assertThat(testCourtCase.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCase.getEkunJama()).isEqualTo(UPDATED_EKUN_JAMA);
-        assertThat(testCourtCase.getBaki()).isEqualTo(UPDATED_BAKI);
-        assertThat(testCourtCase.getArOffice()).isEqualTo(UPDATED_AR_OFFICE);
-        assertThat(testCourtCase.getEkunVyaj()).isEqualTo(UPDATED_EKUN_VYAJ);
-        assertThat(testCourtCase.getJamaVyaj()).isEqualTo(UPDATED_JAMA_VYAJ);
-        assertThat(testCourtCase.getDandVyaj()).isEqualTo(UPDATED_DAND_VYAJ);
-        assertThat(testCourtCase.getKarjRakkam()).isEqualTo(UPDATED_KARJ_RAKKAM);
-        assertThat(testCourtCase.getThakDinnank()).isEqualTo(UPDATED_THAK_DINNANK);
-        assertThat(testCourtCase.getKarjDinnank()).isEqualTo(UPDATED_KARJ_DINNANK);
-        assertThat(testCourtCase.getMudatSampteDinank()).isEqualTo(UPDATED_MUDAT_SAMPTE_DINANK);
-        assertThat(testCourtCase.getMudat()).isEqualTo(UPDATED_MUDAT);
-        assertThat(testCourtCase.getVyaj()).isEqualTo(UPDATED_VYAJ);
-        assertThat(testCourtCase.getHaptaRakkam()).isEqualTo(UPDATED_HAPTA_RAKKAM);
-        assertThat(testCourtCase.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCase.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCase.getAnumodak()).isEqualTo(UPDATED_ANUMODAK);
-        assertThat(testCourtCase.getDava()).isEqualTo(UPDATED_DAVA);
-        assertThat(testCourtCase.getVyajDar()).isEqualTo(UPDATED_VYAJ_DAR);
-        assertThat(testCourtCase.getSarcharge()).isEqualTo(UPDATED_SARCHARGE);
-        assertThat(testCourtCase.getJyadaVyaj()).isEqualTo(UPDATED_JYADA_VYAJ);
-        assertThat(testCourtCase.getYeneVyaj()).isEqualTo(UPDATED_YENE_VYAJ);
-        assertThat(testCourtCase.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
-        assertThat(testCourtCase.getEtharKharch()).isEqualTo(UPDATED_ETHAR_KHARCH);
-        assertThat(testCourtCase.getVima()).isEqualTo(UPDATED_VIMA);
-        assertThat(testCourtCase.getNotice()).isEqualTo(UPDATED_NOTICE);
-        assertThat(testCourtCase.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
-        assertThat(testCourtCase.getTharavDinank()).isEqualTo(UPDATED_THARAV_DINANK);
-        assertThat(testCourtCase.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCase.getNoticeOne()).isEqualTo(UPDATED_NOTICE_ONE);
-        assertThat(testCourtCase.getNoticeTwo()).isEqualTo(UPDATED_NOTICE_TWO);
-        assertThat(testCourtCase.getWar()).isEqualTo(UPDATED_WAR);
-        assertThat(testCourtCase.getVel()).isEqualTo(UPDATED_VEL);
-        assertThat(testCourtCase.getJamindarOne()).isEqualTo(UPDATED_JAMINDAR_ONE);
-        assertThat(testCourtCase.getJamindarOneAddress()).isEqualTo(UPDATED_JAMINDAR_ONE_ADDRESS);
-        assertThat(testCourtCase.getJamindarTwo()).isEqualTo(UPDATED_JAMINDAR_TWO);
-        assertThat(testCourtCase.getJamindarTwoAddress()).isEqualTo(UPDATED_JAMINDAR_TWO_ADDRESS);
-        assertThat(testCourtCase.getTaranType()).isEqualTo(UPDATED_TARAN_TYPE);
-        assertThat(testCourtCase.getTaranDetails()).isEqualTo(UPDATED_TARAN_DETAILS);
+        assertThat(testCourtCase.getSrNo()).isEqualTo(UPDATED_SR_NO);
+        assertThat(testCourtCase.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
+        assertThat(testCourtCase.getNameOfDefaulter()).isEqualTo(UPDATED_NAME_OF_DEFAULTER);
+        assertThat(testCourtCase.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testCourtCase.getLoanType()).isEqualTo(UPDATED_LOAN_TYPE);
+        assertThat(testCourtCase.getLoanAmount()).isEqualTo(UPDATED_LOAN_AMOUNT);
+        assertThat(testCourtCase.getLoanDate()).isEqualTo(UPDATED_LOAN_DATE);
+        assertThat(testCourtCase.getTermOfLoan()).isEqualTo(UPDATED_TERM_OF_LOAN);
+        assertThat(testCourtCase.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
+        assertThat(testCourtCase.getInstallmentAmount()).isEqualTo(UPDATED_INSTALLMENT_AMOUNT);
+        assertThat(testCourtCase.getTotalCredit()).isEqualTo(UPDATED_TOTAL_CREDIT);
+        assertThat(testCourtCase.getBalance()).isEqualTo(UPDATED_BALANCE);
+        assertThat(testCourtCase.getInterestPaid()).isEqualTo(UPDATED_INTEREST_PAID);
+        assertThat(testCourtCase.getPenalInterestPaid()).isEqualTo(UPDATED_PENAL_INTEREST_PAID);
+        assertThat(testCourtCase.getDueAmount()).isEqualTo(UPDATED_DUE_AMOUNT);
+        assertThat(testCourtCase.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
+        assertThat(testCourtCase.getDueInterest()).isEqualTo(UPDATED_DUE_INTEREST);
+        assertThat(testCourtCase.getDuePenalInterest()).isEqualTo(UPDATED_DUE_PENAL_INTEREST);
+        assertThat(testCourtCase.getDueMoreInterest()).isEqualTo(UPDATED_DUE_MORE_INTEREST);
+        assertThat(testCourtCase.getInterestRecivable()).isEqualTo(UPDATED_INTEREST_RECIVABLE);
+        assertThat(testCourtCase.getGaurentorOne()).isEqualTo(UPDATED_GAURENTOR_ONE);
+        assertThat(testCourtCase.getGaurentorOneAddress()).isEqualTo(UPDATED_GAURENTOR_ONE_ADDRESS);
+        assertThat(testCourtCase.getGaurentorTwo()).isEqualTo(UPDATED_GAURENTOR_TWO);
+        assertThat(testCourtCase.getGaurentorTwoAddress()).isEqualTo(UPDATED_GAURENTOR_TWO_ADDRESS);
+        assertThat(testCourtCase.getFirstNoticeDate()).isEqualTo(UPDATED_FIRST_NOTICE_DATE);
+        assertThat(testCourtCase.getSecondNoticeDate()).isEqualTo(UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test
@@ -4302,27 +2704,17 @@ class CourtCaseResourceIT {
         partialUpdatedCourtCase.setId(courtCase.getId());
 
         partialUpdatedCourtCase
-            .talukaName(UPDATED_TALUKA_NAME)
-            .karjPrakar(UPDATED_KARJ_PRAKAR)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .ekunJama(UPDATED_EKUN_JAMA)
-            .baki(UPDATED_BAKI)
-            .jamaVyaj(UPDATED_JAMA_VYAJ)
-            .karjDinnank(UPDATED_KARJ_DINNANK)
-            .mudatSampteDinank(UPDATED_MUDAT_SAMPTE_DINANK)
-            .mudat(UPDATED_MUDAT)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .dava(UPDATED_DAVA)
-            .vyajDar(UPDATED_VYAJ_DAR)
-            .jyadaVyaj(UPDATED_JYADA_VYAJ)
-            .vasuliKharch(UPDATED_VASULI_KHARCH)
-            .vima(UPDATED_VIMA)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .noticeTwo(UPDATED_NOTICE_TWO)
-            .war(UPDATED_WAR);
+            .address(UPDATED_ADDRESS)
+            .interestRate(UPDATED_INTEREST_RATE)
+            .installmentAmount(UPDATED_INSTALLMENT_AMOUNT)
+            .totalCredit(UPDATED_TOTAL_CREDIT)
+            .balance(UPDATED_BALANCE)
+            .dueAmount(UPDATED_DUE_AMOUNT)
+            .dueMoreInterest(UPDATED_DUE_MORE_INTEREST)
+            .interestRecivable(UPDATED_INTEREST_RECIVABLE)
+            .gaurentorOne(UPDATED_GAURENTOR_ONE)
+            .gaurentorTwoAddress(UPDATED_GAURENTOR_TWO_ADDRESS)
+            .firstNoticeDate(UPDATED_FIRST_NOTICE_DATE);
 
         restCourtCaseMockMvc
             .perform(
@@ -4336,54 +2728,32 @@ class CourtCaseResourceIT {
         List<CourtCase> courtCaseList = courtCaseRepository.findAll();
         assertThat(courtCaseList).hasSize(databaseSizeBeforeUpdate);
         CourtCase testCourtCase = courtCaseList.get(courtCaseList.size() - 1);
-        assertThat(testCourtCase.getCode()).isEqualTo(DEFAULT_CODE);
-        assertThat(testCourtCase.getCaseDinank()).isEqualTo(DEFAULT_CASE_DINANK);
-        assertThat(testCourtCase.getBankName()).isEqualTo(DEFAULT_BANK_NAME);
-        assertThat(testCourtCase.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
-        assertThat(testCourtCase.getTalukaCode()).isEqualTo(DEFAULT_TALUKA_CODE);
-        assertThat(testCourtCase.getSabasadSavingAccNo()).isEqualTo(DEFAULT_SABASAD_SAVING_ACC_NO);
-        assertThat(testCourtCase.getSabasadName()).isEqualTo(DEFAULT_SABASAD_NAME);
-        assertThat(testCourtCase.getSabasadAddress()).isEqualTo(DEFAULT_SABASAD_ADDRESS);
-        assertThat(testCourtCase.getKarjPrakar()).isEqualTo(UPDATED_KARJ_PRAKAR);
-        assertThat(testCourtCase.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCase.getEkunJama()).isEqualTo(UPDATED_EKUN_JAMA);
-        assertThat(testCourtCase.getBaki()).isEqualTo(UPDATED_BAKI);
-        assertThat(testCourtCase.getArOffice()).isEqualTo(DEFAULT_AR_OFFICE);
-        assertThat(testCourtCase.getEkunVyaj()).isEqualTo(DEFAULT_EKUN_VYAJ);
-        assertThat(testCourtCase.getJamaVyaj()).isEqualTo(UPDATED_JAMA_VYAJ);
-        assertThat(testCourtCase.getDandVyaj()).isEqualTo(DEFAULT_DAND_VYAJ);
-        assertThat(testCourtCase.getKarjRakkam()).isEqualTo(DEFAULT_KARJ_RAKKAM);
-        assertThat(testCourtCase.getThakDinnank()).isEqualTo(DEFAULT_THAK_DINNANK);
-        assertThat(testCourtCase.getKarjDinnank()).isEqualTo(UPDATED_KARJ_DINNANK);
-        assertThat(testCourtCase.getMudatSampteDinank()).isEqualTo(UPDATED_MUDAT_SAMPTE_DINANK);
-        assertThat(testCourtCase.getMudat()).isEqualTo(UPDATED_MUDAT);
-        assertThat(testCourtCase.getVyaj()).isEqualTo(DEFAULT_VYAJ);
-        assertThat(testCourtCase.getHaptaRakkam()).isEqualTo(DEFAULT_HAPTA_RAKKAM);
-        assertThat(testCourtCase.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCase.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCase.getAnumodak()).isEqualTo(DEFAULT_ANUMODAK);
-        assertThat(testCourtCase.getDava()).isEqualTo(UPDATED_DAVA);
-        assertThat(testCourtCase.getVyajDar()).isEqualTo(UPDATED_VYAJ_DAR);
-        assertThat(testCourtCase.getSarcharge()).isEqualTo(DEFAULT_SARCHARGE);
-        assertThat(testCourtCase.getJyadaVyaj()).isEqualTo(UPDATED_JYADA_VYAJ);
-        assertThat(testCourtCase.getYeneVyaj()).isEqualTo(DEFAULT_YENE_VYAJ);
-        assertThat(testCourtCase.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
-        assertThat(testCourtCase.getEtharKharch()).isEqualTo(DEFAULT_ETHAR_KHARCH);
-        assertThat(testCourtCase.getVima()).isEqualTo(UPDATED_VIMA);
-        assertThat(testCourtCase.getNotice()).isEqualTo(DEFAULT_NOTICE);
-        assertThat(testCourtCase.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
-        assertThat(testCourtCase.getTharavDinank()).isEqualTo(UPDATED_THARAV_DINANK);
-        assertThat(testCourtCase.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCase.getNoticeOne()).isEqualTo(DEFAULT_NOTICE_ONE);
-        assertThat(testCourtCase.getNoticeTwo()).isEqualTo(UPDATED_NOTICE_TWO);
-        assertThat(testCourtCase.getWar()).isEqualTo(UPDATED_WAR);
-        assertThat(testCourtCase.getVel()).isEqualTo(DEFAULT_VEL);
-        assertThat(testCourtCase.getJamindarOne()).isEqualTo(DEFAULT_JAMINDAR_ONE);
-        assertThat(testCourtCase.getJamindarOneAddress()).isEqualTo(DEFAULT_JAMINDAR_ONE_ADDRESS);
-        assertThat(testCourtCase.getJamindarTwo()).isEqualTo(DEFAULT_JAMINDAR_TWO);
-        assertThat(testCourtCase.getJamindarTwoAddress()).isEqualTo(DEFAULT_JAMINDAR_TWO_ADDRESS);
-        assertThat(testCourtCase.getTaranType()).isEqualTo(DEFAULT_TARAN_TYPE);
-        assertThat(testCourtCase.getTaranDetails()).isEqualTo(DEFAULT_TARAN_DETAILS);
+        assertThat(testCourtCase.getSrNo()).isEqualTo(DEFAULT_SR_NO);
+        assertThat(testCourtCase.getAccountNo()).isEqualTo(DEFAULT_ACCOUNT_NO);
+        assertThat(testCourtCase.getNameOfDefaulter()).isEqualTo(DEFAULT_NAME_OF_DEFAULTER);
+        assertThat(testCourtCase.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testCourtCase.getLoanType()).isEqualTo(DEFAULT_LOAN_TYPE);
+        assertThat(testCourtCase.getLoanAmount()).isEqualTo(DEFAULT_LOAN_AMOUNT);
+        assertThat(testCourtCase.getLoanDate()).isEqualTo(DEFAULT_LOAN_DATE);
+        assertThat(testCourtCase.getTermOfLoan()).isEqualTo(DEFAULT_TERM_OF_LOAN);
+        assertThat(testCourtCase.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
+        assertThat(testCourtCase.getInstallmentAmount()).isEqualTo(UPDATED_INSTALLMENT_AMOUNT);
+        assertThat(testCourtCase.getTotalCredit()).isEqualTo(UPDATED_TOTAL_CREDIT);
+        assertThat(testCourtCase.getBalance()).isEqualTo(UPDATED_BALANCE);
+        assertThat(testCourtCase.getInterestPaid()).isEqualTo(DEFAULT_INTEREST_PAID);
+        assertThat(testCourtCase.getPenalInterestPaid()).isEqualTo(DEFAULT_PENAL_INTEREST_PAID);
+        assertThat(testCourtCase.getDueAmount()).isEqualTo(UPDATED_DUE_AMOUNT);
+        assertThat(testCourtCase.getDueDate()).isEqualTo(DEFAULT_DUE_DATE);
+        assertThat(testCourtCase.getDueInterest()).isEqualTo(DEFAULT_DUE_INTEREST);
+        assertThat(testCourtCase.getDuePenalInterest()).isEqualTo(DEFAULT_DUE_PENAL_INTEREST);
+        assertThat(testCourtCase.getDueMoreInterest()).isEqualTo(UPDATED_DUE_MORE_INTEREST);
+        assertThat(testCourtCase.getInterestRecivable()).isEqualTo(UPDATED_INTEREST_RECIVABLE);
+        assertThat(testCourtCase.getGaurentorOne()).isEqualTo(UPDATED_GAURENTOR_ONE);
+        assertThat(testCourtCase.getGaurentorOneAddress()).isEqualTo(DEFAULT_GAURENTOR_ONE_ADDRESS);
+        assertThat(testCourtCase.getGaurentorTwo()).isEqualTo(DEFAULT_GAURENTOR_TWO);
+        assertThat(testCourtCase.getGaurentorTwoAddress()).isEqualTo(UPDATED_GAURENTOR_TWO_ADDRESS);
+        assertThat(testCourtCase.getFirstNoticeDate()).isEqualTo(UPDATED_FIRST_NOTICE_DATE);
+        assertThat(testCourtCase.getSecondNoticeDate()).isEqualTo(DEFAULT_SECOND_NOTICE_DATE);
     }
 
     @Test
@@ -4399,54 +2769,32 @@ class CourtCaseResourceIT {
         partialUpdatedCourtCase.setId(courtCase.getId());
 
         partialUpdatedCourtCase
-            .code(UPDATED_CODE)
-            .caseDinank(UPDATED_CASE_DINANK)
-            .bankName(UPDATED_BANK_NAME)
-            .talukaName(UPDATED_TALUKA_NAME)
-            .talukaCode(UPDATED_TALUKA_CODE)
-            .sabasadSavingAccNo(UPDATED_SABASAD_SAVING_ACC_NO)
-            .sabasadName(UPDATED_SABASAD_NAME)
-            .sabasadAddress(UPDATED_SABASAD_ADDRESS)
-            .karjPrakar(UPDATED_KARJ_PRAKAR)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .ekunJama(UPDATED_EKUN_JAMA)
-            .baki(UPDATED_BAKI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .ekunVyaj(UPDATED_EKUN_VYAJ)
-            .jamaVyaj(UPDATED_JAMA_VYAJ)
-            .dandVyaj(UPDATED_DAND_VYAJ)
-            .karjRakkam(UPDATED_KARJ_RAKKAM)
-            .thakDinnank(UPDATED_THAK_DINNANK)
-            .karjDinnank(UPDATED_KARJ_DINNANK)
-            .mudatSampteDinank(UPDATED_MUDAT_SAMPTE_DINANK)
-            .mudat(UPDATED_MUDAT)
-            .vyaj(UPDATED_VYAJ)
-            .haptaRakkam(UPDATED_HAPTA_RAKKAM)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .anumodak(UPDATED_ANUMODAK)
-            .dava(UPDATED_DAVA)
-            .vyajDar(UPDATED_VYAJ_DAR)
-            .sarcharge(UPDATED_SARCHARGE)
-            .jyadaVyaj(UPDATED_JYADA_VYAJ)
-            .yeneVyaj(UPDATED_YENE_VYAJ)
-            .vasuliKharch(UPDATED_VASULI_KHARCH)
-            .etharKharch(UPDATED_ETHAR_KHARCH)
-            .vima(UPDATED_VIMA)
-            .notice(UPDATED_NOTICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .noticeOne(UPDATED_NOTICE_ONE)
-            .noticeTwo(UPDATED_NOTICE_TWO)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .jamindarOne(UPDATED_JAMINDAR_ONE)
-            .jamindarOneAddress(UPDATED_JAMINDAR_ONE_ADDRESS)
-            .jamindarTwo(UPDATED_JAMINDAR_TWO)
-            .jamindarTwoAddress(UPDATED_JAMINDAR_TWO_ADDRESS)
-            .taranType(UPDATED_TARAN_TYPE)
-            .taranDetails(UPDATED_TARAN_DETAILS);
+            .srNo(UPDATED_SR_NO)
+            .accountNo(UPDATED_ACCOUNT_NO)
+            .nameOfDefaulter(UPDATED_NAME_OF_DEFAULTER)
+            .address(UPDATED_ADDRESS)
+            .loanType(UPDATED_LOAN_TYPE)
+            .loanAmount(UPDATED_LOAN_AMOUNT)
+            .loanDate(UPDATED_LOAN_DATE)
+            .termOfLoan(UPDATED_TERM_OF_LOAN)
+            .interestRate(UPDATED_INTEREST_RATE)
+            .installmentAmount(UPDATED_INSTALLMENT_AMOUNT)
+            .totalCredit(UPDATED_TOTAL_CREDIT)
+            .balance(UPDATED_BALANCE)
+            .interestPaid(UPDATED_INTEREST_PAID)
+            .penalInterestPaid(UPDATED_PENAL_INTEREST_PAID)
+            .dueAmount(UPDATED_DUE_AMOUNT)
+            .dueDate(UPDATED_DUE_DATE)
+            .dueInterest(UPDATED_DUE_INTEREST)
+            .duePenalInterest(UPDATED_DUE_PENAL_INTEREST)
+            .dueMoreInterest(UPDATED_DUE_MORE_INTEREST)
+            .interestRecivable(UPDATED_INTEREST_RECIVABLE)
+            .gaurentorOne(UPDATED_GAURENTOR_ONE)
+            .gaurentorOneAddress(UPDATED_GAURENTOR_ONE_ADDRESS)
+            .gaurentorTwo(UPDATED_GAURENTOR_TWO)
+            .gaurentorTwoAddress(UPDATED_GAURENTOR_TWO_ADDRESS)
+            .firstNoticeDate(UPDATED_FIRST_NOTICE_DATE)
+            .secondNoticeDate(UPDATED_SECOND_NOTICE_DATE);
 
         restCourtCaseMockMvc
             .perform(
@@ -4460,54 +2808,32 @@ class CourtCaseResourceIT {
         List<CourtCase> courtCaseList = courtCaseRepository.findAll();
         assertThat(courtCaseList).hasSize(databaseSizeBeforeUpdate);
         CourtCase testCourtCase = courtCaseList.get(courtCaseList.size() - 1);
-        assertThat(testCourtCase.getCode()).isEqualTo(UPDATED_CODE);
-        assertThat(testCourtCase.getCaseDinank()).isEqualTo(UPDATED_CASE_DINANK);
-        assertThat(testCourtCase.getBankName()).isEqualTo(UPDATED_BANK_NAME);
-        assertThat(testCourtCase.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
-        assertThat(testCourtCase.getTalukaCode()).isEqualTo(UPDATED_TALUKA_CODE);
-        assertThat(testCourtCase.getSabasadSavingAccNo()).isEqualTo(UPDATED_SABASAD_SAVING_ACC_NO);
-        assertThat(testCourtCase.getSabasadName()).isEqualTo(UPDATED_SABASAD_NAME);
-        assertThat(testCourtCase.getSabasadAddress()).isEqualTo(UPDATED_SABASAD_ADDRESS);
-        assertThat(testCourtCase.getKarjPrakar()).isEqualTo(UPDATED_KARJ_PRAKAR);
-        assertThat(testCourtCase.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCase.getEkunJama()).isEqualTo(UPDATED_EKUN_JAMA);
-        assertThat(testCourtCase.getBaki()).isEqualTo(UPDATED_BAKI);
-        assertThat(testCourtCase.getArOffice()).isEqualTo(UPDATED_AR_OFFICE);
-        assertThat(testCourtCase.getEkunVyaj()).isEqualTo(UPDATED_EKUN_VYAJ);
-        assertThat(testCourtCase.getJamaVyaj()).isEqualTo(UPDATED_JAMA_VYAJ);
-        assertThat(testCourtCase.getDandVyaj()).isEqualTo(UPDATED_DAND_VYAJ);
-        assertThat(testCourtCase.getKarjRakkam()).isEqualTo(UPDATED_KARJ_RAKKAM);
-        assertThat(testCourtCase.getThakDinnank()).isEqualTo(UPDATED_THAK_DINNANK);
-        assertThat(testCourtCase.getKarjDinnank()).isEqualTo(UPDATED_KARJ_DINNANK);
-        assertThat(testCourtCase.getMudatSampteDinank()).isEqualTo(UPDATED_MUDAT_SAMPTE_DINANK);
-        assertThat(testCourtCase.getMudat()).isEqualTo(UPDATED_MUDAT);
-        assertThat(testCourtCase.getVyaj()).isEqualTo(UPDATED_VYAJ);
-        assertThat(testCourtCase.getHaptaRakkam()).isEqualTo(UPDATED_HAPTA_RAKKAM);
-        assertThat(testCourtCase.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCase.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCase.getAnumodak()).isEqualTo(UPDATED_ANUMODAK);
-        assertThat(testCourtCase.getDava()).isEqualTo(UPDATED_DAVA);
-        assertThat(testCourtCase.getVyajDar()).isEqualTo(UPDATED_VYAJ_DAR);
-        assertThat(testCourtCase.getSarcharge()).isEqualTo(UPDATED_SARCHARGE);
-        assertThat(testCourtCase.getJyadaVyaj()).isEqualTo(UPDATED_JYADA_VYAJ);
-        assertThat(testCourtCase.getYeneVyaj()).isEqualTo(UPDATED_YENE_VYAJ);
-        assertThat(testCourtCase.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
-        assertThat(testCourtCase.getEtharKharch()).isEqualTo(UPDATED_ETHAR_KHARCH);
-        assertThat(testCourtCase.getVima()).isEqualTo(UPDATED_VIMA);
-        assertThat(testCourtCase.getNotice()).isEqualTo(UPDATED_NOTICE);
-        assertThat(testCourtCase.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
-        assertThat(testCourtCase.getTharavDinank()).isEqualTo(UPDATED_THARAV_DINANK);
-        assertThat(testCourtCase.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCase.getNoticeOne()).isEqualTo(UPDATED_NOTICE_ONE);
-        assertThat(testCourtCase.getNoticeTwo()).isEqualTo(UPDATED_NOTICE_TWO);
-        assertThat(testCourtCase.getWar()).isEqualTo(UPDATED_WAR);
-        assertThat(testCourtCase.getVel()).isEqualTo(UPDATED_VEL);
-        assertThat(testCourtCase.getJamindarOne()).isEqualTo(UPDATED_JAMINDAR_ONE);
-        assertThat(testCourtCase.getJamindarOneAddress()).isEqualTo(UPDATED_JAMINDAR_ONE_ADDRESS);
-        assertThat(testCourtCase.getJamindarTwo()).isEqualTo(UPDATED_JAMINDAR_TWO);
-        assertThat(testCourtCase.getJamindarTwoAddress()).isEqualTo(UPDATED_JAMINDAR_TWO_ADDRESS);
-        assertThat(testCourtCase.getTaranType()).isEqualTo(UPDATED_TARAN_TYPE);
-        assertThat(testCourtCase.getTaranDetails()).isEqualTo(UPDATED_TARAN_DETAILS);
+        assertThat(testCourtCase.getSrNo()).isEqualTo(UPDATED_SR_NO);
+        assertThat(testCourtCase.getAccountNo()).isEqualTo(UPDATED_ACCOUNT_NO);
+        assertThat(testCourtCase.getNameOfDefaulter()).isEqualTo(UPDATED_NAME_OF_DEFAULTER);
+        assertThat(testCourtCase.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testCourtCase.getLoanType()).isEqualTo(UPDATED_LOAN_TYPE);
+        assertThat(testCourtCase.getLoanAmount()).isEqualTo(UPDATED_LOAN_AMOUNT);
+        assertThat(testCourtCase.getLoanDate()).isEqualTo(UPDATED_LOAN_DATE);
+        assertThat(testCourtCase.getTermOfLoan()).isEqualTo(UPDATED_TERM_OF_LOAN);
+        assertThat(testCourtCase.getInterestRate()).isEqualTo(UPDATED_INTEREST_RATE);
+        assertThat(testCourtCase.getInstallmentAmount()).isEqualTo(UPDATED_INSTALLMENT_AMOUNT);
+        assertThat(testCourtCase.getTotalCredit()).isEqualTo(UPDATED_TOTAL_CREDIT);
+        assertThat(testCourtCase.getBalance()).isEqualTo(UPDATED_BALANCE);
+        assertThat(testCourtCase.getInterestPaid()).isEqualTo(UPDATED_INTEREST_PAID);
+        assertThat(testCourtCase.getPenalInterestPaid()).isEqualTo(UPDATED_PENAL_INTEREST_PAID);
+        assertThat(testCourtCase.getDueAmount()).isEqualTo(UPDATED_DUE_AMOUNT);
+        assertThat(testCourtCase.getDueDate()).isEqualTo(UPDATED_DUE_DATE);
+        assertThat(testCourtCase.getDueInterest()).isEqualTo(UPDATED_DUE_INTEREST);
+        assertThat(testCourtCase.getDuePenalInterest()).isEqualTo(UPDATED_DUE_PENAL_INTEREST);
+        assertThat(testCourtCase.getDueMoreInterest()).isEqualTo(UPDATED_DUE_MORE_INTEREST);
+        assertThat(testCourtCase.getInterestRecivable()).isEqualTo(UPDATED_INTEREST_RECIVABLE);
+        assertThat(testCourtCase.getGaurentorOne()).isEqualTo(UPDATED_GAURENTOR_ONE);
+        assertThat(testCourtCase.getGaurentorOneAddress()).isEqualTo(UPDATED_GAURENTOR_ONE_ADDRESS);
+        assertThat(testCourtCase.getGaurentorTwo()).isEqualTo(UPDATED_GAURENTOR_TWO);
+        assertThat(testCourtCase.getGaurentorTwoAddress()).isEqualTo(UPDATED_GAURENTOR_TWO_ADDRESS);
+        assertThat(testCourtCase.getFirstNoticeDate()).isEqualTo(UPDATED_FIRST_NOTICE_DATE);
+        assertThat(testCourtCase.getSecondNoticeDate()).isEqualTo(UPDATED_SECOND_NOTICE_DATE);
     }
 
     @Test

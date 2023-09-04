@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -19,149 +19,83 @@ public class CourtCase implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "code")
-    private Long code;
+    @Column(name = "sr_no")
+    private String srNo;
 
-    @Column(name = "case_dinank")
-    private Instant caseDinank;
+    @Column(name = "account_no")
+    private String accountNo;
 
-    @Column(name = "bank_name")
-    private String bankName;
+    @Column(name = "name_of_defaulter")
+    private String nameOfDefaulter;
 
-    @Column(name = "taluka_name")
-    private String talukaName;
+    @Column(name = "address")
+    private String address;
 
-    @Column(name = "taluka_code")
-    private Long talukaCode;
+    @Column(name = "loan_type")
+    private String loanType;
 
-    @Column(name = "sabasad_saving_acc_no")
-    private String sabasadSavingAccNo;
+    @Column(name = "loan_amount")
+    private Double loanAmount;
 
-    @Column(name = "sabasad_name")
-    private String sabasadName;
+    @Column(name = "loan_date")
+    private LocalDate loanDate;
 
-    @Column(name = "sabasad_address")
-    private String sabasadAddress;
+    @Column(name = "term_of_loan")
+    private String termOfLoan;
 
-    @Column(name = "karj_prakar")
-    private String karjPrakar;
+    @Column(name = "interest_rate")
+    private Double interestRate;
 
-    @Column(name = "vasuli_adhikari")
-    private String vasuliAdhikari;
+    @Column(name = "installment_amount")
+    private Double installmentAmount;
 
-    @Column(name = "ekun_jama")
-    private Double ekunJama;
+    @Column(name = "total_credit")
+    private Double totalCredit;
 
-    @Column(name = "baki")
-    private Double baki;
+    @Column(name = "balance")
+    private Double balance;
 
-    @Column(name = "ar_office")
-    private String arOffice;
+    @Column(name = "interest_paid")
+    private Double interestPaid;
 
-    @Column(name = "ekun_vyaj")
-    private Double ekunVyaj;
+    @Column(name = "penal_interest_paid")
+    private Double penalInterestPaid;
 
-    @Column(name = "jama_vyaj")
-    private Double jamaVyaj;
+    @Column(name = "due_amount")
+    private Double dueAmount;
 
-    @Column(name = "dand_vyaj")
-    private Double dandVyaj;
+    @Column(name = "due_date")
+    private LocalDate dueDate;
 
-    @Column(name = "karj_rakkam")
-    private Double karjRakkam;
+    @Column(name = "due_interest")
+    private Double dueInterest;
 
-    @Column(name = "thak_dinnank")
-    private Instant thakDinnank;
+    @Column(name = "due_penal_interest")
+    private Double duePenalInterest;
 
-    @Column(name = "karj_dinnank")
-    private Instant karjDinnank;
+    @Column(name = "due_more_interest")
+    private Double dueMoreInterest;
 
-    @Column(name = "mudat_sampte_dinank")
-    private Instant mudatSampteDinank;
+    @Column(name = "interest_recivable")
+    private Double interestRecivable;
 
-    @Column(name = "mudat")
-    private String mudat;
+    @Column(name = "gaurentor_one")
+    private String gaurentorOne;
 
-    @Column(name = "vyaj")
-    private String vyaj;
+    @Column(name = "gaurentor_one_address")
+    private String gaurentorOneAddress;
 
-    @Column(name = "hapta_rakkam")
-    private Double haptaRakkam;
+    @Column(name = "gaurentor_two")
+    private String gaurentorTwo;
 
-    @Column(name = "shakha_vevsthapak")
-    private String shakhaVevsthapak;
+    @Column(name = "gaurentor_two_address")
+    private String gaurentorTwoAddress;
 
-    @Column(name = "suchak")
-    private String suchak;
+    @Column(name = "first_notice_date")
+    private LocalDate firstNoticeDate;
 
-    @Column(name = "anumodak")
-    private String anumodak;
-
-    @Column(name = "dava")
-    private Double dava;
-
-    @Column(name = "vyaj_dar")
-    private Float vyajDar;
-
-    @Column(name = "sarcharge")
-    private Double sarcharge;
-
-    @Column(name = "jyada_vyaj")
-    private Double jyadaVyaj;
-
-    @Column(name = "yene_vyaj")
-    private Double yeneVyaj;
-
-    @Column(name = "vasuli_kharch")
-    private Double vasuliKharch;
-
-    @Column(name = "ethar_kharch")
-    private Double etharKharch;
-
-    @Column(name = "vima")
-    private Double vima;
-
-    @Column(name = "notice")
-    private Double notice;
-
-    @Column(name = "tharav_number")
-    private Long tharavNumber;
-
-    @Column(name = "tharav_dinank")
-    private Instant tharavDinank;
-
-    @Column(name = "vishay_kramank")
-    private Integer vishayKramank;
-
-    @Column(name = "notice_one")
-    private Instant noticeOne;
-
-    @Column(name = "notice_two")
-    private Instant noticeTwo;
-
-    @Column(name = "war")
-    private String war;
-
-    @Column(name = "vel")
-    private String vel;
-
-    @Column(name = "jamindar_one")
-    private String jamindarOne;
-
-    @Column(name = "jamindar_one_address")
-    private String jamindarOneAddress;
-
-    @Column(name = "jamindar_two")
-    private String jamindarTwo;
-
-    @Column(name = "jamindar_two_address")
-    private String jamindarTwoAddress;
-
-    @Column(name = "taran_type")
-    private String taranType;
-
-    @Column(name = "taran_details")
-    private String taranDetails;
+    @Column(name = "second_notice_date")
+    private LocalDate secondNoticeDate;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -178,628 +112,342 @@ public class CourtCase implements Serializable {
         this.id = id;
     }
 
-    public Long getCode() {
-        return this.code;
+    public String getSrNo() {
+        return this.srNo;
     }
 
-    public CourtCase code(Long code) {
-        this.setCode(code);
+    public CourtCase srNo(String srNo) {
+        this.setSrNo(srNo);
         return this;
     }
 
-    public void setCode(Long code) {
-        this.code = code;
+    public void setSrNo(String srNo) {
+        this.srNo = srNo;
     }
 
-    public Instant getCaseDinank() {
-        return this.caseDinank;
+    public String getAccountNo() {
+        return this.accountNo;
     }
 
-    public CourtCase caseDinank(Instant caseDinank) {
-        this.setCaseDinank(caseDinank);
+    public CourtCase accountNo(String accountNo) {
+        this.setAccountNo(accountNo);
         return this;
     }
 
-    public void setCaseDinank(Instant caseDinank) {
-        this.caseDinank = caseDinank;
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 
-    public String getBankName() {
-        return this.bankName;
+    public String getNameOfDefaulter() {
+        return this.nameOfDefaulter;
     }
 
-    public CourtCase bankName(String bankName) {
-        this.setBankName(bankName);
+    public CourtCase nameOfDefaulter(String nameOfDefaulter) {
+        this.setNameOfDefaulter(nameOfDefaulter);
         return this;
     }
 
-    public void setBankName(String bankName) {
-        this.bankName = bankName;
+    public void setNameOfDefaulter(String nameOfDefaulter) {
+        this.nameOfDefaulter = nameOfDefaulter;
     }
 
-    public String getTalukaName() {
-        return this.talukaName;
+    public String getAddress() {
+        return this.address;
     }
 
-    public CourtCase talukaName(String talukaName) {
-        this.setTalukaName(talukaName);
+    public CourtCase address(String address) {
+        this.setAddress(address);
         return this;
     }
 
-    public void setTalukaName(String talukaName) {
-        this.talukaName = talukaName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Long getTalukaCode() {
-        return this.talukaCode;
+    public String getLoanType() {
+        return this.loanType;
     }
 
-    public CourtCase talukaCode(Long talukaCode) {
-        this.setTalukaCode(talukaCode);
+    public CourtCase loanType(String loanType) {
+        this.setLoanType(loanType);
         return this;
     }
 
-    public void setTalukaCode(Long talukaCode) {
-        this.talukaCode = talukaCode;
+    public void setLoanType(String loanType) {
+        this.loanType = loanType;
     }
 
-    public String getSabasadSavingAccNo() {
-        return this.sabasadSavingAccNo;
+    public Double getLoanAmount() {
+        return this.loanAmount;
     }
 
-    public CourtCase sabasadSavingAccNo(String sabasadSavingAccNo) {
-        this.setSabasadSavingAccNo(sabasadSavingAccNo);
+    public CourtCase loanAmount(Double loanAmount) {
+        this.setLoanAmount(loanAmount);
         return this;
     }
 
-    public void setSabasadSavingAccNo(String sabasadSavingAccNo) {
-        this.sabasadSavingAccNo = sabasadSavingAccNo;
+    public void setLoanAmount(Double loanAmount) {
+        this.loanAmount = loanAmount;
     }
 
-    public String getSabasadName() {
-        return this.sabasadName;
+    public LocalDate getLoanDate() {
+        return this.loanDate;
     }
 
-    public CourtCase sabasadName(String sabasadName) {
-        this.setSabasadName(sabasadName);
+    public CourtCase loanDate(LocalDate loanDate) {
+        this.setLoanDate(loanDate);
         return this;
     }
 
-    public void setSabasadName(String sabasadName) {
-        this.sabasadName = sabasadName;
+    public void setLoanDate(LocalDate loanDate) {
+        this.loanDate = loanDate;
     }
 
-    public String getSabasadAddress() {
-        return this.sabasadAddress;
+    public String getTermOfLoan() {
+        return this.termOfLoan;
     }
 
-    public CourtCase sabasadAddress(String sabasadAddress) {
-        this.setSabasadAddress(sabasadAddress);
+    public CourtCase termOfLoan(String termOfLoan) {
+        this.setTermOfLoan(termOfLoan);
         return this;
     }
 
-    public void setSabasadAddress(String sabasadAddress) {
-        this.sabasadAddress = sabasadAddress;
+    public void setTermOfLoan(String termOfLoan) {
+        this.termOfLoan = termOfLoan;
     }
 
-    public String getKarjPrakar() {
-        return this.karjPrakar;
+    public Double getInterestRate() {
+        return this.interestRate;
     }
 
-    public CourtCase karjPrakar(String karjPrakar) {
-        this.setKarjPrakar(karjPrakar);
+    public CourtCase interestRate(Double interestRate) {
+        this.setInterestRate(interestRate);
         return this;
     }
 
-    public void setKarjPrakar(String karjPrakar) {
-        this.karjPrakar = karjPrakar;
+    public void setInterestRate(Double interestRate) {
+        this.interestRate = interestRate;
     }
 
-    public String getVasuliAdhikari() {
-        return this.vasuliAdhikari;
+    public Double getInstallmentAmount() {
+        return this.installmentAmount;
     }
 
-    public CourtCase vasuliAdhikari(String vasuliAdhikari) {
-        this.setVasuliAdhikari(vasuliAdhikari);
+    public CourtCase installmentAmount(Double installmentAmount) {
+        this.setInstallmentAmount(installmentAmount);
         return this;
     }
 
-    public void setVasuliAdhikari(String vasuliAdhikari) {
-        this.vasuliAdhikari = vasuliAdhikari;
+    public void setInstallmentAmount(Double installmentAmount) {
+        this.installmentAmount = installmentAmount;
     }
 
-    public Double getEkunJama() {
-        return this.ekunJama;
+    public Double getTotalCredit() {
+        return this.totalCredit;
     }
 
-    public CourtCase ekunJama(Double ekunJama) {
-        this.setEkunJama(ekunJama);
+    public CourtCase totalCredit(Double totalCredit) {
+        this.setTotalCredit(totalCredit);
         return this;
     }
 
-    public void setEkunJama(Double ekunJama) {
-        this.ekunJama = ekunJama;
+    public void setTotalCredit(Double totalCredit) {
+        this.totalCredit = totalCredit;
     }
 
-    public Double getBaki() {
-        return this.baki;
+    public Double getBalance() {
+        return this.balance;
     }
 
-    public CourtCase baki(Double baki) {
-        this.setBaki(baki);
+    public CourtCase balance(Double balance) {
+        this.setBalance(balance);
         return this;
     }
 
-    public void setBaki(Double baki) {
-        this.baki = baki;
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
-    public String getArOffice() {
-        return this.arOffice;
+    public Double getInterestPaid() {
+        return this.interestPaid;
     }
 
-    public CourtCase arOffice(String arOffice) {
-        this.setArOffice(arOffice);
+    public CourtCase interestPaid(Double interestPaid) {
+        this.setInterestPaid(interestPaid);
         return this;
     }
 
-    public void setArOffice(String arOffice) {
-        this.arOffice = arOffice;
+    public void setInterestPaid(Double interestPaid) {
+        this.interestPaid = interestPaid;
     }
 
-    public Double getEkunVyaj() {
-        return this.ekunVyaj;
+    public Double getPenalInterestPaid() {
+        return this.penalInterestPaid;
     }
 
-    public CourtCase ekunVyaj(Double ekunVyaj) {
-        this.setEkunVyaj(ekunVyaj);
+    public CourtCase penalInterestPaid(Double penalInterestPaid) {
+        this.setPenalInterestPaid(penalInterestPaid);
         return this;
     }
 
-    public void setEkunVyaj(Double ekunVyaj) {
-        this.ekunVyaj = ekunVyaj;
+    public void setPenalInterestPaid(Double penalInterestPaid) {
+        this.penalInterestPaid = penalInterestPaid;
     }
 
-    public Double getJamaVyaj() {
-        return this.jamaVyaj;
+    public Double getDueAmount() {
+        return this.dueAmount;
     }
 
-    public CourtCase jamaVyaj(Double jamaVyaj) {
-        this.setJamaVyaj(jamaVyaj);
+    public CourtCase dueAmount(Double dueAmount) {
+        this.setDueAmount(dueAmount);
         return this;
     }
 
-    public void setJamaVyaj(Double jamaVyaj) {
-        this.jamaVyaj = jamaVyaj;
+    public void setDueAmount(Double dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
-    public Double getDandVyaj() {
-        return this.dandVyaj;
+    public LocalDate getDueDate() {
+        return this.dueDate;
     }
 
-    public CourtCase dandVyaj(Double dandVyaj) {
-        this.setDandVyaj(dandVyaj);
+    public CourtCase dueDate(LocalDate dueDate) {
+        this.setDueDate(dueDate);
         return this;
     }
 
-    public void setDandVyaj(Double dandVyaj) {
-        this.dandVyaj = dandVyaj;
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public Double getKarjRakkam() {
-        return this.karjRakkam;
+    public Double getDueInterest() {
+        return this.dueInterest;
     }
 
-    public CourtCase karjRakkam(Double karjRakkam) {
-        this.setKarjRakkam(karjRakkam);
+    public CourtCase dueInterest(Double dueInterest) {
+        this.setDueInterest(dueInterest);
         return this;
     }
 
-    public void setKarjRakkam(Double karjRakkam) {
-        this.karjRakkam = karjRakkam;
+    public void setDueInterest(Double dueInterest) {
+        this.dueInterest = dueInterest;
     }
 
-    public Instant getThakDinnank() {
-        return this.thakDinnank;
+    public Double getDuePenalInterest() {
+        return this.duePenalInterest;
     }
 
-    public CourtCase thakDinnank(Instant thakDinnank) {
-        this.setThakDinnank(thakDinnank);
+    public CourtCase duePenalInterest(Double duePenalInterest) {
+        this.setDuePenalInterest(duePenalInterest);
         return this;
     }
 
-    public void setThakDinnank(Instant thakDinnank) {
-        this.thakDinnank = thakDinnank;
+    public void setDuePenalInterest(Double duePenalInterest) {
+        this.duePenalInterest = duePenalInterest;
     }
 
-    public Instant getKarjDinnank() {
-        return this.karjDinnank;
+    public Double getDueMoreInterest() {
+        return this.dueMoreInterest;
     }
 
-    public CourtCase karjDinnank(Instant karjDinnank) {
-        this.setKarjDinnank(karjDinnank);
+    public CourtCase dueMoreInterest(Double dueMoreInterest) {
+        this.setDueMoreInterest(dueMoreInterest);
         return this;
     }
 
-    public void setKarjDinnank(Instant karjDinnank) {
-        this.karjDinnank = karjDinnank;
+    public void setDueMoreInterest(Double dueMoreInterest) {
+        this.dueMoreInterest = dueMoreInterest;
     }
 
-    public Instant getMudatSampteDinank() {
-        return this.mudatSampteDinank;
+    public Double getInterestRecivable() {
+        return this.interestRecivable;
     }
 
-    public CourtCase mudatSampteDinank(Instant mudatSampteDinank) {
-        this.setMudatSampteDinank(mudatSampteDinank);
+    public CourtCase interestRecivable(Double interestRecivable) {
+        this.setInterestRecivable(interestRecivable);
         return this;
     }
 
-    public void setMudatSampteDinank(Instant mudatSampteDinank) {
-        this.mudatSampteDinank = mudatSampteDinank;
+    public void setInterestRecivable(Double interestRecivable) {
+        this.interestRecivable = interestRecivable;
     }
 
-    public String getMudat() {
-        return this.mudat;
+    public String getGaurentorOne() {
+        return this.gaurentorOne;
     }
 
-    public CourtCase mudat(String mudat) {
-        this.setMudat(mudat);
+    public CourtCase gaurentorOne(String gaurentorOne) {
+        this.setGaurentorOne(gaurentorOne);
         return this;
     }
 
-    public void setMudat(String mudat) {
-        this.mudat = mudat;
+    public void setGaurentorOne(String gaurentorOne) {
+        this.gaurentorOne = gaurentorOne;
     }
 
-    public String getVyaj() {
-        return this.vyaj;
+    public String getGaurentorOneAddress() {
+        return this.gaurentorOneAddress;
     }
 
-    public CourtCase vyaj(String vyaj) {
-        this.setVyaj(vyaj);
+    public CourtCase gaurentorOneAddress(String gaurentorOneAddress) {
+        this.setGaurentorOneAddress(gaurentorOneAddress);
         return this;
     }
 
-    public void setVyaj(String vyaj) {
-        this.vyaj = vyaj;
+    public void setGaurentorOneAddress(String gaurentorOneAddress) {
+        this.gaurentorOneAddress = gaurentorOneAddress;
     }
 
-    public Double getHaptaRakkam() {
-        return this.haptaRakkam;
+    public String getGaurentorTwo() {
+        return this.gaurentorTwo;
     }
 
-    public CourtCase haptaRakkam(Double haptaRakkam) {
-        this.setHaptaRakkam(haptaRakkam);
+    public CourtCase gaurentorTwo(String gaurentorTwo) {
+        this.setGaurentorTwo(gaurentorTwo);
         return this;
     }
 
-    public void setHaptaRakkam(Double haptaRakkam) {
-        this.haptaRakkam = haptaRakkam;
+    public void setGaurentorTwo(String gaurentorTwo) {
+        this.gaurentorTwo = gaurentorTwo;
     }
 
-    public String getShakhaVevsthapak() {
-        return this.shakhaVevsthapak;
+    public String getGaurentorTwoAddress() {
+        return this.gaurentorTwoAddress;
     }
 
-    public CourtCase shakhaVevsthapak(String shakhaVevsthapak) {
-        this.setShakhaVevsthapak(shakhaVevsthapak);
+    public CourtCase gaurentorTwoAddress(String gaurentorTwoAddress) {
+        this.setGaurentorTwoAddress(gaurentorTwoAddress);
         return this;
     }
 
-    public void setShakhaVevsthapak(String shakhaVevsthapak) {
-        this.shakhaVevsthapak = shakhaVevsthapak;
+    public void setGaurentorTwoAddress(String gaurentorTwoAddress) {
+        this.gaurentorTwoAddress = gaurentorTwoAddress;
     }
 
-    public String getSuchak() {
-        return this.suchak;
+    public LocalDate getFirstNoticeDate() {
+        return this.firstNoticeDate;
     }
 
-    public CourtCase suchak(String suchak) {
-        this.setSuchak(suchak);
+    public CourtCase firstNoticeDate(LocalDate firstNoticeDate) {
+        this.setFirstNoticeDate(firstNoticeDate);
         return this;
     }
 
-    public void setSuchak(String suchak) {
-        this.suchak = suchak;
+    public void setFirstNoticeDate(LocalDate firstNoticeDate) {
+        this.firstNoticeDate = firstNoticeDate;
     }
 
-    public String getAnumodak() {
-        return this.anumodak;
+    public LocalDate getSecondNoticeDate() {
+        return this.secondNoticeDate;
     }
 
-    public CourtCase anumodak(String anumodak) {
-        this.setAnumodak(anumodak);
+    public CourtCase secondNoticeDate(LocalDate secondNoticeDate) {
+        this.setSecondNoticeDate(secondNoticeDate);
         return this;
     }
 
-    public void setAnumodak(String anumodak) {
-        this.anumodak = anumodak;
-    }
-
-    public Double getDava() {
-        return this.dava;
-    }
-
-    public CourtCase dava(Double dava) {
-        this.setDava(dava);
-        return this;
-    }
-
-    public void setDava(Double dava) {
-        this.dava = dava;
-    }
-
-    public Float getVyajDar() {
-        return this.vyajDar;
-    }
-
-    public CourtCase vyajDar(Float vyajDar) {
-        this.setVyajDar(vyajDar);
-        return this;
-    }
-
-    public void setVyajDar(Float vyajDar) {
-        this.vyajDar = vyajDar;
-    }
-
-    public Double getSarcharge() {
-        return this.sarcharge;
-    }
-
-    public CourtCase sarcharge(Double sarcharge) {
-        this.setSarcharge(sarcharge);
-        return this;
-    }
-
-    public void setSarcharge(Double sarcharge) {
-        this.sarcharge = sarcharge;
-    }
-
-    public Double getJyadaVyaj() {
-        return this.jyadaVyaj;
-    }
-
-    public CourtCase jyadaVyaj(Double jyadaVyaj) {
-        this.setJyadaVyaj(jyadaVyaj);
-        return this;
-    }
-
-    public void setJyadaVyaj(Double jyadaVyaj) {
-        this.jyadaVyaj = jyadaVyaj;
-    }
-
-    public Double getYeneVyaj() {
-        return this.yeneVyaj;
-    }
-
-    public CourtCase yeneVyaj(Double yeneVyaj) {
-        this.setYeneVyaj(yeneVyaj);
-        return this;
-    }
-
-    public void setYeneVyaj(Double yeneVyaj) {
-        this.yeneVyaj = yeneVyaj;
-    }
-
-    public Double getVasuliKharch() {
-        return this.vasuliKharch;
-    }
-
-    public CourtCase vasuliKharch(Double vasuliKharch) {
-        this.setVasuliKharch(vasuliKharch);
-        return this;
-    }
-
-    public void setVasuliKharch(Double vasuliKharch) {
-        this.vasuliKharch = vasuliKharch;
-    }
-
-    public Double getEtharKharch() {
-        return this.etharKharch;
-    }
-
-    public CourtCase etharKharch(Double etharKharch) {
-        this.setEtharKharch(etharKharch);
-        return this;
-    }
-
-    public void setEtharKharch(Double etharKharch) {
-        this.etharKharch = etharKharch;
-    }
-
-    public Double getVima() {
-        return this.vima;
-    }
-
-    public CourtCase vima(Double vima) {
-        this.setVima(vima);
-        return this;
-    }
-
-    public void setVima(Double vima) {
-        this.vima = vima;
-    }
-
-    public Double getNotice() {
-        return this.notice;
-    }
-
-    public CourtCase notice(Double notice) {
-        this.setNotice(notice);
-        return this;
-    }
-
-    public void setNotice(Double notice) {
-        this.notice = notice;
-    }
-
-    public Long getTharavNumber() {
-        return this.tharavNumber;
-    }
-
-    public CourtCase tharavNumber(Long tharavNumber) {
-        this.setTharavNumber(tharavNumber);
-        return this;
-    }
-
-    public void setTharavNumber(Long tharavNumber) {
-        this.tharavNumber = tharavNumber;
-    }
-
-    public Instant getTharavDinank() {
-        return this.tharavDinank;
-    }
-
-    public CourtCase tharavDinank(Instant tharavDinank) {
-        this.setTharavDinank(tharavDinank);
-        return this;
-    }
-
-    public void setTharavDinank(Instant tharavDinank) {
-        this.tharavDinank = tharavDinank;
-    }
-
-    public Integer getVishayKramank() {
-        return this.vishayKramank;
-    }
-
-    public CourtCase vishayKramank(Integer vishayKramank) {
-        this.setVishayKramank(vishayKramank);
-        return this;
-    }
-
-    public void setVishayKramank(Integer vishayKramank) {
-        this.vishayKramank = vishayKramank;
-    }
-
-    public Instant getNoticeOne() {
-        return this.noticeOne;
-    }
-
-    public CourtCase noticeOne(Instant noticeOne) {
-        this.setNoticeOne(noticeOne);
-        return this;
-    }
-
-    public void setNoticeOne(Instant noticeOne) {
-        this.noticeOne = noticeOne;
-    }
-
-    public Instant getNoticeTwo() {
-        return this.noticeTwo;
-    }
-
-    public CourtCase noticeTwo(Instant noticeTwo) {
-        this.setNoticeTwo(noticeTwo);
-        return this;
-    }
-
-    public void setNoticeTwo(Instant noticeTwo) {
-        this.noticeTwo = noticeTwo;
-    }
-
-    public String getWar() {
-        return this.war;
-    }
-
-    public CourtCase war(String war) {
-        this.setWar(war);
-        return this;
-    }
-
-    public void setWar(String war) {
-        this.war = war;
-    }
-
-    public String getVel() {
-        return this.vel;
-    }
-
-    public CourtCase vel(String vel) {
-        this.setVel(vel);
-        return this;
-    }
-
-    public void setVel(String vel) {
-        this.vel = vel;
-    }
-
-    public String getJamindarOne() {
-        return this.jamindarOne;
-    }
-
-    public CourtCase jamindarOne(String jamindarOne) {
-        this.setJamindarOne(jamindarOne);
-        return this;
-    }
-
-    public void setJamindarOne(String jamindarOne) {
-        this.jamindarOne = jamindarOne;
-    }
-
-    public String getJamindarOneAddress() {
-        return this.jamindarOneAddress;
-    }
-
-    public CourtCase jamindarOneAddress(String jamindarOneAddress) {
-        this.setJamindarOneAddress(jamindarOneAddress);
-        return this;
-    }
-
-    public void setJamindarOneAddress(String jamindarOneAddress) {
-        this.jamindarOneAddress = jamindarOneAddress;
-    }
-
-    public String getJamindarTwo() {
-        return this.jamindarTwo;
-    }
-
-    public CourtCase jamindarTwo(String jamindarTwo) {
-        this.setJamindarTwo(jamindarTwo);
-        return this;
-    }
-
-    public void setJamindarTwo(String jamindarTwo) {
-        this.jamindarTwo = jamindarTwo;
-    }
-
-    public String getJamindarTwoAddress() {
-        return this.jamindarTwoAddress;
-    }
-
-    public CourtCase jamindarTwoAddress(String jamindarTwoAddress) {
-        this.setJamindarTwoAddress(jamindarTwoAddress);
-        return this;
-    }
-
-    public void setJamindarTwoAddress(String jamindarTwoAddress) {
-        this.jamindarTwoAddress = jamindarTwoAddress;
-    }
-
-    public String getTaranType() {
-        return this.taranType;
-    }
-
-    public CourtCase taranType(String taranType) {
-        this.setTaranType(taranType);
-        return this;
-    }
-
-    public void setTaranType(String taranType) {
-        this.taranType = taranType;
-    }
-
-    public String getTaranDetails() {
-        return this.taranDetails;
-    }
-
-    public CourtCase taranDetails(String taranDetails) {
-        this.setTaranDetails(taranDetails);
-        return this;
-    }
-
-    public void setTaranDetails(String taranDetails) {
-        this.taranDetails = taranDetails;
+    public void setSecondNoticeDate(LocalDate secondNoticeDate) {
+        this.secondNoticeDate = secondNoticeDate;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -826,54 +474,32 @@ public class CourtCase implements Serializable {
     public String toString() {
         return "CourtCase{" +
             "id=" + getId() +
-            ", code=" + getCode() +
-            ", caseDinank='" + getCaseDinank() + "'" +
-            ", bankName='" + getBankName() + "'" +
-            ", talukaName='" + getTalukaName() + "'" +
-            ", talukaCode=" + getTalukaCode() +
-            ", sabasadSavingAccNo='" + getSabasadSavingAccNo() + "'" +
-            ", sabasadName='" + getSabasadName() + "'" +
-            ", sabasadAddress='" + getSabasadAddress() + "'" +
-            ", karjPrakar='" + getKarjPrakar() + "'" +
-            ", vasuliAdhikari='" + getVasuliAdhikari() + "'" +
-            ", ekunJama=" + getEkunJama() +
-            ", baki=" + getBaki() +
-            ", arOffice='" + getArOffice() + "'" +
-            ", ekunVyaj=" + getEkunVyaj() +
-            ", jamaVyaj=" + getJamaVyaj() +
-            ", dandVyaj=" + getDandVyaj() +
-            ", karjRakkam=" + getKarjRakkam() +
-            ", thakDinnank='" + getThakDinnank() + "'" +
-            ", karjDinnank='" + getKarjDinnank() + "'" +
-            ", mudatSampteDinank='" + getMudatSampteDinank() + "'" +
-            ", mudat='" + getMudat() + "'" +
-            ", vyaj='" + getVyaj() + "'" +
-            ", haptaRakkam=" + getHaptaRakkam() +
-            ", shakhaVevsthapak='" + getShakhaVevsthapak() + "'" +
-            ", suchak='" + getSuchak() + "'" +
-            ", anumodak='" + getAnumodak() + "'" +
-            ", dava=" + getDava() +
-            ", vyajDar=" + getVyajDar() +
-            ", sarcharge=" + getSarcharge() +
-            ", jyadaVyaj=" + getJyadaVyaj() +
-            ", yeneVyaj=" + getYeneVyaj() +
-            ", vasuliKharch=" + getVasuliKharch() +
-            ", etharKharch=" + getEtharKharch() +
-            ", vima=" + getVima() +
-            ", notice=" + getNotice() +
-            ", tharavNumber=" + getTharavNumber() +
-            ", tharavDinank='" + getTharavDinank() + "'" +
-            ", vishayKramank=" + getVishayKramank() +
-            ", noticeOne='" + getNoticeOne() + "'" +
-            ", noticeTwo='" + getNoticeTwo() + "'" +
-            ", war='" + getWar() + "'" +
-            ", vel='" + getVel() + "'" +
-            ", jamindarOne='" + getJamindarOne() + "'" +
-            ", jamindarOneAddress='" + getJamindarOneAddress() + "'" +
-            ", jamindarTwo='" + getJamindarTwo() + "'" +
-            ", jamindarTwoAddress='" + getJamindarTwoAddress() + "'" +
-            ", taranType='" + getTaranType() + "'" +
-            ", taranDetails='" + getTaranDetails() + "'" +
+            ", srNo='" + getSrNo() + "'" +
+            ", accountNo='" + getAccountNo() + "'" +
+            ", nameOfDefaulter='" + getNameOfDefaulter() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", loanType='" + getLoanType() + "'" +
+            ", loanAmount=" + getLoanAmount() +
+            ", loanDate='" + getLoanDate() + "'" +
+            ", termOfLoan='" + getTermOfLoan() + "'" +
+            ", interestRate=" + getInterestRate() +
+            ", installmentAmount=" + getInstallmentAmount() +
+            ", totalCredit=" + getTotalCredit() +
+            ", balance=" + getBalance() +
+            ", interestPaid=" + getInterestPaid() +
+            ", penalInterestPaid=" + getPenalInterestPaid() +
+            ", dueAmount=" + getDueAmount() +
+            ", dueDate='" + getDueDate() + "'" +
+            ", dueInterest=" + getDueInterest() +
+            ", duePenalInterest=" + getDuePenalInterest() +
+            ", dueMoreInterest=" + getDueMoreInterest() +
+            ", interestRecivable=" + getInterestRecivable() +
+            ", gaurentorOne='" + getGaurentorOne() + "'" +
+            ", gaurentorOneAddress='" + getGaurentorOneAddress() + "'" +
+            ", gaurentorTwo='" + getGaurentorTwo() + "'" +
+            ", gaurentorTwoAddress='" + getGaurentorTwoAddress() + "'" +
+            ", firstNoticeDate='" + getFirstNoticeDate() + "'" +
+            ", secondNoticeDate='" + getSecondNoticeDate() + "'" +
             "}";
     }
 }

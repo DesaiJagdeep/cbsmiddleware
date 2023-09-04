@@ -5,22 +5,15 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ICourtCaseSetting, NewCourtCaseSetting } from '../court-case-setting.model';
 
 export type PartialUpdateCourtCaseSetting = Partial<ICourtCaseSetting> & Pick<ICourtCaseSetting, 'id'>;
 
-type RestOf<T extends ICourtCaseSetting | NewCourtCaseSetting> = Omit<
-  T,
-  'dinank' | 'tharavDinank' | 'karjFedNotice' | 'oneZeroOneNoticeOne' | 'oneZeroOneNoticeTwo' | 'maganiNotice'
-> & {
-  dinank?: string | null;
-  tharavDinank?: string | null;
-  karjFedNotice?: string | null;
-  oneZeroOneNoticeOne?: string | null;
-  oneZeroOneNoticeTwo?: string | null;
-  maganiNotice?: string | null;
+type RestOf<T extends ICourtCaseSetting | NewCourtCaseSetting> = Omit<T, 'meetingDate'> & {
+  meetingDate?: string | null;
 };
 
 export type RestCourtCaseSetting = RestOf<ICourtCaseSetting>;
@@ -115,24 +108,14 @@ export class CourtCaseSettingService {
   ): RestOf<T> {
     return {
       ...courtCaseSetting,
-      dinank: courtCaseSetting.dinank?.toJSON() ?? null,
-      tharavDinank: courtCaseSetting.tharavDinank?.toJSON() ?? null,
-      karjFedNotice: courtCaseSetting.karjFedNotice?.toJSON() ?? null,
-      oneZeroOneNoticeOne: courtCaseSetting.oneZeroOneNoticeOne?.toJSON() ?? null,
-      oneZeroOneNoticeTwo: courtCaseSetting.oneZeroOneNoticeTwo?.toJSON() ?? null,
-      maganiNotice: courtCaseSetting.maganiNotice?.toJSON() ?? null,
+      meetingDate: courtCaseSetting.meetingDate?.format(DATE_FORMAT) ?? null,
     };
   }
 
   protected convertDateFromServer(restCourtCaseSetting: RestCourtCaseSetting): ICourtCaseSetting {
     return {
       ...restCourtCaseSetting,
-      dinank: restCourtCaseSetting.dinank ? dayjs(restCourtCaseSetting.dinank) : undefined,
-      tharavDinank: restCourtCaseSetting.tharavDinank ? dayjs(restCourtCaseSetting.tharavDinank) : undefined,
-      karjFedNotice: restCourtCaseSetting.karjFedNotice ? dayjs(restCourtCaseSetting.karjFedNotice) : undefined,
-      oneZeroOneNoticeOne: restCourtCaseSetting.oneZeroOneNoticeOne ? dayjs(restCourtCaseSetting.oneZeroOneNoticeOne) : undefined,
-      oneZeroOneNoticeTwo: restCourtCaseSetting.oneZeroOneNoticeTwo ? dayjs(restCourtCaseSetting.oneZeroOneNoticeTwo) : undefined,
-      maganiNotice: restCourtCaseSetting.maganiNotice ? dayjs(restCourtCaseSetting.maganiNotice) : undefined,
+      meetingDate: restCourtCaseSetting.meetingDate ? dayjs(restCourtCaseSetting.meetingDate) : undefined,
     };
   }
 

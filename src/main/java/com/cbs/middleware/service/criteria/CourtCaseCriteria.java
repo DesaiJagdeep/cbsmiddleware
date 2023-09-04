@@ -23,101 +23,57 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LongFilter code;
+    private StringFilter srNo;
 
-    private InstantFilter caseDinank;
+    private StringFilter accountNo;
 
-    private StringFilter bankName;
+    private StringFilter nameOfDefaulter;
 
-    private StringFilter talukaName;
+    private StringFilter address;
 
-    private LongFilter talukaCode;
+    private StringFilter loanType;
 
-    private StringFilter sabasadSavingAccNo;
+    private DoubleFilter loanAmount;
 
-    private StringFilter sabasadName;
+    private LocalDateFilter loanDate;
 
-    private StringFilter sabasadAddress;
+    private StringFilter termOfLoan;
 
-    private StringFilter karjPrakar;
+    private DoubleFilter interestRate;
 
-    private StringFilter vasuliAdhikari;
+    private DoubleFilter installmentAmount;
 
-    private DoubleFilter ekunJama;
+    private DoubleFilter totalCredit;
 
-    private DoubleFilter baki;
+    private DoubleFilter balance;
 
-    private StringFilter arOffice;
+    private DoubleFilter interestPaid;
 
-    private DoubleFilter ekunVyaj;
+    private DoubleFilter penalInterestPaid;
 
-    private DoubleFilter jamaVyaj;
+    private DoubleFilter dueAmount;
 
-    private DoubleFilter dandVyaj;
+    private LocalDateFilter dueDate;
 
-    private DoubleFilter karjRakkam;
+    private DoubleFilter dueInterest;
 
-    private InstantFilter thakDinnank;
+    private DoubleFilter duePenalInterest;
 
-    private InstantFilter karjDinnank;
+    private DoubleFilter dueMoreInterest;
 
-    private InstantFilter mudatSampteDinank;
+    private DoubleFilter interestRecivable;
 
-    private StringFilter mudat;
+    private StringFilter gaurentorOne;
 
-    private StringFilter vyaj;
+    private StringFilter gaurentorOneAddress;
 
-    private DoubleFilter haptaRakkam;
+    private StringFilter gaurentorTwo;
 
-    private StringFilter shakhaVevsthapak;
+    private StringFilter gaurentorTwoAddress;
 
-    private StringFilter suchak;
+    private LocalDateFilter firstNoticeDate;
 
-    private StringFilter anumodak;
-
-    private DoubleFilter dava;
-
-    private FloatFilter vyajDar;
-
-    private DoubleFilter sarcharge;
-
-    private DoubleFilter jyadaVyaj;
-
-    private DoubleFilter yeneVyaj;
-
-    private DoubleFilter vasuliKharch;
-
-    private DoubleFilter etharKharch;
-
-    private DoubleFilter vima;
-
-    private DoubleFilter notice;
-
-    private LongFilter tharavNumber;
-
-    private InstantFilter tharavDinank;
-
-    private IntegerFilter vishayKramank;
-
-    private InstantFilter noticeOne;
-
-    private InstantFilter noticeTwo;
-
-    private StringFilter war;
-
-    private StringFilter vel;
-
-    private StringFilter jamindarOne;
-
-    private StringFilter jamindarOneAddress;
-
-    private StringFilter jamindarTwo;
-
-    private StringFilter jamindarTwoAddress;
-
-    private StringFilter taranType;
-
-    private StringFilter taranDetails;
+    private LocalDateFilter secondNoticeDate;
 
     private Boolean distinct;
 
@@ -125,54 +81,32 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     public CourtCaseCriteria(CourtCaseCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.code = other.code == null ? null : other.code.copy();
-        this.caseDinank = other.caseDinank == null ? null : other.caseDinank.copy();
-        this.bankName = other.bankName == null ? null : other.bankName.copy();
-        this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
-        this.talukaCode = other.talukaCode == null ? null : other.talukaCode.copy();
-        this.sabasadSavingAccNo = other.sabasadSavingAccNo == null ? null : other.sabasadSavingAccNo.copy();
-        this.sabasadName = other.sabasadName == null ? null : other.sabasadName.copy();
-        this.sabasadAddress = other.sabasadAddress == null ? null : other.sabasadAddress.copy();
-        this.karjPrakar = other.karjPrakar == null ? null : other.karjPrakar.copy();
-        this.vasuliAdhikari = other.vasuliAdhikari == null ? null : other.vasuliAdhikari.copy();
-        this.ekunJama = other.ekunJama == null ? null : other.ekunJama.copy();
-        this.baki = other.baki == null ? null : other.baki.copy();
-        this.arOffice = other.arOffice == null ? null : other.arOffice.copy();
-        this.ekunVyaj = other.ekunVyaj == null ? null : other.ekunVyaj.copy();
-        this.jamaVyaj = other.jamaVyaj == null ? null : other.jamaVyaj.copy();
-        this.dandVyaj = other.dandVyaj == null ? null : other.dandVyaj.copy();
-        this.karjRakkam = other.karjRakkam == null ? null : other.karjRakkam.copy();
-        this.thakDinnank = other.thakDinnank == null ? null : other.thakDinnank.copy();
-        this.karjDinnank = other.karjDinnank == null ? null : other.karjDinnank.copy();
-        this.mudatSampteDinank = other.mudatSampteDinank == null ? null : other.mudatSampteDinank.copy();
-        this.mudat = other.mudat == null ? null : other.mudat.copy();
-        this.vyaj = other.vyaj == null ? null : other.vyaj.copy();
-        this.haptaRakkam = other.haptaRakkam == null ? null : other.haptaRakkam.copy();
-        this.shakhaVevsthapak = other.shakhaVevsthapak == null ? null : other.shakhaVevsthapak.copy();
-        this.suchak = other.suchak == null ? null : other.suchak.copy();
-        this.anumodak = other.anumodak == null ? null : other.anumodak.copy();
-        this.dava = other.dava == null ? null : other.dava.copy();
-        this.vyajDar = other.vyajDar == null ? null : other.vyajDar.copy();
-        this.sarcharge = other.sarcharge == null ? null : other.sarcharge.copy();
-        this.jyadaVyaj = other.jyadaVyaj == null ? null : other.jyadaVyaj.copy();
-        this.yeneVyaj = other.yeneVyaj == null ? null : other.yeneVyaj.copy();
-        this.vasuliKharch = other.vasuliKharch == null ? null : other.vasuliKharch.copy();
-        this.etharKharch = other.etharKharch == null ? null : other.etharKharch.copy();
-        this.vima = other.vima == null ? null : other.vima.copy();
-        this.notice = other.notice == null ? null : other.notice.copy();
-        this.tharavNumber = other.tharavNumber == null ? null : other.tharavNumber.copy();
-        this.tharavDinank = other.tharavDinank == null ? null : other.tharavDinank.copy();
-        this.vishayKramank = other.vishayKramank == null ? null : other.vishayKramank.copy();
-        this.noticeOne = other.noticeOne == null ? null : other.noticeOne.copy();
-        this.noticeTwo = other.noticeTwo == null ? null : other.noticeTwo.copy();
-        this.war = other.war == null ? null : other.war.copy();
-        this.vel = other.vel == null ? null : other.vel.copy();
-        this.jamindarOne = other.jamindarOne == null ? null : other.jamindarOne.copy();
-        this.jamindarOneAddress = other.jamindarOneAddress == null ? null : other.jamindarOneAddress.copy();
-        this.jamindarTwo = other.jamindarTwo == null ? null : other.jamindarTwo.copy();
-        this.jamindarTwoAddress = other.jamindarTwoAddress == null ? null : other.jamindarTwoAddress.copy();
-        this.taranType = other.taranType == null ? null : other.taranType.copy();
-        this.taranDetails = other.taranDetails == null ? null : other.taranDetails.copy();
+        this.srNo = other.srNo == null ? null : other.srNo.copy();
+        this.accountNo = other.accountNo == null ? null : other.accountNo.copy();
+        this.nameOfDefaulter = other.nameOfDefaulter == null ? null : other.nameOfDefaulter.copy();
+        this.address = other.address == null ? null : other.address.copy();
+        this.loanType = other.loanType == null ? null : other.loanType.copy();
+        this.loanAmount = other.loanAmount == null ? null : other.loanAmount.copy();
+        this.loanDate = other.loanDate == null ? null : other.loanDate.copy();
+        this.termOfLoan = other.termOfLoan == null ? null : other.termOfLoan.copy();
+        this.interestRate = other.interestRate == null ? null : other.interestRate.copy();
+        this.installmentAmount = other.installmentAmount == null ? null : other.installmentAmount.copy();
+        this.totalCredit = other.totalCredit == null ? null : other.totalCredit.copy();
+        this.balance = other.balance == null ? null : other.balance.copy();
+        this.interestPaid = other.interestPaid == null ? null : other.interestPaid.copy();
+        this.penalInterestPaid = other.penalInterestPaid == null ? null : other.penalInterestPaid.copy();
+        this.dueAmount = other.dueAmount == null ? null : other.dueAmount.copy();
+        this.dueDate = other.dueDate == null ? null : other.dueDate.copy();
+        this.dueInterest = other.dueInterest == null ? null : other.dueInterest.copy();
+        this.duePenalInterest = other.duePenalInterest == null ? null : other.duePenalInterest.copy();
+        this.dueMoreInterest = other.dueMoreInterest == null ? null : other.dueMoreInterest.copy();
+        this.interestRecivable = other.interestRecivable == null ? null : other.interestRecivable.copy();
+        this.gaurentorOne = other.gaurentorOne == null ? null : other.gaurentorOne.copy();
+        this.gaurentorOneAddress = other.gaurentorOneAddress == null ? null : other.gaurentorOneAddress.copy();
+        this.gaurentorTwo = other.gaurentorTwo == null ? null : other.gaurentorTwo.copy();
+        this.gaurentorTwoAddress = other.gaurentorTwoAddress == null ? null : other.gaurentorTwoAddress.copy();
+        this.firstNoticeDate = other.firstNoticeDate == null ? null : other.firstNoticeDate.copy();
+        this.secondNoticeDate = other.secondNoticeDate == null ? null : other.secondNoticeDate.copy();
         this.distinct = other.distinct;
     }
 
@@ -196,724 +130,394 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LongFilter getCode() {
-        return code;
+    public StringFilter getSrNo() {
+        return srNo;
     }
 
-    public LongFilter code() {
-        if (code == null) {
-            code = new LongFilter();
+    public StringFilter srNo() {
+        if (srNo == null) {
+            srNo = new StringFilter();
         }
-        return code;
+        return srNo;
     }
 
-    public void setCode(LongFilter code) {
-        this.code = code;
+    public void setSrNo(StringFilter srNo) {
+        this.srNo = srNo;
     }
 
-    public InstantFilter getCaseDinank() {
-        return caseDinank;
+    public StringFilter getAccountNo() {
+        return accountNo;
     }
 
-    public InstantFilter caseDinank() {
-        if (caseDinank == null) {
-            caseDinank = new InstantFilter();
+    public StringFilter accountNo() {
+        if (accountNo == null) {
+            accountNo = new StringFilter();
         }
-        return caseDinank;
+        return accountNo;
     }
 
-    public void setCaseDinank(InstantFilter caseDinank) {
-        this.caseDinank = caseDinank;
+    public void setAccountNo(StringFilter accountNo) {
+        this.accountNo = accountNo;
     }
 
-    public StringFilter getBankName() {
-        return bankName;
+    public StringFilter getNameOfDefaulter() {
+        return nameOfDefaulter;
     }
 
-    public StringFilter bankName() {
-        if (bankName == null) {
-            bankName = new StringFilter();
+    public StringFilter nameOfDefaulter() {
+        if (nameOfDefaulter == null) {
+            nameOfDefaulter = new StringFilter();
         }
-        return bankName;
+        return nameOfDefaulter;
     }
 
-    public void setBankName(StringFilter bankName) {
-        this.bankName = bankName;
+    public void setNameOfDefaulter(StringFilter nameOfDefaulter) {
+        this.nameOfDefaulter = nameOfDefaulter;
     }
 
-    public StringFilter getTalukaName() {
-        return talukaName;
+    public StringFilter getAddress() {
+        return address;
     }
 
-    public StringFilter talukaName() {
-        if (talukaName == null) {
-            talukaName = new StringFilter();
+    public StringFilter address() {
+        if (address == null) {
+            address = new StringFilter();
         }
-        return talukaName;
+        return address;
     }
 
-    public void setTalukaName(StringFilter talukaName) {
-        this.talukaName = talukaName;
+    public void setAddress(StringFilter address) {
+        this.address = address;
     }
 
-    public LongFilter getTalukaCode() {
-        return talukaCode;
+    public StringFilter getLoanType() {
+        return loanType;
     }
 
-    public LongFilter talukaCode() {
-        if (talukaCode == null) {
-            talukaCode = new LongFilter();
+    public StringFilter loanType() {
+        if (loanType == null) {
+            loanType = new StringFilter();
         }
-        return talukaCode;
+        return loanType;
     }
 
-    public void setTalukaCode(LongFilter talukaCode) {
-        this.talukaCode = talukaCode;
+    public void setLoanType(StringFilter loanType) {
+        this.loanType = loanType;
     }
 
-    public StringFilter getSabasadSavingAccNo() {
-        return sabasadSavingAccNo;
+    public DoubleFilter getLoanAmount() {
+        return loanAmount;
     }
 
-    public StringFilter sabasadSavingAccNo() {
-        if (sabasadSavingAccNo == null) {
-            sabasadSavingAccNo = new StringFilter();
+    public DoubleFilter loanAmount() {
+        if (loanAmount == null) {
+            loanAmount = new DoubleFilter();
         }
-        return sabasadSavingAccNo;
+        return loanAmount;
     }
 
-    public void setSabasadSavingAccNo(StringFilter sabasadSavingAccNo) {
-        this.sabasadSavingAccNo = sabasadSavingAccNo;
+    public void setLoanAmount(DoubleFilter loanAmount) {
+        this.loanAmount = loanAmount;
     }
 
-    public StringFilter getSabasadName() {
-        return sabasadName;
+    public LocalDateFilter getLoanDate() {
+        return loanDate;
     }
 
-    public StringFilter sabasadName() {
-        if (sabasadName == null) {
-            sabasadName = new StringFilter();
+    public LocalDateFilter loanDate() {
+        if (loanDate == null) {
+            loanDate = new LocalDateFilter();
         }
-        return sabasadName;
+        return loanDate;
     }
 
-    public void setSabasadName(StringFilter sabasadName) {
-        this.sabasadName = sabasadName;
+    public void setLoanDate(LocalDateFilter loanDate) {
+        this.loanDate = loanDate;
     }
 
-    public StringFilter getSabasadAddress() {
-        return sabasadAddress;
+    public StringFilter getTermOfLoan() {
+        return termOfLoan;
     }
 
-    public StringFilter sabasadAddress() {
-        if (sabasadAddress == null) {
-            sabasadAddress = new StringFilter();
+    public StringFilter termOfLoan() {
+        if (termOfLoan == null) {
+            termOfLoan = new StringFilter();
         }
-        return sabasadAddress;
+        return termOfLoan;
     }
 
-    public void setSabasadAddress(StringFilter sabasadAddress) {
-        this.sabasadAddress = sabasadAddress;
+    public void setTermOfLoan(StringFilter termOfLoan) {
+        this.termOfLoan = termOfLoan;
     }
 
-    public StringFilter getKarjPrakar() {
-        return karjPrakar;
+    public DoubleFilter getInterestRate() {
+        return interestRate;
     }
 
-    public StringFilter karjPrakar() {
-        if (karjPrakar == null) {
-            karjPrakar = new StringFilter();
+    public DoubleFilter interestRate() {
+        if (interestRate == null) {
+            interestRate = new DoubleFilter();
         }
-        return karjPrakar;
+        return interestRate;
     }
 
-    public void setKarjPrakar(StringFilter karjPrakar) {
-        this.karjPrakar = karjPrakar;
+    public void setInterestRate(DoubleFilter interestRate) {
+        this.interestRate = interestRate;
     }
 
-    public StringFilter getVasuliAdhikari() {
-        return vasuliAdhikari;
+    public DoubleFilter getInstallmentAmount() {
+        return installmentAmount;
     }
 
-    public StringFilter vasuliAdhikari() {
-        if (vasuliAdhikari == null) {
-            vasuliAdhikari = new StringFilter();
+    public DoubleFilter installmentAmount() {
+        if (installmentAmount == null) {
+            installmentAmount = new DoubleFilter();
         }
-        return vasuliAdhikari;
+        return installmentAmount;
     }
 
-    public void setVasuliAdhikari(StringFilter vasuliAdhikari) {
-        this.vasuliAdhikari = vasuliAdhikari;
+    public void setInstallmentAmount(DoubleFilter installmentAmount) {
+        this.installmentAmount = installmentAmount;
     }
 
-    public DoubleFilter getEkunJama() {
-        return ekunJama;
+    public DoubleFilter getTotalCredit() {
+        return totalCredit;
     }
 
-    public DoubleFilter ekunJama() {
-        if (ekunJama == null) {
-            ekunJama = new DoubleFilter();
+    public DoubleFilter totalCredit() {
+        if (totalCredit == null) {
+            totalCredit = new DoubleFilter();
         }
-        return ekunJama;
+        return totalCredit;
     }
 
-    public void setEkunJama(DoubleFilter ekunJama) {
-        this.ekunJama = ekunJama;
+    public void setTotalCredit(DoubleFilter totalCredit) {
+        this.totalCredit = totalCredit;
     }
 
-    public DoubleFilter getBaki() {
-        return baki;
+    public DoubleFilter getBalance() {
+        return balance;
     }
 
-    public DoubleFilter baki() {
-        if (baki == null) {
-            baki = new DoubleFilter();
+    public DoubleFilter balance() {
+        if (balance == null) {
+            balance = new DoubleFilter();
         }
-        return baki;
+        return balance;
     }
 
-    public void setBaki(DoubleFilter baki) {
-        this.baki = baki;
+    public void setBalance(DoubleFilter balance) {
+        this.balance = balance;
     }
 
-    public StringFilter getArOffice() {
-        return arOffice;
+    public DoubleFilter getInterestPaid() {
+        return interestPaid;
     }
 
-    public StringFilter arOffice() {
-        if (arOffice == null) {
-            arOffice = new StringFilter();
+    public DoubleFilter interestPaid() {
+        if (interestPaid == null) {
+            interestPaid = new DoubleFilter();
         }
-        return arOffice;
+        return interestPaid;
     }
 
-    public void setArOffice(StringFilter arOffice) {
-        this.arOffice = arOffice;
+    public void setInterestPaid(DoubleFilter interestPaid) {
+        this.interestPaid = interestPaid;
     }
 
-    public DoubleFilter getEkunVyaj() {
-        return ekunVyaj;
+    public DoubleFilter getPenalInterestPaid() {
+        return penalInterestPaid;
     }
 
-    public DoubleFilter ekunVyaj() {
-        if (ekunVyaj == null) {
-            ekunVyaj = new DoubleFilter();
+    public DoubleFilter penalInterestPaid() {
+        if (penalInterestPaid == null) {
+            penalInterestPaid = new DoubleFilter();
         }
-        return ekunVyaj;
+        return penalInterestPaid;
     }
 
-    public void setEkunVyaj(DoubleFilter ekunVyaj) {
-        this.ekunVyaj = ekunVyaj;
+    public void setPenalInterestPaid(DoubleFilter penalInterestPaid) {
+        this.penalInterestPaid = penalInterestPaid;
     }
 
-    public DoubleFilter getJamaVyaj() {
-        return jamaVyaj;
+    public DoubleFilter getDueAmount() {
+        return dueAmount;
     }
 
-    public DoubleFilter jamaVyaj() {
-        if (jamaVyaj == null) {
-            jamaVyaj = new DoubleFilter();
+    public DoubleFilter dueAmount() {
+        if (dueAmount == null) {
+            dueAmount = new DoubleFilter();
         }
-        return jamaVyaj;
+        return dueAmount;
     }
 
-    public void setJamaVyaj(DoubleFilter jamaVyaj) {
-        this.jamaVyaj = jamaVyaj;
+    public void setDueAmount(DoubleFilter dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
-    public DoubleFilter getDandVyaj() {
-        return dandVyaj;
+    public LocalDateFilter getDueDate() {
+        return dueDate;
     }
 
-    public DoubleFilter dandVyaj() {
-        if (dandVyaj == null) {
-            dandVyaj = new DoubleFilter();
+    public LocalDateFilter dueDate() {
+        if (dueDate == null) {
+            dueDate = new LocalDateFilter();
         }
-        return dandVyaj;
+        return dueDate;
     }
 
-    public void setDandVyaj(DoubleFilter dandVyaj) {
-        this.dandVyaj = dandVyaj;
+    public void setDueDate(LocalDateFilter dueDate) {
+        this.dueDate = dueDate;
     }
 
-    public DoubleFilter getKarjRakkam() {
-        return karjRakkam;
+    public DoubleFilter getDueInterest() {
+        return dueInterest;
     }
 
-    public DoubleFilter karjRakkam() {
-        if (karjRakkam == null) {
-            karjRakkam = new DoubleFilter();
+    public DoubleFilter dueInterest() {
+        if (dueInterest == null) {
+            dueInterest = new DoubleFilter();
         }
-        return karjRakkam;
+        return dueInterest;
     }
 
-    public void setKarjRakkam(DoubleFilter karjRakkam) {
-        this.karjRakkam = karjRakkam;
+    public void setDueInterest(DoubleFilter dueInterest) {
+        this.dueInterest = dueInterest;
     }
 
-    public InstantFilter getThakDinnank() {
-        return thakDinnank;
+    public DoubleFilter getDuePenalInterest() {
+        return duePenalInterest;
     }
 
-    public InstantFilter thakDinnank() {
-        if (thakDinnank == null) {
-            thakDinnank = new InstantFilter();
+    public DoubleFilter duePenalInterest() {
+        if (duePenalInterest == null) {
+            duePenalInterest = new DoubleFilter();
         }
-        return thakDinnank;
+        return duePenalInterest;
     }
 
-    public void setThakDinnank(InstantFilter thakDinnank) {
-        this.thakDinnank = thakDinnank;
+    public void setDuePenalInterest(DoubleFilter duePenalInterest) {
+        this.duePenalInterest = duePenalInterest;
     }
 
-    public InstantFilter getKarjDinnank() {
-        return karjDinnank;
+    public DoubleFilter getDueMoreInterest() {
+        return dueMoreInterest;
     }
 
-    public InstantFilter karjDinnank() {
-        if (karjDinnank == null) {
-            karjDinnank = new InstantFilter();
+    public DoubleFilter dueMoreInterest() {
+        if (dueMoreInterest == null) {
+            dueMoreInterest = new DoubleFilter();
         }
-        return karjDinnank;
+        return dueMoreInterest;
     }
 
-    public void setKarjDinnank(InstantFilter karjDinnank) {
-        this.karjDinnank = karjDinnank;
+    public void setDueMoreInterest(DoubleFilter dueMoreInterest) {
+        this.dueMoreInterest = dueMoreInterest;
     }
 
-    public InstantFilter getMudatSampteDinank() {
-        return mudatSampteDinank;
+    public DoubleFilter getInterestRecivable() {
+        return interestRecivable;
     }
 
-    public InstantFilter mudatSampteDinank() {
-        if (mudatSampteDinank == null) {
-            mudatSampteDinank = new InstantFilter();
+    public DoubleFilter interestRecivable() {
+        if (interestRecivable == null) {
+            interestRecivable = new DoubleFilter();
         }
-        return mudatSampteDinank;
+        return interestRecivable;
     }
 
-    public void setMudatSampteDinank(InstantFilter mudatSampteDinank) {
-        this.mudatSampteDinank = mudatSampteDinank;
+    public void setInterestRecivable(DoubleFilter interestRecivable) {
+        this.interestRecivable = interestRecivable;
     }
 
-    public StringFilter getMudat() {
-        return mudat;
+    public StringFilter getGaurentorOne() {
+        return gaurentorOne;
     }
 
-    public StringFilter mudat() {
-        if (mudat == null) {
-            mudat = new StringFilter();
+    public StringFilter gaurentorOne() {
+        if (gaurentorOne == null) {
+            gaurentorOne = new StringFilter();
         }
-        return mudat;
+        return gaurentorOne;
     }
 
-    public void setMudat(StringFilter mudat) {
-        this.mudat = mudat;
+    public void setGaurentorOne(StringFilter gaurentorOne) {
+        this.gaurentorOne = gaurentorOne;
     }
 
-    public StringFilter getVyaj() {
-        return vyaj;
+    public StringFilter getGaurentorOneAddress() {
+        return gaurentorOneAddress;
     }
 
-    public StringFilter vyaj() {
-        if (vyaj == null) {
-            vyaj = new StringFilter();
+    public StringFilter gaurentorOneAddress() {
+        if (gaurentorOneAddress == null) {
+            gaurentorOneAddress = new StringFilter();
         }
-        return vyaj;
+        return gaurentorOneAddress;
     }
 
-    public void setVyaj(StringFilter vyaj) {
-        this.vyaj = vyaj;
+    public void setGaurentorOneAddress(StringFilter gaurentorOneAddress) {
+        this.gaurentorOneAddress = gaurentorOneAddress;
     }
 
-    public DoubleFilter getHaptaRakkam() {
-        return haptaRakkam;
+    public StringFilter getGaurentorTwo() {
+        return gaurentorTwo;
     }
 
-    public DoubleFilter haptaRakkam() {
-        if (haptaRakkam == null) {
-            haptaRakkam = new DoubleFilter();
+    public StringFilter gaurentorTwo() {
+        if (gaurentorTwo == null) {
+            gaurentorTwo = new StringFilter();
         }
-        return haptaRakkam;
+        return gaurentorTwo;
     }
 
-    public void setHaptaRakkam(DoubleFilter haptaRakkam) {
-        this.haptaRakkam = haptaRakkam;
+    public void setGaurentorTwo(StringFilter gaurentorTwo) {
+        this.gaurentorTwo = gaurentorTwo;
     }
 
-    public StringFilter getShakhaVevsthapak() {
-        return shakhaVevsthapak;
+    public StringFilter getGaurentorTwoAddress() {
+        return gaurentorTwoAddress;
     }
 
-    public StringFilter shakhaVevsthapak() {
-        if (shakhaVevsthapak == null) {
-            shakhaVevsthapak = new StringFilter();
+    public StringFilter gaurentorTwoAddress() {
+        if (gaurentorTwoAddress == null) {
+            gaurentorTwoAddress = new StringFilter();
         }
-        return shakhaVevsthapak;
+        return gaurentorTwoAddress;
     }
 
-    public void setShakhaVevsthapak(StringFilter shakhaVevsthapak) {
-        this.shakhaVevsthapak = shakhaVevsthapak;
+    public void setGaurentorTwoAddress(StringFilter gaurentorTwoAddress) {
+        this.gaurentorTwoAddress = gaurentorTwoAddress;
     }
 
-    public StringFilter getSuchak() {
-        return suchak;
+    public LocalDateFilter getFirstNoticeDate() {
+        return firstNoticeDate;
     }
 
-    public StringFilter suchak() {
-        if (suchak == null) {
-            suchak = new StringFilter();
+    public LocalDateFilter firstNoticeDate() {
+        if (firstNoticeDate == null) {
+            firstNoticeDate = new LocalDateFilter();
         }
-        return suchak;
+        return firstNoticeDate;
     }
 
-    public void setSuchak(StringFilter suchak) {
-        this.suchak = suchak;
+    public void setFirstNoticeDate(LocalDateFilter firstNoticeDate) {
+        this.firstNoticeDate = firstNoticeDate;
     }
 
-    public StringFilter getAnumodak() {
-        return anumodak;
+    public LocalDateFilter getSecondNoticeDate() {
+        return secondNoticeDate;
     }
 
-    public StringFilter anumodak() {
-        if (anumodak == null) {
-            anumodak = new StringFilter();
+    public LocalDateFilter secondNoticeDate() {
+        if (secondNoticeDate == null) {
+            secondNoticeDate = new LocalDateFilter();
         }
-        return anumodak;
+        return secondNoticeDate;
     }
 
-    public void setAnumodak(StringFilter anumodak) {
-        this.anumodak = anumodak;
-    }
-
-    public DoubleFilter getDava() {
-        return dava;
-    }
-
-    public DoubleFilter dava() {
-        if (dava == null) {
-            dava = new DoubleFilter();
-        }
-        return dava;
-    }
-
-    public void setDava(DoubleFilter dava) {
-        this.dava = dava;
-    }
-
-    public FloatFilter getVyajDar() {
-        return vyajDar;
-    }
-
-    public FloatFilter vyajDar() {
-        if (vyajDar == null) {
-            vyajDar = new FloatFilter();
-        }
-        return vyajDar;
-    }
-
-    public void setVyajDar(FloatFilter vyajDar) {
-        this.vyajDar = vyajDar;
-    }
-
-    public DoubleFilter getSarcharge() {
-        return sarcharge;
-    }
-
-    public DoubleFilter sarcharge() {
-        if (sarcharge == null) {
-            sarcharge = new DoubleFilter();
-        }
-        return sarcharge;
-    }
-
-    public void setSarcharge(DoubleFilter sarcharge) {
-        this.sarcharge = sarcharge;
-    }
-
-    public DoubleFilter getJyadaVyaj() {
-        return jyadaVyaj;
-    }
-
-    public DoubleFilter jyadaVyaj() {
-        if (jyadaVyaj == null) {
-            jyadaVyaj = new DoubleFilter();
-        }
-        return jyadaVyaj;
-    }
-
-    public void setJyadaVyaj(DoubleFilter jyadaVyaj) {
-        this.jyadaVyaj = jyadaVyaj;
-    }
-
-    public DoubleFilter getYeneVyaj() {
-        return yeneVyaj;
-    }
-
-    public DoubleFilter yeneVyaj() {
-        if (yeneVyaj == null) {
-            yeneVyaj = new DoubleFilter();
-        }
-        return yeneVyaj;
-    }
-
-    public void setYeneVyaj(DoubleFilter yeneVyaj) {
-        this.yeneVyaj = yeneVyaj;
-    }
-
-    public DoubleFilter getVasuliKharch() {
-        return vasuliKharch;
-    }
-
-    public DoubleFilter vasuliKharch() {
-        if (vasuliKharch == null) {
-            vasuliKharch = new DoubleFilter();
-        }
-        return vasuliKharch;
-    }
-
-    public void setVasuliKharch(DoubleFilter vasuliKharch) {
-        this.vasuliKharch = vasuliKharch;
-    }
-
-    public DoubleFilter getEtharKharch() {
-        return etharKharch;
-    }
-
-    public DoubleFilter etharKharch() {
-        if (etharKharch == null) {
-            etharKharch = new DoubleFilter();
-        }
-        return etharKharch;
-    }
-
-    public void setEtharKharch(DoubleFilter etharKharch) {
-        this.etharKharch = etharKharch;
-    }
-
-    public DoubleFilter getVima() {
-        return vima;
-    }
-
-    public DoubleFilter vima() {
-        if (vima == null) {
-            vima = new DoubleFilter();
-        }
-        return vima;
-    }
-
-    public void setVima(DoubleFilter vima) {
-        this.vima = vima;
-    }
-
-    public DoubleFilter getNotice() {
-        return notice;
-    }
-
-    public DoubleFilter notice() {
-        if (notice == null) {
-            notice = new DoubleFilter();
-        }
-        return notice;
-    }
-
-    public void setNotice(DoubleFilter notice) {
-        this.notice = notice;
-    }
-
-    public LongFilter getTharavNumber() {
-        return tharavNumber;
-    }
-
-    public LongFilter tharavNumber() {
-        if (tharavNumber == null) {
-            tharavNumber = new LongFilter();
-        }
-        return tharavNumber;
-    }
-
-    public void setTharavNumber(LongFilter tharavNumber) {
-        this.tharavNumber = tharavNumber;
-    }
-
-    public InstantFilter getTharavDinank() {
-        return tharavDinank;
-    }
-
-    public InstantFilter tharavDinank() {
-        if (tharavDinank == null) {
-            tharavDinank = new InstantFilter();
-        }
-        return tharavDinank;
-    }
-
-    public void setTharavDinank(InstantFilter tharavDinank) {
-        this.tharavDinank = tharavDinank;
-    }
-
-    public IntegerFilter getVishayKramank() {
-        return vishayKramank;
-    }
-
-    public IntegerFilter vishayKramank() {
-        if (vishayKramank == null) {
-            vishayKramank = new IntegerFilter();
-        }
-        return vishayKramank;
-    }
-
-    public void setVishayKramank(IntegerFilter vishayKramank) {
-        this.vishayKramank = vishayKramank;
-    }
-
-    public InstantFilter getNoticeOne() {
-        return noticeOne;
-    }
-
-    public InstantFilter noticeOne() {
-        if (noticeOne == null) {
-            noticeOne = new InstantFilter();
-        }
-        return noticeOne;
-    }
-
-    public void setNoticeOne(InstantFilter noticeOne) {
-        this.noticeOne = noticeOne;
-    }
-
-    public InstantFilter getNoticeTwo() {
-        return noticeTwo;
-    }
-
-    public InstantFilter noticeTwo() {
-        if (noticeTwo == null) {
-            noticeTwo = new InstantFilter();
-        }
-        return noticeTwo;
-    }
-
-    public void setNoticeTwo(InstantFilter noticeTwo) {
-        this.noticeTwo = noticeTwo;
-    }
-
-    public StringFilter getWar() {
-        return war;
-    }
-
-    public StringFilter war() {
-        if (war == null) {
-            war = new StringFilter();
-        }
-        return war;
-    }
-
-    public void setWar(StringFilter war) {
-        this.war = war;
-    }
-
-    public StringFilter getVel() {
-        return vel;
-    }
-
-    public StringFilter vel() {
-        if (vel == null) {
-            vel = new StringFilter();
-        }
-        return vel;
-    }
-
-    public void setVel(StringFilter vel) {
-        this.vel = vel;
-    }
-
-    public StringFilter getJamindarOne() {
-        return jamindarOne;
-    }
-
-    public StringFilter jamindarOne() {
-        if (jamindarOne == null) {
-            jamindarOne = new StringFilter();
-        }
-        return jamindarOne;
-    }
-
-    public void setJamindarOne(StringFilter jamindarOne) {
-        this.jamindarOne = jamindarOne;
-    }
-
-    public StringFilter getJamindarOneAddress() {
-        return jamindarOneAddress;
-    }
-
-    public StringFilter jamindarOneAddress() {
-        if (jamindarOneAddress == null) {
-            jamindarOneAddress = new StringFilter();
-        }
-        return jamindarOneAddress;
-    }
-
-    public void setJamindarOneAddress(StringFilter jamindarOneAddress) {
-        this.jamindarOneAddress = jamindarOneAddress;
-    }
-
-    public StringFilter getJamindarTwo() {
-        return jamindarTwo;
-    }
-
-    public StringFilter jamindarTwo() {
-        if (jamindarTwo == null) {
-            jamindarTwo = new StringFilter();
-        }
-        return jamindarTwo;
-    }
-
-    public void setJamindarTwo(StringFilter jamindarTwo) {
-        this.jamindarTwo = jamindarTwo;
-    }
-
-    public StringFilter getJamindarTwoAddress() {
-        return jamindarTwoAddress;
-    }
-
-    public StringFilter jamindarTwoAddress() {
-        if (jamindarTwoAddress == null) {
-            jamindarTwoAddress = new StringFilter();
-        }
-        return jamindarTwoAddress;
-    }
-
-    public void setJamindarTwoAddress(StringFilter jamindarTwoAddress) {
-        this.jamindarTwoAddress = jamindarTwoAddress;
-    }
-
-    public StringFilter getTaranType() {
-        return taranType;
-    }
-
-    public StringFilter taranType() {
-        if (taranType == null) {
-            taranType = new StringFilter();
-        }
-        return taranType;
-    }
-
-    public void setTaranType(StringFilter taranType) {
-        this.taranType = taranType;
-    }
-
-    public StringFilter getTaranDetails() {
-        return taranDetails;
-    }
-
-    public StringFilter taranDetails() {
-        if (taranDetails == null) {
-            taranDetails = new StringFilter();
-        }
-        return taranDetails;
-    }
-
-    public void setTaranDetails(StringFilter taranDetails) {
-        this.taranDetails = taranDetails;
+    public void setSecondNoticeDate(LocalDateFilter secondNoticeDate) {
+        this.secondNoticeDate = secondNoticeDate;
     }
 
     public Boolean getDistinct() {
@@ -935,54 +539,32 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         final CourtCaseCriteria that = (CourtCaseCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(code, that.code) &&
-            Objects.equals(caseDinank, that.caseDinank) &&
-            Objects.equals(bankName, that.bankName) &&
-            Objects.equals(talukaName, that.talukaName) &&
-            Objects.equals(talukaCode, that.talukaCode) &&
-            Objects.equals(sabasadSavingAccNo, that.sabasadSavingAccNo) &&
-            Objects.equals(sabasadName, that.sabasadName) &&
-            Objects.equals(sabasadAddress, that.sabasadAddress) &&
-            Objects.equals(karjPrakar, that.karjPrakar) &&
-            Objects.equals(vasuliAdhikari, that.vasuliAdhikari) &&
-            Objects.equals(ekunJama, that.ekunJama) &&
-            Objects.equals(baki, that.baki) &&
-            Objects.equals(arOffice, that.arOffice) &&
-            Objects.equals(ekunVyaj, that.ekunVyaj) &&
-            Objects.equals(jamaVyaj, that.jamaVyaj) &&
-            Objects.equals(dandVyaj, that.dandVyaj) &&
-            Objects.equals(karjRakkam, that.karjRakkam) &&
-            Objects.equals(thakDinnank, that.thakDinnank) &&
-            Objects.equals(karjDinnank, that.karjDinnank) &&
-            Objects.equals(mudatSampteDinank, that.mudatSampteDinank) &&
-            Objects.equals(mudat, that.mudat) &&
-            Objects.equals(vyaj, that.vyaj) &&
-            Objects.equals(haptaRakkam, that.haptaRakkam) &&
-            Objects.equals(shakhaVevsthapak, that.shakhaVevsthapak) &&
-            Objects.equals(suchak, that.suchak) &&
-            Objects.equals(anumodak, that.anumodak) &&
-            Objects.equals(dava, that.dava) &&
-            Objects.equals(vyajDar, that.vyajDar) &&
-            Objects.equals(sarcharge, that.sarcharge) &&
-            Objects.equals(jyadaVyaj, that.jyadaVyaj) &&
-            Objects.equals(yeneVyaj, that.yeneVyaj) &&
-            Objects.equals(vasuliKharch, that.vasuliKharch) &&
-            Objects.equals(etharKharch, that.etharKharch) &&
-            Objects.equals(vima, that.vima) &&
-            Objects.equals(notice, that.notice) &&
-            Objects.equals(tharavNumber, that.tharavNumber) &&
-            Objects.equals(tharavDinank, that.tharavDinank) &&
-            Objects.equals(vishayKramank, that.vishayKramank) &&
-            Objects.equals(noticeOne, that.noticeOne) &&
-            Objects.equals(noticeTwo, that.noticeTwo) &&
-            Objects.equals(war, that.war) &&
-            Objects.equals(vel, that.vel) &&
-            Objects.equals(jamindarOne, that.jamindarOne) &&
-            Objects.equals(jamindarOneAddress, that.jamindarOneAddress) &&
-            Objects.equals(jamindarTwo, that.jamindarTwo) &&
-            Objects.equals(jamindarTwoAddress, that.jamindarTwoAddress) &&
-            Objects.equals(taranType, that.taranType) &&
-            Objects.equals(taranDetails, that.taranDetails) &&
+            Objects.equals(srNo, that.srNo) &&
+            Objects.equals(accountNo, that.accountNo) &&
+            Objects.equals(nameOfDefaulter, that.nameOfDefaulter) &&
+            Objects.equals(address, that.address) &&
+            Objects.equals(loanType, that.loanType) &&
+            Objects.equals(loanAmount, that.loanAmount) &&
+            Objects.equals(loanDate, that.loanDate) &&
+            Objects.equals(termOfLoan, that.termOfLoan) &&
+            Objects.equals(interestRate, that.interestRate) &&
+            Objects.equals(installmentAmount, that.installmentAmount) &&
+            Objects.equals(totalCredit, that.totalCredit) &&
+            Objects.equals(balance, that.balance) &&
+            Objects.equals(interestPaid, that.interestPaid) &&
+            Objects.equals(penalInterestPaid, that.penalInterestPaid) &&
+            Objects.equals(dueAmount, that.dueAmount) &&
+            Objects.equals(dueDate, that.dueDate) &&
+            Objects.equals(dueInterest, that.dueInterest) &&
+            Objects.equals(duePenalInterest, that.duePenalInterest) &&
+            Objects.equals(dueMoreInterest, that.dueMoreInterest) &&
+            Objects.equals(interestRecivable, that.interestRecivable) &&
+            Objects.equals(gaurentorOne, that.gaurentorOne) &&
+            Objects.equals(gaurentorOneAddress, that.gaurentorOneAddress) &&
+            Objects.equals(gaurentorTwo, that.gaurentorTwo) &&
+            Objects.equals(gaurentorTwoAddress, that.gaurentorTwoAddress) &&
+            Objects.equals(firstNoticeDate, that.firstNoticeDate) &&
+            Objects.equals(secondNoticeDate, that.secondNoticeDate) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -991,54 +573,32 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            code,
-            caseDinank,
-            bankName,
-            talukaName,
-            talukaCode,
-            sabasadSavingAccNo,
-            sabasadName,
-            sabasadAddress,
-            karjPrakar,
-            vasuliAdhikari,
-            ekunJama,
-            baki,
-            arOffice,
-            ekunVyaj,
-            jamaVyaj,
-            dandVyaj,
-            karjRakkam,
-            thakDinnank,
-            karjDinnank,
-            mudatSampteDinank,
-            mudat,
-            vyaj,
-            haptaRakkam,
-            shakhaVevsthapak,
-            suchak,
-            anumodak,
-            dava,
-            vyajDar,
-            sarcharge,
-            jyadaVyaj,
-            yeneVyaj,
-            vasuliKharch,
-            etharKharch,
-            vima,
-            notice,
-            tharavNumber,
-            tharavDinank,
-            vishayKramank,
-            noticeOne,
-            noticeTwo,
-            war,
-            vel,
-            jamindarOne,
-            jamindarOneAddress,
-            jamindarTwo,
-            jamindarTwoAddress,
-            taranType,
-            taranDetails,
+            srNo,
+            accountNo,
+            nameOfDefaulter,
+            address,
+            loanType,
+            loanAmount,
+            loanDate,
+            termOfLoan,
+            interestRate,
+            installmentAmount,
+            totalCredit,
+            balance,
+            interestPaid,
+            penalInterestPaid,
+            dueAmount,
+            dueDate,
+            dueInterest,
+            duePenalInterest,
+            dueMoreInterest,
+            interestRecivable,
+            gaurentorOne,
+            gaurentorOneAddress,
+            gaurentorTwo,
+            gaurentorTwoAddress,
+            firstNoticeDate,
+            secondNoticeDate,
             distinct
         );
     }
@@ -1048,54 +608,32 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     public String toString() {
         return "CourtCaseCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (code != null ? "code=" + code + ", " : "") +
-            (caseDinank != null ? "caseDinank=" + caseDinank + ", " : "") +
-            (bankName != null ? "bankName=" + bankName + ", " : "") +
-            (talukaName != null ? "talukaName=" + talukaName + ", " : "") +
-            (talukaCode != null ? "talukaCode=" + talukaCode + ", " : "") +
-            (sabasadSavingAccNo != null ? "sabasadSavingAccNo=" + sabasadSavingAccNo + ", " : "") +
-            (sabasadName != null ? "sabasadName=" + sabasadName + ", " : "") +
-            (sabasadAddress != null ? "sabasadAddress=" + sabasadAddress + ", " : "") +
-            (karjPrakar != null ? "karjPrakar=" + karjPrakar + ", " : "") +
-            (vasuliAdhikari != null ? "vasuliAdhikari=" + vasuliAdhikari + ", " : "") +
-            (ekunJama != null ? "ekunJama=" + ekunJama + ", " : "") +
-            (baki != null ? "baki=" + baki + ", " : "") +
-            (arOffice != null ? "arOffice=" + arOffice + ", " : "") +
-            (ekunVyaj != null ? "ekunVyaj=" + ekunVyaj + ", " : "") +
-            (jamaVyaj != null ? "jamaVyaj=" + jamaVyaj + ", " : "") +
-            (dandVyaj != null ? "dandVyaj=" + dandVyaj + ", " : "") +
-            (karjRakkam != null ? "karjRakkam=" + karjRakkam + ", " : "") +
-            (thakDinnank != null ? "thakDinnank=" + thakDinnank + ", " : "") +
-            (karjDinnank != null ? "karjDinnank=" + karjDinnank + ", " : "") +
-            (mudatSampteDinank != null ? "mudatSampteDinank=" + mudatSampteDinank + ", " : "") +
-            (mudat != null ? "mudat=" + mudat + ", " : "") +
-            (vyaj != null ? "vyaj=" + vyaj + ", " : "") +
-            (haptaRakkam != null ? "haptaRakkam=" + haptaRakkam + ", " : "") +
-            (shakhaVevsthapak != null ? "shakhaVevsthapak=" + shakhaVevsthapak + ", " : "") +
-            (suchak != null ? "suchak=" + suchak + ", " : "") +
-            (anumodak != null ? "anumodak=" + anumodak + ", " : "") +
-            (dava != null ? "dava=" + dava + ", " : "") +
-            (vyajDar != null ? "vyajDar=" + vyajDar + ", " : "") +
-            (sarcharge != null ? "sarcharge=" + sarcharge + ", " : "") +
-            (jyadaVyaj != null ? "jyadaVyaj=" + jyadaVyaj + ", " : "") +
-            (yeneVyaj != null ? "yeneVyaj=" + yeneVyaj + ", " : "") +
-            (vasuliKharch != null ? "vasuliKharch=" + vasuliKharch + ", " : "") +
-            (etharKharch != null ? "etharKharch=" + etharKharch + ", " : "") +
-            (vima != null ? "vima=" + vima + ", " : "") +
-            (notice != null ? "notice=" + notice + ", " : "") +
-            (tharavNumber != null ? "tharavNumber=" + tharavNumber + ", " : "") +
-            (tharavDinank != null ? "tharavDinank=" + tharavDinank + ", " : "") +
-            (vishayKramank != null ? "vishayKramank=" + vishayKramank + ", " : "") +
-            (noticeOne != null ? "noticeOne=" + noticeOne + ", " : "") +
-            (noticeTwo != null ? "noticeTwo=" + noticeTwo + ", " : "") +
-            (war != null ? "war=" + war + ", " : "") +
-            (vel != null ? "vel=" + vel + ", " : "") +
-            (jamindarOne != null ? "jamindarOne=" + jamindarOne + ", " : "") +
-            (jamindarOneAddress != null ? "jamindarOneAddress=" + jamindarOneAddress + ", " : "") +
-            (jamindarTwo != null ? "jamindarTwo=" + jamindarTwo + ", " : "") +
-            (jamindarTwoAddress != null ? "jamindarTwoAddress=" + jamindarTwoAddress + ", " : "") +
-            (taranType != null ? "taranType=" + taranType + ", " : "") +
-            (taranDetails != null ? "taranDetails=" + taranDetails + ", " : "") +
+            (srNo != null ? "srNo=" + srNo + ", " : "") +
+            (accountNo != null ? "accountNo=" + accountNo + ", " : "") +
+            (nameOfDefaulter != null ? "nameOfDefaulter=" + nameOfDefaulter + ", " : "") +
+            (address != null ? "address=" + address + ", " : "") +
+            (loanType != null ? "loanType=" + loanType + ", " : "") +
+            (loanAmount != null ? "loanAmount=" + loanAmount + ", " : "") +
+            (loanDate != null ? "loanDate=" + loanDate + ", " : "") +
+            (termOfLoan != null ? "termOfLoan=" + termOfLoan + ", " : "") +
+            (interestRate != null ? "interestRate=" + interestRate + ", " : "") +
+            (installmentAmount != null ? "installmentAmount=" + installmentAmount + ", " : "") +
+            (totalCredit != null ? "totalCredit=" + totalCredit + ", " : "") +
+            (balance != null ? "balance=" + balance + ", " : "") +
+            (interestPaid != null ? "interestPaid=" + interestPaid + ", " : "") +
+            (penalInterestPaid != null ? "penalInterestPaid=" + penalInterestPaid + ", " : "") +
+            (dueAmount != null ? "dueAmount=" + dueAmount + ", " : "") +
+            (dueDate != null ? "dueDate=" + dueDate + ", " : "") +
+            (dueInterest != null ? "dueInterest=" + dueInterest + ", " : "") +
+            (duePenalInterest != null ? "duePenalInterest=" + duePenalInterest + ", " : "") +
+            (dueMoreInterest != null ? "dueMoreInterest=" + dueMoreInterest + ", " : "") +
+            (interestRecivable != null ? "interestRecivable=" + interestRecivable + ", " : "") +
+            (gaurentorOne != null ? "gaurentorOne=" + gaurentorOne + ", " : "") +
+            (gaurentorOneAddress != null ? "gaurentorOneAddress=" + gaurentorOneAddress + ", " : "") +
+            (gaurentorTwo != null ? "gaurentorTwo=" + gaurentorTwo + ", " : "") +
+            (gaurentorTwoAddress != null ? "gaurentorTwoAddress=" + gaurentorTwoAddress + ", " : "") +
+            (firstNoticeDate != null ? "firstNoticeDate=" + firstNoticeDate + ", " : "") +
+            (secondNoticeDate != null ? "secondNoticeDate=" + secondNoticeDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

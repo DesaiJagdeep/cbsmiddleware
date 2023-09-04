@@ -9,8 +9,8 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.CourtCaseSetting;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -32,63 +32,53 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class CourtCaseSettingResourceIT {
 
-    private static final Instant DEFAULT_DINANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_DINANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_VASULI_ADHIKARI_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_VASULI_ADHIKARI_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SHAKHA_VEVSTHAPAK = "AAAAAAAAAA";
-    private static final String UPDATED_SHAKHA_VEVSTHAPAK = "BBBBBBBBBB";
+    private static final String DEFAULT_AR_OFFICE_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_AR_OFFICE_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SUCHAK = "AAAAAAAAAA";
-    private static final String UPDATED_SUCHAK = "BBBBBBBBBB";
+    private static final String DEFAULT_CHAIRMAN_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_CHAIRMAN_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AANUMODAK = "AAAAAAAAAA";
-    private static final String UPDATED_AANUMODAK = "BBBBBBBBBB";
+    private static final String DEFAULT_SACHIV_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_SACHIV_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VASULI_ADHIKARI = "AAAAAAAAAA";
-    private static final String UPDATED_VASULI_ADHIKARI = "BBBBBBBBBB";
+    private static final String DEFAULT_SUCHAK_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_SUCHAK_NAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AR_OFFICE = "AAAAAAAAAA";
-    private static final String UPDATED_AR_OFFICE = "BBBBBBBBBB";
+    private static final String DEFAULT_ANUMODAK_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_ANUMODAK_NAME = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_THARAV_NUMBER = 1L;
-    private static final Long UPDATED_THARAV_NUMBER = 2L;
-    private static final Long SMALLER_THARAV_NUMBER = 1L - 1L;
+    private static final Double DEFAULT_VASULI_EXPENSE = 1D;
+    private static final Double UPDATED_VASULI_EXPENSE = 2D;
+    private static final Double SMALLER_VASULI_EXPENSE = 1D - 1D;
 
-    private static final Instant DEFAULT_THARAV_DINANK = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_THARAV_DINANK = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Double DEFAULT_OTHER_EXPENSE = 1D;
+    private static final Double UPDATED_OTHER_EXPENSE = 2D;
+    private static final Double SMALLER_OTHER_EXPENSE = 1D - 1D;
 
-    private static final Instant DEFAULT_KARJ_FED_NOTICE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_KARJ_FED_NOTICE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Double DEFAULT_NOTICE_EXPENSE = 1D;
+    private static final Double UPDATED_NOTICE_EXPENSE = 2D;
+    private static final Double SMALLER_NOTICE_EXPENSE = 1D - 1D;
 
-    private static final Instant DEFAULT_ONE_ZERO_ONE_NOTICE_ONE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_ONE_ZERO_ONE_NOTICE_ONE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Long DEFAULT_MEETING_NO = 1L;
+    private static final Long UPDATED_MEETING_NO = 2L;
+    private static final Long SMALLER_MEETING_NO = 1L - 1L;
 
-    private static final Instant DEFAULT_ONE_ZERO_ONE_NOTICE_TWO = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_ONE_ZERO_ONE_NOTICE_TWO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final LocalDate DEFAULT_MEETING_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_MEETING_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_MEETING_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final String DEFAULT_VISHAY_KRAMANK = "AAAAAAAAAA";
-    private static final String UPDATED_VISHAY_KRAMANK = "BBBBBBBBBB";
+    private static final Long DEFAULT_SUBJECT_NO = 1L;
+    private static final Long UPDATED_SUBJECT_NO = 2L;
+    private static final Long SMALLER_SUBJECT_NO = 1L - 1L;
 
-    private static final String DEFAULT_WAR = "AAAAAAAAAA";
-    private static final String UPDATED_WAR = "BBBBBBBBBB";
+    private static final String DEFAULT_MEETING_DAY = "AAAAAAAAAA";
+    private static final String UPDATED_MEETING_DAY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VEL = "AAAAAAAAAA";
-    private static final String UPDATED_VEL = "BBBBBBBBBB";
-
-    private static final Instant DEFAULT_MAGANI_NOTICE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_MAGANI_NOTICE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Double DEFAULT_ETAR_KHARCH = 1D;
-    private static final Double UPDATED_ETAR_KHARCH = 2D;
-    private static final Double SMALLER_ETAR_KHARCH = 1D - 1D;
-
-    private static final Double DEFAULT_NOTICE_KHARCH = 1D;
-    private static final Double UPDATED_NOTICE_KHARCH = 2D;
-    private static final Double SMALLER_NOTICE_KHARCH = 1D - 1D;
-
-    private static final Double DEFAULT_VASULI_KHARCH = 1D;
-    private static final Double UPDATED_VASULI_KHARCH = 2D;
-    private static final Double SMALLER_VASULI_KHARCH = 1D - 1D;
+    private static final String DEFAULT_MEETING_TIME = "AAAAAAAAAA";
+    private static final String UPDATED_MEETING_TIME = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/court-case-settings";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -115,24 +105,20 @@ class CourtCaseSettingResourceIT {
      */
     public static CourtCaseSetting createEntity(EntityManager em) {
         CourtCaseSetting courtCaseSetting = new CourtCaseSetting()
-            .dinank(DEFAULT_DINANK)
-            .shakhaVevsthapak(DEFAULT_SHAKHA_VEVSTHAPAK)
-            .suchak(DEFAULT_SUCHAK)
-            .aanumodak(DEFAULT_AANUMODAK)
-            .vasuliAdhikari(DEFAULT_VASULI_ADHIKARI)
-            .arOffice(DEFAULT_AR_OFFICE)
-            .tharavNumber(DEFAULT_THARAV_NUMBER)
-            .tharavDinank(DEFAULT_THARAV_DINANK)
-            .karjFedNotice(DEFAULT_KARJ_FED_NOTICE)
-            .oneZeroOneNoticeOne(DEFAULT_ONE_ZERO_ONE_NOTICE_ONE)
-            .oneZeroOneNoticeTwo(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO)
-            .vishayKramank(DEFAULT_VISHAY_KRAMANK)
-            .war(DEFAULT_WAR)
-            .vel(DEFAULT_VEL)
-            .maganiNotice(DEFAULT_MAGANI_NOTICE)
-            .etarKharch(DEFAULT_ETAR_KHARCH)
-            .noticeKharch(DEFAULT_NOTICE_KHARCH)
-            .vasuliKharch(DEFAULT_VASULI_KHARCH);
+            .vasuliAdhikariName(DEFAULT_VASULI_ADHIKARI_NAME)
+            .arOfficeName(DEFAULT_AR_OFFICE_NAME)
+            .chairmanName(DEFAULT_CHAIRMAN_NAME)
+            .sachivName(DEFAULT_SACHIV_NAME)
+            .suchakName(DEFAULT_SUCHAK_NAME)
+            .anumodakName(DEFAULT_ANUMODAK_NAME)
+            .vasuliExpense(DEFAULT_VASULI_EXPENSE)
+            .otherExpense(DEFAULT_OTHER_EXPENSE)
+            .noticeExpense(DEFAULT_NOTICE_EXPENSE)
+            .meetingNo(DEFAULT_MEETING_NO)
+            .meetingDate(DEFAULT_MEETING_DATE)
+            .subjectNo(DEFAULT_SUBJECT_NO)
+            .meetingDay(DEFAULT_MEETING_DAY)
+            .meetingTime(DEFAULT_MEETING_TIME);
         return courtCaseSetting;
     }
 
@@ -144,24 +130,20 @@ class CourtCaseSettingResourceIT {
      */
     public static CourtCaseSetting createUpdatedEntity(EntityManager em) {
         CourtCaseSetting courtCaseSetting = new CourtCaseSetting()
-            .dinank(UPDATED_DINANK)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .aanumodak(UPDATED_AANUMODAK)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .karjFedNotice(UPDATED_KARJ_FED_NOTICE)
-            .oneZeroOneNoticeOne(UPDATED_ONE_ZERO_ONE_NOTICE_ONE)
-            .oneZeroOneNoticeTwo(UPDATED_ONE_ZERO_ONE_NOTICE_TWO)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .maganiNotice(UPDATED_MAGANI_NOTICE)
-            .etarKharch(UPDATED_ETAR_KHARCH)
-            .noticeKharch(UPDATED_NOTICE_KHARCH)
-            .vasuliKharch(UPDATED_VASULI_KHARCH);
+            .vasuliAdhikariName(UPDATED_VASULI_ADHIKARI_NAME)
+            .arOfficeName(UPDATED_AR_OFFICE_NAME)
+            .chairmanName(UPDATED_CHAIRMAN_NAME)
+            .sachivName(UPDATED_SACHIV_NAME)
+            .suchakName(UPDATED_SUCHAK_NAME)
+            .anumodakName(UPDATED_ANUMODAK_NAME)
+            .vasuliExpense(UPDATED_VASULI_EXPENSE)
+            .otherExpense(UPDATED_OTHER_EXPENSE)
+            .noticeExpense(UPDATED_NOTICE_EXPENSE)
+            .meetingNo(UPDATED_MEETING_NO)
+            .meetingDate(UPDATED_MEETING_DATE)
+            .subjectNo(UPDATED_SUBJECT_NO)
+            .meetingDay(UPDATED_MEETING_DAY)
+            .meetingTime(UPDATED_MEETING_TIME);
         return courtCaseSetting;
     }
 
@@ -185,24 +167,20 @@ class CourtCaseSettingResourceIT {
         List<CourtCaseSetting> courtCaseSettingList = courtCaseSettingRepository.findAll();
         assertThat(courtCaseSettingList).hasSize(databaseSizeBeforeCreate + 1);
         CourtCaseSetting testCourtCaseSetting = courtCaseSettingList.get(courtCaseSettingList.size() - 1);
-        assertThat(testCourtCaseSetting.getDinank()).isEqualTo(DEFAULT_DINANK);
-        assertThat(testCourtCaseSetting.getShakhaVevsthapak()).isEqualTo(DEFAULT_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCaseSetting.getSuchak()).isEqualTo(DEFAULT_SUCHAK);
-        assertThat(testCourtCaseSetting.getAanumodak()).isEqualTo(DEFAULT_AANUMODAK);
-        assertThat(testCourtCaseSetting.getVasuliAdhikari()).isEqualTo(DEFAULT_VASULI_ADHIKARI);
-        assertThat(testCourtCaseSetting.getArOffice()).isEqualTo(DEFAULT_AR_OFFICE);
-        assertThat(testCourtCaseSetting.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
-        assertThat(testCourtCaseSetting.getTharavDinank()).isEqualTo(DEFAULT_THARAV_DINANK);
-        assertThat(testCourtCaseSetting.getKarjFedNotice()).isEqualTo(DEFAULT_KARJ_FED_NOTICE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeOne()).isEqualTo(DEFAULT_ONE_ZERO_ONE_NOTICE_ONE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeTwo()).isEqualTo(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO);
-        assertThat(testCourtCaseSetting.getVishayKramank()).isEqualTo(DEFAULT_VISHAY_KRAMANK);
-        assertThat(testCourtCaseSetting.getWar()).isEqualTo(DEFAULT_WAR);
-        assertThat(testCourtCaseSetting.getVel()).isEqualTo(DEFAULT_VEL);
-        assertThat(testCourtCaseSetting.getMaganiNotice()).isEqualTo(DEFAULT_MAGANI_NOTICE);
-        assertThat(testCourtCaseSetting.getEtarKharch()).isEqualTo(DEFAULT_ETAR_KHARCH);
-        assertThat(testCourtCaseSetting.getNoticeKharch()).isEqualTo(DEFAULT_NOTICE_KHARCH);
-        assertThat(testCourtCaseSetting.getVasuliKharch()).isEqualTo(DEFAULT_VASULI_KHARCH);
+        assertThat(testCourtCaseSetting.getVasuliAdhikariName()).isEqualTo(DEFAULT_VASULI_ADHIKARI_NAME);
+        assertThat(testCourtCaseSetting.getArOfficeName()).isEqualTo(DEFAULT_AR_OFFICE_NAME);
+        assertThat(testCourtCaseSetting.getChairmanName()).isEqualTo(DEFAULT_CHAIRMAN_NAME);
+        assertThat(testCourtCaseSetting.getSachivName()).isEqualTo(DEFAULT_SACHIV_NAME);
+        assertThat(testCourtCaseSetting.getSuchakName()).isEqualTo(DEFAULT_SUCHAK_NAME);
+        assertThat(testCourtCaseSetting.getAnumodakName()).isEqualTo(DEFAULT_ANUMODAK_NAME);
+        assertThat(testCourtCaseSetting.getVasuliExpense()).isEqualTo(DEFAULT_VASULI_EXPENSE);
+        assertThat(testCourtCaseSetting.getOtherExpense()).isEqualTo(DEFAULT_OTHER_EXPENSE);
+        assertThat(testCourtCaseSetting.getNoticeExpense()).isEqualTo(DEFAULT_NOTICE_EXPENSE);
+        assertThat(testCourtCaseSetting.getMeetingNo()).isEqualTo(DEFAULT_MEETING_NO);
+        assertThat(testCourtCaseSetting.getMeetingDate()).isEqualTo(DEFAULT_MEETING_DATE);
+        assertThat(testCourtCaseSetting.getSubjectNo()).isEqualTo(DEFAULT_SUBJECT_NO);
+        assertThat(testCourtCaseSetting.getMeetingDay()).isEqualTo(DEFAULT_MEETING_DAY);
+        assertThat(testCourtCaseSetting.getMeetingTime()).isEqualTo(DEFAULT_MEETING_TIME);
     }
 
     @Test
@@ -237,24 +215,20 @@ class CourtCaseSettingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(courtCaseSetting.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dinank").value(hasItem(DEFAULT_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].shakhaVevsthapak").value(hasItem(DEFAULT_SHAKHA_VEVSTHAPAK)))
-            .andExpect(jsonPath("$.[*].suchak").value(hasItem(DEFAULT_SUCHAK)))
-            .andExpect(jsonPath("$.[*].aanumodak").value(hasItem(DEFAULT_AANUMODAK)))
-            .andExpect(jsonPath("$.[*].vasuliAdhikari").value(hasItem(DEFAULT_VASULI_ADHIKARI)))
-            .andExpect(jsonPath("$.[*].arOffice").value(hasItem(DEFAULT_AR_OFFICE)))
-            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].tharavDinank").value(hasItem(DEFAULT_THARAV_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].karjFedNotice").value(hasItem(DEFAULT_KARJ_FED_NOTICE.toString())))
-            .andExpect(jsonPath("$.[*].oneZeroOneNoticeOne").value(hasItem(DEFAULT_ONE_ZERO_ONE_NOTICE_ONE.toString())))
-            .andExpect(jsonPath("$.[*].oneZeroOneNoticeTwo").value(hasItem(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO.toString())))
-            .andExpect(jsonPath("$.[*].vishayKramank").value(hasItem(DEFAULT_VISHAY_KRAMANK)))
-            .andExpect(jsonPath("$.[*].war").value(hasItem(DEFAULT_WAR)))
-            .andExpect(jsonPath("$.[*].vel").value(hasItem(DEFAULT_VEL)))
-            .andExpect(jsonPath("$.[*].maganiNotice").value(hasItem(DEFAULT_MAGANI_NOTICE.toString())))
-            .andExpect(jsonPath("$.[*].etarKharch").value(hasItem(DEFAULT_ETAR_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].noticeKharch").value(hasItem(DEFAULT_NOTICE_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].vasuliKharch").value(hasItem(DEFAULT_VASULI_KHARCH.doubleValue())));
+            .andExpect(jsonPath("$.[*].vasuliAdhikariName").value(hasItem(DEFAULT_VASULI_ADHIKARI_NAME)))
+            .andExpect(jsonPath("$.[*].arOfficeName").value(hasItem(DEFAULT_AR_OFFICE_NAME)))
+            .andExpect(jsonPath("$.[*].chairmanName").value(hasItem(DEFAULT_CHAIRMAN_NAME)))
+            .andExpect(jsonPath("$.[*].sachivName").value(hasItem(DEFAULT_SACHIV_NAME)))
+            .andExpect(jsonPath("$.[*].suchakName").value(hasItem(DEFAULT_SUCHAK_NAME)))
+            .andExpect(jsonPath("$.[*].anumodakName").value(hasItem(DEFAULT_ANUMODAK_NAME)))
+            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO.intValue())))
+            .andExpect(jsonPath("$.[*].meetingDate").value(hasItem(DEFAULT_MEETING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO.intValue())))
+            .andExpect(jsonPath("$.[*].meetingDay").value(hasItem(DEFAULT_MEETING_DAY)))
+            .andExpect(jsonPath("$.[*].meetingTime").value(hasItem(DEFAULT_MEETING_TIME)));
     }
 
     @Test
@@ -269,24 +243,20 @@ class CourtCaseSettingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(courtCaseSetting.getId().intValue()))
-            .andExpect(jsonPath("$.dinank").value(DEFAULT_DINANK.toString()))
-            .andExpect(jsonPath("$.shakhaVevsthapak").value(DEFAULT_SHAKHA_VEVSTHAPAK))
-            .andExpect(jsonPath("$.suchak").value(DEFAULT_SUCHAK))
-            .andExpect(jsonPath("$.aanumodak").value(DEFAULT_AANUMODAK))
-            .andExpect(jsonPath("$.vasuliAdhikari").value(DEFAULT_VASULI_ADHIKARI))
-            .andExpect(jsonPath("$.arOffice").value(DEFAULT_AR_OFFICE))
-            .andExpect(jsonPath("$.tharavNumber").value(DEFAULT_THARAV_NUMBER.intValue()))
-            .andExpect(jsonPath("$.tharavDinank").value(DEFAULT_THARAV_DINANK.toString()))
-            .andExpect(jsonPath("$.karjFedNotice").value(DEFAULT_KARJ_FED_NOTICE.toString()))
-            .andExpect(jsonPath("$.oneZeroOneNoticeOne").value(DEFAULT_ONE_ZERO_ONE_NOTICE_ONE.toString()))
-            .andExpect(jsonPath("$.oneZeroOneNoticeTwo").value(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO.toString()))
-            .andExpect(jsonPath("$.vishayKramank").value(DEFAULT_VISHAY_KRAMANK))
-            .andExpect(jsonPath("$.war").value(DEFAULT_WAR))
-            .andExpect(jsonPath("$.vel").value(DEFAULT_VEL))
-            .andExpect(jsonPath("$.maganiNotice").value(DEFAULT_MAGANI_NOTICE.toString()))
-            .andExpect(jsonPath("$.etarKharch").value(DEFAULT_ETAR_KHARCH.doubleValue()))
-            .andExpect(jsonPath("$.noticeKharch").value(DEFAULT_NOTICE_KHARCH.doubleValue()))
-            .andExpect(jsonPath("$.vasuliKharch").value(DEFAULT_VASULI_KHARCH.doubleValue()));
+            .andExpect(jsonPath("$.vasuliAdhikariName").value(DEFAULT_VASULI_ADHIKARI_NAME))
+            .andExpect(jsonPath("$.arOfficeName").value(DEFAULT_AR_OFFICE_NAME))
+            .andExpect(jsonPath("$.chairmanName").value(DEFAULT_CHAIRMAN_NAME))
+            .andExpect(jsonPath("$.sachivName").value(DEFAULT_SACHIV_NAME))
+            .andExpect(jsonPath("$.suchakName").value(DEFAULT_SUCHAK_NAME))
+            .andExpect(jsonPath("$.anumodakName").value(DEFAULT_ANUMODAK_NAME))
+            .andExpect(jsonPath("$.vasuliExpense").value(DEFAULT_VASULI_EXPENSE.doubleValue()))
+            .andExpect(jsonPath("$.otherExpense").value(DEFAULT_OTHER_EXPENSE.doubleValue()))
+            .andExpect(jsonPath("$.noticeExpense").value(DEFAULT_NOTICE_EXPENSE.doubleValue()))
+            .andExpect(jsonPath("$.meetingNo").value(DEFAULT_MEETING_NO.intValue()))
+            .andExpect(jsonPath("$.meetingDate").value(DEFAULT_MEETING_DATE.toString()))
+            .andExpect(jsonPath("$.subjectNo").value(DEFAULT_SUBJECT_NO.intValue()))
+            .andExpect(jsonPath("$.meetingDay").value(DEFAULT_MEETING_DAY))
+            .andExpect(jsonPath("$.meetingTime").value(DEFAULT_MEETING_TIME));
     }
 
     @Test
@@ -309,1124 +279,1068 @@ class CourtCaseSettingResourceIT {
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByDinankIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliAdhikariNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where dinank equals to DEFAULT_DINANK
-        defaultCourtCaseSettingShouldBeFound("dinank.equals=" + DEFAULT_DINANK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName equals to DEFAULT_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldBeFound("vasuliAdhikariName.equals=" + DEFAULT_VASULI_ADHIKARI_NAME);
 
-        // Get all the courtCaseSettingList where dinank equals to UPDATED_DINANK
-        defaultCourtCaseSettingShouldNotBeFound("dinank.equals=" + UPDATED_DINANK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName equals to UPDATED_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikariName.equals=" + UPDATED_VASULI_ADHIKARI_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByDinankIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByVasuliAdhikariNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where dinank in DEFAULT_DINANK or UPDATED_DINANK
-        defaultCourtCaseSettingShouldBeFound("dinank.in=" + DEFAULT_DINANK + "," + UPDATED_DINANK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName in DEFAULT_VASULI_ADHIKARI_NAME or UPDATED_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldBeFound("vasuliAdhikariName.in=" + DEFAULT_VASULI_ADHIKARI_NAME + "," + UPDATED_VASULI_ADHIKARI_NAME);
 
-        // Get all the courtCaseSettingList where dinank equals to UPDATED_DINANK
-        defaultCourtCaseSettingShouldNotBeFound("dinank.in=" + UPDATED_DINANK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName equals to UPDATED_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikariName.in=" + UPDATED_VASULI_ADHIKARI_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByDinankIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByVasuliAdhikariNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where dinank is not null
-        defaultCourtCaseSettingShouldBeFound("dinank.specified=true");
+        // Get all the courtCaseSettingList where vasuliAdhikariName is not null
+        defaultCourtCaseSettingShouldBeFound("vasuliAdhikariName.specified=true");
 
-        // Get all the courtCaseSettingList where dinank is null
-        defaultCourtCaseSettingShouldNotBeFound("dinank.specified=false");
+        // Get all the courtCaseSettingList where vasuliAdhikariName is null
+        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikariName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByShakhaVevsthapakIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliAdhikariNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak equals to DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldBeFound("shakhaVevsthapak.equals=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName contains DEFAULT_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldBeFound("vasuliAdhikariName.contains=" + DEFAULT_VASULI_ADHIKARI_NAME);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak equals to UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldNotBeFound("shakhaVevsthapak.equals=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName contains UPDATED_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikariName.contains=" + UPDATED_VASULI_ADHIKARI_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByShakhaVevsthapakIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByVasuliAdhikariNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak in DEFAULT_SHAKHA_VEVSTHAPAK or UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldBeFound("shakhaVevsthapak.in=" + DEFAULT_SHAKHA_VEVSTHAPAK + "," + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName does not contain DEFAULT_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikariName.doesNotContain=" + DEFAULT_VASULI_ADHIKARI_NAME);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak equals to UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldNotBeFound("shakhaVevsthapak.in=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where vasuliAdhikariName does not contain UPDATED_VASULI_ADHIKARI_NAME
+        defaultCourtCaseSettingShouldBeFound("vasuliAdhikariName.doesNotContain=" + UPDATED_VASULI_ADHIKARI_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByShakhaVevsthapakIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByArOfficeNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak is not null
-        defaultCourtCaseSettingShouldBeFound("shakhaVevsthapak.specified=true");
+        // Get all the courtCaseSettingList where arOfficeName equals to DEFAULT_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldBeFound("arOfficeName.equals=" + DEFAULT_AR_OFFICE_NAME);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak is null
-        defaultCourtCaseSettingShouldNotBeFound("shakhaVevsthapak.specified=false");
+        // Get all the courtCaseSettingList where arOfficeName equals to UPDATED_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldNotBeFound("arOfficeName.equals=" + UPDATED_AR_OFFICE_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByShakhaVevsthapakContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByArOfficeNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak contains DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldBeFound("shakhaVevsthapak.contains=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where arOfficeName in DEFAULT_AR_OFFICE_NAME or UPDATED_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldBeFound("arOfficeName.in=" + DEFAULT_AR_OFFICE_NAME + "," + UPDATED_AR_OFFICE_NAME);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak contains UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldNotBeFound("shakhaVevsthapak.contains=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where arOfficeName equals to UPDATED_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldNotBeFound("arOfficeName.in=" + UPDATED_AR_OFFICE_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByShakhaVevsthapakNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByArOfficeNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak does not contain DEFAULT_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldNotBeFound("shakhaVevsthapak.doesNotContain=" + DEFAULT_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where arOfficeName is not null
+        defaultCourtCaseSettingShouldBeFound("arOfficeName.specified=true");
 
-        // Get all the courtCaseSettingList where shakhaVevsthapak does not contain UPDATED_SHAKHA_VEVSTHAPAK
-        defaultCourtCaseSettingShouldBeFound("shakhaVevsthapak.doesNotContain=" + UPDATED_SHAKHA_VEVSTHAPAK);
+        // Get all the courtCaseSettingList where arOfficeName is null
+        defaultCourtCaseSettingShouldNotBeFound("arOfficeName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsBySuchakIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByArOfficeNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where suchak equals to DEFAULT_SUCHAK
-        defaultCourtCaseSettingShouldBeFound("suchak.equals=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseSettingList where arOfficeName contains DEFAULT_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldBeFound("arOfficeName.contains=" + DEFAULT_AR_OFFICE_NAME);
 
-        // Get all the courtCaseSettingList where suchak equals to UPDATED_SUCHAK
-        defaultCourtCaseSettingShouldNotBeFound("suchak.equals=" + UPDATED_SUCHAK);
+        // Get all the courtCaseSettingList where arOfficeName contains UPDATED_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldNotBeFound("arOfficeName.contains=" + UPDATED_AR_OFFICE_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsBySuchakIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByArOfficeNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where suchak in DEFAULT_SUCHAK or UPDATED_SUCHAK
-        defaultCourtCaseSettingShouldBeFound("suchak.in=" + DEFAULT_SUCHAK + "," + UPDATED_SUCHAK);
+        // Get all the courtCaseSettingList where arOfficeName does not contain DEFAULT_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldNotBeFound("arOfficeName.doesNotContain=" + DEFAULT_AR_OFFICE_NAME);
 
-        // Get all the courtCaseSettingList where suchak equals to UPDATED_SUCHAK
-        defaultCourtCaseSettingShouldNotBeFound("suchak.in=" + UPDATED_SUCHAK);
+        // Get all the courtCaseSettingList where arOfficeName does not contain UPDATED_AR_OFFICE_NAME
+        defaultCourtCaseSettingShouldBeFound("arOfficeName.doesNotContain=" + UPDATED_AR_OFFICE_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsBySuchakIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByChairmanNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where suchak is not null
-        defaultCourtCaseSettingShouldBeFound("suchak.specified=true");
+        // Get all the courtCaseSettingList where chairmanName equals to DEFAULT_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldBeFound("chairmanName.equals=" + DEFAULT_CHAIRMAN_NAME);
 
-        // Get all the courtCaseSettingList where suchak is null
-        defaultCourtCaseSettingShouldNotBeFound("suchak.specified=false");
+        // Get all the courtCaseSettingList where chairmanName equals to UPDATED_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldNotBeFound("chairmanName.equals=" + UPDATED_CHAIRMAN_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsBySuchakContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByChairmanNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where suchak contains DEFAULT_SUCHAK
-        defaultCourtCaseSettingShouldBeFound("suchak.contains=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseSettingList where chairmanName in DEFAULT_CHAIRMAN_NAME or UPDATED_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldBeFound("chairmanName.in=" + DEFAULT_CHAIRMAN_NAME + "," + UPDATED_CHAIRMAN_NAME);
 
-        // Get all the courtCaseSettingList where suchak contains UPDATED_SUCHAK
-        defaultCourtCaseSettingShouldNotBeFound("suchak.contains=" + UPDATED_SUCHAK);
+        // Get all the courtCaseSettingList where chairmanName equals to UPDATED_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldNotBeFound("chairmanName.in=" + UPDATED_CHAIRMAN_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsBySuchakNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByChairmanNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where suchak does not contain DEFAULT_SUCHAK
-        defaultCourtCaseSettingShouldNotBeFound("suchak.doesNotContain=" + DEFAULT_SUCHAK);
+        // Get all the courtCaseSettingList where chairmanName is not null
+        defaultCourtCaseSettingShouldBeFound("chairmanName.specified=true");
 
-        // Get all the courtCaseSettingList where suchak does not contain UPDATED_SUCHAK
-        defaultCourtCaseSettingShouldBeFound("suchak.doesNotContain=" + UPDATED_SUCHAK);
+        // Get all the courtCaseSettingList where chairmanName is null
+        defaultCourtCaseSettingShouldNotBeFound("chairmanName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByAanumodakIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByChairmanNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where aanumodak equals to DEFAULT_AANUMODAK
-        defaultCourtCaseSettingShouldBeFound("aanumodak.equals=" + DEFAULT_AANUMODAK);
+        // Get all the courtCaseSettingList where chairmanName contains DEFAULT_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldBeFound("chairmanName.contains=" + DEFAULT_CHAIRMAN_NAME);
 
-        // Get all the courtCaseSettingList where aanumodak equals to UPDATED_AANUMODAK
-        defaultCourtCaseSettingShouldNotBeFound("aanumodak.equals=" + UPDATED_AANUMODAK);
+        // Get all the courtCaseSettingList where chairmanName contains UPDATED_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldNotBeFound("chairmanName.contains=" + UPDATED_CHAIRMAN_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByAanumodakIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByChairmanNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where aanumodak in DEFAULT_AANUMODAK or UPDATED_AANUMODAK
-        defaultCourtCaseSettingShouldBeFound("aanumodak.in=" + DEFAULT_AANUMODAK + "," + UPDATED_AANUMODAK);
+        // Get all the courtCaseSettingList where chairmanName does not contain DEFAULT_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldNotBeFound("chairmanName.doesNotContain=" + DEFAULT_CHAIRMAN_NAME);
 
-        // Get all the courtCaseSettingList where aanumodak equals to UPDATED_AANUMODAK
-        defaultCourtCaseSettingShouldNotBeFound("aanumodak.in=" + UPDATED_AANUMODAK);
+        // Get all the courtCaseSettingList where chairmanName does not contain UPDATED_CHAIRMAN_NAME
+        defaultCourtCaseSettingShouldBeFound("chairmanName.doesNotContain=" + UPDATED_CHAIRMAN_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByAanumodakIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsBySachivNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where aanumodak is not null
-        defaultCourtCaseSettingShouldBeFound("aanumodak.specified=true");
+        // Get all the courtCaseSettingList where sachivName equals to DEFAULT_SACHIV_NAME
+        defaultCourtCaseSettingShouldBeFound("sachivName.equals=" + DEFAULT_SACHIV_NAME);
 
-        // Get all the courtCaseSettingList where aanumodak is null
-        defaultCourtCaseSettingShouldNotBeFound("aanumodak.specified=false");
+        // Get all the courtCaseSettingList where sachivName equals to UPDATED_SACHIV_NAME
+        defaultCourtCaseSettingShouldNotBeFound("sachivName.equals=" + UPDATED_SACHIV_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByAanumodakContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsBySachivNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where aanumodak contains DEFAULT_AANUMODAK
-        defaultCourtCaseSettingShouldBeFound("aanumodak.contains=" + DEFAULT_AANUMODAK);
+        // Get all the courtCaseSettingList where sachivName in DEFAULT_SACHIV_NAME or UPDATED_SACHIV_NAME
+        defaultCourtCaseSettingShouldBeFound("sachivName.in=" + DEFAULT_SACHIV_NAME + "," + UPDATED_SACHIV_NAME);
 
-        // Get all the courtCaseSettingList where aanumodak contains UPDATED_AANUMODAK
-        defaultCourtCaseSettingShouldNotBeFound("aanumodak.contains=" + UPDATED_AANUMODAK);
+        // Get all the courtCaseSettingList where sachivName equals to UPDATED_SACHIV_NAME
+        defaultCourtCaseSettingShouldNotBeFound("sachivName.in=" + UPDATED_SACHIV_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByAanumodakNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsBySachivNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where aanumodak does not contain DEFAULT_AANUMODAK
-        defaultCourtCaseSettingShouldNotBeFound("aanumodak.doesNotContain=" + DEFAULT_AANUMODAK);
+        // Get all the courtCaseSettingList where sachivName is not null
+        defaultCourtCaseSettingShouldBeFound("sachivName.specified=true");
 
-        // Get all the courtCaseSettingList where aanumodak does not contain UPDATED_AANUMODAK
-        defaultCourtCaseSettingShouldBeFound("aanumodak.doesNotContain=" + UPDATED_AANUMODAK);
+        // Get all the courtCaseSettingList where sachivName is null
+        defaultCourtCaseSettingShouldNotBeFound("sachivName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliAdhikariIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsBySachivNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari equals to DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldBeFound("vasuliAdhikari.equals=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where sachivName contains DEFAULT_SACHIV_NAME
+        defaultCourtCaseSettingShouldBeFound("sachivName.contains=" + DEFAULT_SACHIV_NAME);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari equals to UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikari.equals=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where sachivName contains UPDATED_SACHIV_NAME
+        defaultCourtCaseSettingShouldNotBeFound("sachivName.contains=" + UPDATED_SACHIV_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliAdhikariIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsBySachivNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari in DEFAULT_VASULI_ADHIKARI or UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldBeFound("vasuliAdhikari.in=" + DEFAULT_VASULI_ADHIKARI + "," + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where sachivName does not contain DEFAULT_SACHIV_NAME
+        defaultCourtCaseSettingShouldNotBeFound("sachivName.doesNotContain=" + DEFAULT_SACHIV_NAME);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari equals to UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikari.in=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where sachivName does not contain UPDATED_SACHIV_NAME
+        defaultCourtCaseSettingShouldBeFound("sachivName.doesNotContain=" + UPDATED_SACHIV_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliAdhikariIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsBySuchakNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari is not null
-        defaultCourtCaseSettingShouldBeFound("vasuliAdhikari.specified=true");
+        // Get all the courtCaseSettingList where suchakName equals to DEFAULT_SUCHAK_NAME
+        defaultCourtCaseSettingShouldBeFound("suchakName.equals=" + DEFAULT_SUCHAK_NAME);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari is null
-        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikari.specified=false");
+        // Get all the courtCaseSettingList where suchakName equals to UPDATED_SUCHAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("suchakName.equals=" + UPDATED_SUCHAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliAdhikariContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsBySuchakNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari contains DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldBeFound("vasuliAdhikari.contains=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where suchakName in DEFAULT_SUCHAK_NAME or UPDATED_SUCHAK_NAME
+        defaultCourtCaseSettingShouldBeFound("suchakName.in=" + DEFAULT_SUCHAK_NAME + "," + UPDATED_SUCHAK_NAME);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari contains UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikari.contains=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where suchakName equals to UPDATED_SUCHAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("suchakName.in=" + UPDATED_SUCHAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliAdhikariNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsBySuchakNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliAdhikari does not contain DEFAULT_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldNotBeFound("vasuliAdhikari.doesNotContain=" + DEFAULT_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where suchakName is not null
+        defaultCourtCaseSettingShouldBeFound("suchakName.specified=true");
 
-        // Get all the courtCaseSettingList where vasuliAdhikari does not contain UPDATED_VASULI_ADHIKARI
-        defaultCourtCaseSettingShouldBeFound("vasuliAdhikari.doesNotContain=" + UPDATED_VASULI_ADHIKARI);
+        // Get all the courtCaseSettingList where suchakName is null
+        defaultCourtCaseSettingShouldNotBeFound("suchakName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByArOfficeIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsBySuchakNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where arOffice equals to DEFAULT_AR_OFFICE
-        defaultCourtCaseSettingShouldBeFound("arOffice.equals=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseSettingList where suchakName contains DEFAULT_SUCHAK_NAME
+        defaultCourtCaseSettingShouldBeFound("suchakName.contains=" + DEFAULT_SUCHAK_NAME);
 
-        // Get all the courtCaseSettingList where arOffice equals to UPDATED_AR_OFFICE
-        defaultCourtCaseSettingShouldNotBeFound("arOffice.equals=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseSettingList where suchakName contains UPDATED_SUCHAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("suchakName.contains=" + UPDATED_SUCHAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByArOfficeIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsBySuchakNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where arOffice in DEFAULT_AR_OFFICE or UPDATED_AR_OFFICE
-        defaultCourtCaseSettingShouldBeFound("arOffice.in=" + DEFAULT_AR_OFFICE + "," + UPDATED_AR_OFFICE);
+        // Get all the courtCaseSettingList where suchakName does not contain DEFAULT_SUCHAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("suchakName.doesNotContain=" + DEFAULT_SUCHAK_NAME);
 
-        // Get all the courtCaseSettingList where arOffice equals to UPDATED_AR_OFFICE
-        defaultCourtCaseSettingShouldNotBeFound("arOffice.in=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseSettingList where suchakName does not contain UPDATED_SUCHAK_NAME
+        defaultCourtCaseSettingShouldBeFound("suchakName.doesNotContain=" + UPDATED_SUCHAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByArOfficeIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByAnumodakNameIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where arOffice is not null
-        defaultCourtCaseSettingShouldBeFound("arOffice.specified=true");
+        // Get all the courtCaseSettingList where anumodakName equals to DEFAULT_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldBeFound("anumodakName.equals=" + DEFAULT_ANUMODAK_NAME);
 
-        // Get all the courtCaseSettingList where arOffice is null
-        defaultCourtCaseSettingShouldNotBeFound("arOffice.specified=false");
+        // Get all the courtCaseSettingList where anumodakName equals to UPDATED_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("anumodakName.equals=" + UPDATED_ANUMODAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByArOfficeContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByAnumodakNameIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where arOffice contains DEFAULT_AR_OFFICE
-        defaultCourtCaseSettingShouldBeFound("arOffice.contains=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseSettingList where anumodakName in DEFAULT_ANUMODAK_NAME or UPDATED_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldBeFound("anumodakName.in=" + DEFAULT_ANUMODAK_NAME + "," + UPDATED_ANUMODAK_NAME);
 
-        // Get all the courtCaseSettingList where arOffice contains UPDATED_AR_OFFICE
-        defaultCourtCaseSettingShouldNotBeFound("arOffice.contains=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseSettingList where anumodakName equals to UPDATED_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("anumodakName.in=" + UPDATED_ANUMODAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByArOfficeNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByAnumodakNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where arOffice does not contain DEFAULT_AR_OFFICE
-        defaultCourtCaseSettingShouldNotBeFound("arOffice.doesNotContain=" + DEFAULT_AR_OFFICE);
+        // Get all the courtCaseSettingList where anumodakName is not null
+        defaultCourtCaseSettingShouldBeFound("anumodakName.specified=true");
 
-        // Get all the courtCaseSettingList where arOffice does not contain UPDATED_AR_OFFICE
-        defaultCourtCaseSettingShouldBeFound("arOffice.doesNotContain=" + UPDATED_AR_OFFICE);
+        // Get all the courtCaseSettingList where anumodakName is null
+        defaultCourtCaseSettingShouldNotBeFound("anumodakName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByAnumodakNameContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber equals to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.equals=" + DEFAULT_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where anumodakName contains DEFAULT_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldBeFound("anumodakName.contains=" + DEFAULT_ANUMODAK_NAME);
 
-        // Get all the courtCaseSettingList where tharavNumber equals to UPDATED_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.equals=" + UPDATED_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where anumodakName contains UPDATED_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("anumodakName.contains=" + UPDATED_ANUMODAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByAnumodakNameNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber in DEFAULT_THARAV_NUMBER or UPDATED_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.in=" + DEFAULT_THARAV_NUMBER + "," + UPDATED_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where anumodakName does not contain DEFAULT_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldNotBeFound("anumodakName.doesNotContain=" + DEFAULT_ANUMODAK_NAME);
 
-        // Get all the courtCaseSettingList where tharavNumber equals to UPDATED_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.in=" + UPDATED_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where anumodakName does not contain UPDATED_ANUMODAK_NAME
+        defaultCourtCaseSettingShouldBeFound("anumodakName.doesNotContain=" + UPDATED_ANUMODAK_NAME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber is not null
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.specified=true");
+        // Get all the courtCaseSettingList where vasuliExpense equals to DEFAULT_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.equals=" + DEFAULT_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavNumber is null
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.specified=false");
+        // Get all the courtCaseSettingList where vasuliExpense equals to UPDATED_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.equals=" + UPDATED_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber is greater than or equal to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.greaterThanOrEqual=" + DEFAULT_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense in DEFAULT_VASULI_EXPENSE or UPDATED_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.in=" + DEFAULT_VASULI_EXPENSE + "," + UPDATED_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavNumber is greater than or equal to UPDATED_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.greaterThanOrEqual=" + UPDATED_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense equals to UPDATED_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.in=" + UPDATED_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber is less than or equal to DEFAULT_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.lessThanOrEqual=" + DEFAULT_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is not null
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.specified=true");
 
-        // Get all the courtCaseSettingList where tharavNumber is less than or equal to SMALLER_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.lessThanOrEqual=" + SMALLER_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is null
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsLessThanSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber is less than DEFAULT_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.lessThan=" + DEFAULT_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is greater than or equal to DEFAULT_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.greaterThanOrEqual=" + DEFAULT_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavNumber is less than UPDATED_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.lessThan=" + UPDATED_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is greater than or equal to UPDATED_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.greaterThanOrEqual=" + UPDATED_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavNumberIsGreaterThanSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavNumber is greater than DEFAULT_THARAV_NUMBER
-        defaultCourtCaseSettingShouldNotBeFound("tharavNumber.greaterThan=" + DEFAULT_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is less than or equal to DEFAULT_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.lessThanOrEqual=" + DEFAULT_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavNumber is greater than SMALLER_THARAV_NUMBER
-        defaultCourtCaseSettingShouldBeFound("tharavNumber.greaterThan=" + SMALLER_THARAV_NUMBER);
+        // Get all the courtCaseSettingList where vasuliExpense is less than or equal to SMALLER_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.lessThanOrEqual=" + SMALLER_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavDinankIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavDinank equals to DEFAULT_THARAV_DINANK
-        defaultCourtCaseSettingShouldBeFound("tharavDinank.equals=" + DEFAULT_THARAV_DINANK);
+        // Get all the courtCaseSettingList where vasuliExpense is less than DEFAULT_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.lessThan=" + DEFAULT_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavDinank equals to UPDATED_THARAV_DINANK
-        defaultCourtCaseSettingShouldNotBeFound("tharavDinank.equals=" + UPDATED_THARAV_DINANK);
+        // Get all the courtCaseSettingList where vasuliExpense is less than UPDATED_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.lessThan=" + UPDATED_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavDinankIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByVasuliExpenseIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavDinank in DEFAULT_THARAV_DINANK or UPDATED_THARAV_DINANK
-        defaultCourtCaseSettingShouldBeFound("tharavDinank.in=" + DEFAULT_THARAV_DINANK + "," + UPDATED_THARAV_DINANK);
+        // Get all the courtCaseSettingList where vasuliExpense is greater than DEFAULT_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.greaterThan=" + DEFAULT_VASULI_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavDinank equals to UPDATED_THARAV_DINANK
-        defaultCourtCaseSettingShouldNotBeFound("tharavDinank.in=" + UPDATED_THARAV_DINANK);
+        // Get all the courtCaseSettingList where vasuliExpense is greater than SMALLER_VASULI_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("vasuliExpense.greaterThan=" + SMALLER_VASULI_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByTharavDinankIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where tharavDinank is not null
-        defaultCourtCaseSettingShouldBeFound("tharavDinank.specified=true");
+        // Get all the courtCaseSettingList where otherExpense equals to DEFAULT_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.equals=" + DEFAULT_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where tharavDinank is null
-        defaultCourtCaseSettingShouldNotBeFound("tharavDinank.specified=false");
+        // Get all the courtCaseSettingList where otherExpense equals to UPDATED_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.equals=" + UPDATED_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByKarjFedNoticeIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where karjFedNotice equals to DEFAULT_KARJ_FED_NOTICE
-        defaultCourtCaseSettingShouldBeFound("karjFedNotice.equals=" + DEFAULT_KARJ_FED_NOTICE);
+        // Get all the courtCaseSettingList where otherExpense in DEFAULT_OTHER_EXPENSE or UPDATED_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.in=" + DEFAULT_OTHER_EXPENSE + "," + UPDATED_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where karjFedNotice equals to UPDATED_KARJ_FED_NOTICE
-        defaultCourtCaseSettingShouldNotBeFound("karjFedNotice.equals=" + UPDATED_KARJ_FED_NOTICE);
+        // Get all the courtCaseSettingList where otherExpense equals to UPDATED_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.in=" + UPDATED_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByKarjFedNoticeIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where karjFedNotice in DEFAULT_KARJ_FED_NOTICE or UPDATED_KARJ_FED_NOTICE
-        defaultCourtCaseSettingShouldBeFound("karjFedNotice.in=" + DEFAULT_KARJ_FED_NOTICE + "," + UPDATED_KARJ_FED_NOTICE);
+        // Get all the courtCaseSettingList where otherExpense is not null
+        defaultCourtCaseSettingShouldBeFound("otherExpense.specified=true");
 
-        // Get all the courtCaseSettingList where karjFedNotice equals to UPDATED_KARJ_FED_NOTICE
-        defaultCourtCaseSettingShouldNotBeFound("karjFedNotice.in=" + UPDATED_KARJ_FED_NOTICE);
+        // Get all the courtCaseSettingList where otherExpense is null
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByKarjFedNoticeIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where karjFedNotice is not null
-        defaultCourtCaseSettingShouldBeFound("karjFedNotice.specified=true");
+        // Get all the courtCaseSettingList where otherExpense is greater than or equal to DEFAULT_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.greaterThanOrEqual=" + DEFAULT_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where karjFedNotice is null
-        defaultCourtCaseSettingShouldNotBeFound("karjFedNotice.specified=false");
+        // Get all the courtCaseSettingList where otherExpense is greater than or equal to UPDATED_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.greaterThanOrEqual=" + UPDATED_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeOneIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne equals to DEFAULT_ONE_ZERO_ONE_NOTICE_ONE
-        defaultCourtCaseSettingShouldBeFound("oneZeroOneNoticeOne.equals=" + DEFAULT_ONE_ZERO_ONE_NOTICE_ONE);
+        // Get all the courtCaseSettingList where otherExpense is less than or equal to DEFAULT_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.lessThanOrEqual=" + DEFAULT_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne equals to UPDATED_ONE_ZERO_ONE_NOTICE_ONE
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeOne.equals=" + UPDATED_ONE_ZERO_ONE_NOTICE_ONE);
+        // Get all the courtCaseSettingList where otherExpense is less than or equal to SMALLER_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.lessThanOrEqual=" + SMALLER_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeOneIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne in DEFAULT_ONE_ZERO_ONE_NOTICE_ONE or UPDATED_ONE_ZERO_ONE_NOTICE_ONE
-        defaultCourtCaseSettingShouldBeFound(
-            "oneZeroOneNoticeOne.in=" + DEFAULT_ONE_ZERO_ONE_NOTICE_ONE + "," + UPDATED_ONE_ZERO_ONE_NOTICE_ONE
-        );
+        // Get all the courtCaseSettingList where otherExpense is less than DEFAULT_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.lessThan=" + DEFAULT_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne equals to UPDATED_ONE_ZERO_ONE_NOTICE_ONE
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeOne.in=" + UPDATED_ONE_ZERO_ONE_NOTICE_ONE);
+        // Get all the courtCaseSettingList where otherExpense is less than UPDATED_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.lessThan=" + UPDATED_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeOneIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByOtherExpenseIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne is not null
-        defaultCourtCaseSettingShouldBeFound("oneZeroOneNoticeOne.specified=true");
+        // Get all the courtCaseSettingList where otherExpense is greater than DEFAULT_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("otherExpense.greaterThan=" + DEFAULT_OTHER_EXPENSE);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeOne is null
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeOne.specified=false");
+        // Get all the courtCaseSettingList where otherExpense is greater than SMALLER_OTHER_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("otherExpense.greaterThan=" + SMALLER_OTHER_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeTwoIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo equals to DEFAULT_ONE_ZERO_ONE_NOTICE_TWO
-        defaultCourtCaseSettingShouldBeFound("oneZeroOneNoticeTwo.equals=" + DEFAULT_ONE_ZERO_ONE_NOTICE_TWO);
+        // Get all the courtCaseSettingList where noticeExpense equals to DEFAULT_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.equals=" + DEFAULT_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo equals to UPDATED_ONE_ZERO_ONE_NOTICE_TWO
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeTwo.equals=" + UPDATED_ONE_ZERO_ONE_NOTICE_TWO);
+        // Get all the courtCaseSettingList where noticeExpense equals to UPDATED_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.equals=" + UPDATED_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeTwoIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo in DEFAULT_ONE_ZERO_ONE_NOTICE_TWO or UPDATED_ONE_ZERO_ONE_NOTICE_TWO
-        defaultCourtCaseSettingShouldBeFound(
-            "oneZeroOneNoticeTwo.in=" + DEFAULT_ONE_ZERO_ONE_NOTICE_TWO + "," + UPDATED_ONE_ZERO_ONE_NOTICE_TWO
-        );
+        // Get all the courtCaseSettingList where noticeExpense in DEFAULT_NOTICE_EXPENSE or UPDATED_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.in=" + DEFAULT_NOTICE_EXPENSE + "," + UPDATED_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo equals to UPDATED_ONE_ZERO_ONE_NOTICE_TWO
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeTwo.in=" + UPDATED_ONE_ZERO_ONE_NOTICE_TWO);
+        // Get all the courtCaseSettingList where noticeExpense equals to UPDATED_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.in=" + UPDATED_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByOneZeroOneNoticeTwoIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo is not null
-        defaultCourtCaseSettingShouldBeFound("oneZeroOneNoticeTwo.specified=true");
+        // Get all the courtCaseSettingList where noticeExpense is not null
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.specified=true");
 
-        // Get all the courtCaseSettingList where oneZeroOneNoticeTwo is null
-        defaultCourtCaseSettingShouldNotBeFound("oneZeroOneNoticeTwo.specified=false");
+        // Get all the courtCaseSettingList where noticeExpense is null
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVishayKramankIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vishayKramank equals to DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldBeFound("vishayKramank.equals=" + DEFAULT_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is greater than or equal to DEFAULT_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.greaterThanOrEqual=" + DEFAULT_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where vishayKramank equals to UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldNotBeFound("vishayKramank.equals=" + UPDATED_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is greater than or equal to UPDATED_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.greaterThanOrEqual=" + UPDATED_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVishayKramankIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vishayKramank in DEFAULT_VISHAY_KRAMANK or UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldBeFound("vishayKramank.in=" + DEFAULT_VISHAY_KRAMANK + "," + UPDATED_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is less than or equal to DEFAULT_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.lessThanOrEqual=" + DEFAULT_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where vishayKramank equals to UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldNotBeFound("vishayKramank.in=" + UPDATED_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is less than or equal to SMALLER_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.lessThanOrEqual=" + SMALLER_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVishayKramankIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vishayKramank is not null
-        defaultCourtCaseSettingShouldBeFound("vishayKramank.specified=true");
+        // Get all the courtCaseSettingList where noticeExpense is less than DEFAULT_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.lessThan=" + DEFAULT_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where vishayKramank is null
-        defaultCourtCaseSettingShouldNotBeFound("vishayKramank.specified=false");
+        // Get all the courtCaseSettingList where noticeExpense is less than UPDATED_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.lessThan=" + UPDATED_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVishayKramankContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByNoticeExpenseIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vishayKramank contains DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldBeFound("vishayKramank.contains=" + DEFAULT_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is greater than DEFAULT_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.greaterThan=" + DEFAULT_NOTICE_EXPENSE);
 
-        // Get all the courtCaseSettingList where vishayKramank contains UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldNotBeFound("vishayKramank.contains=" + UPDATED_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where noticeExpense is greater than SMALLER_NOTICE_EXPENSE
+        defaultCourtCaseSettingShouldBeFound("noticeExpense.greaterThan=" + SMALLER_NOTICE_EXPENSE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVishayKramankNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vishayKramank does not contain DEFAULT_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldNotBeFound("vishayKramank.doesNotContain=" + DEFAULT_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where meetingNo equals to DEFAULT_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.equals=" + DEFAULT_MEETING_NO);
 
-        // Get all the courtCaseSettingList where vishayKramank does not contain UPDATED_VISHAY_KRAMANK
-        defaultCourtCaseSettingShouldBeFound("vishayKramank.doesNotContain=" + UPDATED_VISHAY_KRAMANK);
+        // Get all the courtCaseSettingList where meetingNo equals to UPDATED_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.equals=" + UPDATED_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByWarIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where war equals to DEFAULT_WAR
-        defaultCourtCaseSettingShouldBeFound("war.equals=" + DEFAULT_WAR);
+        // Get all the courtCaseSettingList where meetingNo in DEFAULT_MEETING_NO or UPDATED_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.in=" + DEFAULT_MEETING_NO + "," + UPDATED_MEETING_NO);
 
-        // Get all the courtCaseSettingList where war equals to UPDATED_WAR
-        defaultCourtCaseSettingShouldNotBeFound("war.equals=" + UPDATED_WAR);
+        // Get all the courtCaseSettingList where meetingNo equals to UPDATED_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.in=" + UPDATED_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByWarIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where war in DEFAULT_WAR or UPDATED_WAR
-        defaultCourtCaseSettingShouldBeFound("war.in=" + DEFAULT_WAR + "," + UPDATED_WAR);
+        // Get all the courtCaseSettingList where meetingNo is not null
+        defaultCourtCaseSettingShouldBeFound("meetingNo.specified=true");
 
-        // Get all the courtCaseSettingList where war equals to UPDATED_WAR
-        defaultCourtCaseSettingShouldNotBeFound("war.in=" + UPDATED_WAR);
+        // Get all the courtCaseSettingList where meetingNo is null
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByWarIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where war is not null
-        defaultCourtCaseSettingShouldBeFound("war.specified=true");
+        // Get all the courtCaseSettingList where meetingNo is greater than or equal to DEFAULT_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.greaterThanOrEqual=" + DEFAULT_MEETING_NO);
 
-        // Get all the courtCaseSettingList where war is null
-        defaultCourtCaseSettingShouldNotBeFound("war.specified=false");
+        // Get all the courtCaseSettingList where meetingNo is greater than or equal to UPDATED_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.greaterThanOrEqual=" + UPDATED_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByWarContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where war contains DEFAULT_WAR
-        defaultCourtCaseSettingShouldBeFound("war.contains=" + DEFAULT_WAR);
+        // Get all the courtCaseSettingList where meetingNo is less than or equal to DEFAULT_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.lessThanOrEqual=" + DEFAULT_MEETING_NO);
 
-        // Get all the courtCaseSettingList where war contains UPDATED_WAR
-        defaultCourtCaseSettingShouldNotBeFound("war.contains=" + UPDATED_WAR);
+        // Get all the courtCaseSettingList where meetingNo is less than or equal to SMALLER_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.lessThanOrEqual=" + SMALLER_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByWarNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where war does not contain DEFAULT_WAR
-        defaultCourtCaseSettingShouldNotBeFound("war.doesNotContain=" + DEFAULT_WAR);
+        // Get all the courtCaseSettingList where meetingNo is less than DEFAULT_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.lessThan=" + DEFAULT_MEETING_NO);
 
-        // Get all the courtCaseSettingList where war does not contain UPDATED_WAR
-        defaultCourtCaseSettingShouldBeFound("war.doesNotContain=" + UPDATED_WAR);
+        // Get all the courtCaseSettingList where meetingNo is less than UPDATED_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.lessThan=" + UPDATED_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVelIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingNoIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vel equals to DEFAULT_VEL
-        defaultCourtCaseSettingShouldBeFound("vel.equals=" + DEFAULT_VEL);
+        // Get all the courtCaseSettingList where meetingNo is greater than DEFAULT_MEETING_NO
+        defaultCourtCaseSettingShouldNotBeFound("meetingNo.greaterThan=" + DEFAULT_MEETING_NO);
 
-        // Get all the courtCaseSettingList where vel equals to UPDATED_VEL
-        defaultCourtCaseSettingShouldNotBeFound("vel.equals=" + UPDATED_VEL);
+        // Get all the courtCaseSettingList where meetingNo is greater than SMALLER_MEETING_NO
+        defaultCourtCaseSettingShouldBeFound("meetingNo.greaterThan=" + SMALLER_MEETING_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVelIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vel in DEFAULT_VEL or UPDATED_VEL
-        defaultCourtCaseSettingShouldBeFound("vel.in=" + DEFAULT_VEL + "," + UPDATED_VEL);
+        // Get all the courtCaseSettingList where meetingDate equals to DEFAULT_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.equals=" + DEFAULT_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where vel equals to UPDATED_VEL
-        defaultCourtCaseSettingShouldNotBeFound("vel.in=" + UPDATED_VEL);
+        // Get all the courtCaseSettingList where meetingDate equals to UPDATED_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.equals=" + UPDATED_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVelIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vel is not null
-        defaultCourtCaseSettingShouldBeFound("vel.specified=true");
+        // Get all the courtCaseSettingList where meetingDate in DEFAULT_MEETING_DATE or UPDATED_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.in=" + DEFAULT_MEETING_DATE + "," + UPDATED_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where vel is null
-        defaultCourtCaseSettingShouldNotBeFound("vel.specified=false");
+        // Get all the courtCaseSettingList where meetingDate equals to UPDATED_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.in=" + UPDATED_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVelContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vel contains DEFAULT_VEL
-        defaultCourtCaseSettingShouldBeFound("vel.contains=" + DEFAULT_VEL);
+        // Get all the courtCaseSettingList where meetingDate is not null
+        defaultCourtCaseSettingShouldBeFound("meetingDate.specified=true");
 
-        // Get all the courtCaseSettingList where vel contains UPDATED_VEL
-        defaultCourtCaseSettingShouldNotBeFound("vel.contains=" + UPDATED_VEL);
+        // Get all the courtCaseSettingList where meetingDate is null
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVelNotContainsSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vel does not contain DEFAULT_VEL
-        defaultCourtCaseSettingShouldNotBeFound("vel.doesNotContain=" + DEFAULT_VEL);
+        // Get all the courtCaseSettingList where meetingDate is greater than or equal to DEFAULT_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.greaterThanOrEqual=" + DEFAULT_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where vel does not contain UPDATED_VEL
-        defaultCourtCaseSettingShouldBeFound("vel.doesNotContain=" + UPDATED_VEL);
+        // Get all the courtCaseSettingList where meetingDate is greater than or equal to UPDATED_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.greaterThanOrEqual=" + UPDATED_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByMaganiNoticeIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where maganiNotice equals to DEFAULT_MAGANI_NOTICE
-        defaultCourtCaseSettingShouldBeFound("maganiNotice.equals=" + DEFAULT_MAGANI_NOTICE);
+        // Get all the courtCaseSettingList where meetingDate is less than or equal to DEFAULT_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.lessThanOrEqual=" + DEFAULT_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where maganiNotice equals to UPDATED_MAGANI_NOTICE
-        defaultCourtCaseSettingShouldNotBeFound("maganiNotice.equals=" + UPDATED_MAGANI_NOTICE);
+        // Get all the courtCaseSettingList where meetingDate is less than or equal to SMALLER_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.lessThanOrEqual=" + SMALLER_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByMaganiNoticeIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where maganiNotice in DEFAULT_MAGANI_NOTICE or UPDATED_MAGANI_NOTICE
-        defaultCourtCaseSettingShouldBeFound("maganiNotice.in=" + DEFAULT_MAGANI_NOTICE + "," + UPDATED_MAGANI_NOTICE);
+        // Get all the courtCaseSettingList where meetingDate is less than DEFAULT_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.lessThan=" + DEFAULT_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where maganiNotice equals to UPDATED_MAGANI_NOTICE
-        defaultCourtCaseSettingShouldNotBeFound("maganiNotice.in=" + UPDATED_MAGANI_NOTICE);
+        // Get all the courtCaseSettingList where meetingDate is less than UPDATED_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.lessThan=" + UPDATED_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByMaganiNoticeIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDateIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where maganiNotice is not null
-        defaultCourtCaseSettingShouldBeFound("maganiNotice.specified=true");
+        // Get all the courtCaseSettingList where meetingDate is greater than DEFAULT_MEETING_DATE
+        defaultCourtCaseSettingShouldNotBeFound("meetingDate.greaterThan=" + DEFAULT_MEETING_DATE);
 
-        // Get all the courtCaseSettingList where maganiNotice is null
-        defaultCourtCaseSettingShouldNotBeFound("maganiNotice.specified=false");
+        // Get all the courtCaseSettingList where meetingDate is greater than SMALLER_MEETING_DATE
+        defaultCourtCaseSettingShouldBeFound("meetingDate.greaterThan=" + SMALLER_MEETING_DATE);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch equals to DEFAULT_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.equals=" + DEFAULT_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo equals to DEFAULT_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.equals=" + DEFAULT_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch equals to UPDATED_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.equals=" + UPDATED_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo equals to UPDATED_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.equals=" + UPDATED_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch in DEFAULT_ETAR_KHARCH or UPDATED_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.in=" + DEFAULT_ETAR_KHARCH + "," + UPDATED_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo in DEFAULT_SUBJECT_NO or UPDATED_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.in=" + DEFAULT_SUBJECT_NO + "," + UPDATED_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch equals to UPDATED_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.in=" + UPDATED_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo equals to UPDATED_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.in=" + UPDATED_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch is not null
-        defaultCourtCaseSettingShouldBeFound("etarKharch.specified=true");
+        // Get all the courtCaseSettingList where subjectNo is not null
+        defaultCourtCaseSettingShouldBeFound("subjectNo.specified=true");
 
-        // Get all the courtCaseSettingList where etarKharch is null
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.specified=false");
+        // Get all the courtCaseSettingList where subjectNo is null
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch is greater than or equal to DEFAULT_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.greaterThanOrEqual=" + DEFAULT_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is greater than or equal to DEFAULT_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.greaterThanOrEqual=" + DEFAULT_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch is greater than or equal to UPDATED_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.greaterThanOrEqual=" + UPDATED_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is greater than or equal to UPDATED_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.greaterThanOrEqual=" + UPDATED_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch is less than or equal to DEFAULT_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.lessThanOrEqual=" + DEFAULT_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is less than or equal to DEFAULT_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.lessThanOrEqual=" + DEFAULT_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch is less than or equal to SMALLER_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.lessThanOrEqual=" + SMALLER_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is less than or equal to SMALLER_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.lessThanOrEqual=" + SMALLER_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsLessThanSomething() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsLessThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch is less than DEFAULT_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.lessThan=" + DEFAULT_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is less than DEFAULT_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.lessThan=" + DEFAULT_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch is less than UPDATED_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.lessThan=" + UPDATED_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is less than UPDATED_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.lessThan=" + UPDATED_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByEtarKharchIsGreaterThanSomething() throws Exception {
+    void getAllCourtCaseSettingsBySubjectNoIsGreaterThanSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where etarKharch is greater than DEFAULT_ETAR_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("etarKharch.greaterThan=" + DEFAULT_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is greater than DEFAULT_SUBJECT_NO
+        defaultCourtCaseSettingShouldNotBeFound("subjectNo.greaterThan=" + DEFAULT_SUBJECT_NO);
 
-        // Get all the courtCaseSettingList where etarKharch is greater than SMALLER_ETAR_KHARCH
-        defaultCourtCaseSettingShouldBeFound("etarKharch.greaterThan=" + SMALLER_ETAR_KHARCH);
+        // Get all the courtCaseSettingList where subjectNo is greater than SMALLER_SUBJECT_NO
+        defaultCourtCaseSettingShouldBeFound("subjectNo.greaterThan=" + SMALLER_SUBJECT_NO);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDayIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch equals to DEFAULT_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.equals=" + DEFAULT_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay equals to DEFAULT_MEETING_DAY
+        defaultCourtCaseSettingShouldBeFound("meetingDay.equals=" + DEFAULT_MEETING_DAY);
 
-        // Get all the courtCaseSettingList where noticeKharch equals to UPDATED_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.equals=" + UPDATED_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay equals to UPDATED_MEETING_DAY
+        defaultCourtCaseSettingShouldNotBeFound("meetingDay.equals=" + UPDATED_MEETING_DAY);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDayIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch in DEFAULT_NOTICE_KHARCH or UPDATED_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.in=" + DEFAULT_NOTICE_KHARCH + "," + UPDATED_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay in DEFAULT_MEETING_DAY or UPDATED_MEETING_DAY
+        defaultCourtCaseSettingShouldBeFound("meetingDay.in=" + DEFAULT_MEETING_DAY + "," + UPDATED_MEETING_DAY);
 
-        // Get all the courtCaseSettingList where noticeKharch equals to UPDATED_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.in=" + UPDATED_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay equals to UPDATED_MEETING_DAY
+        defaultCourtCaseSettingShouldNotBeFound("meetingDay.in=" + UPDATED_MEETING_DAY);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDayIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch is not null
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.specified=true");
+        // Get all the courtCaseSettingList where meetingDay is not null
+        defaultCourtCaseSettingShouldBeFound("meetingDay.specified=true");
 
-        // Get all the courtCaseSettingList where noticeKharch is null
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.specified=false");
+        // Get all the courtCaseSettingList where meetingDay is null
+        defaultCourtCaseSettingShouldNotBeFound("meetingDay.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDayContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch is greater than or equal to DEFAULT_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.greaterThanOrEqual=" + DEFAULT_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay contains DEFAULT_MEETING_DAY
+        defaultCourtCaseSettingShouldBeFound("meetingDay.contains=" + DEFAULT_MEETING_DAY);
 
-        // Get all the courtCaseSettingList where noticeKharch is greater than or equal to UPDATED_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.greaterThanOrEqual=" + UPDATED_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay contains UPDATED_MEETING_DAY
+        defaultCourtCaseSettingShouldNotBeFound("meetingDay.contains=" + UPDATED_MEETING_DAY);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsLessThanOrEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingDayNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch is less than or equal to DEFAULT_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.lessThanOrEqual=" + DEFAULT_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay does not contain DEFAULT_MEETING_DAY
+        defaultCourtCaseSettingShouldNotBeFound("meetingDay.doesNotContain=" + DEFAULT_MEETING_DAY);
 
-        // Get all the courtCaseSettingList where noticeKharch is less than or equal to SMALLER_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.lessThanOrEqual=" + SMALLER_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingDay does not contain UPDATED_MEETING_DAY
+        defaultCourtCaseSettingShouldBeFound("meetingDay.doesNotContain=" + UPDATED_MEETING_DAY);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsLessThanSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingTimeIsEqualToSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch is less than DEFAULT_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.lessThan=" + DEFAULT_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime equals to DEFAULT_MEETING_TIME
+        defaultCourtCaseSettingShouldBeFound("meetingTime.equals=" + DEFAULT_MEETING_TIME);
 
-        // Get all the courtCaseSettingList where noticeKharch is less than UPDATED_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.lessThan=" + UPDATED_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime equals to UPDATED_MEETING_TIME
+        defaultCourtCaseSettingShouldNotBeFound("meetingTime.equals=" + UPDATED_MEETING_TIME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByNoticeKharchIsGreaterThanSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingTimeIsInShouldWork() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where noticeKharch is greater than DEFAULT_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("noticeKharch.greaterThan=" + DEFAULT_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime in DEFAULT_MEETING_TIME or UPDATED_MEETING_TIME
+        defaultCourtCaseSettingShouldBeFound("meetingTime.in=" + DEFAULT_MEETING_TIME + "," + UPDATED_MEETING_TIME);
 
-        // Get all the courtCaseSettingList where noticeKharch is greater than SMALLER_NOTICE_KHARCH
-        defaultCourtCaseSettingShouldBeFound("noticeKharch.greaterThan=" + SMALLER_NOTICE_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime equals to UPDATED_MEETING_TIME
+        defaultCourtCaseSettingShouldNotBeFound("meetingTime.in=" + UPDATED_MEETING_TIME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsEqualToSomething() throws Exception {
+    void getAllCourtCaseSettingsByMeetingTimeIsNullOrNotNull() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliKharch equals to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.equals=" + DEFAULT_VASULI_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime is not null
+        defaultCourtCaseSettingShouldBeFound("meetingTime.specified=true");
 
-        // Get all the courtCaseSettingList where vasuliKharch equals to UPDATED_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.equals=" + UPDATED_VASULI_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime is null
+        defaultCourtCaseSettingShouldNotBeFound("meetingTime.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsInShouldWork() throws Exception {
+    void getAllCourtCaseSettingsByMeetingTimeContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliKharch in DEFAULT_VASULI_KHARCH or UPDATED_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.in=" + DEFAULT_VASULI_KHARCH + "," + UPDATED_VASULI_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime contains DEFAULT_MEETING_TIME
+        defaultCourtCaseSettingShouldBeFound("meetingTime.contains=" + DEFAULT_MEETING_TIME);
 
-        // Get all the courtCaseSettingList where vasuliKharch equals to UPDATED_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.in=" + UPDATED_VASULI_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime contains UPDATED_MEETING_TIME
+        defaultCourtCaseSettingShouldNotBeFound("meetingTime.contains=" + UPDATED_MEETING_TIME);
     }
 
     @Test
     @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsNullOrNotNull() throws Exception {
+    void getAllCourtCaseSettingsByMeetingTimeNotContainsSomething() throws Exception {
         // Initialize the database
         courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
 
-        // Get all the courtCaseSettingList where vasuliKharch is not null
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.specified=true");
+        // Get all the courtCaseSettingList where meetingTime does not contain DEFAULT_MEETING_TIME
+        defaultCourtCaseSettingShouldNotBeFound("meetingTime.doesNotContain=" + DEFAULT_MEETING_TIME);
 
-        // Get all the courtCaseSettingList where vasuliKharch is null
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
-
-        // Get all the courtCaseSettingList where vasuliKharch is greater than or equal to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.greaterThanOrEqual=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseSettingList where vasuliKharch is greater than or equal to UPDATED_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.greaterThanOrEqual=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
-
-        // Get all the courtCaseSettingList where vasuliKharch is less than or equal to DEFAULT_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.lessThanOrEqual=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseSettingList where vasuliKharch is less than or equal to SMALLER_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.lessThanOrEqual=" + SMALLER_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsLessThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
-
-        // Get all the courtCaseSettingList where vasuliKharch is less than DEFAULT_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.lessThan=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseSettingList where vasuliKharch is less than UPDATED_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.lessThan=" + UPDATED_VASULI_KHARCH);
-    }
-
-    @Test
-    @Transactional
-    void getAllCourtCaseSettingsByVasuliKharchIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        courtCaseSettingRepository.saveAndFlush(courtCaseSetting);
-
-        // Get all the courtCaseSettingList where vasuliKharch is greater than DEFAULT_VASULI_KHARCH
-        defaultCourtCaseSettingShouldNotBeFound("vasuliKharch.greaterThan=" + DEFAULT_VASULI_KHARCH);
-
-        // Get all the courtCaseSettingList where vasuliKharch is greater than SMALLER_VASULI_KHARCH
-        defaultCourtCaseSettingShouldBeFound("vasuliKharch.greaterThan=" + SMALLER_VASULI_KHARCH);
+        // Get all the courtCaseSettingList where meetingTime does not contain UPDATED_MEETING_TIME
+        defaultCourtCaseSettingShouldBeFound("meetingTime.doesNotContain=" + UPDATED_MEETING_TIME);
     }
 
     /**
@@ -1438,24 +1352,20 @@ class CourtCaseSettingResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(courtCaseSetting.getId().intValue())))
-            .andExpect(jsonPath("$.[*].dinank").value(hasItem(DEFAULT_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].shakhaVevsthapak").value(hasItem(DEFAULT_SHAKHA_VEVSTHAPAK)))
-            .andExpect(jsonPath("$.[*].suchak").value(hasItem(DEFAULT_SUCHAK)))
-            .andExpect(jsonPath("$.[*].aanumodak").value(hasItem(DEFAULT_AANUMODAK)))
-            .andExpect(jsonPath("$.[*].vasuliAdhikari").value(hasItem(DEFAULT_VASULI_ADHIKARI)))
-            .andExpect(jsonPath("$.[*].arOffice").value(hasItem(DEFAULT_AR_OFFICE)))
-            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].tharavDinank").value(hasItem(DEFAULT_THARAV_DINANK.toString())))
-            .andExpect(jsonPath("$.[*].karjFedNotice").value(hasItem(DEFAULT_KARJ_FED_NOTICE.toString())))
-            .andExpect(jsonPath("$.[*].oneZeroOneNoticeOne").value(hasItem(DEFAULT_ONE_ZERO_ONE_NOTICE_ONE.toString())))
-            .andExpect(jsonPath("$.[*].oneZeroOneNoticeTwo").value(hasItem(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO.toString())))
-            .andExpect(jsonPath("$.[*].vishayKramank").value(hasItem(DEFAULT_VISHAY_KRAMANK)))
-            .andExpect(jsonPath("$.[*].war").value(hasItem(DEFAULT_WAR)))
-            .andExpect(jsonPath("$.[*].vel").value(hasItem(DEFAULT_VEL)))
-            .andExpect(jsonPath("$.[*].maganiNotice").value(hasItem(DEFAULT_MAGANI_NOTICE.toString())))
-            .andExpect(jsonPath("$.[*].etarKharch").value(hasItem(DEFAULT_ETAR_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].noticeKharch").value(hasItem(DEFAULT_NOTICE_KHARCH.doubleValue())))
-            .andExpect(jsonPath("$.[*].vasuliKharch").value(hasItem(DEFAULT_VASULI_KHARCH.doubleValue())));
+            .andExpect(jsonPath("$.[*].vasuliAdhikariName").value(hasItem(DEFAULT_VASULI_ADHIKARI_NAME)))
+            .andExpect(jsonPath("$.[*].arOfficeName").value(hasItem(DEFAULT_AR_OFFICE_NAME)))
+            .andExpect(jsonPath("$.[*].chairmanName").value(hasItem(DEFAULT_CHAIRMAN_NAME)))
+            .andExpect(jsonPath("$.[*].sachivName").value(hasItem(DEFAULT_SACHIV_NAME)))
+            .andExpect(jsonPath("$.[*].suchakName").value(hasItem(DEFAULT_SUCHAK_NAME)))
+            .andExpect(jsonPath("$.[*].anumodakName").value(hasItem(DEFAULT_ANUMODAK_NAME)))
+            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE.doubleValue())))
+            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO.intValue())))
+            .andExpect(jsonPath("$.[*].meetingDate").value(hasItem(DEFAULT_MEETING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO.intValue())))
+            .andExpect(jsonPath("$.[*].meetingDay").value(hasItem(DEFAULT_MEETING_DAY)))
+            .andExpect(jsonPath("$.[*].meetingTime").value(hasItem(DEFAULT_MEETING_TIME)));
 
         // Check, that the count call also returns 1
         restCourtCaseSettingMockMvc
@@ -1504,24 +1414,20 @@ class CourtCaseSettingResourceIT {
         // Disconnect from session so that the updates on updatedCourtCaseSetting are not directly saved in db
         em.detach(updatedCourtCaseSetting);
         updatedCourtCaseSetting
-            .dinank(UPDATED_DINANK)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .aanumodak(UPDATED_AANUMODAK)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .karjFedNotice(UPDATED_KARJ_FED_NOTICE)
-            .oneZeroOneNoticeOne(UPDATED_ONE_ZERO_ONE_NOTICE_ONE)
-            .oneZeroOneNoticeTwo(UPDATED_ONE_ZERO_ONE_NOTICE_TWO)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .maganiNotice(UPDATED_MAGANI_NOTICE)
-            .etarKharch(UPDATED_ETAR_KHARCH)
-            .noticeKharch(UPDATED_NOTICE_KHARCH)
-            .vasuliKharch(UPDATED_VASULI_KHARCH);
+            .vasuliAdhikariName(UPDATED_VASULI_ADHIKARI_NAME)
+            .arOfficeName(UPDATED_AR_OFFICE_NAME)
+            .chairmanName(UPDATED_CHAIRMAN_NAME)
+            .sachivName(UPDATED_SACHIV_NAME)
+            .suchakName(UPDATED_SUCHAK_NAME)
+            .anumodakName(UPDATED_ANUMODAK_NAME)
+            .vasuliExpense(UPDATED_VASULI_EXPENSE)
+            .otherExpense(UPDATED_OTHER_EXPENSE)
+            .noticeExpense(UPDATED_NOTICE_EXPENSE)
+            .meetingNo(UPDATED_MEETING_NO)
+            .meetingDate(UPDATED_MEETING_DATE)
+            .subjectNo(UPDATED_SUBJECT_NO)
+            .meetingDay(UPDATED_MEETING_DAY)
+            .meetingTime(UPDATED_MEETING_TIME);
 
         restCourtCaseSettingMockMvc
             .perform(
@@ -1535,24 +1441,20 @@ class CourtCaseSettingResourceIT {
         List<CourtCaseSetting> courtCaseSettingList = courtCaseSettingRepository.findAll();
         assertThat(courtCaseSettingList).hasSize(databaseSizeBeforeUpdate);
         CourtCaseSetting testCourtCaseSetting = courtCaseSettingList.get(courtCaseSettingList.size() - 1);
-        assertThat(testCourtCaseSetting.getDinank()).isEqualTo(UPDATED_DINANK);
-        assertThat(testCourtCaseSetting.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCaseSetting.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCaseSetting.getAanumodak()).isEqualTo(UPDATED_AANUMODAK);
-        assertThat(testCourtCaseSetting.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCaseSetting.getArOffice()).isEqualTo(UPDATED_AR_OFFICE);
-        assertThat(testCourtCaseSetting.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
-        assertThat(testCourtCaseSetting.getTharavDinank()).isEqualTo(UPDATED_THARAV_DINANK);
-        assertThat(testCourtCaseSetting.getKarjFedNotice()).isEqualTo(UPDATED_KARJ_FED_NOTICE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeOne()).isEqualTo(UPDATED_ONE_ZERO_ONE_NOTICE_ONE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeTwo()).isEqualTo(UPDATED_ONE_ZERO_ONE_NOTICE_TWO);
-        assertThat(testCourtCaseSetting.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCaseSetting.getWar()).isEqualTo(UPDATED_WAR);
-        assertThat(testCourtCaseSetting.getVel()).isEqualTo(UPDATED_VEL);
-        assertThat(testCourtCaseSetting.getMaganiNotice()).isEqualTo(UPDATED_MAGANI_NOTICE);
-        assertThat(testCourtCaseSetting.getEtarKharch()).isEqualTo(UPDATED_ETAR_KHARCH);
-        assertThat(testCourtCaseSetting.getNoticeKharch()).isEqualTo(UPDATED_NOTICE_KHARCH);
-        assertThat(testCourtCaseSetting.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
+        assertThat(testCourtCaseSetting.getVasuliAdhikariName()).isEqualTo(UPDATED_VASULI_ADHIKARI_NAME);
+        assertThat(testCourtCaseSetting.getArOfficeName()).isEqualTo(UPDATED_AR_OFFICE_NAME);
+        assertThat(testCourtCaseSetting.getChairmanName()).isEqualTo(UPDATED_CHAIRMAN_NAME);
+        assertThat(testCourtCaseSetting.getSachivName()).isEqualTo(UPDATED_SACHIV_NAME);
+        assertThat(testCourtCaseSetting.getSuchakName()).isEqualTo(UPDATED_SUCHAK_NAME);
+        assertThat(testCourtCaseSetting.getAnumodakName()).isEqualTo(UPDATED_ANUMODAK_NAME);
+        assertThat(testCourtCaseSetting.getVasuliExpense()).isEqualTo(UPDATED_VASULI_EXPENSE);
+        assertThat(testCourtCaseSetting.getOtherExpense()).isEqualTo(UPDATED_OTHER_EXPENSE);
+        assertThat(testCourtCaseSetting.getNoticeExpense()).isEqualTo(UPDATED_NOTICE_EXPENSE);
+        assertThat(testCourtCaseSetting.getMeetingNo()).isEqualTo(UPDATED_MEETING_NO);
+        assertThat(testCourtCaseSetting.getMeetingDate()).isEqualTo(UPDATED_MEETING_DATE);
+        assertThat(testCourtCaseSetting.getSubjectNo()).isEqualTo(UPDATED_SUBJECT_NO);
+        assertThat(testCourtCaseSetting.getMeetingDay()).isEqualTo(UPDATED_MEETING_DAY);
+        assertThat(testCourtCaseSetting.getMeetingTime()).isEqualTo(UPDATED_MEETING_TIME);
     }
 
     @Test
@@ -1626,16 +1528,14 @@ class CourtCaseSettingResourceIT {
         partialUpdatedCourtCaseSetting.setId(courtCaseSetting.getId());
 
         partialUpdatedCourtCaseSetting
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .aanumodak(UPDATED_AANUMODAK)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .oneZeroOneNoticeOne(UPDATED_ONE_ZERO_ONE_NOTICE_ONE)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .vel(UPDATED_VEL)
-            .etarKharch(UPDATED_ETAR_KHARCH)
-            .vasuliKharch(UPDATED_VASULI_KHARCH);
+            .arOfficeName(UPDATED_AR_OFFICE_NAME)
+            .chairmanName(UPDATED_CHAIRMAN_NAME)
+            .sachivName(UPDATED_SACHIV_NAME)
+            .suchakName(UPDATED_SUCHAK_NAME)
+            .anumodakName(UPDATED_ANUMODAK_NAME)
+            .meetingNo(UPDATED_MEETING_NO)
+            .subjectNo(UPDATED_SUBJECT_NO)
+            .meetingTime(UPDATED_MEETING_TIME);
 
         restCourtCaseSettingMockMvc
             .perform(
@@ -1649,24 +1549,20 @@ class CourtCaseSettingResourceIT {
         List<CourtCaseSetting> courtCaseSettingList = courtCaseSettingRepository.findAll();
         assertThat(courtCaseSettingList).hasSize(databaseSizeBeforeUpdate);
         CourtCaseSetting testCourtCaseSetting = courtCaseSettingList.get(courtCaseSettingList.size() - 1);
-        assertThat(testCourtCaseSetting.getDinank()).isEqualTo(DEFAULT_DINANK);
-        assertThat(testCourtCaseSetting.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCaseSetting.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCaseSetting.getAanumodak()).isEqualTo(UPDATED_AANUMODAK);
-        assertThat(testCourtCaseSetting.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCaseSetting.getArOffice()).isEqualTo(UPDATED_AR_OFFICE);
-        assertThat(testCourtCaseSetting.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
-        assertThat(testCourtCaseSetting.getTharavDinank()).isEqualTo(DEFAULT_THARAV_DINANK);
-        assertThat(testCourtCaseSetting.getKarjFedNotice()).isEqualTo(DEFAULT_KARJ_FED_NOTICE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeOne()).isEqualTo(UPDATED_ONE_ZERO_ONE_NOTICE_ONE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeTwo()).isEqualTo(DEFAULT_ONE_ZERO_ONE_NOTICE_TWO);
-        assertThat(testCourtCaseSetting.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCaseSetting.getWar()).isEqualTo(DEFAULT_WAR);
-        assertThat(testCourtCaseSetting.getVel()).isEqualTo(UPDATED_VEL);
-        assertThat(testCourtCaseSetting.getMaganiNotice()).isEqualTo(DEFAULT_MAGANI_NOTICE);
-        assertThat(testCourtCaseSetting.getEtarKharch()).isEqualTo(UPDATED_ETAR_KHARCH);
-        assertThat(testCourtCaseSetting.getNoticeKharch()).isEqualTo(DEFAULT_NOTICE_KHARCH);
-        assertThat(testCourtCaseSetting.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
+        assertThat(testCourtCaseSetting.getVasuliAdhikariName()).isEqualTo(DEFAULT_VASULI_ADHIKARI_NAME);
+        assertThat(testCourtCaseSetting.getArOfficeName()).isEqualTo(UPDATED_AR_OFFICE_NAME);
+        assertThat(testCourtCaseSetting.getChairmanName()).isEqualTo(UPDATED_CHAIRMAN_NAME);
+        assertThat(testCourtCaseSetting.getSachivName()).isEqualTo(UPDATED_SACHIV_NAME);
+        assertThat(testCourtCaseSetting.getSuchakName()).isEqualTo(UPDATED_SUCHAK_NAME);
+        assertThat(testCourtCaseSetting.getAnumodakName()).isEqualTo(UPDATED_ANUMODAK_NAME);
+        assertThat(testCourtCaseSetting.getVasuliExpense()).isEqualTo(DEFAULT_VASULI_EXPENSE);
+        assertThat(testCourtCaseSetting.getOtherExpense()).isEqualTo(DEFAULT_OTHER_EXPENSE);
+        assertThat(testCourtCaseSetting.getNoticeExpense()).isEqualTo(DEFAULT_NOTICE_EXPENSE);
+        assertThat(testCourtCaseSetting.getMeetingNo()).isEqualTo(UPDATED_MEETING_NO);
+        assertThat(testCourtCaseSetting.getMeetingDate()).isEqualTo(DEFAULT_MEETING_DATE);
+        assertThat(testCourtCaseSetting.getSubjectNo()).isEqualTo(UPDATED_SUBJECT_NO);
+        assertThat(testCourtCaseSetting.getMeetingDay()).isEqualTo(DEFAULT_MEETING_DAY);
+        assertThat(testCourtCaseSetting.getMeetingTime()).isEqualTo(UPDATED_MEETING_TIME);
     }
 
     @Test
@@ -1682,24 +1578,20 @@ class CourtCaseSettingResourceIT {
         partialUpdatedCourtCaseSetting.setId(courtCaseSetting.getId());
 
         partialUpdatedCourtCaseSetting
-            .dinank(UPDATED_DINANK)
-            .shakhaVevsthapak(UPDATED_SHAKHA_VEVSTHAPAK)
-            .suchak(UPDATED_SUCHAK)
-            .aanumodak(UPDATED_AANUMODAK)
-            .vasuliAdhikari(UPDATED_VASULI_ADHIKARI)
-            .arOffice(UPDATED_AR_OFFICE)
-            .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDinank(UPDATED_THARAV_DINANK)
-            .karjFedNotice(UPDATED_KARJ_FED_NOTICE)
-            .oneZeroOneNoticeOne(UPDATED_ONE_ZERO_ONE_NOTICE_ONE)
-            .oneZeroOneNoticeTwo(UPDATED_ONE_ZERO_ONE_NOTICE_TWO)
-            .vishayKramank(UPDATED_VISHAY_KRAMANK)
-            .war(UPDATED_WAR)
-            .vel(UPDATED_VEL)
-            .maganiNotice(UPDATED_MAGANI_NOTICE)
-            .etarKharch(UPDATED_ETAR_KHARCH)
-            .noticeKharch(UPDATED_NOTICE_KHARCH)
-            .vasuliKharch(UPDATED_VASULI_KHARCH);
+            .vasuliAdhikariName(UPDATED_VASULI_ADHIKARI_NAME)
+            .arOfficeName(UPDATED_AR_OFFICE_NAME)
+            .chairmanName(UPDATED_CHAIRMAN_NAME)
+            .sachivName(UPDATED_SACHIV_NAME)
+            .suchakName(UPDATED_SUCHAK_NAME)
+            .anumodakName(UPDATED_ANUMODAK_NAME)
+            .vasuliExpense(UPDATED_VASULI_EXPENSE)
+            .otherExpense(UPDATED_OTHER_EXPENSE)
+            .noticeExpense(UPDATED_NOTICE_EXPENSE)
+            .meetingNo(UPDATED_MEETING_NO)
+            .meetingDate(UPDATED_MEETING_DATE)
+            .subjectNo(UPDATED_SUBJECT_NO)
+            .meetingDay(UPDATED_MEETING_DAY)
+            .meetingTime(UPDATED_MEETING_TIME);
 
         restCourtCaseSettingMockMvc
             .perform(
@@ -1713,24 +1605,20 @@ class CourtCaseSettingResourceIT {
         List<CourtCaseSetting> courtCaseSettingList = courtCaseSettingRepository.findAll();
         assertThat(courtCaseSettingList).hasSize(databaseSizeBeforeUpdate);
         CourtCaseSetting testCourtCaseSetting = courtCaseSettingList.get(courtCaseSettingList.size() - 1);
-        assertThat(testCourtCaseSetting.getDinank()).isEqualTo(UPDATED_DINANK);
-        assertThat(testCourtCaseSetting.getShakhaVevsthapak()).isEqualTo(UPDATED_SHAKHA_VEVSTHAPAK);
-        assertThat(testCourtCaseSetting.getSuchak()).isEqualTo(UPDATED_SUCHAK);
-        assertThat(testCourtCaseSetting.getAanumodak()).isEqualTo(UPDATED_AANUMODAK);
-        assertThat(testCourtCaseSetting.getVasuliAdhikari()).isEqualTo(UPDATED_VASULI_ADHIKARI);
-        assertThat(testCourtCaseSetting.getArOffice()).isEqualTo(UPDATED_AR_OFFICE);
-        assertThat(testCourtCaseSetting.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
-        assertThat(testCourtCaseSetting.getTharavDinank()).isEqualTo(UPDATED_THARAV_DINANK);
-        assertThat(testCourtCaseSetting.getKarjFedNotice()).isEqualTo(UPDATED_KARJ_FED_NOTICE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeOne()).isEqualTo(UPDATED_ONE_ZERO_ONE_NOTICE_ONE);
-        assertThat(testCourtCaseSetting.getOneZeroOneNoticeTwo()).isEqualTo(UPDATED_ONE_ZERO_ONE_NOTICE_TWO);
-        assertThat(testCourtCaseSetting.getVishayKramank()).isEqualTo(UPDATED_VISHAY_KRAMANK);
-        assertThat(testCourtCaseSetting.getWar()).isEqualTo(UPDATED_WAR);
-        assertThat(testCourtCaseSetting.getVel()).isEqualTo(UPDATED_VEL);
-        assertThat(testCourtCaseSetting.getMaganiNotice()).isEqualTo(UPDATED_MAGANI_NOTICE);
-        assertThat(testCourtCaseSetting.getEtarKharch()).isEqualTo(UPDATED_ETAR_KHARCH);
-        assertThat(testCourtCaseSetting.getNoticeKharch()).isEqualTo(UPDATED_NOTICE_KHARCH);
-        assertThat(testCourtCaseSetting.getVasuliKharch()).isEqualTo(UPDATED_VASULI_KHARCH);
+        assertThat(testCourtCaseSetting.getVasuliAdhikariName()).isEqualTo(UPDATED_VASULI_ADHIKARI_NAME);
+        assertThat(testCourtCaseSetting.getArOfficeName()).isEqualTo(UPDATED_AR_OFFICE_NAME);
+        assertThat(testCourtCaseSetting.getChairmanName()).isEqualTo(UPDATED_CHAIRMAN_NAME);
+        assertThat(testCourtCaseSetting.getSachivName()).isEqualTo(UPDATED_SACHIV_NAME);
+        assertThat(testCourtCaseSetting.getSuchakName()).isEqualTo(UPDATED_SUCHAK_NAME);
+        assertThat(testCourtCaseSetting.getAnumodakName()).isEqualTo(UPDATED_ANUMODAK_NAME);
+        assertThat(testCourtCaseSetting.getVasuliExpense()).isEqualTo(UPDATED_VASULI_EXPENSE);
+        assertThat(testCourtCaseSetting.getOtherExpense()).isEqualTo(UPDATED_OTHER_EXPENSE);
+        assertThat(testCourtCaseSetting.getNoticeExpense()).isEqualTo(UPDATED_NOTICE_EXPENSE);
+        assertThat(testCourtCaseSetting.getMeetingNo()).isEqualTo(UPDATED_MEETING_NO);
+        assertThat(testCourtCaseSetting.getMeetingDate()).isEqualTo(UPDATED_MEETING_DATE);
+        assertThat(testCourtCaseSetting.getSubjectNo()).isEqualTo(UPDATED_SUBJECT_NO);
+        assertThat(testCourtCaseSetting.getMeetingDay()).isEqualTo(UPDATED_MEETING_DAY);
+        assertThat(testCourtCaseSetting.getMeetingTime()).isEqualTo(UPDATED_MEETING_TIME);
     }
 
     @Test

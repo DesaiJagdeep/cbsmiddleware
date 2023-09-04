@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { ICourtCaseSetting } from '../court-case-setting.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../court-case-setting.test-samples';
 
@@ -8,12 +9,7 @@ import { CourtCaseSettingService, RestCourtCaseSetting } from './court-case-sett
 
 const requireRestSample: RestCourtCaseSetting = {
   ...sampleWithRequiredData,
-  dinank: sampleWithRequiredData.dinank?.toJSON(),
-  tharavDinank: sampleWithRequiredData.tharavDinank?.toJSON(),
-  karjFedNotice: sampleWithRequiredData.karjFedNotice?.toJSON(),
-  oneZeroOneNoticeOne: sampleWithRequiredData.oneZeroOneNoticeOne?.toJSON(),
-  oneZeroOneNoticeTwo: sampleWithRequiredData.oneZeroOneNoticeTwo?.toJSON(),
-  maganiNotice: sampleWithRequiredData.maganiNotice?.toJSON(),
+  meetingDate: sampleWithRequiredData.meetingDate?.format(DATE_FORMAT),
 };
 
 describe('CourtCaseSetting Service', () => {

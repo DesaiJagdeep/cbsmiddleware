@@ -23,41 +23,33 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private InstantFilter dinank;
+    private StringFilter vasuliAdhikariName;
 
-    private StringFilter shakhaVevsthapak;
+    private StringFilter arOfficeName;
 
-    private StringFilter suchak;
+    private StringFilter chairmanName;
 
-    private StringFilter aanumodak;
+    private StringFilter sachivName;
 
-    private StringFilter vasuliAdhikari;
+    private StringFilter suchakName;
 
-    private StringFilter arOffice;
+    private StringFilter anumodakName;
 
-    private LongFilter tharavNumber;
+    private DoubleFilter vasuliExpense;
 
-    private InstantFilter tharavDinank;
+    private DoubleFilter otherExpense;
 
-    private InstantFilter karjFedNotice;
+    private DoubleFilter noticeExpense;
 
-    private InstantFilter oneZeroOneNoticeOne;
+    private LongFilter meetingNo;
 
-    private InstantFilter oneZeroOneNoticeTwo;
+    private LocalDateFilter meetingDate;
 
-    private StringFilter vishayKramank;
+    private LongFilter subjectNo;
 
-    private StringFilter war;
+    private StringFilter meetingDay;
 
-    private StringFilter vel;
-
-    private InstantFilter maganiNotice;
-
-    private DoubleFilter etarKharch;
-
-    private DoubleFilter noticeKharch;
-
-    private DoubleFilter vasuliKharch;
+    private StringFilter meetingTime;
 
     private Boolean distinct;
 
@@ -65,24 +57,20 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
 
     public CourtCaseSettingCriteria(CourtCaseSettingCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.dinank = other.dinank == null ? null : other.dinank.copy();
-        this.shakhaVevsthapak = other.shakhaVevsthapak == null ? null : other.shakhaVevsthapak.copy();
-        this.suchak = other.suchak == null ? null : other.suchak.copy();
-        this.aanumodak = other.aanumodak == null ? null : other.aanumodak.copy();
-        this.vasuliAdhikari = other.vasuliAdhikari == null ? null : other.vasuliAdhikari.copy();
-        this.arOffice = other.arOffice == null ? null : other.arOffice.copy();
-        this.tharavNumber = other.tharavNumber == null ? null : other.tharavNumber.copy();
-        this.tharavDinank = other.tharavDinank == null ? null : other.tharavDinank.copy();
-        this.karjFedNotice = other.karjFedNotice == null ? null : other.karjFedNotice.copy();
-        this.oneZeroOneNoticeOne = other.oneZeroOneNoticeOne == null ? null : other.oneZeroOneNoticeOne.copy();
-        this.oneZeroOneNoticeTwo = other.oneZeroOneNoticeTwo == null ? null : other.oneZeroOneNoticeTwo.copy();
-        this.vishayKramank = other.vishayKramank == null ? null : other.vishayKramank.copy();
-        this.war = other.war == null ? null : other.war.copy();
-        this.vel = other.vel == null ? null : other.vel.copy();
-        this.maganiNotice = other.maganiNotice == null ? null : other.maganiNotice.copy();
-        this.etarKharch = other.etarKharch == null ? null : other.etarKharch.copy();
-        this.noticeKharch = other.noticeKharch == null ? null : other.noticeKharch.copy();
-        this.vasuliKharch = other.vasuliKharch == null ? null : other.vasuliKharch.copy();
+        this.vasuliAdhikariName = other.vasuliAdhikariName == null ? null : other.vasuliAdhikariName.copy();
+        this.arOfficeName = other.arOfficeName == null ? null : other.arOfficeName.copy();
+        this.chairmanName = other.chairmanName == null ? null : other.chairmanName.copy();
+        this.sachivName = other.sachivName == null ? null : other.sachivName.copy();
+        this.suchakName = other.suchakName == null ? null : other.suchakName.copy();
+        this.anumodakName = other.anumodakName == null ? null : other.anumodakName.copy();
+        this.vasuliExpense = other.vasuliExpense == null ? null : other.vasuliExpense.copy();
+        this.otherExpense = other.otherExpense == null ? null : other.otherExpense.copy();
+        this.noticeExpense = other.noticeExpense == null ? null : other.noticeExpense.copy();
+        this.meetingNo = other.meetingNo == null ? null : other.meetingNo.copy();
+        this.meetingDate = other.meetingDate == null ? null : other.meetingDate.copy();
+        this.subjectNo = other.subjectNo == null ? null : other.subjectNo.copy();
+        this.meetingDay = other.meetingDay == null ? null : other.meetingDay.copy();
+        this.meetingTime = other.meetingTime == null ? null : other.meetingTime.copy();
         this.distinct = other.distinct;
     }
 
@@ -106,274 +94,214 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public InstantFilter getDinank() {
-        return dinank;
+    public StringFilter getVasuliAdhikariName() {
+        return vasuliAdhikariName;
     }
 
-    public InstantFilter dinank() {
-        if (dinank == null) {
-            dinank = new InstantFilter();
+    public StringFilter vasuliAdhikariName() {
+        if (vasuliAdhikariName == null) {
+            vasuliAdhikariName = new StringFilter();
         }
-        return dinank;
+        return vasuliAdhikariName;
     }
 
-    public void setDinank(InstantFilter dinank) {
-        this.dinank = dinank;
+    public void setVasuliAdhikariName(StringFilter vasuliAdhikariName) {
+        this.vasuliAdhikariName = vasuliAdhikariName;
     }
 
-    public StringFilter getShakhaVevsthapak() {
-        return shakhaVevsthapak;
+    public StringFilter getArOfficeName() {
+        return arOfficeName;
     }
 
-    public StringFilter shakhaVevsthapak() {
-        if (shakhaVevsthapak == null) {
-            shakhaVevsthapak = new StringFilter();
+    public StringFilter arOfficeName() {
+        if (arOfficeName == null) {
+            arOfficeName = new StringFilter();
         }
-        return shakhaVevsthapak;
+        return arOfficeName;
     }
 
-    public void setShakhaVevsthapak(StringFilter shakhaVevsthapak) {
-        this.shakhaVevsthapak = shakhaVevsthapak;
+    public void setArOfficeName(StringFilter arOfficeName) {
+        this.arOfficeName = arOfficeName;
     }
 
-    public StringFilter getSuchak() {
-        return suchak;
+    public StringFilter getChairmanName() {
+        return chairmanName;
     }
 
-    public StringFilter suchak() {
-        if (suchak == null) {
-            suchak = new StringFilter();
+    public StringFilter chairmanName() {
+        if (chairmanName == null) {
+            chairmanName = new StringFilter();
         }
-        return suchak;
+        return chairmanName;
     }
 
-    public void setSuchak(StringFilter suchak) {
-        this.suchak = suchak;
+    public void setChairmanName(StringFilter chairmanName) {
+        this.chairmanName = chairmanName;
     }
 
-    public StringFilter getAanumodak() {
-        return aanumodak;
+    public StringFilter getSachivName() {
+        return sachivName;
     }
 
-    public StringFilter aanumodak() {
-        if (aanumodak == null) {
-            aanumodak = new StringFilter();
+    public StringFilter sachivName() {
+        if (sachivName == null) {
+            sachivName = new StringFilter();
         }
-        return aanumodak;
+        return sachivName;
     }
 
-    public void setAanumodak(StringFilter aanumodak) {
-        this.aanumodak = aanumodak;
+    public void setSachivName(StringFilter sachivName) {
+        this.sachivName = sachivName;
     }
 
-    public StringFilter getVasuliAdhikari() {
-        return vasuliAdhikari;
+    public StringFilter getSuchakName() {
+        return suchakName;
     }
 
-    public StringFilter vasuliAdhikari() {
-        if (vasuliAdhikari == null) {
-            vasuliAdhikari = new StringFilter();
+    public StringFilter suchakName() {
+        if (suchakName == null) {
+            suchakName = new StringFilter();
         }
-        return vasuliAdhikari;
+        return suchakName;
     }
 
-    public void setVasuliAdhikari(StringFilter vasuliAdhikari) {
-        this.vasuliAdhikari = vasuliAdhikari;
+    public void setSuchakName(StringFilter suchakName) {
+        this.suchakName = suchakName;
     }
 
-    public StringFilter getArOffice() {
-        return arOffice;
+    public StringFilter getAnumodakName() {
+        return anumodakName;
     }
 
-    public StringFilter arOffice() {
-        if (arOffice == null) {
-            arOffice = new StringFilter();
+    public StringFilter anumodakName() {
+        if (anumodakName == null) {
+            anumodakName = new StringFilter();
         }
-        return arOffice;
+        return anumodakName;
     }
 
-    public void setArOffice(StringFilter arOffice) {
-        this.arOffice = arOffice;
+    public void setAnumodakName(StringFilter anumodakName) {
+        this.anumodakName = anumodakName;
     }
 
-    public LongFilter getTharavNumber() {
-        return tharavNumber;
+    public DoubleFilter getVasuliExpense() {
+        return vasuliExpense;
     }
 
-    public LongFilter tharavNumber() {
-        if (tharavNumber == null) {
-            tharavNumber = new LongFilter();
+    public DoubleFilter vasuliExpense() {
+        if (vasuliExpense == null) {
+            vasuliExpense = new DoubleFilter();
         }
-        return tharavNumber;
+        return vasuliExpense;
     }
 
-    public void setTharavNumber(LongFilter tharavNumber) {
-        this.tharavNumber = tharavNumber;
+    public void setVasuliExpense(DoubleFilter vasuliExpense) {
+        this.vasuliExpense = vasuliExpense;
     }
 
-    public InstantFilter getTharavDinank() {
-        return tharavDinank;
+    public DoubleFilter getOtherExpense() {
+        return otherExpense;
     }
 
-    public InstantFilter tharavDinank() {
-        if (tharavDinank == null) {
-            tharavDinank = new InstantFilter();
+    public DoubleFilter otherExpense() {
+        if (otherExpense == null) {
+            otherExpense = new DoubleFilter();
         }
-        return tharavDinank;
+        return otherExpense;
     }
 
-    public void setTharavDinank(InstantFilter tharavDinank) {
-        this.tharavDinank = tharavDinank;
+    public void setOtherExpense(DoubleFilter otherExpense) {
+        this.otherExpense = otherExpense;
     }
 
-    public InstantFilter getKarjFedNotice() {
-        return karjFedNotice;
+    public DoubleFilter getNoticeExpense() {
+        return noticeExpense;
     }
 
-    public InstantFilter karjFedNotice() {
-        if (karjFedNotice == null) {
-            karjFedNotice = new InstantFilter();
+    public DoubleFilter noticeExpense() {
+        if (noticeExpense == null) {
+            noticeExpense = new DoubleFilter();
         }
-        return karjFedNotice;
+        return noticeExpense;
     }
 
-    public void setKarjFedNotice(InstantFilter karjFedNotice) {
-        this.karjFedNotice = karjFedNotice;
+    public void setNoticeExpense(DoubleFilter noticeExpense) {
+        this.noticeExpense = noticeExpense;
     }
 
-    public InstantFilter getOneZeroOneNoticeOne() {
-        return oneZeroOneNoticeOne;
+    public LongFilter getMeetingNo() {
+        return meetingNo;
     }
 
-    public InstantFilter oneZeroOneNoticeOne() {
-        if (oneZeroOneNoticeOne == null) {
-            oneZeroOneNoticeOne = new InstantFilter();
+    public LongFilter meetingNo() {
+        if (meetingNo == null) {
+            meetingNo = new LongFilter();
         }
-        return oneZeroOneNoticeOne;
+        return meetingNo;
     }
 
-    public void setOneZeroOneNoticeOne(InstantFilter oneZeroOneNoticeOne) {
-        this.oneZeroOneNoticeOne = oneZeroOneNoticeOne;
+    public void setMeetingNo(LongFilter meetingNo) {
+        this.meetingNo = meetingNo;
     }
 
-    public InstantFilter getOneZeroOneNoticeTwo() {
-        return oneZeroOneNoticeTwo;
+    public LocalDateFilter getMeetingDate() {
+        return meetingDate;
     }
 
-    public InstantFilter oneZeroOneNoticeTwo() {
-        if (oneZeroOneNoticeTwo == null) {
-            oneZeroOneNoticeTwo = new InstantFilter();
+    public LocalDateFilter meetingDate() {
+        if (meetingDate == null) {
+            meetingDate = new LocalDateFilter();
         }
-        return oneZeroOneNoticeTwo;
+        return meetingDate;
     }
 
-    public void setOneZeroOneNoticeTwo(InstantFilter oneZeroOneNoticeTwo) {
-        this.oneZeroOneNoticeTwo = oneZeroOneNoticeTwo;
+    public void setMeetingDate(LocalDateFilter meetingDate) {
+        this.meetingDate = meetingDate;
     }
 
-    public StringFilter getVishayKramank() {
-        return vishayKramank;
+    public LongFilter getSubjectNo() {
+        return subjectNo;
     }
 
-    public StringFilter vishayKramank() {
-        if (vishayKramank == null) {
-            vishayKramank = new StringFilter();
+    public LongFilter subjectNo() {
+        if (subjectNo == null) {
+            subjectNo = new LongFilter();
         }
-        return vishayKramank;
+        return subjectNo;
     }
 
-    public void setVishayKramank(StringFilter vishayKramank) {
-        this.vishayKramank = vishayKramank;
+    public void setSubjectNo(LongFilter subjectNo) {
+        this.subjectNo = subjectNo;
     }
 
-    public StringFilter getWar() {
-        return war;
+    public StringFilter getMeetingDay() {
+        return meetingDay;
     }
 
-    public StringFilter war() {
-        if (war == null) {
-            war = new StringFilter();
+    public StringFilter meetingDay() {
+        if (meetingDay == null) {
+            meetingDay = new StringFilter();
         }
-        return war;
+        return meetingDay;
     }
 
-    public void setWar(StringFilter war) {
-        this.war = war;
+    public void setMeetingDay(StringFilter meetingDay) {
+        this.meetingDay = meetingDay;
     }
 
-    public StringFilter getVel() {
-        return vel;
+    public StringFilter getMeetingTime() {
+        return meetingTime;
     }
 
-    public StringFilter vel() {
-        if (vel == null) {
-            vel = new StringFilter();
+    public StringFilter meetingTime() {
+        if (meetingTime == null) {
+            meetingTime = new StringFilter();
         }
-        return vel;
+        return meetingTime;
     }
 
-    public void setVel(StringFilter vel) {
-        this.vel = vel;
-    }
-
-    public InstantFilter getMaganiNotice() {
-        return maganiNotice;
-    }
-
-    public InstantFilter maganiNotice() {
-        if (maganiNotice == null) {
-            maganiNotice = new InstantFilter();
-        }
-        return maganiNotice;
-    }
-
-    public void setMaganiNotice(InstantFilter maganiNotice) {
-        this.maganiNotice = maganiNotice;
-    }
-
-    public DoubleFilter getEtarKharch() {
-        return etarKharch;
-    }
-
-    public DoubleFilter etarKharch() {
-        if (etarKharch == null) {
-            etarKharch = new DoubleFilter();
-        }
-        return etarKharch;
-    }
-
-    public void setEtarKharch(DoubleFilter etarKharch) {
-        this.etarKharch = etarKharch;
-    }
-
-    public DoubleFilter getNoticeKharch() {
-        return noticeKharch;
-    }
-
-    public DoubleFilter noticeKharch() {
-        if (noticeKharch == null) {
-            noticeKharch = new DoubleFilter();
-        }
-        return noticeKharch;
-    }
-
-    public void setNoticeKharch(DoubleFilter noticeKharch) {
-        this.noticeKharch = noticeKharch;
-    }
-
-    public DoubleFilter getVasuliKharch() {
-        return vasuliKharch;
-    }
-
-    public DoubleFilter vasuliKharch() {
-        if (vasuliKharch == null) {
-            vasuliKharch = new DoubleFilter();
-        }
-        return vasuliKharch;
-    }
-
-    public void setVasuliKharch(DoubleFilter vasuliKharch) {
-        this.vasuliKharch = vasuliKharch;
+    public void setMeetingTime(StringFilter meetingTime) {
+        this.meetingTime = meetingTime;
     }
 
     public Boolean getDistinct() {
@@ -395,24 +323,20 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
         final CourtCaseSettingCriteria that = (CourtCaseSettingCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(dinank, that.dinank) &&
-            Objects.equals(shakhaVevsthapak, that.shakhaVevsthapak) &&
-            Objects.equals(suchak, that.suchak) &&
-            Objects.equals(aanumodak, that.aanumodak) &&
-            Objects.equals(vasuliAdhikari, that.vasuliAdhikari) &&
-            Objects.equals(arOffice, that.arOffice) &&
-            Objects.equals(tharavNumber, that.tharavNumber) &&
-            Objects.equals(tharavDinank, that.tharavDinank) &&
-            Objects.equals(karjFedNotice, that.karjFedNotice) &&
-            Objects.equals(oneZeroOneNoticeOne, that.oneZeroOneNoticeOne) &&
-            Objects.equals(oneZeroOneNoticeTwo, that.oneZeroOneNoticeTwo) &&
-            Objects.equals(vishayKramank, that.vishayKramank) &&
-            Objects.equals(war, that.war) &&
-            Objects.equals(vel, that.vel) &&
-            Objects.equals(maganiNotice, that.maganiNotice) &&
-            Objects.equals(etarKharch, that.etarKharch) &&
-            Objects.equals(noticeKharch, that.noticeKharch) &&
-            Objects.equals(vasuliKharch, that.vasuliKharch) &&
+            Objects.equals(vasuliAdhikariName, that.vasuliAdhikariName) &&
+            Objects.equals(arOfficeName, that.arOfficeName) &&
+            Objects.equals(chairmanName, that.chairmanName) &&
+            Objects.equals(sachivName, that.sachivName) &&
+            Objects.equals(suchakName, that.suchakName) &&
+            Objects.equals(anumodakName, that.anumodakName) &&
+            Objects.equals(vasuliExpense, that.vasuliExpense) &&
+            Objects.equals(otherExpense, that.otherExpense) &&
+            Objects.equals(noticeExpense, that.noticeExpense) &&
+            Objects.equals(meetingNo, that.meetingNo) &&
+            Objects.equals(meetingDate, that.meetingDate) &&
+            Objects.equals(subjectNo, that.subjectNo) &&
+            Objects.equals(meetingDay, that.meetingDay) &&
+            Objects.equals(meetingTime, that.meetingTime) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -421,24 +345,20 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
-            dinank,
-            shakhaVevsthapak,
-            suchak,
-            aanumodak,
-            vasuliAdhikari,
-            arOffice,
-            tharavNumber,
-            tharavDinank,
-            karjFedNotice,
-            oneZeroOneNoticeOne,
-            oneZeroOneNoticeTwo,
-            vishayKramank,
-            war,
-            vel,
-            maganiNotice,
-            etarKharch,
-            noticeKharch,
-            vasuliKharch,
+            vasuliAdhikariName,
+            arOfficeName,
+            chairmanName,
+            sachivName,
+            suchakName,
+            anumodakName,
+            vasuliExpense,
+            otherExpense,
+            noticeExpense,
+            meetingNo,
+            meetingDate,
+            subjectNo,
+            meetingDay,
+            meetingTime,
             distinct
         );
     }
@@ -448,24 +368,20 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public String toString() {
         return "CourtCaseSettingCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (dinank != null ? "dinank=" + dinank + ", " : "") +
-            (shakhaVevsthapak != null ? "shakhaVevsthapak=" + shakhaVevsthapak + ", " : "") +
-            (suchak != null ? "suchak=" + suchak + ", " : "") +
-            (aanumodak != null ? "aanumodak=" + aanumodak + ", " : "") +
-            (vasuliAdhikari != null ? "vasuliAdhikari=" + vasuliAdhikari + ", " : "") +
-            (arOffice != null ? "arOffice=" + arOffice + ", " : "") +
-            (tharavNumber != null ? "tharavNumber=" + tharavNumber + ", " : "") +
-            (tharavDinank != null ? "tharavDinank=" + tharavDinank + ", " : "") +
-            (karjFedNotice != null ? "karjFedNotice=" + karjFedNotice + ", " : "") +
-            (oneZeroOneNoticeOne != null ? "oneZeroOneNoticeOne=" + oneZeroOneNoticeOne + ", " : "") +
-            (oneZeroOneNoticeTwo != null ? "oneZeroOneNoticeTwo=" + oneZeroOneNoticeTwo + ", " : "") +
-            (vishayKramank != null ? "vishayKramank=" + vishayKramank + ", " : "") +
-            (war != null ? "war=" + war + ", " : "") +
-            (vel != null ? "vel=" + vel + ", " : "") +
-            (maganiNotice != null ? "maganiNotice=" + maganiNotice + ", " : "") +
-            (etarKharch != null ? "etarKharch=" + etarKharch + ", " : "") +
-            (noticeKharch != null ? "noticeKharch=" + noticeKharch + ", " : "") +
-            (vasuliKharch != null ? "vasuliKharch=" + vasuliKharch + ", " : "") +
+            (vasuliAdhikariName != null ? "vasuliAdhikariName=" + vasuliAdhikariName + ", " : "") +
+            (arOfficeName != null ? "arOfficeName=" + arOfficeName + ", " : "") +
+            (chairmanName != null ? "chairmanName=" + chairmanName + ", " : "") +
+            (sachivName != null ? "sachivName=" + sachivName + ", " : "") +
+            (suchakName != null ? "suchakName=" + suchakName + ", " : "") +
+            (anumodakName != null ? "anumodakName=" + anumodakName + ", " : "") +
+            (vasuliExpense != null ? "vasuliExpense=" + vasuliExpense + ", " : "") +
+            (otherExpense != null ? "otherExpense=" + otherExpense + ", " : "") +
+            (noticeExpense != null ? "noticeExpense=" + noticeExpense + ", " : "") +
+            (meetingNo != null ? "meetingNo=" + meetingNo + ", " : "") +
+            (meetingDate != null ? "meetingDate=" + meetingDate + ", " : "") +
+            (subjectNo != null ? "subjectNo=" + subjectNo + ", " : "") +
+            (meetingDay != null ? "meetingDay=" + meetingDay + ", " : "") +
+            (meetingTime != null ? "meetingTime=" + meetingTime + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

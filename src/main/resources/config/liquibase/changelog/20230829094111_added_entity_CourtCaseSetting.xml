@@ -14,68 +14,50 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="dinank" type="${datetimeType}">
+            <column name="vasuli_adhikari_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="shakha_vevsthapak" type="varchar(255)">
+            <column name="ar_office_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="suchak" type="varchar(255)">
+            <column name="chairman_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="aanumodak" type="varchar(255)">
+            <column name="sachiv_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="vasuli_adhikari" type="varchar(255)">
+            <column name="suchak_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="ar_office" type="varchar(255)">
+            <column name="anumodak_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="tharav_number" type="bigint">
+            <column name="vasuli_expense" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="tharav_dinank" type="${datetimeType}">
+            <column name="other_expense" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="karj_fed_notice" type="${datetimeType}">
+            <column name="notice_expense" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="one_zero_one_notice_one" type="${datetimeType}">
+            <column name="meeting_no" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="one_zero_one_notice_two" type="${datetimeType}">
+            <column name="meeting_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="vishay_kramank" type="varchar(255)">
+            <column name="subject_no" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="war" type="varchar(255)">
+            <column name="meeting_day" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="vel" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="magani_notice" type="${datetimeType}">
-                <constraints nullable="true" />
-            </column>
-            <column name="etar_kharch" type="double">
-                <constraints nullable="true" />
-            </column>
-            <column name="notice_kharch" type="double">
-                <constraints nullable="true" />
-            </column>
-            <column name="vasuli_kharch" type="double">
+            <column name="meeting_time" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="court_case_setting" columnName="dinank" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="court_case_setting" columnName="tharav_dinank" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="court_case_setting" columnName="karj_fed_notice" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="court_case_setting" columnName="one_zero_one_notice_one" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="court_case_setting" columnName="one_zero_one_notice_two" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="court_case_setting" columnName="magani_notice" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -95,24 +77,20 @@
                   tableName="court_case_setting"
                   usePreparedStatements="true">
             <column name="id" type="numeric"/>
-            <column name="dinank" type="date"/>
-            <column name="shakha_vevsthapak" type="string"/>
-            <column name="suchak" type="string"/>
-            <column name="aanumodak" type="string"/>
-            <column name="vasuli_adhikari" type="string"/>
-            <column name="ar_office" type="string"/>
-            <column name="tharav_number" type="numeric"/>
-            <column name="tharav_dinank" type="date"/>
-            <column name="karj_fed_notice" type="date"/>
-            <column name="one_zero_one_notice_one" type="date"/>
-            <column name="one_zero_one_notice_two" type="date"/>
-            <column name="vishay_kramank" type="string"/>
-            <column name="war" type="string"/>
-            <column name="vel" type="string"/>
-            <column name="magani_notice" type="date"/>
-            <column name="etar_kharch" type="numeric"/>
-            <column name="notice_kharch" type="numeric"/>
-            <column name="vasuli_kharch" type="numeric"/>
+            <column name="vasuli_adhikari_name" type="string"/>
+            <column name="ar_office_name" type="string"/>
+            <column name="chairman_name" type="string"/>
+            <column name="sachiv_name" type="string"/>
+            <column name="suchak_name" type="string"/>
+            <column name="anumodak_name" type="string"/>
+            <column name="vasuli_expense" type="numeric"/>
+            <column name="other_expense" type="numeric"/>
+            <column name="notice_expense" type="numeric"/>
+            <column name="meeting_no" type="numeric"/>
+            <column name="meeting_date" type="date"/>
+            <column name="subject_no" type="numeric"/>
+            <column name="meeting_day" type="string"/>
+            <column name="meeting_time" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

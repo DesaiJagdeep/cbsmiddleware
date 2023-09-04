@@ -2,24 +2,20 @@ import dayjs from 'dayjs/esm';
 
 export interface ICourtCaseSetting {
   id: number;
-  dinank?: dayjs.Dayjs | null;
-  shakhaVevsthapak?: string | null;
-  suchak?: string | null;
-  aanumodak?: string | null;
-  vasuliAdhikari?: string | null;
-  arOffice?: string | null;
-  tharavNumber?: number | null;
-  tharavDinank?: dayjs.Dayjs | null;
-  karjFedNotice?: dayjs.Dayjs | null;
-  oneZeroOneNoticeOne?: dayjs.Dayjs | null;
-  oneZeroOneNoticeTwo?: dayjs.Dayjs | null;
-  vishayKramank?: string | null;
-  war?: string | null;
-  vel?: string | null;
-  maganiNotice?: dayjs.Dayjs | null;
-  etarKharch?: number | null;
-  noticeKharch?: number | null;
-  vasuliKharch?: number | null;
+  vasuliAdhikariName?: string | null;
+  arOfficeName?: string | null;
+  chairmanName?: string | null;
+  sachivName?: string | null;
+  suchakName?: string | null;
+  anumodakName?: string | null;
+  vasuliExpense?: number | null;
+  otherExpense?: number | null;
+  noticeExpense?: number | null;
+  meetingNo?: number | null;
+  meetingDate?: dayjs.Dayjs | null;
+  subjectNo?: number | null;
+  meetingDay?: string | null;
+  meetingTime?: string | null;
 }
 
 export type NewCourtCaseSetting = Omit<ICourtCaseSetting, 'id'> & { id: null };

@@ -45,59 +45,47 @@ public class CourtCaseSettingServiceImpl implements CourtCaseSettingService {
         return courtCaseSettingRepository
             .findById(courtCaseSetting.getId())
             .map(existingCourtCaseSetting -> {
-                if (courtCaseSetting.getDinank() != null) {
-                    existingCourtCaseSetting.setDinank(courtCaseSetting.getDinank());
+                if (courtCaseSetting.getVasuliAdhikariName() != null) {
+                    existingCourtCaseSetting.setVasuliAdhikariName(courtCaseSetting.getVasuliAdhikariName());
                 }
-                if (courtCaseSetting.getShakhaVevsthapak() != null) {
-                    existingCourtCaseSetting.setShakhaVevsthapak(courtCaseSetting.getShakhaVevsthapak());
+                if (courtCaseSetting.getArOfficeName() != null) {
+                    existingCourtCaseSetting.setArOfficeName(courtCaseSetting.getArOfficeName());
                 }
-                if (courtCaseSetting.getSuchak() != null) {
-                    existingCourtCaseSetting.setSuchak(courtCaseSetting.getSuchak());
+                if (courtCaseSetting.getChairmanName() != null) {
+                    existingCourtCaseSetting.setChairmanName(courtCaseSetting.getChairmanName());
                 }
-                if (courtCaseSetting.getAanumodak() != null) {
-                    existingCourtCaseSetting.setAanumodak(courtCaseSetting.getAanumodak());
+                if (courtCaseSetting.getSachivName() != null) {
+                    existingCourtCaseSetting.setSachivName(courtCaseSetting.getSachivName());
                 }
-                if (courtCaseSetting.getVasuliAdhikari() != null) {
-                    existingCourtCaseSetting.setVasuliAdhikari(courtCaseSetting.getVasuliAdhikari());
+                if (courtCaseSetting.getSuchakName() != null) {
+                    existingCourtCaseSetting.setSuchakName(courtCaseSetting.getSuchakName());
                 }
-                if (courtCaseSetting.getArOffice() != null) {
-                    existingCourtCaseSetting.setArOffice(courtCaseSetting.getArOffice());
+                if (courtCaseSetting.getAnumodakName() != null) {
+                    existingCourtCaseSetting.setAnumodakName(courtCaseSetting.getAnumodakName());
                 }
-                if (courtCaseSetting.getTharavNumber() != null) {
-                    existingCourtCaseSetting.setTharavNumber(courtCaseSetting.getTharavNumber());
+                if (courtCaseSetting.getVasuliExpense() != null) {
+                    existingCourtCaseSetting.setVasuliExpense(courtCaseSetting.getVasuliExpense());
                 }
-                if (courtCaseSetting.getTharavDinank() != null) {
-                    existingCourtCaseSetting.setTharavDinank(courtCaseSetting.getTharavDinank());
+                if (courtCaseSetting.getOtherExpense() != null) {
+                    existingCourtCaseSetting.setOtherExpense(courtCaseSetting.getOtherExpense());
                 }
-                if (courtCaseSetting.getKarjFedNotice() != null) {
-                    existingCourtCaseSetting.setKarjFedNotice(courtCaseSetting.getKarjFedNotice());
+                if (courtCaseSetting.getNoticeExpense() != null) {
+                    existingCourtCaseSetting.setNoticeExpense(courtCaseSetting.getNoticeExpense());
                 }
-                if (courtCaseSetting.getOneZeroOneNoticeOne() != null) {
-                    existingCourtCaseSetting.setOneZeroOneNoticeOne(courtCaseSetting.getOneZeroOneNoticeOne());
+                if (courtCaseSetting.getMeetingNo() != null) {
+                    existingCourtCaseSetting.setMeetingNo(courtCaseSetting.getMeetingNo());
                 }
-                if (courtCaseSetting.getOneZeroOneNoticeTwo() != null) {
-                    existingCourtCaseSetting.setOneZeroOneNoticeTwo(courtCaseSetting.getOneZeroOneNoticeTwo());
+                if (courtCaseSetting.getMeetingDate() != null) {
+                    existingCourtCaseSetting.setMeetingDate(courtCaseSetting.getMeetingDate());
                 }
-                if (courtCaseSetting.getVishayKramank() != null) {
-                    existingCourtCaseSetting.setVishayKramank(courtCaseSetting.getVishayKramank());
+                if (courtCaseSetting.getSubjectNo() != null) {
+                    existingCourtCaseSetting.setSubjectNo(courtCaseSetting.getSubjectNo());
                 }
-                if (courtCaseSetting.getWar() != null) {
-                    existingCourtCaseSetting.setWar(courtCaseSetting.getWar());
+                if (courtCaseSetting.getMeetingDay() != null) {
+                    existingCourtCaseSetting.setMeetingDay(courtCaseSetting.getMeetingDay());
                 }
-                if (courtCaseSetting.getVel() != null) {
-                    existingCourtCaseSetting.setVel(courtCaseSetting.getVel());
-                }
-                if (courtCaseSetting.getMaganiNotice() != null) {
-                    existingCourtCaseSetting.setMaganiNotice(courtCaseSetting.getMaganiNotice());
-                }
-                if (courtCaseSetting.getEtarKharch() != null) {
-                    existingCourtCaseSetting.setEtarKharch(courtCaseSetting.getEtarKharch());
-                }
-                if (courtCaseSetting.getNoticeKharch() != null) {
-                    existingCourtCaseSetting.setNoticeKharch(courtCaseSetting.getNoticeKharch());
-                }
-                if (courtCaseSetting.getVasuliKharch() != null) {
-                    existingCourtCaseSetting.setVasuliKharch(courtCaseSetting.getVasuliKharch());
+                if (courtCaseSetting.getMeetingTime() != null) {
+                    existingCourtCaseSetting.setMeetingTime(courtCaseSetting.getMeetingTime());
                 }
 
                 return existingCourtCaseSetting;

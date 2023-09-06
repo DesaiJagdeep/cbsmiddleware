@@ -121,7 +121,7 @@ public class RBAControl {
                 issFilePortal = issPortalFileRepository.findById(issPortalId);
                 if (issFilePortal.isPresent()) {
                     branchCodeFromId = "" + issFilePortal.get().getBranchCode();
-                    pacsNumberFromId = "" + issFilePortal.get().getBranchCode();
+                    pacsNumberFromId = "" + issFilePortal.get().getPacsCode();
                 }
             }
 
@@ -130,8 +130,8 @@ public class RBAControl {
                 issFileParser = issFileParserRepository.findById(issFileParserId);
                 if (issFileParser.isPresent()) {
                     branchCodeFromId = "" + issFileParser.get().getIssPortalFile().getBranchCode();
-                    branchCodeFromId = "" + issFilePortal.get().getBranchCode();
-                    pacsNumberFromId = "" + issFilePortal.get().getBranchCode();
+                    branchCodeFromId = "" + issFileParser.get().getBranchCode();
+                    pacsNumberFromId = "" + issFileParser.get().getPacsNumber();
                 }
             }
 

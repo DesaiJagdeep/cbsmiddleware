@@ -19,6 +19,12 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "unique_file_name")
+    private String uniqueFileName;
+
     @Column(name = "vasuli_adhikari_name")
     private String vasuliAdhikariName;
 
@@ -91,6 +97,22 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
 
     public String getArOfficeName() {
         return this.arOfficeName;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUniqueFileName() {
+        return uniqueFileName;
+    }
+
+    public void setUniqueFileName(String uniqueFileName) {
+        this.uniqueFileName = uniqueFileName;
     }
 
     public CourtCaseSetting arOfficeName(String arOfficeName) {

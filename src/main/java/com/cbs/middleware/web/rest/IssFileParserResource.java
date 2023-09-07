@@ -289,7 +289,7 @@ public class IssFileParserResource {
         } catch (BadRequestAlertException e) {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
         } catch (ForbiddenAuthRequestAlertException e) {
-            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+            throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
         } catch (UnAuthRequestAlertException e) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (EncryptedDocumentException e1) {

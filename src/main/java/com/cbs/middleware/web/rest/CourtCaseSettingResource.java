@@ -1,31 +1,73 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.domain.CourtCaseSetting;
+import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
+import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseSettingQueryService;
 import com.cbs.middleware.service.CourtCaseSettingService;
 import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.cbs.middleware.domain.CourtCaseSetting}.
+ * REST controller for managing
+ * {@link com.cbs.middleware.domain.CourtCaseSetting}.
  */
 @RestController
 @RequestMapping("/api")
@@ -44,6 +86,9 @@ public class CourtCaseSettingResource {
 
     private final CourtCaseSettingQueryService courtCaseSettingQueryService;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public CourtCaseSettingResource(
         CourtCaseSettingService courtCaseSettingService,
         CourtCaseSettingRepository courtCaseSettingRepository,
@@ -58,7 +103,182 @@ public class CourtCaseSettingResource {
      * {@code POST  /court-case-settings} : Create a new courtCaseSetting.
      *
      * @param courtCaseSetting the courtCaseSetting to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new courtCaseSetting, or with status {@code 400 (Bad Request)} if the courtCaseSetting has already an ID.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new courtCaseSetting, or with status
+     *         {@code 400 (Bad Request)} if the courtCaseSetting has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+
+    @PostMapping("/court-case-setting-file")
+    public ResponseEntity<List<CourtCaseSetting>> createCourtCaseFile(
+        @RequestParam("file") MultipartFile files,
+        RedirectAttributes redirectAttributes
+    ) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        if (courtCaseSettingRepository.existsByFileName(files.getOriginalFilename())) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
+        }
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(2); // Get the current row
+            boolean flagForLabel = false;
+            String srNo = getCellValue(row.getCell(0));
+            if (StringUtils.isNotBlank(srNo)) {
+                srNo = srNo.trim().replace("\n", " ").toLowerCase();
+                if (!srNo.contains("vasuli") || !srNo.contains("adhikari") || !srNo.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String secondNoticeDate = getCellValue(row.getCell(13));
+            if (StringUtils.isNoneBlank(secondNoticeDate)) {
+                secondNoticeDate = secondNoticeDate.trim().replace("\n", " ").toLowerCase();
+                if (!secondNoticeDate.contains("meeting") || !secondNoticeDate.contains("time")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+        } catch (BadRequestAlertException e) {
+            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (UnAuthRequestAlertException e) {
+            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (Exception e) {
+            throw new Exception("Exception", e);
+        }
+
+        File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+        boolean falgForFileName = false;
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
+        }
+
+        int startRowIndex = 3; // Starting row index
+        List<CourtCaseSetting> courtCaseSettingList = new ArrayList<>();
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                CourtCaseSetting courtCaseSetting = new CourtCaseSetting();
+                if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+
+                    if (!falgForFileName) {
+                        courtCaseSetting.setFileName(files.getOriginalFilename());
+                        courtCaseSetting.setUniqueFileName(uniqueName + "." + fileExtension);
+                        falgForFileName = true;
+                    }
+
+                    courtCaseSetting.setVasuliAdhikariName(getCellValue(row.getCell(0)));
+                    courtCaseSetting.setArOfficeName(getCellValue(row.getCell(1)));
+                    courtCaseSetting.setChairmanName(getCellValue(row.getCell(2)));
+                    courtCaseSetting.setSachivName(getCellValue(row.getCell(3)));
+                    courtCaseSetting.setSuchakName(getCellValue(row.getCell(4)));
+                    courtCaseSetting.setAnumodakName(getCellValue(row.getCell(5)));
+                    courtCaseSetting.setVasuliExpense(getCellAmountValue(row.getCell(6)));
+                    courtCaseSetting.setOtherExpense(getCellAmountValue(row.getCell(7)));
+                    courtCaseSetting.setNoticeExpense(getCellAmountValue(row.getCell(8)));
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(9))) && getCellValue(row.getCell(9)).matches("[0-9]+")) {
+                        courtCaseSetting.setMeetingNo(Long.parseLong(getCellValue(row.getCell(9))));
+                    }
+
+                    courtCaseSetting.setMeetingDate(getDateCellValue(row.getCell(10)));
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(11))) && getCellValue(row.getCell(11)).matches("[0-9]+")) {
+                        courtCaseSetting.setSubjectNo(Long.parseLong(getCellValue(row.getCell(11))));
+                    }
+
+                    courtCaseSetting.setMeetingDay(getCellValue(row.getCell(12)));
+                    courtCaseSetting.setMeetingTime(getCellValue(row.getCell(13)));
+
+                    courtCaseSettingList.add(courtCaseSetting);
+                }
+            }
+
+            if (!courtCaseSettingList.isEmpty()) {
+                courtCaseSettingRepository.saveAll(courtCaseSettingList);
+
+                if (courtCaseSettingList.get(0) != null) {
+                    Notification notification = new Notification(
+                        "Court Case record file uploaded",
+                        "Court Case record file : " + files.getOriginalFilename() + " uploaded",
+                        false,
+                        courtCaseSettingList.get(0).getCreatedDate(),
+                        "", // recipient
+                        courtCaseSettingList.get(0).getCreatedBy(), // sender
+                        "CourtCaseRecordFileUploaded" // type
+                    );
+                    notificationRepository.save(notification);
+                }
+
+                return ResponseEntity.ok().body(courtCaseSettingList);
+            } else {
+                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
+            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
+        }
+    }
+
+    /**
+     * {@code POST  /court-case-settings} : Create a new courtCaseSetting.
+     *
+     * @param courtCaseSetting the courtCaseSetting to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new courtCaseSetting, or with status
+     *         {@code 400 (Bad Request)} if the courtCaseSetting has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/court-case-settings")
@@ -78,11 +298,13 @@ public class CourtCaseSettingResource {
     /**
      * {@code PUT  /court-case-settings/:id} : Updates an existing courtCaseSetting.
      *
-     * @param id the id of the courtCaseSetting to save.
+     * @param id               the id of the courtCaseSetting to save.
      * @param courtCaseSetting the courtCaseSetting to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated courtCaseSetting,
-     * or with status {@code 400 (Bad Request)} if the courtCaseSetting is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the courtCaseSetting couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated courtCaseSetting, or with status
+     *         {@code 400 (Bad Request)} if the courtCaseSetting is not valid, or
+     *         with status {@code 500 (Internal Server Error)} if the
+     *         courtCaseSetting couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/court-case-settings/{id}")
@@ -110,14 +332,17 @@ public class CourtCaseSettingResource {
     }
 
     /**
-     * {@code PATCH  /court-case-settings/:id} : Partial updates given fields of an existing courtCaseSetting, field will ignore if it is null
+     * {@code PATCH  /court-case-settings/:id} : Partial updates given fields of an
+     * existing courtCaseSetting, field will ignore if it is null
      *
-     * @param id the id of the courtCaseSetting to save.
+     * @param id               the id of the courtCaseSetting to save.
      * @param courtCaseSetting the courtCaseSetting to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated courtCaseSetting,
-     * or with status {@code 400 (Bad Request)} if the courtCaseSetting is not valid,
-     * or with status {@code 404 (Not Found)} if the courtCaseSetting is not found,
-     * or with status {@code 500 (Internal Server Error)} if the courtCaseSetting couldn't be updated.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the updated courtCaseSetting, or with status
+     *         {@code 400 (Bad Request)} if the courtCaseSetting is not valid, or
+     *         with status {@code 404 (Not Found)} if the courtCaseSetting is not
+     *         found, or with status {@code 500 (Internal Server Error)} if the
+     *         courtCaseSetting couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/court-case-settings/{id}", consumes = { "application/json", "application/merge-patch+json" })
@@ -150,7 +375,8 @@ public class CourtCaseSettingResource {
      *
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of courtCaseSettings in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of courtCaseSettings in body.
      */
     @GetMapping("/court-case-settings")
     public ResponseEntity<List<CourtCaseSetting>> getAllCourtCaseSettings(
@@ -167,7 +393,8 @@ public class CourtCaseSettingResource {
      * {@code GET  /court-case-settings/count} : count all the courtCaseSettings.
      *
      * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
+     *         in body.
      */
     @GetMapping("/court-case-settings/count")
     public ResponseEntity<Long> countCourtCaseSettings(CourtCaseSettingCriteria criteria) {
@@ -179,7 +406,8 @@ public class CourtCaseSettingResource {
      * {@code GET  /court-case-settings/:id} : get the "id" courtCaseSetting.
      *
      * @param id the id of the courtCaseSetting to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the courtCaseSetting, or with status {@code 404 (Not Found)}.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
+     *         the courtCaseSetting, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/court-case-settings/{id}")
     public ResponseEntity<CourtCaseSetting> getCourtCaseSetting(@PathVariable Long id) {
@@ -202,5 +430,85 @@ public class CourtCaseSettingResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    private static String getCellValue(Cell cell) {
+        String cellValue = "";
+
+        if (cell == null) {
+            cellValue = "";
+        } else if (cell.getCellType() == CellType.STRING) {
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+            BigDecimal bigDecimal = new BigDecimal(cellValue);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
+
+            cellValue = decimalFormat.format(bigDecimal);
+        } else if (cell.getCellType() == CellType.BOOLEAN) {
+            cellValue = String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
+    }
+
+    private static Double getCellAmountValue(Cell cell) {
+        Double cellValue = 0.0;
+
+        if (cell == null) {
+            cellValue = 0.0;
+        } else if (cell.getCellType() == CellType.STRING) {
+            String cellValueInString = cell.getStringCellValue().trim();
+
+            try {
+                cellValue = Double.parseDouble(cellValueInString);
+            } catch (Exception e) {}
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            // Convert it to a Double
+            cellValue = numericValue;
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = 0.0;
+        }
+
+        return cellValue;
+    }
+
+    private static LocalDate getDateCellValue(Cell cell) {
+        LocalDate localDate = null;
+
+        if (cell == null) {
+            localDate = null;
+        } else if (cell.getCellType() == CellType.STRING) {
+            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
+                localDate = LocalDate.parse(cell.getStringCellValue());
+            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                localDate = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            localDate = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            localDate = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+        } else if (cell.getCellType() == CellType.BLANK) {
+            localDate = null;
+        }
+
+        return localDate;
     }
 }

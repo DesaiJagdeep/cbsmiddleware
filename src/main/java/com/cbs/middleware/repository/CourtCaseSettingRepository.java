@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetting, Long>, JpaSpecificationExecutor<CourtCaseSetting> {}
+public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetting, Long>, JpaSpecificationExecutor<CourtCaseSetting> {
+    boolean existsByFileName(String originalFilename);
+}

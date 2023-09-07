@@ -9,6 +9,7 @@ import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.repository.PermissionRepository;
 import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -184,11 +185,11 @@ public class RBAControl {
         }
         if (user.isPresent()) {
             if (StringUtils.isNotBlank(user.get().getPacsNumber()) && !user.get().getPacsNumber().equalsIgnoreCase(packsNumber)) {
-                throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+                throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
             } else if (StringUtils.isNotBlank(user.get().getBranchCode()) && !user.get().getBranchCode().equalsIgnoreCase(branchCode)) {
-                throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+                throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
             } else if (StringUtils.isNotBlank(user.get().getBankCode()) && !user.get().getBankCode().equalsIgnoreCase(bankCode)) {
-                throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+                throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
             }
         } else {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");

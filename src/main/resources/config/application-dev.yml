@@ -36,6 +36,10 @@ spring:
     username: root
     password: root
     #password: Mysql@It@rium
+    #RDS
+    #url: jdbc:mysql://pdcc.csth66h3avwq.ap-south-1.rds.amazonaws.com:3306/cbsmiddlewarepdcc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    #username: pdccadmin
+    #password: PdccBank$123
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -98,6 +102,7 @@ jhipster:
   mail: # specific JHipster mail property, for standard properties see MailProperties
     base-url: http://192.168.168.247
     #base-url: http://35.154.124.32
+    #base-url: http://15.207.207.115
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

@@ -25,6 +25,12 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "account_no")
     private String accountNo;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "unique_file_name")
+    private String uniqueFileName;
+
     @Column(name = "name_of_defaulter")
     private String nameOfDefaulter;
 
@@ -119,6 +125,22 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     public CourtCase srNo(String srNo) {
         this.setSrNo(srNo);
         return this;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUniqueFileName() {
+        return uniqueFileName;
+    }
+
+    public void setUniqueFileName(String uniqueFileName) {
+        this.uniqueFileName = uniqueFileName;
     }
 
     public void setSrNo(String srNo) {

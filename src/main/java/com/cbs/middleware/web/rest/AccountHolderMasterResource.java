@@ -1,11 +1,11 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.AccountHolderMaster;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.AccountHolderMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,6 +48,9 @@ public class AccountHolderMasterResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     private final AccountHolderMasterService accountHolderMasterService;
 
     private final AccountHolderMasterRepository accountHolderMasterRepository;
@@ -81,16 +84,15 @@ public class AccountHolderMasterResource {
         AccountHolderMaster result = accountHolderMasterService.save(accountHolderMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Account Holder Master Created",
-                "Account Holder Master: " + result.getAccountHolder() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "AccountHolderMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Account Holder Master Created",
+                    "Account Holder Master: " + result.getAccountHolder() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "AccountHolderMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity
@@ -129,16 +131,15 @@ public class AccountHolderMasterResource {
 
         AccountHolderMaster result = accountHolderMasterService.update(accountHolderMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Account Holder Master Updated",
-                "Account Holder Master: " + result.getAccountHolder() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "AccountHolderMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Account Holder Master Updated",
+                    "Account Holder Master: " + result.getAccountHolder() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "AccountHolderMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -230,16 +231,15 @@ public class AccountHolderMasterResource {
 
         accountHolderMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Account Holder Master Deleted",
-            "Account Holder Master: " + result.getAccountHolder() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "AccountHolderMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Account Holder Master Deleted",
+                "Account Holder Master: " + result.getAccountHolder() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "AccountHolderMasterDeleted" //type
+            );
+        } catch (Exception e) {}
 
         return ResponseEntity
             .noContent()

@@ -19,6 +19,7 @@ import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -82,6 +83,9 @@ public class IssPortalFileResource {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
 
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
@@ -409,16 +413,15 @@ public class IssPortalFileResource {
         issPortalFileService.delete(id);
 
         if (issPortalFile != null) {
-            Notification notification = new Notification(
-                "Application records file deleted",
-                "Application records file: " + issPortalFile.getFileName() + " is deleted",
-                false,
-                issPortalFile.getCreatedDate(),
-                "", //recipient
-                issPortalFile.getCreatedBy(), //sender
-                "ApplicationRecordFiledeleted" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Application records file deleted",
+                    "Application records file: " + issPortalFile.getFileName() + " is deleted",
+                    false,
+                    issPortalFile.getCreatedDate(),
+                    "ApplicationRecordFiledeleted" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

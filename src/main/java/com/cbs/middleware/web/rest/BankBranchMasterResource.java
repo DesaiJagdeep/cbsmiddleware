@@ -12,6 +12,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.BankBranchMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -64,6 +65,9 @@ public class BankBranchMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -99,16 +103,15 @@ public class BankBranchMasterResource {
         BankBranchMaster result = bankBranchMasterService.save(bankBranchMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Branch Master Created",
-                "Bank Branch Master: " + result.getBranchName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "AccountHolderMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Branch Master Created",
+                    "Bank Branch Master: " + result.getBranchName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "AccountHolderMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity
@@ -150,16 +153,15 @@ public class BankBranchMasterResource {
         BankBranchMaster result = bankBranchMasterService.update(bankBranchMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Branch Master Updated",
-                "Bank Branch Master: " + result.getBranchName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "AccountHolderMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Branch Master Updated",
+                    "Bank Branch Master: " + result.getBranchName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "AccountHolderMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -291,16 +293,15 @@ public class BankBranchMasterResource {
         bankBranchMasterService.delete(id);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Branch Master Created",
-                "Bank Branch Master: " + result.getBranchName() + "deleted",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "AccountHolderMasterDeleted" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Branch Master Created",
+                    "Bank Branch Master: " + result.getBranchName() + "deleted",
+                    false,
+                    result.getCreatedDate(),
+                    "AccountHolderMasterDeleted" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

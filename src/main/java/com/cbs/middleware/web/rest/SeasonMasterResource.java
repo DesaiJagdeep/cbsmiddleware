@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.service.SeasonMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class SeasonMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public SeasonMasterResource(SeasonMasterService seasonMasterService, SeasonMasterRepository seasonMasterRepository) {
         this.seasonMasterService = seasonMasterService;
         this.seasonMasterRepository = seasonMasterRepository;
@@ -78,16 +82,15 @@ public class SeasonMasterResource {
         SeasonMaster result = seasonMasterService.save(seasonMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Season Master Created",
-                "Season Master: " + result.getSeasonName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "SeasonMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Season Master Created",
+                    "Season Master: " + result.getSeasonName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "SeasonMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/season-masters/" + result.getId()))
@@ -126,16 +129,15 @@ public class SeasonMasterResource {
         SeasonMaster result = seasonMasterService.update(seasonMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Season Master Updated",
-                "Season Master: " + result.getSeasonName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "SeasonMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Season Master Updated",
+                    "Season Master: " + result.getSeasonName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "SeasonMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -232,16 +234,16 @@ public class SeasonMasterResource {
 
         seasonMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Season Master Deleted",
-            "Season Master: " + result.getSeasonName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "SeasonMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Season Master Deleted",
+                "Season Master: " + result.getSeasonName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "SeasonMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

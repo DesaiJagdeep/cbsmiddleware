@@ -13,4 +13,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     Page<Notification> findTop6ByIsReadFalse(Pageable pageable);
+
+    Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
+
+    Page<Notification> findTop6ByIsReadFalseAndBranchCode(Pageable pageable, String branchCode);
+
+    Page<Notification> findAllByPacsNumber(Pageable pageable, String pacsNumber);
+
+    Page<Notification> findAllByBranchCode(Pageable pageable, String branchCode);
 }

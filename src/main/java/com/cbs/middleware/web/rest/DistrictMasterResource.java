@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.DistrictMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.DistrictMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class DistrictMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public DistrictMasterResource(DistrictMasterService districtMasterService, DistrictMasterRepository districtMasterRepository) {
         this.districtMasterService = districtMasterService;
         this.districtMasterRepository = districtMasterRepository;
@@ -78,16 +82,15 @@ public class DistrictMasterResource {
         DistrictMaster result = districtMasterService.save(districtMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "District Master Created",
-                "District Master: " + result.getDistrictName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "DistrictMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "District Master Created",
+                    "District Master: " + result.getDistrictName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "DistrictMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/district-masters/" + result.getId()))
@@ -125,16 +128,15 @@ public class DistrictMasterResource {
 
         DistrictMaster result = districtMasterService.update(districtMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "District Master Updated",
-                "District Master: " + result.getDistrictName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "DistrictMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "District Master Updated",
+                    "District Master: " + result.getDistrictName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "DistrictMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -223,16 +225,16 @@ public class DistrictMasterResource {
         DistrictMaster result = districtMaster.get();
         districtMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "District Master Deleted",
-            "District Master: " + result.getDistrictName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "DistrictMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "District Master Deleted",
+                "District Master: " + result.getDistrictName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "DistrictMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

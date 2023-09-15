@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.FarmerCategoryMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -57,6 +58,9 @@ public class FarmerCategoryMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public FarmerCategoryMasterResource(
         FarmerCategoryMasterService farmerCategoryMasterService,
         FarmerCategoryMasterRepository farmerCategoryMasterRepository
@@ -86,16 +90,15 @@ public class FarmerCategoryMasterResource {
         FarmerCategoryMaster result = farmerCategoryMasterService.save(farmerCategoryMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Farmer Category Master Created",
-                "Farmer Category Master: " + result.getFarmerCategory() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "FarmerCategoryMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Farmer Category Master Created",
+                    "Farmer Category Master: " + result.getFarmerCategory() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "FarmerCategoryMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/farmer-category-masters/" + result.getId()))
@@ -136,16 +139,15 @@ public class FarmerCategoryMasterResource {
 
         FarmerCategoryMaster result = farmerCategoryMasterService.update(farmerCategoryMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Farmer Category Master Updated",
-                "Farmer Category Master: " + result.getFarmerCategory() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "FarmerCategoryMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Farmer Category Master Updated",
+                    "Farmer Category Master: " + result.getFarmerCategory() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "FarmerCategoryMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -244,16 +246,16 @@ public class FarmerCategoryMasterResource {
 
         farmerCategoryMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Farmer Category Master Deleted",
-            "Farmer Category Master: " + result.getFarmerCategory() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "FarmerCategoryMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Farmer Category Master Deleted",
+                "Farmer Category Master: " + result.getFarmerCategory() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "FarmerCategoryMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

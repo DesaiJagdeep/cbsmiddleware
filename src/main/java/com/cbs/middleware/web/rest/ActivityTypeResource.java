@@ -9,6 +9,7 @@ import com.cbs.middleware.service.ActivityTypeQueryService;
 import com.cbs.middleware.service.ActivityTypeService;
 import com.cbs.middleware.service.criteria.ActivityTypeCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -50,6 +51,9 @@ public class ActivityTypeResource {
     private final ActivityTypeQueryService activityTypeQueryService;
 
     @Autowired
+    NotificationDataUtility notificationDataUtility;
+
+    @Autowired
     NotificationRepository notificationRepository;
 
     public ActivityTypeResource(
@@ -78,16 +82,15 @@ public class ActivityTypeResource {
         }
         ActivityType result = activityTypeService.save(activityType);
         if (result != null) {
-            Notification notification = new Notification(
-                "Activity Type Master Created",
-                "Activity Type Master: " + result.getActivityType() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "ActivityTypeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Activity Type Master Created",
+                    "Activity Type Master: " + result.getActivityType() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "ActivityTypeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/activity-types/" + result.getId()))
@@ -125,16 +128,15 @@ public class ActivityTypeResource {
 
         ActivityType result = activityTypeService.update(activityType);
         if (result != null) {
-            Notification notification = new Notification(
-                "Activity Type Master Created",
-                "Activity Type Master: " + result.getActivityType() + " updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "ActivityTypeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Activity Type Master Created",
+                    "Activity Type Master: " + result.getActivityType() + " updated",
+                    false,
+                    result.getCreatedDate(),
+                    "ActivityTypeMasterUpdated" //typeype
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -240,16 +242,15 @@ public class ActivityTypeResource {
         activityTypeService.delete(id);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Activity Type Master Created",
-                "Activity Type Master: " + result.getActivityType() + " deleted",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "ActivityTypeMasterDeleted" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Activity Type Master Created",
+                    "Activity Type Master: " + result.getActivityType() + " deleted",
+                    false,
+                    result.getCreatedDate(),
+                    "ActivityTypeMasterDeleted" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

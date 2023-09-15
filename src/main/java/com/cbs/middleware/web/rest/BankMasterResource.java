@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.BankMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.BankMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class BankMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public BankMasterResource(BankMasterService bankMasterService, BankMasterRepository bankMasterRepository) {
         this.bankMasterService = bankMasterService;
         this.bankMasterRepository = bankMasterRepository;
@@ -78,16 +82,15 @@ public class BankMasterResource {
         BankMaster result = bankMasterService.save(bankMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Master Created",
-                "Bank Master: " + result.getBankName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "BankMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Master Created",
+                    "Bank Master: " + result.getBankName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "BankMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity
@@ -138,16 +141,15 @@ public class BankMasterResource {
         BankMaster result = bankMasterService.update(bankMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Master Updated",
-                "Bank Master: " + result.getBankName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "BankMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Master Updated",
+                    "Bank Master: " + result.getBankName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "BankMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity
@@ -239,16 +241,15 @@ public class BankMasterResource {
         bankMasterService.delete(id);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Bank Master Created",
-                "Bank Master: " + result.getBankName() + " deleted",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "BankMasterDeleted" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Bank Master Created",
+                    "Bank Master: " + result.getBankName() + " deleted",
+                    false,
+                    result.getCreatedDate(),
+                    "BankMasterDeleted" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

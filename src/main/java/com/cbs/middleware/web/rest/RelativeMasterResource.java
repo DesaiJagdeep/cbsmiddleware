@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.service.RelativeMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class RelativeMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public RelativeMasterResource(RelativeMasterService relativeMasterService, RelativeMasterRepository relativeMasterRepository) {
         this.relativeMasterService = relativeMasterService;
         this.relativeMasterRepository = relativeMasterRepository;
@@ -78,16 +82,15 @@ public class RelativeMasterResource {
         RelativeMaster result = relativeMasterService.save(relativeMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Relative Master Created",
-                "Relative Master: " + result.getRelativeName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "RelativeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Relative Master Created",
+                    "Relative Master: " + result.getRelativeName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "RelativeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/relative-masters/" + result.getId()))
@@ -126,16 +129,15 @@ public class RelativeMasterResource {
         RelativeMaster result = relativeMasterService.update(relativeMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Relative Master Updated",
-                "Relative Master: " + result.getRelativeName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "RelativeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Relative Master Updated",
+                    "Relative Master: " + result.getRelativeName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "RelativeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -224,16 +226,16 @@ public class RelativeMasterResource {
         RelativeMaster result = relativeMaster.get();
         relativeMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Relative Master Deleted",
-            "Relative Master: " + result.getRelativeName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "RelativeMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Relative Master Deleted",
+                "Relative Master: " + result.getRelativeName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "RelativeMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.DesignationMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.DesignationMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class DesignationMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public DesignationMasterResource(
         DesignationMasterService designationMasterService,
         DesignationMasterRepository designationMasterRepository
@@ -81,16 +85,15 @@ public class DesignationMasterResource {
         }
         DesignationMaster result = designationMasterService.save(designationMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Designation Master Created",
-                "Designation Master: " + result.getDesignationName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "DesignationMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Designation Master Created",
+                    "Designation Master: " + result.getDesignationName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "DesignationMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity
@@ -130,16 +133,15 @@ public class DesignationMasterResource {
         DesignationMaster result = designationMasterService.update(designationMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Designation Master Updated",
-                "Designation Master: " + result.getDesignationName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "DesignationMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Designation Master Updated",
+                    "Designation Master: " + result.getDesignationName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "DesignationMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -232,16 +234,15 @@ public class DesignationMasterResource {
 
         designationMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Designation Master Deleted",
-            "Designation Master: " + result.getDesignationName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "DesignationMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Designation Master Deleted",
+                "Designation Master: " + result.getDesignationName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "DesignationMasterDeleted" //type
+            );
+        } catch (Exception e) {}
 
         return ResponseEntity
             .noContent()

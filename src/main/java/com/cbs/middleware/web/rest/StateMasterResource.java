@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.StateMasterRepository;
 import com.cbs.middleware.service.StateMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class StateMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public StateMasterResource(StateMasterService stateMasterService, StateMasterRepository stateMasterRepository) {
         this.stateMasterService = stateMasterService;
         this.stateMasterRepository = stateMasterRepository;
@@ -78,16 +82,15 @@ public class StateMasterResource {
         StateMaster result = stateMasterService.save(stateMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "State Master Created",
-                "State Master: " + result.getStateName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "StateMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "State Master Created",
+                    "State Master: " + result.getStateName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "StateMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/state-masters/" + result.getId()))
@@ -126,16 +129,15 @@ public class StateMasterResource {
         StateMaster result = stateMasterService.update(stateMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "State Master Updated",
-                "State Master: " + result.getStateName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "StateMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "State Master Updated",
+                    "State Master: " + result.getStateName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "StateMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -226,16 +228,16 @@ public class StateMasterResource {
 
         stateMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "State Master Deleted",
-            "State Master: " + result.getStateName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "StateMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "State Master Deleted",
+                "State Master: " + result.getStateName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "StateMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

@@ -12,6 +12,7 @@ import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -88,6 +89,9 @@ public class CourtCaseSettingResource {
 
     @Autowired
     NotificationRepository notificationRepository;
+
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
 
     public CourtCaseSettingResource(
         CourtCaseSettingService courtCaseSettingService,
@@ -251,16 +255,15 @@ public class CourtCaseSettingResource {
                 courtCaseSettingRepository.saveAll(courtCaseSettingList);
 
                 if (courtCaseSettingList.get(0) != null) {
-                    Notification notification = new Notification(
-                        "Court Case record file uploaded",
-                        "Court Case record file : " + files.getOriginalFilename() + " uploaded",
-                        false,
-                        courtCaseSettingList.get(0).getCreatedDate(),
-                        "", // recipient
-                        courtCaseSettingList.get(0).getCreatedBy(), // sender
-                        "CourtCaseRecordFileUploaded" // type
-                    );
-                    notificationRepository.save(notification);
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Court Case record file uploaded",
+                            "Court Case record file : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            courtCaseSettingList.get(0).getCreatedDate(),
+                            "CourtCaseRecordFileUploaded" // type
+                        );
+                    } catch (Exception e) {}
                 }
 
                 return ResponseEntity.ok().body(courtCaseSettingList);

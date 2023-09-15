@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.CastCategoryMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CastCategoryMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class CastCategoryMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public CastCategoryMasterResource(
         CastCategoryMasterService castCategoryMasterService,
         CastCategoryMasterRepository castCategoryMasterRepository
@@ -82,16 +86,15 @@ public class CastCategoryMasterResource {
         CastCategoryMaster result = castCategoryMasterService.save(castCategoryMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Cast Category Master Created",
-                "Cast Category Master: " + result.getCastCategoryName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "CastCategoryMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Cast Category Master Created",
+                    "Cast Category Master: " + result.getCastCategoryName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "CastCategoryMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/cast-category-masters/" + result.getId()))
@@ -129,16 +132,15 @@ public class CastCategoryMasterResource {
 
         CastCategoryMaster result = castCategoryMasterService.update(castCategoryMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Cast Category Master Updated",
-                "Cast Category Master: " + result.getCastCategoryName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "CastCategoryMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Cast Category Master Updated",
+                    "Cast Category Master: " + result.getCastCategoryName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "CastCategoryMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -231,16 +233,15 @@ public class CastCategoryMasterResource {
         castCategoryMasterService.delete(id);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Cast Category Master Deleted",
-                "Cast Category Master : " + result.getCastCategoryName() + "Deleted",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "CastCategoryMasterDeleted" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Cast Category Master Deleted",
+                    "Cast Category Master : " + result.getCastCategoryName() + "Deleted",
+                    false,
+                    result.getCreatedDate(),
+                    "CastCategoryMasterDeleted" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.service.OccupationMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class OccupationMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public OccupationMasterResource(
         OccupationMasterService occupationMasterService,
         OccupationMasterRepository occupationMasterRepository
@@ -82,16 +86,15 @@ public class OccupationMasterResource {
         OccupationMaster result = occupationMasterService.save(occupationMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Occupation Master Created",
-                "Occupation Master: " + result.getOccupationName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "OccupationMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Occupation Master Created",
+                    "Occupation Master: " + result.getOccupationName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "OccupationMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/occupation-masters/" + result.getId()))
@@ -130,16 +133,15 @@ public class OccupationMasterResource {
         OccupationMaster result = occupationMasterService.update(occupationMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Occupation Master Updated",
-                "Occupation Master: " + result.getOccupationName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "OccupationMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Occupation Master Updated",
+                    "Occupation Master: " + result.getOccupationName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "OccupationMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -232,16 +234,16 @@ public class OccupationMasterResource {
 
         occupationMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Occupation Master Deleted",
-            "Occupation Master: " + result.getOccupationName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "OccupationMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Occupation Master Deleted",
+                "Occupation Master: " + result.getOccupationName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "OccupationMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

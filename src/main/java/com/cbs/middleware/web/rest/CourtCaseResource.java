@@ -11,14 +11,24 @@ import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.layout.font.FontProvider;
+import com.itextpdf.text.pdf.languages.DevanagariLigaturizer;
+import com.itextpdf.text.pdf.languages.IndicLigaturizer;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
@@ -31,6 +41,12 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -46,6 +62,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,6 +104,9 @@ public class CourtCaseResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public CourtCaseResource(
         CourtCaseService courtCaseService,
         CourtCaseRepository courtCaseRepository,
@@ -95,6 +115,93 @@ public class CourtCaseResource {
         this.courtCaseService = courtCaseService;
         this.courtCaseRepository = courtCaseRepository;
         this.courtCaseQueryService = courtCaseQueryService;
+    }
+
+    @GetMapping("/pdfTest")
+    public Object generatePDFFromHTML() throws Exception {
+        Optional<CourtCase> courtCase = courtCaseRepository.findById(2l);
+
+        DateFormat Date = DateFormat.getDateInstance();
+        Calendar cals = Calendar.getInstance();
+        String currentDate = Date.format(cals.getTime());
+        System.out.println("Formatted Date: " + currentDate);
+
+        String HTML =
+            "<!DOCTYPE html>\r\n" +
+            "<html>\r\n" +
+            "\r\n" +
+            "<head>\r\n" +
+            "    <meta charset=\"UTF-8\">\r\n" +
+            "</head>\r\n" +
+            "\r\n" +
+            "<body>\r\n" +
+            "\r\n" +
+            "    <h1>सहकारी संस्था</h1>\r\n" +
+            "    <p>मराठी पाठ्य</p>\r\n" +
+            "    <p>" +
+            courtCase.get().getSrNo() +
+            "</p>\r\n" +
+            "\r\n" +
+            "</body>\r\n" +
+            "\r\n" +
+            "</html>";
+
+        try {
+            //			IndicLigaturizer g = new DevanagariLigaturizer();
+            //			String processed = g.process(HTML);
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+            FontProvider fontProvider = new FontProvider();
+            //fontProvider.addFont("D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
+            fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            HtmlConverter.convertToPdf(HTML, byteArrayOutputStream, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GetMapping("/demoPdf")
+    public Object test1234() throws Exception {
+        // Load the JRXML template from the resources folder
+
+        InputStream templateStream = getClass().getResourceAsStream("/Blank_A4_2.jrxml");
+        //InputStream templateStream = getClass().getResourceAsStream("/Blank_A4_3.jrxml");
+
+        // Compile the JRXML template
+        JasperReport jasperReport = JasperCompileManager.compileReport(templateStream);
+
+        // Create a data source (you can use a list of POJOs)
+
+        // Set parameters if needed
+
+        // Generate the PDF report
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JREmptyDataSource(1));
+
+        // Export the report to a byte array (PDF format)
+        byte[] pdfReport = JasperExportManager.exportReportToPdf(jasperPrint);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/pdf");
+        headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfReport, headers, HttpStatus.OK);
+
+        return response;
     }
 
     /**
@@ -259,16 +366,15 @@ public class CourtCaseResource {
                 courtCaseRepository.saveAll(courtCaseList);
 
                 if (courtCaseList.get(0) != null) {
-                    Notification notification = new Notification(
-                        "Court Case record file uploaded",
-                        "Court Case record file : " + files.getOriginalFilename() + " uploaded",
-                        false,
-                        courtCaseList.get(0).getCreatedDate(),
-                        "", // recipient
-                        courtCaseList.get(0).getCreatedBy(), // sender
-                        "CourtCaseRecordFileUploaded" // type
-                    );
-                    notificationRepository.save(notification);
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Court Case record file uploaded",
+                            "Court Case record file : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            courtCaseList.get(0).getCreatedDate(),
+                            "CourtCaseRecordFileUploaded" // type
+                        );
+                    } catch (Exception e) {}
                 }
 
                 return ResponseEntity.ok().body(courtCaseList);

@@ -3,6 +3,7 @@ package com.cbs.middleware.domain;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * A Notification.
@@ -40,6 +41,15 @@ public class Notification implements Serializable {
     @Column(name = "type")
     private String type;
 
+    @Column(name = "bank_code")
+    private String bankCode;
+
+    @Column(name = "branch_code")
+    private String branchCode;
+
+    @Column(name = "pacs_number")
+    private String pacsNumber;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -50,7 +60,18 @@ public class Notification implements Serializable {
         super();
     }
 
-    public Notification(String title, String content, Boolean isRead, Instant createdAt, String recipient, String sender, String type) {
+    public Notification(
+        String title,
+        String content,
+        Boolean isRead,
+        Instant createdAt,
+        String recipient,
+        String sender,
+        String type,
+        String bankCode,
+        String branchCode,
+        String pacsNumber
+    ) {
         this.title = title;
         this.content = content;
         this.isRead = isRead;
@@ -58,6 +79,10 @@ public class Notification implements Serializable {
         this.recipient = recipient;
         this.sender = sender;
         this.type = type;
+
+        this.bankCode = bankCode;
+        this.branchCode = branchCode;
+        this.pacsNumber = pacsNumber;
     }
 
     public Notification id(Long id) {
@@ -71,6 +96,30 @@ public class Notification implements Serializable {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
+
+    public String getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
+    }
+
+    public String getPacsNumber() {
+        return pacsNumber;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public Notification title(String title) {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+	<fontFamily name="NewFontFamily">
+		<normal><![CDATA[fonts/NotoSansDevanagari-Regular.ttf]]></normal>
+		<bold><![CDATA[fonts/NotoSansDevanagari-Regular.ttf]]></bold>
+		<italic><![CDATA[fonts/NotoSansDevanagari-Regular.ttf]]></italic>
+		<bolditalic><![CDATA[fonts/NotoSansDevanagari-Regular.ttf]]></bolditalic>
+		<pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+		<exportFonts/>
+	</fontFamily>
+</fontFamilies>

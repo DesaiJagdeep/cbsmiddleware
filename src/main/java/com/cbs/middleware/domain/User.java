@@ -166,7 +166,11 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     }
 
     public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
+        if (StringUtils.isBlank(bankCode)) {
+            this.bankCode = "";
+        } else {
+            this.bankCode = bankCode;
+        }
     }
 
     public String getPacsName() {
@@ -182,7 +186,11 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     }
 
     public void setPacsNumber(String pacsNumber) {
-        this.pacsNumber = pacsNumber;
+        if (StringUtils.isBlank(pacsNumber)) {
+            this.pacsNumber = "";
+        } else {
+            this.pacsNumber = pacsNumber;
+        }
     }
 
     public void setFirstName(String firstName) {
@@ -258,7 +266,11 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     }
 
     public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+        if (StringUtils.isBlank(branchCode)) {
+            this.branchCode = "";
+        } else {
+            this.branchCode = branchCode;
+        }
     }
 
     public String getLangKey() {

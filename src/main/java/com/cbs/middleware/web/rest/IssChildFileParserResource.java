@@ -39,6 +39,7 @@ import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -114,6 +115,9 @@ public class IssChildFileParserResource {
 
     @Autowired
     SeasonMasterRepository seasonMasterRepository;
+
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
 
     @Autowired
     IssChildPortalFileRepository issChildPortalFileRepository;
@@ -413,16 +417,15 @@ public class IssChildFileParserResource {
                 Set<ApplicationLog> validateFile = validateFile(issFileParserList, issChildPortalFile);
 
                 if (issFileParserList.get(0) != null) {
-                    Notification notification = new Notification(
-                        "Error correction file uploaded",
-                        "Error correction file : " + files.getOriginalFilename() + " uploaded",
-                        false,
-                        issFileParserList.get(0).getCreatedDate(),
-                        "", //recipient
-                        issFileParserList.get(0).getCreatedBy(), //sender
-                        "ErrorCorrectionFileUploaded" //type
-                    );
-                    notificationRepository.save(notification);
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Error correction file uploaded",
+                            "Error correction file : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            issFileParserList.get(0).getCreatedDate(),
+                            "ErrorCorrectionFileUploaded" //type
+                        );
+                    } catch (Exception e) {}
                 }
 
                 return ResponseEntity.ok().body(validateFile);

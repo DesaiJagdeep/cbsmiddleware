@@ -96,4 +96,24 @@ public class NotificationServiceImpl implements NotificationService {
     public Page<Notification> findTop6ByIsReadFalse(Pageable pageable) {
         return notificationRepository.findTop6ByIsReadFalse(pageable);
     }
+
+    @Override
+    public Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber) {
+        return notificationRepository.findTop6ByIsReadFalseAndPacsNumber(pageable, pacsNumber);
+    }
+
+    @Override
+    public Page<Notification> findTop6ByIsReadFalseAndBranchCode(Pageable pageable, String branchCode) {
+        return notificationRepository.findTop6ByIsReadFalseAndBranchCode(pageable, branchCode);
+    }
+
+    @Override
+    public Page<Notification> findAllByPacsNumber(Pageable pageable, String pacsNumber) {
+        return notificationRepository.findAllByPacsNumber(pageable, pacsNumber);
+    }
+
+    @Override
+    public Page<Notification> findAllByBranchCode(Pageable pageable, String branchCode) {
+        return notificationRepository.findAllByBranchCode(pageable, branchCode);
+    }
 }

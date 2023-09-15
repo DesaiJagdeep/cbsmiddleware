@@ -172,12 +172,13 @@ public class UserResource {
             throw new EmailAlreadyUsedException();
         }
 
-        changeRole(auth, userDTO, existingUser.get());
-
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new LoginAlreadyUsedException();
         }
+
+        changeRole(auth, userDTO, existingUser.get());
+
         Optional<AdminUserDTO> updatedUser = userService.updateUser(userDTO);
 
         return ResponseUtil.wrapOrNotFound(

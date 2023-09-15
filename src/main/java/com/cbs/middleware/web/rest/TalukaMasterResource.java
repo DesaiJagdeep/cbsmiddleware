@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.service.TalukaMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -54,6 +55,9 @@ public class TalukaMasterResource {
     private final TalukaMasterRepository talukaMasterRepository;
 
     @Autowired
+    NotificationDataUtility notificationDataUtility;
+
+    @Autowired
     NotificationRepository notificationRepository;
 
     public TalukaMasterResource(TalukaMasterService talukaMasterService, TalukaMasterRepository talukaMasterRepository) {
@@ -78,16 +82,15 @@ public class TalukaMasterResource {
         TalukaMaster result = talukaMasterService.save(talukaMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Taluka Master Created",
-                "Taluka Master: " + result.getTalukaName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "TalukaMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Taluka Master Created",
+                    "Taluka Master: " + result.getTalukaName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "TalukaMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/taluka-masters/" + result.getId()))
@@ -126,16 +129,15 @@ public class TalukaMasterResource {
         TalukaMaster result = talukaMasterService.update(talukaMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Taluka Master Updated",
-                "Taluka Master: " + result.getTalukaName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "TalukaMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Taluka Master Updated",
+                    "Taluka Master: " + result.getTalukaName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "TalukaMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -226,16 +228,16 @@ public class TalukaMasterResource {
         TalukaMaster result = talukaMaster.get();
         talukaMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Taluka Master Deleted",
-            "Taluka Master: " + result.getTalukaName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "TalukaMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Taluka Master Deleted",
+                "Taluka Master: " + result.getTalukaName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "TalukaMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.LandTypeMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.LandTypeMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,6 +57,9 @@ public class LandTypeMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public LandTypeMasterResource(LandTypeMasterService landTypeMasterService, LandTypeMasterRepository landTypeMasterRepository) {
         this.landTypeMasterService = landTypeMasterService;
         this.landTypeMasterRepository = landTypeMasterRepository;
@@ -78,16 +82,15 @@ public class LandTypeMasterResource {
         LandTypeMaster result = landTypeMasterService.save(landTypeMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Land Type Master Created",
-                "Land Type Master: " + result.getLandType() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "LandTypeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Land Type Master Created",
+                    "Land Type Master: " + result.getLandType() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "LandTypeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/land-type-masters/" + result.getId()))
@@ -125,16 +128,15 @@ public class LandTypeMasterResource {
 
         LandTypeMaster result = landTypeMasterService.update(landTypeMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Land Type Master Updated",
-                "Land Type Master: " + result.getLandType() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "LandTypeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Land Type Master Updated",
+                    "Land Type Master: " + result.getLandType() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "LandTypeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -225,16 +227,16 @@ public class LandTypeMasterResource {
 
         landTypeMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Land Type Master Deleted",
-            "Land Type Master: " + result.getLandType() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "LandTypeMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Land Type Master Deleted",
+                "Land Type Master: " + result.getLandType() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "LandTypeMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

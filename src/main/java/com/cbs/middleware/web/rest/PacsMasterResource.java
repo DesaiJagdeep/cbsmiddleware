@@ -7,6 +7,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.service.PacsMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -48,6 +49,9 @@ public class PacsMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public PacsMasterResource(PacsMasterService pacsMasterService, PacsMasterRepository pacsMasterRepository) {
         this.pacsMasterService = pacsMasterService;
         this.pacsMasterRepository = pacsMasterRepository;
@@ -69,16 +73,15 @@ public class PacsMasterResource {
         PacsMaster result = pacsMasterService.save(pacsMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Pacs Master Created",
-                "Pacs Master: " + result.getPacsName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "PacsMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Pacs Master Created",
+                    "Pacs Master: " + result.getPacsName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "PacsMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/pacs-masters/" + result.getId()))
@@ -115,16 +118,15 @@ public class PacsMasterResource {
 
         PacsMaster result = pacsMasterService.update(pacsMaster);
         if (result != null) {
-            Notification notification = new Notification(
-                "Pacs Master Created",
-                "Pacs Master: " + result.getPacsName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "PacsMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Pacs Master Created",
+                    "Pacs Master: " + result.getPacsName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "PacsMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -222,16 +224,16 @@ public class PacsMasterResource {
 
         pacsMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Pac sMaster Deleted",
-            "Pacs Master: " + result.getPacsName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "PacsMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Pacs Master Deleted",
+                "Pacs Master: " + result.getPacsName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "PacsMasterDeleted" //type
+            );
+        } catch (Exception e) {}
+
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

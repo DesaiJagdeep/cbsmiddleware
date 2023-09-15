@@ -320,6 +320,34 @@
     <version>20230227</version>
 </dependency>
 
+<!-- https://mvnrepository.com/artifact/com.itextpdf/html2pdf -->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>html2pdf</artifactId>
+    <version>5.0.1</version>
+</dependency>
+   
+   <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+<dependency>
+    <groupId>net.sf.jasperreports</groupId>
+    <artifactId>jasperreports</artifactId>
+    <version>6.20.5</version>
+</dependency>
+<dependency>
+   <groupId>net.sf.jasperreports</groupId>
+   <artifactId>jasperreports-fonts</artifactId>
+   <version>6.0.0</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+<dependency>
+	<groupId>com.itextpdf</groupId>
+	<artifactId>itextg</artifactId>
+	<version>5.5.10</version>
+</dependency>
+
+<!-- Thanks for using https://jar-download.com -->
+
     </dependencies>
 
     <build>

@@ -6,6 +6,7 @@ import com.cbs.middleware.repository.CropMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CropMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -55,6 +56,9 @@ public class CropMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public CropMasterResource(CropMasterService cropMasterService, CropMasterRepository cropMasterRepository) {
         this.cropMasterService = cropMasterService;
         this.cropMasterRepository = cropMasterRepository;
@@ -77,16 +81,15 @@ public class CropMasterResource {
         CropMaster result = cropMasterService.save(cropMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Crop Master Created",
-                "Crop Master: " + result.getCropName() + " Created",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "CropMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Crop Master Created",
+                    "Crop Master: " + result.getCropName() + " Created",
+                    false,
+                    result.getCreatedDate(),
+                    "CourtCaseRecordFileUploaded" // type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .created(new URI("/api/crop-masters/" + result.getId()))
@@ -140,16 +143,15 @@ public class CropMasterResource {
         CropMaster result = cropMasterService.update(cropMaster);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Crop Master Updated",
-                "Crop Master: " + result.getCropName() + " Updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "CropMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Crop Master Updated",
+                    "Crop Master: " + result.getCropName() + " Updated",
+                    false,
+                    result.getCreatedDate(),
+                    "CropMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
         return ResponseEntity
             .ok()
@@ -238,16 +240,15 @@ public class CropMasterResource {
         CropMaster result = cropMaster.get();
         cropMasterService.delete(id);
 
-        Notification notification = new Notification(
-            "Crop Master Deleted",
-            "Crop Master: " + result.getCropName() + " Deleted",
-            false,
-            result.getCreatedDate(),
-            "", //recipient
-            result.getCreatedBy(), //sender
-            "CropMasterDeleted" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Crop Master Deleted",
+                "Crop Master: " + result.getCropName() + " Deleted",
+                false,
+                result.getCreatedDate(),
+                "CropMasterDeleted" //type
+            );
+        } catch (Exception e) {}
 
         return ResponseEntity
             .noContent()

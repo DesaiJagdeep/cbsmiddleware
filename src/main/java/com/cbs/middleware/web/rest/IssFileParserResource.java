@@ -33,16 +33,20 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.OccupationMasterRepository;
 import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.IssFileParserQueryService;
 import com.cbs.middleware.service.IssFileParserService;
+import com.cbs.middleware.service.MailService;
 import com.cbs.middleware.service.ResponceService;
 import com.cbs.middleware.service.criteria.IssFileParserCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.NotificationEmailDTO;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -130,6 +134,9 @@ public class IssFileParserResource {
     ApplicationProperties applicationProperties;
 
     @Autowired
+    NotificationDataUtility notificationDataUtility;
+
+    @Autowired
     DesignationMasterRepository designationMasterRepository;
 
     private final IssFileParserService issFileParserService;
@@ -188,6 +195,9 @@ public class IssFileParserResource {
 
     @Autowired
     NotificationRepository notificationRepository;
+
+    @Autowired
+    MailService mailService;
 
     public IssFileParserResource(
         IssFileParserService issFileParserService,
@@ -624,16 +634,15 @@ public class IssFileParserResource {
                 issFileParserRepository.saveAll(issFileParserList);
 
                 if (issFileParserList.get(0) != null) {
-                    Notification notification = new Notification(
-                        "Application record file uploaded",
-                        "Application record file uploaded : " + files.getOriginalFilename() + " uploaded",
-                        false,
-                        issFileParserList.get(0).getCreatedDate(),
-                        "", //recipient
-                        issFileParserList.get(0).getCreatedBy(), //sender
-                        "ApplicationRecordFileUploaded" //type
-                    );
-                    notificationRepository.save(notification);
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Application record file uploaded",
+                            "Application record file uploaded : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            issFileParserList.get(0).getCreatedDate(),
+                            "ApplicationRecordFileUploaded" //type
+                        );
+                    } catch (Exception e) {}
                 }
 
                 return ResponseEntity.ok().body(issFileParserList);
@@ -644,6 +653,40 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
     }
+
+    @Autowired
+    UserRepository userRepository;
+
+    @GetMapping("/testApi")
+    public Object testApi() {
+        Set<String> findAllEmailByPacsNumber = new HashSet();
+        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByPacsNumber("198000005"));
+        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBranchCodeAndPacsNumberEmpty("198", ""));
+        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndBranchCodeEmpty("156", ""));
+        //findAllEmailByPacsNumber;
+
+        return findAllEmailByPacsNumber.toArray(new String[0]);
+    }
+
+    //    @GetMapping("/testEmail")
+    //    public void testEmail()
+    //    {
+    //
+    //
+    //    	Notification notification = new Notification(
+    //                "Application record file uploaded",
+    //                "Application record file uploaded : uploaded",
+    //                false,
+    //                null,
+    //                "", //recipient
+    //               null, //sender
+    //                "ApplicationRecordFileUploaded" //type
+    //            );
+    //
+    //            notification.setRecipient("swapnil.patil@itariumtech.com");
+    //
+    //            //mailService.sendNotificationEmail(notification);
+    //    }
 
     @PostMapping("/validateFile")
     @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','FILE_VALIDATE','VALIDATE')")
@@ -1018,16 +1061,15 @@ public class IssFileParserResource {
             applicationRepository.saveAll(applicationList);
         }
 
-        Notification notification = new Notification(
-            "Application record file validated",
-            "Application record file : " + findById.get().getFileName() + " validated",
-            false,
-            Instant.now(),
-            "", //recipient
-            "", //sender
-            "ApplicationRecordFileValidated" //type
-        );
-        notificationRepository.save(notification);
+        try {
+            notificationDataUtility.notificationData(
+                "Application record file validated",
+                "Application record file : " + findById.get().getFileName() + " validated",
+                false,
+                Instant.now(),
+                "ApplicationRecordFileValidated" //type
+            );
+        } catch (Exception e) {}
 
         return ResponseEntity.ok().body(applicationLogListToSave);
     }
@@ -1103,16 +1145,15 @@ public class IssFileParserResource {
         applicationLogRepository.save(applicationLog);
 
         if (result != null) {
-            Notification notification = new Notification(
-                "Application Updated",
-                "Application by farmer name : " + result.getFarmerName() + " is updated",
-                false,
-                result.getCreatedDate(),
-                "", //recipient
-                result.getCreatedBy(), //sender
-                "ActivityTypeMasterUpdated" //type
-            );
-            notificationRepository.save(notification);
+            try {
+                notificationDataUtility.notificationData(
+                    "Application Updated",
+                    "Application by farmer name : " + result.getFarmerName() + " is updated",
+                    false,
+                    result.getCreatedDate(),
+                    "ActivityTypeMasterUpdated" //type
+                );
+            } catch (Exception e) {}
         }
 
         return ResponseEntity

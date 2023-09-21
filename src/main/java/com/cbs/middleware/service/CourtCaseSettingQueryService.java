@@ -105,22 +105,22 @@ public class CourtCaseSettingQueryService extends QueryService<CourtCaseSetting>
                 specification = specification.and(buildStringSpecification(criteria.getAnumodakName(), CourtCaseSetting_.anumodakName));
             }
             if (criteria.getVasuliExpense() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getVasuliExpense(), CourtCaseSetting_.vasuliExpense));
+                specification = specification.and(buildStringSpecification(criteria.getVasuliExpense(), CourtCaseSetting_.vasuliExpense));
             }
             if (criteria.getOtherExpense() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOtherExpense(), CourtCaseSetting_.otherExpense));
+                specification = specification.and(buildStringSpecification(criteria.getOtherExpense(), CourtCaseSetting_.otherExpense));
             }
             if (criteria.getNoticeExpense() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNoticeExpense(), CourtCaseSetting_.noticeExpense));
+                specification = specification.and(buildStringSpecification(criteria.getNoticeExpense(), CourtCaseSetting_.noticeExpense));
             }
             if (criteria.getMeetingNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMeetingNo(), CourtCaseSetting_.meetingNo));
+                specification = specification.and(buildStringSpecification(criteria.getMeetingNo(), CourtCaseSetting_.meetingNo));
             }
             if (criteria.getMeetingDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMeetingDate(), CourtCaseSetting_.meetingDate));
             }
             if (criteria.getSubjectNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSubjectNo(), CourtCaseSetting_.subjectNo));
+                specification = specification.and(buildStringSpecification(criteria.getSubjectNo(), CourtCaseSetting_.subjectNo));
             }
             if (criteria.getMeetingDay() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMeetingDay(), CourtCaseSetting_.meetingDay));

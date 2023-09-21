@@ -2,13 +2,18 @@ package com.cbs.middleware.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.repository.CourtCaseRepository;
-import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -47,9 +52,8 @@ class CourtCaseResourceIT {
     private static final String DEFAULT_LOAN_TYPE = "AAAAAAAAAA";
     private static final String UPDATED_LOAN_TYPE = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_LOAN_AMOUNT = 1D;
-    private static final Double UPDATED_LOAN_AMOUNT = 2D;
-    private static final Double SMALLER_LOAN_AMOUNT = 1D - 1D;
+    private static final String DEFAULT_LOAN_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_LOAN_AMOUNT = "AAAAAAAAAA";
 
     private static final LocalDate DEFAULT_LOAN_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_LOAN_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -58,53 +62,42 @@ class CourtCaseResourceIT {
     private static final String DEFAULT_TERM_OF_LOAN = "AAAAAAAAAA";
     private static final String UPDATED_TERM_OF_LOAN = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_INTEREST_RATE = 1D;
-    private static final Double UPDATED_INTEREST_RATE = 2D;
-    private static final Double SMALLER_INTEREST_RATE = 1D - 1D;
+    private static final String DEFAULT_INTEREST_RATE = "AAAAAAAAAA";
+    private static final String UPDATED_INTEREST_RATE = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_INSTALLMENT_AMOUNT = 1D;
-    private static final Double UPDATED_INSTALLMENT_AMOUNT = 2D;
-    private static final Double SMALLER_INSTALLMENT_AMOUNT = 1D - 1D;
+    private static final String DEFAULT_INSTALLMENT_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_INSTALLMENT_AMOUNT = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_TOTAL_CREDIT = 1D;
-    private static final Double UPDATED_TOTAL_CREDIT = 2D;
-    private static final Double SMALLER_TOTAL_CREDIT = 1D - 1D;
+    private static final String DEFAULT_TOTAL_CREDIT = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_CREDIT = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_BALANCE = 1D;
-    private static final Double UPDATED_BALANCE = 2D;
-    private static final Double SMALLER_BALANCE = 1D - 1D;
+    private static final String DEFAULT_BALANCE = "AAAAAAAAAA";
+    private static final String UPDATED_BALANCE = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_INTEREST_PAID = 1D;
-    private static final Double UPDATED_INTEREST_PAID = 2D;
-    private static final Double SMALLER_INTEREST_PAID = 1D - 1D;
+    private static final String DEFAULT_INTEREST_PAID = "AAAAAAAAAA";
+    private static final String UPDATED_INTEREST_PAID = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_PENAL_INTEREST_PAID = 1D;
-    private static final Double UPDATED_PENAL_INTEREST_PAID = 2D;
-    private static final Double SMALLER_PENAL_INTEREST_PAID = 1D - 1D;
+    private static final String DEFAULT_PENAL_INTEREST_PAID = "AAAAAAAAAA";
+    private static final String UPDATED_PENAL_INTEREST_PAID = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_DUE_AMOUNT = 1D;
-    private static final Double UPDATED_DUE_AMOUNT = 2D;
-    private static final Double SMALLER_DUE_AMOUNT = 1D - 1D;
+    private static final String DEFAULT_DUE_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_DUE_AMOUNT = "AAAAAAAAAA";
 
     private static final LocalDate DEFAULT_DUE_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DUE_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DUE_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final Double DEFAULT_DUE_INTEREST = 1D;
-    private static final Double UPDATED_DUE_INTEREST = 2D;
-    private static final Double SMALLER_DUE_INTEREST = 1D - 1D;
+    private static final String DEFAULT_DUE_INTEREST = "AAAAAAAAAA";
+    private static final String UPDATED_DUE_INTEREST = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_DUE_PENAL_INTEREST = 1D;
-    private static final Double UPDATED_DUE_PENAL_INTEREST = 2D;
-    private static final Double SMALLER_DUE_PENAL_INTEREST = 1D - 1D;
+    private static final String DEFAULT_DUE_PENAL_INTEREST = "AAAAAAAAAA";
+    private static final String UPDATED_DUE_PENAL_INTEREST = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_DUE_MORE_INTEREST = 1D;
-    private static final Double UPDATED_DUE_MORE_INTEREST = 2D;
-    private static final Double SMALLER_DUE_MORE_INTEREST = 1D - 1D;
+    private static final String DEFAULT_DUE_MORE_INTEREST = "AAAAAAAAAA";
+    private static final String UPDATED_DUE_MORE_INTEREST = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_INTEREST_RECIVABLE = 1D;
-    private static final Double UPDATED_INTEREST_RECIVABLE = 2D;
-    private static final Double SMALLER_INTEREST_RECIVABLE = 1D - 1D;
+    private static final String DEFAULT_INTEREST_RECIVABLE = "AAAAAAAAAA";
+    private static final String UPDATED_INTEREST_RECIVABLE = "AAAAAAAAAA";
 
     private static final String DEFAULT_GAURENTOR_ONE = "AAAAAAAAAA";
     private static final String UPDATED_GAURENTOR_ONE = "BBBBBBBBBB";
@@ -298,21 +291,21 @@ class CourtCaseResourceIT {
             .andExpect(jsonPath("$.[*].nameOfDefaulter").value(hasItem(DEFAULT_NAME_OF_DEFAULTER)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].loanType").value(hasItem(DEFAULT_LOAN_TYPE)))
-            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT)))
             .andExpect(jsonPath("$.[*].loanDate").value(hasItem(DEFAULT_LOAN_DATE.toString())))
             .andExpect(jsonPath("$.[*].termOfLoan").value(hasItem(DEFAULT_TERM_OF_LOAN)))
-            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID.doubleValue())))
-            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID.doubleValue())))
-            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE)))
+            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT)))
+            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT)))
+            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE)))
+            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID)))
+            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID)))
+            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT)))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST)))
+            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST)))
+            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST)))
+            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE)))
             .andExpect(jsonPath("$.[*].gaurentorOne").value(hasItem(DEFAULT_GAURENTOR_ONE)))
             .andExpect(jsonPath("$.[*].gaurentorOneAddress").value(hasItem(DEFAULT_GAURENTOR_ONE_ADDRESS)))
             .andExpect(jsonPath("$.[*].gaurentorTwo").value(hasItem(DEFAULT_GAURENTOR_TWO)))
@@ -338,21 +331,21 @@ class CourtCaseResourceIT {
             .andExpect(jsonPath("$.nameOfDefaulter").value(DEFAULT_NAME_OF_DEFAULTER))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.loanType").value(DEFAULT_LOAN_TYPE))
-            .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.loanAmount").value(DEFAULT_LOAN_AMOUNT))
             .andExpect(jsonPath("$.loanDate").value(DEFAULT_LOAN_DATE.toString()))
             .andExpect(jsonPath("$.termOfLoan").value(DEFAULT_TERM_OF_LOAN))
-            .andExpect(jsonPath("$.interestRate").value(DEFAULT_INTEREST_RATE.doubleValue()))
-            .andExpect(jsonPath("$.installmentAmount").value(DEFAULT_INSTALLMENT_AMOUNT.doubleValue()))
-            .andExpect(jsonPath("$.totalCredit").value(DEFAULT_TOTAL_CREDIT.doubleValue()))
-            .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE.doubleValue()))
-            .andExpect(jsonPath("$.interestPaid").value(DEFAULT_INTEREST_PAID.doubleValue()))
-            .andExpect(jsonPath("$.penalInterestPaid").value(DEFAULT_PENAL_INTEREST_PAID.doubleValue()))
-            .andExpect(jsonPath("$.dueAmount").value(DEFAULT_DUE_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.interestRate").value(DEFAULT_INTEREST_RATE))
+            .andExpect(jsonPath("$.installmentAmount").value(DEFAULT_INSTALLMENT_AMOUNT))
+            .andExpect(jsonPath("$.totalCredit").value(DEFAULT_TOTAL_CREDIT))
+            .andExpect(jsonPath("$.balance").value(DEFAULT_BALANCE))
+            .andExpect(jsonPath("$.interestPaid").value(DEFAULT_INTEREST_PAID))
+            .andExpect(jsonPath("$.penalInterestPaid").value(DEFAULT_PENAL_INTEREST_PAID))
+            .andExpect(jsonPath("$.dueAmount").value(DEFAULT_DUE_AMOUNT))
             .andExpect(jsonPath("$.dueDate").value(DEFAULT_DUE_DATE.toString()))
-            .andExpect(jsonPath("$.dueInterest").value(DEFAULT_DUE_INTEREST.doubleValue()))
-            .andExpect(jsonPath("$.duePenalInterest").value(DEFAULT_DUE_PENAL_INTEREST.doubleValue()))
-            .andExpect(jsonPath("$.dueMoreInterest").value(DEFAULT_DUE_MORE_INTEREST.doubleValue()))
-            .andExpect(jsonPath("$.interestRecivable").value(DEFAULT_INTEREST_RECIVABLE.doubleValue()))
+            .andExpect(jsonPath("$.dueInterest").value(DEFAULT_DUE_INTEREST))
+            .andExpect(jsonPath("$.duePenalInterest").value(DEFAULT_DUE_PENAL_INTEREST))
+            .andExpect(jsonPath("$.dueMoreInterest").value(DEFAULT_DUE_MORE_INTEREST))
+            .andExpect(jsonPath("$.interestRecivable").value(DEFAULT_INTEREST_RECIVABLE))
             .andExpect(jsonPath("$.gaurentorOne").value(DEFAULT_GAURENTOR_ONE))
             .andExpect(jsonPath("$.gaurentorOneAddress").value(DEFAULT_GAURENTOR_ONE_ADDRESS))
             .andExpect(jsonPath("$.gaurentorTwo").value(DEFAULT_GAURENTOR_TWO))
@@ -764,9 +757,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where loanAmount is less than or equal to DEFAULT_LOAN_AMOUNT
         defaultCourtCaseShouldBeFound("loanAmount.lessThanOrEqual=" + DEFAULT_LOAN_AMOUNT);
-
         // Get all the courtCaseList where loanAmount is less than or equal to SMALLER_LOAN_AMOUNT
-        defaultCourtCaseShouldNotBeFound("loanAmount.lessThanOrEqual=" + SMALLER_LOAN_AMOUNT);
     }
 
     @Test
@@ -790,9 +781,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where loanAmount is greater than DEFAULT_LOAN_AMOUNT
         defaultCourtCaseShouldNotBeFound("loanAmount.greaterThan=" + DEFAULT_LOAN_AMOUNT);
-
         // Get all the courtCaseList where loanAmount is greater than SMALLER_LOAN_AMOUNT
-        defaultCourtCaseShouldBeFound("loanAmount.greaterThan=" + SMALLER_LOAN_AMOUNT);
     }
 
     @Test
@@ -1011,9 +1000,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestRate is less than or equal to DEFAULT_INTEREST_RATE
         defaultCourtCaseShouldBeFound("interestRate.lessThanOrEqual=" + DEFAULT_INTEREST_RATE);
-
         // Get all the courtCaseList where interestRate is less than or equal to SMALLER_INTEREST_RATE
-        defaultCourtCaseShouldNotBeFound("interestRate.lessThanOrEqual=" + SMALLER_INTEREST_RATE);
     }
 
     @Test
@@ -1037,9 +1024,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestRate is greater than DEFAULT_INTEREST_RATE
         defaultCourtCaseShouldNotBeFound("interestRate.greaterThan=" + DEFAULT_INTEREST_RATE);
-
         // Get all the courtCaseList where interestRate is greater than SMALLER_INTEREST_RATE
-        defaultCourtCaseShouldBeFound("interestRate.greaterThan=" + SMALLER_INTEREST_RATE);
     }
 
     @Test
@@ -1102,9 +1087,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where installmentAmount is less than or equal to DEFAULT_INSTALLMENT_AMOUNT
         defaultCourtCaseShouldBeFound("installmentAmount.lessThanOrEqual=" + DEFAULT_INSTALLMENT_AMOUNT);
-
         // Get all the courtCaseList where installmentAmount is less than or equal to SMALLER_INSTALLMENT_AMOUNT
-        defaultCourtCaseShouldNotBeFound("installmentAmount.lessThanOrEqual=" + SMALLER_INSTALLMENT_AMOUNT);
     }
 
     @Test
@@ -1128,9 +1111,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where installmentAmount is greater than DEFAULT_INSTALLMENT_AMOUNT
         defaultCourtCaseShouldNotBeFound("installmentAmount.greaterThan=" + DEFAULT_INSTALLMENT_AMOUNT);
-
         // Get all the courtCaseList where installmentAmount is greater than SMALLER_INSTALLMENT_AMOUNT
-        defaultCourtCaseShouldBeFound("installmentAmount.greaterThan=" + SMALLER_INSTALLMENT_AMOUNT);
     }
 
     @Test
@@ -1193,9 +1174,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where totalCredit is less than or equal to DEFAULT_TOTAL_CREDIT
         defaultCourtCaseShouldBeFound("totalCredit.lessThanOrEqual=" + DEFAULT_TOTAL_CREDIT);
-
         // Get all the courtCaseList where totalCredit is less than or equal to SMALLER_TOTAL_CREDIT
-        defaultCourtCaseShouldNotBeFound("totalCredit.lessThanOrEqual=" + SMALLER_TOTAL_CREDIT);
     }
 
     @Test
@@ -1219,9 +1198,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where totalCredit is greater than DEFAULT_TOTAL_CREDIT
         defaultCourtCaseShouldNotBeFound("totalCredit.greaterThan=" + DEFAULT_TOTAL_CREDIT);
-
         // Get all the courtCaseList where totalCredit is greater than SMALLER_TOTAL_CREDIT
-        defaultCourtCaseShouldBeFound("totalCredit.greaterThan=" + SMALLER_TOTAL_CREDIT);
     }
 
     @Test
@@ -1284,9 +1261,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where balance is less than or equal to DEFAULT_BALANCE
         defaultCourtCaseShouldBeFound("balance.lessThanOrEqual=" + DEFAULT_BALANCE);
-
         // Get all the courtCaseList where balance is less than or equal to SMALLER_BALANCE
-        defaultCourtCaseShouldNotBeFound("balance.lessThanOrEqual=" + SMALLER_BALANCE);
     }
 
     @Test
@@ -1310,9 +1285,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where balance is greater than DEFAULT_BALANCE
         defaultCourtCaseShouldNotBeFound("balance.greaterThan=" + DEFAULT_BALANCE);
-
         // Get all the courtCaseList where balance is greater than SMALLER_BALANCE
-        defaultCourtCaseShouldBeFound("balance.greaterThan=" + SMALLER_BALANCE);
     }
 
     @Test
@@ -1375,9 +1348,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestPaid is less than or equal to DEFAULT_INTEREST_PAID
         defaultCourtCaseShouldBeFound("interestPaid.lessThanOrEqual=" + DEFAULT_INTEREST_PAID);
-
         // Get all the courtCaseList where interestPaid is less than or equal to SMALLER_INTEREST_PAID
-        defaultCourtCaseShouldNotBeFound("interestPaid.lessThanOrEqual=" + SMALLER_INTEREST_PAID);
     }
 
     @Test
@@ -1401,9 +1372,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestPaid is greater than DEFAULT_INTEREST_PAID
         defaultCourtCaseShouldNotBeFound("interestPaid.greaterThan=" + DEFAULT_INTEREST_PAID);
-
         // Get all the courtCaseList where interestPaid is greater than SMALLER_INTEREST_PAID
-        defaultCourtCaseShouldBeFound("interestPaid.greaterThan=" + SMALLER_INTEREST_PAID);
     }
 
     @Test
@@ -1466,9 +1435,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where penalInterestPaid is less than or equal to DEFAULT_PENAL_INTEREST_PAID
         defaultCourtCaseShouldBeFound("penalInterestPaid.lessThanOrEqual=" + DEFAULT_PENAL_INTEREST_PAID);
-
         // Get all the courtCaseList where penalInterestPaid is less than or equal to SMALLER_PENAL_INTEREST_PAID
-        defaultCourtCaseShouldNotBeFound("penalInterestPaid.lessThanOrEqual=" + SMALLER_PENAL_INTEREST_PAID);
     }
 
     @Test
@@ -1492,9 +1459,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where penalInterestPaid is greater than DEFAULT_PENAL_INTEREST_PAID
         defaultCourtCaseShouldNotBeFound("penalInterestPaid.greaterThan=" + DEFAULT_PENAL_INTEREST_PAID);
-
         // Get all the courtCaseList where penalInterestPaid is greater than SMALLER_PENAL_INTEREST_PAID
-        defaultCourtCaseShouldBeFound("penalInterestPaid.greaterThan=" + SMALLER_PENAL_INTEREST_PAID);
     }
 
     @Test
@@ -1557,9 +1522,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueAmount is less than or equal to DEFAULT_DUE_AMOUNT
         defaultCourtCaseShouldBeFound("dueAmount.lessThanOrEqual=" + DEFAULT_DUE_AMOUNT);
-
         // Get all the courtCaseList where dueAmount is less than or equal to SMALLER_DUE_AMOUNT
-        defaultCourtCaseShouldNotBeFound("dueAmount.lessThanOrEqual=" + SMALLER_DUE_AMOUNT);
     }
 
     @Test
@@ -1583,9 +1546,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueAmount is greater than DEFAULT_DUE_AMOUNT
         defaultCourtCaseShouldNotBeFound("dueAmount.greaterThan=" + DEFAULT_DUE_AMOUNT);
-
         // Get all the courtCaseList where dueAmount is greater than SMALLER_DUE_AMOUNT
-        defaultCourtCaseShouldBeFound("dueAmount.greaterThan=" + SMALLER_DUE_AMOUNT);
     }
 
     @Test
@@ -1739,9 +1700,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueInterest is less than or equal to DEFAULT_DUE_INTEREST
         defaultCourtCaseShouldBeFound("dueInterest.lessThanOrEqual=" + DEFAULT_DUE_INTEREST);
-
         // Get all the courtCaseList where dueInterest is less than or equal to SMALLER_DUE_INTEREST
-        defaultCourtCaseShouldNotBeFound("dueInterest.lessThanOrEqual=" + SMALLER_DUE_INTEREST);
     }
 
     @Test
@@ -1765,9 +1724,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueInterest is greater than DEFAULT_DUE_INTEREST
         defaultCourtCaseShouldNotBeFound("dueInterest.greaterThan=" + DEFAULT_DUE_INTEREST);
-
         // Get all the courtCaseList where dueInterest is greater than SMALLER_DUE_INTEREST
-        defaultCourtCaseShouldBeFound("dueInterest.greaterThan=" + SMALLER_DUE_INTEREST);
     }
 
     @Test
@@ -1830,9 +1787,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where duePenalInterest is less than or equal to DEFAULT_DUE_PENAL_INTEREST
         defaultCourtCaseShouldBeFound("duePenalInterest.lessThanOrEqual=" + DEFAULT_DUE_PENAL_INTEREST);
-
         // Get all the courtCaseList where duePenalInterest is less than or equal to SMALLER_DUE_PENAL_INTEREST
-        defaultCourtCaseShouldNotBeFound("duePenalInterest.lessThanOrEqual=" + SMALLER_DUE_PENAL_INTEREST);
     }
 
     @Test
@@ -1856,9 +1811,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where duePenalInterest is greater than DEFAULT_DUE_PENAL_INTEREST
         defaultCourtCaseShouldNotBeFound("duePenalInterest.greaterThan=" + DEFAULT_DUE_PENAL_INTEREST);
-
         // Get all the courtCaseList where duePenalInterest is greater than SMALLER_DUE_PENAL_INTEREST
-        defaultCourtCaseShouldBeFound("duePenalInterest.greaterThan=" + SMALLER_DUE_PENAL_INTEREST);
     }
 
     @Test
@@ -1921,9 +1874,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueMoreInterest is less than or equal to DEFAULT_DUE_MORE_INTEREST
         defaultCourtCaseShouldBeFound("dueMoreInterest.lessThanOrEqual=" + DEFAULT_DUE_MORE_INTEREST);
-
         // Get all the courtCaseList where dueMoreInterest is less than or equal to SMALLER_DUE_MORE_INTEREST
-        defaultCourtCaseShouldNotBeFound("dueMoreInterest.lessThanOrEqual=" + SMALLER_DUE_MORE_INTEREST);
     }
 
     @Test
@@ -1947,9 +1898,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where dueMoreInterest is greater than DEFAULT_DUE_MORE_INTEREST
         defaultCourtCaseShouldNotBeFound("dueMoreInterest.greaterThan=" + DEFAULT_DUE_MORE_INTEREST);
-
         // Get all the courtCaseList where dueMoreInterest is greater than SMALLER_DUE_MORE_INTEREST
-        defaultCourtCaseShouldBeFound("dueMoreInterest.greaterThan=" + SMALLER_DUE_MORE_INTEREST);
     }
 
     @Test
@@ -2012,9 +1961,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestRecivable is less than or equal to DEFAULT_INTEREST_RECIVABLE
         defaultCourtCaseShouldBeFound("interestRecivable.lessThanOrEqual=" + DEFAULT_INTEREST_RECIVABLE);
-
         // Get all the courtCaseList where interestRecivable is less than or equal to SMALLER_INTEREST_RECIVABLE
-        defaultCourtCaseShouldNotBeFound("interestRecivable.lessThanOrEqual=" + SMALLER_INTEREST_RECIVABLE);
     }
 
     @Test
@@ -2038,9 +1985,7 @@ class CourtCaseResourceIT {
 
         // Get all the courtCaseList where interestRecivable is greater than DEFAULT_INTEREST_RECIVABLE
         defaultCourtCaseShouldNotBeFound("interestRecivable.greaterThan=" + DEFAULT_INTEREST_RECIVABLE);
-
         // Get all the courtCaseList where interestRecivable is greater than SMALLER_INTEREST_RECIVABLE
-        defaultCourtCaseShouldBeFound("interestRecivable.greaterThan=" + SMALLER_INTEREST_RECIVABLE);
     }
 
     @Test
@@ -2499,21 +2444,21 @@ class CourtCaseResourceIT {
             .andExpect(jsonPath("$.[*].nameOfDefaulter").value(hasItem(DEFAULT_NAME_OF_DEFAULTER)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].loanType").value(hasItem(DEFAULT_LOAN_TYPE)))
-            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].loanAmount").value(hasItem(DEFAULT_LOAN_AMOUNT)))
             .andExpect(jsonPath("$.[*].loanDate").value(hasItem(DEFAULT_LOAN_DATE.toString())))
             .andExpect(jsonPath("$.[*].termOfLoan").value(hasItem(DEFAULT_TERM_OF_LOAN)))
-            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE.doubleValue())))
-            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE.doubleValue())))
-            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID.doubleValue())))
-            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID.doubleValue())))
-            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestRate").value(hasItem(DEFAULT_INTEREST_RATE)))
+            .andExpect(jsonPath("$.[*].installmentAmount").value(hasItem(DEFAULT_INSTALLMENT_AMOUNT)))
+            .andExpect(jsonPath("$.[*].totalCredit").value(hasItem(DEFAULT_TOTAL_CREDIT)))
+            .andExpect(jsonPath("$.[*].balance").value(hasItem(DEFAULT_BALANCE)))
+            .andExpect(jsonPath("$.[*].interestPaid").value(hasItem(DEFAULT_INTEREST_PAID)))
+            .andExpect(jsonPath("$.[*].penalInterestPaid").value(hasItem(DEFAULT_PENAL_INTEREST_PAID)))
+            .andExpect(jsonPath("$.[*].dueAmount").value(hasItem(DEFAULT_DUE_AMOUNT)))
             .andExpect(jsonPath("$.[*].dueDate").value(hasItem(DEFAULT_DUE_DATE.toString())))
-            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST.doubleValue())))
-            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE.doubleValue())))
+            .andExpect(jsonPath("$.[*].dueInterest").value(hasItem(DEFAULT_DUE_INTEREST)))
+            .andExpect(jsonPath("$.[*].duePenalInterest").value(hasItem(DEFAULT_DUE_PENAL_INTEREST)))
+            .andExpect(jsonPath("$.[*].dueMoreInterest").value(hasItem(DEFAULT_DUE_MORE_INTEREST)))
+            .andExpect(jsonPath("$.[*].interestRecivable").value(hasItem(DEFAULT_INTEREST_RECIVABLE)))
             .andExpect(jsonPath("$.[*].gaurentorOne").value(hasItem(DEFAULT_GAURENTOR_ONE)))
             .andExpect(jsonPath("$.[*].gaurentorOneAddress").value(hasItem(DEFAULT_GAURENTOR_ONE_ADDRESS)))
             .andExpect(jsonPath("$.[*].gaurentorTwo").value(hasItem(DEFAULT_GAURENTOR_TWO)))

@@ -1,9 +1,7 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.domain.CourtCaseSetting;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseSettingQueryService;
@@ -13,6 +11,7 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -92,6 +91,9 @@ public class CourtCaseSettingResource {
 
     @Autowired
     NotificationDataUtility notificationDataUtility;
+
+    @Autowired
+    TranslationServiceUtility translationServiceUtility;
 
     public CourtCaseSettingResource(
         CourtCaseSettingService courtCaseSettingService,
@@ -224,28 +226,120 @@ public class CourtCaseSettingResource {
                         falgForFileName = true;
                     }
 
-                    courtCaseSetting.setVasuliAdhikariName(getCellValue(row.getCell(0)));
-                    courtCaseSetting.setArOfficeName(getCellValue(row.getCell(1)));
-                    courtCaseSetting.setChairmanName(getCellValue(row.getCell(2)));
-                    courtCaseSetting.setSachivName(getCellValue(row.getCell(3)));
-                    courtCaseSetting.setSuchakName(getCellValue(row.getCell(4)));
-                    courtCaseSetting.setAnumodakName(getCellValue(row.getCell(5)));
-                    courtCaseSetting.setVasuliExpense(getCellAmountValue(row.getCell(6)));
-                    courtCaseSetting.setOtherExpense(getCellAmountValue(row.getCell(7)));
-                    courtCaseSetting.setNoticeExpense(getCellAmountValue(row.getCell(8)));
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(0)))) {
+                        //English
+                        courtCaseSetting.setVasuliAdhikariNameEn(getCellValue(row.getCell(0)));
+
+                        //Marathi
+                        courtCaseSetting.setVasuliAdhikariName(translationServiceUtility.translationText(getCellValue(row.getCell(0))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(1)))) {
+                        //English
+                        courtCaseSetting.setArOfficeNameEn(getCellValue(row.getCell(1)));
+
+                        //Marathi
+                        courtCaseSetting.setArOfficeName(translationServiceUtility.translationText(getCellValue(row.getCell(1))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(2)))) {
+                        //English
+                        courtCaseSetting.setChairmanNameEn(getCellValue(row.getCell(2)));
+
+                        //Marathi
+                        courtCaseSetting.setChairmanName(translationServiceUtility.translationText(getCellValue(row.getCell(2))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(3)))) {
+                        //English
+                        courtCaseSetting.setSachivNameEn(getCellValue(row.getCell(3)));
+
+                        //Marathi
+                        courtCaseSetting.setSachivName(translationServiceUtility.translationText(getCellValue(row.getCell(3))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(4)))) {
+                        //English
+                        courtCaseSetting.setSuchakNameEn(getCellValue(row.getCell(4)));
+
+                        //Marathi
+                        courtCaseSetting.setSuchakName(translationServiceUtility.translationText(getCellValue(row.getCell(4))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(5)))) {
+                        //English
+                        courtCaseSetting.setAnumodakNameEn(getCellValue(row.getCell(5)));
+
+                        //Marathi
+                        courtCaseSetting.setAnumodakName(translationServiceUtility.translationText(getCellValue(row.getCell(5))));
+                    }
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(6)))) {
+                        //English
+                        courtCaseSetting.setVasuliExpenseEn(getCellAmountValue(row.getCell(6)));
+
+                        //Marathi
+
+                        courtCaseSetting.setVasuliExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(6)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(7)))) {
+                        //English
+                        courtCaseSetting.setOtherExpenseEn(getCellAmountValue(row.getCell(7)));
+
+                        //Marathi
+                        courtCaseSetting.setOtherExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(7)))
+                        );
+                    }
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
+                        //English
+                        courtCaseSetting.setNoticeExpenseEn(getCellAmountValue(row.getCell(8)));
+
+                        //Marathi
+                        courtCaseSetting.setNoticeExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8)))
+                        );
+                    }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(9))) && getCellValue(row.getCell(9)).matches("[0-9]+")) {
-                        courtCaseSetting.setMeetingNo(Long.parseLong(getCellValue(row.getCell(9))));
+                        //English
+                        courtCaseSetting.setMeetingNoEn(Long.parseLong(getCellValue(row.getCell(9))));
+
+                        //Marathi
+
+                        courtCaseSetting.setMeetingNo(translationServiceUtility.translationText(getCellValue(row.getCell(9))));
                     }
 
-                    courtCaseSetting.setMeetingDate(getDateCellValue(row.getCell(10)));
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(10)))) {
+                        courtCaseSetting.setMeetingDate(getDateCellValue(row.getCell(10)));
+                    }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(11))) && getCellValue(row.getCell(11)).matches("[0-9]+")) {
-                        courtCaseSetting.setSubjectNo(Long.parseLong(getCellValue(row.getCell(11))));
+                        //English
+                        courtCaseSetting.setSubjectNoEn(Long.parseLong(getCellValue(row.getCell(11))));
+
+                        //Marathi
+
+                        courtCaseSetting.setSubjectNo(translationServiceUtility.translationText(getCellValue(row.getCell(11))));
                     }
 
-                    courtCaseSetting.setMeetingDay(getCellValue(row.getCell(12)));
-                    courtCaseSetting.setMeetingTime(getCellValue(row.getCell(13)));
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(12)))) {
+                        //English
+                        courtCaseSetting.setMeetingDayEn(getCellValue(row.getCell(12)));
+
+                        //Marathi
+                        courtCaseSetting.setMeetingDay(translationServiceUtility.translationText(getCellValue(row.getCell(12))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(13)))) {
+                        //English
+                        courtCaseSetting.setMeetingTimeEn(getCellValue(row.getCell(13)));
+
+                        //Marathi
+                        courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(getCellValue(row.getCell(13))));
+                    }
 
                     courtCaseSettingList.add(courtCaseSetting);
                 }
@@ -273,6 +367,15 @@ public class CourtCaseSettingResource {
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
+    }
+
+    @Autowired
+    TranslationServiceUtility serviceUtility;
+
+    @GetMapping("/test")
+    public String test() throws Exception {
+        String text = "123456.12";
+        return serviceUtility.translationText(text);
     }
 
     /**
@@ -488,6 +591,24 @@ public class CourtCaseSettingResource {
         }
 
         return cellValue;
+    }
+
+    private static String getCellAmountValueInString(Cell cell) {
+        String cellValue = "0.0";
+
+        if (cell == null) {
+            return cellValue;
+        } else if (cell.getCellType() == CellType.STRING) {
+            return cell.getStringCellValue().trim();
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            // Convert it to a Double
+            return "" + numericValue;
+        } else if (cell.getCellType() == CellType.BLANK) {
+            return cellValue;
+        } else {
+            return cellValue;
+        }
     }
 
     private static LocalDate getDateCellValue(Cell cell) {

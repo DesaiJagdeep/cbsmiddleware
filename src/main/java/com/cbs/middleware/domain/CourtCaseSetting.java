@@ -44,28 +44,68 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     private String anumodakName;
 
     @Column(name = "vasuli_expense")
-    private Double vasuliExpense;
+    private String vasuliExpense;
 
     @Column(name = "other_expense")
-    private Double otherExpense;
+    private String otherExpense;
 
     @Column(name = "notice_expense")
-    private Double noticeExpense;
+    private String noticeExpense;
 
     @Column(name = "meeting_no")
-    private Long meetingNo;
+    private String meetingNo;
 
     @Column(name = "meeting_date")
     private LocalDate meetingDate;
 
     @Column(name = "subject_no")
-    private Long subjectNo;
+    private String subjectNo;
 
     @Column(name = "meeting_day")
     private String meetingDay;
 
     @Column(name = "meeting_time")
     private String meetingTime;
+
+    //English Data
+    @Column(name = "vasuli_adhikari_name_en")
+    private String vasuliAdhikariNameEn;
+
+    @Column(name = "ar_office_name_en")
+    private String arOfficeNameEn;
+
+    @Column(name = "chairman_name_en")
+    private String chairmanNameEn;
+
+    @Column(name = "sachiv_name_en")
+    private String sachivNameEn;
+
+    @Column(name = "suchak_name_en")
+    private String suchakNameEn;
+
+    @Column(name = "anumodak_name_en")
+    private String anumodakNameEn;
+
+    @Column(name = "vasuli_expense_en")
+    private Double vasuliExpenseEn;
+
+    @Column(name = "other_expense_en")
+    private Double otherExpenseEn;
+
+    @Column(name = "notice_expense_en")
+    private Double noticeExpenseEn;
+
+    @Column(name = "meeting_no_en")
+    private Long meetingNoEn;
+
+    @Column(name = "subject_no_en")
+    private Long subjectNoEn;
+
+    @Column(name = "meeting_day_en")
+    private String meetingDayEn;
+
+    @Column(name = "meeting_time_en")
+    private String meetingTimeEn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -118,6 +158,110 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     public CourtCaseSetting arOfficeName(String arOfficeName) {
         this.setArOfficeName(arOfficeName);
         return this;
+    }
+
+    public String getVasuliAdhikariNameEn() {
+        return vasuliAdhikariNameEn;
+    }
+
+    public void setVasuliAdhikariNameEn(String vasuliAdhikariNameEn) {
+        this.vasuliAdhikariNameEn = vasuliAdhikariNameEn;
+    }
+
+    public String getArOfficeNameEn() {
+        return arOfficeNameEn;
+    }
+
+    public void setArOfficeNameEn(String arOfficeNameEn) {
+        this.arOfficeNameEn = arOfficeNameEn;
+    }
+
+    public String getChairmanNameEn() {
+        return chairmanNameEn;
+    }
+
+    public void setChairmanNameEn(String chairmanNameEn) {
+        this.chairmanNameEn = chairmanNameEn;
+    }
+
+    public String getSachivNameEn() {
+        return sachivNameEn;
+    }
+
+    public void setSachivNameEn(String sachivNameEn) {
+        this.sachivNameEn = sachivNameEn;
+    }
+
+    public String getSuchakNameEn() {
+        return suchakNameEn;
+    }
+
+    public void setSuchakNameEn(String suchakNameEn) {
+        this.suchakNameEn = suchakNameEn;
+    }
+
+    public String getAnumodakNameEn() {
+        return anumodakNameEn;
+    }
+
+    public void setAnumodakNameEn(String anumodakNameEn) {
+        this.anumodakNameEn = anumodakNameEn;
+    }
+
+    public Double getVasuliExpenseEn() {
+        return vasuliExpenseEn;
+    }
+
+    public void setVasuliExpenseEn(Double vasuliExpenseEn) {
+        this.vasuliExpenseEn = vasuliExpenseEn;
+    }
+
+    public Double getOtherExpenseEn() {
+        return otherExpenseEn;
+    }
+
+    public void setOtherExpenseEn(Double otherExpenseEn) {
+        this.otherExpenseEn = otherExpenseEn;
+    }
+
+    public Double getNoticeExpenseEn() {
+        return noticeExpenseEn;
+    }
+
+    public void setNoticeExpenseEn(Double noticeExpenseEn) {
+        this.noticeExpenseEn = noticeExpenseEn;
+    }
+
+    public Long getMeetingNoEn() {
+        return meetingNoEn;
+    }
+
+    public void setMeetingNoEn(Long meetingNoEn) {
+        this.meetingNoEn = meetingNoEn;
+    }
+
+    public Long getSubjectNoEn() {
+        return subjectNoEn;
+    }
+
+    public void setSubjectNoEn(Long subjectNoEn) {
+        this.subjectNoEn = subjectNoEn;
+    }
+
+    public String getMeetingDayEn() {
+        return meetingDayEn;
+    }
+
+    public void setMeetingDayEn(String meetingDayEn) {
+        this.meetingDayEn = meetingDayEn;
+    }
+
+    public String getMeetingTimeEn() {
+        return meetingTimeEn;
+    }
+
+    public void setMeetingTimeEn(String meetingTimeEn) {
+        this.meetingTimeEn = meetingTimeEn;
     }
 
     public void setArOfficeName(String arOfficeName) {
@@ -176,55 +320,55 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
         this.anumodakName = anumodakName;
     }
 
-    public Double getVasuliExpense() {
+    public String getVasuliExpense() {
         return this.vasuliExpense;
     }
 
-    public CourtCaseSetting vasuliExpense(Double vasuliExpense) {
+    public CourtCaseSetting vasuliExpense(String vasuliExpense) {
         this.setVasuliExpense(vasuliExpense);
         return this;
     }
 
-    public void setVasuliExpense(Double vasuliExpense) {
+    public void setVasuliExpense(String vasuliExpense) {
         this.vasuliExpense = vasuliExpense;
     }
 
-    public Double getOtherExpense() {
+    public String getOtherExpense() {
         return this.otherExpense;
     }
 
-    public CourtCaseSetting otherExpense(Double otherExpense) {
+    public CourtCaseSetting otherExpense(String otherExpense) {
         this.setOtherExpense(otherExpense);
         return this;
     }
 
-    public void setOtherExpense(Double otherExpense) {
+    public void setOtherExpense(String otherExpense) {
         this.otherExpense = otherExpense;
     }
 
-    public Double getNoticeExpense() {
+    public String getNoticeExpense() {
         return this.noticeExpense;
     }
 
-    public CourtCaseSetting noticeExpense(Double noticeExpense) {
+    public CourtCaseSetting noticeExpense(String noticeExpense) {
         this.setNoticeExpense(noticeExpense);
         return this;
     }
 
-    public void setNoticeExpense(Double noticeExpense) {
+    public void setNoticeExpense(String noticeExpense) {
         this.noticeExpense = noticeExpense;
     }
 
-    public Long getMeetingNo() {
+    public String getMeetingNo() {
         return this.meetingNo;
     }
 
-    public CourtCaseSetting meetingNo(Long meetingNo) {
+    public CourtCaseSetting meetingNo(String meetingNo) {
         this.setMeetingNo(meetingNo);
         return this;
     }
 
-    public void setMeetingNo(Long meetingNo) {
+    public void setMeetingNo(String meetingNo) {
         this.meetingNo = meetingNo;
     }
 
@@ -241,16 +385,16 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
         this.meetingDate = meetingDate;
     }
 
-    public Long getSubjectNo() {
+    public String getSubjectNo() {
         return this.subjectNo;
     }
 
-    public CourtCaseSetting subjectNo(Long subjectNo) {
+    public CourtCaseSetting subjectNo(String subjectNo) {
         this.setSubjectNo(subjectNo);
         return this;
     }
 
-    public void setSubjectNo(Long subjectNo) {
+    public void setSubjectNo(String subjectNo) {
         this.subjectNo = subjectNo;
     }
 

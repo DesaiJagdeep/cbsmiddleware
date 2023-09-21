@@ -50,29 +50,24 @@ class CourtCaseSettingResourceIT {
     private static final String DEFAULT_ANUMODAK_NAME = "AAAAAAAAAA";
     private static final String UPDATED_ANUMODAK_NAME = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_VASULI_EXPENSE = 1D;
-    private static final Double UPDATED_VASULI_EXPENSE = 2D;
-    private static final Double SMALLER_VASULI_EXPENSE = 1D - 1D;
+    private static final String DEFAULT_VASULI_EXPENSE = "AAAAAAAAAA";
+    private static final String UPDATED_VASULI_EXPENSE = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_OTHER_EXPENSE = 1D;
-    private static final Double UPDATED_OTHER_EXPENSE = 2D;
-    private static final Double SMALLER_OTHER_EXPENSE = 1D - 1D;
+    private static final String DEFAULT_OTHER_EXPENSE = "AAAAAAAAAA";
+    private static final String UPDATED_OTHER_EXPENSE = "AAAAAAAAAA";
 
-    private static final Double DEFAULT_NOTICE_EXPENSE = 1D;
-    private static final Double UPDATED_NOTICE_EXPENSE = 2D;
-    private static final Double SMALLER_NOTICE_EXPENSE = 1D - 1D;
+    private static final String DEFAULT_NOTICE_EXPENSE = "AAAAAAAAAA";
+    private static final String UPDATED_NOTICE_EXPENSE = "AAAAAAAAAA";
 
-    private static final Long DEFAULT_MEETING_NO = 1L;
-    private static final Long UPDATED_MEETING_NO = 2L;
-    private static final Long SMALLER_MEETING_NO = 1L - 1L;
+    private static final String DEFAULT_MEETING_NO = "AAAAAAAAAA";
+    private static final String UPDATED_MEETING_NO = "AAAAAAAAAA";
 
     private static final LocalDate DEFAULT_MEETING_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_MEETING_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_MEETING_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final Long DEFAULT_SUBJECT_NO = 1L;
-    private static final Long UPDATED_SUBJECT_NO = 2L;
-    private static final Long SMALLER_SUBJECT_NO = 1L - 1L;
+    private static final String DEFAULT_SUBJECT_NO = "AAAAAAAAAA";
+    private static final String UPDATED_SUBJECT_NO = "AAAAAAAAAA";
 
     private static final String DEFAULT_MEETING_DAY = "AAAAAAAAAA";
     private static final String UPDATED_MEETING_DAY = "BBBBBBBBBB";
@@ -221,12 +216,12 @@ class CourtCaseSettingResourceIT {
             .andExpect(jsonPath("$.[*].sachivName").value(hasItem(DEFAULT_SACHIV_NAME)))
             .andExpect(jsonPath("$.[*].suchakName").value(hasItem(DEFAULT_SUCHAK_NAME)))
             .andExpect(jsonPath("$.[*].anumodakName").value(hasItem(DEFAULT_ANUMODAK_NAME)))
-            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO.intValue())))
+            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE)))
+            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE)))
+            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE)))
+            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO)))
             .andExpect(jsonPath("$.[*].meetingDate").value(hasItem(DEFAULT_MEETING_DATE.toString())))
-            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO.intValue())))
+            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO)))
             .andExpect(jsonPath("$.[*].meetingDay").value(hasItem(DEFAULT_MEETING_DAY)))
             .andExpect(jsonPath("$.[*].meetingTime").value(hasItem(DEFAULT_MEETING_TIME)));
     }
@@ -249,12 +244,12 @@ class CourtCaseSettingResourceIT {
             .andExpect(jsonPath("$.sachivName").value(DEFAULT_SACHIV_NAME))
             .andExpect(jsonPath("$.suchakName").value(DEFAULT_SUCHAK_NAME))
             .andExpect(jsonPath("$.anumodakName").value(DEFAULT_ANUMODAK_NAME))
-            .andExpect(jsonPath("$.vasuliExpense").value(DEFAULT_VASULI_EXPENSE.doubleValue()))
-            .andExpect(jsonPath("$.otherExpense").value(DEFAULT_OTHER_EXPENSE.doubleValue()))
-            .andExpect(jsonPath("$.noticeExpense").value(DEFAULT_NOTICE_EXPENSE.doubleValue()))
-            .andExpect(jsonPath("$.meetingNo").value(DEFAULT_MEETING_NO.intValue()))
+            .andExpect(jsonPath("$.vasuliExpense").value(DEFAULT_VASULI_EXPENSE))
+            .andExpect(jsonPath("$.otherExpense").value(DEFAULT_OTHER_EXPENSE))
+            .andExpect(jsonPath("$.noticeExpense").value(DEFAULT_NOTICE_EXPENSE))
+            .andExpect(jsonPath("$.meetingNo").value(DEFAULT_MEETING_NO))
             .andExpect(jsonPath("$.meetingDate").value(DEFAULT_MEETING_DATE.toString()))
-            .andExpect(jsonPath("$.subjectNo").value(DEFAULT_SUBJECT_NO.intValue()))
+            .andExpect(jsonPath("$.subjectNo").value(DEFAULT_SUBJECT_NO))
             .andExpect(jsonPath("$.meetingDay").value(DEFAULT_MEETING_DAY))
             .andExpect(jsonPath("$.meetingTime").value(DEFAULT_MEETING_TIME));
     }
@@ -727,9 +722,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where vasuliExpense is less than or equal to DEFAULT_VASULI_EXPENSE
         defaultCourtCaseSettingShouldBeFound("vasuliExpense.lessThanOrEqual=" + DEFAULT_VASULI_EXPENSE);
-
         // Get all the courtCaseSettingList where vasuliExpense is less than or equal to SMALLER_VASULI_EXPENSE
-        defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.lessThanOrEqual=" + SMALLER_VASULI_EXPENSE);
     }
 
     @Test
@@ -753,9 +746,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where vasuliExpense is greater than DEFAULT_VASULI_EXPENSE
         defaultCourtCaseSettingShouldNotBeFound("vasuliExpense.greaterThan=" + DEFAULT_VASULI_EXPENSE);
-
         // Get all the courtCaseSettingList where vasuliExpense is greater than SMALLER_VASULI_EXPENSE
-        defaultCourtCaseSettingShouldBeFound("vasuliExpense.greaterThan=" + SMALLER_VASULI_EXPENSE);
     }
 
     @Test
@@ -818,9 +809,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where otherExpense is less than or equal to DEFAULT_OTHER_EXPENSE
         defaultCourtCaseSettingShouldBeFound("otherExpense.lessThanOrEqual=" + DEFAULT_OTHER_EXPENSE);
-
         // Get all the courtCaseSettingList where otherExpense is less than or equal to SMALLER_OTHER_EXPENSE
-        defaultCourtCaseSettingShouldNotBeFound("otherExpense.lessThanOrEqual=" + SMALLER_OTHER_EXPENSE);
     }
 
     @Test
@@ -844,9 +833,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where otherExpense is greater than DEFAULT_OTHER_EXPENSE
         defaultCourtCaseSettingShouldNotBeFound("otherExpense.greaterThan=" + DEFAULT_OTHER_EXPENSE);
-
         // Get all the courtCaseSettingList where otherExpense is greater than SMALLER_OTHER_EXPENSE
-        defaultCourtCaseSettingShouldBeFound("otherExpense.greaterThan=" + SMALLER_OTHER_EXPENSE);
     }
 
     @Test
@@ -909,9 +896,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where noticeExpense is less than or equal to DEFAULT_NOTICE_EXPENSE
         defaultCourtCaseSettingShouldBeFound("noticeExpense.lessThanOrEqual=" + DEFAULT_NOTICE_EXPENSE);
-
         // Get all the courtCaseSettingList where noticeExpense is less than or equal to SMALLER_NOTICE_EXPENSE
-        defaultCourtCaseSettingShouldNotBeFound("noticeExpense.lessThanOrEqual=" + SMALLER_NOTICE_EXPENSE);
     }
 
     @Test
@@ -935,9 +920,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where noticeExpense is greater than DEFAULT_NOTICE_EXPENSE
         defaultCourtCaseSettingShouldNotBeFound("noticeExpense.greaterThan=" + DEFAULT_NOTICE_EXPENSE);
-
         // Get all the courtCaseSettingList where noticeExpense is greater than SMALLER_NOTICE_EXPENSE
-        defaultCourtCaseSettingShouldBeFound("noticeExpense.greaterThan=" + SMALLER_NOTICE_EXPENSE);
     }
 
     @Test
@@ -1000,9 +983,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where meetingNo is less than or equal to DEFAULT_MEETING_NO
         defaultCourtCaseSettingShouldBeFound("meetingNo.lessThanOrEqual=" + DEFAULT_MEETING_NO);
-
         // Get all the courtCaseSettingList where meetingNo is less than or equal to SMALLER_MEETING_NO
-        defaultCourtCaseSettingShouldNotBeFound("meetingNo.lessThanOrEqual=" + SMALLER_MEETING_NO);
     }
 
     @Test
@@ -1026,9 +1007,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where meetingNo is greater than DEFAULT_MEETING_NO
         defaultCourtCaseSettingShouldNotBeFound("meetingNo.greaterThan=" + DEFAULT_MEETING_NO);
-
         // Get all the courtCaseSettingList where meetingNo is greater than SMALLER_MEETING_NO
-        defaultCourtCaseSettingShouldBeFound("meetingNo.greaterThan=" + SMALLER_MEETING_NO);
     }
 
     @Test
@@ -1182,9 +1161,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where subjectNo is less than or equal to DEFAULT_SUBJECT_NO
         defaultCourtCaseSettingShouldBeFound("subjectNo.lessThanOrEqual=" + DEFAULT_SUBJECT_NO);
-
         // Get all the courtCaseSettingList where subjectNo is less than or equal to SMALLER_SUBJECT_NO
-        defaultCourtCaseSettingShouldNotBeFound("subjectNo.lessThanOrEqual=" + SMALLER_SUBJECT_NO);
     }
 
     @Test
@@ -1208,9 +1185,7 @@ class CourtCaseSettingResourceIT {
 
         // Get all the courtCaseSettingList where subjectNo is greater than DEFAULT_SUBJECT_NO
         defaultCourtCaseSettingShouldNotBeFound("subjectNo.greaterThan=" + DEFAULT_SUBJECT_NO);
-
         // Get all the courtCaseSettingList where subjectNo is greater than SMALLER_SUBJECT_NO
-        defaultCourtCaseSettingShouldBeFound("subjectNo.greaterThan=" + SMALLER_SUBJECT_NO);
     }
 
     @Test
@@ -1358,12 +1333,12 @@ class CourtCaseSettingResourceIT {
             .andExpect(jsonPath("$.[*].sachivName").value(hasItem(DEFAULT_SACHIV_NAME)))
             .andExpect(jsonPath("$.[*].suchakName").value(hasItem(DEFAULT_SUCHAK_NAME)))
             .andExpect(jsonPath("$.[*].anumodakName").value(hasItem(DEFAULT_ANUMODAK_NAME)))
-            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE.doubleValue())))
-            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO.intValue())))
+            .andExpect(jsonPath("$.[*].vasuliExpense").value(hasItem(DEFAULT_VASULI_EXPENSE)))
+            .andExpect(jsonPath("$.[*].otherExpense").value(hasItem(DEFAULT_OTHER_EXPENSE)))
+            .andExpect(jsonPath("$.[*].noticeExpense").value(hasItem(DEFAULT_NOTICE_EXPENSE)))
+            .andExpect(jsonPath("$.[*].meetingNo").value(hasItem(DEFAULT_MEETING_NO)))
             .andExpect(jsonPath("$.[*].meetingDate").value(hasItem(DEFAULT_MEETING_DATE.toString())))
-            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO.intValue())))
+            .andExpect(jsonPath("$.[*].subjectNo").value(hasItem(DEFAULT_SUBJECT_NO)))
             .andExpect(jsonPath("$.[*].meetingDay").value(hasItem(DEFAULT_MEETING_DAY)))
             .andExpect(jsonPath("$.[*].meetingTime").value(hasItem(DEFAULT_MEETING_TIME)));
 

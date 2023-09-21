@@ -33,35 +33,35 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     private StringFilter loanType;
 
-    private DoubleFilter loanAmount;
+    private StringFilter loanAmount;
 
     private LocalDateFilter loanDate;
 
     private StringFilter termOfLoan;
 
-    private DoubleFilter interestRate;
+    private StringFilter interestRate;
 
-    private DoubleFilter installmentAmount;
+    private StringFilter installmentAmount;
 
-    private DoubleFilter totalCredit;
+    private StringFilter totalCredit;
 
-    private DoubleFilter balance;
+    private StringFilter balance;
 
-    private DoubleFilter interestPaid;
+    private StringFilter interestPaid;
 
-    private DoubleFilter penalInterestPaid;
+    private StringFilter penalInterestPaid;
 
-    private DoubleFilter dueAmount;
+    private StringFilter dueAmount;
 
     private LocalDateFilter dueDate;
 
-    private DoubleFilter dueInterest;
+    private StringFilter dueInterest;
 
-    private DoubleFilter duePenalInterest;
+    private StringFilter duePenalInterest;
 
-    private DoubleFilter dueMoreInterest;
+    private StringFilter dueMoreInterest;
 
-    private DoubleFilter interestRecivable;
+    private StringFilter interestRecivable;
 
     private StringFilter gaurentorOne;
 
@@ -205,18 +205,18 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         this.loanType = loanType;
     }
 
-    public DoubleFilter getLoanAmount() {
+    public StringFilter getLoanAmount() {
         return loanAmount;
     }
 
-    public DoubleFilter loanAmount() {
+    public StringFilter loanAmount() {
         if (loanAmount == null) {
-            loanAmount = new DoubleFilter();
+            loanAmount = new StringFilter();
         }
         return loanAmount;
     }
 
-    public void setLoanAmount(DoubleFilter loanAmount) {
+    public void setLoanAmount(StringFilter loanAmount) {
         this.loanAmount = loanAmount;
     }
 
@@ -250,108 +250,108 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         this.termOfLoan = termOfLoan;
     }
 
-    public DoubleFilter getInterestRate() {
+    public StringFilter getInterestRate() {
         return interestRate;
     }
 
-    public DoubleFilter interestRate() {
+    public StringFilter interestRate() {
         if (interestRate == null) {
-            interestRate = new DoubleFilter();
+            interestRate = new StringFilter();
         }
         return interestRate;
     }
 
-    public void setInterestRate(DoubleFilter interestRate) {
+    public void setInterestRate(StringFilter interestRate) {
         this.interestRate = interestRate;
     }
 
-    public DoubleFilter getInstallmentAmount() {
+    public StringFilter getInstallmentAmount() {
         return installmentAmount;
     }
 
-    public DoubleFilter installmentAmount() {
+    public StringFilter installmentAmount() {
         if (installmentAmount == null) {
-            installmentAmount = new DoubleFilter();
+            installmentAmount = new StringFilter();
         }
         return installmentAmount;
     }
 
-    public void setInstallmentAmount(DoubleFilter installmentAmount) {
+    public void setInstallmentAmount(StringFilter installmentAmount) {
         this.installmentAmount = installmentAmount;
     }
 
-    public DoubleFilter getTotalCredit() {
+    public StringFilter getTotalCredit() {
         return totalCredit;
     }
 
-    public DoubleFilter totalCredit() {
+    public StringFilter totalCredit() {
         if (totalCredit == null) {
-            totalCredit = new DoubleFilter();
+            totalCredit = new StringFilter();
         }
         return totalCredit;
     }
 
-    public void setTotalCredit(DoubleFilter totalCredit) {
+    public void setTotalCredit(StringFilter totalCredit) {
         this.totalCredit = totalCredit;
     }
 
-    public DoubleFilter getBalance() {
+    public StringFilter getBalance() {
         return balance;
     }
 
-    public DoubleFilter balance() {
+    public StringFilter balance() {
         if (balance == null) {
-            balance = new DoubleFilter();
+            balance = new StringFilter();
         }
         return balance;
     }
 
-    public void setBalance(DoubleFilter balance) {
+    public void setBalance(StringFilter balance) {
         this.balance = balance;
     }
 
-    public DoubleFilter getInterestPaid() {
+    public StringFilter getInterestPaid() {
         return interestPaid;
     }
 
-    public DoubleFilter interestPaid() {
+    public StringFilter interestPaid() {
         if (interestPaid == null) {
-            interestPaid = new DoubleFilter();
+            interestPaid = new StringFilter();
         }
         return interestPaid;
     }
 
-    public void setInterestPaid(DoubleFilter interestPaid) {
+    public void setInterestPaid(StringFilter interestPaid) {
         this.interestPaid = interestPaid;
     }
 
-    public DoubleFilter getPenalInterestPaid() {
+    public StringFilter getPenalInterestPaid() {
         return penalInterestPaid;
     }
 
-    public DoubleFilter penalInterestPaid() {
+    public StringFilter penalInterestPaid() {
         if (penalInterestPaid == null) {
-            penalInterestPaid = new DoubleFilter();
+            penalInterestPaid = new StringFilter();
         }
         return penalInterestPaid;
     }
 
-    public void setPenalInterestPaid(DoubleFilter penalInterestPaid) {
+    public void setPenalInterestPaid(StringFilter penalInterestPaid) {
         this.penalInterestPaid = penalInterestPaid;
     }
 
-    public DoubleFilter getDueAmount() {
+    public StringFilter getDueAmount() {
         return dueAmount;
     }
 
-    public DoubleFilter dueAmount() {
+    public StringFilter dueAmount() {
         if (dueAmount == null) {
-            dueAmount = new DoubleFilter();
+            dueAmount = new StringFilter();
         }
         return dueAmount;
     }
 
-    public void setDueAmount(DoubleFilter dueAmount) {
+    public void setDueAmount(StringFilter dueAmount) {
         this.dueAmount = dueAmount;
     }
 
@@ -370,63 +370,63 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         this.dueDate = dueDate;
     }
 
-    public DoubleFilter getDueInterest() {
+    public StringFilter getDueInterest() {
         return dueInterest;
     }
 
-    public DoubleFilter dueInterest() {
+    public StringFilter dueInterest() {
         if (dueInterest == null) {
-            dueInterest = new DoubleFilter();
+            dueInterest = new StringFilter();
         }
         return dueInterest;
     }
 
-    public void setDueInterest(DoubleFilter dueInterest) {
+    public void setDueInterest(StringFilter dueInterest) {
         this.dueInterest = dueInterest;
     }
 
-    public DoubleFilter getDuePenalInterest() {
+    public StringFilter getDuePenalInterest() {
         return duePenalInterest;
     }
 
-    public DoubleFilter duePenalInterest() {
+    public StringFilter duePenalInterest() {
         if (duePenalInterest == null) {
-            duePenalInterest = new DoubleFilter();
+            duePenalInterest = new StringFilter();
         }
         return duePenalInterest;
     }
 
-    public void setDuePenalInterest(DoubleFilter duePenalInterest) {
+    public void setDuePenalInterest(StringFilter duePenalInterest) {
         this.duePenalInterest = duePenalInterest;
     }
 
-    public DoubleFilter getDueMoreInterest() {
+    public StringFilter getDueMoreInterest() {
         return dueMoreInterest;
     }
 
-    public DoubleFilter dueMoreInterest() {
+    public StringFilter dueMoreInterest() {
         if (dueMoreInterest == null) {
-            dueMoreInterest = new DoubleFilter();
+            dueMoreInterest = new StringFilter();
         }
         return dueMoreInterest;
     }
 
-    public void setDueMoreInterest(DoubleFilter dueMoreInterest) {
+    public void setDueMoreInterest(StringFilter dueMoreInterest) {
         this.dueMoreInterest = dueMoreInterest;
     }
 
-    public DoubleFilter getInterestRecivable() {
+    public StringFilter getInterestRecivable() {
         return interestRecivable;
     }
 
-    public DoubleFilter interestRecivable() {
+    public StringFilter interestRecivable() {
         if (interestRecivable == null) {
-            interestRecivable = new DoubleFilter();
+            interestRecivable = new StringFilter();
         }
         return interestRecivable;
     }
 
-    public void setInterestRecivable(DoubleFilter interestRecivable) {
+    public void setInterestRecivable(StringFilter interestRecivable) {
         this.interestRecivable = interestRecivable;
     }
 

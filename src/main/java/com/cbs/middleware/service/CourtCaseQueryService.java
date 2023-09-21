@@ -101,7 +101,7 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
                 specification = specification.and(buildStringSpecification(criteria.getLoanType(), CourtCase_.loanType));
             }
             if (criteria.getLoanAmount() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLoanAmount(), CourtCase_.loanAmount));
+                specification = specification.and(buildStringSpecification(criteria.getLoanAmount(), CourtCase_.loanAmount));
             }
             if (criteria.getLoanDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLoanDate(), CourtCase_.loanDate));
@@ -110,40 +110,40 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
                 specification = specification.and(buildStringSpecification(criteria.getTermOfLoan(), CourtCase_.termOfLoan));
             }
             if (criteria.getInterestRate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInterestRate(), CourtCase_.interestRate));
+                specification = specification.and(buildStringSpecification(criteria.getInterestRate(), CourtCase_.interestRate));
             }
             if (criteria.getInstallmentAmount() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInstallmentAmount(), CourtCase_.installmentAmount));
+                specification = specification.and(buildStringSpecification(criteria.getInstallmentAmount(), CourtCase_.installmentAmount));
             }
             if (criteria.getTotalCredit() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalCredit(), CourtCase_.totalCredit));
+                specification = specification.and(buildStringSpecification(criteria.getTotalCredit(), CourtCase_.totalCredit));
             }
             if (criteria.getBalance() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBalance(), CourtCase_.balance));
+                specification = specification.and(buildStringSpecification(criteria.getBalance(), CourtCase_.balance));
             }
             if (criteria.getInterestPaid() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInterestPaid(), CourtCase_.interestPaid));
+                specification = specification.and(buildStringSpecification(criteria.getInterestPaid(), CourtCase_.interestPaid));
             }
             if (criteria.getPenalInterestPaid() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPenalInterestPaid(), CourtCase_.penalInterestPaid));
+                specification = specification.and(buildStringSpecification(criteria.getPenalInterestPaid(), CourtCase_.penalInterestPaid));
             }
             if (criteria.getDueAmount() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDueAmount(), CourtCase_.dueAmount));
+                specification = specification.and(buildStringSpecification(criteria.getDueAmount(), CourtCase_.dueAmount));
             }
             if (criteria.getDueDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDueDate(), CourtCase_.dueDate));
             }
             if (criteria.getDueInterest() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDueInterest(), CourtCase_.dueInterest));
+                specification = specification.and(buildStringSpecification(criteria.getDueInterest(), CourtCase_.dueInterest));
             }
             if (criteria.getDuePenalInterest() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDuePenalInterest(), CourtCase_.duePenalInterest));
+                specification = specification.and(buildStringSpecification(criteria.getDuePenalInterest(), CourtCase_.duePenalInterest));
             }
             if (criteria.getDueMoreInterest() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDueMoreInterest(), CourtCase_.dueMoreInterest));
+                specification = specification.and(buildStringSpecification(criteria.getDueMoreInterest(), CourtCase_.dueMoreInterest));
             }
             if (criteria.getInterestRecivable() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInterestRecivable(), CourtCase_.interestRecivable));
+                specification = specification.and(buildStringSpecification(criteria.getInterestRecivable(), CourtCase_.interestRecivable));
             }
             if (criteria.getGaurentorOne() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGaurentorOne(), CourtCase_.gaurentorOne));

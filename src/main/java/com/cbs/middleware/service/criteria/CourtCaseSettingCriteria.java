@@ -35,17 +35,17 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
 
     private StringFilter anumodakName;
 
-    private DoubleFilter vasuliExpense;
+    private StringFilter vasuliExpense;
 
-    private DoubleFilter otherExpense;
+    private StringFilter otherExpense;
 
-    private DoubleFilter noticeExpense;
+    private StringFilter noticeExpense;
 
-    private LongFilter meetingNo;
+    private StringFilter meetingNo;
 
     private LocalDateFilter meetingDate;
 
-    private LongFilter subjectNo;
+    private StringFilter subjectNo;
 
     private StringFilter meetingDay;
 
@@ -184,63 +184,63 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
         this.anumodakName = anumodakName;
     }
 
-    public DoubleFilter getVasuliExpense() {
+    public StringFilter getVasuliExpense() {
         return vasuliExpense;
     }
 
-    public DoubleFilter vasuliExpense() {
+    public StringFilter vasuliExpense() {
         if (vasuliExpense == null) {
-            vasuliExpense = new DoubleFilter();
+            vasuliExpense = new StringFilter();
         }
         return vasuliExpense;
     }
 
-    public void setVasuliExpense(DoubleFilter vasuliExpense) {
+    public void setVasuliExpense(StringFilter vasuliExpense) {
         this.vasuliExpense = vasuliExpense;
     }
 
-    public DoubleFilter getOtherExpense() {
+    public StringFilter getOtherExpense() {
         return otherExpense;
     }
 
-    public DoubleFilter otherExpense() {
+    public StringFilter otherExpense() {
         if (otherExpense == null) {
-            otherExpense = new DoubleFilter();
+            otherExpense = new StringFilter();
         }
         return otherExpense;
     }
 
-    public void setOtherExpense(DoubleFilter otherExpense) {
+    public void setOtherExpense(StringFilter otherExpense) {
         this.otherExpense = otherExpense;
     }
 
-    public DoubleFilter getNoticeExpense() {
+    public StringFilter getNoticeExpense() {
         return noticeExpense;
     }
 
-    public DoubleFilter noticeExpense() {
+    public StringFilter noticeExpense() {
         if (noticeExpense == null) {
-            noticeExpense = new DoubleFilter();
+            noticeExpense = new StringFilter();
         }
         return noticeExpense;
     }
 
-    public void setNoticeExpense(DoubleFilter noticeExpense) {
+    public void setNoticeExpense(StringFilter noticeExpense) {
         this.noticeExpense = noticeExpense;
     }
 
-    public LongFilter getMeetingNo() {
+    public StringFilter getMeetingNo() {
         return meetingNo;
     }
 
-    public LongFilter meetingNo() {
+    public StringFilter meetingNo() {
         if (meetingNo == null) {
-            meetingNo = new LongFilter();
+            meetingNo = new StringFilter();
         }
         return meetingNo;
     }
 
-    public void setMeetingNo(LongFilter meetingNo) {
+    public void setMeetingNo(StringFilter meetingNo) {
         this.meetingNo = meetingNo;
     }
 
@@ -259,18 +259,18 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
         this.meetingDate = meetingDate;
     }
 
-    public LongFilter getSubjectNo() {
+    public StringFilter getSubjectNo() {
         return subjectNo;
     }
 
-    public LongFilter subjectNo() {
+    public StringFilter subjectNo() {
         if (subjectNo == null) {
-            subjectNo = new LongFilter();
+            subjectNo = new StringFilter();
         }
         return subjectNo;
     }
 
-    public void setSubjectNo(LongFilter subjectNo) {
+    public void setSubjectNo(StringFilter subjectNo) {
         this.subjectNo = subjectNo;
     }
 

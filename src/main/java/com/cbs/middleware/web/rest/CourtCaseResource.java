@@ -2,7 +2,6 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.CourtCase;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseQueryService;
@@ -12,12 +11,11 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.layout.font.FontProvider;
-import com.itextpdf.text.pdf.languages.DevanagariLigaturizer;
-import com.itextpdf.text.pdf.languages.IndicLigaturizer;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -107,6 +105,9 @@ public class CourtCaseResource {
     @Autowired
     NotificationDataUtility notificationDataUtility;
 
+    @Autowired
+    TranslationServiceUtility translationServiceUtility;
+
     public CourtCaseResource(
         CourtCaseService courtCaseService,
         CourtCaseRepository courtCaseRepository,
@@ -155,8 +156,11 @@ public class CourtCaseResource {
             // Create ConverterProperties and set the font provider
             ConverterProperties converterProperties = new ConverterProperties();
             FontProvider fontProvider = new FontProvider();
-            //fontProvider.addFont("D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
-            fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(
+                "D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf",
+                PdfEncodings.IDENTITY_H
+            );
+            //fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
 
@@ -332,30 +336,182 @@ public class CourtCaseResource {
 
                     // add logic for skipping records if exists
 
-                    courtCase.setAccountNo(getCellValue(row.getCell(1)));
-                    courtCase.setNameOfDefaulter(getCellValue(row.getCell(2)));
-                    courtCase.setAddress(getCellValue(row.getCell(3)));
-                    courtCase.setLoanType(getCellValue(row.getCell(4)));
-                    courtCase.setLoanAmount(getCellAmountValue(row.getCell(5)));
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(1)))) {
+                        //english
+                        courtCase.setAccountNoEn(getCellValue(row.getCell(1)));
+
+                        //marathi
+                        courtCase.setAccountNo(translationServiceUtility.translationText(getCellValue(row.getCell(1))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(2)))) {
+                        //english
+                        courtCase.setNameOfDefaulterEn(getCellValue(row.getCell(2)));
+                        //marathi
+                        courtCase.setNameOfDefaulter(translationServiceUtility.translationText(getCellValue(row.getCell(2))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(3)))) {
+                        //english
+                        courtCase.setAddressEn(getCellValue(row.getCell(3)));
+
+                        //marathi
+                        courtCase.setAddress(translationServiceUtility.translationText(getCellValue(row.getCell(3))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(4)))) {
+                        //english
+                        courtCase.setLoanTypeEn(getCellValue(row.getCell(4)));
+
+                        //marathi
+                        courtCase.setLoanType(translationServiceUtility.translationText(getCellValue(row.getCell(4))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(5)))) {
+                        //english
+                        courtCase.setLoanAmountEn(getCellAmountValue(row.getCell(5)));
+
+                        //marathi
+                        courtCase.setLoanAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(5))));
+                    }
+
                     courtCase.setLoanDate(getDateCellValue(row.getCell(6)));
-                    courtCase.setTermOfLoan(getCellValue(row.getCell(7)));
-                    courtCase.setInterestRate(getCellAmountValue(row.getCell(8)));
-                    courtCase.setInstallmentAmount(getCellAmountValue(row.getCell(9)));
-                    courtCase.setTotalCredit(getCellAmountValue(row.getCell(10)));
-                    courtCase.setBalance(getCellAmountValue(row.getCell(11)));
-                    courtCase.setInterestPaid(getCellAmountValue(row.getCell(12)));
-                    courtCase.setPenalInterestPaid(getCellAmountValue(row.getCell(13)));
-                    courtCase.setDueAmount(getCellAmountValue(row.getCell(14)));
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(7)))) {
+                        //english
+                        courtCase.setTermOfLoanEn(getCellValue(row.getCell(7)));
+
+                        //marathi
+                        courtCase.setTermOfLoan(translationServiceUtility.translationText(getCellValue(row.getCell(7))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
+                        //english
+                        courtCase.setInterestRateEn(getCellAmountValue(row.getCell(8)));
+
+                        //marathi
+                        courtCase.setInterestRate(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(9)))) {
+                        //english
+                        courtCase.setInstallmentAmountEn(getCellAmountValue(row.getCell(9)));
+
+                        //marathi
+                        courtCase.setInstallmentAmount(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(9)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(10)))) {
+                        //english
+                        courtCase.setTotalCreditEn(getCellAmountValue(row.getCell(10)));
+
+                        //marathi
+                        courtCase.setTotalCredit(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(10))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(11)))) {
+                        //english
+                        courtCase.setBalanceEn(getCellAmountValue(row.getCell(11)));
+
+                        //marathi
+                        courtCase.setBalance(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(11))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(12)))) {
+                        //english
+                        courtCase.setInterestPaidEn(getCellAmountValue(row.getCell(12)));
+
+                        //marathi
+                        courtCase.setInterestPaid(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(12))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(13)))) {
+                        //english
+                        courtCase.setPenalInterestPaidEn(getCellAmountValue(row.getCell(13)));
+
+                        //marathi
+                        courtCase.setPenalInterestPaid(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(13)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
+                        //english
+                        courtCase.setDueAmountEn(getCellAmountValue(row.getCell(14)));
+
+                        //marathi
+                        courtCase.setDueAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(14))));
+                    }
+
                     courtCase.setDueDate(getDateCellValue(row.getCell(15)));
-                    courtCase.setDueInterest(getCellAmountValue(row.getCell(16)));
-                    courtCase.setDuePenalInterest(getCellAmountValue(row.getCell(17)));
-                    courtCase.setDueMoreInterest(getCellAmountValue(row.getCell(18)));
-                    courtCase.setInterestRecivable(getCellAmountValue(row.getCell(19)));
-                    courtCase.setGaurentorOne(getCellValue(row.getCell(20)));
-                    courtCase.setGaurentorOneAddress(getCellValue(row.getCell(21)));
-                    courtCase.setGaurentorTwo(getCellValue(row.getCell(22)));
-                    courtCase.setGaurentorTwoAddress(getCellValue(row.getCell(23)));
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(16)))) {
+                        //english
+                        courtCase.setDueInterestEn(getCellAmountValue(row.getCell(16)));
+
+                        //marathi
+                        courtCase.setDueInterest(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(16))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(17)))) {
+                        //english
+                        courtCase.setDuePenalInterestEn(getCellAmountValue(row.getCell(17)));
+                        //marathi
+                        courtCase.setDuePenalInterest(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(17)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(18)))) {
+                        //english
+                        courtCase.setDueMoreInterestEn(getCellAmountValue(row.getCell(18)));
+                        //marathi
+                        courtCase.setDueMoreInterest(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(18)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(19)))) {
+                        //english
+                        courtCase.setInterestRecivableEn(getCellAmountValue(row.getCell(19)));
+                        //marathi
+                        courtCase.setInterestRecivable(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(19)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(20)))) {
+                        //english
+                        courtCase.setGaurentorOneEn(getCellValue(row.getCell(20)));
+                        //marathi
+                        courtCase.setGaurentorOne(translationServiceUtility.translationText(getCellValue(row.getCell(20))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(21)))) {
+                        //english
+                        courtCase.setGaurentorOneAddressEn(getCellValue(row.getCell(21)));
+                        //marathi
+                        courtCase.setGaurentorOneAddress(translationServiceUtility.translationText(getCellValue(row.getCell(21))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(22)))) {
+                        //english
+                        courtCase.setGaurentorTwoEn(getCellValue(row.getCell(22)));
+                        //marathi
+                        courtCase.setGaurentorTwo(translationServiceUtility.translationText(getCellValue(row.getCell(22))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(23)))) {
+                        //english
+                        courtCase.setGaurentorTwoAddressEn(getCellValue(row.getCell(23)));
+                        //marathi
+                        courtCase.setGaurentorTwoAddress(translationServiceUtility.translationText(getCellValue(row.getCell(23))));
+                    }
+
                     courtCase.setFirstNoticeDate(getDateCellValue(row.getCell(24)));
+
                     courtCase.setSecondNoticeDate(getDateCellValue(row.getCell(25)));
 
                     courtCaseList.add(courtCase);
@@ -598,6 +754,24 @@ public class CourtCaseResource {
         }
 
         return cellValue;
+    }
+
+    private static String getCellAmountValueInString(Cell cell) {
+        String cellValue = "0.0";
+
+        if (cell == null) {
+            return cellValue;
+        } else if (cell.getCellType() == CellType.STRING) {
+            return cell.getStringCellValue().trim();
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            // Convert it to a Double
+            return "" + numericValue;
+        } else if (cell.getCellType() == CellType.BLANK) {
+            return cellValue;
+        } else {
+            return cellValue;
+        }
     }
 
     private static LocalDate getDateCellValue(Cell cell) {

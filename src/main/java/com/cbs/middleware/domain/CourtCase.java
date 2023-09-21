@@ -41,7 +41,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     private String loanType;
 
     @Column(name = "loan_amount")
-    private Double loanAmount;
+    private String loanAmount;
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
@@ -50,40 +50,40 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     private String termOfLoan;
 
     @Column(name = "interest_rate")
-    private Double interestRate;
+    private String interestRate;
 
     @Column(name = "installment_amount")
-    private Double installmentAmount;
+    private String installmentAmount;
 
     @Column(name = "total_credit")
-    private Double totalCredit;
+    private String totalCredit;
 
     @Column(name = "balance")
-    private Double balance;
+    private String balance;
 
     @Column(name = "interest_paid")
-    private Double interestPaid;
+    private String interestPaid;
 
     @Column(name = "penal_interest_paid")
-    private Double penalInterestPaid;
+    private String penalInterestPaid;
 
     @Column(name = "due_amount")
-    private Double dueAmount;
+    private String dueAmount;
 
     @Column(name = "due_date")
     private LocalDate dueDate;
 
     @Column(name = "due_interest")
-    private Double dueInterest;
+    private String dueInterest;
 
     @Column(name = "due_penal_interest")
-    private Double duePenalInterest;
+    private String duePenalInterest;
 
     @Column(name = "due_more_interest")
-    private Double dueMoreInterest;
+    private String dueMoreInterest;
 
     @Column(name = "interest_recivable")
-    private Double interestRecivable;
+    private String interestRecivable;
 
     @Column(name = "gaurentor_one")
     private String gaurentorOne;
@@ -102,6 +102,74 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "second_notice_date")
     private LocalDate secondNoticeDate;
+
+    //English data
+
+    @Column(name = "sr_no_en")
+    private Long srNoEn;
+
+    @Column(name = "account_no_en")
+    private String accountNoEn;
+
+    @Column(name = "name_of_defaulter_en")
+    private String nameOfDefaulterEn;
+
+    @Column(name = "address_en")
+    private String addressEn;
+
+    @Column(name = "loan_type_en")
+    private String loanTypeEn;
+
+    @Column(name = "loan_amount_en")
+    private Double loanAmountEn;
+
+    @Column(name = "term_of_loan_en")
+    private String termOfLoanEn;
+
+    @Column(name = "interest_rate_en")
+    private Double interestRateEn;
+
+    @Column(name = "installment_amount_en")
+    private Double installmentAmountEn;
+
+    @Column(name = "total_credit_en")
+    private Double totalCreditEn;
+
+    @Column(name = "balance_en")
+    private Double balanceEn;
+
+    @Column(name = "interest_paid_en")
+    private Double interestPaidEn;
+
+    @Column(name = "penal_interest_paid_en")
+    private Double penalInterestPaidEn;
+
+    @Column(name = "due_amount_en")
+    private Double dueAmountEn;
+
+    @Column(name = "due_interest_en")
+    private Double dueInterestEn;
+
+    @Column(name = "due_penal_interest_en")
+    private Double duePenalInterestEn;
+
+    @Column(name = "due_more_interest_en")
+    private Double dueMoreInterestEn;
+
+    @Column(name = "interest_recivable_en")
+    private Double interestRecivableEn;
+
+    @Column(name = "gaurentor_one_en")
+    private String gaurentorOneEn;
+
+    @Column(name = "gaurentor_one_address_en")
+    private String gaurentorOneAddressEn;
+
+    @Column(name = "gaurentor_two_en")
+    private String gaurentorTwoEn;
+
+    @Column(name = "gaurentor_two_address_en")
+    private String gaurentorTwoAddressEn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -141,6 +209,78 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setUniqueFileName(String uniqueFileName) {
         this.uniqueFileName = uniqueFileName;
+    }
+
+    public String getAccountNoEn() {
+        return accountNoEn;
+    }
+
+    public void setAccountNoEn(String accountNoEn) {
+        this.accountNoEn = accountNoEn;
+    }
+
+    public String getNameOfDefaulterEn() {
+        return nameOfDefaulterEn;
+    }
+
+    public void setNameOfDefaulterEn(String nameOfDefaulterEn) {
+        this.nameOfDefaulterEn = nameOfDefaulterEn;
+    }
+
+    public String getAddressEn() {
+        return addressEn;
+    }
+
+    public void setAddressEn(String addressEn) {
+        this.addressEn = addressEn;
+    }
+
+    public String getLoanTypeEn() {
+        return loanTypeEn;
+    }
+
+    public void setLoanTypeEn(String loanTypeEn) {
+        this.loanTypeEn = loanTypeEn;
+    }
+
+    public String getTermOfLoanEn() {
+        return termOfLoanEn;
+    }
+
+    public void setTermOfLoanEn(String termOfLoanEn) {
+        this.termOfLoanEn = termOfLoanEn;
+    }
+
+    public String getGaurentorOneEn() {
+        return gaurentorOneEn;
+    }
+
+    public void setGaurentorOneEn(String gaurentorOneEn) {
+        this.gaurentorOneEn = gaurentorOneEn;
+    }
+
+    public String getGaurentorOneAddressEn() {
+        return gaurentorOneAddressEn;
+    }
+
+    public void setGaurentorOneAddressEn(String gaurentorOneAddressEn) {
+        this.gaurentorOneAddressEn = gaurentorOneAddressEn;
+    }
+
+    public String getGaurentorTwoEn() {
+        return gaurentorTwoEn;
+    }
+
+    public void setGaurentorTwoEn(String gaurentorTwoEn) {
+        this.gaurentorTwoEn = gaurentorTwoEn;
+    }
+
+    public String getGaurentorTwoAddressEn() {
+        return gaurentorTwoAddressEn;
+    }
+
+    public void setGaurentorTwoAddressEn(String gaurentorTwoAddressEn) {
+        this.gaurentorTwoAddressEn = gaurentorTwoAddressEn;
     }
 
     public void setSrNo(String srNo) {
@@ -199,16 +339,120 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.loanType = loanType;
     }
 
-    public Double getLoanAmount() {
+    public String getLoanAmount() {
         return this.loanAmount;
     }
 
-    public CourtCase loanAmount(Double loanAmount) {
+    public CourtCase loanAmount(String loanAmount) {
         this.setLoanAmount(loanAmount);
         return this;
     }
 
-    public void setLoanAmount(Double loanAmount) {
+    public Long getSrNoEn() {
+        return srNoEn;
+    }
+
+    public void setSrNoEn(Long srNoEn) {
+        this.srNoEn = srNoEn;
+    }
+
+    public Double getLoanAmountEn() {
+        return loanAmountEn;
+    }
+
+    public void setLoanAmountEn(Double loanAmountEn) {
+        this.loanAmountEn = loanAmountEn;
+    }
+
+    public Double getInterestRateEn() {
+        return interestRateEn;
+    }
+
+    public void setInterestRateEn(Double interestRateEn) {
+        this.interestRateEn = interestRateEn;
+    }
+
+    public Double getInstallmentAmountEn() {
+        return installmentAmountEn;
+    }
+
+    public void setInstallmentAmountEn(Double installmentAmountEn) {
+        this.installmentAmountEn = installmentAmountEn;
+    }
+
+    public Double getTotalCreditEn() {
+        return totalCreditEn;
+    }
+
+    public void setTotalCreditEn(Double totalCreditEn) {
+        this.totalCreditEn = totalCreditEn;
+    }
+
+    public Double getBalanceEn() {
+        return balanceEn;
+    }
+
+    public void setBalanceEn(Double balanceEn) {
+        this.balanceEn = balanceEn;
+    }
+
+    public Double getInterestPaidEn() {
+        return interestPaidEn;
+    }
+
+    public void setInterestPaidEn(Double interestPaidEn) {
+        this.interestPaidEn = interestPaidEn;
+    }
+
+    public Double getPenalInterestPaidEn() {
+        return penalInterestPaidEn;
+    }
+
+    public void setPenalInterestPaidEn(Double penalInterestPaidEn) {
+        this.penalInterestPaidEn = penalInterestPaidEn;
+    }
+
+    public Double getDueAmountEn() {
+        return dueAmountEn;
+    }
+
+    public void setDueAmountEn(Double dueAmountEn) {
+        this.dueAmountEn = dueAmountEn;
+    }
+
+    public Double getDueInterestEn() {
+        return dueInterestEn;
+    }
+
+    public void setDueInterestEn(Double dueInterestEn) {
+        this.dueInterestEn = dueInterestEn;
+    }
+
+    public Double getDuePenalInterestEn() {
+        return duePenalInterestEn;
+    }
+
+    public void setDuePenalInterestEn(Double duePenalInterestEn) {
+        this.duePenalInterestEn = duePenalInterestEn;
+    }
+
+    public Double getDueMoreInterestEn() {
+        return dueMoreInterestEn;
+    }
+
+    public void setDueMoreInterestEn(Double dueMoreInterestEn) {
+        this.dueMoreInterestEn = dueMoreInterestEn;
+    }
+
+    public Double getInterestRecivableEn() {
+        return interestRecivableEn;
+    }
+
+    public void setInterestRecivableEn(Double interestRecivableEn) {
+        this.interestRecivableEn = interestRecivableEn;
+    }
+
+    public void setLoanAmount(String loanAmount) {
         this.loanAmount = loanAmount;
     }
 
@@ -238,94 +482,94 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.termOfLoan = termOfLoan;
     }
 
-    public Double getInterestRate() {
+    public String getInterestRate() {
         return this.interestRate;
     }
 
-    public CourtCase interestRate(Double interestRate) {
+    public CourtCase interestRate(String interestRate) {
         this.setInterestRate(interestRate);
         return this;
     }
 
-    public void setInterestRate(Double interestRate) {
+    public void setInterestRate(String interestRate) {
         this.interestRate = interestRate;
     }
 
-    public Double getInstallmentAmount() {
+    public String getInstallmentAmount() {
         return this.installmentAmount;
     }
 
-    public CourtCase installmentAmount(Double installmentAmount) {
+    public CourtCase installmentAmount(String installmentAmount) {
         this.setInstallmentAmount(installmentAmount);
         return this;
     }
 
-    public void setInstallmentAmount(Double installmentAmount) {
+    public void setInstallmentAmount(String installmentAmount) {
         this.installmentAmount = installmentAmount;
     }
 
-    public Double getTotalCredit() {
+    public String getTotalCredit() {
         return this.totalCredit;
     }
 
-    public CourtCase totalCredit(Double totalCredit) {
+    public CourtCase totalCredit(String totalCredit) {
         this.setTotalCredit(totalCredit);
         return this;
     }
 
-    public void setTotalCredit(Double totalCredit) {
+    public void setTotalCredit(String totalCredit) {
         this.totalCredit = totalCredit;
     }
 
-    public Double getBalance() {
+    public String getBalance() {
         return this.balance;
     }
 
-    public CourtCase balance(Double balance) {
+    public CourtCase balance(String balance) {
         this.setBalance(balance);
         return this;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
-    public Double getInterestPaid() {
+    public String getInterestPaid() {
         return this.interestPaid;
     }
 
-    public CourtCase interestPaid(Double interestPaid) {
+    public CourtCase interestPaid(String interestPaid) {
         this.setInterestPaid(interestPaid);
         return this;
     }
 
-    public void setInterestPaid(Double interestPaid) {
+    public void setInterestPaid(String interestPaid) {
         this.interestPaid = interestPaid;
     }
 
-    public Double getPenalInterestPaid() {
+    public String getPenalInterestPaid() {
         return this.penalInterestPaid;
     }
 
-    public CourtCase penalInterestPaid(Double penalInterestPaid) {
+    public CourtCase penalInterestPaid(String penalInterestPaid) {
         this.setPenalInterestPaid(penalInterestPaid);
         return this;
     }
 
-    public void setPenalInterestPaid(Double penalInterestPaid) {
+    public void setPenalInterestPaid(String penalInterestPaid) {
         this.penalInterestPaid = penalInterestPaid;
     }
 
-    public Double getDueAmount() {
+    public String getDueAmount() {
         return this.dueAmount;
     }
 
-    public CourtCase dueAmount(Double dueAmount) {
+    public CourtCase dueAmount(String dueAmount) {
         this.setDueAmount(dueAmount);
         return this;
     }
 
-    public void setDueAmount(Double dueAmount) {
+    public void setDueAmount(String dueAmount) {
         this.dueAmount = dueAmount;
     }
 
@@ -342,55 +586,55 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.dueDate = dueDate;
     }
 
-    public Double getDueInterest() {
+    public String getDueInterest() {
         return this.dueInterest;
     }
 
-    public CourtCase dueInterest(Double dueInterest) {
+    public CourtCase dueInterest(String dueInterest) {
         this.setDueInterest(dueInterest);
         return this;
     }
 
-    public void setDueInterest(Double dueInterest) {
+    public void setDueInterest(String dueInterest) {
         this.dueInterest = dueInterest;
     }
 
-    public Double getDuePenalInterest() {
+    public String getDuePenalInterest() {
         return this.duePenalInterest;
     }
 
-    public CourtCase duePenalInterest(Double duePenalInterest) {
+    public CourtCase duePenalInterest(String duePenalInterest) {
         this.setDuePenalInterest(duePenalInterest);
         return this;
     }
 
-    public void setDuePenalInterest(Double duePenalInterest) {
+    public void setDuePenalInterest(String duePenalInterest) {
         this.duePenalInterest = duePenalInterest;
     }
 
-    public Double getDueMoreInterest() {
+    public String getDueMoreInterest() {
         return this.dueMoreInterest;
     }
 
-    public CourtCase dueMoreInterest(Double dueMoreInterest) {
+    public CourtCase dueMoreInterest(String dueMoreInterest) {
         this.setDueMoreInterest(dueMoreInterest);
         return this;
     }
 
-    public void setDueMoreInterest(Double dueMoreInterest) {
+    public void setDueMoreInterest(String dueMoreInterest) {
         this.dueMoreInterest = dueMoreInterest;
     }
 
-    public Double getInterestRecivable() {
+    public String getInterestRecivable() {
         return this.interestRecivable;
     }
 
-    public CourtCase interestRecivable(Double interestRecivable) {
+    public CourtCase interestRecivable(String interestRecivable) {
         this.setInterestRecivable(interestRecivable);
         return this;
     }
 
-    public void setInterestRecivable(Double interestRecivable) {
+    public void setInterestRecivable(String interestRecivable) {
         this.interestRecivable = interestRecivable;
     }
 

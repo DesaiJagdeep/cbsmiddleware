@@ -25,6 +25,10 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     private StringFilter srNo;
 
+    private StringFilter talukaName;
+
+    private StringFilter bankName;
+
     private StringFilter accountNo;
 
     private StringFilter nameOfDefaulter;
@@ -81,6 +85,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     public CourtCaseCriteria(CourtCaseCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.bankName = other.bankName == null ? null : other.bankName.copy();
+        this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
         this.srNo = other.srNo == null ? null : other.srNo.copy();
         this.accountNo = other.accountNo == null ? null : other.accountNo.copy();
         this.nameOfDefaulter = other.nameOfDefaulter == null ? null : other.nameOfDefaulter.copy();
@@ -143,6 +149,36 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     public void setSrNo(StringFilter srNo) {
         this.srNo = srNo;
+    }
+
+    public StringFilter getTalukaName() {
+        return talukaName;
+    }
+
+    public StringFilter talukaName() {
+        if (talukaName == null) {
+            talukaName = new StringFilter();
+        }
+        return talukaName;
+    }
+
+    public void setTalukaName(StringFilter talukaName) {
+        this.talukaName = talukaName;
+    }
+
+    public StringFilter getBankName() {
+        return bankName;
+    }
+
+    public StringFilter bankName() {
+        if (bankName == null) {
+            bankName = new StringFilter();
+        }
+        return bankName;
+    }
+
+    public void setBankName(StringFilter bankName) {
+        this.bankName = bankName;
     }
 
     public StringFilter getAccountNo() {
@@ -540,6 +576,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(srNo, that.srNo) &&
+            Objects.equals(talukaName, that.talukaName) &&
+            Objects.equals(bankName, that.bankName) &&
             Objects.equals(accountNo, that.accountNo) &&
             Objects.equals(nameOfDefaulter, that.nameOfDefaulter) &&
             Objects.equals(address, that.address) &&
@@ -574,6 +612,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             srNo,
+            talukaName,
+            bankName,
             accountNo,
             nameOfDefaulter,
             address,
@@ -609,6 +649,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return "CourtCaseCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (srNo != null ? "srNo=" + srNo + ", " : "") +
+            (talukaName != null ? "talukaName=" + talukaName + ", " : "") +
+            (bankName != null ? "bankName=" + bankName + ", " : "") +
             (accountNo != null ? "accountNo=" + accountNo + ", " : "") +
             (nameOfDefaulter != null ? "nameOfDefaulter=" + nameOfDefaulter + ", " : "") +
             (address != null ? "address=" + address + ", " : "") +

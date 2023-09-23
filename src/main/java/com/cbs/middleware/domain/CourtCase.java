@@ -22,6 +22,12 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "sr_no")
     private String srNo;
 
+    @Column(name = "bank_name")
+    private String bankName;
+
+    @Column(name = "taluka_name")
+    private String talukaName;
+
     @Column(name = "account_no")
     private String accountNo;
 
@@ -85,6 +91,12 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "interest_recivable")
     private String interestRecivable;
 
+    @Column(name = "taaran")
+    private String taaran;
+
+    @Column(name = "taaran_en")
+    private String taaranEn;
+
     @Column(name = "gaurentor_one")
     private String gaurentorOne;
 
@@ -107,6 +119,12 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "sr_no_en")
     private Long srNoEn;
+
+    @Column(name = "bank_name_en")
+    private String bankNameEn;
+
+    @Column(name = "taluka_name_en")
+    private String talukaNameEn;
 
     @Column(name = "account_no_en")
     private String accountNoEn;
@@ -213,6 +231,54 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public String getAccountNoEn() {
         return accountNoEn;
+    }
+
+    public String getTaaran() {
+        return taaran;
+    }
+
+    public void setTaaran(String taaran) {
+        this.taaran = taaran;
+    }
+
+    public String getTaaranEn() {
+        return taaranEn;
+    }
+
+    public void setTaaranEn(String taaranEn) {
+        this.taaranEn = taaranEn;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getTalukaName() {
+        return talukaName;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
+    }
+
+    public String getBankNameEn() {
+        return bankNameEn;
+    }
+
+    public void setBankNameEn(String bankNameEn) {
+        this.bankNameEn = bankNameEn;
+    }
+
+    public String getTalukaNameEn() {
+        return talukaNameEn;
+    }
+
+    public void setTalukaNameEn(String talukaNameEn) {
+        this.talukaNameEn = talukaNameEn;
     }
 
     public void setAccountNoEn(String accountNoEn) {

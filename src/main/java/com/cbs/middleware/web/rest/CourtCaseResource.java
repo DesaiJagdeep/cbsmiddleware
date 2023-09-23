@@ -120,7 +120,7 @@ public class CourtCaseResource {
 
     @GetMapping("/pdfTest")
     public Object generatePDFFromHTML() throws Exception {
-        Optional<CourtCase> courtCase = courtCaseRepository.findById(2l);
+        //Optional<CourtCase> courtCase = courtCaseRepository.findById(2l);
 
         DateFormat Date = DateFormat.getDateInstance();
         Calendar cals = Calendar.getInstance();
@@ -128,28 +128,149 @@ public class CourtCaseResource {
         System.out.println("Formatted Date: " + currentDate);
 
         String HTML =
-            "<!DOCTYPE html>\r\n" +
             "<html>\r\n" +
             "\r\n" +
+            "<style>\r\n" +
+            "    h1 {\r\n" +
+            "        text-align: center;\r\n" +
+            "    }\r\n" +
+            "\r\n" +
+            "    p {\r\n" +
+            "        text-align: center;\r\n" +
+            "    }\r\n" +
+            "\r\n" +
+            "    table,\r\n" +
+            "    th,\r\n" +
+            "    td {\r\n" +
+            "        border: 1px solid black;\r\n" +
+            "        border-collapse: collapse;\r\n" +
+            "    }\r\n" +
+            "</style>\r\n" +
+            "\r\n" +
             "<head>\r\n" +
-            "    <meta charset=\"UTF-8\">\r\n" +
+            "    <div class=\"h1\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</div>\r\n" +
+            "    <div class=\"h1\">मुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.</div>\r\n" +
+            "    <div class=\"h1\">punedc@mail.com</div>\r\n" +
+            "    <div>____________________________________________</div>\r\n" +
             "</head>\r\n" +
             "\r\n" +
             "<body>\r\n" +
             "\r\n" +
-            "    <h1>सहकारी संस्था</h1>\r\n" +
-            "    <p>मराठी पाठ्य</p>\r\n" +
-            "    <p>" +
-            courtCase.get().getSrNo() +
-            "</p>\r\n" +
+            "    <div class=\"\">१०१ नुसार कारवाई करणेपूर्वीची नोटीस </div>\r\n" +
+            "    <div class=\"\">रजिस्टर ए.डी./ यु.पी.सी.</div>\r\n" +
             "\r\n" +
+            "    <div class=\"\">जा.क्र. / २०२३-२४ /</div>\r\n" +
+            "    <div class=\"\">रजिस्टर ए.डी./ यु.पी.सी.</div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">दिनांक :- / /२०</div>\r\n" +
+            "    <div></div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">कर्ज खाते क्रमांक :-</div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">१) जामीनदार :- श्री. / श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">२) जामीनदार :- श्री. /श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
+            "\r\n" +
+            "    <div class=\"\">३) जामीनदार :- श्री. /श्रीमती___________________</div>\r\n" +
+            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "    <div class=\"\">/div>\r\n" +
+            "\r\n" +
+            "        <div class=\"\"> विषय: थकीत कर्ज परतफेड करणेबाबत..</div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        <div class=\"\"> तुम्हास नोटीस देण्यात येते की,</div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        <div class=\"\">१. तुम्ही बँकेच्या_________शाखेकडून दिनांक / /२० रोजी कर्ज योजने अंतर्गत कारणासाठी रूपये\r\n" +
+            "\r\n" +
+            "            _________/- चे कर्ज द.सा.द.शे....... % व्याजदराने...... वर्षेच्या मुदतीने घेतले आहे.\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        </div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        <div class=\"\">\r\n" +
+            "\r\n" +
+            "            २. सदर कर्ज व्यवहारास श्री__________ व श्री____________हे व्यक्ति जामीनदार आहेत.\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        </div>\r\n" +
+            "\r\n" +
+            "\r\n" +
+            "        <div class=\"\">\r\n" +
+            "            ३. मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक / /२० रोजी रितसर वचन विट्टी, करारनामे\r\n" +
+            "            व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.\r\n" +
+            "        </div>\r\n" +
+            "\r\n" +
+            "        <div class=\"\">\r\n" +
+            "\r\n" +
+            "            ४. वचनचिठ्ठी व कारारनाम्यातील तपशीलाप्रमाणे तसेच तुम्ही सदर कर्ज रक्कम मंजूरी पत्रातील अटी व\r\n" +
+            "            शर्तीनुसार परतफेड करण्यास वैयक्तिक व सामुदायिक जबावदार आहात.\r\n" +
+            "        </div>\r\n" +
+            "        <div class=\"\">\r\n" +
+            "            5.आपण बँकेकडून घेतलेल्या कर्ज रकमेची परतफेड वेळेवर व करारातील अटी व शर्तीप्रमाणे केलेली नाही. म्हणून तुम्हास\r\n" +
+            "            या पूर्वीही नोटिस पाठविण्यात आल्या होत्या तरीही तुम्ही थकीत कर्जाच्या रकमेची संपूर्ण परतफेड केलेली नाही.\r\n" +
+            "            त्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम (१९०१ (१) अन्वये संबंधित मा. उपनिबंधक / मा. सहाय्यक\r\n" +
+            "            निबंधक, सहकारी संस्था यांचेकडे अर्ज दाखल करून वसूली दाखला मिळणेबाबतचा अर्ज करणे वावत्तचा निर्णय घेण्यात\r\n" +
+            "            आलेला आहे. तथापि तुम्हास एक संधी म्हणून सदर प्रकरणी अंतिम नोटिस देण्यात येत आहे.\r\n" +
+            "        </div>\r\n" +
+            "\r\n" +
+            "        <div class=\"\">\r\n" +
+            "            दिनांक\r\n" +
+            "            / /२० अखेर तुमचेकडून खालीलप्रमाणे येणे आहे.\r\n" +
+            "        </div>\r\n" +
+            "\r\n" +
+            "        <table>\r\n" +
+            "            <tbody>\r\n" +
+            "\r\n" +
+            "                <tr>\r\n" +
+            "                    <th> अनु. क्र.</th>\r\n" +
+            "                    <th>तपशील</th>\r\n" +
+            "                    <th>रक्कम रूपये</th>\r\n" +
+            "                </tr>\r\n" +
+            "                <tr>\r\n" +
+            "                    <td>१.</td>\r\n" +
+            "                    <td>२.</td>\r\n" +
+            "                    <td>३.</td>\r\n" +
+            "                </tr>\r\n" +
+            "                <tr>\r\n" +
+            "                    <td>मुद्दल</td>\r\n" +
+            "                    <td>व्याज येणे + दंड व्याज</td>\r\n" +
+            "                    <td>इतर खर्च - नोटिस इत्यादी</td>\r\n" +
+            "                </tr>\r\n" +
+            "                <tr>\r\n" +
+            "                    <td>रूपये.</td>\r\n" +
+            "                    <td>रूपये.</td>\r\n" +
+            "                    <td>रूपये.</td>\r\n" +
+            "                </tr>\r\n" +
+            "                <tr>\r\n" +
+            "                    <td></td>\r\n" +
+            "                    <td>रूपये :-</td>\r\n" +
+            "                    <td>रूपये.</td>\r\n" +
+            "                </tr>\r\n" +
+            "            </tbody>\r\n" +
+            "        </table>\r\n" +
             "</body>\r\n" +
             "\r\n" +
             "</html>";
 
         try {
-            //			IndicLigaturizer g = new DevanagariLigaturizer();
-            //			String processed = g.process(HTML);
+            // IndicLigaturizer g = new DevanagariLigaturizer();
+            // String processed = g.process(HTML);
 
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -160,7 +281,8 @@ public class CourtCaseResource {
                 "D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf",
                 PdfEncodings.IDENTITY_H
             );
-            //fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
+            // fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf",
+            // PdfEncodings.IDENTITY_H);
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
 
@@ -184,7 +306,8 @@ public class CourtCaseResource {
         // Load the JRXML template from the resources folder
 
         InputStream templateStream = getClass().getResourceAsStream("/Blank_A4_2.jrxml");
-        //InputStream templateStream = getClass().getResourceAsStream("/Blank_A4_3.jrxml");
+        // InputStream templateStream =
+        // getClass().getResourceAsStream("/Blank_A4_3.jrxml");
 
         // Compile the JRXML template
         JasperReport jasperReport = JasperCompileManager.compileReport(templateStream);
@@ -251,6 +374,16 @@ public class CourtCaseResource {
             if (StringUtils.isNoneBlank(secondNoticeDate)) {
                 secondNoticeDate = secondNoticeDate.trim().replace("\n", " ").toLowerCase();
                 if (!secondNoticeDate.contains("second") || !secondNoticeDate.contains("notice") || !secondNoticeDate.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String taluka = getCellValue(row.getCell(27));
+            if (StringUtils.isNoneBlank(taluka)) {
+                taluka = taluka.trim().replace("\n", " ").toLowerCase();
+                if (!taluka.contains("taluka") || !taluka.contains("taluka") || !taluka.contains("taluka")) {
                     flagForLabel = true;
                 }
             } else {
@@ -337,182 +470,201 @@ public class CourtCaseResource {
                     // add logic for skipping records if exists
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(1)))) {
-                        //english
+                        // english
                         courtCase.setAccountNoEn(getCellValue(row.getCell(1)));
 
-                        //marathi
+                        // marathi
                         courtCase.setAccountNo(translationServiceUtility.translationText(getCellValue(row.getCell(1))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(2)))) {
-                        //english
+                        // english
                         courtCase.setNameOfDefaulterEn(getCellValue(row.getCell(2)));
-                        //marathi
+                        // marathi
                         courtCase.setNameOfDefaulter(translationServiceUtility.translationText(getCellValue(row.getCell(2))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(3)))) {
-                        //english
+                        // english
                         courtCase.setAddressEn(getCellValue(row.getCell(3)));
 
-                        //marathi
+                        // marathi
                         courtCase.setAddress(translationServiceUtility.translationText(getCellValue(row.getCell(3))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(4)))) {
-                        //english
+                        // english
                         courtCase.setLoanTypeEn(getCellValue(row.getCell(4)));
 
-                        //marathi
+                        // marathi
                         courtCase.setLoanType(translationServiceUtility.translationText(getCellValue(row.getCell(4))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(5)))) {
-                        //english
+                        // english
                         courtCase.setLoanAmountEn(getCellAmountValue(row.getCell(5)));
 
-                        //marathi
+                        // marathi
                         courtCase.setLoanAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(5))));
                     }
 
-                    courtCase.setLoanDate(getDateCellValue(row.getCell(6)));
-
+                    if (getDateCellValue(row.getCell(6)) != null) {
+                        courtCase.setLoanDate(getDateCellValue(row.getCell(6)));
+                    }
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(7)))) {
-                        //english
+                        // english
                         courtCase.setTermOfLoanEn(getCellValue(row.getCell(7)));
 
-                        //marathi
+                        // marathi
                         courtCase.setTermOfLoan(translationServiceUtility.translationText(getCellValue(row.getCell(7))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
-                        //english
+                        // english
                         courtCase.setInterestRateEn(getCellAmountValue(row.getCell(8)));
 
-                        //marathi
+                        // marathi
                         courtCase.setInterestRate(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(9)))) {
-                        //english
+                        // english
                         courtCase.setInstallmentAmountEn(getCellAmountValue(row.getCell(9)));
 
-                        //marathi
+                        // marathi
                         courtCase.setInstallmentAmount(
                             translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(9)))
                         );
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(10)))) {
-                        //english
+                        // english
                         courtCase.setTotalCreditEn(getCellAmountValue(row.getCell(10)));
 
-                        //marathi
+                        // marathi
                         courtCase.setTotalCredit(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(10))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(11)))) {
-                        //english
+                        // english
                         courtCase.setBalanceEn(getCellAmountValue(row.getCell(11)));
 
-                        //marathi
+                        // marathi
                         courtCase.setBalance(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(11))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(12)))) {
-                        //english
+                        // english
                         courtCase.setInterestPaidEn(getCellAmountValue(row.getCell(12)));
 
-                        //marathi
+                        // marathi
                         courtCase.setInterestPaid(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(12))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(13)))) {
-                        //english
+                        // english
                         courtCase.setPenalInterestPaidEn(getCellAmountValue(row.getCell(13)));
 
-                        //marathi
+                        // marathi
                         courtCase.setPenalInterestPaid(
                             translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(13)))
                         );
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
-                        //english
+                        // english
                         courtCase.setDueAmountEn(getCellAmountValue(row.getCell(14)));
 
-                        //marathi
+                        // marathi
                         courtCase.setDueAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(14))));
                     }
 
-                    courtCase.setDueDate(getDateCellValue(row.getCell(15)));
-
+                    if (getDateCellValue(row.getCell(15)) != null) {
+                        courtCase.setDueDate(getDateCellValue(row.getCell(15)));
+                    }
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(16)))) {
-                        //english
+                        // english
                         courtCase.setDueInterestEn(getCellAmountValue(row.getCell(16)));
 
-                        //marathi
+                        // marathi
                         courtCase.setDueInterest(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(16))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(17)))) {
-                        //english
+                        // english
                         courtCase.setDuePenalInterestEn(getCellAmountValue(row.getCell(17)));
-                        //marathi
+                        // marathi
                         courtCase.setDuePenalInterest(
                             translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(17)))
                         );
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(18)))) {
-                        //english
+                        // english
                         courtCase.setDueMoreInterestEn(getCellAmountValue(row.getCell(18)));
-                        //marathi
+                        // marathi
                         courtCase.setDueMoreInterest(
                             translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(18)))
                         );
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(19)))) {
-                        //english
+                        // english
                         courtCase.setInterestRecivableEn(getCellAmountValue(row.getCell(19)));
-                        //marathi
+                        // marathi
                         courtCase.setInterestRecivable(
                             translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(19)))
                         );
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(20)))) {
-                        //english
+                        // english
                         courtCase.setGaurentorOneEn(getCellValue(row.getCell(20)));
-                        //marathi
+                        // marathi
                         courtCase.setGaurentorOne(translationServiceUtility.translationText(getCellValue(row.getCell(20))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(21)))) {
-                        //english
+                        // english
                         courtCase.setGaurentorOneAddressEn(getCellValue(row.getCell(21)));
-                        //marathi
+                        // marathi
                         courtCase.setGaurentorOneAddress(translationServiceUtility.translationText(getCellValue(row.getCell(21))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(22)))) {
-                        //english
+                        // english
                         courtCase.setGaurentorTwoEn(getCellValue(row.getCell(22)));
-                        //marathi
+                        // marathi
                         courtCase.setGaurentorTwo(translationServiceUtility.translationText(getCellValue(row.getCell(22))));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(23)))) {
-                        //english
+                        // english
                         courtCase.setGaurentorTwoAddressEn(getCellValue(row.getCell(23)));
-                        //marathi
+                        // marathi
                         courtCase.setGaurentorTwoAddress(translationServiceUtility.translationText(getCellValue(row.getCell(23))));
                     }
 
-                    courtCase.setFirstNoticeDate(getDateCellValue(row.getCell(24)));
+                    if (getDateCellValue(row.getCell(24)) != null) {
+                        courtCase.setFirstNoticeDate(getDateCellValue(row.getCell(24)));
+                    }
+                    if (getDateCellValue(row.getCell(25)) != null) {
+                        courtCase.setSecondNoticeDate(getDateCellValue(row.getCell(25)));
+                    }
 
-                    courtCase.setSecondNoticeDate(getDateCellValue(row.getCell(25)));
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(26)))) {
+                        // english
+                        courtCase.setBankNameEn(getCellValue(row.getCell(26)));
+                        // marathi
+                        courtCase.setBankName(translationServiceUtility.translationText(getCellValue(row.getCell(26))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(27)))) {
+                        // english
+                        courtCase.setTalukaNameEn(getCellValue(row.getCell(27)));
+                        // marathi
+                        courtCase.setTalukaName(translationServiceUtility.translationText(getCellValue(row.getCell(27))));
+                    }
 
                     courtCaseList.add(courtCase);
                 }
@@ -682,6 +834,13 @@ public class CourtCaseResource {
     public ResponseEntity<CourtCase> getCourtCase(@PathVariable Long id) {
         log.debug("REST request to get CourtCase : {}", id);
         Optional<CourtCase> courtCase = courtCaseService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(courtCase);
+    }
+
+    @GetMapping("/court-cases1/{nameOFdef}")
+    public ResponseEntity<CourtCase> getCourtCase(@PathVariable String nameOFdef) {
+        log.debug("REST request to get CourtCase : {}", nameOFdef);
+        Optional<CourtCase> courtCase = courtCaseRepository.findOneByNameOfDefaulter(nameOFdef);
         return ResponseUtil.wrapOrNotFound(courtCase);
     }
 

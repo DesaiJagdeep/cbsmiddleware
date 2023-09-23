@@ -88,6 +88,14 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
             if (criteria.getSrNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSrNo(), CourtCase_.srNo));
             }
+
+            if (criteria.getTalukaName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTalukaName(), CourtCase_.talukaName));
+            }
+            if (criteria.getBankName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBankName(), CourtCase_.bankName));
+            }
+
             if (criteria.getAccountNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAccountNo(), CourtCase_.accountNo));
             }

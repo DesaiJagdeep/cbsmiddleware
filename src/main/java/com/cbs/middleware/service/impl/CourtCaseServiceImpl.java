@@ -232,6 +232,22 @@ public class CourtCaseServiceImpl implements CourtCaseService {
             // courtCase.setFirstNoticeDate(courtCase.getFirstNoticeDate());
 
             // courtCase.setSecondNoticeDate(courtCase.getSecondNoticeDate());
+
+            if (StringUtils.isNotBlank(courtCase.getBankName())) {
+                // english
+                courtCase.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getBankName()));
+                // marathi
+                // courtCase.setBankName(courtCase.getBankName());
+
+            }
+
+            if (StringUtils.isNotBlank(courtCase.getTalukaName())) {
+                // english
+                courtCase.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getTalukaName()));
+                // marathi
+                // courtCase.setTalukaName(courtCase.getTalukaName());
+
+            }
         } catch (Exception e) {}
 
         return courtCaseRepository.save(courtCase);
@@ -528,6 +544,30 @@ public class CourtCaseServiceImpl implements CourtCaseService {
             // courtCase.setFirstNoticeDate(courtCase.getFirstNoticeDate());
 
             // courtCase.setSecondNoticeDate(courtCase.getSecondNoticeDate());
+
+            if (
+                StringUtils.isNotBlank(courtCase.getTalukaName()) &&
+                StringUtils.isNotBlank(courtCaseCheck.getTalukaName()) &&
+                !courtCase.getTalukaName().equals(courtCaseCheck.getTalukaName())
+            ) {
+                // english
+                courtCase.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getTalukaName()));
+                // marathi
+                // courtCase.setTalukaName(courtCase.getTalukaName());
+
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getBankName()) &&
+                StringUtils.isNotBlank(courtCaseCheck.getBankName()) &&
+                !courtCase.getBankName().equals(courtCaseCheck.getBankName())
+            ) {
+                // english
+                courtCase.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getBankName()));
+                // marathi
+                // courtCase.setBankName(courtCase.getBankName());
+
+            }
         } catch (Exception e) {}
 
         return courtCaseRepository.save(courtCase);

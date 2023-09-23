@@ -156,6 +156,22 @@ public class CourtCaseSettingServiceImpl implements CourtCaseSettingService {
                 // courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(courtCaseSetting.getMeetingTime()));
 
             }
+
+            if (StringUtils.isNotBlank(courtCaseSetting.getBankName())) {
+                // english
+                courtCaseSetting.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCaseSetting.getBankName()));
+                // marathi
+                // courtCaseSetting.setBankName(courtCase.getBankName());
+
+            }
+
+            if (StringUtils.isNotBlank(courtCaseSetting.getTalukaName())) {
+                // english
+                courtCaseSetting.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCaseSetting.getTalukaName()));
+                // marathi
+                // courtCaseSetting.setTalukaName(courtCase.getTalukaName());
+
+            }
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -341,6 +357,30 @@ public class CourtCaseSettingServiceImpl implements CourtCaseSettingService {
                 courtCaseSetting.setMeetingTimeEn(translationServiceUtility.translationTextMrToEn(courtCaseSetting.getMeetingTime()));
                 // Marathi
                 // courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(courtCaseSetting.getMeetingTime()));
+
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCaseSetting.getTalukaName()) &&
+                StringUtils.isNotBlank(courtCaseSettingCheck.getTalukaName()) &&
+                !courtCaseSetting.getTalukaName().equals(courtCaseSettingCheck.getTalukaName())
+            ) {
+                // English
+                courtCaseSetting.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCaseSetting.getTalukaName()));
+                // Marathi
+                // courtCaseSetting.setTalukaName(translationServiceUtility.translationText(courtCaseSetting.getTalukaName()));
+
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCaseSetting.getBankName()) &&
+                StringUtils.isNotBlank(courtCaseSettingCheck.getBankName()) &&
+                !courtCaseSetting.getBankName().equals(courtCaseSettingCheck.getBankName())
+            ) {
+                // English
+                courtCaseSetting.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCaseSetting.getBankName()));
+                // Marathi
+                // courtCaseSetting.getBankName(translationServiceUtility.translationText(courtCaseSetting.getBankName()));
 
             }
         } catch (Exception e) {

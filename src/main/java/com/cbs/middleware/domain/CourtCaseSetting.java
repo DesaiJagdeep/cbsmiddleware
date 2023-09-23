@@ -25,6 +25,12 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "unique_file_name")
     private String uniqueFileName;
 
+    @Column(name = "bank_name")
+    private String bankName;
+
+    @Column(name = "taluka_name")
+    private String talukaName;
+
     @Column(name = "vasuli_adhikari_name")
     private String vasuliAdhikariName;
 
@@ -68,6 +74,13 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     private String meetingTime;
 
     //English Data
+
+    @Column(name = "bank_name_en")
+    private String bankNameEn;
+
+    @Column(name = "taluka_name_en")
+    private String talukaNameEn;
+
     @Column(name = "vasuli_adhikari_name_en")
     private String vasuliAdhikariNameEn;
 
@@ -418,6 +431,38 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     public CourtCaseSetting meetingTime(String meetingTime) {
         this.setMeetingTime(meetingTime);
         return this;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getTalukaName() {
+        return talukaName;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
+    }
+
+    public String getBankNameEn() {
+        return bankNameEn;
+    }
+
+    public void setBankNameEn(String bankNameEn) {
+        this.bankNameEn = bankNameEn;
+    }
+
+    public String getTalukaNameEn() {
+        return talukaNameEn;
+    }
+
+    public void setTalukaNameEn(String talukaNameEn) {
+        this.talukaNameEn = talukaNameEn;
     }
 
     public void setMeetingTime(String meetingTime) {

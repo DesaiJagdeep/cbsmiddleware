@@ -341,6 +341,20 @@ public class CourtCaseSettingResource {
                         courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(getCellValue(row.getCell(13))));
                     }
 
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
+                        // english
+                        courtCaseSetting.setBankNameEn(getCellValue(row.getCell(14)));
+                        // marathi
+                        courtCaseSetting.setBankName(translationServiceUtility.translationText(getCellValue(row.getCell(14))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(15)))) {
+                        // english
+                        courtCaseSetting.setTalukaNameEn(getCellValue(row.getCell(15)));
+                        // marathi
+                        courtCaseSetting.setTalukaName(translationServiceUtility.translationText(getCellValue(row.getCell(15))));
+                    }
+
                     courtCaseSettingList.add(courtCaseSetting);
                 }
             }

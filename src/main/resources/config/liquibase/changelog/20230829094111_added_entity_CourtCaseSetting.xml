@@ -21,6 +21,12 @@
             <column name="unique_file_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+             <column name="bank_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="vasuli_adhikari_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -65,7 +71,12 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
             <!-- English Data -->
-            
+             <column name="bank_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="vasuli_adhikari_name_en" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

@@ -277,12 +277,11 @@ public class CourtCaseResource {
             // Create ConverterProperties and set the font provider
             ConverterProperties converterProperties = new ConverterProperties();
             FontProvider fontProvider = new FontProvider();
-            fontProvider.addFont(
-                "D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf",
-                PdfEncodings.IDENTITY_H
-            );
-            // fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf",
-            // PdfEncodings.IDENTITY_H);
+            //fontProvider.addFont(
+            //    "D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf",
+            //   PdfEncodings.IDENTITY_H
+            //);
+            fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
 

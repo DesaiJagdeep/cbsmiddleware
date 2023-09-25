@@ -1,7 +1,6 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.NotificationService;
@@ -10,12 +9,11 @@ import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,7 +90,7 @@ public class NotificationResource {
      * or with status {@code 500 (Internal Server Error)} if the notification couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    // @PutMapping("/notifications/{id}")
+    @PutMapping("/notifications/{id}")
     public ResponseEntity<Notification> updateNotification(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody Notification notification
@@ -185,21 +180,32 @@ public class NotificationResource {
     @GetMapping("/unread-notifications")
     public ResponseEntity<List<Notification>> getNotifications(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Notifications");
-
+        Long count = 0l;
         Page<Notification> page = null;
         Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page = notificationService.findTop6ByIsReadFalseAndPacsNumber(pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+
+            count = notificationRepository.findCountByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
             page = notificationService.findTop6ByIsReadFalseAndBranchCode(pageable, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+
+            count = notificationRepository.findCountByIsReadFalseAndBranchCode(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = notificationService.findTop6ByIsReadFalse(pageable);
+
+            count = notificationRepository.findCountByIsReadFalse();
         } else {
             throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
 
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Count", "" + count);
+        List<String> contentDispositionList = new ArrayList<>();
+        contentDispositionList.add("X-Total-Count");
+
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 

@@ -1,13 +1,12 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.AccountHolderMaster;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.TalukaMaster;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.service.TalukaMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -60,6 +59,9 @@ public class TalukaMasterResource {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    TranslationServiceUtility translationServiceUtility;
+
     public TalukaMasterResource(TalukaMasterService talukaMasterService, TalukaMasterRepository talukaMasterRepository) {
         this.talukaMasterService = talukaMasterService;
         this.talukaMasterRepository = talukaMasterRepository;
@@ -79,6 +81,11 @@ public class TalukaMasterResource {
         if (talukaMaster.getId() != null) {
             throw new BadRequestAlertException("A new talukaMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        try {
+            talukaMaster.setTalukaNameMr(translationServiceUtility.translationText(talukaMaster.getTalukaName()));
+        } catch (Exception e) {}
+
         TalukaMaster result = talukaMasterService.save(talukaMaster);
 
         if (result != null) {
@@ -125,6 +132,13 @@ public class TalukaMasterResource {
         if (!talukaMasterRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+
+        try {
+            System.out.println(
+                ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + translationServiceUtility.translationText(talukaMaster.getTalukaName())
+            );
+            talukaMaster.setTalukaNameMr(translationServiceUtility.translationText(talukaMaster.getTalukaName()));
+        } catch (Exception e) {}
 
         TalukaMaster result = talukaMasterService.update(talukaMaster);
 

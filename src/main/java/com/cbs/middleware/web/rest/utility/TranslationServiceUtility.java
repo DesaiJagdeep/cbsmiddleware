@@ -44,6 +44,7 @@ public class TranslationServiceUtility {
 
         if (translationResponse.getStatusCode().is2xxSuccessful()) {
             returnText = translationResponse.getBody().getData().getTranslations().get(0).getTranslatedText();
+            System.out.println("..................................." + returnText);
         }
 
         return returnText;

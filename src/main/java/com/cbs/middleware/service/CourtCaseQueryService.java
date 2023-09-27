@@ -58,6 +58,13 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
         return courtCaseRepository.findAll(specification, page);
     }
 
+    @Transactional(readOnly = true)
+    public List<CourtCase> findByCriteriaWithputPage(CourtCaseCriteria criteria) {
+        log.debug("find by criteria : {}, page: {}", criteria);
+        final Specification<CourtCase> specification = createSpecification(criteria);
+        return courtCaseRepository.findAll(specification);
+    }
+
     /**
      * Return the number of matching entities in the database.
      * @param criteria The object which holds all the filters, which the entities should match.

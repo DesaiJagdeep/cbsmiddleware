@@ -24,6 +24,9 @@ public class BankMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "bank_name")
     private String bankName;
 
+    @Column(name = "bank_name_mr")
+    private String bankNameMr;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -46,6 +49,14 @@ public class BankMaster extends AbstractAuditingEntity<Long> implements Serializ
     public BankMaster bankCode(String bankCode) {
         this.setBankCode(bankCode);
         return this;
+    }
+
+    public String getBankNameMr() {
+        return bankNameMr;
+    }
+
+    public void setBankNameMr(String bankNameMr) {
+        this.bankNameMr = bankNameMr;
     }
 
     public void setBankCode(String bankCode) {

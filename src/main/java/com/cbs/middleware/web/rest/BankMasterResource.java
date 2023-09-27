@@ -8,6 +8,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.BankMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -60,6 +61,9 @@ public class BankMasterResource {
     @Autowired
     NotificationDataUtility notificationDataUtility;
 
+    @Autowired
+    TranslationServiceUtility translationServiceUtility;
+
     public BankMasterResource(BankMasterService bankMasterService, BankMasterRepository bankMasterRepository) {
         this.bankMasterService = bankMasterService;
         this.bankMasterRepository = bankMasterRepository;
@@ -79,6 +83,10 @@ public class BankMasterResource {
         if (bankMaster.getId() != null) {
             throw new BadRequestAlertException("A new bankMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
+        try {
+            bankMaster.setBankNameMr(translationServiceUtility.translationText(bankMaster.getBankName()));
+        } catch (Exception e) {}
         BankMaster result = bankMasterService.save(bankMaster);
 
         if (result != null) {
@@ -137,6 +145,10 @@ public class BankMasterResource {
         if (!bankMasterRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+
+        try {
+            bankMaster.setBankNameMr(translationServiceUtility.translationText(bankMaster.getBankName()));
+        } catch (Exception e) {}
 
         BankMaster result = bankMasterService.update(bankMaster);
 

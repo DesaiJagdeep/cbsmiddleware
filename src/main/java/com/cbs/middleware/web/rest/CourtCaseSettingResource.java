@@ -12,7 +12,22 @@ import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.io.font.FontProgram;
+import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.layer.PdfLayer;
+import com.itextpdf.kernel.pdf.layer.PdfOCProperties;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Text;
 import java.io.File;
+import java.io.File;
+import java.io.IOException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -114,6 +129,33 @@ public class CourtCaseSettingResource {
      *         {@code 400 (Bad Request)} if the courtCaseSetting has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
+
+    @GetMapping("/testFile")
+    public void testFile() throws Exception {
+        String REGULAR = "C:\\\\Users\\\\swapnilp\\\\Desktop\\\\Noto_Sans\\\\NotoSans-Regular.ttf";
+
+        PdfDocument pdf = new PdfDocument(new PdfWriter("D:\\PDCC\\certificate14.pdf"));
+
+        List<PdfLayer> layers = pdf.getCatalog().getOCProperties(true).getLayers();
+
+        for (PdfLayer pdfLayer : layers) {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>" + pdfLayer.getTitle());
+        }
+
+        // Initialize document
+        Document document = new Document(pdf);
+
+        // Add content
+        FontProgram fontProgram = FontProgramFactory.createFont(REGULAR);
+        PdfFont font = PdfFontFactory.createFont(fontProgram, PdfEncodings.IDENTITY_H, EmbeddingStrategy.FORCE_EMBEDDED);
+        Text title = new Text("पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित,").setFont(font);
+        Text author = new Text("Robert Louis Stevenson").setFont(font);
+        Paragraph p = new Paragraph().setFont(font).add(title).add(" by ").add(author);
+        document.add(p);
+
+        //Close document
+        document.close();
+    }
 
     @PostMapping("/court-case-setting-file")
     public ResponseEntity<List<CourtCaseSetting>> createCourtCaseFile(

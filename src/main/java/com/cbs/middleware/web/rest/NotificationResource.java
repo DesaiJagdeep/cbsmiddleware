@@ -7,6 +7,12 @@ import com.cbs.middleware.service.NotificationService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfWriter;
+import java.awt.Graphics2D;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -148,6 +154,24 @@ public class NotificationResource {
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, notification.getId().toString())
         );
+    }
+
+    @GetMapping("/testcw")
+    public void test() throws DocumentException, FileNotFoundException {
+        String RESULT = "D:\\PDCC\\certificate14.pdf";
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(RESULT));
+        document.open();
+        int w = 400;
+        int h = 150;
+
+        PdfContentByte cb = writer.getDirectContent();
+        PdfTemplate tp = cb.createTemplate(w, h);
+        Graphics2D g2 = tp.createGraphicsShapes(w, h);
+        g2.drawString("मराठी ग्रीटींग्स, मराठी शुभेच्छापत्रे", 20, 100);
+        g2.dispose();
+        cb.addTemplate(tp, 50, 400);
+        document.close();
     }
 
     /**

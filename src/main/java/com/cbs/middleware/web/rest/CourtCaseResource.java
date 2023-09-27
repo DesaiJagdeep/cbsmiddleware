@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.CourtCase;
+import com.cbs.middleware.domain.One01ReportParam;
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseQueryService;
@@ -16,6 +17,8 @@ import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.layout.font.FontProvider;
+import com.itextpdf.layout.font.Range;
+import com.itextpdf.layout.font.RangeBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +78,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -118,185 +122,93 @@ public class CourtCaseResource {
         this.courtCaseQueryService = courtCaseQueryService;
     }
 
-    @GetMapping("/pdfTest")
-    public Object generatePDFFromHTML() throws Exception {
-        //Optional<CourtCase> courtCase = courtCaseRepository.findById(2l);
+    @PostMapping("/oneZeroOneNoticePdf")
+    public Object generatePDFFromHTML(@RequestBody One01ReportParam one01ReportParam) throws Exception {
+        CourtCaseCriteria criteria = new CourtCaseCriteria();
+        List<CourtCase> courtCaseList = new ArrayList<>();
+
+        if (StringUtils.isNotBlank(one01ReportParam.getSabhasadName())) {
+            StringFilter talukaFilter = new StringFilter();
+            talukaFilter.setEquals(one01ReportParam.getTalukaName());
+
+            StringFilter bankFilter = new StringFilter();
+            bankFilter.setEquals(one01ReportParam.getBankName());
+
+            criteria.setTalukaName(talukaFilter);
+            criteria.setBankName(bankFilter);
+
+            courtCaseList = courtCaseQueryService.findByCriteriaWithputPage(criteria);
+        } else {
+            StringFilter talukaFilter = new StringFilter();
+            talukaFilter.setEquals(one01ReportParam.getTalukaName());
+
+            StringFilter bankFilter = new StringFilter();
+            bankFilter.setEquals(one01ReportParam.getBankName());
+
+            criteria.setTalukaName(talukaFilter);
+            criteria.setBankName(bankFilter);
+
+            courtCaseList = courtCaseQueryService.findByCriteriaWithputPage(criteria);
+        }
 
         DateFormat Date = DateFormat.getDateInstance();
         Calendar cals = Calendar.getInstance();
         String currentDate = Date.format(cals.getTime());
         System.out.println("Formatted Date: " + currentDate);
 
-        String HTML =
-            "<html>\r\n" +
-            "\r\n" +
-            "<style>\r\n" +
-            "    h1 {\r\n" +
-            "        text-align: center;\r\n" +
-            "    }\r\n" +
-            "\r\n" +
-            "    p {\r\n" +
-            "        text-align: center;\r\n" +
-            "    }\r\n" +
-            "\r\n" +
-            "    table,\r\n" +
-            "    th,\r\n" +
-            "    td {\r\n" +
-            "        border: 1px solid black;\r\n" +
-            "        border-collapse: collapse;\r\n" +
-            "    }\r\n" +
-            "</style>\r\n" +
-            "\r\n" +
-            "<head>\r\n" +
-            "    <div class=\"h1\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</div>\r\n" +
-            "    <div class=\"h1\">मुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.</div>\r\n" +
-            "    <div class=\"h1\">punedc@mail.com</div>\r\n" +
-            "    <div>____________________________________________</div>\r\n" +
-            "</head>\r\n" +
-            "\r\n" +
-            "<body>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">१०१ नुसार कारवाई करणेपूर्वीची नोटीस </div>\r\n" +
-            "    <div class=\"\">रजिस्टर ए.डी./ यु.पी.सी.</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">जा.क्र. / २०२३-२४ /</div>\r\n" +
-            "    <div class=\"\">रजिस्टर ए.डी./ यु.पी.सी.</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">दिनांक :- / /२०</div>\r\n" +
-            "    <div></div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">कर्ज खाते क्रमांक :-</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">कर्जदार :- श्री. / श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">१) जामीनदार :- श्री. / श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">२) जामीनदार :- श्री. /श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
-            "\r\n" +
-            "    <div class=\"\">३) जामीनदार :- श्री. /श्रीमती___________________</div>\r\n" +
-            "    <div class=\"\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "    <div class=\"\">/div>\r\n" +
-            "\r\n" +
-            "        <div class=\"\"> विषय: थकीत कर्ज परतफेड करणेबाबत..</div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        <div class=\"\"> तुम्हास नोटीस देण्यात येते की,</div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        <div class=\"\">१. तुम्ही बँकेच्या_________शाखेकडून दिनांक / /२० रोजी कर्ज योजने अंतर्गत कारणासाठी रूपये\r\n" +
-            "\r\n" +
-            "            _________/- चे कर्ज द.सा.द.शे....... % व्याजदराने...... वर्षेच्या मुदतीने घेतले आहे.\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        </div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        <div class=\"\">\r\n" +
-            "\r\n" +
-            "            २. सदर कर्ज व्यवहारास श्री__________ व श्री____________हे व्यक्ति जामीनदार आहेत.\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        </div>\r\n" +
-            "\r\n" +
-            "\r\n" +
-            "        <div class=\"\">\r\n" +
-            "            ३. मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक / /२० रोजी रितसर वचन विट्टी, करारनामे\r\n" +
-            "            व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.\r\n" +
-            "        </div>\r\n" +
-            "\r\n" +
-            "        <div class=\"\">\r\n" +
-            "\r\n" +
-            "            ४. वचनचिठ्ठी व कारारनाम्यातील तपशीलाप्रमाणे तसेच तुम्ही सदर कर्ज रक्कम मंजूरी पत्रातील अटी व\r\n" +
-            "            शर्तीनुसार परतफेड करण्यास वैयक्तिक व सामुदायिक जबावदार आहात.\r\n" +
-            "        </div>\r\n" +
-            "        <div class=\"\">\r\n" +
-            "            5.आपण बँकेकडून घेतलेल्या कर्ज रकमेची परतफेड वेळेवर व करारातील अटी व शर्तीप्रमाणे केलेली नाही. म्हणून तुम्हास\r\n" +
-            "            या पूर्वीही नोटिस पाठविण्यात आल्या होत्या तरीही तुम्ही थकीत कर्जाच्या रकमेची संपूर्ण परतफेड केलेली नाही.\r\n" +
-            "            त्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम (१९०१ (१) अन्वये संबंधित मा. उपनिबंधक / मा. सहाय्यक\r\n" +
-            "            निबंधक, सहकारी संस्था यांचेकडे अर्ज दाखल करून वसूली दाखला मिळणेबाबतचा अर्ज करणे वावत्तचा निर्णय घेण्यात\r\n" +
-            "            आलेला आहे. तथापि तुम्हास एक संधी म्हणून सदर प्रकरणी अंतिम नोटिस देण्यात येत आहे.\r\n" +
-            "        </div>\r\n" +
-            "\r\n" +
-            "        <div class=\"\">\r\n" +
-            "            दिनांक\r\n" +
-            "            / /२० अखेर तुमचेकडून खालीलप्रमाणे येणे आहे.\r\n" +
-            "        </div>\r\n" +
-            "\r\n" +
-            "        <table>\r\n" +
-            "            <tbody>\r\n" +
-            "\r\n" +
-            "                <tr>\r\n" +
-            "                    <th> अनु. क्र.</th>\r\n" +
-            "                    <th>तपशील</th>\r\n" +
-            "                    <th>रक्कम रूपये</th>\r\n" +
-            "                </tr>\r\n" +
-            "                <tr>\r\n" +
-            "                    <td>१.</td>\r\n" +
-            "                    <td>२.</td>\r\n" +
-            "                    <td>३.</td>\r\n" +
-            "                </tr>\r\n" +
-            "                <tr>\r\n" +
-            "                    <td>मुद्दल</td>\r\n" +
-            "                    <td>व्याज येणे + दंड व्याज</td>\r\n" +
-            "                    <td>इतर खर्च - नोटिस इत्यादी</td>\r\n" +
-            "                </tr>\r\n" +
-            "                <tr>\r\n" +
-            "                    <td>रूपये.</td>\r\n" +
-            "                    <td>रूपये.</td>\r\n" +
-            "                    <td>रूपये.</td>\r\n" +
-            "                </tr>\r\n" +
-            "                <tr>\r\n" +
-            "                    <td></td>\r\n" +
-            "                    <td>रूपये :-</td>\r\n" +
-            "                    <td>रूपये.</td>\r\n" +
-            "                </tr>\r\n" +
-            "            </tbody>\r\n" +
-            "        </table>\r\n" +
-            "</body>\r\n" +
-            "\r\n" +
-            "</html>";
+        if (!courtCaseList.isEmpty()) {
+            CourtCase courtCase = courtCaseList.get(0);
 
-        try {
-            // IndicLigaturizer g = new DevanagariLigaturizer();
-            // String processed = g.process(HTML);
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + courtCase);
 
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            String HTML = OneZeroOneHtmlString(courtCase);
+            String HTML1 =
+                "<!DOCTYPE html>\n" +
+                "<html>\n" +
+                "<head>\n" +
+                "  <meta charset=\"UTF-8\">\n" +
+                " </head>\n" +
+                "<body>\n" +
+                "\n" +
+                "<p>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणेमुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.punedc@mail.com____________________________________________१०१ नुसार कारवाई करणेपूर्वीची नोटीसरजिस्टर ए.डी./ यु.पी.सी.जा.क्र. / </p>\n" +
+                "\n" +
+                "</body>\n" +
+                "</html>\n" +
+                "";
 
-            // Create ConverterProperties and set the font provider
-            ConverterProperties converterProperties = new ConverterProperties();
-            FontProvider fontProvider = new FontProvider();
-            //fontProvider.addFont(
-            //    "D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\NotoSansDevanagari-hinted\\NotoSansDevanagari-Regular.ttf",
-            //   PdfEncodings.IDENTITY_H
-            //);
-            fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
-            converterProperties.setFontProvider(fontProvider);
-            converterProperties.setCharset("UTF-8");
+            try {
+                // IndicLigaturizer g = new DevanagariLigaturizer();
+                // String processed = g.process(HTML);
 
-            HtmlConverter.convertToPdf(HTML, byteArrayOutputStream, converterProperties);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", "application/pdf");
-            headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+                // Create ConverterProperties and set the font provider
+                ConverterProperties converterProperties = new ConverterProperties();
 
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
+                FontProvider fontProvider = new FontProvider();
+                fontProvider.addFont("C:\\Users\\swapnilp\\Desktop\\Noto_Sans\\NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
+
+                //    			fontProvider.addFont("D:\\PDCC\\gitbranch\\cbs-middleware-document\\font\\FNTS\\Shivaji01.ttf",
+                //    					PdfEncodings.IDENTITY_H);
+
+                //fontProvider.addFont("/home/ubuntu/pdcc/NotoSansDevanagari-Regular.ttf", PdfEncodings.IDENTITY_H);
+                converterProperties.setFontProvider(fontProvider);
+                converterProperties.setCharset("UTF-8");
+
+                HtmlConverter.convertToPdf(HTML, byteArrayOutputStream, converterProperties);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Content-Type", "application/pdf");
+                headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+                headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+                ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+
+                return response;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return null;
     }
 
@@ -955,5 +867,348 @@ public class CourtCaseResource {
         }
 
         return localDate;
+    }
+
+    private String OneZeroOneHtmlString(CourtCase courtCase) {
+        return (
+            "<html>\n" +
+            "    <style>\n" +
+            "        .h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {\n" +
+            "            margin-top: 0;\n" +
+            "            margin-bottom: .5rem;\n" +
+            "            font-weight: 500;\n" +
+            "            line-height: 1.2;\n" +
+            "            color: var(--bs-heading-color)\n" +
+            "        }\n" +
+            "\n" +
+            "        .h1,h1 {\n" +
+            "            font-size: calc(1.375rem + 1.5vw)\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "        p {\n" +
+            "            margin-top: 0;\n" +
+            "            margin-bottom: 1rem\n" +
+            "        }\n" +
+            "\n" +
+            "        b,\n" +
+            "        strong {\n" +
+            "            font-weight: bolder\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "        table {\n" +
+            "            caption-side: bottom;\n" +
+            "            border-collapse: collapse\n" +
+            "        }\n" +
+            "\n" +
+            "        th {\n" +
+            "            text-align: inherit;\n" +
+            "            text-align: -webkit-match-parent\n" +
+            "        }\n" +
+            "\n" +
+            "        tbody,\n" +
+            "        td,\n" +
+            "        tfoot,\n" +
+            "        th,\n" +
+            "        thead,\n" +
+            "        tr {\n" +
+            "            border-color: inherit;\n" +
+            "            border-style: solid;\n" +
+            "            border-width: 0\n" +
+            "        }\n" +
+            "\n" +
+            "        .col {\n" +
+            "            flex: 1 0 0%\n" +
+            "        }\n" +
+            "\n" +
+            "        .d-flex {\n" +
+            "            display: flex !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .flex-row {\n" +
+            "            flex-direction: row !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .flex-row-reverse {\n" +
+            "            flex-direction: row-reverse !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-1 {\n" +
+            "            margin: .25rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-2 {\n" +
+            "            margin: .5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-3 {\n" +
+            "            margin: 1rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-4 {\n" +
+            "            margin: 1.5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-5 {\n" +
+            "            margin: 3rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .m-auto {\n" +
+            "            margin: auto !important\n" +
+            "        }\n" +
+            "\n" +
+            "    \n" +
+            "        .mt-0 {\n" +
+            "            margin-top: 0 !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .mt-1 {\n" +
+            "            margin-top: .25rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .mt-2 {\n" +
+            "            margin-top: .5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .mt-3 {\n" +
+            "            margin-top: 1rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .mt-4 {\n" +
+            "            margin-top: 1.5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .mt-5 {\n" +
+            "            margin-top: 3rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "        .p-0 {\n" +
+            "            padding: 0 !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .p-1 {\n" +
+            "            padding: .25rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .p-2 {\n" +
+            "            padding: .5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .p-3 {\n" +
+            "            padding: 1rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .p-4 {\n" +
+            "            padding: 1.5rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .p-5 {\n" +
+            "            padding: 3rem !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .text-end {\n" +
+            "            text-align: right !important\n" +
+            "        }\n" +
+            "\n" +
+            "        .text-center {\n" +
+            "            text-align: center !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .text-decoration-underline {\n" +
+            "            text-decoration: underline !important\n" +
+            "        }\n" +
+            "\n" +
+            "\n" +
+            "        .table {\n" +
+            "            border: 1px solid rgb(107, 107, 107) !important;\n" +
+            "        }\n" +
+            "\n" +
+            "        body {\n" +
+            "            font-family: Arial, sans-serif;\n" +
+            "            background-color: #f7f7f7;\n" +
+            "        }\n" +
+            "\n" +
+            "        table {\n" +
+            "            width: 100%;\n" +
+            "            border-collapse: collapse;\n" +
+            "            margin-top: 20px;\n" +
+            "        }\n" +
+            "\n" +
+            "        table,\n" +
+            "        th,\n" +
+            "        td {\n" +
+            "            border: 1px solid #ccc;\n" +
+            "        }\n" +
+            "\n" +
+            "        th,\n" +
+            "        td {\n" +
+            "            padding: 10px;\n" +
+            "        }\n" +
+            "\n" +
+            "    </style>\n" +
+            "\n" +
+            "<head>\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <div class=\"m-3\">\n" +
+            "    <h1 class=\"text-center mt-3\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</h1>\n" +
+            "    <h1 class=\"text-center\">मुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.</h1>\n" +
+            "    <h1 class=\"text-center\">punedc@mail.com</h1>\n" +
+            "    <div class=\"text-center\">____________________________________________</div>\n" +
+            "    </div>\n" +
+            "</head>\n" +
+            "\n" +
+            "<body>\n" +
+            "\n" +
+            "    <div class=\"m-3\">\n" +
+            "    <div class=\"text-center mt-3\" style=\"text-decoration:underline;\">१०१ नुसार कारवाई करणेपूर्वीची नोटीस </div>\n" +
+            "    <div class=\"text-center mt-1\" style=\"text-decoration:underline;\">रजिस्टर ए.डी./ यु.पी.सी.</div>\n" +
+            "\n" +
+            "    <div class=\"\">\n" +
+            "        <p>जा.क्र. / २०२३-२४ /</p>\n" +
+            "    </div>\n" +
+            "    <div class=\"d-flex flex-row-reverse p-2\">\n" +
+            "        <div>       \n" +
+            "         <p>दिनांक :- / /२०</p>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div></div>\n" +
+            "\n" +
+            "    <div>कर्ज खाते क्रमांक :-</div>\n" +
+            "\n" +
+            "    <div>कर्जदार :- श्री. / श्रीमती:- " +
+            courtCase.getNameOfDefaulter() +
+            "</div>\n" +
+            "\n" +
+            "    <div>राहणार :-" +
+            courtCase.getAddress() +
+            "</div>\n" +
+            "\n" +
+            "    <div>१) जामीनदार :- श्री. / श्रीमती:-" +
+            courtCase.getGaurentorOne() +
+            "</div>\n" +
+            "    <div>राहणार :- " +
+            courtCase.getGaurentorOneAddress() +
+            "</div>\n" +
+            "\n" +
+            "    <div>२) जामीनदार :- श्री. /श्रीमती:-" +
+            courtCase.getGaurentorTwo() +
+            "</div>\n" +
+            "    <div>राहणार :- " +
+            courtCase.getGaurentorTwoAddress() +
+            "</div>\n" +
+            "\n" +
+            "    <div class=\"mt-3\">\n" +
+            "\n" +
+            "        <p class=\"text-center\"> विषय: थकीत कर्ज परतफेड करणेबाबत..</p>\n" +
+            "\n" +
+            "\n" +
+            "        <p style=\"text-decoration: underline;\"> तुम्हास नोटीस देण्यात येते की,</p>\n" +
+            "\n" +
+            "\n" +
+            "        <p>१. तुम्ही बँकेच्या_________शाखेकडून दिनांक / /२० रोजी कर्ज योजने अंतर्गत कारणासाठी रूपये\n" +
+            "\n" +
+            "            _________/- चे कर्ज द.सा.द.शे....... % व्याजदराने...... वर्षेच्या मुदतीने घेतले आहे.\n" +
+            "\n" +
+            "\n" +
+            "\n" +
+            "        </p>\n" +
+            "\n" +
+            "\n" +
+            "        <p>\n" +
+            "\n" +
+            "            २. सदर कर्ज व्यवहारास श्री__________ व श्री____________हे व्यक्ति जामीनदार आहेत.\n" +
+            "\n" +
+            "\n" +
+            "        </p>\n" +
+            "\n" +
+            "\n" +
+            "        <p>\n" +
+            "            ३. मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक / /२० रोजी रितसर वचन विट्टी, करारनामे\n" +
+            "            व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.\n" +
+            "        </p>\n" +
+            "\n" +
+            "        <p>\n" +
+            "\n" +
+            "            ४. वचनचिठ्ठी व कारारनाम्यातील तपशीलाप्रमाणे तसेच तुम्ही सदर कर्ज रक्कम मंजूरी पत्रातील अटी व\n" +
+            "            शर्तीनुसार परतफेड करण्यास वैयक्तिक व सामुदायिक जबावदार आहात.\n" +
+            "        </p>\n" +
+            "        <p>\n" +
+            "            5.आपण बँकेकडून घेतलेल्या कर्ज रकमेची परतफेड वेळेवर व करारातील अटी व शर्तीप्रमाणे केलेली नाही. म्हणून तुम्हास\n" +
+            "            या पूर्वीही नोटिस पाठविण्यात आल्या होत्या तरीही तुम्ही थकीत कर्जाच्या रकमेची संपूर्ण परतफेड केलेली नाही.\n" +
+            "            त्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम (१९०१ (१) अन्वये संबंधित मा. उपनिबंधक / मा. सहाय्यक\n" +
+            "            निबंधक, सहकारी संस्था यांचेकडे अर्ज दाखल करून वसूली दाखला मिळणेबाबतचा अर्ज करणे वावत्तचा निर्णय घेण्यात\n" +
+            "            आलेला आहे. तथापि तुम्हास एक संधी म्हणून सदर प्रकरणी अंतिम नोटिस देण्यात येत आहे.\n" +
+            "        </p>\n" +
+            "\n" +
+            "        <b style=\"text-decoration: underline;\">\n" +
+            "            दिनांक\n" +
+            "            / /२० अखेर तुमचेकडून खालीलप्रमाणे येणे आहे.\n" +
+            "        </b>\n" +
+            "\n" +
+            "        <table>\n" +
+            "            <tbody>\n" +
+            "\n" +
+            "                <tr>\n" +
+            "                    <th> अनु. क्र.</th>\n" +
+            "                    <th>तपशील</th>\n" +
+            "                    <th>रक्कम रूपये</th>\n" +
+            "                </tr>\n" +
+            "                <tr>\n" +
+            "                    <td>१.</td>\n" +
+            "                    <td>मुद्दल</td>\n" +
+            "                    <td>रूपये.</td>\n" +
+            "               \n" +
+            "                  \n" +
+            "                </tr>\n" +
+            "                <tr>\n" +
+            "                    <td>२.</td>\n" +
+            "                    <td>व्याज येणे + दंड व्याज</td>\n" +
+            "                    <td>रूपये.</td>\n" +
+            "                </tr>\n" +
+            "                <tr>\n" +
+            "                    <td>३.</td>\n" +
+            "                    <td>इतर खर्च - नोटिस इत्यादी</td>\n" +
+            "                    <td>रूपये.</td>\n" +
+            "                </tr>\n" +
+            "                <tr>\n" +
+            "                    <td colspan=\"2\" class=\"text-end\">एकूण:-</td>\n" +
+            "                    <td>रूपये.</td>\n" +
+            "                </tr>\n" +
+            "            </tbody>\n" +
+            "        </table>\n" +
+            "    </div>\n" +
+            "\n" +
+            "\n" +
+            "    <div class=\"mt-3\">\n" +
+            "     <p>तरी तुम्हास या नोटिशीने कळविण्यात येत की, ही नोटीस मिळाल्यापासून अठ दिवसांच्या आत वर नमूद केल्याप्रमाणे रक्कम भरावी/सदर मुदतीत रक्कम न भरल्यास आपले विरूद्ध पुढील कायदेशीर कारवाई करण्यात येईल व त्याच्या खर्चाची व परिणामाची संपूर्ण जवाबदारी तुमचेवर राहील, याची नोंद घ्यावी.</p>\n" +
+            "    </div>\n" +
+            "\n" +
+            "    <div class=\"d-flex flex-row-reverse p-2\">\n" +
+            "        <div>       \n" +
+            "         <p>शाखा व्यवस्थापक / वसुली अधिकारी / विकास अधिकारी</p>\n" +
+            "           <span>विभाग :-</span>\n" +
+            "            <span class=\"m-5\">द्वारा :-</span>\n" +
+            "            <span>शाखा,</span>\n" +
+            "        \n" +
+            "         <p>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्या., पुणे</p>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "\n" +
+            "\n" +
+            "    </div>\n" +
+            "</body>\n" +
+            "\n" +
+            "</html>"
+        );
     }
 }

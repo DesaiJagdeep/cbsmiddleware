@@ -31,6 +31,15 @@
         "applicationLog": "Application Log",
         "applicationLogHistory": "Application Log History",
         "application": "Application",
+        "kamalMaryadaPatrak": "Kamal Maryada Patrak",
+        "activityType": "Activity Type",
+        "notification": "Notification",
+        "cbsDataReport": "Cbs Data Report",
+        "courtCaseSetting": "Court Case Setting",
+        "courtCase": "Court Case",
+        "courtCaseDetails": "Court Case Details",
+        "loanDemandKmPatrak": "Loan Demand KM Patrak",
+        "kmpUpload": "KMP Upload",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

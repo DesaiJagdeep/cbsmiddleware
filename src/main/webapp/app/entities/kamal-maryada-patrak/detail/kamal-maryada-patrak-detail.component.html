@@ -1,0 +1,94 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kamalMaryadaPatrak">
+      <h2 data-cy="kamalMaryadaPatrakDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.detail.title">Kamal Maryada Patrak</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropLoan">Crop Loan</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.cropLoan }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmChart">Km Chart</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.kmChart }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.demand">Demand</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.demand }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmSummary">Km Summary</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.kmSummary }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmDate">Km Date</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.kmDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toKMDate">To KM Date</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.toKMDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.coverPage">Cover Page</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.coverPage }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropTypeNumber">Crop Type Number</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.cropTypeNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropType">Crop Type</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.cropType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.fromHector">From Hector</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.fromHector }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toHector">To Hector</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.toHector }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.defaulterName">Defaulter Name</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.defaulterName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.suchakName">Suchak Name</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.suchakName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.anumodakName">Anumodak Name</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.anumodakName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.meetingDate">Meeting Date</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.meetingDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.resolutionNumber">Resolution Number</span></dt>
+        <dd>
+          <span>{{ kamalMaryadaPatrak.resolutionNumber }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/kamal-maryada-patrak', kamalMaryadaPatrak.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+{
+  "cbsMiddlewareApp": {
+    "kamalMaryadaPatrak": {
+      "home": {
+        "title": "Kamal Maryada Patraks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Kamal Maryada Patrak तयार करा",
+        "createOrEditLabel": "Kamal Maryada Patrak तयार किंवा संपादित करा",
+        "notFound": "No Kamal Maryada Patraks found"
+      },
+      "created": "Kamal Maryada Patrak [identifier: {{ param }}] तयार आहे",
+      "updated": "Kamal Maryada Patrak [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Kamal Maryada Patrak [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Kamal Maryada Patrak [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Kamal Maryada Patrak"
+      },
+      "id": "ID",
+      "cropLoan": "Crop Loan",
+      "kmChart": "Km Chart",
+      "demand": "Demand",
+      "kmSummary": "Km Summary",
+      "kmDate": "Km Date",
+      "toKMDate": "To KM Date",
+      "coverPage": "Cover Page",
+      "cropTypeNumber": "Crop Type Number",
+      "cropType": "Crop Type",
+      "fromHector": "From Hector",
+      "toHector": "To Hector",
+      "defaulterName": "Defaulter Name",
+      "suchakName": "Suchak Name",
+      "anumodakName": "Anumodak Name",
+      "meetingDate": "Meeting Date",
+      "resolutionNumber": "Resolution Number"
+    }
+  }
+}

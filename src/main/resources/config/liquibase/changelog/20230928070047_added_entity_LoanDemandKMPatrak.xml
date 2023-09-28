@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity LoanDemandKMPatrak.
+    -->
+    <changeSet id="20230928070047-1" author="jhipster">
+        <createTable tableName="loan_demandkmpatrak">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="demand_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="shares" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pid" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="demand_area" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jhi_check" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="goods" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sharesn" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="hn" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="area" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="h_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="khate_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="remaining" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="arrears" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_acceptance" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="paid_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pending_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="deposite_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="account_number_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loan_due" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="arrears_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="due_date_b" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_acceptance_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_code_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="h_agreement_number_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="h_agreement_area_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="h_agreement_burden_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_paid_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="demand_area_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="check_in_the_form_of_payment_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="shares_b" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="vasul_patra_repayment_date_b" type="date">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20230928070047-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/loan_demandkmpatrak.csv"
+                  separator=";"
+                  tableName="loan_demandkmpatrak"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="demand_code" type="string"/>
+            <column name="date" type="date"/>
+            <column name="km_date" type="date"/>
+            <column name="shares" type="string"/>
+            <column name="pid" type="string"/>
+            <column name="code" type="string"/>
+            <column name="demand_area" type="string"/>
+            <column name="crop_type" type="string"/>
+            <column name="total" type="string"/>
+            <column name="jhi_check" type="string"/>
+            <column name="goods" type="string"/>
+            <column name="sharesn" type="string"/>
+            <column name="hn" type="string"/>
+            <column name="area" type="string"/>
+            <column name="h_amount" type="string"/>
+            <column name="name" type="string"/>
+            <column name="khate_code" type="string"/>
+            <column name="remaining" type="string"/>
+            <column name="arrears" type="string"/>
+            <column name="km_acceptance" type="string"/>
+            <column name="paid_date" type="string"/>
+            <column name="km_code" type="string"/>
+            <column name="pending_date" type="date"/>
+            <column name="deposite_date" type="date"/>
+            <column name="account_number_b" type="string"/>
+            <column name="loan_due" type="string"/>
+            <column name="arrears_b" type="string"/>
+            <column name="due_date_b" type="date"/>
+            <column name="crop_b" type="string"/>
+            <column name="km_acceptance_b" type="string"/>
+            <column name="km_code_b" type="string"/>
+            <column name="h_agreement_number_b" type="string"/>
+            <column name="h_agreement_area_b" type="string"/>
+            <column name="h_agreement_burden_b" type="string"/>
+            <column name="total_paid_b" type="string"/>
+            <column name="demand_area_b" type="string"/>
+            <column name="check_in_the_form_of_payment_b" type="string"/>
+            <column name="shares_b" type="string"/>
+            <column name="vasul_patra_repayment_date_b" type="date"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,76 @@
+{
+  "changelogDate": "20230928064649",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "cropLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmChart",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "demand",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmSummary",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "toKMDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "coverPage",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "cropTypeNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fromHector",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "toHector",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defaulterName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "suchakName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "anumodakName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "meetingDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "resolutionNumber",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KamalMaryadaPatrak",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

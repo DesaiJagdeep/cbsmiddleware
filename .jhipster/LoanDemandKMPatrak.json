@@ -1,0 +1,169 @@
+{
+  "changelogDate": "20230928070047",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "demandCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "shares",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pid",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "demandArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "total",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "check",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "goods",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sharesn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hn",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "area",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "khateCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "remaining",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arrears",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmAcceptance",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paidDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pendingDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "depositeDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "accountNumberB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanDue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "arrearsB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDateB",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "cropB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmAcceptanceB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmCodeB",
+      "fieldType": "String",
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "hAgreementNumberB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hAgreementAreaB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hAgreementBurdenB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalPaidB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "demandAreaB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "checkInTheFormOfPaymentB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sharesB",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vasulPatraRepaymentDateB",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "LoanDemandKMPatrak",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

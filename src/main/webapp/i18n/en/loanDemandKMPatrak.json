@@ -1,0 +1,62 @@
+{
+  "cbsMiddlewareApp": {
+    "loanDemandKMPatrak": {
+      "home": {
+        "title": "Loan Demand KM Patraks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Loan Demand KM Patrak",
+        "createOrEditLabel": "Create or edit a Loan Demand KM Patrak",
+        "notFound": "No Loan Demand KM Patraks found"
+      },
+      "created": "A new Loan Demand KM Patrak is created with identifier {{ param }}",
+      "updated": "A Loan Demand KM Patrak is updated with identifier {{ param }}",
+      "deleted": "A Loan Demand KM Patrak is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Loan Demand KM Patrak {{ id }}?"
+      },
+      "detail": {
+        "title": "Loan Demand KM Patrak"
+      },
+      "id": "ID",
+      "demandCode": "Demand Code",
+      "date": "Date",
+      "kmDate": "Km Date",
+      "shares": "Shares",
+      "pid": "Pid",
+      "code": "Code",
+      "demandArea": "Demand Area",
+      "cropType": "Crop Type",
+      "total": "Total",
+      "check": "Check",
+      "goods": "Goods",
+      "sharesn": "Sharesn",
+      "hn": "Hn",
+      "area": "Area",
+      "hAmount": "H Amount",
+      "name": "Name",
+      "khateCode": "Khate Code",
+      "remaining": "Remaining",
+      "arrears": "Arrears",
+      "kmAcceptance": "Km Acceptance",
+      "paidDate": "Paid Date",
+      "kmCode": "Km Code",
+      "pendingDate": "Pending Date",
+      "depositeDate": "Deposite Date",
+      "accountNumberB": "Account Number B",
+      "loanDue": "Loan Due",
+      "arrearsB": "Arrears B",
+      "dueDateB": "Due Date B",
+      "cropB": "Crop B",
+      "kmAcceptanceB": "Km Acceptance B",
+      "kmCodeB": "Km Code B",
+      "hAgreementNumberB": "H Agreement Number B",
+      "hAgreementAreaB": "H Agreement Area B",
+      "hAgreementBurdenB": "H Agreement Burden B",
+      "totalPaidB": "Total Paid B",
+      "demandAreaB": "Demand Area B",
+      "checkInTheFormOfPaymentB": "Check In The Form Of Payment B",
+      "sharesB": "Shares B",
+      "vasulPatraRepaymentDateB": "Vasul Patra Repayment Date B"
+    }
+  }
+}

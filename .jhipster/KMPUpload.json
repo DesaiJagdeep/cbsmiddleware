@@ -1,0 +1,20 @@
+{
+  "changelogDate": "20230928074751",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "fileName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uniqueFileName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "KMPUpload",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "kMPUpload": {
+      "home": {
+        "title": "KMPUploads",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया KMP Upload बनाएँ",
+        "createOrEditLabel": "KMP Upload बनाएँ या संपादित करें",
+        "notFound": "No KMP Uploads found"
+      },
+      "created": "एक नया KMP Upload [identifier: {{ param }}] तैयार है",
+      "updated": "एक KMP Upload [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "KMP Upload [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "KMP Upload [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "KMP Upload"
+      },
+      "id": "ID",
+      "fileName": "File Name",
+      "uniqueFileName": "Unique File Name"
+    }
+  }
+}

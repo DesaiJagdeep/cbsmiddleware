@@ -1,0 +1,208 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-kamal-maryada-patrak-heading"
+        data-cy="KamalMaryadaPatrakCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.home.createOrEditLabel"
+      >
+        Create or edit a Kamal Maryada Patrak
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropLoan" for="field_cropLoan">Crop Loan</label>
+          <input type="text" class="form-control" name="cropLoan" id="field_cropLoan" data-cy="cropLoan" formControlName="cropLoan" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmChart" for="field_kmChart">Km Chart</label>
+          <input type="text" class="form-control" name="kmChart" id="field_kmChart" data-cy="kmChart" formControlName="kmChart" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.demand" for="field_demand">Demand</label>
+          <input type="text" class="form-control" name="demand" id="field_demand" data-cy="demand" formControlName="demand" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmSummary" for="field_kmSummary">Km Summary</label>
+          <input type="text" class="form-control" name="kmSummary" id="field_kmSummary" data-cy="kmSummary" formControlName="kmSummary" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmDate" for="field_kmDate">Km Date</label>
+          <div class="input-group">
+            <input
+              id="field_kmDate"
+              data-cy="kmDate"
+              type="text"
+              class="form-control"
+              name="kmDate"
+              ngbDatepicker
+              #kmDateDp="ngbDatepicker"
+              formControlName="kmDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="kmDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toKMDate" for="field_toKMDate">To KM Date</label>
+          <div class="input-group">
+            <input
+              id="field_toKMDate"
+              data-cy="toKMDate"
+              type="text"
+              class="form-control"
+              name="toKMDate"
+              ngbDatepicker
+              #toKMDateDp="ngbDatepicker"
+              formControlName="toKMDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="toKMDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.coverPage" for="field_coverPage">Cover Page</label>
+          <input type="checkbox" class="form-check" name="coverPage" id="field_coverPage" data-cy="coverPage" formControlName="coverPage" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropTypeNumber" for="field_cropTypeNumber"
+            >Crop Type Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="cropTypeNumber"
+            id="field_cropTypeNumber"
+            data-cy="cropTypeNumber"
+            formControlName="cropTypeNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropType" for="field_cropType">Crop Type</label>
+          <input type="text" class="form-control" name="cropType" id="field_cropType" data-cy="cropType" formControlName="cropType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.fromHector" for="field_fromHector">From Hector</label>
+          <input
+            type="text"
+            class="form-control"
+            name="fromHector"
+            id="field_fromHector"
+            data-cy="fromHector"
+            formControlName="fromHector"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toHector" for="field_toHector">To Hector</label>
+          <input type="text" class="form-control" name="toHector" id="field_toHector" data-cy="toHector" formControlName="toHector" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.defaulterName" for="field_defaulterName"
+            >Defaulter Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defaulterName"
+            id="field_defaulterName"
+            data-cy="defaulterName"
+            formControlName="defaulterName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.suchakName" for="field_suchakName">Suchak Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="suchakName"
+            id="field_suchakName"
+            data-cy="suchakName"
+            formControlName="suchakName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.anumodakName" for="field_anumodakName"
+            >Anumodak Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="anumodakName"
+            id="field_anumodakName"
+            data-cy="anumodakName"
+            formControlName="anumodakName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.meetingDate" for="field_meetingDate"
+            >Meeting Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_meetingDate"
+              data-cy="meetingDate"
+              type="text"
+              class="form-control"
+              name="meetingDate"
+              ngbDatepicker
+              #meetingDateDp="ngbDatepicker"
+              formControlName="meetingDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="meetingDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.resolutionNumber" for="field_resolutionNumber"
+            >Resolution Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="resolutionNumber"
+            id="field_resolutionNumber"
+            data-cy="resolutionNumber"
+            formControlName="resolutionNumber"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

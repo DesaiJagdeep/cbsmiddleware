@@ -1,0 +1,418 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-loan-demand-km-patrak-heading"
+        data-cy="LoanDemandKMPatrakCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.home.createOrEditLabel"
+      >
+        Create or edit a Loan Demand KM Patrak
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandCode" for="field_demandCode">Demand Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="demandCode"
+            id="field_demandCode"
+            data-cy="demandCode"
+            formControlName="demandCode"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.date" for="field_date">Date</label>
+          <div class="input-group">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="text"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmDate" for="field_kmDate">Km Date</label>
+          <div class="input-group">
+            <input
+              id="field_kmDate"
+              data-cy="kmDate"
+              type="text"
+              class="form-control"
+              name="kmDate"
+              ngbDatepicker
+              #kmDateDp="ngbDatepicker"
+              formControlName="kmDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="kmDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.shares" for="field_shares">Shares</label>
+          <input type="text" class="form-control" name="shares" id="field_shares" data-cy="shares" formControlName="shares" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pid" for="field_pid">Pid</label>
+          <input type="text" class="form-control" name="pid" id="field_pid" data-cy="pid" formControlName="pid" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.code" for="field_code">Code</label>
+          <input type="text" class="form-control" name="code" id="field_code" data-cy="code" formControlName="code" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandArea" for="field_demandArea">Demand Area</label>
+          <input
+            type="text"
+            class="form-control"
+            name="demandArea"
+            id="field_demandArea"
+            data-cy="demandArea"
+            formControlName="demandArea"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropType" for="field_cropType">Crop Type</label>
+          <input type="text" class="form-control" name="cropType" id="field_cropType" data-cy="cropType" formControlName="cropType" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.total" for="field_total">Total</label>
+          <input type="text" class="form-control" name="total" id="field_total" data-cy="total" formControlName="total" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.check" for="field_check">Check</label>
+          <input type="text" class="form-control" name="check" id="field_check" data-cy="check" formControlName="check" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.goods" for="field_goods">Goods</label>
+          <input type="text" class="form-control" name="goods" id="field_goods" data-cy="goods" formControlName="goods" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesn" for="field_sharesn">Sharesn</label>
+          <input type="text" class="form-control" name="sharesn" id="field_sharesn" data-cy="sharesn" formControlName="sharesn" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hn" for="field_hn">Hn</label>
+          <input type="text" class="form-control" name="hn" id="field_hn" data-cy="hn" formControlName="hn" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.area" for="field_area">Area</label>
+          <input type="text" class="form-control" name="area" id="field_area" data-cy="area" formControlName="area" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAmount" for="field_hAmount">H Amount</label>
+          <input type="text" class="form-control" name="hAmount" id="field_hAmount" data-cy="hAmount" formControlName="hAmount" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.khateCode" for="field_khateCode">Khate Code</label>
+          <input type="text" class="form-control" name="khateCode" id="field_khateCode" data-cy="khateCode" formControlName="khateCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.remaining" for="field_remaining">Remaining</label>
+          <input type="text" class="form-control" name="remaining" id="field_remaining" data-cy="remaining" formControlName="remaining" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrears" for="field_arrears">Arrears</label>
+          <input type="text" class="form-control" name="arrears" id="field_arrears" data-cy="arrears" formControlName="arrears" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptance" for="field_kmAcceptance"
+            >Km Acceptance</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="kmAcceptance"
+            id="field_kmAcceptance"
+            data-cy="kmAcceptance"
+            formControlName="kmAcceptance"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.paidDate" for="field_paidDate">Paid Date</label>
+          <input type="text" class="form-control" name="paidDate" id="field_paidDate" data-cy="paidDate" formControlName="paidDate" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCode" for="field_kmCode">Km Code</label>
+          <input type="text" class="form-control" name="kmCode" id="field_kmCode" data-cy="kmCode" formControlName="kmCode" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pendingDate" for="field_pendingDate"
+            >Pending Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_pendingDate"
+              data-cy="pendingDate"
+              type="text"
+              class="form-control"
+              name="pendingDate"
+              ngbDatepicker
+              #pendingDateDp="ngbDatepicker"
+              formControlName="pendingDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="pendingDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.depositeDate" for="field_depositeDate"
+            >Deposite Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_depositeDate"
+              data-cy="depositeDate"
+              type="text"
+              class="form-control"
+              name="depositeDate"
+              ngbDatepicker
+              #depositeDateDp="ngbDatepicker"
+              formControlName="depositeDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="depositeDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.accountNumberB" for="field_accountNumberB"
+            >Account Number B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="accountNumberB"
+            id="field_accountNumberB"
+            data-cy="accountNumberB"
+            formControlName="accountNumberB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.loanDue" for="field_loanDue">Loan Due</label>
+          <input type="text" class="form-control" name="loanDue" id="field_loanDue" data-cy="loanDue" formControlName="loanDue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrearsB" for="field_arrearsB">Arrears B</label>
+          <input type="text" class="form-control" name="arrearsB" id="field_arrearsB" data-cy="arrearsB" formControlName="arrearsB" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.dueDateB" for="field_dueDateB">Due Date B</label>
+          <div class="input-group">
+            <input
+              id="field_dueDateB"
+              data-cy="dueDateB"
+              type="text"
+              class="form-control"
+              name="dueDateB"
+              ngbDatepicker
+              #dueDateBDp="ngbDatepicker"
+              formControlName="dueDateB"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dueDateBDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropB" for="field_cropB">Crop B</label>
+          <input type="text" class="form-control" name="cropB" id="field_cropB" data-cy="cropB" formControlName="cropB" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptanceB" for="field_kmAcceptanceB"
+            >Km Acceptance B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="kmAcceptanceB"
+            id="field_kmAcceptanceB"
+            data-cy="kmAcceptanceB"
+            formControlName="kmAcceptanceB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCodeB" for="field_kmCodeB">Km Code B</label>
+          <input type="text" class="form-control" name="kmCodeB" id="field_kmCodeB" data-cy="kmCodeB" formControlName="kmCodeB" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementNumberB" for="field_hAgreementNumberB"
+            >H Agreement Number B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="hAgreementNumberB"
+            id="field_hAgreementNumberB"
+            data-cy="hAgreementNumberB"
+            formControlName="hAgreementNumberB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementAreaB" for="field_hAgreementAreaB"
+            >H Agreement Area B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="hAgreementAreaB"
+            id="field_hAgreementAreaB"
+            data-cy="hAgreementAreaB"
+            formControlName="hAgreementAreaB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementBurdenB" for="field_hAgreementBurdenB"
+            >H Agreement Burden B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="hAgreementBurdenB"
+            id="field_hAgreementBurdenB"
+            data-cy="hAgreementBurdenB"
+            formControlName="hAgreementBurdenB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.totalPaidB" for="field_totalPaidB"
+            >Total Paid B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="totalPaidB"
+            id="field_totalPaidB"
+            data-cy="totalPaidB"
+            formControlName="totalPaidB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandAreaB" for="field_demandAreaB"
+            >Demand Area B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="demandAreaB"
+            id="field_demandAreaB"
+            data-cy="demandAreaB"
+            formControlName="demandAreaB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.checkInTheFormOfPaymentB"
+            for="field_checkInTheFormOfPaymentB"
+            >Check In The Form Of Payment B</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="checkInTheFormOfPaymentB"
+            id="field_checkInTheFormOfPaymentB"
+            data-cy="checkInTheFormOfPaymentB"
+            formControlName="checkInTheFormOfPaymentB"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesB" for="field_sharesB">Shares B</label>
+          <input type="text" class="form-control" name="sharesB" id="field_sharesB" data-cy="sharesB" formControlName="sharesB" />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.vasulPatraRepaymentDateB"
+            for="field_vasulPatraRepaymentDateB"
+            >Vasul Patra Repayment Date B</label
+          >
+          <div class="input-group">
+            <input
+              id="field_vasulPatraRepaymentDateB"
+              data-cy="vasulPatraRepaymentDateB"
+              type="text"
+              class="form-control"
+              name="vasulPatraRepaymentDateB"
+              ngbDatepicker
+              #vasulPatraRepaymentDateBDp="ngbDatepicker"
+              formControlName="vasulPatraRepaymentDateB"
+            />
+            <button type="button" class="btn btn-secondary" (click)="vasulPatraRepaymentDateBDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

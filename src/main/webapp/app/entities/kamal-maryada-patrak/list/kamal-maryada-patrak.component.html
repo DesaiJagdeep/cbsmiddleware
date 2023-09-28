@@ -1,0 +1,213 @@
+<div>
+  <h2 id="page-heading" data-cy="KamalMaryadaPatrakHeading">
+    <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.home.title">Kamal Maryada Patraks</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-kamal-maryada-patrak"
+        [routerLink]="['/kamal-maryada-patrak/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.home.createLabel"> Create a new Kamal Maryada Patrak </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="kamalMaryadaPatraks?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.home.notFound">No Kamal Maryada Patraks found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="kamalMaryadaPatraks && kamalMaryadaPatraks.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropLoan">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropLoan">Crop Loan</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmChart">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmChart">Km Chart</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demand">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.demand">Demand</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmSummary">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmSummary">Km Summary</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.kmDate">Km Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="toKMDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toKMDate">To KM Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="coverPage">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.coverPage">Cover Page</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropTypeNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropTypeNumber">Crop Type Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.cropType">Crop Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fromHector">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.fromHector">From Hector</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="toHector">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.toHector">To Hector</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="defaulterName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.defaulterName">Defaulter Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="suchakName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.suchakName">Suchak Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="anumodakName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.anumodakName">Anumodak Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="meetingDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.meetingDate">Meeting Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="resolutionNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalMaryadaPatrak.resolutionNumber">Resolution Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kamalMaryadaPatrak of kamalMaryadaPatraks; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/kamal-maryada-patrak', kamalMaryadaPatrak.id, 'view']">{{ kamalMaryadaPatrak.id }}</a>
+          </td>
+          <td>{{ kamalMaryadaPatrak.cropLoan }}</td>
+          <td>{{ kamalMaryadaPatrak.kmChart }}</td>
+          <td>{{ kamalMaryadaPatrak.demand }}</td>
+          <td>{{ kamalMaryadaPatrak.kmSummary }}</td>
+          <td>{{ kamalMaryadaPatrak.kmDate | formatMediumDate }}</td>
+          <td>{{ kamalMaryadaPatrak.toKMDate | formatMediumDate }}</td>
+          <td>{{ kamalMaryadaPatrak.coverPage }}</td>
+          <td>{{ kamalMaryadaPatrak.cropTypeNumber }}</td>
+          <td>{{ kamalMaryadaPatrak.cropType }}</td>
+          <td>{{ kamalMaryadaPatrak.fromHector }}</td>
+          <td>{{ kamalMaryadaPatrak.toHector }}</td>
+          <td>{{ kamalMaryadaPatrak.defaulterName }}</td>
+          <td>{{ kamalMaryadaPatrak.suchakName }}</td>
+          <td>{{ kamalMaryadaPatrak.anumodakName }}</td>
+          <td>{{ kamalMaryadaPatrak.meetingDate | formatMediumDate }}</td>
+          <td>{{ kamalMaryadaPatrak.resolutionNumber }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/kamal-maryada-patrak', kamalMaryadaPatrak.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/kamal-maryada-patrak', kamalMaryadaPatrak.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(kamalMaryadaPatrak)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="kamalMaryadaPatraks && kamalMaryadaPatraks.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

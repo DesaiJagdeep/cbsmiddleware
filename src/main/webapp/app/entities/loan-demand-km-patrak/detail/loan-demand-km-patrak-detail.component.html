@@ -1,0 +1,186 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="loanDemandKMPatrak">
+      <h2 data-cy="loanDemandKMPatrakDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.detail.title">Loan Demand KM Patrak</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandCode">Demand Code</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.demandCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.date">Date</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmDate">Km Date</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.kmDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.shares">Shares</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.shares }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pid">Pid</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.pid }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.code">Code</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.code }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandArea">Demand Area</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.demandArea }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropType">Crop Type</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.cropType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.total">Total</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.total }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.check">Check</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.check }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.goods">Goods</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.goods }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesn">Sharesn</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.sharesn }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hn">Hn</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.hn }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.area">Area</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.area }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAmount">H Amount</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.hAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.name">Name</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.khateCode">Khate Code</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.khateCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.remaining">Remaining</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.remaining }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrears">Arrears</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.arrears }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptance">Km Acceptance</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.kmAcceptance }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.paidDate">Paid Date</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.paidDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCode">Km Code</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.kmCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pendingDate">Pending Date</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.pendingDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.depositeDate">Deposite Date</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.depositeDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.accountNumberB">Account Number B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.accountNumberB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.loanDue">Loan Due</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.loanDue }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrearsB">Arrears B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.arrearsB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.dueDateB">Due Date B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.dueDateB | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropB">Crop B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.cropB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptanceB">Km Acceptance B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.kmAcceptanceB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCodeB">Km Code B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.kmCodeB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementNumberB">H Agreement Number B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.hAgreementNumberB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementAreaB">H Agreement Area B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.hAgreementAreaB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementBurdenB">H Agreement Burden B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.hAgreementBurdenB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.totalPaidB">Total Paid B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.totalPaidB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandAreaB">Demand Area B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.demandAreaB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.checkInTheFormOfPaymentB">Check In The Form Of Payment B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.checkInTheFormOfPaymentB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesB">Shares B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.sharesB }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.vasulPatraRepaymentDateB">Vasul Patra Repayment Date B</span></dt>
+        <dd>
+          <span>{{ loanDemandKMPatrak.vasulPatraRepaymentDateB | formatMediumDate }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/loan-demand-km-patrak', loanDemandKMPatrak.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,374 @@
+<div>
+  <h2 id="page-heading" data-cy="LoanDemandKMPatrakHeading">
+    <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.home.title">Loan Demand KM Patraks</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-loan-demand-km-patrak"
+        [routerLink]="['/loan-demand-km-patrak/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.home.createLabel"> Create a new Loan Demand KM Patrak </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="loanDemandKMPatraks?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.home.notFound">No Loan Demand KM Patraks found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="loanDemandKMPatraks && loanDemandKMPatraks.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demandCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandCode">Demand Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.date">Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmDate">Km Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="shares">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.shares">Shares</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pid">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pid">Pid</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="code">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.code">Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demandArea">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandArea">Demand Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropType">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropType">Crop Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="total">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.total">Total</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="check">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.check">Check</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="goods">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.goods">Goods</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sharesn">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesn">Sharesn</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hn">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hn">Hn</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="area">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.area">Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAmount">H Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.name">Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="khateCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.khateCode">Khate Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="remaining">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.remaining">Remaining</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="arrears">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrears">Arrears</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmAcceptance">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptance">Km Acceptance</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="paidDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.paidDate">Paid Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCode">Km Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pendingDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.pendingDate">Pending Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="depositeDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.depositeDate">Deposite Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="accountNumberB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.accountNumberB">Account Number B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanDue">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.loanDue">Loan Due</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="arrearsB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.arrearsB">Arrears B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueDateB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.dueDateB">Due Date B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.cropB">Crop B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmAcceptanceB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmAcceptanceB">Km Acceptance B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmCodeB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.kmCodeB">Km Code B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hAgreementNumberB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementNumberB">H Agreement Number B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hAgreementAreaB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementAreaB">H Agreement Area B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hAgreementBurdenB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.hAgreementBurdenB">H Agreement Burden B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalPaidB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.totalPaidB">Total Paid B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demandAreaB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.demandAreaB">Demand Area B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="checkInTheFormOfPaymentB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.checkInTheFormOfPaymentB">Check In The Form Of Payment B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sharesB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.sharesB">Shares B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vasulPatraRepaymentDateB">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.loanDemandKMPatrak.vasulPatraRepaymentDateB">Vasul Patra Repayment Date B</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loanDemandKMPatrak of loanDemandKMPatraks; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/loan-demand-km-patrak', loanDemandKMPatrak.id, 'view']">{{ loanDemandKMPatrak.id }}</a>
+          </td>
+          <td>{{ loanDemandKMPatrak.demandCode }}</td>
+          <td>{{ loanDemandKMPatrak.date | formatMediumDate }}</td>
+          <td>{{ loanDemandKMPatrak.kmDate | formatMediumDate }}</td>
+          <td>{{ loanDemandKMPatrak.shares }}</td>
+          <td>{{ loanDemandKMPatrak.pid }}</td>
+          <td>{{ loanDemandKMPatrak.code }}</td>
+          <td>{{ loanDemandKMPatrak.demandArea }}</td>
+          <td>{{ loanDemandKMPatrak.cropType }}</td>
+          <td>{{ loanDemandKMPatrak.total }}</td>
+          <td>{{ loanDemandKMPatrak.check }}</td>
+          <td>{{ loanDemandKMPatrak.goods }}</td>
+          <td>{{ loanDemandKMPatrak.sharesn }}</td>
+          <td>{{ loanDemandKMPatrak.hn }}</td>
+          <td>{{ loanDemandKMPatrak.area }}</td>
+          <td>{{ loanDemandKMPatrak.hAmount }}</td>
+          <td>{{ loanDemandKMPatrak.name }}</td>
+          <td>{{ loanDemandKMPatrak.khateCode }}</td>
+          <td>{{ loanDemandKMPatrak.remaining }}</td>
+          <td>{{ loanDemandKMPatrak.arrears }}</td>
+          <td>{{ loanDemandKMPatrak.kmAcceptance }}</td>
+          <td>{{ loanDemandKMPatrak.paidDate }}</td>
+          <td>{{ loanDemandKMPatrak.kmCode }}</td>
+          <td>{{ loanDemandKMPatrak.pendingDate | formatMediumDate }}</td>
+          <td>{{ loanDemandKMPatrak.depositeDate | formatMediumDate }}</td>
+          <td>{{ loanDemandKMPatrak.accountNumberB }}</td>
+          <td>{{ loanDemandKMPatrak.loanDue }}</td>
+          <td>{{ loanDemandKMPatrak.arrearsB }}</td>
+          <td>{{ loanDemandKMPatrak.dueDateB | formatMediumDate }}</td>
+          <td>{{ loanDemandKMPatrak.cropB }}</td>
+          <td>{{ loanDemandKMPatrak.kmAcceptanceB }}</td>
+          <td>{{ loanDemandKMPatrak.kmCodeB }}</td>
+          <td>{{ loanDemandKMPatrak.hAgreementNumberB }}</td>
+          <td>{{ loanDemandKMPatrak.hAgreementAreaB }}</td>
+          <td>{{ loanDemandKMPatrak.hAgreementBurdenB }}</td>
+          <td>{{ loanDemandKMPatrak.totalPaidB }}</td>
+          <td>{{ loanDemandKMPatrak.demandAreaB }}</td>
+          <td>{{ loanDemandKMPatrak.checkInTheFormOfPaymentB }}</td>
+          <td>{{ loanDemandKMPatrak.sharesB }}</td>
+          <td>{{ loanDemandKMPatrak.vasulPatraRepaymentDateB | formatMediumDate }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/loan-demand-km-patrak', loanDemandKMPatrak.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/loan-demand-km-patrak', loanDemandKMPatrak.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(loanDemandKMPatrak)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="loanDemandKMPatraks && loanDemandKMPatraks.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

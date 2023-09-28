@@ -154,6 +154,21 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'cbsMiddlewareApp.courtCaseDetails.home.title' },
         loadChildren: () => import('./court-case-details/court-case-details.module').then(m => m.CourtCaseDetailsModule),
       },
+      {
+        path: 'kamal-maryada-patrak',
+        data: { pageTitle: 'cbsMiddlewareApp.kamalMaryadaPatrak.home.title' },
+        loadChildren: () => import('./kamal-maryada-patrak/kamal-maryada-patrak.module').then(m => m.KamalMaryadaPatrakModule),
+      },
+      {
+        path: 'loan-demand-km-patrak',
+        data: { pageTitle: 'cbsMiddlewareApp.loanDemandKMPatrak.home.title' },
+        loadChildren: () => import('./loan-demand-km-patrak/loan-demand-km-patrak.module').then(m => m.LoanDemandKMPatrakModule),
+      },
+      {
+        path: 'kmp-upload',
+        data: { pageTitle: 'cbsMiddlewareApp.kMPUpload.home.title' },
+        loadChildren: () => import('./kmp-upload/kmp-upload.module').then(m => m.KMPUploadModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

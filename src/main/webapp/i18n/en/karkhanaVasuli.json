@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "karkhanaVasuli": {
+      "home": {
+        "title": "Karkhana Vasulis",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Karkhana Vasuli",
+        "createOrEditLabel": "Create or edit a Karkhana Vasuli",
+        "notFound": "No Karkhana Vasulis found"
+      },
+      "created": "A new Karkhana Vasuli is created with identifier {{ param }}",
+      "updated": "A Karkhana Vasuli is updated with identifier {{ param }}",
+      "deleted": "A Karkhana Vasuli is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Karkhana Vasuli {{ id }}?"
+      },
+      "detail": {
+        "title": "Karkhana Vasuli"
+      },
+      "id": "ID",
+      "khataNumber": "Khata Number",
+      "name": "Name",
+      "societyName": "Society Name",
+      "talukaName": "Taluka Name",
+      "branchName": "Branch Name",
+      "defaulterName": "Defaulter Name"
+    }
+  }
+}

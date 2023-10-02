@@ -1,0 +1,105 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-karkhana-vasuli-heading"
+        data-cy="KarkhanaVasuliCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.home.createOrEditLabel"
+      >
+        Create or edit a Karkhana Vasuli
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.khataNumber" for="field_khataNumber">Khata Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="khataNumber"
+            id="field_khataNumber"
+            data-cy="khataNumber"
+            formControlName="khataNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.name" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.societyName" for="field_societyName">Society Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="societyName"
+            id="field_societyName"
+            data-cy="societyName"
+            formControlName="societyName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.talukaName" for="field_talukaName">Taluka Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="talukaName"
+            id="field_talukaName"
+            data-cy="talukaName"
+            formControlName="talukaName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.branchName" for="field_branchName">Branch Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="branchName"
+            id="field_branchName"
+            data-cy="branchName"
+            formControlName="branchName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.defaulterName" for="field_defaulterName"
+            >Defaulter Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defaulterName"
+            id="field_defaulterName"
+            data-cy="defaulterName"
+            formControlName="defaulterName"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

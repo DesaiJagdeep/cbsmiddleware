@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="karkhanaVasuli">
+      <h2 data-cy="karkhanaVasuliDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.detail.title">Karkhana Vasuli</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.khataNumber">Khata Number</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.khataNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.name">Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.societyName">Society Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.societyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.talukaName">Taluka Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.talukaName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.branchName">Branch Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.branchName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuli.defaulterName">Defaulter Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuli.defaulterName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/karkhana-vasuli', karkhanaVasuli.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

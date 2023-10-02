@@ -1,0 +1,36 @@
+{
+  "changelogDate": "20231002122853",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "khataNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "societyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talukaName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defaulterName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KarkhanaVasuli",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

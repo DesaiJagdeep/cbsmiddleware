@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "karkhanaVasuli": {
+      "home": {
+        "title": "Karkhana Vasulis",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Karkhana Vasuli तयार करा",
+        "createOrEditLabel": "Karkhana Vasuli तयार किंवा संपादित करा",
+        "notFound": "No Karkhana Vasulis found"
+      },
+      "created": "Karkhana Vasuli [identifier: {{ param }}] तयार आहे",
+      "updated": "Karkhana Vasuli [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Karkhana Vasuli [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Karkhana Vasuli [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Karkhana Vasuli"
+      },
+      "id": "ID",
+      "khataNumber": "Khata Number",
+      "name": "Name",
+      "societyName": "Society Name",
+      "talukaName": "Taluka Name",
+      "branchName": "Branch Name",
+      "defaulterName": "Defaulter Name"
+    }
+  }
+}

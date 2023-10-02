@@ -169,6 +169,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'cbsMiddlewareApp.kMPUpload.home.title' },
         loadChildren: () => import('./kmp-upload/kmp-upload.module').then(m => m.KMPUploadModule),
       },
+      {
+        path: 'karkhana-vasuli',
+        data: { pageTitle: 'cbsMiddlewareApp.karkhanaVasuli.home.title' },
+        loadChildren: () => import('./karkhana-vasuli/karkhana-vasuli.module').then(m => m.KarkhanaVasuliModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

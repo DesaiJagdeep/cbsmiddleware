@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface KMPUploadRepository extends JpaRepository<KMPUpload, Long> {}
+public interface KMPUploadRepository extends JpaRepository<KMPUpload, Long> {
+    boolean existsByFileName(String originalFilename);
+}

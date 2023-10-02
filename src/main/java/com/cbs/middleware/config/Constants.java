@@ -16,6 +16,11 @@ public final class Constants {
     public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
     public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
 
+    public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
+
+    //public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
+    //public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
+
     public static final String DefaultPassword = "User@123";
 
     public static final String PACKS_CODE_KEY = "packsCode";

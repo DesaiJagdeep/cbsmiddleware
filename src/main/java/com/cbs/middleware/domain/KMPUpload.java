@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kmpupload")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KMPUpload implements Serializable {
+public class KMPUpload extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

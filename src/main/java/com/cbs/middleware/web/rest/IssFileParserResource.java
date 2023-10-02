@@ -456,6 +456,8 @@ public class IssFileParserResource {
             imgbyte = files.getBytes();
             Files.write(path, imgbyte);
         } catch (IOException e) {
+            log.error("file not saved successfully", e);
+
             throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
         }
 

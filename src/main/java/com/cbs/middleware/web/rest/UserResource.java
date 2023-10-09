@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.User;
+import com.cbs.middleware.domain.UserFileDetails;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.MailService;
@@ -11,15 +12,37 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +63,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -312,5 +338,252 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "userManagement.deleted", login)).build();
+    }
+
+    @PostMapping("/master-user-upload")
+    public List<AdminUserDTO> createKMPFile(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes)
+        throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+        List<AdminUserDTO> UserList = new ArrayList<>();
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", "", "fileInvalid");
+        }
+
+        UserFileDetails userFileDetails = new UserFileDetails();
+        File originalFileDir = new File(Constants.USER_DETAIL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", "", "fileInvalid");
+        }
+
+        int filecount = 0;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+
+            Row row = null;
+            for (int i = 0; i < 10; i++) {
+                row = sheet.getRow(i); // Get the current row
+                String talukaFile = getCellValue(row.getCell(1));
+                if (StringUtils.isNotBlank(talukaFile)) {
+                    talukaFile = talukaFile.trim().replace("\n", " ").toLowerCase();
+                    if (!talukaFile.contains("taluka")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        Set<String> branchAdmin = new HashSet<>();
+        branchAdmin.add("ROLE_BRANCH_ADMIN");
+
+        Set<String> branchUser = new HashSet<>();
+        branchUser.add("ROLE_BRANCH_USER");
+
+        int startRowIndex = filecount + 1; // Starting row index
+
+        boolean falgForFileName = false;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                AdminUserDTO adminUserDTO = new AdminUserDTO();
+                if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+
+                    if (!falgForFileName) {
+                        userFileDetails.setFileName(files.getOriginalFilename());
+                        userFileDetails.setUniqueFileName(uniqueName + "." + fileExtension);
+                        falgForFileName = true;
+                    }
+
+                    // add logic for skipping records if exists
+
+                    String talukaName = getCellValue(row.getCell(0));
+
+                    if (StringUtils.isNotBlank(talukaName)) {
+                        System.out.println(">>>>>>>>>>>>>>>>>talukaName>>>>>>>>>>>>>>" + talukaName);
+                    }
+
+                    String branchName = getCellValue(row.getCell(1));
+
+                    if (StringUtils.isNotBlank(branchName)) {
+                        System.out.println(">>>>>>>>>>>>>>>>branchName>>>>>>>>>>>>>>>>" + branchName);
+
+                        adminUserDTO.setBankName(branchName);
+                    }
+
+                    String fullName = getCellValue(row.getCell(2));
+
+                    if (StringUtils.isNotBlank(fullName)) {
+                        String[] fullNameArray = fullName.split("\\s+");
+
+                        if (fullNameArray.length == 1) {
+                            String firstName = fullNameArray[0];
+                            adminUserDTO.setFirstName(firstName);
+                        } else if (fullNameArray.length == 2) {
+                            String firstName = fullNameArray[0];
+
+                            String lastName = fullNameArray[1];
+
+                            adminUserDTO.setFirstName(firstName);
+                            adminUserDTO.setLastName(lastName);
+                        } else if (fullNameArray.length == 3) {
+                            String firstName = fullNameArray[0];
+                            String middleName = fullNameArray[1];
+                            String lastName = fullNameArray[2];
+
+                            adminUserDTO.setFirstName(firstName);
+                            adminUserDTO.setMiddleName(middleName);
+                            adminUserDTO.setLastName(lastName);
+                        } else if (fullNameArray.length == 4) {
+                            String firstName = fullNameArray[0];
+                            String firstName1 = fullNameArray[1];
+                            String middleName = fullNameArray[2];
+                            String lastName = fullNameArray[3];
+
+                            adminUserDTO.setFirstName(firstName + " " + firstName1);
+                            adminUserDTO.setMiddleName(middleName);
+                            adminUserDTO.setLastName(lastName);
+                        }
+                    }
+                    String mobileNumber = getCellValue(row.getCell(3));
+
+                    if (StringUtils.isNotBlank(mobileNumber)) {
+                        System.out.println(">>>>>>>>>>>>>>>>mobileNumber>>>>>>>>>>>>>>>>" + mobileNumber);
+                        adminUserDTO.setMobileNumber(mobileNumber);
+                    }
+                    String emailName = getCellValue(row.getCell(4));
+
+                    if (StringUtils.isNotBlank(emailName)) {
+                        System.out.println(">>>>>>>>>>>>>>>>emailName>>>>>>>>>>>>>>>>" + emailName);
+                        adminUserDTO.setEmail(emailName);
+                    }
+                    String activeStatus = getCellValue(row.getCell(5));
+
+                    if (StringUtils.isNotBlank(activeStatus)) {
+                        System.out.println(">>>>>>>>>>>>>>>activeStatus>>>>>>>>>>>>>>>>" + activeStatus);
+                        if (activeStatus.equalsIgnoreCase("active")) {
+                            adminUserDTO.setActivated(true);
+                        } else {
+                            adminUserDTO.setActivated(false);
+                        }
+                    }
+                    String userType = getCellValue(row.getCell(6));
+
+                    if (StringUtils.isNotBlank(userType)) {
+                        System.out.println(">>>>>>>>>>>>userType>>>>>>>>>>>>>>>>>>>>" + userType);
+
+                        if (userType.equalsIgnoreCase("Cooperative Bank Branch Manager")) {
+                            adminUserDTO.setAuthorities(branchAdmin);
+                        } else if (userType.equalsIgnoreCase("Cooperative Bank Branch User")) {
+                            adminUserDTO.setAuthorities(branchUser);
+                        }
+                    }
+                    String schemeWiseBranchCode = getCellValue(row.getCell(7));
+
+                    if (StringUtils.isNotBlank(schemeWiseBranchCode)) {
+                        System.out.println(">>>>>>>>>>>>>>>>>branchCode>>>>>>>>>>>>>>>" + schemeWiseBranchCode);
+                        // adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
+
+                    }
+
+                    UserList.add(adminUserDTO);
+                }
+            }
+            //            if (!UserList.isEmpty()) {
+            //                userRepository.saveAll(UserList);
+            //                userFileDetailsRepository.save(userFileDetails);
+            //                if (UserList.get(0) != null) {
+            //                    try {
+            //                        notificationDataUtility.notificationData(
+            //                            "Master User file uploaded",
+            //                            "Master User file : " + files.getOriginalFilename() + " uploaded",
+            //                            false,
+            //                            UserList.get(0).getCreatedDate(),
+            //                            "masterUserListUploaded" // type
+            //                        );
+            //                    } catch (Exception e) {}
+            //                }
+            //
+            //                return ResponseEntity.ok().body(UserList);
+            //            } else {
+            //                throw new BadRequestAlertException("File is already parsed", "", "FileExist");
+            //            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", "", "nullColumn");
+        }
+
+        return UserList;
+    }
+
+    private static String getCellValue(Cell cell) {
+        String cellValue = "";
+
+        if (cell == null) {
+            cellValue = "";
+        } else if (cell.getCellType() == CellType.STRING) {
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+            BigDecimal bigDecimal = new BigDecimal(cellValue);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
+
+            cellValue = decimalFormat.format(bigDecimal);
+        } else if (cell.getCellType() == CellType.BOOLEAN) {
+            cellValue = String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
     }
 }

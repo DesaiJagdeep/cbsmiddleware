@@ -1917,12 +1917,12 @@ public class IssFileParserResource {
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page =
                 issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
             page =
                 issFileParserQueryService.findByCriteriaBranchNumber(
                     criteria,
                     pageable,
-                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                    branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = issFileParserQueryService.findByCriteria(criteria, pageable);
@@ -1963,10 +1963,14 @@ public class IssFileParserResource {
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
-            issFileParser =
-                issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+            issFileParser = issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+        } /*
+         * else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.
+         * KCC_ISS_BRANCH_CODE_KEY))) { issFileParser =
+         * issFileParserRepository.findOneByIdAndBranchCode(id,
+         * branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)); }
+         */else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndBankCode(id, branchOrPacksNumber.get(Constants.BANK_CODE_KEY));
         } else {
             throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");

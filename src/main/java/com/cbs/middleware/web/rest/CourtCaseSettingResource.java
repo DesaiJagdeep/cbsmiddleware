@@ -21,13 +21,10 @@ import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.layer.PdfLayer;
-import com.itextpdf.kernel.pdf.layer.PdfOCProperties;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import java.io.File;
-import java.io.File;
-import java.io.IOException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
@@ -375,12 +372,13 @@ public class CourtCaseSettingResource {
                         courtCaseSetting.setMeetingDay(translationServiceUtility.translationText(getCellValue(row.getCell(12))));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(13)))) {
+                    String meetingTime = getCellValue(row.getCell(13));
+                    if (StringUtils.isNotBlank(meetingTime)) {
                         //English
-                        courtCaseSetting.setMeetingTimeEn(getCellValue(row.getCell(13)));
+                        courtCaseSetting.setMeetingTimeEn(meetingTime);
 
                         //Marathi
-                        courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(getCellValue(row.getCell(13))));
+                        courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(meetingTime));
                     }
 
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
@@ -416,7 +414,10 @@ public class CourtCaseSettingResource {
                     } catch (Exception e) {}
                 }
 
-                return ResponseEntity.ok().body(courtCaseSettingList);
+                return ResponseEntity
+                    .ok()
+                    .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, files.getOriginalFilename()))
+                    .body(courtCaseSettingList);
             } else {
                 throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
             }
@@ -601,10 +602,9 @@ public class CourtCaseSettingResource {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
             cellValue = cell.getStringCellValue().trim();
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
+            //            if (cellValue.contains(".0")) {
+            //                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            //            }
         } else if (cell.getCellType() == CellType.NUMERIC) {
             cellValue = String.valueOf(cell.getNumericCellValue());
             BigDecimal bigDecimal = new BigDecimal(cellValue);

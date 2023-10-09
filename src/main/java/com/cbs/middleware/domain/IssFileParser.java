@@ -144,6 +144,12 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "crop_name")
     private String cropName;
 
+    @Column(name = "kcc_iss_crop_code")
+    private String kccIssCropCode;
+
+    @Column(name = "kcc_iss_crop_name")
+    private String kccIssCropName;
+
     @Column(name = "survey_no")
     private String surveyNo;
 
@@ -152,6 +158,9 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "season_name")
     private String seasonName;
+
+    @Column(name = "activity_type")
+    private String activityType;
 
     @Column(name = "area_hect")
     private String areaHect;
@@ -223,6 +232,30 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     public String getBankCode() {
         return this.bankCode;
+    }
+
+    public String getKccIssCropCode() {
+        return kccIssCropCode;
+    }
+
+    public void setKccIssCropCode(String kccIssCropCode) {
+        this.kccIssCropCode = kccIssCropCode;
+    }
+
+    public String getKccIssCropName() {
+        return kccIssCropName;
+    }
+
+    public void setKccIssCropName(String kccIssCropName) {
+        this.kccIssCropName = kccIssCropName;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 
     public IssFileParser bankCode(String bankCode) {
@@ -871,7 +904,8 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
 
     @Override
     public boolean equals(Object o) {
@@ -886,16 +920,16 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "IssFileParser{" +
-            "id=" + getId() +
- //           ", financialYear='" + getFinancialYear() + "'" +
+	@Override
+	public String toString() {
+		return "IssFileParser{" + "id=" + getId() +
+		// ", financialYear='" + getFinancialYear() + "'" +
 //            ", bankName='" + getBankName() + "'" +
 //            ", bankCode='" + getBankCode() + "'" +
 //            ", branchName='" + getBranchName() + "'" +
@@ -946,6 +980,6 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 //            ", recoveryAmountPrinciple='" + getRecoveryAmountPrinciple() + "'" +
 //            ", recoveryAmountInterest='" + getRecoveryAmountInterest() + "'" +
 //            ", recoveryDate='" + getRecoveryDate() + "'" +
-            "}";
-    }
+				"}";
+	}
 }

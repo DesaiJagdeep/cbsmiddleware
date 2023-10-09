@@ -7,8 +7,10 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.persistence.Column;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -46,7 +48,7 @@ public class AdminUserDTO implements Serializable {
     private String branchName;
 
     @Size(max = 50)
-    private String schemeWiseBranchCode;
+    private String branchCode;
 
     @Size(max = 50)
     private String pacsName;
@@ -94,8 +96,6 @@ public class AdminUserDTO implements Serializable {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.schemeWiseBranchCode = user.getSchemeWiseBranchCode();
-
         this.branchName = user.getBranchName();
         this.pacsName = user.getPacsName();
         this.pacsNumber = user.getPacsNumber();
@@ -133,12 +133,12 @@ public class AdminUserDTO implements Serializable {
         this.bankName = bankName;
     }
 
-    public String getSchemeWiseBranchCode() {
-        return schemeWiseBranchCode;
+    public String getBranchCode() {
+        return branchCode;
     }
 
-    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
-        this.schemeWiseBranchCode = schemeWiseBranchCode;
+    public void setBranchCode(String branchCode) {
+        this.branchCode = branchCode;
     }
 
     public void setLogin(String login) {

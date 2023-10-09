@@ -74,7 +74,7 @@ class KarkhanaVasuliResourceIT {
     public static KarkhanaVasuli createEntity(EntityManager em) {
         KarkhanaVasuli karkhanaVasuli = new KarkhanaVasuli()
             .khataNumber(DEFAULT_KHATA_NUMBER)
-            .name(DEFAULT_NAME)
+            .karkhanaName(DEFAULT_NAME)
             .societyName(DEFAULT_SOCIETY_NAME)
             .talukaName(DEFAULT_TALUKA_NAME)
             .branchName(DEFAULT_BRANCH_NAME)
@@ -91,7 +91,7 @@ class KarkhanaVasuliResourceIT {
     public static KarkhanaVasuli createUpdatedEntity(EntityManager em) {
         KarkhanaVasuli karkhanaVasuli = new KarkhanaVasuli()
             .khataNumber(UPDATED_KHATA_NUMBER)
-            .name(UPDATED_NAME)
+            .karkhanaName(UPDATED_NAME)
             .societyName(UPDATED_SOCIETY_NAME)
             .talukaName(UPDATED_TALUKA_NAME)
             .branchName(UPDATED_BRANCH_NAME)
@@ -120,7 +120,7 @@ class KarkhanaVasuliResourceIT {
         assertThat(karkhanaVasuliList).hasSize(databaseSizeBeforeCreate + 1);
         KarkhanaVasuli testKarkhanaVasuli = karkhanaVasuliList.get(karkhanaVasuliList.size() - 1);
         assertThat(testKarkhanaVasuli.getKhataNumber()).isEqualTo(DEFAULT_KHATA_NUMBER);
-        assertThat(testKarkhanaVasuli.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testKarkhanaVasuli.getKarkhanaName()).isEqualTo(DEFAULT_NAME);
         assertThat(testKarkhanaVasuli.getSocietyName()).isEqualTo(DEFAULT_SOCIETY_NAME);
         assertThat(testKarkhanaVasuli.getTalukaName()).isEqualTo(DEFAULT_TALUKA_NAME);
         assertThat(testKarkhanaVasuli.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
@@ -659,7 +659,7 @@ class KarkhanaVasuliResourceIT {
         em.detach(updatedKarkhanaVasuli);
         updatedKarkhanaVasuli
             .khataNumber(UPDATED_KHATA_NUMBER)
-            .name(UPDATED_NAME)
+            .karkhanaName(UPDATED_NAME)
             .societyName(UPDATED_SOCIETY_NAME)
             .talukaName(UPDATED_TALUKA_NAME)
             .branchName(UPDATED_BRANCH_NAME)
@@ -678,7 +678,7 @@ class KarkhanaVasuliResourceIT {
         assertThat(karkhanaVasuliList).hasSize(databaseSizeBeforeUpdate);
         KarkhanaVasuli testKarkhanaVasuli = karkhanaVasuliList.get(karkhanaVasuliList.size() - 1);
         assertThat(testKarkhanaVasuli.getKhataNumber()).isEqualTo(UPDATED_KHATA_NUMBER);
-        assertThat(testKarkhanaVasuli.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testKarkhanaVasuli.getKarkhanaName()).isEqualTo(UPDATED_NAME);
         assertThat(testKarkhanaVasuli.getSocietyName()).isEqualTo(UPDATED_SOCIETY_NAME);
         assertThat(testKarkhanaVasuli.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
         assertThat(testKarkhanaVasuli.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
@@ -753,7 +753,7 @@ class KarkhanaVasuliResourceIT {
         KarkhanaVasuli partialUpdatedKarkhanaVasuli = new KarkhanaVasuli();
         partialUpdatedKarkhanaVasuli.setId(karkhanaVasuli.getId());
 
-        partialUpdatedKarkhanaVasuli.khataNumber(UPDATED_KHATA_NUMBER).name(UPDATED_NAME).talukaName(UPDATED_TALUKA_NAME);
+        partialUpdatedKarkhanaVasuli.khataNumber(UPDATED_KHATA_NUMBER).karkhanaName(UPDATED_NAME).talukaName(UPDATED_TALUKA_NAME);
 
         restKarkhanaVasuliMockMvc
             .perform(
@@ -768,7 +768,7 @@ class KarkhanaVasuliResourceIT {
         assertThat(karkhanaVasuliList).hasSize(databaseSizeBeforeUpdate);
         KarkhanaVasuli testKarkhanaVasuli = karkhanaVasuliList.get(karkhanaVasuliList.size() - 1);
         assertThat(testKarkhanaVasuli.getKhataNumber()).isEqualTo(UPDATED_KHATA_NUMBER);
-        assertThat(testKarkhanaVasuli.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testKarkhanaVasuli.getKarkhanaName()).isEqualTo(UPDATED_NAME);
         assertThat(testKarkhanaVasuli.getSocietyName()).isEqualTo(DEFAULT_SOCIETY_NAME);
         assertThat(testKarkhanaVasuli.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
         assertThat(testKarkhanaVasuli.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
@@ -789,7 +789,7 @@ class KarkhanaVasuliResourceIT {
 
         partialUpdatedKarkhanaVasuli
             .khataNumber(UPDATED_KHATA_NUMBER)
-            .name(UPDATED_NAME)
+            .karkhanaName(UPDATED_NAME)
             .societyName(UPDATED_SOCIETY_NAME)
             .talukaName(UPDATED_TALUKA_NAME)
             .branchName(UPDATED_BRANCH_NAME)
@@ -808,7 +808,7 @@ class KarkhanaVasuliResourceIT {
         assertThat(karkhanaVasuliList).hasSize(databaseSizeBeforeUpdate);
         KarkhanaVasuli testKarkhanaVasuli = karkhanaVasuliList.get(karkhanaVasuliList.size() - 1);
         assertThat(testKarkhanaVasuli.getKhataNumber()).isEqualTo(UPDATED_KHATA_NUMBER);
-        assertThat(testKarkhanaVasuli.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testKarkhanaVasuli.getKarkhanaName()).isEqualTo(UPDATED_NAME);
         assertThat(testKarkhanaVasuli.getSocietyName()).isEqualTo(UPDATED_SOCIETY_NAME);
         assertThat(testKarkhanaVasuli.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
         assertThat(testKarkhanaVasuli.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);

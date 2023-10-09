@@ -21,6 +21,9 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "branch_code")
     private String branchCode;
 
+    @Column(name = "scheme_wise_branch_code")
+    private String schemeWiseBranchCode;
+
     @Column(name = "branch_name")
     private String branchName;
 
@@ -86,6 +89,14 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
 
     public BankMaster getBankMaster() {
         return this.bankMaster;
+    }
+
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
+    }
+
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public void setBankMaster(BankMaster bankMaster) {

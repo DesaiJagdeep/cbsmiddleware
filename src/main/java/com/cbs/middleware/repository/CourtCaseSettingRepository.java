@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetting, Long>, JpaSpecificationExecutor<CourtCaseSetting> {
     boolean existsByFileName(String originalFilename);
+
+    CourtCaseSetting findTopByOrderByIdDesc();
 }

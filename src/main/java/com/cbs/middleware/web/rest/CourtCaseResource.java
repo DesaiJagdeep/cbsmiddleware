@@ -2,8 +2,10 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.CourtCase;
+import com.cbs.middleware.domain.CourtCaseSetting;
 import com.cbs.middleware.domain.One01ReportParam;
 import com.cbs.middleware.repository.CourtCaseRepository;
+import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseQueryService;
 import com.cbs.middleware.service.CourtCaseService;
@@ -12,6 +14,7 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.PDFModel;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import java.io.File;
 import java.io.IOException;
@@ -104,6 +107,9 @@ public class CourtCaseResource {
     @Autowired
     TranslationServiceUtility translationServiceUtility;
 
+    @Autowired
+    CourtCaseSettingRepository caseSettingRepository;
+
     public CourtCaseResource(
         CourtCaseService courtCaseService,
         CourtCaseRepository courtCaseRepository,
@@ -135,7 +141,9 @@ public class CourtCaseResource {
                 throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
             }
 
-            List<String> one01NamunaList = generate101NamunaHtml(courtCaseList);
+            CourtCaseSetting courtCaseSetting = caseSettingRepository.findTopByOrderByIdDesc();
+
+            List<PDFModel> one01NamunaList = generate101NamunaHtml(courtCaseList, courtCaseSetting);
             if (one01NamunaList.isEmpty()) {
                 throw new BadRequestAlertException("Error in pdf genaration", ENTITY_NAME, "errorInPdfGeneration");
             }
@@ -554,7 +562,10 @@ public class CourtCaseResource {
                     } catch (Exception e) {}
                 }
 
-                return ResponseEntity.ok().body(courtCaseList);
+                return ResponseEntity
+                    .ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, files.getOriginalFilename()))
+                    .body(courtCaseList);
             } else {
                 throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
             }
@@ -827,141 +838,184 @@ public class CourtCaseResource {
         return localDate;
     }
 
-    private List<String> generate101NamunaHtml(List<CourtCase> courtCaseList) {
-        List<String> One01NamunaHtmlList = new ArrayList<>();
+    private List<PDFModel> generate101NamunaHtml(List<CourtCase> courtCaseList, CourtCaseSetting courtCaseSetting) {
+        List<PDFModel> One01NamunaHtmlList = new ArrayList<>();
 
         for (CourtCase courtCase : courtCaseList) {
+            PDFModel pdfModel = new PDFModel();
             String One01Namuna =
                 "<!DOCTYPE html>" +
                 "<htm lang=\"en\">" +
                 "<head>" +
                 "    <meta charset=\"UTF-8\">" +
-                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-                "    <title>Pdcc Forms</title>" +
+                //                + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
                 "</head>" +
-                "<style>" +
-                "    .mt-3{" +
-                "        margin-top : 1.5rem;" +
-                "    }" +
-                "    .text-center{" +
-                "        text-align : center;" +
-                "    }" +
-                "</style>" +
                 "<body>" +
                 "    <div class=\"m-3\">" +
-                "        <h1 class=\"text-center mt-3\" style=\"line-height : .6;\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</h1>" +
-                "        <h1 class=\"text-center\" style=\"line-height : .6;\">मुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.</h1>" +
-                "        <h1 class=\"text-center\" style=\"line-height : .6;\">punedc@mail.com</h1>" +
+                "        <h1 style=\"line-height : .3; text-align : center; margin-top : 0.9rem;\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</h1>" +
+                "        <h1 style=\"line-height : .3; text-align : center;\">मुख्य कचेरी : ४ . बी. जे. रोड, पुणे ४११००१.</h1>" +
+                "        <h1 style=\"line-height : .3; text-align : center;\">punedc@mail.com</h1>" +
                 "        <hr>" +
                 "    </div>" +
                 "    <div class=\"m-3\">" +
-                "    <div class=\"text-center mt-3\" style=\"text-decoration:underline;\">१०१ नुसार कारवाई करणेपूर्वीची नोटीस </div>" +
-                "    <div class=\"text-center mt-1\" style=\"text-decoration:underline;\">रजिस्टर ए.डी./ यु.पी.सी.</div>" +
+                "    <div style=\"text-decoration:underline;  text-align : center; margin-top : 0.1rem;\">१०१ नुसार कारवाई करणेपूर्वीची नोटीस </div>" +
+                "    <div style=\"text-decoration:underline;    text-align : center; \">रजिस्टर ए.डी./ यु.पी.सी.</div>" +
                 "    <div style=\"display: flex; justify-content: space-between;\">" +
                 "        <div style=\"flex-basis: 50%; text-align: left;\">" +
                 "            <p>जा.क्र. / २०२३-२४ /</p>" +
                 "        </div>" +
                 "        <div style=\"flex-basis: 50%; text-align: right;\">" +
                 "            <div>" +
-                "                <p>दिनांक :- / /२०</p>" +
+                "                <p>दिनांक :- " +
+                oneZeroOneDateMr(LocalDate.now()) +
+                "</p>" +
                 "            </div>" +
                 "        </div>" +
                 "    </div>" +
-                "    <div>कर्ज खाते क्रमांक :-</div>" +
-                "    <div>कर्जदार :- श्री. / श्रीमती " +
+                "<div>कर्जदार :- श्री. / श्रीमती:- " +
                 courtCase.getNameOfDefaulter() +
                 "</div>" +
                 "    <div>राहणार :-" +
                 courtCase.getAddress() +
                 "</div>" +
-                "    <div>१) जामीनदार :- श्री. / श्रीमती " +
+                "    <div>१) जामीनदार :- श्री. / श्रीमती:-" +
                 courtCase.getGaurentorOne() +
                 "</div>" +
-                "    <div style=\"text-indent: 38px;\">राहणार :- " +
+                "    <div>राहणार :- " +
                 courtCase.getGaurentorOneAddress() +
                 "</div>" +
-                "    <div>२) जामीनदार :- श्री. /श्रीमती " +
+                "    <div>२) जामीनदार :- श्री. /श्रीमती:-" +
                 courtCase.getGaurentorTwo() +
                 "</div>" +
-                "    <div style=\"text-indent: 38px;\">राहणार :- " +
+                "    <div>राहणार :- " +
                 courtCase.getGaurentorTwoAddress() +
+                "</div><div style=\"margin-top : 1.5rem;\"> </div>" +
+                "<div style=\"margin-top : 1.5rem;\">" +
+                "<p style=\"text-indent: 50px;\"> विषय: थकीत कर्ज परतफेड करणेबाबत..</p> <div style=\"margin-top : 1.5rem;\"> </div>" +
+                "<p style=\"text-decoration: underline;\"> तुम्हास नोटीस देण्यात येते की,</p>" +
+                "<p style=\"line-height : 1.5;\">१. तुम्ही बँकेच्या " +
+                courtCase.getBankName() +
+                " शाखेकडून दिनांक " +
+                oneZeroOneDateMr(courtCase.getLoanDate()) +
+                " रोजी कर्ज योजने अंतर्गत कारणासाठी रूपये " +
+                courtCase.getLoanAmount() +
+                " /- चे कर्ज द.सा.द.शे. " +
+                courtCase.getInterestRate() +
+                "% व्याजदराने " +
+                courtCase.getTermOfLoan() +
+                " वर्षेच्या मुदतीने घेतले आहे." +
+                "</p>" +
+                "<p> </p>" +
+                "<p style=\"line-height : 1.5;\">" +
+                "२. सदर कर्ज व्यवहारास श्री " +
+                courtCase.getGaurentorOne() +
+                " व श्री " +
+                courtCase.getGaurentorTwo() +
+                " हे व्यक्ति जामीनदार आहेत." +
+                "</p>" +
+                "<p style=\"line-height : 1.5;\">" +
+                "३. मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक " +
+                oneZeroOneDateMr(courtCase.getLoanDate()) +
+                " रोजी रितसर वचन विट्टी, करारनामे" +
+                "व इतर सर्व कागदपत्रे लिहून दिलेली आहेत." +
+                "</p>" +
+                "<p style=\"line-height : 1.5;\">" +
+                "४. वचनचिठ्ठी व कारारनाम्यातील तपशीलाप्रमाणे तसेच तुम्ही सदर कर्ज रक्कम मंजूरी पत्रातील अटी व" +
+                "शर्तीनुसार परतफेड करण्यास वैयक्तिक व सामुदायिक जबावदार आहात." +
+                "</p>" +
+                "<p style=\"line-height : 1.5;\">" +
+                "5.आपण बँकेकडून घेतलेल्या कर्ज रकमेची परतफेड वेळेवर व करारातील अटी व शर्तीप्रमाणे केलेली नाही. म्हणून तुम्हास" +
+                "या पूर्वीही नोटिस पाठविण्यात आल्या होत्या तरीही तुम्ही थकीत कर्जाच्या रकमेची संपूर्ण परतफेड केलेली नाही." +
+                "त्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम (१९०१ (१) अन्वये संबंधित मा. उपनिबंधक / मा. सहाय्यक" +
+                "निबंधक, सहकारी संस्था यांचेकडे अर्ज दाखल करून वसूली दाखला मिळणेबाबतचा अर्ज करणे वावत्तचा निर्णय घेण्यात" +
+                "आलेला आहे. तथापि तुम्हास एक संधी म्हणून सदर प्रकरणी अंतिम नोटिस देण्यात येत आहे." +
+                "</p>" +
+                "<b style=\"text-decoration: underline;\">" +
+                "दिनांक: " +
+                oneZeroOneDateMr(courtCase.getDueDate()) +
+                " अखेर तुमचेकडून खालीलप्रमाणे येणे आहे." +
+                "</b>" +
+                "<table style=\"border-collapse: collapse; width: 100%; margin-top : 1.5rem;\">" +
+                "<tr>" +
+                "<th style=\"border: 1px solid black;\"> अनु. क्र.</th>" +
+                "<th style=\"border: 1px solid black;\">तपशील</th>" +
+                "<th style=\"border: 1px solid black;\">रक्कम रूपये</th>" +
+                "</tr>" +
+                "<tr>" +
+                "<td style=\"border: 1px solid black;\">१.</td>" +
+                "<td style=\"border: 1px solid black;\">मुद्दल</td>" +
+                "<td style=\"border: 1px solid black;\">रूपये. " +
+                courtCase.getLoanAmount() +
+                "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td style=\"border: 1px solid black;\">२.</td>" +
+                "<td style=\"border: 1px solid black;\">व्याज येणे + दंड व्याज</td>" +
+                "<td style=\"border: 1px solid black;\">रूपये. " +
+                courtCase.getDueInterest() +
+                "+" +
+                courtCase.getDuePenalInterest() +
+                "</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td style=\"border: 1px solid black;\">३.</td>" +
+                "<td style=\"border: 1px solid black;\">इतर खर्च - नोटिस इत्यादी</td>" +
+                "<td style=\"border: 1px solid black;\">रूपये.</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<td colspan=\"2\" class=\"text-end\" style=\"border: 1px solid black;\">एकूण:-</td>" +
+                "<td style=\"border: 1px solid black;\">रूपये. " +
+                getTotalValue(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn()) +
+                "</td>" +
+                "</tr>" +
+                "</table>" +
                 "</div>" +
-                //    				+ "    <div>३) जामीनदार :- श्री. /श्रीमती___________________</div>"
-                //    				+ "    <div style=\"text-indent: 38px;\">राहणार :- मु.पो._________, ता.__________ जि. पुणे_________</div>"
-
-                "    <div class=\"mt-3\">" +
-                "        <p style=\"text-indent: 50px;\"> विषय: थकीत कर्ज परतफेड करणेबाबत..</p>" +
-                "        <p style=\"text-decoration: underline;\"> तुम्हास नोटीस देण्यात येते की,</p>" +
-                "        <p>१. तुम्ही बँकेच्या_________शाखेकडून दिनांक / /२० रोजी कर्ज योजने अंतर्गत कारणासाठी रूपये" +
-                "            _________/- चे कर्ज द.सा.द.शे....... % व्याजदराने...... वर्षेच्या मुदतीने घेतले आहे." +
-                "        </p>" +
-                "        <p>" +
-                "            २. सदर कर्ज व्यवहारास श्री__________ व श्री____________हे व्यक्ति जामीनदार आहेत." +
-                "        </p>" +
-                "        <p>" +
-                "            ३. मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक / /२० रोजी रितसर वचन विट्टी, करारनामे" +
-                "            व इतर सर्व कागदपत्रे लिहून दिलेली आहेत." +
-                "        </p>" +
-                "        <p>" +
-                "            ४. वचनचिठ्ठी व कारारनाम्यातील तपशीलाप्रमाणे तसेच तुम्ही सदर कर्ज रक्कम मंजूरी पत्रातील अटी व" +
-                "            शर्तीनुसार परतफेड करण्यास वैयक्तिक व सामुदायिक जबावदार आहात." +
-                "        </p>" +
-                "        <p>" +
-                "            5.आपण बँकेकडून घेतलेल्या कर्ज रकमेची परतफेड वेळेवर व करारातील अटी व शर्तीप्रमाणे केलेली नाही. म्हणून तुम्हास" +
-                "            या पूर्वीही नोटिस पाठविण्यात आल्या होत्या तरीही तुम्ही थकीत कर्जाच्या रकमेची संपूर्ण परतफेड केलेली नाही." +
-                "            त्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम (१९०१ (१) अन्वये संबंधित मा. उपनिबंधक / मा. सहाय्यक" +
-                "            निबंधक, सहकारी संस्था यांचेकडे अर्ज दाखल करून वसूली दाखला मिळणेबाबतचा अर्ज करणे वावत्तचा निर्णय घेण्यात" +
-                "            आलेला आहे. तथापि तुम्हास एक संधी म्हणून सदर प्रकरणी अंतिम नोटिस देण्यात येत आहे." +
-                "        </p>" +
-                "        <b style=\"text-decoration: underline;\">" +
-                "            दिनांक" +
-                "            / /२० अखेर तुमचेकडून खालीलप्रमाणे येणे आहे." +
-                "        </b>" +
-                "        <table class=\"mt-3\" style=\"border-collapse: collapse; width: 100%;\">" +
-                "            <tr>" +
-                "                <th style=\"border: 1px solid black;\"> अनु. क्र.</th>" +
-                "                <th style=\"border: 1px solid black;\">तपशील</th>" +
-                "                <th style=\"border: 1px solid black;\">रक्कम रूपये</th>" +
-                "            </tr>" +
-                "            <tr>" +
-                "                <td style=\"border: 1px solid black;\">१.</td>" +
-                "                <td style=\"border: 1px solid black;\">मुद्दल</td>" +
-                "                <td style=\"border: 1px solid black;\">रूपये.</td>" +
-                "            </tr>" +
-                "            <tr>" +
-                "                <td style=\"border: 1px solid black;\">२.</td>" +
-                "                <td style=\"border: 1px solid black;\">व्याज येणे + दंड व्याज</td>" +
-                "                <td style=\"border: 1px solid black;\">रूपये.</td>" +
-                "            </tr>" +
-                "            <tr>" +
-                "                <td style=\"border: 1px solid black;\">३.</td>" +
-                "                <td style=\"border: 1px solid black;\">इतर खर्च - नोटिस इत्यादी</td>" +
-                "                <td style=\"border: 1px solid black;\">रूपये.</td>" +
-                "            </tr>" +
-                "            <tr>" +
-                "                <td colspan=\"2\" class=\"text-end\" style=\"border: 1px solid black;\">एकूण:-</td>" +
-                "                <td style=\"border: 1px solid black;\">रूपये.</td>" +
-                "            </tr>" +
-                "        </table>" +
-                "        " +
-                "    </div>" +
-                "    <div class=\"mt-3\">" +
-                "     <p>तरी तुम्हास या नोटिशीने कळविण्यात येत की, ही नोटीस मिळाल्यापासून अठ दिवसांच्या आत वर नमूद केल्याप्रमाणे रक्कम भरावी/सदर मुदतीत रक्कम न भरल्यास आपले विरूद्ध पुढील कायदेशीर कारवाई करण्यात येईल व त्याच्या खर्चाची व परिणामाची संपूर्ण जवाबदारी तुमचेवर राहील, याची नोंद घ्यावी.</p>" +
-                "    </div>" +
-                "    <div>" +
-                "        <div>" +
-                "         <p style=\"text-align: right;\">शाखा व्यवस्थापक / वसुली अधिकारी / विकास अधिकारी</p>" +
-                "        <pre style=\"text-align: right;\">विभाग :-              द्वारा :-              शाखा,</pre>" +
-                "         <p style=\"text-align: right;\">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्या., पुणे</p>" +
-                "        </div>" +
-                "    </div>" +
+                "<div style=\"margin-top : 1.5rem;\">" +
+                "<p style=\"line-height : 1.5;\">तरी तुम्हास या नोटिशीने कळविण्यात येत की, ही नोटीस मिळाल्यापासून अठ दिवसांच्या आत वर नमूद केल्याप्रमाणे रक्कम भरावी/सदर मुदतीत रक्कम न भरल्यास आपले विरूद्ध पुढील कायदेशीर कारवाई करण्यात येईल व त्याच्या खर्चाची व परिणामाची संपूर्ण जवाबदारी तुमचेवर राहील, याची नोंद घ्यावी.</p>" +
+                "</div>" +
+                "<div>" +
+                "<div>" +
+                "<p style=\"text-align: right; line-height : 1.5;\">" +
+                courtCaseSetting.getVasuliAdhikariName() +
+                "</p>" +
+                "<p style=\"text-align: right; line-height : 1.5;\">शाखा व्यवस्थापक / वसुली अधिकारी / विकास अधिकारी</p>" +
+                "<pre style=\"text-align: right;\">विभाग :-              द्वारा :-              शाखा,</pre>" +
+                "<p style=\"text-align: right;\">" +
+                courtCaseSetting.getBankName() +
+                "</p>" +
+                "</div>" +
+                "</div>" +
                 "    </div>" +
                 "</body>" +
                 "</html>";
 
-            One01NamunaHtmlList.add(One01Namuna);
+            pdfModel.setFileName(courtCase.getNameOfDefaulter() + "_" + courtCase.getAccountNo() + ".pdf");
+            pdfModel.setHtmlString(One01Namuna);
+
+            One01NamunaHtmlList.add(pdfModel);
         }
         return One01NamunaHtmlList;
+    }
+
+    private String oneZeroOneDateMr(LocalDate loanDate) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            String formattedDate = loanDate.format(formatter);
+
+            return translationServiceUtility.translationText(formattedDate);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+
+    private String getTotalValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+
+            return translationServiceUtility.translationText(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
     }
 
     private List<String> generate101Html(List<CourtCase> courtCaseList) {

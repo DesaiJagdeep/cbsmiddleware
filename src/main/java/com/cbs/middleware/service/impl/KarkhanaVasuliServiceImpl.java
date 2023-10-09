@@ -48,8 +48,8 @@ public class KarkhanaVasuliServiceImpl implements KarkhanaVasuliService {
                 if (karkhanaVasuli.getKhataNumber() != null) {
                     existingKarkhanaVasuli.setKhataNumber(karkhanaVasuli.getKhataNumber());
                 }
-                if (karkhanaVasuli.getName() != null) {
-                    existingKarkhanaVasuli.setName(karkhanaVasuli.getName());
+                if (karkhanaVasuli.getKarkhanaName() != null) {
+                    existingKarkhanaVasuli.setKarkhanaName(karkhanaVasuli.getKarkhanaName());
                 }
                 if (karkhanaVasuli.getSocietyName() != null) {
                     existingKarkhanaVasuli.setSocietyName(karkhanaVasuli.getSocietyName());

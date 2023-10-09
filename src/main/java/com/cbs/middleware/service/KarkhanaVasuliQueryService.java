@@ -89,7 +89,7 @@ public class KarkhanaVasuliQueryService extends QueryService<KarkhanaVasuli> {
                 specification = specification.and(buildStringSpecification(criteria.getKhataNumber(), KarkhanaVasuli_.khataNumber));
             }
             if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), KarkhanaVasuli_.name));
+                specification = specification.and(buildStringSpecification(criteria.getName(), KarkhanaVasuli_.karkhanaName));
             }
             if (criteria.getSocietyName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSocietyName(), KarkhanaVasuli_.societyName));

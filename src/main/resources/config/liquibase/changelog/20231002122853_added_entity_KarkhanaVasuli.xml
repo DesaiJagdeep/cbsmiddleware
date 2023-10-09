@@ -14,10 +14,18 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            
+            <column name="file_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="unique_file_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            
             <column name="khata_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="karkhana_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="society_name" type="varchar(255)">
@@ -32,6 +40,34 @@
             <column name="defaulter_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            
+            <!-- English data -->
+             <column name="khata_number_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="karkhana_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="society_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="defaulter_name_en" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            
+            
+             <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

@@ -3,6 +3,8 @@ package com.cbs.middleware.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * A CourtCaseSetting.
@@ -25,51 +27,83 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "unique_file_name")
     private String uniqueFileName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "bank_name")
     private String bankName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "taluka_name")
     private String talukaName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "vasuli_adhikari_name")
     private String vasuliAdhikariName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "ar_office_name")
     private String arOfficeName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "chairman_name")
     private String chairmanName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "sachiv_name")
     private String sachivName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "suchak_name")
     private String suchakName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "anumodak_name")
     private String anumodakName;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "vasuli_expense")
     private String vasuliExpense;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "other_expense")
     private String otherExpense;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "notice_expense")
     private String noticeExpense;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "meeting_no")
     private String meetingNo;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "meeting_date")
     private LocalDate meetingDate;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "subject_no")
     private String subjectNo;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "meeting_day")
     private String meetingDay;
 
+    @NotNull
+    @Min(value = 1)
     @Column(name = "meeting_time")
     private String meetingTime;
 

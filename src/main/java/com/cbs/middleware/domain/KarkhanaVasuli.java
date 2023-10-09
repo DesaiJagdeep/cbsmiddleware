@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "karkhana_vasuli")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KarkhanaVasuli implements Serializable {
+public class KarkhanaVasuli extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,11 +18,17 @@ public class KarkhanaVasuli implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "file_name")
+    private String fileName;
+
+    @Column(name = "unique_file_name")
+    private String uniqueFileName;
+
     @Column(name = "khata_number")
     private String khataNumber;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "karkhana_name")
+    private String karkhanaName;
 
     @Column(name = "society_name")
     private String societyName;
@@ -35,6 +41,25 @@ public class KarkhanaVasuli implements Serializable {
 
     @Column(name = "defaulter_name")
     private String defaulterName;
+
+    //english data
+    @Column(name = "khata_number_en")
+    private String khataNumberEn;
+
+    @Column(name = "karkhana_name_en")
+    private String karkhanaNameEn;
+
+    @Column(name = "society_name_en")
+    private String societyNameEn;
+
+    @Column(name = "taluka_name_en")
+    private String talukaNameEn;
+
+    @Column(name = "branch_name_en")
+    private String branchNameEn;
+
+    @Column(name = "defaulter_name_en")
+    private String defaulterNameEn;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -64,21 +89,69 @@ public class KarkhanaVasuli implements Serializable {
         this.khataNumber = khataNumber;
     }
 
-    public String getName() {
-        return this.name;
+    public String getKarkhanaName() {
+        return this.karkhanaName;
     }
 
-    public KarkhanaVasuli name(String name) {
-        this.setName(name);
+    public KarkhanaVasuli karkhanaName(String karkhanaName) {
+        this.setKarkhanaName(karkhanaName);
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setKarkhanaName(String karkhanaName) {
+        this.karkhanaName = karkhanaName;
     }
 
     public String getSocietyName() {
         return this.societyName;
+    }
+
+    public String getKhataNumberEn() {
+        return khataNumberEn;
+    }
+
+    public void setKhataNumberEn(String khataNumberEn) {
+        this.khataNumberEn = khataNumberEn;
+    }
+
+    public String getKarkhanaNameEn() {
+        return karkhanaNameEn;
+    }
+
+    public void setKarkhanaNameEn(String karkhanaNameEn) {
+        this.karkhanaNameEn = karkhanaNameEn;
+    }
+
+    public String getSocietyNameEn() {
+        return societyNameEn;
+    }
+
+    public void setSocietyNameEn(String societyNameEn) {
+        this.societyNameEn = societyNameEn;
+    }
+
+    public String getTalukaNameEn() {
+        return talukaNameEn;
+    }
+
+    public void setTalukaNameEn(String talukaNameEn) {
+        this.talukaNameEn = talukaNameEn;
+    }
+
+    public String getBranchNameEn() {
+        return branchNameEn;
+    }
+
+    public void setBranchNameEn(String branchNameEn) {
+        this.branchNameEn = branchNameEn;
+    }
+
+    public String getDefaulterNameEn() {
+        return defaulterNameEn;
+    }
+
+    public void setDefaulterNameEn(String defaulterNameEn) {
+        this.defaulterNameEn = defaulterNameEn;
     }
 
     public KarkhanaVasuli societyName(String societyName) {
@@ -129,7 +202,24 @@ public class KarkhanaVasuli implements Serializable {
         this.defaulterName = defaulterName;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+    // setters here
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getUniqueFileName() {
+        return uniqueFileName;
+    }
+
+    public void setUniqueFileName(String uniqueFileName) {
+        this.uniqueFileName = uniqueFileName;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -144,21 +234,16 @@ public class KarkhanaVasuli implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see
+        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
     // prettier-ignore
-    @Override
-    public String toString() {
-        return "KarkhanaVasuli{" +
-            "id=" + getId() +
-            ", khataNumber='" + getKhataNumber() + "'" +
-            ", name='" + getName() + "'" +
-            ", societyName='" + getSocietyName() + "'" +
-            ", talukaName='" + getTalukaName() + "'" +
-            ", branchName='" + getBranchName() + "'" +
-            ", defaulterName='" + getDefaulterName() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		return "KarkhanaVasuli{" + "id=" + getId() + ", khataNumber='" + getKhataNumber() + "'" + ", karkhanaNameName='" + getKarkhanaName()
+				+ "'" + ", societyName='" + getSocietyName() + "'" + ", talukaName='" + getTalukaName() + "'"
+				+ ", branchName='" + getBranchName() + "'" + ", defaulterName='" + getDefaulterName() + "'" + "}";
+	}
 }

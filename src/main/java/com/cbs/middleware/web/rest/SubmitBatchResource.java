@@ -452,10 +452,10 @@ public class SubmitBatchResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            // added activity type code as on season name
+            // added activity type code as on Activity Type
             Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
                 .stream()
-                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getActivityType().toLowerCase()))
                 .map(ActivityType::getActivityTypeCode)
                 .findFirst();
 
@@ -708,7 +708,6 @@ public class SubmitBatchResource {
         // NCIP>+< 5 digit
         // running number>
         // If Today’s date is 29 Aug 2022 the Batch id can be 29082202300001
-        String cbsResponceString = "";
         List<ApplicationPayload> applicationsList = new ArrayList<>();
         BatchData batchData = new BatchData();
         Date currentDate = new Date();

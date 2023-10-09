@@ -197,6 +197,9 @@ public class IssFileParserResource {
     NotificationRepository notificationRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     MailService mailService;
 
     public IssFileParserResource(
@@ -236,7 +239,21 @@ public class IssFileParserResource {
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
-            Row row = sheet.getRow(5); // Get the current row
+            int filecount = 0;
+            Row row = null;
+            for (int i = 0; i < 10; i++) {
+                row = sheet.getRow(i); // Get the current row
+                String financialYearInFile = getCellValue(row.getCell(1));
+                if (StringUtils.isNotBlank(financialYearInFile)) {
+                    financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                    if (!financialYearInFile.contains("financial") || !financialYearInFile.contains("year")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
+
+            row = sheet.getRow(filecount); // Get the current row
             boolean flag = false;
             String branchCode1 = getCellValue(row.getCell(4));
             if (StringUtils.isNotBlank(branchCode1)) {
@@ -248,7 +265,7 @@ public class IssFileParserResource {
                 flag = true;
             }
 
-            String recoveryDate = getCellValue(row.getCell(50));
+            String recoveryDate = getCellValue(row.getCell(53));
             if (StringUtils.isNoneBlank(recoveryDate)) {
                 recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
 
@@ -263,7 +280,7 @@ public class IssFileParserResource {
                 throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
             }
 
-            row = sheet.getRow(6);
+            row = sheet.getRow(filecount + 1);
             String bankCode = getCellValue(row.getCell(2));
             String branchCode = getCellValue(row.getCell(4));
             String packsCode = getCellValue(row.getCell(32));
@@ -279,7 +296,7 @@ public class IssFileParserResource {
             rbaControl.authenticateByCode(bankCode, branchCode, packsCode, ENTITY_NAME);
 
             String fYear = getCellValue(row.getCell(0));
-            if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}")) {
+            if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}") || fYear.matches("\\d{4}-\\d{4}")) {
                 fYear = fYear.replace("/", "-");
 
                 if (!fYear.equalsIgnoreCase(financialYear)) {
@@ -297,6 +314,7 @@ public class IssFileParserResource {
             fileParseConf.setPacsCode(packsCode);
             return fileParseConf;
         } catch (BadRequestAlertException e) {
+            e.printStackTrace();
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
         } catch (ForbiddenAuthRequestAlertException e) {
             throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
@@ -317,7 +335,7 @@ public class IssFileParserResource {
         RedirectAttributes redirectAttributes
     ) throws Exception {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
-
+        int filecount = 0;
         if (!"xlsx".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
         }
@@ -328,7 +346,21 @@ public class IssFileParserResource {
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
-            Row row = sheet.getRow(5); // Get the current row
+
+            Row row = null;
+            for (int i = 0; i < 10; i++) {
+                row = sheet.getRow(i); // Get the current row
+                String financialYearInFile = getCellValue(row.getCell(1));
+                if (StringUtils.isNotBlank(financialYearInFile)) {
+                    financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                    if (!financialYearInFile.contains("financial") || !financialYearInFile.contains("year")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
+
+            row = sheet.getRow(filecount); // Get the current row
             boolean flagForLabel = false;
             String branchCode1 = getCellValue(row.getCell(4));
             if (StringUtils.isNotBlank(branchCode1)) {
@@ -340,7 +372,7 @@ public class IssFileParserResource {
                 flagForLabel = true;
             }
 
-            String recoveryDate = getCellValue(row.getCell(50));
+            String recoveryDate = getCellValue(row.getCell(53));
             if (StringUtils.isNoneBlank(recoveryDate)) {
                 recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
 
@@ -354,7 +386,9 @@ public class IssFileParserResource {
             if (flagForLabel) {
                 throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
             }
-            row = sheet.getRow(6);
+
+            filecount = filecount + 1;
+            row = sheet.getRow(filecount);
             if (
                 StringUtils.isBlank(getCellValue(row.getCell(2))) &&
                 StringUtils.isBlank(getCellValue(row.getCell(4))) &&
@@ -403,7 +437,7 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
                 flag = true;
             }
-            String landtype = getCellValue(row.getCell(44));
+            String landtype = getCellValue(row.getCell(47));
 
             if (
                 StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
@@ -472,7 +506,7 @@ public class IssFileParserResource {
 
         boolean isSavePortalObj = false;
 
-        int startRowIndex = 6; // Starting row index
+        int startRowIndex = filecount; // Starting row index
         List<IssFileParser> issFileParserList = new ArrayList<>();
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
@@ -587,29 +621,35 @@ public class IssFileParserResource {
 
                         issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
 
-                        issFileParser.setCropName(getCellValue(row.getCell(39)));
+                        issFileParser.setKccIssCropCode(getCellValue(row.getCell(39)));
 
-                        issFileParser.setSurveyNo(getCellValue(row.getCell(40)));
+                        issFileParser.setKccIssCropName(getCellValue(row.getCell(40)));
 
-                        issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(41)));
+                        issFileParser.setCropName(getCellValue(row.getCell(41)));
 
-                        issFileParser.setSeasonName(getCellValue(row.getCell(42)));
+                        issFileParser.setSurveyNo(getCellValue(row.getCell(42)));
 
-                        issFileParser.setAreaHect(getCellValue(row.getCell(43)));
+                        issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(43)));
 
-                        issFileParser.setLandType(getCellValue(row.getCell(44)));
+                        issFileParser.setSeasonName(getCellValue(row.getCell(44)));
 
-                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(45)));
+                        issFileParser.setActivityType(getCellValue(row.getCell(45)));
 
-                        issFileParser.setDisburseAmount(getCellValue(row.getCell(46)));
+                        issFileParser.setAreaHect(getCellValue(row.getCell(46)));
 
-                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(47)));
+                        issFileParser.setLandType(getCellValue(row.getCell(47)));
 
-                        issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(48)));
+                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(48)));
 
-                        issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(49)));
+                        issFileParser.setDisburseAmount(getCellValue(row.getCell(49)));
 
-                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(50)));
+                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50)));
+
+                        issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
+
+                        issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
+
+                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
 
                         if (isSavePortalObj) {
                             issPortalFile = issPortalFileRepository.save(issPortalFile);
@@ -655,40 +695,6 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
     }
-
-    @Autowired
-    UserRepository userRepository;
-
-    @GetMapping("/testApi")
-    public Object testApi() {
-        Set<String> findAllEmailByPacsNumber = new HashSet();
-        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByPacsNumber("198000005"));
-        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBranchCodeAndPacsNumberEmpty("198", ""));
-        findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndBranchCodeEmpty("156", ""));
-        //findAllEmailByPacsNumber;
-
-        return findAllEmailByPacsNumber.toArray(new String[0]);
-    }
-
-    //    @GetMapping("/testEmail")
-    //    public void testEmail()
-    //    {
-    //
-    //
-    //    	Notification notification = new Notification(
-    //                "Application record file uploaded",
-    //                "Application record file uploaded : uploaded",
-    //                false,
-    //                null,
-    //                "", //recipient
-    //               null, //sender
-    //                "ApplicationRecordFileUploaded" //type
-    //            );
-    //
-    //            notification.setRecipient("swapnil.patil@itariumtech.com");
-    //
-    //            //mailService.sendNotificationEmail(notification);
-    //    }
 
     @PostMapping("/validateFile")
     @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','FILE_VALIDATE','VALIDATE')")
@@ -1911,12 +1917,12 @@ public class IssFileParserResource {
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page =
                 issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
                 issFileParserQueryService.findByCriteriaBranchNumber(
                     criteria,
                     pageable,
-                    branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = issFileParserQueryService.findByCriteria(criteria, pageable);
@@ -1957,8 +1963,9 @@ public class IssFileParserResource {
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndPacsNumber(id, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
-            issFileParser = issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+            issFileParser =
+                issFileParserRepository.findOneByIdAndBranchCode(id, branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             issFileParser = issFileParserRepository.findOneByIdAndBankCode(id, branchOrPacksNumber.get(Constants.BANK_CODE_KEY));
         } else {

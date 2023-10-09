@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface KarkhanaVasuliRepository extends JpaRepository<KarkhanaVasuli, Long>, JpaSpecificationExecutor<KarkhanaVasuli> {}
+public interface KarkhanaVasuliRepository extends JpaRepository<KarkhanaVasuli, Long>, JpaSpecificationExecutor<KarkhanaVasuli> {
+    boolean existsByFileName(String originalFilename);
+}

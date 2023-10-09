@@ -31,6 +31,9 @@ public class AdminUserDTO implements Serializable {
     private String lastName;
 
     @Size(max = 50)
+    private String middleName;
+
+    @Size(max = 50)
     private String mobileNumber;
 
     @Size(max = 50)
@@ -43,7 +46,7 @@ public class AdminUserDTO implements Serializable {
     private String branchName;
 
     @Size(max = 50)
-    private String branchCode;
+    private String schemeWiseBranchCode;
 
     @Size(max = 50)
     private String pacsName;
@@ -81,6 +84,7 @@ public class AdminUserDTO implements Serializable {
         this.id = user.getId();
         this.login = user.getLogin();
         this.firstName = user.getFirstName();
+        this.middleName = user.getMiddleName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.activated = user.isActivated();
@@ -90,7 +94,8 @@ public class AdminUserDTO implements Serializable {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.branchCode = user.getBranchCode();
+        this.schemeWiseBranchCode = user.getSchemeWiseBranchCode();
+
         this.branchName = user.getBranchName();
         this.pacsName = user.getPacsName();
         this.pacsNumber = user.getPacsNumber();
@@ -128,6 +133,14 @@ public class AdminUserDTO implements Serializable {
         this.bankName = bankName;
     }
 
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
+    }
+
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
+    }
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -156,6 +169,14 @@ public class AdminUserDTO implements Serializable {
         this.lastName = lastName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -170,14 +191,6 @@ public class AdminUserDTO implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getBranchCode() {
-        return branchCode;
-    }
-
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
     }
 
     public boolean isActivated() {

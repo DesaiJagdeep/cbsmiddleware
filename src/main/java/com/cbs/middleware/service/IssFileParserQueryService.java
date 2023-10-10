@@ -59,10 +59,14 @@ public class IssFileParserQueryService extends QueryService<IssFileParser> {
     }
 
     @Transactional(readOnly = true)
-    public Page<IssFileParser> findByCriteriaBranchNumber(IssFileParserCriteria criteria, Pageable page, String branchCode) {
+    public Page<IssFileParser> findByCriteriaSchemeWiseBranchCode(
+        IssFileParserCriteria criteria,
+        Pageable page,
+        String schemeWiseBranchCode
+    ) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<IssFileParser> specification = createSpecification(criteria);
-        return issFileParserRepository.findAllByBranchCode(branchCode, page);
+        return issFileParserRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, page);
     }
 
     @Transactional(readOnly = true)

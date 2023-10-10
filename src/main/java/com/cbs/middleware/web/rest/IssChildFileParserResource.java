@@ -218,18 +218,20 @@ public class IssChildFileParserResource {
             row = sheet.getRow(1);
 
             String bankCode = getCellValue(row.getCell(2));
-            String branchCode = getCellValue(row.getCell(4));
+            String schemeWiseBranchCode = getCellValue(row.getCell(5));
             String packsCode = getCellValue(row.getCell(32));
 
-            if (StringUtils.isBlank(bankCode) || StringUtils.isBlank(branchCode) || StringUtils.isBlank(packsCode)) {
+            if (StringUtils.isBlank(bankCode) || StringUtils.isBlank(schemeWiseBranchCode) || StringUtils.isBlank(packsCode)) {
                 throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
-            } else if (StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(branchCode) && StringUtils.isNotBlank(packsCode)) {
+            } else if (
+                StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(schemeWiseBranchCode) && StringUtils.isNotBlank(packsCode)
+            ) {
                 if (!bankCode.matches("\\d+") && !bankCode.matches("\\d+") && !bankCode.matches("\\d+")) {
                     throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
                 }
             }
 
-            rbaControl.authenticateByCode(bankCode, branchCode, packsCode, ENTITY_NAME);
+            rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
         } catch (BadRequestAlertException e) {
             throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
         } catch (UnAuthRequestAlertException e) {
@@ -825,7 +827,7 @@ public class IssChildFileParserResource {
 
         issChildPortalFile.setApplicationCount("" + issFileParserList.size());
         issChildPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
-        issChildPortalFile.setBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getBranchCode())));
+        issChildPortalFile.setSchemeWiseBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getSchemeWiseBranchCode())));
         issChildPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
         issChildPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
         issChildPortalFile.setBranchName(issFileParserList.get(0).getBranchName());

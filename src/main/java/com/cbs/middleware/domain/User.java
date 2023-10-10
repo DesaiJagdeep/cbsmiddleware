@@ -70,8 +70,8 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     private String bankName;
 
     @Size(max = 254)
-    @Column(name = "branch_code")
-    private String branchCode;
+    @Column(name = "scheme_wise_branch_code")
+    private String schemeWiseBranchCode;
 
     @Size(max = 254)
     @Column(name = "branch_name")
@@ -273,15 +273,15 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
         this.resetDate = resetDate;
     }
 
-    public String getBranchCode() {
-        return branchCode;
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(String branchCode) {
-        if (StringUtils.isBlank(branchCode)) {
-            this.branchCode = "";
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        if (StringUtils.isBlank(schemeWiseBranchCode)) {
+            this.schemeWiseBranchCode = "";
         } else {
-            this.branchCode = branchCode;
+            this.schemeWiseBranchCode = schemeWiseBranchCode;
         }
     }
 
@@ -323,6 +323,7 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 	@Override
 	public String toString() {
 		return "User{" + "login='" + login + '\'' + ", firstName='" + firstName + '\'' + ", lastName='" + lastName
+				+ ", schemeWiseBranchCode='" + schemeWiseBranchCode
 				+ '\'' + ", email='" + email + '\'' + ", imageUrl='" + imageUrl + '\'' + ", activated='" + activated
 				+ '\'' + ", langKey='" + langKey + '\'' + ", activationKey='" + activationKey + '\'' + "}";
 	}

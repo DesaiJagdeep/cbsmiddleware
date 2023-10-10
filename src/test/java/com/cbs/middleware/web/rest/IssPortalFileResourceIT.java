@@ -145,7 +145,7 @@ class IssPortalFileResourceIT {
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(DEFAULT_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(DEFAULT_FILE_EXTENSION);
-        assertThat(testIssPortalFile.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
+        assertThat(testIssPortalFile.getSchemeWiseBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
         assertThat(testIssPortalFile.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
         assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(DEFAULT_FROM_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(DEFAULT_TO_DISBURSEMENT_DATE);
@@ -1087,7 +1087,7 @@ class IssPortalFileResourceIT {
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(UPDATED_FILE_EXTENSION);
-        assertThat(testIssPortalFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testIssPortalFile.getSchemeWiseBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
         assertThat(testIssPortalFile.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
         assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(UPDATED_FROM_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
@@ -1184,7 +1184,7 @@ class IssPortalFileResourceIT {
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(DEFAULT_FILE_EXTENSION);
-        assertThat(testIssPortalFile.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
+        assertThat(testIssPortalFile.getSchemeWiseBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
         assertThat(testIssPortalFile.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
         assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(DEFAULT_FROM_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
@@ -1232,7 +1232,7 @@ class IssPortalFileResourceIT {
         IssPortalFile testIssPortalFile = issPortalFileList.get(issPortalFileList.size() - 1);
         assertThat(testIssPortalFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testIssPortalFile.getFileExtension()).isEqualTo(UPDATED_FILE_EXTENSION);
-        assertThat(testIssPortalFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testIssPortalFile.getSchemeWiseBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
         assertThat(testIssPortalFile.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
         assertThat(testIssPortalFile.getFromDisbursementDate()).isEqualTo(UPDATED_FROM_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);

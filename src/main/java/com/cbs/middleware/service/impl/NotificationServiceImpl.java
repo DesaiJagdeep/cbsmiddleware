@@ -103,8 +103,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Page<Notification> findTop6ByIsReadFalseAndBranchCode(Pageable pageable, String branchCode) {
-        return notificationRepository.findTop6ByIsReadFalseAndBranchCode(pageable, branchCode);
+    public Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String branchCode) {
+        return notificationRepository.findTop6ByIsReadFalseAndSchemeWiseBranchCode(pageable, branchCode);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Page<Notification> findAllByBranchCode(Pageable pageable, String branchCode) {
-        return notificationRepository.findAllByBranchCode(pageable, branchCode);
+    public Page<Notification> findAllBySchemeWiseBranchCode(Pageable pageable, String schemeWiseBranchCode) {
+        return notificationRepository.findAllBySchemeWiseBranchCode(pageable, schemeWiseBranchCode);
     }
 }

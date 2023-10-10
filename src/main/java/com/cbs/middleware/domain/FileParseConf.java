@@ -4,7 +4,7 @@ public class FileParseConf {
 
     private String bankCode;
     private String bankName;
-    private String branchCode;
+    private String schemeWiseBranchCode;
     private String branchName;
     private String pacsCode;
     private String pacsName;
@@ -17,12 +17,12 @@ public class FileParseConf {
         this.bankCode = bankCode;
     }
 
-    public String getBranchCode() {
-        return branchCode;
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public String getPacsCode() {

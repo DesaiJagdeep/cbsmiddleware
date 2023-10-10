@@ -51,8 +51,8 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
                 if (issPortalFile.getFileExtension() != null) {
                     existingIssPortalFile.setFileExtension(issPortalFile.getFileExtension());
                 }
-                if (issPortalFile.getBranchCode() != null) {
-                    existingIssPortalFile.setBranchCode(issPortalFile.getBranchCode());
+                if (issPortalFile.getSchemeWiseBranchCode() != null) {
+                    existingIssPortalFile.setSchemeWiseBranchCode(issPortalFile.getSchemeWiseBranchCode());
                 }
                 if (issPortalFile.getFinancialYear() != null) {
                     existingIssPortalFile.setFinancialYear(issPortalFile.getFinancialYear());

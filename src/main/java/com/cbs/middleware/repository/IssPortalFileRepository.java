@@ -21,7 +21,7 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
 
     boolean existsByFileNameAndFinancialYear(String originalFilename, String financialYear);
 
-    Page<IssPortalFile> findAllByBranchCode(Long branchCode, Pageable pageable);
+    Page<IssPortalFile> findAllBySchemeWiseBranchCode(Long branchCode, Pageable pageable);
 
     Page<IssPortalFile> findAllByPacsCode(Long pacsCode, Pageable pageable);
 }

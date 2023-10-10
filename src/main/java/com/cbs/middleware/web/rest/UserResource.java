@@ -231,7 +231,7 @@ public class UserResource {
             adminUserDTO.setBankName(user.getBankName());
 
             adminUserDTO.setBranchName(user.getBranchName());
-            adminUserDTO.setBranchCode(user.getBranchCode());
+            adminUserDTO.setSchemeWiseBranchCode(user.getSchemeWiseBranchCode());
 
             return adminUserDTO;
         } else if (AuthoritiesConstants.ROLE_BRANCH_USER.equals(authority.toString())) {
@@ -246,7 +246,7 @@ public class UserResource {
             adminUserDTO.setBankName(user.getBankName());
 
             adminUserDTO.setBranchName(user.getBranchName());
-            adminUserDTO.setBranchCode(user.getBranchCode());
+            adminUserDTO.setSchemeWiseBranchCode(user.getSchemeWiseBranchCode());
 
             adminUserDTO.setPacsName(user.getPacsName());
             adminUserDTO.setPacsNumber(user.getPacsNumber());
@@ -264,7 +264,7 @@ public class UserResource {
             adminUserDTO.setBankName(user.getBankName());
 
             adminUserDTO.setBranchName(user.getBranchName());
-            adminUserDTO.setBranchCode(user.getBranchCode());
+            adminUserDTO.setSchemeWiseBranchCode(user.getSchemeWiseBranchCode());
 
             adminUserDTO.setPacsName(user.getPacsName());
             adminUserDTO.setPacsNumber(user.getPacsNumber());
@@ -299,8 +299,8 @@ public class UserResource {
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
             Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
             if (optUser.isPresent()) {
-                String branchCode = optUser.get().getBranchCode();
-                page = userService.getAllManagedUsersByBranchCode(branchCode, pageable);
+                String setSchemeWiseBranchCode = optUser.get().getSchemeWiseBranchCode();
+                page = userService.getAllManagedUsersBySchemeWiseBranchCode(setSchemeWiseBranchCode, pageable);
             }
         }
 
@@ -322,7 +322,7 @@ public class UserResource {
     @GetMapping("/users/{login}")
     @PreAuthorize("@authentication.userCheck(#login,'USER','EDIT')")
     public ResponseEntity<AdminUserDTO> getUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
-        log.debug("REST request to get User : {}", login);
+        log.debug("REST requestsfsfsffssssssssssssssss to get User : {}", userService.getUserWithAuthoritiesByLogin(login));
         return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
     }
 
@@ -521,8 +521,7 @@ public class UserResource {
 
                     if (StringUtils.isNotBlank(schemeWiseBranchCode)) {
                         System.out.println(">>>>>>>>>>>>>>>>>branchCode>>>>>>>>>>>>>>>" + schemeWiseBranchCode);
-                        // adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
-
+                        adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
                     }
 
                     UserList.add(adminUserDTO);

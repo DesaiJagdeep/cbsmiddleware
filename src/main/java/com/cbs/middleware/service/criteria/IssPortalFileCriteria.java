@@ -27,7 +27,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     private StringFilter fileExtension;
 
-    private LongFilter branchCode;
+    private LongFilter schemeWiseBranchCode;
 
     private StringFilter financialYear;
 
@@ -51,7 +51,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.fileName = other.fileName == null ? null : other.fileName.copy();
         this.fileExtension = other.fileExtension == null ? null : other.fileExtension.copy();
-        this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
+        this.schemeWiseBranchCode = other.schemeWiseBranchCode == null ? null : other.schemeWiseBranchCode.copy();
         this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
         this.fromDisbursementDate = other.fromDisbursementDate == null ? null : other.fromDisbursementDate.copy();
         this.toDisbursementDate = other.toDisbursementDate == null ? null : other.toDisbursementDate.copy();
@@ -112,19 +112,19 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.fileExtension = fileExtension;
     }
 
-    public LongFilter getBranchCode() {
-        return branchCode;
+    public LongFilter getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public LongFilter branchCode() {
-        if (branchCode == null) {
-            branchCode = new LongFilter();
+    public LongFilter SchemeWiseBranchCode() {
+        if (schemeWiseBranchCode == null) {
+            schemeWiseBranchCode = new LongFilter();
         }
-        return branchCode;
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(LongFilter branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(LongFilter schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public StringFilter getFinancialYear() {
@@ -253,7 +253,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(fileName, that.fileName) &&
             Objects.equals(fileExtension, that.fileExtension) &&
-            Objects.equals(branchCode, that.branchCode) &&
+            Objects.equals(schemeWiseBranchCode, that.schemeWiseBranchCode) &&
             Objects.equals(financialYear, that.financialYear) &&
             Objects.equals(fromDisbursementDate, that.fromDisbursementDate) &&
             Objects.equals(toDisbursementDate, that.toDisbursementDate) &&
@@ -271,7 +271,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             id,
             fileName,
             fileExtension,
-            branchCode,
+            schemeWiseBranchCode,
             financialYear,
             fromDisbursementDate,
             toDisbursementDate,
@@ -290,7 +290,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (fileName != null ? "fileName=" + fileName + ", " : "") +
             (fileExtension != null ? "fileExtension=" + fileExtension + ", " : "") +
-            (branchCode != null ? "branchCode=" + branchCode + ", " : "") +
+            (schemeWiseBranchCode != null ? "schemeWiseBranchCode=" + schemeWiseBranchCode + ", " : "") +
             (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
             (fromDisbursementDate != null ? "fromDisbursementDate=" + fromDisbursementDate + ", " : "") +
             (toDisbursementDate != null ? "toDisbursementDate=" + toDisbursementDate + ", " : "") +

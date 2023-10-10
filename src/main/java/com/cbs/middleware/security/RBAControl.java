@@ -62,7 +62,7 @@ public class RBAControl {
     private static String NO = "NO";
 
     public boolean hasPermision(Long userId, Long issPortalId, Long issFileParserId, String object, String action) throws Exception {
-        String branchCodeFromId = "";
+        String schemeWiseBranchCodeFromId = "";
         String pacsNumberFromId = "";
 
         boolean returnData = false;
@@ -107,9 +107,9 @@ public class RBAControl {
             Jws<Claims> parseClaimsJws = jwtParser.parseClaimsJws(token1);
             JwsHeader header = parseClaimsJws.getHeader();
 
-            String branchCodeFromToken = "";
-            if (header.get(Constants.BRANCH_CODE_KEY) != null) {
-                branchCodeFromToken = "" + header.get(Constants.BRANCH_CODE_KEY);
+            String schemeWiseBranchCodeFromToken = "";
+            if (header.get(Constants.KCC_ISS_BRANCH_CODE_KEY) != null) {
+                schemeWiseBranchCodeFromToken = "" + header.get(Constants.KCC_ISS_BRANCH_CODE_KEY);
             }
 
             String pacsNumberFromToken = "";
@@ -121,7 +121,7 @@ public class RBAControl {
             if (issPortalId != null) {
                 issFilePortal = issPortalFileRepository.findById(issPortalId);
                 if (issFilePortal.isPresent()) {
-                    branchCodeFromId = "" + issFilePortal.get().getBranchCode();
+                    schemeWiseBranchCodeFromId = "" + issFilePortal.get().getSchemeWiseBranchCode();
                     pacsNumberFromId = "" + issFilePortal.get().getPacsCode();
                 }
             }
@@ -130,8 +130,8 @@ public class RBAControl {
             if (issFileParserId != null) {
                 issFileParser = issFileParserRepository.findById(issFileParserId);
                 if (issFileParser.isPresent()) {
-                    branchCodeFromId = "" + issFileParser.get().getIssPortalFile().getBranchCode();
-                    branchCodeFromId = "" + issFileParser.get().getBranchCode();
+                    schemeWiseBranchCodeFromId = "" + issFileParser.get().getIssPortalFile().getSchemeWiseBranchCode();
+                    schemeWiseBranchCodeFromId = "" + issFileParser.get().getSchemeWiseBranchCode();
                     pacsNumberFromId = "" + issFileParser.get().getPacsNumber();
                 }
             }
@@ -145,9 +145,13 @@ public class RBAControl {
                 return false;
             }
             if (permission.getScope().equalsIgnoreCase(OWN)) {
-                if (StringUtils.isBlank(branchCodeFromId) && StringUtils.isBlank(pacsNumberFromId) && "VIEW".equalsIgnoreCase(action)) {
+                if (
+                    StringUtils.isBlank(schemeWiseBranchCodeFromId) &&
+                    StringUtils.isBlank(pacsNumberFromId) &&
+                    "VIEW".equalsIgnoreCase(action)
+                ) {
                     return true;
-                } else if (branchCodeFromToken.toString().equalsIgnoreCase(branchCodeFromId)) {
+                } else if (schemeWiseBranchCodeFromToken.toString().equalsIgnoreCase(schemeWiseBranchCodeFromId)) {
                     return true;
                 } else {
                     return false;
@@ -155,12 +159,16 @@ public class RBAControl {
             }
 
             if (permission.getScope().equalsIgnoreCase(SELF)) {
-                if (StringUtils.isBlank(branchCodeFromId) && StringUtils.isBlank(pacsNumberFromId) && "VIEW".equalsIgnoreCase(action)) {
+                if (
+                    StringUtils.isBlank(schemeWiseBranchCodeFromId) &&
+                    StringUtils.isBlank(pacsNumberFromId) &&
+                    "VIEW".equalsIgnoreCase(action)
+                ) {
                     return true;
                 }
 
                 if (
-                    branchCodeFromToken.toString().equalsIgnoreCase(branchCodeFromId) &&
+                    schemeWiseBranchCodeFromToken.toString().equalsIgnoreCase(schemeWiseBranchCodeFromId) &&
                     pacsNumberFromToken.toString().equalsIgnoreCase(pacsNumberFromId)
                 ) {
                     return true;
@@ -174,7 +182,7 @@ public class RBAControl {
         return returnData;
     }
 
-    public void authenticateByCode(String bankCode, String branchCode, String packsNumber, String ENTITY_NAME) {
+    public void authenticateByCode(String bankCode, String schemeWiseBranchCode, String packsNumber, String ENTITY_NAME) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
@@ -186,7 +194,10 @@ public class RBAControl {
         if (user.isPresent()) {
             if (StringUtils.isNotBlank(user.get().getPacsNumber()) && !user.get().getPacsNumber().equalsIgnoreCase(packsNumber)) {
                 throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
-            } else if (StringUtils.isNotBlank(user.get().getBranchCode()) && !user.get().getBranchCode().equalsIgnoreCase(branchCode)) {
+            } else if (
+                StringUtils.isNotBlank(user.get().getSchemeWiseBranchCode()) &&
+                !user.get().getSchemeWiseBranchCode().equalsIgnoreCase(schemeWiseBranchCode)
+            ) {
                 throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
             } else if (StringUtils.isNotBlank(user.get().getBankCode()) && !user.get().getBankCode().equalsIgnoreCase(bankCode)) {
                 throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");

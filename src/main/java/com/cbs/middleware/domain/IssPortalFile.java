@@ -36,8 +36,8 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "branch_name")
     private String branchName;
 
-    @Column(name = "branch_code")
-    private Long branchCode;
+    @Column(name = "scheme_wise_branch_code")
+    private Long schemeWiseBranchCode;
 
     @Column(name = "financial_year")
     private String financialYear;
@@ -143,17 +143,17 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
         this.fileExtension = fileExtension;
     }
 
-    public Long getBranchCode() {
-        return this.branchCode;
+    public Long getSchemeWiseBranchCode() {
+        return this.schemeWiseBranchCode;
     }
 
-    public IssPortalFile branchCode(Long branchCode) {
-        this.setBranchCode(branchCode);
+    public IssPortalFile branchCode(Long schemeWiseBranchCode) {
+        this.setSchemeWiseBranchCode(schemeWiseBranchCode);
         return this;
     }
 
-    public void setBranchCode(Long branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(Long schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public Integer getKccErrorRecordCount() {
@@ -312,7 +312,7 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 	@Override
 	public String toString() {
 		return "IssPortalFile{" + "id=" + getId() + ", fileName='" + getFileName() + "'" + ", fileExtension='"
-				+ getFileExtension() + "'" + ", branchCode=" + getBranchCode() + ", financialYear='"
+				+ getFileExtension() + "'" + ", setSchemeWiseBranchCode=" + getSchemeWiseBranchCode() + ", financialYear='"
 				+ getFinancialYear() + "'" + ", fromDisbursementDate='" + getFromDisbursementDate() + "'"
 				+ ", toDisbursementDate='" + getToDisbursementDate() + "'" + ", pacsCode=" + getPacsCode()
 				+ ", status='" + getStatus() + "'" + ", applicationCount='" + getApplicationCount() + "'" + ", notes='"

@@ -129,8 +129,10 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 
                         batchTransactionMapperList.add(batchTransactionMapper);
                     } else if (
-                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)) &&
-                        branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY).equalsIgnoreCase("" + issPortalFile.getBranchCode())
+                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)) &&
+                        branchOrPacksNumber
+                            .get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                            .equalsIgnoreCase("" + issPortalFile.getSchemeWiseBranchCode())
                     ) {
                         batchTransactionMapper.setAppPendingForExecCount(
                             applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())

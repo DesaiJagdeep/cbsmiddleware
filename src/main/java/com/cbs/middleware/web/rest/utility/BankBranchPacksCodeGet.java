@@ -36,8 +36,8 @@ public class BankBranchPacksCodeGet {
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         if (StringUtils.isNotBlank(optUser.get().getPacsNumber())) {
             branchOrPacksNumber.put(Constants.PACKS_CODE_KEY, optUser.get().getPacsNumber());
-        } else if (StringUtils.isNotBlank(optUser.get().getBranchCode())) {
-            branchOrPacksNumber.put(Constants.BRANCH_CODE_KEY, optUser.get().getBranchCode());
+        } else if (StringUtils.isNotBlank(optUser.get().getSchemeWiseBranchCode())) {
+            branchOrPacksNumber.put(Constants.KCC_ISS_BRANCH_CODE_KEY, optUser.get().getSchemeWiseBranchCode());
         } else if (StringUtils.isNotBlank(optUser.get().getBankCode())) {
             branchOrPacksNumber.put(Constants.BANK_CODE_KEY, optUser.get().getBankCode());
         } else {

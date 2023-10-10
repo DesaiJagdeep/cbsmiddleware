@@ -95,8 +95,9 @@ public class ApplicationQueryService extends QueryService<Application> {
             if (criteria.getBankCode() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBankCode(), Application_.bankCode));
             }
-            if (criteria.getBranchCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBranchCode(), Application_.branchCode));
+            if (criteria.getSchemeWiseBranchCode() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getSchemeWiseBranchCode(), Application_.schemeWiseBranchCode));
             }
             if (criteria.getPacksCode() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPacksCode(), Application_.packsCode));
@@ -139,8 +140,12 @@ public class ApplicationQueryService extends QueryService<Application> {
         return applicationRepository.findAllByPacksCode(PacsCode, pageable);
     }
 
-    public Page<Application> findByCriteriaByBranchCode(Long BranchCode, ApplicationCriteria criteria, Pageable pageable) {
+    public Page<Application> findByCriteriaBySchemeWiseBranchCode(
+        Long schemeWiseBranchCode,
+        ApplicationCriteria criteria,
+        Pageable pageable
+    ) {
         log.debug("find by criteria : {}, page: {}", criteria, pageable);
-        return applicationRepository.findAllByBranchCode(BranchCode, pageable);
+        return applicationRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
     }
 }

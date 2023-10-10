@@ -83,7 +83,7 @@ public class TokenProvider {
         Optional<com.cbs.middleware.domain.User> findOneByLogin = userRepository.findOneByLogin(authentication.getName());
         if (findOneByLogin.isPresent()) {
             mapObj.put(Constants.BANK_CODE_KEY, findOneByLogin.get().getBankCode());
-            mapObj.put(Constants.BRANCH_CODE_KEY, findOneByLogin.get().getBranchCode());
+            mapObj.put(Constants.KCC_ISS_BRANCH_CODE_KEY, findOneByLogin.get().getSchemeWiseBranchCode());
             mapObj.put(Constants.PACKS_CODE_KEY, findOneByLogin.get().getPacsNumber());
         }
         return Jwts

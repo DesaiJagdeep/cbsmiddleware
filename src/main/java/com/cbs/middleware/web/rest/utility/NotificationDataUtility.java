@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,7 @@ public class NotificationDataUtility {
 
     public void notificationData(String title, String content, boolean isRead, Instant createdAt, String type) {
         String bankCode = "";
-        String branchCode = "";
+        String schemeWiseBranchCode = "";
         String pacsNumber = "";
         NotificationEmailDTO notificationEmailDTO = new NotificationEmailDTO();
         notificationEmailDTO.setContent(content);
@@ -60,15 +59,17 @@ public class NotificationDataUtility {
 
             Set<String> findAllEmailByPacsNumber = new HashSet();
             findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByPacsNumber(user.getPacsNumber()));
-            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBranchCodeAndPacsNumberEmpty(user.getBranchCode(), ""));
-            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndBranchCodeEmpty(user.getBankCode(), ""));
+            findAllEmailByPacsNumber.addAll(
+                userRepository.findAllEmailBySchemeWiseBranchCodeAndPacsNumberEmpty(user.getSchemeWiseBranchCode(), "")
+            );
+            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndSchemeWiseBranchCodeEmpty(user.getBankCode(), ""));
 
             notificationEmailDTO.setReceiver(findAllEmailByPacsNumber);
 
             pacsNumber = user.getPacsNumber();
-            branchCode = user.getBranchCode();
+            schemeWiseBranchCode = user.getSchemeWiseBranchCode();
             bankCode = user.getBankCode();
-        } else if (StringUtils.isNotBlank(user.getBranchCode())) {
+        } else if (StringUtils.isNotBlank(user.getSchemeWiseBranchCode())) {
             // find all emails of related branch branch admin and all admin
 
             if (StringUtils.isNotBlank(user.getEmail())) {
@@ -80,12 +81,14 @@ public class NotificationDataUtility {
             // find all relative users
 
             Set<String> findAllEmailByPacsNumber = new HashSet();
-            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBranchCodeAndPacsNumberEmpty(user.getBranchCode(), ""));
-            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndBranchCodeEmpty(user.getBankCode(), ""));
+            findAllEmailByPacsNumber.addAll(
+                userRepository.findAllEmailBySchemeWiseBranchCodeAndPacsNumberEmpty(user.getSchemeWiseBranchCode(), "")
+            );
+            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndSchemeWiseBranchCodeEmpty(user.getBankCode(), ""));
 
             notificationEmailDTO.setReceiver(findAllEmailByPacsNumber);
 
-            branchCode = user.getBranchCode();
+            schemeWiseBranchCode = user.getSchemeWiseBranchCode();
             bankCode = user.getBankCode();
         } else if (StringUtils.isNotBlank(user.getBankCode())) {
             // find all admin emails
@@ -99,14 +102,14 @@ public class NotificationDataUtility {
             // find all relative users
 
             Set<String> findAllEmailByPacsNumber = new HashSet();
-            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndBranchCodeEmpty(user.getBankCode(), ""));
+            findAllEmailByPacsNumber.addAll(userRepository.findAllEmailByBankCodeAndSchemeWiseBranchCodeEmpty(user.getBankCode(), ""));
 
             notificationEmailDTO.setReceiver(findAllEmailByPacsNumber);
 
             bankCode = user.getBankCode();
         }
 
-        senNotification(notificationEmailDTO, title, content, isRead, createdAt, type, bankCode, branchCode, pacsNumber);
+        senNotification(notificationEmailDTO, title, content, isRead, createdAt, type, bankCode, schemeWiseBranchCode, pacsNumber);
     }
 
     public void senNotification(
@@ -117,7 +120,7 @@ public class NotificationDataUtility {
         Instant createdAt,
         String type,
         String bankCode,
-        String branchCode,
+        String schemeWiseBranchCode,
         String pacsNumber
     ) {
         Notification notification = new Notification(
@@ -129,7 +132,7 @@ public class NotificationDataUtility {
             notificationEmailDTO.getSender(), // sender
             type,
             bankCode,
-            branchCode,
+            schemeWiseBranchCode,
             pacsNumber
         );
         notificationRepository.save(notification);

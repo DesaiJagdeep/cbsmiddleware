@@ -2,8 +2,12 @@ package com.cbs.middleware.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
-import javax.persistence.*;
-import javax.validation.constraints.Size;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * A Notification.
@@ -44,8 +48,8 @@ public class Notification implements Serializable {
     @Column(name = "bank_code")
     private String bankCode;
 
-    @Column(name = "branch_code")
-    private String branchCode;
+    @Column(name = "scheme_wise_branch_code")
+    private String schemeWiseBranchCode;
 
     @Column(name = "pacs_number")
     private String pacsNumber;
@@ -69,7 +73,7 @@ public class Notification implements Serializable {
         String sender,
         String type,
         String bankCode,
-        String branchCode,
+        String schemeWiseBranchCode,
         String pacsNumber
     ) {
         this.title = title;
@@ -79,9 +83,8 @@ public class Notification implements Serializable {
         this.recipient = recipient;
         this.sender = sender;
         this.type = type;
-
         this.bankCode = bankCode;
-        this.branchCode = branchCode;
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
         this.pacsNumber = pacsNumber;
     }
 
@@ -106,12 +109,12 @@ public class Notification implements Serializable {
         this.bankCode = bankCode;
     }
 
-    public String getBranchCode() {
-        return branchCode;
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public String getPacsNumber() {

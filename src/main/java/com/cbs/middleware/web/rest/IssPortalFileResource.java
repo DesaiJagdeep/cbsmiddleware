@@ -5,7 +5,6 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -268,10 +267,10 @@ public class IssPortalFileResource {
                     Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
                     pageable
                 );
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
-                issPortalFileQueryService.findByCriteriaCountByBranchCode(
-                    Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)),
+                issPortalFileQueryService.findByCriteriaCountBySchemeWiseBranchCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)),
                     criteria,
                     pageable
                 );

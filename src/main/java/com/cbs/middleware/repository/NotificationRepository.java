@@ -18,17 +18,19 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
 
-    Page<Notification> findTop6ByIsReadFalseAndBranchCode(Pageable pageable, String branchCode);
+    Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String schemeWiseBranchCode);
 
     Page<Notification> findAllByPacsNumber(Pageable pageable, String pacsNumber);
 
-    Page<Notification> findAllByBranchCode(Pageable pageable, String branchCode);
+    Page<Notification> findAllBySchemeWiseBranchCode(Pageable pageable, String schemeWiseBranchCode);
 
     @Query("select count(*) from Notification notification where notification.isRead is false and notification.pacsNumber =:pacsNumber")
     Long findCountByIsReadFalseAndPacsNumber(@Param("pacsNumber") String pacsNumber);
 
-    @Query("select count(*) from Notification notification where notification.isRead is false and notification.branchCode =:branchCode")
-    Long findCountByIsReadFalseAndBranchCode(String branchCode);
+    @Query(
+        "select count(*) from Notification notification where notification.isRead is false and notification.schemeWiseBranchCode =:schemeWiseBranchCode"
+    )
+    Long findCountByIsReadFalseAndSchemeWiseBranchCode(@Param("schemeWiseBranchCode") String schemeWiseBranchCode);
 
     @Query("select count(*) from Notification notification where notification.isRead is false")
     Long findCountByIsReadFalse();

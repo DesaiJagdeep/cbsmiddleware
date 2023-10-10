@@ -95,5 +95,5 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
-    Page<Application> findAllByBranchCode(Long branchCode, Pageable pageable);
+    Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 }

@@ -199,10 +199,10 @@ public class ApplicationResource {
                     Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
                     pageable
                 );
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
-                applicationQueryService.findByCriteriaByBranchCode(
-                    Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)),
+                applicationQueryService.findByCriteriaBySchemeWiseBranchCode(
+                    Long.parseLong(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)),
                     criteria,
                     pageable
                 );
@@ -252,7 +252,7 @@ public class ApplicationResource {
     @PostMapping("/bank-code")
     public BankCode getCodes(@RequestBody BankCode bankCode) {
         bankCode.setBankCode(bankMasterRepository.findBankCodeByBankName(bankCode.getBankName()));
-        bankCode.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(bankCode.getBranchName()));
+        bankCode.setSchemeWiseBranchCode(bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(bankCode.getBranchName()));
         bankCode.setPacksCode(pacsMasterRepository.findPacsNumberByPacsName(bankCode.getPacksName()));
 
         return bankCode;
@@ -274,8 +274,8 @@ public class ApplicationResource {
             applicationCriteria.setBankCode(criteria.getBankCode());
         }
 
-        if (criteria.getBranchCode() != null) {
-            applicationCriteria.setBranchCode(criteria.getBranchCode());
+        if (criteria.getSchemeWiseBranchCode() != null) {
+            applicationCriteria.setSchemeWiseBranchCode(criteria.getSchemeWiseBranchCode());
         }
 
         if (criteria.getPacksCode() != null) {

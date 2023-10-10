@@ -2,7 +2,6 @@ package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.User;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -39,14 +38,22 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAllByIdNotNullAndActivatedIsTrue(Pageable pageable);
 
-    Page<User> findAllByBranchCode(String branchCode, Pageable pageable);
+    Page<User> findAllBySchemeWiseBranchCode(String schemeWiseBranchCode, Pageable pageable);
 
     @Query(value = "select user.email from User user where user.pacsNumber =:pacsNumber")
     Set<String> findAllEmailByPacsNumber(@Param("pacsNumber") String pacsNumber);
 
-    @Query(value = "select user.email from User user where user.branchCode =:branchCode and user.pacsNumber=:pacsNumber")
-    Set<String> findAllEmailByBranchCodeAndPacsNumberEmpty(@Param("branchCode") String branchCode, @Param("pacsNumber") String pacsNumber);
+    @Query(
+        value = "select user.email from User user where user.schemeWiseBranchCode =:schemeWiseBranchCode and user.pacsNumber=:pacsNumber"
+    )
+    Set<String> findAllEmailBySchemeWiseBranchCodeAndPacsNumberEmpty(
+        @Param("schemeWiseBranchCode") String schemeWiseBranchCode,
+        @Param("pacsNumber") String pacsNumber
+    );
 
-    @Query(value = "select user.email from User user where user.bankCode =:bankCode and user.branchCode=:branchCode")
-    Set<String> findAllEmailByBankCodeAndBranchCodeEmpty(@Param("bankCode") String bankCode, @Param("branchCode") String branchCode);
+    @Query(value = "select user.email from User user where user.bankCode =:bankCode and user.schemeWiseBranchCode=:schemeWiseBranchCode")
+    Set<String> findAllEmailByBankCodeAndSchemeWiseBranchCodeEmpty(
+        @Param("schemeWiseBranchCode") String bankCode,
+        @Param("schemeWiseBranchCode") String schemeWiseBranchCode
+    );
 }

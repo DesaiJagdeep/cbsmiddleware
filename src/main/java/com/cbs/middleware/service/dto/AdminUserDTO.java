@@ -48,7 +48,7 @@ public class AdminUserDTO implements Serializable {
     private String branchName;
 
     @Size(max = 50)
-    private String branchCode;
+    private String schemeWiseBranchCode;
 
     @Size(max = 50)
     private String pacsName;
@@ -88,6 +88,7 @@ public class AdminUserDTO implements Serializable {
         this.firstName = user.getFirstName();
         this.middleName = user.getMiddleName();
         this.lastName = user.getLastName();
+        this.schemeWiseBranchCode = user.getSchemeWiseBranchCode();
         this.email = user.getEmail();
         this.activated = user.isActivated();
         this.imageUrl = user.getImageUrl();
@@ -133,12 +134,12 @@ public class AdminUserDTO implements Serializable {
         this.bankName = bankName;
     }
 
-    public String getBranchCode() {
-        return branchCode;
+    public String getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(String schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public void setLogin(String login) {

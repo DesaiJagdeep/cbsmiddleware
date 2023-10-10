@@ -28,8 +28,8 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "bank_code")
     private Long bankCode;
 
-    @Column(name = "branch_code")
-    private Long branchCode;
+    @Column(name = "scheme_wise_branch_code")
+    private Long schemeWiseBranchCode;
 
     @Column(name = "packs_code")
     private Long packsCode;
@@ -95,12 +95,12 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
         this.bankCode = bankCode;
     }
 
-    public Long getBranchCode() {
-        return branchCode;
+    public Long getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(Long branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(Long schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public Long getPacksCode() {

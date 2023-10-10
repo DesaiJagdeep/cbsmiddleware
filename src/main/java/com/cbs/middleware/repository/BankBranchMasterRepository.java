@@ -2,12 +2,12 @@ package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BankMaster;
-import com.cbs.middleware.domain.domainUtil.BranchForPacksList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -42,8 +42,10 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
     )
     Optional<BankBranchMaster> findOneWithToOneRelationships(@Param("id") Long id);
 
-    @Query("select bankBranchMaster.branchCode from BankBranchMaster bankBranchMaster where bankBranchMaster.branchName =:branchName")
-    String findBranchCodeByBranchName(@Param("branchName") String branchName);
-
     List<BankBranchMaster> findAllByBankMaster(BankMaster bankMaster);
+
+    @Query(
+        "select bankBranchMaster.schemeWiseBranchCode from BankBranchMaster bankBranchMaster where bankBranchMaster.branchName =:branchName"
+    )
+    String findSchemeWiseBranchCodeByBranchName(@Param("branchName") String branchName);
 }

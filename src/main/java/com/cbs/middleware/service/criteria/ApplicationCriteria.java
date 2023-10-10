@@ -29,7 +29,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
 
     private LongFilter bankCode;
 
-    private LongFilter branchCode;
+    private LongFilter schemeWiseBranchCode;
 
     private LongFilter packsCode;
 
@@ -55,7 +55,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.batchId = other.batchId == null ? null : other.batchId.copy();
         this.bankCode = other.bankCode == null ? null : other.bankCode.copy();
-        this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
+        this.schemeWiseBranchCode = other.schemeWiseBranchCode == null ? null : other.schemeWiseBranchCode.copy();
         this.packsCode = other.packsCode == null ? null : other.packsCode.copy();
         this.uniqueId = other.uniqueId == null ? null : other.uniqueId.copy();
         this.recordStatus = other.recordStatus == null ? null : other.recordStatus.copy();
@@ -118,19 +118,19 @@ public class ApplicationCriteria implements Serializable, Criteria {
         this.bankCode = bankCode;
     }
 
-    public LongFilter getBranchCode() {
-        return branchCode;
+    public LongFilter getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
     }
 
-    public LongFilter branchCode() {
-        if (branchCode == null) {
-            branchCode = new LongFilter();
+    public LongFilter schemeWiseBranchCode() {
+        if (schemeWiseBranchCode == null) {
+            schemeWiseBranchCode = new LongFilter();
         }
-        return branchCode;
+        return schemeWiseBranchCode;
     }
 
-    public void setBranchCode(LongFilter branchCode) {
-        this.branchCode = branchCode;
+    public void setSchemeWiseBranchCode(LongFilter schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
     public LongFilter getPacksCode() {
@@ -289,7 +289,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(financialYear, that.financialYear) &&
             Objects.equals(bankCode, that.bankCode) &&
-            Objects.equals(branchCode, that.branchCode) &&
+            Objects.equals(schemeWiseBranchCode, that.schemeWiseBranchCode) &&
             Objects.equals(packsCode, that.packsCode) &&
             Objects.equals(batchId, that.batchId) &&
             Objects.equals(uniqueId, that.uniqueId) &&
@@ -310,7 +310,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
             batchId,
             financialYear,
             bankCode,
-            branchCode,
+            schemeWiseBranchCode,
             packsCode,
             uniqueId,
             recordStatus,
@@ -330,7 +330,7 @@ public class ApplicationCriteria implements Serializable, Criteria {
 				+ (batchId != null ? "batchId=" + batchId + ", " : "")
 				+ (financialYear != null ? "financialYear=" + financialYear + ", " : "")
 				+ (bankCode != null ? "bankCode=" + bankCode + ", " : "")
-				+ (branchCode != null ? "branchCode=" + branchCode + ", " : "")
+				+ (schemeWiseBranchCode != null ? "branchCode=" + schemeWiseBranchCode + ", " : "")
 				+ (packsCode != null ? "packsCode=" + packsCode + ", " : "")
 				+ (uniqueId != null ? "uniqueId=" + uniqueId + ", " : "")
 				+ (recordStatus != null ? "recordStatus=" + recordStatus + ", " : "")

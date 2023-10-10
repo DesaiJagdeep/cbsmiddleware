@@ -189,8 +189,8 @@ public class NotificationResource {
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page = notificationService.findAllByPacsNumber(pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
-            page = notificationService.findAllByBranchCode(pageable, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+            page = notificationService.findAllBySchemeWiseBranchCode(pageable, branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = notificationService.findAll(pageable);
         } else {
@@ -212,10 +212,17 @@ public class NotificationResource {
             page = notificationService.findTop6ByIsReadFalseAndPacsNumber(pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
 
             count = notificationRepository.findCountByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
-            page = notificationService.findTop6ByIsReadFalseAndBranchCode(pageable, branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+            page =
+                notificationService.findTop6ByIsReadFalseAndSchemeWiseBranchCode(
+                    pageable,
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                );
 
-            count = notificationRepository.findCountByIsReadFalseAndBranchCode(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY));
+            count =
+                notificationRepository.findCountByIsReadFalseAndSchemeWiseBranchCode(
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = notificationService.findTop6ByIsReadFalse(pageable);
 

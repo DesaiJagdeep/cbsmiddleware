@@ -196,7 +196,7 @@ public class ApplicationLogResource {
             page = applicationLogQueryService.findByCriteria(criteria, pageable);
             //			page = applicationLogQueryService.findByCriteriaCountByPacsCode(
             //					Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)), pageable);
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY))) {
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page = applicationLogQueryService.findByCriteria(criteria, pageable);
             //			page = applicationLogQueryService.findByCriteriaCountByBranchCode(
             //					Long.parseLong(branchOrPacksNumber.get(Constants.BRANCH_CODE_KEY)), criteria, pageable);

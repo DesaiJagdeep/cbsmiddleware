@@ -113,8 +113,9 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             if (criteria.getFileExtension() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFileExtension(), IssPortalFile_.fileExtension));
             }
-            if (criteria.getBranchCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBranchCode(), IssPortalFile_.branchCode));
+            if (criteria.getSchemeWiseBranchCode() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getSchemeWiseBranchCode(), IssPortalFile_.schemeWiseBranchCode));
             }
             if (criteria.getFinancialYear() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), IssPortalFile_.financialYear));
@@ -173,9 +174,13 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         return issPortalFileMapperList;
     }
 
-    public List<IssPortalFile> findByCriteriaCountByBranchCode(Long branchCode, IssPortalFileCriteria criteria, Pageable pageable) {
+    public List<IssPortalFile> findByCriteriaCountBySchemeWiseBranchCode(
+        Long schemeWiseBranchCode,
+        IssPortalFileCriteria criteria,
+        Pageable pageable
+    ) {
         List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
-        Page<IssPortalFile> findAll = issPortalFileRepository.findAllByBranchCode(branchCode, pageable);
+        Page<IssPortalFile> findAll = issPortalFileRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
 
         for (IssPortalFile issPortalFile : findAll) {
             issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));

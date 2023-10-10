@@ -219,7 +219,9 @@ public class UserService {
                         user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                         user.setBranchName(userDTO.getBranchName());
-                        user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                        user.setSchemeWiseBranchCode(
+                            bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                        );
                     }
                 } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
                     if (
@@ -237,7 +239,9 @@ public class UserService {
                         user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                         user.setBranchName(userDTO.getBranchName());
-                        user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                        user.setSchemeWiseBranchCode(
+                            bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                        );
 
                         user.setPacsName(userDTO.getPacsName());
                         user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
@@ -258,7 +262,9 @@ public class UserService {
                         user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                         user.setBranchName(userDTO.getBranchName());
-                        user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                        user.setSchemeWiseBranchCode(
+                            bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                        );
 
                         user.setPacsName(userDTO.getPacsName());
                         user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
@@ -321,7 +327,7 @@ public class UserService {
                             user.setBankName(userDTO.getBankName());
                             user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
-                            user.setBranchCode("");
+                            user.setSchemeWiseBranchCode("");
                             user.setBranchName("");
                             user.setPacsName("");
                             user.setPacsNumber("");
@@ -334,7 +340,9 @@ public class UserService {
                             user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                             user.setBranchName(userDTO.getBranchName());
-                            user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                            user.setSchemeWiseBranchCode(
+                                bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                            );
 
                             user.setPacsName("");
                             user.setPacsNumber("");
@@ -355,7 +363,9 @@ public class UserService {
                             user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                             user.setBranchName(userDTO.getBranchName());
-                            user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                            user.setSchemeWiseBranchCode(
+                                bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                            );
 
                             user.setPacsName(userDTO.getPacsName());
                             user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
@@ -376,7 +386,9 @@ public class UserService {
                             user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                             user.setBranchName(userDTO.getBranchName());
-                            user.setBranchCode(bankBranchMasterRepository.findBranchCodeByBranchName(userDTO.getBranchName()));
+                            user.setSchemeWiseBranchCode(
+                                bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
+                            );
 
                             user.setPacsName(userDTO.getPacsName());
                             user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
@@ -466,8 +478,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AdminUserDTO> getAllManagedUsersByBranchCode(String BranchCode, Pageable pageable) {
-        return userRepository.findAllByBranchCode(BranchCode, pageable).map(AdminUserDTO::new);
+    public Page<AdminUserDTO> getAllManagedUsersBySchemeWiseBranchCode(String schemeWiseBranchCode, Pageable pageable) {
+        return userRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable).map(AdminUserDTO::new);
     }
 
     @Transactional(readOnly = true)

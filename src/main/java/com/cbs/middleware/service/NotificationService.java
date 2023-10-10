@@ -61,9 +61,9 @@ public interface NotificationService {
 
     Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
 
-    Page<Notification> findTop6ByIsReadFalseAndBranchCode(Pageable pageable, String branchCode);
+    Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String branchCode);
 
     Page<Notification> findAllByPacsNumber(Pageable pageable, String string);
 
-    Page<Notification> findAllByBranchCode(Pageable pageable, String string);
+    Page<Notification> findAllBySchemeWiseBranchCode(Pageable pageable, String string);
 }

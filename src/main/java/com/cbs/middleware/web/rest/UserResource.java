@@ -3,6 +3,8 @@ package com.cbs.middleware.web.rest;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.domain.UserFileDetails;
+import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.repository.UserFileDetailsRepository;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.MailService;
@@ -12,6 +14,8 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
+import com.cbs.middleware.web.rest.errors.MobileAlreadyUsedException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -45,6 +49,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -133,6 +138,15 @@ public class UserResource {
 
     private final MailService mailService;
 
+    @Autowired
+    UserFileDetailsRepository userFileDetailsRepository;
+
+    @Autowired
+    NotificationRepository notificationRepository;
+
+    @Autowired
+    NotificationDataUtility notificationDataUtility;
+
     public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
@@ -163,9 +177,13 @@ public class UserResource {
             // Lowercase the user login before comparing with database
         } else if (userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).isPresent()) {
             throw new LoginAlreadyUsedException();
-        } else if (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
-            throw new EmailAlreadyUsedException();
-        } else {
+        } else if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
+            throw new MobileAlreadyUsedException();
+        } /*
+         * else if
+         * (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
+         * throw new EmailAlreadyUsedException(); }
+         */else {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity
@@ -194,9 +212,14 @@ public class UserResource {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
-        if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
-            throw new EmailAlreadyUsedException();
+
+        if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
+            throw new MobileAlreadyUsedException();
         }
+
+        /* if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
+            throw new EmailAlreadyUsedException();
+        }*/
 
         existingUser = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
@@ -341,8 +364,8 @@ public class UserResource {
     }
 
     @PostMapping("/master-user-upload")
-    public List<AdminUserDTO> createKMPFile(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes)
-        throws Exception {
+    @PreAuthorize("@authentication.hasPermision('','','','USER','CREATE')")
+    public Object createKMPFile(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes) throws Exception {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
         List<AdminUserDTO> UserList = new ArrayList<>();
         if (!"xlsx".equalsIgnoreCase(fileExtension)) {
@@ -408,6 +431,7 @@ public class UserResource {
 
         Set<String> branchUser = new HashSet<>();
         branchUser.add("ROLE_BRANCH_USER");
+        Set<String> mobileIfPresent = new HashSet<>();
 
         int startRowIndex = filecount + 1; // Starting row index
 
@@ -418,139 +442,151 @@ public class UserResource {
             for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
                 Row row = sheet.getRow(rowIndex); // Get the current row
                 AdminUserDTO adminUserDTO = new AdminUserDTO();
+                adminUserDTO.setBankName("Pune District Central Co.op Bank Ltd");
                 if (row != null) {
-                    if (
-                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
-                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
-                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
-                        StringUtils.isBlank(getCellValue(row.getCell(3)))
-                    ) {
-                        break;
-                    }
-
-                    if (!falgForFileName) {
-                        userFileDetails.setFileName(files.getOriginalFilename());
-                        userFileDetails.setUniqueFileName(uniqueName + "." + fileExtension);
-                        falgForFileName = true;
-                    }
-
-                    // add logic for skipping records if exists
-
-                    String talukaName = getCellValue(row.getCell(0));
-
-                    if (StringUtils.isNotBlank(talukaName)) {
-                        System.out.println(">>>>>>>>>>>>>>>>>talukaName>>>>>>>>>>>>>>" + talukaName);
-                    }
-
-                    String branchName = getCellValue(row.getCell(1));
-
-                    if (StringUtils.isNotBlank(branchName)) {
-                        System.out.println(">>>>>>>>>>>>>>>>branchName>>>>>>>>>>>>>>>>" + branchName);
-
-                        adminUserDTO.setBankName(branchName);
-                    }
-
-                    String fullName = getCellValue(row.getCell(2));
-
-                    if (StringUtils.isNotBlank(fullName)) {
-                        String[] fullNameArray = fullName.split("\\s+");
-
-                        if (fullNameArray.length == 1) {
-                            String firstName = fullNameArray[0];
-                            adminUserDTO.setFirstName(firstName);
-                        } else if (fullNameArray.length == 2) {
-                            String firstName = fullNameArray[0];
-
-                            String lastName = fullNameArray[1];
-
-                            adminUserDTO.setFirstName(firstName);
-                            adminUserDTO.setLastName(lastName);
-                        } else if (fullNameArray.length == 3) {
-                            String firstName = fullNameArray[0];
-                            String middleName = fullNameArray[1];
-                            String lastName = fullNameArray[2];
-
-                            adminUserDTO.setFirstName(firstName);
-                            adminUserDTO.setMiddleName(middleName);
-                            adminUserDTO.setLastName(lastName);
-                        } else if (fullNameArray.length == 4) {
-                            String firstName = fullNameArray[0];
-                            String firstName1 = fullNameArray[1];
-                            String middleName = fullNameArray[2];
-                            String lastName = fullNameArray[3];
-
-                            adminUserDTO.setFirstName(firstName + " " + firstName1);
-                            adminUserDTO.setMiddleName(middleName);
-                            adminUserDTO.setLastName(lastName);
-                        }
-                    }
                     String mobileNumber = getCellValue(row.getCell(3));
 
-                    if (StringUtils.isNotBlank(mobileNumber)) {
-                        System.out.println(">>>>>>>>>>>>>>>>mobileNumber>>>>>>>>>>>>>>>>" + mobileNumber);
-                        adminUserDTO.setMobileNumber(mobileNumber);
-                    }
-                    String emailName = getCellValue(row.getCell(4));
+                    if (StringUtils.isNotBlank(mobileNumber) && !userRepository.findOneByMobileNumber(mobileNumber).isPresent()) {
+                        if (
+                            StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(3)))
+                        ) {
+                            break;
+                        }
 
-                    if (StringUtils.isNotBlank(emailName)) {
-                        System.out.println(">>>>>>>>>>>>>>>>emailName>>>>>>>>>>>>>>>>" + emailName);
-                        adminUserDTO.setEmail(emailName);
-                    }
-                    String activeStatus = getCellValue(row.getCell(5));
+                        if (!falgForFileName) {
+                            userFileDetails.setFileName(files.getOriginalFilename());
+                            userFileDetails.setUniqueFileName(uniqueName + "." + fileExtension);
+                            falgForFileName = true;
+                        }
 
-                    if (StringUtils.isNotBlank(activeStatus)) {
-                        System.out.println(">>>>>>>>>>>>>>>activeStatus>>>>>>>>>>>>>>>>" + activeStatus);
-                        if (activeStatus.equalsIgnoreCase("active")) {
-                            adminUserDTO.setActivated(true);
+                        // add logic for skipping records if exists
+
+                        String talukaName = getCellValue(row.getCell(0));
+
+                        if (StringUtils.isNotBlank(talukaName)) {
+                            System.out.println(">>>>>>>>>>>>>>>>>talukaName>>>>>>>>>>>>>>" + talukaName);
+                        }
+
+                        String branchName = getCellValue(row.getCell(1));
+
+                        if (StringUtils.isNotBlank(branchName)) {
+                            adminUserDTO.setBranchName(branchName);
+                        }
+
+                        String fullName = getCellValue(row.getCell(2));
+
+                        if (StringUtils.isNotBlank(fullName)) {
+                            String[] fullNameArray = fullName.split("\\s+");
+
+                            if (fullNameArray.length == 1) {
+                                String firstName = fullNameArray[0];
+                                adminUserDTO.setFirstName(firstName);
+                            } else if (fullNameArray.length == 2) {
+                                String firstName = fullNameArray[0];
+
+                                String lastName = fullNameArray[1];
+
+                                adminUserDTO.setFirstName(firstName);
+                                adminUserDTO.setLastName(lastName);
+                            } else if (fullNameArray.length == 3) {
+                                String firstName = fullNameArray[0];
+                                String middleName = fullNameArray[1];
+                                String lastName = fullNameArray[2];
+
+                                adminUserDTO.setFirstName(firstName);
+                                adminUserDTO.setMiddleName(middleName);
+                                adminUserDTO.setLastName(lastName);
+                            } else if (fullNameArray.length == 4) {
+                                String firstName = fullNameArray[0];
+                                String firstName1 = fullNameArray[1];
+                                String middleName = fullNameArray[2];
+                                String lastName = fullNameArray[3];
+
+                                adminUserDTO.setFirstName(firstName + " " + firstName1);
+                                adminUserDTO.setMiddleName(middleName);
+                                adminUserDTO.setLastName(lastName);
+                            }
+                        }
+
+                        if (StringUtils.isNotBlank(mobileNumber)) {
+                            adminUserDTO.setLogin(mobileNumber);
+                            adminUserDTO.setMobileNumber(mobileNumber);
+                        }
+
+                        String emailName = getCellValue(row.getCell(4));
+
+                        if (StringUtils.isNotBlank(emailName)) {
+                            adminUserDTO.setEmail(emailName);
                         } else {
-                            adminUserDTO.setActivated(false);
+                            adminUserDTO.setEmail(mobileNumber + "@test.com");
                         }
-                    }
-                    String userType = getCellValue(row.getCell(6));
+                        String activeStatus = getCellValue(row.getCell(5));
 
-                    if (StringUtils.isNotBlank(userType)) {
-                        System.out.println(">>>>>>>>>>>>userType>>>>>>>>>>>>>>>>>>>>" + userType);
-
-                        if (userType.equalsIgnoreCase("Cooperative Bank Branch Manager")) {
-                            adminUserDTO.setAuthorities(branchAdmin);
-                        } else if (userType.equalsIgnoreCase("Cooperative Bank Branch User")) {
-                            adminUserDTO.setAuthorities(branchUser);
+                        if (StringUtils.isNotBlank(activeStatus)) {
+                            if (activeStatus.equalsIgnoreCase("active")) {
+                                adminUserDTO.setActivated(true);
+                            } else {
+                                adminUserDTO.setActivated(false);
+                            }
                         }
-                    }
-                    String schemeWiseBranchCode = getCellValue(row.getCell(7));
+                        String userType = getCellValue(row.getCell(6));
 
-                    if (StringUtils.isNotBlank(schemeWiseBranchCode)) {
-                        System.out.println(">>>>>>>>>>>>>>>>>branchCode>>>>>>>>>>>>>>>" + schemeWiseBranchCode);
-                        adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
-                    }
+                        if (StringUtils.isNotBlank(userType)) {
+                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + userType);
 
-                    UserList.add(adminUserDTO);
+                            userType = userType.trim().toLowerCase();
+
+                            if (userType.equals("cooperative bank branch manager")) {
+                                System.out.println(">>>>>>>>>>>>>>>>>Manager>>>>>>>>>>>>" + userType);
+                                adminUserDTO.setAuthorities(branchAdmin);
+                            } else if (userType.equals("cooperative bank branch user")) {
+                                System.out.println(">>>>>>>>>>>>>>>>User>>>>>>>>>>>>>" + userType);
+                                adminUserDTO.setAuthorities(branchUser);
+                            }
+                        }
+                        String schemeWiseBranchCode = getCellValue(row.getCell(7));
+
+                        if (StringUtils.isNotBlank(schemeWiseBranchCode)) {
+                            adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
+                        }
+                        userService.createUser(adminUserDTO);
+
+                        UserList.add(adminUserDTO);
+                    } else {
+                        mobileIfPresent.add(mobileNumber);
+                    }
                 }
             }
-            //            if (!UserList.isEmpty()) {
-            //                userRepository.saveAll(UserList);
-            //                userFileDetailsRepository.save(userFileDetails);
-            //                if (UserList.get(0) != null) {
-            //                    try {
-            //                        notificationDataUtility.notificationData(
-            //                            "Master User file uploaded",
-            //                            "Master User file : " + files.getOriginalFilename() + " uploaded",
-            //                            false,
-            //                            UserList.get(0).getCreatedDate(),
-            //                            "masterUserListUploaded" // type
-            //                        );
-            //                    } catch (Exception e) {}
-            //                }
-            //
-            //                return ResponseEntity.ok().body(UserList);
-            //            } else {
-            //                throw new BadRequestAlertException("File is already parsed", "", "FileExist");
-            //            }
+            if (!UserList.isEmpty()) {
+                userFileDetailsRepository.save(userFileDetails);
+                //                            if (UserList.get(0) != null) {
+                //                                try {
+                //                                    notificationDataUtility.notificationData(
+                //                                        "Master User file uploaded",
+                //                                        "Master User file : " + files.getOriginalFilename() + " uploaded",
+                //                                        false,
+                //                                        UserList.get(0).getCreatedDate(),
+                //                                        "masterUserListUploaded" // type
+                //                                    );
+                //                                } catch (Exception e) {}
+                //                            }
+
+            }/*
+             * else { throw new BadRequestAlertException("File is already parsed", "",
+             * "FileExist"); }
+             */
+
+            if (!mobileIfPresent.isEmpty()) {
+                return mobileIfPresent;
+            } else {
+                return UserList;
+            }
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", "", "nullColumn");
         }
-
-        return UserList;
     }
 
     private static String getCellValue(Cell cell) {

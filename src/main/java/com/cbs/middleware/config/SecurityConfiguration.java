@@ -1,7 +1,7 @@
 package com.cbs.middleware.config;
 
-import com.cbs.middleware.security.*;
-import com.cbs.middleware.security.jwt.*;
+import com.cbs.middleware.security.jwt.JWTConfigurer;
+import com.cbs.middleware.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;

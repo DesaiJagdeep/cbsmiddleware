@@ -3,6 +3,7 @@ package com.cbs.middleware.service.impl;
 import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.NotificationService;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,18 +94,18 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Page<Notification> findTop6ByIsReadFalse(Pageable pageable) {
-        return notificationRepository.findTop6ByIsReadFalse(pageable);
+    public List<Notification> findAllByIsReadFalse() {
+        return notificationRepository.findAllByIsReadFalse();
     }
 
     @Override
-    public Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber) {
-        return notificationRepository.findTop6ByIsReadFalseAndPacsNumber(pageable, pacsNumber);
+    public List<Notification> findAllByIsReadFalseAndPacsNumber(String pacsNumber) {
+        return notificationRepository.findAllByIsReadFalseAndPacsNumber(pacsNumber);
     }
 
     @Override
-    public Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String branchCode) {
-        return notificationRepository.findTop6ByIsReadFalseAndSchemeWiseBranchCode(pageable, branchCode);
+    public List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String branchCode) {
+        return notificationRepository.findAllByIsReadFalseAndSchemeWiseBranchCode(branchCode);
     }
 
     @Override

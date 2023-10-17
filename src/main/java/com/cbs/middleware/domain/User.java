@@ -52,6 +52,9 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
+    @Column(name = "password_change")
+    private boolean passwordChanged;
+
     @Email
     @Size(max = 254)
     @Column(length = 254)
@@ -139,6 +142,14 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public boolean isPasswordChanged() {
+        return passwordChanged;
+    }
+
+    public void setPasswordChanged(boolean passwordChanged) {
+        this.passwordChanged = passwordChanged;
     }
 
     public String getBankName() {

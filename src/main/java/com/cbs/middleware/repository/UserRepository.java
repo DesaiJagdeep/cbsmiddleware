@@ -55,7 +55,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select user.email from User user where user.bankCode =:bankCode and user.schemeWiseBranchCode=:schemeWiseBranchCode")
     Set<String> findAllEmailByBankCodeAndSchemeWiseBranchCodeEmpty(
-        @Param("schemeWiseBranchCode") String bankCode,
+        @Param("bankCode") String bankCode,
         @Param("schemeWiseBranchCode") String schemeWiseBranchCode
     );
+
+    Optional<User> findOneById(Long userId);
 }

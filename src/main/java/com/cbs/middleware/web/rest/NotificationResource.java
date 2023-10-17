@@ -156,24 +156,6 @@ public class NotificationResource {
         );
     }
 
-    @GetMapping("/testcw")
-    public void test() throws DocumentException, FileNotFoundException {
-        String RESULT = "D:\\PDCC\\certificate14.pdf";
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(RESULT));
-        document.open();
-        int w = 400;
-        int h = 150;
-
-        PdfContentByte cb = writer.getDirectContent();
-        PdfTemplate tp = cb.createTemplate(w, h);
-        Graphics2D g2 = tp.createGraphicsShapes(w, h);
-        g2.drawString("मराठी ग्रीटींग्स, मराठी शुभेच्छापत्रे", 20, 100);
-        g2.dispose();
-        cb.addTemplate(tp, 50, 400);
-        document.close();
-    }
-
     /**
      * {@code GET  /notifications} : get all the notifications.
      *
@@ -205,26 +187,23 @@ public class NotificationResource {
     public ResponseEntity<List<Notification>> getNotifications(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
         log.debug("REST request to get a page of Notifications");
         Long count = 0l;
-        Page<Notification> page = null;
+        List<Notification> page = null;
         Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
-            page = notificationService.findTop6ByIsReadFalseAndPacsNumber(pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+            page = notificationService.findAllByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
 
             count = notificationRepository.findCountByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
-                notificationService.findTop6ByIsReadFalseAndSchemeWiseBranchCode(
-                    pageable,
-                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
-                );
+                notificationService.findAllByIsReadFalseAndSchemeWiseBranchCode(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
 
             count =
                 notificationRepository.findCountByIsReadFalseAndSchemeWiseBranchCode(
                     branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
-            page = notificationService.findTop6ByIsReadFalse(pageable);
+            page = notificationService.findAllByIsReadFalse();
 
             count = notificationRepository.findCountByIsReadFalse();
         } else {
@@ -237,7 +216,7 @@ public class NotificationResource {
         List<String> contentDispositionList = new ArrayList<>();
         contentDispositionList.add("X-Total-Count");
 
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        return ResponseEntity.ok().headers(headers).body(page);
     }
 
     /**

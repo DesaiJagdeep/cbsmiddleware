@@ -22,6 +22,9 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "pacs_name")
     private String pacsName;
 
+    @Column(name = "pacs_name_mr")
+    private String pacsNameMr;
+
     @Column(name = "pacs_number")
     private String pacsNumber;
 
@@ -59,6 +62,14 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
 
     public String getPacsNumber() {
         return this.pacsNumber;
+    }
+
+    public String getPacsNameMr() {
+        return pacsNameMr;
+    }
+
+    public void setPacsNameMr(String pacsNameMr) {
+        this.pacsNameMr = pacsNameMr;
     }
 
     public PacsMaster pacsNumber(String pacsNumber) {

@@ -183,6 +183,8 @@ public class RBAControl {
     }
 
     public void authenticateByCode(String bankCode, String schemeWiseBranchCode, String packsNumber, String ENTITY_NAME) {
+        System.out.println(">>>>>>>>>>>>>>schemeWiseBranchCode>>>>>>>>>>>>>>>>" + schemeWiseBranchCode);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
@@ -191,7 +193,10 @@ public class RBAControl {
         if (!user.isPresent()) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         }
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>user>>>>>>" + user);
         if (user.isPresent()) {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>user>>>>>>" + user);
+
             if (StringUtils.isNotBlank(user.get().getPacsNumber()) && !user.get().getPacsNumber().equalsIgnoreCase(packsNumber)) {
                 throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
             } else if (

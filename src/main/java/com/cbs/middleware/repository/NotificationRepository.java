@@ -1,6 +1,7 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.Notification;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,11 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
-    Page<Notification> findTop6ByIsReadFalse(Pageable pageable);
+    List<Notification> findAllByIsReadFalse();
+
+    List<Notification> findAllByIsReadFalseAndPacsNumber(String pacsNumber);
+
+    List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String schemeWiseBranchCode);
 
     Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
 

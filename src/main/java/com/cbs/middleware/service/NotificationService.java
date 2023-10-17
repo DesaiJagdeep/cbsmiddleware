@@ -1,7 +1,7 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.Notification;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,11 +57,11 @@ public interface NotificationService {
      */
     void delete(Long id);
 
-    Page<Notification> findTop6ByIsReadFalse(Pageable pageable);
+    List<Notification> findAllByIsReadFalse();
 
-    Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
+    List<Notification> findAllByIsReadFalseAndPacsNumber(String pacsNumber);
 
-    Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String branchCode);
+    List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String branchCode);
 
     Page<Notification> findAllByPacsNumber(Pageable pageable, String string);
 

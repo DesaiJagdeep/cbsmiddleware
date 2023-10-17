@@ -30,8 +30,20 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "branch_address")
     private String branchAddress;
 
+    @Column(name = "branch_name_mr")
+    private String branchNameMr;
+
+    @Column(name = "branch_address_mr")
+    private String branchAddressMr;
+
+    @Column(name = "pincode")
+    private String pincode;
+
     @ManyToOne
     private BankMaster bankMaster;
+
+    @ManyToOne
+    private TalukaMaster talukaMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -63,6 +75,30 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
 
     public String getBranchName() {
         return this.branchName;
+    }
+
+    public String getBranchNameMr() {
+        return branchNameMr;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public void setBranchNameMr(String branchNameMr) {
+        this.branchNameMr = branchNameMr;
+    }
+
+    public String getBranchAddressMr() {
+        return branchAddressMr;
+    }
+
+    public void setBranchAddressMr(String branchAddressMr) {
+        this.branchAddressMr = branchAddressMr;
     }
 
     public BankBranchMaster branchName(String branchName) {
@@ -109,6 +145,14 @@ public class BankBranchMaster extends AbstractAuditingEntity<Long> implements Se
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public TalukaMaster getTalukaMaster() {
+        return talukaMaster;
+    }
+
+    public void setTalukaMaster(TalukaMaster talukaMaster) {
+        this.talukaMaster = talukaMaster;
+    }
 
     @Override
     public boolean equals(Object o) {

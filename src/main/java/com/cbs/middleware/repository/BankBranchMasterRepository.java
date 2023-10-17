@@ -48,4 +48,8 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
         "select bankBranchMaster.schemeWiseBranchCode from BankBranchMaster bankBranchMaster where bankBranchMaster.branchName =:branchName"
     )
     String findSchemeWiseBranchCodeByBranchName(@Param("branchName") String branchName);
+
+    boolean existsByBranchName(String talukaName);
+
+    BankBranchMaster findOneByBranchName(String talukaName);
 }

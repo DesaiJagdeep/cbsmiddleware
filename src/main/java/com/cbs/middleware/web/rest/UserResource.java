@@ -213,9 +213,9 @@ public class UserResource {
 
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
 
-        if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
-            throw new MobileAlreadyUsedException();
-        }
+        //        if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
+        //            throw new MobileAlreadyUsedException();
+        //        }
 
         /* if (existingUser.isPresent() && (!existingUser.get().getId().equals(userDTO.getId()))) {
             throw new EmailAlreadyUsedException();
@@ -234,6 +234,38 @@ public class UserResource {
             updatedUser,
             HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin())
         );
+    }
+
+    @GetMapping("/password-changed/{userId}")
+    public void passwordChanged(@PathVariable Long userId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+        }
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        if (!optUser.isPresent()) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+        }
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        if (authorities.size() == 1) {
+            GrantedAuthority authority = authorities.stream().findFirst().get();
+
+            if (authority.toString().equals(AuthoritiesConstants.ANONYMOUS)) {
+                throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+            }
+        }
+        Optional<User> optUserById = userRepository.findOneById(userId);
+        if (!optUser.isPresent()) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+        } else if (optUser.get().getLogin().equalsIgnoreCase(optUserById.get().getLogin())) {
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            User user = optUserById.get();
+            user.setPasswordChanged(true);
+            userRepository.save(user);
+        } else {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
+        }
     }
 
     private AdminUserDTO changeRole(Authentication auth, AdminUserDTO adminUserDTO, User user) {

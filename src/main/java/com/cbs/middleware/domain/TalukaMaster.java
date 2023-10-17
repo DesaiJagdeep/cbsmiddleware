@@ -27,6 +27,9 @@ public class TalukaMaster extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "taluka_name_mr")
     private String talukaNameMr;
 
+    @Column(name = "taluka_code_mr")
+    private String talukaCodeMr;
+
     @Column(name = "district_code")
     private String districtCode;
 
@@ -65,6 +68,14 @@ public class TalukaMaster extends AbstractAuditingEntity<Long> implements Serial
     public TalukaMaster talukaName(String talukaName) {
         this.setTalukaName(talukaName);
         return this;
+    }
+
+    public String getTalukaCodeMr() {
+        return talukaCodeMr;
+    }
+
+    public void setTalukaCodeMr(String talukaCodeMr) {
+        this.talukaCodeMr = talukaCodeMr;
     }
 
     public void setTalukaName(String talukaName) {

@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TalukaMasterRepository extends JpaRepository<TalukaMaster, Long> {}
+public interface TalukaMasterRepository extends JpaRepository<TalukaMaster, Long> {
+    boolean existsByTalukaName(String talukaName);
+
+    TalukaMaster findOneByTalukaName(String talukaName);
+}

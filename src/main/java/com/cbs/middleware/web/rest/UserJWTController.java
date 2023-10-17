@@ -15,9 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Controller to authenticate users.
@@ -57,7 +59,9 @@ public class UserJWTController {
 
         String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
 
-        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName), httpHeaders, HttpStatus.OK);
+        boolean passwordChange = findOneByLogin.get().isPasswordChanged();
+
+        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName, passwordChange), httpHeaders, HttpStatus.OK);
     }
 
     /**
@@ -69,12 +73,14 @@ public class UserJWTController {
         private String idToken;
         private String authority;
         private String fullName;
+        private boolean passwordChanged;
 
-        JWTToken(String idToken, String authority, String userName, String fullName) {
+        JWTToken(String idToken, String authority, String userName, String fullName, boolean passwordChanged) {
             this.idToken = idToken;
             this.authority = authority;
             this.userName = userName;
             this.fullName = fullName;
+            this.passwordChanged = passwordChanged;
         }
 
         @JsonProperty("id_token")
@@ -108,6 +114,14 @@ public class UserJWTController {
 
         public void setFullName(String fullName) {
             this.fullName = fullName;
+        }
+
+        public boolean isPasswordChanged() {
+            return passwordChanged;
+        }
+
+        public void setPasswordChanged(boolean passwordChanged) {
+            this.passwordChanged = passwordChanged;
         }
     }
 }

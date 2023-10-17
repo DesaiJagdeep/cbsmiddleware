@@ -43,4 +43,11 @@ public interface PacsMasterRepository extends JpaRepository<PacsMaster, Long> {
     String findPacsNumberByPacsName(@Param("pacsName") String pacsName);
 
     List<PacsMaster> findAllByBankBranchMaster(BankBranchMaster bankBranchMaster);
+
+    @Query("select pacsMaster from PacsMaster pacsMaster where pacsMaster.bankBranchMaster.branchName =:branchName")
+    List<PacsMaster> findAllByBranchName(@Param("branchName") String branchName);
+
+    boolean existsByPacsName(String pacsName);
+
+    boolean existsByPacsNumber(String pacsName);
 }

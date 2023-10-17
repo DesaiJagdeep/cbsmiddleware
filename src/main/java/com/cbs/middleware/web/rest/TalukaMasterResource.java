@@ -1,17 +1,43 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.TalukaMaster;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.service.TalukaMasterService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +55,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
@@ -256,5 +285,248 @@ public class TalukaMasterResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping("/taluka-file-upload")
+    public ResponseEntity<List<TalukaMaster>> createTalukaFile(
+        @RequestParam("file") MultipartFile files,
+        RedirectAttributes redirectAttributes
+    ) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(0); // Get the current row
+            boolean flagForLabel = false;
+            String talukacode = getCellValue(row.getCell(0));
+
+            if (StringUtils.isNoneBlank(talukacode)) {
+                talukacode = talukacode.trim().replace("\n", " ").toLowerCase();
+                if (!talukacode.contains("taluka_code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String taluka = getCellValue(row.getCell(1));
+            if (StringUtils.isNoneBlank(taluka)) {
+                taluka = taluka.trim().replace("\n", " ").toLowerCase();
+                if (!taluka.contains("taluka_name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+        } catch (BadRequestAlertException e) {
+            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (UnAuthRequestAlertException e) {
+            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (Exception e) {
+            throw new Exception("Exception", e);
+        }
+
+        File originalFileDir = new File(Constants.KMP_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
+        }
+
+        int startRowIndex = 1; // Starting row index
+        List<TalukaMaster> talukaUploadList = new ArrayList<>();
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                TalukaMaster talukaMaster = new TalukaMaster();
+                if (row != null) {
+                    if (StringUtils.isBlank(getCellValue(row.getCell(0))) && StringUtils.isBlank(getCellValue(row.getCell(1)))) {
+                        break;
+                    }
+
+                    String talukaName = getCellValue(row.getCell(1));
+
+                    if (StringUtils.isNotBlank(talukaName) && !talukaMasterRepository.existsByTalukaName(talukaName)) {
+                        talukaMaster.setDistrictCode("12");
+                        // english
+                        talukaMaster.setTalukaName(talukaName);
+
+                        // marathi
+                        talukaMaster.setTalukaNameMr(translationServiceUtility.translationText(talukaName));
+
+                        String talukaCode = getCellValue(row.getCell(0));
+
+                        if (StringUtils.isNotBlank(talukaCode)) {
+                            // english
+                            talukaMaster.setTalukaCode(talukaCode);
+
+                            // marathi
+                            talukaMaster.setTalukaCodeMr(translationServiceUtility.translationText(talukaCode));
+                        }
+
+                        talukaMaster = talukaMasterRepository.save(talukaMaster);
+                    }
+
+                    talukaUploadList.add(talukaMaster);
+                }
+            }
+
+            if (!talukaUploadList.isEmpty()) {
+                if (talukaUploadList.get(0) != null) {
+                    try {
+                        notificationDataUtility.notificationData(
+                            "taluka master file uploaded",
+                            "taluka master file : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            talukaUploadList.get(0).getCreatedDate(),
+                            "talukaMasterFileUploaded"
+                        );
+                    } catch (Exception e) {}
+                }
+
+                return ResponseEntity.ok().body(talukaUploadList);
+            } else {
+                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
+            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
+        }
+    }
+
+    private static String getCellValue(Cell cell) {
+        String cellValue = "";
+
+        if (cell == null) {
+            cellValue = "";
+        } else if (cell.getCellType() == CellType.STRING) {
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+            BigDecimal bigDecimal = new BigDecimal(cellValue);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
+
+            cellValue = decimalFormat.format(bigDecimal);
+        } else if (cell.getCellType() == CellType.BOOLEAN) {
+            cellValue = String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
+    }
+
+    private static Double getCellAmountValue(Cell cell) {
+        Double cellValue = 0.0;
+
+        if (cell == null) {
+            cellValue = 0.0;
+        } else if (cell.getCellType() == CellType.STRING) {
+            String cellValueInString = cell.getStringCellValue().trim();
+
+            try {
+                cellValue = Double.parseDouble(cellValueInString);
+            } catch (Exception e) {}
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            // Convert it to a Double
+            cellValue = numericValue;
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = 0.0;
+        }
+
+        return cellValue;
+    }
+
+    private static String getCellAmountValueInString(Cell cell) {
+        String cellValue = "0.0";
+
+        if (cell == null) {
+            return cellValue;
+        } else if (cell.getCellType() == CellType.STRING) {
+            return cell.getStringCellValue().trim();
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            double numericValue = cell.getNumericCellValue();
+            // Convert it to a Double
+            return "" + numericValue;
+        } else if (cell.getCellType() == CellType.BLANK) {
+            return cellValue;
+        } else {
+            return cellValue;
+        }
+    }
+
+    private static LocalDate getDateCellValue(Cell cell) {
+        LocalDate localDate = null;
+
+        if (cell == null) {
+            localDate = null;
+        } else if (cell.getCellType() == CellType.STRING) {
+            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
+                localDate = LocalDate.parse(cell.getStringCellValue());
+            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                localDate = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            localDate = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            localDate = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+        } else if (cell.getCellType() == CellType.BLANK) {
+            localDate = null;
+        }
+
+        return localDate;
     }
 }

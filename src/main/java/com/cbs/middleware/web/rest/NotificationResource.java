@@ -7,12 +7,6 @@ import com.cbs.middleware.service.NotificationService;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
-import com.lowagie.text.*;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
-import java.awt.Graphics2D;
-import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -191,19 +185,21 @@ public class NotificationResource {
         Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
-            page = notificationService.findAllByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+            page = notificationService.findTop10ByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
 
             count = notificationRepository.findCountByIsReadFalseAndPacsNumber(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
-                notificationService.findAllByIsReadFalseAndSchemeWiseBranchCode(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
+                notificationService.findTop10ByIsReadFalseAndSchemeWiseBranchCode(
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                );
 
             count =
                 notificationRepository.findCountByIsReadFalseAndSchemeWiseBranchCode(
                     branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
-            page = notificationService.findAllByIsReadFalse();
+            page = notificationService.findTop10ByIsReadFalse();
 
             count = notificationRepository.findCountByIsReadFalse();
         } else {

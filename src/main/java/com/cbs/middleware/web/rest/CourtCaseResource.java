@@ -37,12 +37,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -178,35 +172,36 @@ public class CourtCaseResource {
         }
     }
 
-    @GetMapping("/demoPdf")
-    public Object test1234() throws Exception {
-        // Load the JRXML template from the resources folder
-
-        InputStream templateStream = getClass().getResourceAsStream("/Blank_A4_2.jrxml");
-        // InputStream templateStream =
-        // getClass().getResourceAsStream("/Blank_A4_3.jrxml");
-
-        // Compile the JRXML template
-        JasperReport jasperReport = JasperCompileManager.compileReport(templateStream);
-
-        // Create a data source (you can use a list of POJOs)
-
-        // Set parameters if needed
-
-        // Generate the PDF report
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, new JREmptyDataSource(1));
-
-        // Export the report to a byte array (PDF format)
-        byte[] pdfReport = JasperExportManager.exportReportToPdf(jasperPrint);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/pdf");
-        headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
-        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfReport, headers, HttpStatus.OK);
-
-        return response;
-    }
+    /*
+     * @GetMapping("/demoPdf") public Object test1234() throws Exception { // Load
+     * the JRXML template from the resources folder
+     *
+     * InputStream templateStream =
+     * getClass().getResourceAsStream("/Blank_A4_2.jrxml"); // InputStream
+     * templateStream = // getClass().getResourceAsStream("/Blank_A4_3.jrxml");
+     *
+     * // Compile the JRXML template JasperReport jasperReport =
+     * JasperCompileManager.compileReport(templateStream);
+     *
+     * // Create a data source (you can use a list of POJOs)
+     *
+     * // Set parameters if needed
+     *
+     * // Generate the PDF report JasperPrint jasperPrint =
+     * JasperFillManager.fillReport(jasperReport, null, new JREmptyDataSource(1));
+     *
+     * // Export the report to a byte array (PDF format) byte[] pdfReport =
+     * JasperExportManager.exportReportToPdf(jasperPrint);
+     *
+     * HttpHeaders headers = new HttpHeaders(); headers.add("Content-Type",
+     * "application/pdf"); headers.add("content-disposition",
+     * "attachment; filename=" + "certificate.pdf");
+     * headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+     * ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfReport,
+     * headers, HttpStatus.OK);
+     *
+     * return response; }
+     */
 
     /**
      * {@code POST  /court-cases} : Create a new courtCase.
@@ -1279,4 +1274,55 @@ public class CourtCaseResource {
         }
         return one01NamunaList;
     }
+    //-----------------------------------------------pdf-------------------------------------------
+
+    //    @GetMapping("/pdf-demo")
+    //    public ResponseEntity<byte[]> pdfDemo()
+    //    {
+    //
+    //    	Optional<CourtCase> findById = courtCaseRepository.findById(1l);
+    //
+    //         DateFormat Date = DateFormat.getDateInstance();
+    //         Calendar cals = Calendar.getInstance();
+    //         String currentDate = Date.format(cals.getTime());
+    //         System.out.println("Formatted Date: " + currentDate);
+    //
+    //         		String HTML="जिल्हा";
+    //             try {
+    //                 // IndicLigaturizer g = new DevanagariLigaturizer();
+    //                 // String processed = g.process(HTML);
+    //
+    //                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+    //
+    //                 // Create ConverterProperties and set the font provider
+    //                 ConverterProperties converterProperties = new ConverterProperties();
+    //
+    //                 FontProvider fontProvider = new FontProvider();
+    //
+    //					fontProvider.addFont("C:\\Users\\swapnilp\\Desktop\\Noto_Sans\\NotoSans-Regular.ttf",
+    //							PdfEncodings.IDENTITY_H);
+    //
+    //					//String REGULAR = "C:\\\\Users\\\\swapnilp\\\\Desktop\\\\Noto_Sans\\\\NotoSans-Regular.ttf";
+    //
+    //
+    //                 converterProperties.setFontProvider(fontProvider);
+    //                 converterProperties.setCharset("UTF-8");
+    //
+    //                 HtmlConverter.convertToPdf(findById.get().getNameOfDefaulter(), byteArrayOutputStream, converterProperties);
+    //
+    //                 HttpHeaders headers = new HttpHeaders();
+    //                 headers.add("Content-Type", "application/pdf");
+    //                 headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+    //                 headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+    //                 ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+    //
+    //                 return response;
+    //             } catch (Exception e) {
+    //                 e.printStackTrace();
+    //             }
+    //			return null;
+    //
+    //
+    //    }
+
 }

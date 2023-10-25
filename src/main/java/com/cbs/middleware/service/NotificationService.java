@@ -57,11 +57,11 @@ public interface NotificationService {
      */
     void delete(Long id);
 
-    List<Notification> findAllByIsReadFalse();
+    List<Notification> findTop10ByIsReadFalse();
 
-    List<Notification> findAllByIsReadFalseAndPacsNumber(String pacsNumber);
+    List<Notification> findTop10ByIsReadFalseAndPacsNumber(String pacsNumber);
 
-    List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String branchCode);
+    List<Notification> findTop10ByIsReadFalseAndSchemeWiseBranchCode(String branchCode);
 
     Page<Notification> findAllByPacsNumber(Pageable pageable, String string);
 

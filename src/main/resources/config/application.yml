@@ -223,3 +223,4 @@ application:
   recordStatusForFarmer: 2
   recordStatusForFarmerAndLoan: 1
   recordStatusForUpdateFarmerAndLoan: 3
+  googleCaptchaUrlForWeb: https://www.google.com/recaptcha/api/siteverify?secret=6LfJVbcdAAAAAJk80dsBHTH8t0GpPBn7TqUYgGaO&response=

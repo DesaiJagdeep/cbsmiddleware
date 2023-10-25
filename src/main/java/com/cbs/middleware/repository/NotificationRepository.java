@@ -21,9 +21,11 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String schemeWiseBranchCode);
 
-    Page<Notification> findTop6ByIsReadFalseAndPacsNumber(Pageable pageable, String pacsNumber);
+    List<Notification> findTop10ByIsReadFalseAndPacsNumber(String pacsNumber);
 
-    Page<Notification> findTop6ByIsReadFalseAndSchemeWiseBranchCode(Pageable pageable, String schemeWiseBranchCode);
+    List<Notification> findTop10ByIsReadFalseAndSchemeWiseBranchCode(String schemeWiseBranchCode);
+
+    List<Notification> findTop10ByIsReadFalse();
 
     Page<Notification> findAllByPacsNumber(Pageable pageable, String pacsNumber);
 

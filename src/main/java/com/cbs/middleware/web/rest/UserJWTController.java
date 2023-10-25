@@ -1,15 +1,20 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.ApplicationProperties;
+import com.cbs.middleware.domain.ReCaptcha;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.jwt.JWTFilter;
 import com.cbs.middleware.security.jwt.TokenProvider;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Controller to authenticate users.
@@ -33,12 +39,59 @@ public class UserJWTController {
     @Autowired
     UserRepository repository;
 
+    @Autowired
+    ApplicationProperties applicationProperties;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
+
+    //    @PostMapping("/authenticate")
+    //    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+    //
+    //
+    //    	try {
+    //			// Captcha Required
+    //			String url = null;
+    //			url = applicationProperties.getGoogleCaptchaUrlForWeb() + loginVM.getRecaptcha();
+    //			HttpHeaders headers = new HttpHeaders();
+    //			HttpEntity<ReCaptcha> requestEntity = new HttpEntity<>(null, headers);
+    //			RestTemplate restTemplate = new RestTemplate();
+    //			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+    //			if (response.getStatusCode().is2xxSuccessful()) {
+    //
+    //				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+    //			            loginVM.getUsername(),
+    //			            loginVM.getPassword()
+    //			        );
+    //
+    //			        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    //			        SecurityContextHolder.getContext().setAuthentication(authentication);
+    //			        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
+    //			        HttpHeaders httpHeaders = new HttpHeaders();
+    //			        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+    //			        String username = authentication.getName();
+    //			        String authority = authentication.getAuthorities().stream().findFirst().get().getAuthority();
+    //
+    //			        Optional<User> findOneByLogin = repository.findOneByLogin(authentication.getName());
+    //
+    //			        String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
+    //
+    //			        boolean passwordChange = findOneByLogin.get().isPasswordChanged();
+    //			        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName, passwordChange), httpHeaders, HttpStatus.OK);
+    //
+    //			}
+    //    	}catch (Exception e) {
+    //    		throw new BadRequestAlertException("Invalid Captcha", "", "captchainvalid");
+    //		}
+    //
+    //    	return null;
+    //
+    //    }
+    //
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
@@ -60,7 +113,6 @@ public class UserJWTController {
         String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
 
         boolean passwordChange = findOneByLogin.get().isPasswordChanged();
-
         return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName, passwordChange), httpHeaders, HttpStatus.OK);
     }
 

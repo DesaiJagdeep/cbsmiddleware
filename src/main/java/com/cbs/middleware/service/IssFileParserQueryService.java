@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link IssFileParser} entities in the database.
@@ -65,22 +66,36 @@ public class IssFileParserQueryService extends QueryService<IssFileParser> {
         String schemeWiseBranchCode
     ) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
+        // final Specification<IssFileParser> specification = createSpecification(criteria);
+        // return issFileParserRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode,specification, page);
+
+        StringFilter sf = new StringFilter();
+        sf.equals(schemeWiseBranchCode);
+        criteria.setSchemeWiseBranchCode(sf);
+
         final Specification<IssFileParser> specification = createSpecification(criteria);
-        return issFileParserRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, page);
+        return issFileParserRepository.findAll(specification, page);
     }
 
     @Transactional(readOnly = true)
     public Page<IssFileParser> findByCriteriaPackNumber(IssFileParserCriteria criteria, Pageable page, String pacsNumber) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
+        //final Specification<IssFileParser> specification = createSpecification(criteria);
+        //return issFileParserRepository.findAllByPacsNumber(pacsNumber,specification, page);
+
+        StringFilter sf = new StringFilter();
+        sf.equals(pacsNumber);
+        criteria.setPacsNumber(sf);
+
         final Specification<IssFileParser> specification = createSpecification(criteria);
-        return issFileParserRepository.findAllByPacsNumber(pacsNumber, page);
+        return issFileParserRepository.findAll(specification, page);
     }
 
     @Transactional(readOnly = true)
     public Page<IssFileParser> findByIssPortalCriteria(IssPortalFile issPortalFile, IssFileParserCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<IssFileParser> specification = createSpecification(criteria);
-        return issFileParserRepository.findAllByIssPortalFile(issPortalFile, page);
+        return issFileParserRepository.findAllByIssPortalFile(issPortalFile, specification, page);
     }
 
     /**

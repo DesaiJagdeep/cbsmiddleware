@@ -41,6 +41,9 @@ public abstract class AbstractAuditingEntity<T> implements Serializable {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate = Instant.now();
 
+    //    @Column(name = "uploaded_by", length = 50)
+    //    private String uploadedBy;
+
     public String getCreatedBy() {
         return createdBy;
     }
@@ -64,6 +67,14 @@ public abstract class AbstractAuditingEntity<T> implements Serializable {
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
+
+    //    public String getUploadedBy() {
+    //		return uploadedBy;
+    //	}
+    //
+    //	public void setUploadedBy(String uploadedBy) {
+    //		this.uploadedBy = uploadedBy;
+    //	}
 
     public Instant getLastModifiedDate() {
         return lastModifiedDate;

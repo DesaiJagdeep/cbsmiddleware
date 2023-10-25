@@ -5,6 +5,7 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -25,6 +26,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +45,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -112,16 +116,17 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/download-file/{idIFP}")
-    // @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+    @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
-        Optional<IssPortalFile> findByUniqueName = issPortalFileRepository.findById(idIFP);
-        if (findByUniqueName.isPresent()) {
-            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByUniqueName.get().getUniqueName());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
+        if (findByIssPortalFileId.isPresent()) {
+            Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByIssPortalFileId.get().getUniqueName());
 
             if (!Files.exists(file)) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-
+            IssPortalFile issPortalFile = findByIssPortalFileId.get();
             byte[] fileBytes;
             try {
                 fileBytes = Files.readAllBytes(file);
@@ -129,12 +134,39 @@ public class IssPortalFileResource {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("filename", findByUniqueName.get().getFileName());
+                headers.setContentDispositionFormData("filename", issPortalFile.getFileName());
 
                 List<String> contentDispositionList = new ArrayList<>();
                 contentDispositionList.add("Content-Disposition");
 
                 headers.setAccessControlExposeHeaders(contentDispositionList);
+                headers.set("X-Cbsmiddlewareapp-Alert", "cbsMiddlewareApp.issPortalFile.download");
+                headers.set("X-Cbsmiddlewareapp-Params", issPortalFile.getFileName());
+
+                if (resource != null) {
+                    try {
+                        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+                        String name = "";
+                        if (optUser.isPresent()) {
+                            name = optUser.get().getFirstName() + " " + optUser.get().getLastName();
+                        }
+
+                        notificationDataUtility.notificationData(
+                            "Application records file downloaded by user ",
+                            "Application records file: " + issPortalFile.getFileName() + " is downloaded by user " + name,
+                            false,
+                            Instant.now(),
+                            "ApplicationRecordFileDownload" // type
+                        );
+
+                        if (!issPortalFile.isDownloadFile()) {
+                            issPortalFile.setDownloadFileTime(Instant.now());
+                            issPortalFile.setDownloadFile(true);
+                            issPortalFileRepository.save(issPortalFile);
+                        }
+                    } catch (Exception e) {}
+                }
 
                 return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
             } catch (IOException e) {
@@ -143,6 +175,42 @@ public class IssPortalFileResource {
         } else {
             throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
         }
+    }
+
+    @GetMapping("/verify-file/{fileId}")
+    @PreAuthorize("@authentication.hasPermision('',#fileId,'','FILE_DOWNLOAD','DOWNLOAD')")
+    public ResponseEntity<Void> verifyFile(@PathVariable Long fileId) {
+        Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(fileId);
+
+        if (!findByIssPortalFileId.isPresent()) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+        String loginName = "";
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+
+            if (optUser.isPresent()) {
+                // name=optUser.get().getFirstName()+" "+optUser.get().getLastName();
+                loginName = optUser.get().getLogin();
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        IssPortalFile issPortalFile = findByIssPortalFileId.get();
+        if (!issPortalFile.isVerifiedFile()) {
+            issPortalFile.setVerifiedFile(true);
+            issPortalFile.setVerifiedBy(loginName);
+            issPortalFile.setVerifiedFileTime(Instant.now());
+
+            issPortalFileRepository.save(issPortalFile);
+        }
+
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, "verify", issPortalFile.getPacsName()))
+            .build();
     }
 
     /**

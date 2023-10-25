@@ -25,9 +25,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneByActivationKey(String activationKey);
     List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
     Optional<User> findOneByResetKey(String resetKey);
-    Optional<User> findOneByEmailIgnoreCase(String email);
+    List<User> findAllByEmailIgnoreCase(String email);
     Optional<User> findOneByLogin(String login);
-
+    Optional<User> findOneByEmailIgnoreCase(String email);
     Optional<User> findOneByMobileNumber(String mobileNumber);
 
     @EntityGraph(attributePaths = "authorities")

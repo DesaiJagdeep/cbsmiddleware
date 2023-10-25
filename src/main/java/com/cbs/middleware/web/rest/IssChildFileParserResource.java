@@ -819,7 +819,7 @@ public class IssChildFileParserResource {
             applicationLogRepository.saveAll(applicationLogListMarkedFix);
 
             issPortalFile.setErrorRecordCount(
-                Integer.parseInt(issPortalFile.getApplicationCount()) - applicationRepository.countByIssFilePortalId(issPortalFile.getId())
+                issPortalFile.getApplicationCount() - applicationRepository.countByIssFilePortalId(issPortalFile.getId())
             );
             issPortalFileRepository.save(issPortalFile);
         }

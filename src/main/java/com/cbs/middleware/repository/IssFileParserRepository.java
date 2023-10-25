@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -45,11 +46,15 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
 
     List<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile);
 
-    Page<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile, Pageable page);
+    Page<IssFileParser> findAllByIssPortalFile(IssPortalFile issPortalFile, Specification<IssFileParser> specification, Pageable page);
 
-    Page<IssFileParser> findAllBySchemeWiseBranchCode(String schemeWiseBranchCode, Pageable page);
+    Page<IssFileParser> findAllBySchemeWiseBranchCode(
+        String schemeWiseBranchCode,
+        Specification<IssFileParser> specification,
+        Pageable page
+    );
 
-    Page<IssFileParser> findAllByPacsNumber(String pacsNumber, Pageable page);
+    Page<IssFileParser> findAllByPacsNumber(String pacsNumber, Specification<IssFileParser> specification, Pageable page);
 
     Optional<IssFileParser> findOneByIdAndPacsNumber(Long id, String string);
 

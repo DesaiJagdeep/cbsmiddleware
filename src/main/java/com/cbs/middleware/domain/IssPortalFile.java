@@ -1,6 +1,7 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -58,13 +59,13 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     private String status;
 
     @Column(name = "application_count")
-    private String applicationCount;
+    private Integer applicationCount;
 
     @Column(name = "notes")
     private String notes;
 
     @Column(name = "error_record_count")
-    private Integer errorRecordCount;
+    private Integer errorRecordCount = 0;
 
     @Column(name = "kcc_error_record_count")
     private Integer kccErrorRecordCount;
@@ -77,6 +78,21 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "app_accepted_by_kcc_count")
     private Long appAcceptedByKccCount;
+
+    @Column(name = "download_file")
+    private boolean downloadFile = false;
+
+    @Column(name = "verified_file")
+    private boolean verifiedFile = false;
+
+    @Column(name = "download_file_time")
+    private Instant downloadFileTime;
+
+    @Column(name = "verified_file_time")
+    private Instant verifiedFileTime;
+
+    @Column(name = "verified_by")
+    private String verifiedBy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -95,6 +111,14 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     public String getFileName() {
         return this.fileName;
+    }
+
+    public String getVerifiedBy() {
+        return verifiedBy;
+    }
+
+    public void setVerifiedBy(String verifiedBy) {
+        this.verifiedBy = verifiedBy;
     }
 
     public IssPortalFile fileName(String fileName) {
@@ -150,6 +174,38 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     public IssPortalFile branchCode(Long schemeWiseBranchCode) {
         this.setSchemeWiseBranchCode(schemeWiseBranchCode);
         return this;
+    }
+
+    public Instant getDownloadFileTime() {
+        return downloadFileTime;
+    }
+
+    public void setDownloadFileTime(Instant downloadFileTime) {
+        this.downloadFileTime = downloadFileTime;
+    }
+
+    public Instant getVerifiedFileTime() {
+        return verifiedFileTime;
+    }
+
+    public void setVerifiedFileTime(Instant verifiedFileTime) {
+        this.verifiedFileTime = verifiedFileTime;
+    }
+
+    public boolean isDownloadFile() {
+        return downloadFile;
+    }
+
+    public void setDownloadFile(boolean downloadFile) {
+        this.downloadFile = downloadFile;
+    }
+
+    public boolean isVerifiedFile() {
+        return verifiedFile;
+    }
+
+    public void setVerifiedFile(boolean verifiedFile) {
+        this.verifiedFile = verifiedFile;
     }
 
     public void setSchemeWiseBranchCode(Long schemeWiseBranchCode) {
@@ -237,16 +293,16 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
         this.status = status;
     }
 
-    public String getApplicationCount() {
+    public Integer getApplicationCount() {
         return this.applicationCount;
     }
 
-    public IssPortalFile applicationCount(String applicationCount) {
+    public IssPortalFile applicationCount(Integer applicationCount) {
         this.setApplicationCount(applicationCount);
         return this;
     }
 
-    public void setApplicationCount(String applicationCount) {
+    public void setApplicationCount(Integer applicationCount) {
         this.applicationCount = applicationCount;
     }
 

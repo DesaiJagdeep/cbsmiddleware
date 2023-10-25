@@ -384,7 +384,7 @@ public class CourtCaseSettingServiceImpl implements CourtCaseSettingService {
 
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         return courtCaseSettingRepository.save(courtCaseSetting);

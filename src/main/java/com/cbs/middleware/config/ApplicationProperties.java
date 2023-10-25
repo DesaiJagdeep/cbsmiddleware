@@ -20,6 +20,8 @@ public class ApplicationProperties {
     private Long recordStatusForFarmerAndLoan;
     private int recordStatusForUpdateFarmerAndLoan;
 
+    private String googleCaptchaUrlForWeb;
+
     public String getCBSMiddlewareBaseURL() {
         return CBSMiddlewareBaseURL;
     }
@@ -50,6 +52,14 @@ public class ApplicationProperties {
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
+    }
+
+    public String getGoogleCaptchaUrlForWeb() {
+        return googleCaptchaUrlForWeb;
+    }
+
+    public void setGoogleCaptchaUrlForWeb(String googleCaptchaUrlForWeb) {
+        this.googleCaptchaUrlForWeb = googleCaptchaUrlForWeb;
     }
 
     public String getIv() {

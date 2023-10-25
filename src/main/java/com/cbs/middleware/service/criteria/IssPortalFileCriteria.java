@@ -39,7 +39,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
 
     private StringFilter status;
 
-    private StringFilter applicationCount;
+    private IntegerFilter applicationCount;
 
     private StringFilter notes;
 
@@ -202,18 +202,18 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public StringFilter getApplicationCount() {
+    public IntegerFilter getApplicationCount() {
         return applicationCount;
     }
 
-    public StringFilter applicationCount() {
+    public IntegerFilter applicationCount() {
         if (applicationCount == null) {
-            applicationCount = new StringFilter();
+            applicationCount = new IntegerFilter();
         }
         return applicationCount;
     }
 
-    public void setApplicationCount(StringFilter applicationCount) {
+    public void setApplicationCount(IntegerFilter applicationCount) {
         this.applicationCount = applicationCount;
     }
 

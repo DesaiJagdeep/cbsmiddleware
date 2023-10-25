@@ -138,7 +138,7 @@ public class NotificationDataUtility {
         notificationRepository.save(notification);
 
         try {
-            mailService.sendNotificationEmail(notificationEmailDTO);
+            // mailService.sendNotificationEmail(notificationEmailDTO);
         } catch (Exception e) {}
     }
 }

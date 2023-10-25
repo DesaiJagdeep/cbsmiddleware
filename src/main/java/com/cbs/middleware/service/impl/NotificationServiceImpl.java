@@ -94,18 +94,18 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<Notification> findAllByIsReadFalse() {
-        return notificationRepository.findAllByIsReadFalse();
+    public List<Notification> findTop10ByIsReadFalse() {
+        return notificationRepository.findTop10ByIsReadFalse();
     }
 
     @Override
-    public List<Notification> findAllByIsReadFalseAndPacsNumber(String pacsNumber) {
-        return notificationRepository.findAllByIsReadFalseAndPacsNumber(pacsNumber);
+    public List<Notification> findTop10ByIsReadFalseAndPacsNumber(String pacsNumber) {
+        return notificationRepository.findTop10ByIsReadFalseAndPacsNumber(pacsNumber);
     }
 
     @Override
-    public List<Notification> findAllByIsReadFalseAndSchemeWiseBranchCode(String branchCode) {
-        return notificationRepository.findAllByIsReadFalseAndSchemeWiseBranchCode(branchCode);
+    public List<Notification> findTop10ByIsReadFalseAndSchemeWiseBranchCode(String branchCode) {
+        return notificationRepository.findTop10ByIsReadFalseAndSchemeWiseBranchCode(branchCode);
     }
 
     @Override

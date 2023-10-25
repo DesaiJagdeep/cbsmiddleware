@@ -14,18 +14,19 @@ import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.io.font.FontProgram;
 import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.layer.PdfLayer;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -56,6 +57,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+//import com.knf.dev.demo.helper.WordHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -141,13 +143,20 @@ public class CourtCaseSettingResource {
 
         // Initialize document
         Document document = new Document(pdf);
-
         // Add content
         FontProgram fontProgram = FontProgramFactory.createFont(REGULAR);
-        PdfFont font = PdfFontFactory.createFont(fontProgram, PdfEncodings.IDENTITY_H, EmbeddingStrategy.FORCE_EMBEDDED);
-        Text title = new Text("पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित,").setFont(font);
-        Text author = new Text("Robert Louis Stevenson").setFont(font);
-        Paragraph p = new Paragraph().setFont(font).add(title).add(" by ").add(author);
+        PdfFont font = PdfFontFactory.createFont(fontProgram); //, PdfEncodings.IDENTITY_H, EmbeddingStrategy.PREFER_EMBEDDED);
+        /*
+         * byte[] byteArray = Encoding.UTF32.GetBytes(""); String unicodeString =
+         * Encoding.Unicode.GetString(byteArray);
+         */
+
+        //Text title = new Text("पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित ,").setFont(font);
+
+        String txt = "Xabd AapNa sara-sapNao vaaprtÜ. yaa XabdaMcao Aqa-hI Aaplyaalaa";
+        Text title = new Text("Xabd AapNa sara-sapNao vaaprtÜ. yaa XabdaMcao Aqa-hI Aaplyaalaa");
+        //Text author = new Text("Robert Louis Stevenson").setFont(font);
+        Paragraph p = new Paragraph(title).setFont(font); //.add();//.add(" by ").add(author);
         document.add(p);
 
         //Close document

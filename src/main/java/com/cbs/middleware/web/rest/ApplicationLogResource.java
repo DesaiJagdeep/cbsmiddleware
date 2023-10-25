@@ -193,6 +193,7 @@ public class ApplicationLogResource {
         Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            System.out.println("........................");
             page = applicationLogQueryService.findByCriteria(criteria, pageable);
             //			page = applicationLogQueryService.findByCriteriaCountByPacsCode(
             //					Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)), pageable);

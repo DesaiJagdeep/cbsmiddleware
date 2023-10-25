@@ -50,4 +50,6 @@ public interface PacsMasterRepository extends JpaRepository<PacsMaster, Long> {
     boolean existsByPacsName(String pacsName);
 
     boolean existsByPacsNumber(String pacsName);
+
+    PacsMaster findOneByPacsNumber(String pacsNumber);
 }

@@ -239,12 +239,10 @@ public class UserService {
                         user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
 
                         user.setBranchName(userDTO.getBranchName());
+
                         user.setSchemeWiseBranchCode(
                             bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
                         );
-
-                        user.setPacsName(userDTO.getPacsName());
-                        user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
                     }
                 } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_PACS_USER)) {
                     if (
@@ -271,6 +269,180 @@ public class UserService {
                     }
                 } else {
                     throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");
+                }
+            }
+        }
+        userRepository.save(user);
+        this.clearUserCaches(user);
+        log.debug("Created Information for User: {}", user);
+        return user;
+    }
+
+    public User createUserFromFile(AdminUserDTO userDTO) {
+        User user = new User();
+        user.setLogin(userDTO.getLogin().toLowerCase());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail().toLowerCase());
+        }
+
+        if (StringUtils.isNotBlank(userDTO.getBankCode())) {
+            user.setBankCode(userDTO.getBankCode());
+        }
+
+        user.setImageUrl(userDTO.getImageUrl());
+        if (userDTO.getLangKey() == null) {
+            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+        } else {
+            user.setLangKey(userDTO.getLangKey());
+        }
+
+        if (StringUtils.isNotBlank(userDTO.getMobileNumber())) {
+            user.setMobileNumber(userDTO.getMobileNumber());
+        }
+        String encryptedPassword = passwordEncoder.encode(Constants.DefaultPassword);
+        user.setPassword(encryptedPassword);
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        user.setActivated(true);
+        if (userDTO.getAuthorities() != null) {
+            Set<Authority> authorities = userDTO
+                .getAuthorities()
+                .stream()
+                .map(authorityRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            user.setAuthorities(authorities);
+
+            for (Authority authority : authorities) {
+                if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ADMIN)) {
+                    if (StringUtils.isBlank(userDTO.getBankName())) {
+                        throw new BadRequestAlertException("provide bank name", "USER", "bankNameNotExist");
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode(bankMasterRepository.findBankCodeByBankName(userDTO.getBankName()));
+                    }
+                } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+                    if (StringUtils.isBlank(userDTO.getBankName()) && StringUtils.isBlank(userDTO.getBranchName())) {
+                        throw new BadRequestAlertException("provide bank name and branch Name", "USER", "bankNameBranchNameNotExist");
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode("");
+
+                        user.setBranchName(userDTO.getBranchName());
+                        user.setSchemeWiseBranchCode(userDTO.getSchemeWiseBranchCode());
+                    }
+                } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+                    if (
+                        StringUtils.isBlank(userDTO.getBankName()) &&
+                        StringUtils.isBlank(userDTO.getBranchName()) &&
+                        StringUtils.isBlank(userDTO.getPacsName())
+                    ) {
+                        throw new BadRequestAlertException(
+                            "provide bank name, branch name and packs name",
+                            "USER",
+                            "bankNameBranchNamePacksCodeNotExist"
+                        );
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode("");
+
+                        user.setBranchName(userDTO.getBranchName());
+
+                        user.setSchemeWiseBranchCode(userDTO.getSchemeWiseBranchCode());
+                    }
+                } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_PACS_USER)) {
+                    if (
+                        StringUtils.isBlank(userDTO.getBankName()) &&
+                        StringUtils.isBlank(userDTO.getBranchName()) &&
+                        StringUtils.isBlank(userDTO.getPacsName())
+                    ) {
+                        throw new BadRequestAlertException(
+                            "provide bank name, branch name and packs name",
+                            "USER",
+                            "bankNameBranchNamePacksCodeNotExist"
+                        );
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode("156");
+
+                        user.setBranchName(userDTO.getBranchName());
+                        user.setSchemeWiseBranchCode(userDTO.getSchemeWiseBranchCode());
+                        user.setPacsName(userDTO.getPacsName());
+                        user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
+                    }
+                } else {
+                    throw new BadRequestAlertException("provide valid role", "USER", "roleNotExist");
+                }
+            }
+        }
+        userRepository.save(user);
+        this.clearUserCaches(user);
+        log.debug("Created Information for User: {}", user);
+        return user;
+    }
+
+    public User createPacsUserFromFile(AdminUserDTO userDTO) {
+        User user = new User();
+        user.setLogin(userDTO.getLogin().toLowerCase());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail().toLowerCase());
+        }
+
+        if (StringUtils.isNotBlank(userDTO.getBankCode())) {
+            user.setBankCode(userDTO.getBankCode());
+        }
+
+        // user.setImageUrl(userDTO.getImageUrl());
+        if (userDTO.getLangKey() == null) {
+            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+        } else {
+            user.setLangKey(userDTO.getLangKey());
+        }
+
+        if (StringUtils.isNotBlank(userDTO.getMobileNumber())) {
+            user.setMobileNumber(userDTO.getMobileNumber());
+        }
+        String encryptedPassword = passwordEncoder.encode(Constants.DefaultPasswordForPacs);
+        user.setPassword(encryptedPassword);
+        user.setResetKey(RandomUtil.generateResetKey());
+        user.setResetDate(Instant.now());
+        user.setActivated(true);
+        if (userDTO.getAuthorities() != null) {
+            Set<Authority> authorities = userDTO
+                .getAuthorities()
+                .stream()
+                .map(authorityRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            user.setAuthorities(authorities);
+
+            for (Authority authority : authorities) {
+                if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_PACS_USER)) {
+                    if (
+                        StringUtils.isBlank(userDTO.getBankName()) &&
+                        StringUtils.isBlank(userDTO.getBranchName()) &&
+                        StringUtils.isBlank(userDTO.getPacsName())
+                    ) {
+                        throw new BadRequestAlertException(
+                            "provide bank name, branch name and packs name",
+                            "USER",
+                            "bankNameBranchNamePacksCodeNotExist"
+                        );
+                    } else {
+                        user.setBankName(userDTO.getBankName());
+                        user.setBankCode(userDTO.getBankCode());
+
+                        user.setBranchName(userDTO.getBranchName());
+                        user.setSchemeWiseBranchCode(userDTO.getSchemeWiseBranchCode());
+                        user.setPacsName(userDTO.getPacsName());
+                        user.setPacsNumber(userDTO.getPacsNumber());
+                    }
                 }
             }
         }
@@ -366,9 +538,6 @@ public class UserService {
                             user.setSchemeWiseBranchCode(
                                 bankBranchMasterRepository.findSchemeWiseBranchCodeByBranchName(userDTO.getBranchName())
                             );
-
-                            user.setPacsName(userDTO.getPacsName());
-                            user.setPacsNumber(pacsMasterRepository.findPacsNumberByPacsName(userDTO.getPacsName()));
                         }
                     } else if (authority.getName().equalsIgnoreCase(AuthoritiesConstants.ROLE_PACS_USER)) {
                         if (

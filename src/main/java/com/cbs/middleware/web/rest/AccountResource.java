@@ -1,5 +1,8 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.config.ApplicationProperties;
+import com.cbs.middleware.domain.Email;
+import com.cbs.middleware.domain.ReCaptcha;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
@@ -15,13 +18,20 @@ import com.cbs.middleware.web.rest.errors.InvalidPasswordException;
 import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
 import com.cbs.middleware.web.rest.vm.KeyAndPasswordVM;
 import com.cbs.middleware.web.rest.vm.ManagedUserVM;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * REST controller for managing the current user's account.
@@ -54,6 +65,9 @@ public class AccountResource {
     private final UserService userService;
 
     private final MailService mailService;
+
+    @Autowired
+    ApplicationProperties applicationProperties;
 
     public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
         this.userRepository = userRepository;
@@ -131,7 +145,9 @@ public class AccountResource {
         String userLogin = SecurityUtils
             .getCurrentUserLogin()
             .orElseThrow(() -> new AccountResourceException("Current user login not found"));
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        // Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        Optional<User> existingUser = userRepository.findOneByMobileNumber(userDTO.getMobileNumber());
+
         if (existingUser.isPresent() && (!existingUser.get().getLogin().equalsIgnoreCase(userLogin))) {
             throw new EmailAlreadyUsedException();
         }
@@ -187,15 +203,82 @@ public class AccountResource {
      *
      * @param mail the mail of the user.
      */
+    //    @PostMapping(path = "/account/reset-password/init")
+    //	public void requestPasswordReset(@RequestBody Email mail) {
+    //
+    //		if (("".equalsIgnoreCase(mail.getEmail()))) {
+    //			throw new BadRequestAlertException("Input parameter is empty", ENTITY_NAME, "idinvalid");
+    //		}
+    //
+    //		if (!mail.getEmail().contains("@")) {
+    //
+    //			throw new BadRequestAlertException("Bad Request", ENTITY_NAME, "idinvalid");
+    //		}
+    //
+    //		try {
+    //			// Captcha Required
+    //			String url = null;
+    //			url = applicationProperties.getGoogleCaptchaUrlForWeb() + mail.getRecaptcha();
+    //			HttpHeaders headers = new HttpHeaders();
+    //			HttpEntity<ReCaptcha> requestEntity = new HttpEntity<>(null, headers);
+    //			RestTemplate restTemplate = new RestTemplate();
+    //			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+    //			if (response.getStatusCode().is2xxSuccessful()) {
+    //
+    //				JSONObject jsonObject = new JSONObject(response.getBody());
+    //				if (jsonObject.getBoolean("success")) {
+    //
+    //					List<User> userList = userRepository.findAllByEmailIgnoreCase(mail.getEmail());
+    //					if (!userList.isEmpty()) {
+    //
+    //						for (User user : userList) {
+    //							if (user != null && user.isActivated()) {
+    //								try {
+    //									mailService.sendPasswordResetMail(user);
+    //
+    //								} catch (Exception e) {
+    //								}
+    //							}
+    //
+    //						}
+    //
+    //					}
+    //
+    //				} else {
+    //					log.error("Bad Request");
+    //					throw new BadRequestAlertException("Bad Request", ENTITY_NAME, "idinvalid");
+    //				}
+    //
+    //			} else {
+    //				log.error("Captcha verification failed");
+    //				throw new BadRequestAlertException("Invalid Captcha", ENTITY_NAME, "captchainvalid");
+    //			}
+    //		} catch (Exception e) {
+    //			throw new BadRequestAlertException("Bad Request", ENTITY_NAME, "invaliddata");
+    //
+    //		}
+    //
+    //	}
+
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody String mail) {
-        Optional<User> user = userService.requestPasswordReset(mail);
-        if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.get());
-        } else {
-            // Pretend the request has been successful to prevent checking which emails really exist
-            // but log that an invalid attempt has been made
-            log.warn("Password reset requested for non existing mail");
+    public void requestPasswordReset(@RequestBody Email mail) {
+        if (("".equalsIgnoreCase(mail.getEmail()))) {
+            throw new BadRequestAlertException("Input parameter is empty", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!mail.getEmail().contains("@")) {
+            throw new BadRequestAlertException("Bad Request", ENTITY_NAME, "idinvalid");
+        }
+
+        List<User> userList = userRepository.findAllByEmailIgnoreCase(mail.getEmail());
+        if (!userList.isEmpty()) {
+            for (User user : userList) {
+                if (user != null && user.isActivated()) {
+                    try {
+                        mailService.sendPasswordResetMail(user);
+                    } catch (Exception e) {}
+                }
+            }
         }
     }
 

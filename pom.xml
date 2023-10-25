@@ -13,6 +13,11 @@
 
     <repositories>
         <!-- jhipster-needle-maven-repository -->
+        <repository>
+    <id>itext</id>
+    <name>iText Repository - releases</name>
+    <url>https://repo.itextsupport.com/releases</url>
+  </repository>
     </repositories>
 
     <pluginRepositories>
@@ -89,6 +94,7 @@
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
 
         <!-- jhipster-needle-maven-property -->
+         <itext.pdfcalligraph.version>4.0.1</itext.pdfcalligraph.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +111,14 @@
     </dependencyManagement>
 
     <dependencies>
+		<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>typography</artifactId>
+    <version>${itext.pdfcalligraph.version}</version>
+  </dependency>
+
+    <!-- jhipster-needle-maven-add-dependency-management -->     
+		
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
@@ -320,31 +334,16 @@
     <version>20230227</version>
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.itextpdf/html2pdf -->
+
+   <!-- https://mvnrepository.com/artifact/com.itextpdf/itext7-core -->
 <dependency>
     <groupId>com.itextpdf</groupId>
-    <artifactId>html2pdf</artifactId>
-    <version>5.0.1</version>
-</dependency>
-   
-   <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
-<dependency>
-    <groupId>net.sf.jasperreports</groupId>
-    <artifactId>jasperreports</artifactId>
-    <version>6.20.5</version>
-</dependency>
-<dependency>
-   <groupId>net.sf.jasperreports</groupId>
-   <artifactId>jasperreports-fonts</artifactId>
-   <version>6.0.0</version>
+    <artifactId>itext7-core</artifactId>
+    <version>8.0.0</version>
+    <type>pom</type>
 </dependency>
 
-<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
-<dependency>
-	<groupId>com.itextpdf</groupId>
-	<artifactId>itextg</artifactId>
-	<version>5.5.10</version>
-</dependency>
+
 
 <!-- Thanks for using https://jar-download.com -->
 

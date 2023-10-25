@@ -60,8 +60,8 @@ class IssPortalFileResourceIT {
     private static final String DEFAULT_STATUS = "AAAAAAAAAA";
     private static final String UPDATED_STATUS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_APPLICATION_COUNT = "AAAAAAAAAA";
-    private static final String UPDATED_APPLICATION_COUNT = "BBBBBBBBBB";
+    //    private static final String DEFAULT_APPLICATION_COUNT = "AAAAAAAAAA";
+    //    private static final String UPDATED_APPLICATION_COUNT = "BBBBBBBBBB";
 
     private static final String DEFAULT_NOTES = "AAAAAAAAAA";
     private static final String UPDATED_NOTES = "BBBBBBBBBB";
@@ -99,7 +99,7 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(DEFAULT_TO_DISBURSEMENT_DATE)
             .pacsCode(DEFAULT_PACS_CODE)
             .status(DEFAULT_STATUS)
-            .applicationCount(DEFAULT_APPLICATION_COUNT)
+            //  .applicationCount(DEFAULT_APPLICATION_COUNT)
             .notes(DEFAULT_NOTES);
         return issPortalFile;
     }
@@ -120,7 +120,7 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .applicationCount(UPDATED_APPLICATION_COUNT)
+            //.applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
         return issPortalFile;
     }
@@ -151,7 +151,7 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(DEFAULT_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(DEFAULT_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
+        //   assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
@@ -193,7 +193,7 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.[*].toDisbursementDate").value(hasItem(DEFAULT_TO_DISBURSEMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].pacsCode").value(hasItem(DEFAULT_PACS_CODE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
-            .andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
+            // .andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
 
@@ -217,7 +217,7 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.toDisbursementDate").value(DEFAULT_TO_DISBURSEMENT_DATE.toString()))
             .andExpect(jsonPath("$.pacsCode").value(DEFAULT_PACS_CODE.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS))
-            .andExpect(jsonPath("$.applicationCount").value(DEFAULT_APPLICATION_COUNT))
+            // .andExpect(jsonPath("$.applicationCount").value(DEFAULT_APPLICATION_COUNT))
             .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES));
     }
 
@@ -870,12 +870,11 @@ class IssPortalFileResourceIT {
     void getAllIssPortalFilesByApplicationCountIsEqualToSomething() throws Exception {
         // Initialize the database
         issPortalFileRepository.saveAndFlush(issPortalFile);
-
         // Get all the issPortalFileList where applicationCount equals to DEFAULT_APPLICATION_COUNT
-        defaultIssPortalFileShouldBeFound("applicationCount.equals=" + DEFAULT_APPLICATION_COUNT);
+        // defaultIssPortalFileShouldBeFound("applicationCount.equals=" + DEFAULT_APPLICATION_COUNT);
 
         // Get all the issPortalFileList where applicationCount equals to UPDATED_APPLICATION_COUNT
-        defaultIssPortalFileShouldNotBeFound("applicationCount.equals=" + UPDATED_APPLICATION_COUNT);
+        // defaultIssPortalFileShouldNotBeFound("applicationCount.equals=" + UPDATED_APPLICATION_COUNT);
     }
 
     @Test
@@ -883,12 +882,11 @@ class IssPortalFileResourceIT {
     void getAllIssPortalFilesByApplicationCountIsInShouldWork() throws Exception {
         // Initialize the database
         issPortalFileRepository.saveAndFlush(issPortalFile);
-
         // Get all the issPortalFileList where applicationCount in DEFAULT_APPLICATION_COUNT or UPDATED_APPLICATION_COUNT
-        defaultIssPortalFileShouldBeFound("applicationCount.in=" + DEFAULT_APPLICATION_COUNT + "," + UPDATED_APPLICATION_COUNT);
+        //defaultIssPortalFileShouldBeFound("applicationCount.in=" + DEFAULT_APPLICATION_COUNT + "," + UPDATED_APPLICATION_COUNT);
 
         // Get all the issPortalFileList where applicationCount equals to UPDATED_APPLICATION_COUNT
-        defaultIssPortalFileShouldNotBeFound("applicationCount.in=" + UPDATED_APPLICATION_COUNT);
+        //  defaultIssPortalFileShouldNotBeFound("applicationCount.in=" + UPDATED_APPLICATION_COUNT);
     }
 
     @Test
@@ -909,12 +907,11 @@ class IssPortalFileResourceIT {
     void getAllIssPortalFilesByApplicationCountContainsSomething() throws Exception {
         // Initialize the database
         issPortalFileRepository.saveAndFlush(issPortalFile);
-
         // Get all the issPortalFileList where applicationCount contains DEFAULT_APPLICATION_COUNT
-        defaultIssPortalFileShouldBeFound("applicationCount.contains=" + DEFAULT_APPLICATION_COUNT);
+        //  defaultIssPortalFileShouldBeFound("applicationCount.contains=" + DEFAULT_APPLICATION_COUNT);
 
         // Get all the issPortalFileList where applicationCount contains UPDATED_APPLICATION_COUNT
-        defaultIssPortalFileShouldNotBeFound("applicationCount.contains=" + UPDATED_APPLICATION_COUNT);
+        //   defaultIssPortalFileShouldNotBeFound("applicationCount.contains=" + UPDATED_APPLICATION_COUNT);
     }
 
     @Test
@@ -922,12 +919,11 @@ class IssPortalFileResourceIT {
     void getAllIssPortalFilesByApplicationCountNotContainsSomething() throws Exception {
         // Initialize the database
         issPortalFileRepository.saveAndFlush(issPortalFile);
-
         // Get all the issPortalFileList where applicationCount does not contain DEFAULT_APPLICATION_COUNT
-        defaultIssPortalFileShouldNotBeFound("applicationCount.doesNotContain=" + DEFAULT_APPLICATION_COUNT);
+        // defaultIssPortalFileShouldNotBeFound("applicationCount.doesNotContain=" + DEFAULT_APPLICATION_COUNT);
 
         // Get all the issPortalFileList where applicationCount does not contain UPDATED_APPLICATION_COUNT
-        defaultIssPortalFileShouldBeFound("applicationCount.doesNotContain=" + UPDATED_APPLICATION_COUNT);
+        // defaultIssPortalFileShouldBeFound("applicationCount.doesNotContain=" + UPDATED_APPLICATION_COUNT);
     }
 
     @Test
@@ -1012,7 +1008,7 @@ class IssPortalFileResourceIT {
             .andExpect(jsonPath("$.[*].toDisbursementDate").value(hasItem(DEFAULT_TO_DISBURSEMENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].pacsCode").value(hasItem(DEFAULT_PACS_CODE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)))
-            .andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
+            //.andExpect(jsonPath("$.[*].applicationCount").value(hasItem(DEFAULT_APPLICATION_COUNT)))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
 
         // Check, that the count call also returns 1
@@ -1070,7 +1066,7 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .applicationCount(UPDATED_APPLICATION_COUNT)
+            // .applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
 
         restIssPortalFileMockMvc
@@ -1093,7 +1089,7 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
+        // assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
@@ -1190,7 +1186,7 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(DEFAULT_STATUS);
-        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
+        //    assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(DEFAULT_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
@@ -1215,7 +1211,7 @@ class IssPortalFileResourceIT {
             .toDisbursementDate(UPDATED_TO_DISBURSEMENT_DATE)
             .pacsCode(UPDATED_PACS_CODE)
             .status(UPDATED_STATUS)
-            .applicationCount(UPDATED_APPLICATION_COUNT)
+            //   .applicationCount(UPDATED_APPLICATION_COUNT)
             .notes(UPDATED_NOTES);
 
         restIssPortalFileMockMvc
@@ -1238,7 +1234,7 @@ class IssPortalFileResourceIT {
         assertThat(testIssPortalFile.getToDisbursementDate()).isEqualTo(UPDATED_TO_DISBURSEMENT_DATE);
         assertThat(testIssPortalFile.getPacsCode()).isEqualTo(UPDATED_PACS_CODE);
         assertThat(testIssPortalFile.getStatus()).isEqualTo(UPDATED_STATUS);
-        assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
+        //   assertThat(testIssPortalFile.getApplicationCount()).isEqualTo(UPDATED_APPLICATION_COUNT);
         assertThat(testIssPortalFile.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 

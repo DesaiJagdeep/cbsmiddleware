@@ -1,9 +1,11 @@
 package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.PacsMaster;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.domain.UserFileDetails;
 import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.repository.UserFileDetailsRepository;
 import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
@@ -32,9 +34,11 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import javax.validation.Valid;
@@ -179,11 +183,7 @@ public class UserResource {
             throw new LoginAlreadyUsedException();
         } else if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
             throw new MobileAlreadyUsedException();
-        } /*
-         * else if
-         * (userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).isPresent()) {
-         * throw new EmailAlreadyUsedException(); }
-         */else {
+        } else {
             User newUser = userService.createUser(userDTO);
             mailService.sendCreationEmail(newUser);
             return ResponseEntity
@@ -211,7 +211,7 @@ public class UserResource {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        Optional<User> existingUser = userRepository.findOneByMobileNumber(userDTO.getMobileNumber());
 
         //        if (userRepository.findOneByMobileNumber(userDTO.getMobileNumber()).isPresent()) {
         //            throw new MobileAlreadyUsedException();
@@ -259,7 +259,6 @@ public class UserResource {
         if (!optUser.isPresent()) {
             throw new ForbiddenAuthRequestAlertException("Access is denied", "USER", "unAuthorized");
         } else if (optUser.get().getLogin().equalsIgnoreCase(optUserById.get().getLogin())) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             User user = optUserById.get();
             user.setPasswordChanged(true);
             userRepository.save(user);
@@ -377,7 +376,7 @@ public class UserResource {
     @GetMapping("/users/{login}")
     @PreAuthorize("@authentication.userCheck(#login,'USER','EDIT')")
     public ResponseEntity<AdminUserDTO> getUser(@PathVariable @Pattern(regexp = Constants.LOGIN_REGEX) String login) {
-        log.debug("REST requestsfsfsffssssssssssssssss to get User : {}", userService.getUserWithAuthoritiesByLogin(login));
+        log.debug("REST request to get User : {}", userService.getUserWithAuthoritiesByLogin(login));
         return ResponseUtil.wrapOrNotFound(userService.getUserWithAuthoritiesByLogin(login).map(AdminUserDTO::new));
     }
 
@@ -498,9 +497,7 @@ public class UserResource {
 
                         String talukaName = getCellValue(row.getCell(0));
 
-                        if (StringUtils.isNotBlank(talukaName)) {
-                            System.out.println(">>>>>>>>>>>>>>>>>talukaName>>>>>>>>>>>>>>" + talukaName);
-                        }
+                        if (StringUtils.isNotBlank(talukaName)) {}
 
                         String branchName = getCellValue(row.getCell(1));
 
@@ -567,24 +564,20 @@ public class UserResource {
                         String userType = getCellValue(row.getCell(6));
 
                         if (StringUtils.isNotBlank(userType)) {
-                            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + userType);
-
                             userType = userType.trim().toLowerCase();
 
                             if (userType.equals("cooperative bank branch manager")) {
-                                System.out.println(">>>>>>>>>>>>>>>>>Manager>>>>>>>>>>>>" + userType);
                                 adminUserDTO.setAuthorities(branchAdmin);
                             } else if (userType.equals("cooperative bank branch user")) {
-                                System.out.println(">>>>>>>>>>>>>>>>User>>>>>>>>>>>>>" + userType);
                                 adminUserDTO.setAuthorities(branchUser);
                             }
                         }
                         String schemeWiseBranchCode = getCellValue(row.getCell(7));
-
                         if (StringUtils.isNotBlank(schemeWiseBranchCode)) {
                             adminUserDTO.setSchemeWiseBranchCode(schemeWiseBranchCode);
                         }
-                        userService.createUser(adminUserDTO);
+
+                        userService.createUserFromFile(adminUserDTO);
 
                         UserList.add(adminUserDTO);
                     } else {
@@ -613,6 +606,203 @@ public class UserResource {
 
             if (!mobileIfPresent.isEmpty()) {
                 return mobileIfPresent;
+            } else {
+                return UserList;
+            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", "", "nullColumn");
+        }
+    }
+
+    @Autowired
+    PacsMasterRepository masterRepository;
+
+    @GetMapping("/get-by-packs/{pacsNumber}")
+    public PacsMaster packsMasterData(@PathVariable String pacsNumber) {
+        return masterRepository.findOneByPacsNumber(pacsNumber);
+    }
+
+    @PostMapping("/master-pacs-upload")
+    @PreAuthorize("@authentication.hasPermision('','','','USER','CREATE')")
+    public Object createPacsFile(@RequestParam("file") MultipartFile files, RedirectAttributes redirectAttributes) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+        List<AdminUserDTO> UserList = new ArrayList<>();
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", "", "fileInvalid");
+        }
+
+        UserFileDetails userFileDetails = new UserFileDetails();
+        File originalFileDir = new File(Constants.USER_DETAIL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", "", "fileInvalid");
+        }
+
+        int filecount = 0;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+
+            Row row = null;
+            for (int i = 0; i < 10; i++) {
+                row = sheet.getRow(i); // Get the current row
+                String talukaFile = getCellValue(row.getCell(1));
+                if (StringUtils.isNotBlank(talukaFile)) {
+                    talukaFile = talukaFile.trim().replace("\n", " ").toLowerCase();
+                    if (!talukaFile.contains("sr.no")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+        Set<String> packsUserSet = new HashSet<>();
+        packsUserSet.add("ROLE_PACS_USER");
+
+        Set<String> mobileIfPresent = new HashSet<>();
+
+        int startRowIndex = filecount + 1; // Starting row index
+
+        boolean falgForFileName = false;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+
+                if (
+                    StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                    StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                    StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                    StringUtils.isBlank(getCellValue(row.getCell(3)))
+                ) {
+                    break;
+                }
+
+                if (!falgForFileName) {
+                    userFileDetails.setFileName(files.getOriginalFilename());
+                    userFileDetails.setUniqueFileName(uniqueName + "." + fileExtension);
+                    falgForFileName = true;
+                }
+
+                AdminUserDTO adminUserDTO = new AdminUserDTO();
+                adminUserDTO.setBankName("Pune District Central Co.op Bank Ltd");
+                adminUserDTO.setBankCode("156");
+                if (row != null) {
+                    //making login name
+
+                    String login = getCellValue(row.getCell(7));
+
+                    String packsNumber = getCellValue(row.getCell(3));
+
+                    if (StringUtils.isBlank(login)) {
+                        login = "MH" + packsNumber;
+                    } else {
+                        login = login.substring(0, login.indexOf("@"));
+                    }
+
+                    adminUserDTO.setLogin(login);
+
+                    adminUserDTO.setFirstName(login);
+                    adminUserDTO.setLastName(getCellValue(row.getCell(4)));
+
+                    if (StringUtils.isNotBlank(login) && !userRepository.findOneByLogin(login).isPresent()) {
+                        // add logic for skipping records if exists
+
+                        adminUserDTO.setAuthorities(packsUserSet);
+
+                        // System.out.println("................................................................"+packsNumber);
+                        PacsMaster findOneByPacsNumber = masterRepository.findOneByPacsNumber(packsNumber);
+
+                        if (findOneByPacsNumber != null) {
+                            adminUserDTO.setPacsName(findOneByPacsNumber.getPacsName());
+                            adminUserDTO.setPacsNumber(findOneByPacsNumber.getPacsNumber());
+
+                            String branchNName = findOneByPacsNumber.getBankBranchMaster().getBranchName();
+                            adminUserDTO.setBranchName(branchNName);
+                            adminUserDTO.setSchemeWiseBranchCode(findOneByPacsNumber.getBankBranchMaster().getSchemeWiseBranchCode());
+                            //                        	 String branchNameFromexcel=getCellValue(row.getCell(2));
+                            //                        	 if(StringUtils.isNotBlank(branchNName)&&StringUtils.isNotBlank(branchNameFromexcel)
+                            //                        			 &&!branchNName.equalsIgnoreCase(branchNameFromexcel))
+                            //                        	 {
+                            //                        		 System.out.println("/////////////////////////branchNName///////////////////////////"+branchNName);
+                            //                        		 System.out.println("/////////////////////////branchNameFromexcel///////////////////////////"+branchNameFromexcel);
+                            //                        	 }
+
+                        }
+
+                        //setting email
+                        String emailName = getCellValue(row.getCell(5));
+
+                        if (StringUtils.isNotBlank(emailName)) {
+                            adminUserDTO.setEmail(emailName);
+                        }
+
+                        adminUserDTO.setActivated(true);
+
+                        userService.createPacsUserFromFile(adminUserDTO);
+
+                        UserList.add(adminUserDTO);
+                    } else {
+                        mobileIfPresent.add(login);
+                    }
+                }
+            }
+            if (!UserList.isEmpty()) {
+                userFileDetailsRepository.save(userFileDetails);
+                //                            if (UserList.get(0) != null) {
+                //                                try {
+                //                                    notificationDataUtility.notificationData(
+                //                                        "Master User file uploaded",
+                //                                        "Master User file : " + files.getOriginalFilename() + " uploaded",
+                //                                        false,
+                //                                        UserList.get(0).getCreatedDate(),
+                //                                        "masterUserListUploaded" // type
+                //                                    );
+                //                                } catch (Exception e) {}
+                //                            }
+
+            }/*
+             * else { throw new BadRequestAlertException("File is already parsed", "",
+             * "FileExist"); }
+             */
+
+            if (!mobileIfPresent.isEmpty()) {
+                Map<String, Object> test = new HashMap<>();
+
+                test.put("MobileNumber", mobileIfPresent);
+                test.put("UserList", UserList);
+
+                return test;
             } else {
                 return UserList;
             }

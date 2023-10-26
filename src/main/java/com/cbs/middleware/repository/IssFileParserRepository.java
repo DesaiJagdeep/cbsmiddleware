@@ -62,10 +62,12 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
 
     Optional<IssFileParser> findOneByIdAndBankCode(Long id, String string);
 
-    Optional<IssFileParser> findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndCropName(
+    Optional<IssFileParser> findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
         String fYear,
         String accountNumber,
         String loanSanctionDate,
-        String cropName
+        String kccIssCropCode,
+        String disbursementDate,
+        String maturityLoanDate
     );
 }

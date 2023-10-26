@@ -1,6 +1,9 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A IssFileParser.
@@ -381,7 +385,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setDateofBirth(String dateofBirth) {
-        this.dateofBirth = dateofBirth;
+        if (StringUtils.isNotBlank(dateofBirth)) {
+            this.dateofBirth = dateInYYYYMMDD(dateofBirth);
+        } else {
+            this.dateofBirth = dateofBirth;
+        }
     }
 
     public String getAgeAtTimeOfSanction() {
@@ -693,7 +701,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setLoanSactionDate(String loanSactionDate) {
-        this.loanSactionDate = loanSactionDate;
+        if (StringUtils.isNotBlank(loanSactionDate)) {
+            this.loanSactionDate = dateInYYYYMMDD(loanSactionDate);
+        } else {
+            this.loanSactionDate = loanSactionDate;
+        }
     }
 
     public String getLoanSanctionAmount() {
@@ -732,7 +744,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setDateOfOverDuePayment(String dateOfOverDuePayment) {
-        this.dateOfOverDuePayment = dateOfOverDuePayment;
+        if (StringUtils.isNotBlank(dateOfOverDuePayment)) {
+            this.dateOfOverDuePayment = dateInYYYYMMDD(dateOfOverDuePayment);
+        } else {
+            this.dateOfOverDuePayment = dateOfOverDuePayment;
+        }
     }
 
     public String getCropName() {
@@ -823,7 +839,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setDisbursementDate(String disbursementDate) {
-        this.disbursementDate = disbursementDate;
+        if (StringUtils.isNotBlank(disbursementDate)) {
+            this.disbursementDate = dateInYYYYMMDD(disbursementDate);
+        } else {
+            this.disbursementDate = disbursementDate;
+        }
     }
 
     public String getDisburseAmount() {
@@ -849,7 +869,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setMaturityLoanDate(String maturityLoanDate) {
-        this.maturityLoanDate = maturityLoanDate;
+        if (StringUtils.isNotBlank(maturityLoanDate)) {
+            this.maturityLoanDate = dateInYYYYMMDD(maturityLoanDate);
+        } else {
+            this.maturityLoanDate = maturityLoanDate;
+        }
     }
 
     public String getRecoveryAmountPrinciple() {
@@ -888,7 +912,11 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setRecoveryDate(String recoveryDate) {
-        this.recoveryDate = recoveryDate;
+        if (StringUtils.isNotBlank(recoveryDate)) {
+            this.recoveryDate = dateInYYYYMMDD(recoveryDate);
+        } else {
+            this.recoveryDate = recoveryDate;
+        }
     }
 
     public IssPortalFile getIssPortalFile() {
@@ -902,6 +930,59 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     public IssFileParser issPortalFile(IssPortalFile issPortalFile) {
         this.setIssPortalFile(issPortalFile);
         return this;
+    }
+
+    private String dateInYYYYMMDD(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
+        Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+        Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+
+        if (patternYYYYMMDD.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternYYYY_MM_DD.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternDDMMYYYY.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternDD_MM_YYYY.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        return date;
+    }
+
+    public boolean isDuplicate(IssFileParser other) {
+        return this.loanAccountNumberkcc.equals(other.loanAccountNumberkcc);
+    }
+
+    public boolean isDuplicateApp(IssFileParser other) {
+        return (
+            this.accountNumber.equals(other.accountNumber) &&
+            this.aadharNumber.equals(other.aadharNumber) &&
+            this.ageAtTimeOfSanction.equals(other.ageAtTimeOfSanction) &&
+            this.loanAccountNumberkcc.equals(other.loanAccountNumberkcc) &&
+            this.schemeWiseBranchCode.equals(other.schemeWiseBranchCode) &&
+            this.loanSactionDate.equals(other.loanSactionDate) &&
+            this.maturityLoanDate.equals(other.maturityLoanDate) &&
+            this.kccIssCropCode.equals(other.kccIssCropCode) &&
+            this.areaHect.equals(other.areaHect) &&
+            this.kccIssCropCode.equals(other.kccIssCropCode)
+        );
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and

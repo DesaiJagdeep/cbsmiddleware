@@ -16,4 +16,6 @@ public interface CropMasterRepository extends JpaRepository<CropMaster, Long> {
     List<CropMaster> findByCropNameIsContaining(String cropName);
 
     String findCropCodeByCropNameIsContaining(String cropName);
+
+    boolean existsByCropCode(String kccIssCropCode);
 }

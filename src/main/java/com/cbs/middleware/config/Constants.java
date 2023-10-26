@@ -13,11 +13,11 @@ public final class Constants {
 
     public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
 
-    //    public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
-    //    public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
-    //    public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
-    //    public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
-    //    public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
+    //        public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
+    //        public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
+    //        public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
+    //        public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
+    //        public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
 
     public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
     public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";

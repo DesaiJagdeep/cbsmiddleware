@@ -261,16 +261,16 @@ public class AccountResource {
     //	}
 
     @PostMapping(path = "/account/reset-password/init")
-    public void requestPasswordReset(@RequestBody Email mail) {
-        if (("".equalsIgnoreCase(mail.getEmail()))) {
+    public void requestPasswordReset(@RequestBody String mail) {
+        if (("".equalsIgnoreCase(mail))) {
             throw new BadRequestAlertException("Input parameter is empty", ENTITY_NAME, "idinvalid");
         }
 
-        if (!mail.getEmail().contains("@")) {
+        if (!mail.contains("@")) {
             throw new BadRequestAlertException("Bad Request", ENTITY_NAME, "idinvalid");
         }
 
-        List<User> userList = userRepository.findAllByEmailIgnoreCase(mail.getEmail());
+        List<User> userList = userRepository.findAllByEmailIgnoreCase(mail);
         if (!userList.isEmpty()) {
             for (User user : userList) {
                 if (user != null && user.isActivated()) {

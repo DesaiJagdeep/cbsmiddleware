@@ -54,6 +54,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -62,6 +64,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -240,7 +243,13 @@ public class SubmitBatchResource {
             basicDetails.setAadhaarNumber(issFileParser.getAadharNumber());
             basicDetails.setBeneficiaryPassbookName(issFileParser.getFarmerName());
             basicDetails.setMobile(issFileParser.getMobileNo());
-            basicDetails.setDob("" + issFileParser.getDateofBirth());
+            //            basicDetails.setDob("" + issFileParser.getDateofBirth());
+            Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            if (patternYYYY_MM_DD.matcher(issFileParser.getDateofBirth()).matches()) {
+                basicDetails.setDob(issFileParser.getDateofBirth());
+            } else {
+                basicDetails.setDob(dateInYYYYMMDD(issFileParser.getDateofBirth()));
+            }
 
             if (Constants.MALE.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(1);
@@ -430,7 +439,14 @@ public class SubmitBatchResource {
             // },
 
             LoanDetails loanDetails = new LoanDetails();
-            loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            //loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                loanDetails.setKccLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                loanDetails.setKccLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
+
             loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
             loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
             applicationPayload.setLoanDetails(loanDetails);
@@ -469,7 +485,13 @@ public class SubmitBatchResource {
                 activities.setActivityType(1l);
             }
 
-            activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                activities.setLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                activities.setLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
+
             activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
 
             ActivityRows activityRows = new ActivityRows();
@@ -761,7 +783,13 @@ public class SubmitBatchResource {
             basicDetails.setAadhaarNumber(issFileParser.getAadharNumber());
             basicDetails.setBeneficiaryPassbookName(issFileParser.getFarmerName());
             basicDetails.setMobile(issFileParser.getMobileNo());
-            basicDetails.setDob("" + issFileParser.getDateofBirth());
+
+            Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            if (patternYYYY_MM_DD.matcher(issFileParser.getDateofBirth()).matches()) {
+                basicDetails.setDob(issFileParser.getDateofBirth());
+            } else {
+                basicDetails.setDob(dateInYYYYMMDD(issFileParser.getDateofBirth()));
+            }
 
             if (Constants.MALE.equalsIgnoreCase(issFileParser.getGender())) {
                 basicDetails.setGender(1);
@@ -949,7 +977,13 @@ public class SubmitBatchResource {
             // },
 
             LoanDetails loanDetails = new LoanDetails();
-            loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                loanDetails.setKccLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                loanDetails.setKccLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
+
             loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
             loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
             applicationPayload.setLoanDetails(loanDetails);
@@ -988,7 +1022,12 @@ public class SubmitBatchResource {
                 activities.setActivityType(1l);
             }
 
-            activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                activities.setLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                activities.setLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
+
             activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
 
             ActivityRows activityRows = new ActivityRows();
@@ -996,11 +1035,14 @@ public class SubmitBatchResource {
             activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
             // add crop code from crop name
-            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                .stream()
-                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                .map(CropMaster::getCropCode)
-                .findFirst();
+            //            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+            //                .stream()
+            //                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+            //                .map(CropMaster::getCropCode)
+            //                .findFirst();
+
+            activityRows.setCropCode(issFileParser.getKccIssCropCode());
+
             /*
              * String findCropCodeByCropNameIsContaining = cropMasterRepository
              * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
@@ -1008,9 +1050,9 @@ public class SubmitBatchResource {
              * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
              */
 
-            if (cropNameMasterCode.isPresent()) {
-                activityRows.setCropCode(cropNameMasterCode.get());
-            }
+            //            if (cropNameMasterCode.isPresent()) {
+            //                activityRows.setCropCode(cropNameMasterCode.get());
+            //            }
 
             activityRows.setSurveyNumber(issFileParser.getSurveyNo());
             activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
@@ -1061,5 +1103,39 @@ public class SubmitBatchResource {
         cbsMiddleareInputPayload.setData(batchData);
 
         return cbsMiddleareInputPayload;
+    }
+
+    private String dateInYYYYMMDD(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
+        Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+        Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+
+        if (patternYYYYMMDD.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternYYYY_MM_DD.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternDDMMYYYY.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        if (patternDD_MM_YYYY.matcher(date).matches()) {
+            DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate localDate = LocalDate.parse(date, inputFormatter);
+            date = localDate.format(formatter).trim();
+        }
+
+        return date;
     }
 }

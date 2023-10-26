@@ -8,6 +8,7 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.CastCategoryMaster;
+import com.cbs.middleware.domain.CropMaster;
 import com.cbs.middleware.domain.FarmerCategoryMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.FileParseConf;
@@ -787,15 +788,45 @@ public class IssFileParserResource {
 
             rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
 
+            boolean flagForData = false;
             String fYear = getCellValue(row.getCell(0));
-            if (StringUtils.isNoneBlank(fYear) && fYear.matches("\\d{4}/\\d{4}") || fYear.matches("\\d{4}-\\d{4}")) {
-                fYear = fYear.replace("/", "-");
 
-                if (!fYear.equalsIgnoreCase(financialYear)) {
-                    throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
-                }
-            } else {
-                throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+            if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+                flagForData = true;
+            }
+
+            String ifsc = getCellValue(row.getCell(6));
+            if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+                flagForData = true;
+            }
+
+            String aadharNumberValue = getCellValue(row.getCell(10));
+            if (StringUtils.isNotBlank(aadharNumberValue) && !validateAadhaarNumber(aadharNumberValue)) {
+                flagForData = true;
+            }
+
+            String villageCode = getCellValue(row.getCell(25));
+            if (StringUtils.isNotBlank(villageCode) && !villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
+                flagForData = true;
+            }
+            String pinCode = getCellValue(row.getCell(28));
+            if (StringUtils.isNotBlank(pinCode) && !pinCode.matches("^[0-9]{6}$")) {
+                flagForData = true;
+            }
+
+            String accountNumber = getCellValue(row.getCell(30));
+            if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
+                flagForData = true;
+            }
+            String landtype = getCellValue(row.getCell(47));
+            if (
+                StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
+            ) {
+                flagForData = true;
+            }
+
+            if (flagForData) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
             }
 
             fileParseConf.setBankName(getCellValue(row.getCell(1)));
@@ -865,7 +896,6 @@ public class IssFileParserResource {
             }
 
             String branchCodeColumn = getCellValue(row.getCell(4));
-            System.out.println("...............branchCodeColumn.............." + branchCodeColumn);
             if (StringUtils.isNotBlank(branchCodeColumn)) {
                 branchCodeColumn = branchCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!branchCodeColumn.contains("branch") && !branchCodeColumn.contains("code")) {
@@ -876,7 +906,6 @@ public class IssFileParserResource {
             }
 
             String recoveryDate = getCellValue(row.getCell(53));
-            System.out.println("...............recoveryDate.............." + recoveryDate);
             if (StringUtils.isNoneBlank(recoveryDate)) {
                 recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
 
@@ -942,19 +971,13 @@ public class IssFileParserResource {
                 flag = true;
             }
             String landtype = getCellValue(row.getCell(47));
-            System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + landtype);
             if (
                 StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
             ) {
-                System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + landtype);
                 flag = true;
             }
 
-            String activityType = getCellValue(row.getCell(45));
-            System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," + activityType);
-
             if (flag) {
-                System.out.println("......................");
                 throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
             }
         } catch (BadRequestAlertException e) {
@@ -1046,13 +1069,21 @@ public class IssFileParserResource {
 
                     //skipping records if exists
 
+                    String AccountNumber = getCellValue(row.getCell(30));
+                    String LoanSactionDate = getDateCellValue(row.getCell(35));
+                    String KccIssCropCode = getCellValue(row.getCell(39));
+                    String DisbursementDate = getCellValue(row.getCell(48));
+                    String maturityLoanDate = getCellValue(row.getCell(50));
+
                     if (
                         !issFileParserRepository
-                            .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndCropName(
+                            .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
                                 fYear,
-                                getCellValue(row.getCell(30)),
-                                getDateCellValue(row.getCell(35)),
-                                getCellValue(row.getCell(39))
+                                AccountNumber,
+                                LoanSactionDate,
+                                KccIssCropCode,
+                                DisbursementDate,
+                                maturityLoanDate
                             )
                             .isPresent()
                     ) {
@@ -1182,6 +1213,30 @@ public class IssFileParserResource {
                 issPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
                 issPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
 
+                //removing same application if present
+
+                //				List<IssFileParser> duplicatesAccountNumber = issFileParserList.stream().filter(
+                //						person -> issFileParserList.stream().filter(p -> p != person).anyMatch(person::isDuplicateApp))
+                //						.collect(Collectors.toList());
+                //
+                //				if (duplicatesAccountNumber.size() > 1) {
+                //
+                //					List<IssFileParser> manageUniqueList = new ArrayList<>();
+                //					for (IssFileParser issFileParser : duplicatesAccountNumber) {
+                //
+                //						if (manageUniqueList.isEmpty()) {
+                //							manageUniqueList.add(issFileParser);
+                //						}
+                //
+                //						else if (!manageUniqueList.stream().anyMatch(
+                //								a -> a.getAccountNumber().equalsIgnoreCase(issFileParser.getAccountNumber()))) {
+                //							manageUniqueList.add(issFileParser);
+                //						}
+                //
+                //					}
+                //
+                //				}
+
                 IssPortalFile issPortalFilesave = issPortalFileRepository.save(issPortalFile);
 
                 issFileParserRepository.saveAll(issFileParserList);
@@ -1264,16 +1319,27 @@ public class IssFileParserResource {
                 applicationLogList.add(new ApplicationLog("Mobile number is incorrect format", issFileParser));
             }
 
+            //duplicate kcc loan account number
+            List<IssFileParser> duplicatesAccountNumber = findAllByIssPortalFile
+                .stream()
+                .filter(person -> findAllByIssPortalFile.stream().filter(p -> p != person).anyMatch(person::isDuplicate))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : duplicatesAccountNumber) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Duplicate KCC Loan Account Number found.", issFileParser));
+            }
+
             // Filter invalid dob
 
             List<IssFileParser> invalidDOBList = findAllByIssPortalFile
                 .stream()
-                .filter(person -> StringUtils.isBlank(person.getDateofBirth()))
+                .filter(person -> !validateDate(person.getDateofBirth()))
                 .collect(Collectors.toList());
 
             for (IssFileParser issFileParser : invalidDOBList) {
                 issFileParserValidationErrorSet.add(issFileParser);
-                applicationLogList.add(new ApplicationLog("Date of birth is not in yyyy-mm-dd format", issFileParser));
+                applicationLogList.add(new ApplicationLog("Date of birth is not in dd-mm-yyyy format", issFileParser));
             }
 
             // Filter invalid gender
@@ -1442,12 +1508,12 @@ public class IssFileParserResource {
             // Filter invalid cropCode
             List<IssFileParser> invalidCropCodeList = findAllByIssPortalFile
                 .stream()
-                .filter(person -> StringUtils.isBlank(person.getCropName()))
+                .filter(person -> !validateCropCode(person.getKccIssCropCode()))
                 .collect(Collectors.toList());
 
             for (IssFileParser issFileParser : invalidCropCodeList) {
                 issFileParserValidationErrorSet.add(issFileParser);
-                applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
+                applicationLogList.add(new ApplicationLog("Crop code is incorrect format", issFileParser));
             }
 
             // Filter invalid surveyNumber
@@ -1825,15 +1891,26 @@ public class IssFileParserResource {
         }
 
         // Filter invalid cropCode
+
         List<IssFileParser> invalidCropCodeList = findAllByIssPortalFile
             .stream()
-            .filter(person -> StringUtils.isBlank(person.getCropName()))
+            .filter(person -> !validateCropCode(person.getKccIssCropCode()))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidCropCodeList) {
             issFileParserValidationErrorSet.add(issFileParser);
-            applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
+            applicationLogList.add(new ApplicationLog("Crop code is incorrect format", issFileParser));
         }
+
+        //        List<IssFileParser> invalidCropCodeList = findAllByIssPortalFile
+        //            .stream()
+        //            .filter(person -> StringUtils.isBlank(person.getCropName()))
+        //            .collect(Collectors.toList());
+        //
+        //        for (IssFileParser issFileParser : invalidCropCodeList) {
+        //            issFileParserValidationErrorSet.add(issFileParser);
+        //            applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
+        //        }
 
         // Filter invalid surveyNumber
         List<IssFileParser> invalidSurveyNumberList = findAllByIssPortalFile
@@ -2085,7 +2162,7 @@ public class IssFileParserResource {
         // Filter date of birth
         if (!validateDate(issFileParser.getDateofBirth())) {
             errorCount = errorCount + 1;
-            validationErrorBuilder.append("Date Of Birth is not in yyyy-mm-dd format. ");
+            validationErrorBuilder.append("Date Of Birth is not in dd-mm-yyyy format. ");
         }
 
         // gender
@@ -2176,7 +2253,7 @@ public class IssFileParserResource {
         // kccLoanSanctionedDate
         if (!validateDate(issFileParser.getLoanSactionDate())) {
             errorCount = errorCount + 1;
-            validationErrorBuilder.append("kcc Loan Sanctioned Date is in incorrect format. ");
+            validationErrorBuilder.append("kcc Loan Sanctioned Date is not in dd-mm-yyyy format.");
         }
 
         // kccLoanSanctionedAmount
@@ -2191,7 +2268,7 @@ public class IssFileParserResource {
         // loanSanctionedDate
         if (!validateDate(issFileParser.getLoanSactionDate())) {
             errorCount = errorCount + 1;
-            validationErrorBuilder.append("Farmer Category is in incorrect format. ");
+            validationErrorBuilder.append("Loan Saction Date is not in dd-mm-yyyy format.");
         }
 
         // loanSanctionedAmount
@@ -2207,10 +2284,16 @@ public class IssFileParserResource {
             validationErrorBuilder.append("Land Village is in incorrect format. ");
         }
 
-        // cropCode
-        if (!cropMasterRepository.existsByCropName(issFileParser.getCropName())) {
+        // cropName
+        if (!cropMasterRepository.existsByCropName(issFileParser.getKccIssCropName())) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Crop Name is in incorrect format. ");
+        }
+
+        // cropCode
+        if (!cropMasterRepository.existsByCropCode(issFileParser.getKccIssCropCode())) {
+            errorCount = errorCount + 1;
+            validationErrorBuilder.append("Crop code is in incorrect format. ");
         }
 
         // surveyNumber
@@ -2341,6 +2424,26 @@ public class IssFileParserResource {
         return flag;
     }
 
+    private boolean validateCropCode(String cropCode) {
+        boolean flag = false;
+        if (StringUtils.isBlank(cropCode)) {
+            return flag;
+        }
+
+        if (
+            MasterDataCacheService.CropMasterList
+                .stream()
+                .filter(f -> f.getCropCode().equals(cropCode))
+                .map(CropMaster::getCropCode)
+                .findFirst()
+                .isPresent()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean validateAccountHolder(String accountHolder) {
         boolean flag = false;
         if (StringUtils.isBlank(accountHolder)) {
@@ -2443,8 +2546,8 @@ public class IssFileParserResource {
 
     private boolean validateGender(String gender) {
         boolean flag = false;
-        if (gender == null || "".equalsIgnoreCase(gender)) {
-            return flag;
+        if (StringUtils.isBlank(gender)) {
+            return false;
         }
 
         switch (gender.toLowerCase()) {
@@ -2466,24 +2569,42 @@ public class IssFileParserResource {
     }
 
     private boolean validateDate(String dateofBirth) {
-        Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-
-        if (patternYYYYMMDD.matcher(dateofBirth).matches()) { // yyyy-MM-dd
-            return true;
+        if (StringUtils.isBlank(dateofBirth)) {
+            return false;
         }
-        return false;
+
+        Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
+        Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+        Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+        Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+
+        if (
+            patternYYYYMMDD.matcher(dateofBirth).matches() ||
+            patternDDMMYYYY.matcher(dateofBirth).matches() ||
+            patternDD_MM_YYYY.matcher(dateofBirth).matches() ||
+            patternYYYY_MM_DD.matcher(dateofBirth).matches()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private boolean validateSatBaraNumber(String satBaraSubsurveyNo) {
-        String satBaraSubsurveyNoPattern = "^[0-9]+$";
+        if (StringUtils.isBlank(satBaraSubsurveyNo)) {
+            return false;
+        }
+        String satBaraSubsurveyNoPattern = "^([+-]?\\d*\\.?\\d*)$";
         return satBaraSubsurveyNo.matches(satBaraSubsurveyNoPattern);
     }
 
     private boolean validateMobileNumber(String mobileNo) {
         boolean flag = false;
-        if ("".equalsIgnoreCase(mobileNo)) {
-            return flag;
+
+        if (StringUtils.isBlank(mobileNo)) {
+            return false;
         }
+
         String regex = "^(\\+\\d{1,3})?\\d{10}$";
         String regex1 = "^\\d{10}$";
         if (mobileNo.matches(regex)) {
@@ -2497,11 +2618,17 @@ public class IssFileParserResource {
     }
 
     private boolean validateFinancialYear(String financialYear) {
+        if (StringUtils.isBlank(financialYear)) {
+            return false;
+        }
         String financialYearPattern = "^\\d{4}-\\d{4}$";
         return financialYear.matches(financialYearPattern);
     }
 
     private boolean validateAadhaarNumber(String aadharNumber) {
+        if (StringUtils.isBlank(aadharNumber)) {
+            return false;
+        }
         String aadhaarPattern = "^[2-9]{1}[0-9]{11}$";
         return aadharNumber.matches(aadhaarPattern);
     }

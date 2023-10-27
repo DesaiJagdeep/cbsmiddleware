@@ -111,11 +111,21 @@
     </dependencyManagement>
 
     <dependencies>
-		<dependency>
-    <groupId>com.itextpdf</groupId>
-    <artifactId>typography</artifactId>
-    <version>${itext.pdfcalligraph.version}</version>
-  </dependency>
+		
+		
+	<dependency>
+    	<groupId>com.itextpdf</groupId>
+    	<artifactId>typography</artifactId>
+    	<version>${itext.pdfcalligraph.version}</version>
+    </dependency>
+  
+	<!-- https://mvnrepository.com/artifact/com.itextpdf/html2pdf -->
+	<dependency>
+	    <groupId>com.itextpdf</groupId>
+	    <artifactId>html2pdf</artifactId>
+	    <version>5.0.2</version>
+	</dependency>
+
 
     <!-- jhipster-needle-maven-add-dependency-management -->     
 		

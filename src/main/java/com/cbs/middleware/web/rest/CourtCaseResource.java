@@ -16,9 +16,14 @@ import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.PDFModel;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.layout.font.FontProvider;
+import com.itextpdf.licensing.base.LicenseKey;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -172,36 +177,906 @@ public class CourtCaseResource {
         }
     }
 
-    /*
-     * @GetMapping("/demoPdf") public Object test1234() throws Exception { // Load
-     * the JRXML template from the resources folder
-     *
-     * InputStream templateStream =
-     * getClass().getResourceAsStream("/Blank_A4_2.jrxml"); // InputStream
-     * templateStream = // getClass().getResourceAsStream("/Blank_A4_3.jrxml");
-     *
-     * // Compile the JRXML template JasperReport jasperReport =
-     * JasperCompileManager.compileReport(templateStream);
-     *
-     * // Create a data source (you can use a list of POJOs)
-     *
-     * // Set parameters if needed
-     *
-     * // Generate the PDF report JasperPrint jasperPrint =
-     * JasperFillManager.fillReport(jasperReport, null, new JREmptyDataSource(1));
-     *
-     * // Export the report to a byte array (PDF format) byte[] pdfReport =
-     * JasperExportManager.exportReportToPdf(jasperPrint);
-     *
-     * HttpHeaders headers = new HttpHeaders(); headers.add("Content-Type",
-     * "application/pdf"); headers.add("content-disposition",
-     * "attachment; filename=" + "certificate.pdf");
-     * headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-     * ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfReport,
-     * headers, HttpStatus.OK);
-     *
-     * return response; }
-     */
+    @GetMapping("/testpdf")
+    public ResponseEntity<byte[]> testPdf() throws Exception {
+        //LicenseKey.loadLicenseFile(new File("C:\\Users\\swapnilp\\Desktop\\itext\\0811f48dd15bb96daa5373e2917c354d064d61460879cf6db372af5ea79a4792.json"));
+
+        try {
+            String HTML =
+                "<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+                "    <title>101 prakaran</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "\n" +
+                "<!-- 101 prakaran araj -->\n" +
+                "<div>\n" +
+                "    <p>संस्थेचे नाव : <b>_______________________________________________________________________</b></p>\n" +
+                "    <div style=\"height: 100px;\">\n" +
+                "        <div style=\"float: left; width: 50%;\">\n" +
+                "            <p><b>कोड क्रमांक : ______</b></p>\n" +
+                "        </div>\n" +
+                "        <div style=\"float: right; width: 50%;\">\n" +
+                "            <p style=\"text-align: end;\"><b>प्रकरण क्रमांक: ________</b></p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <div style=\"border: 1px solid black; margin-top: 15px; box-shadow:  4.5px 4.5px black;\">\n" +
+                "        <h1 style=\"text-align: center;\">( १०१ प्रकरणे अर्ज )</h1>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <div>\n" +
+                "        <p style=\"line-height: 55px;\">मे उपनिबंधक / सहाय्यक निबंधक साहेब</p>\n" +
+                "        <p style=\"line-height: 30px;\"><b>सहाय्यक निबंधक सहकारी संस्था</b></p>\n" +
+                "        <p style=\"line-height: 55px;\">थकबाकीदाराचे नाव</p>\n" +
+                "        <p style=\"line-height: 55px;\">थकलेली रक्कम रूपये</p>\n" +
+                "        <p style=\"line-height: 70px;\"> <b>एकुण : ____________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; व्याज : ___________________ </b></p>\n" +
+                "        <p style=\"line-height: 55px;\">प्रकरण केलेल्याची तारीख</p>\n" +
+                "        <p style=\"line-height: 55px;\">प्रकरण केलेल्याची रक्कम रू</p>\n" +
+                "        <p style=\"line-height: 55px;\">प्रकरण दाखला तारीख</p>\n" +
+                "        <p style=\"line-height: 55px;\">मागणी नोटीस दिल्याची तारीख</p>\n" +
+                "    </div>\n" +
+                "</div>\n" +
+                "\n" +
+                "<!-- Karj Magani Notice -->\n" +
+                "<div style=\"page-break-before: always;\">\n" +
+                "    <div style=\"height: 277px;\">\n" +
+                "        <div style=\"float: left; width: 20%; border: 1px solid;  padding: 18px;\">\n" +
+                "            <div>\n" +
+                "                <p><b>जावक क्रमांक : ___ </b></p>\n" +
+                "            <table style=\"width: 100%; border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">थकीत मुदद्ल :</td>\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">&nbsp; &nbsp;&nbsp;</td>\n" +
+                "                </tr>\n" +
+                "                <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">व्याज : </td>\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">&nbsp; &nbsp;&nbsp;</td>\n" +
+                "                </tr>\n" +
+                "                <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">दंड व्याज : </td>\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">&nbsp; &nbsp;&nbsp;</td>\n" +
+                "                </tr>\n" +
+                "                <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">पोस्टेज व इतर :</td>\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">&nbsp; &nbsp;&nbsp;</td>\n" +
+                "                </tr>\n" +
+                "                <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">एकुण : </td>\n" +
+                "                    <td style=\"border: 1px solid black; border-collapse: collapse; padding: 6px;\">&nbsp; &nbsp;&nbsp;</td>\n" +
+                "                </tr>\n" +
+                "            </table>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "        <div style=\"float: right; width: 76%;\">\n" +
+                "            <p style=\"text-align: center; line-height: 0.6;\"><b>दिनांक : ________</b></p>\n" +
+                "            <p style=\"text-align: center; line-height: 0.6;\"><b>कर्ज खाते नं : ________</b></p>\n" +
+                "            <p style=\"text-align: center; line-height: 0.6;\"><b>कर्ज प्रकार : ________</b></p>\n" +
+                "            <div style=\"border: 1px solid black; margin-top: 15px; box-shadow:  4.5px 4.5px black; width: 70%;margin: 15px auto;\">\n" +
+                "                <h3>कर्ज फेडीची नोटीस १०१ (कलम १०१ अन्वये कारवाईकरणेसाठी)</h3>\n" +
+                "            </div>\n" +
+                "            <p style=\"text-align: center; line-height: 0.6;\">______________________________________,</p>\n" +
+                "            <p style=\"text-align: center; line-height: 0.6;\">मु.पो. ____, ता. ______, जि. ____</p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <hr>\n" +
+                "    <div style=\" padding: 50px;\">\n" +
+                "        <p>प्रति,</p>\n" +
+                "    <table style=\"margin: 10px 0px 30px 30px; width: 90%;  border-collapse: separate; border-spacing: 10px !important;\">\n" +
+                "        <tr>\n" +
+                "            <td style=\" vertical-align: baseline;\"rowspan=\"3\" ><b>१)</b></td>\n" +
+                "            <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>कर्जदाराचे नाव : ______________________________________________</b></td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>२)</b></td>\n" +
+                "            <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>३)</b></td>\n" +
+                "            <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "        <tr >\n" +
+                "            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "        </tr>\n" +
+                "    </table>\n" +
+                "    </div>\n" +
+                "    <div>\n" +
+                "        <p style=\"text-indent: 35px; line-height: 33px;\">\n" +
+                "            या नोटीसीने कळविण्यात येते की, सदर <b>____________________,</b> कडून घेतलेल्या रू : <b>______</b> कर्जापैकी रू <b>_____</b> अक्षरी ( <b>_________________</b>) थकीत झालेली आहे.\n" +
+                "             सदरची थकीत रक्कम व्याजासह ता. <b>________</b> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी संस्था अधिनियम १९६० च्या कलम १०९ प्रमाणे कर्ज वसूली बाबत तुमच्यावर कारवाई करणेस तुम्ही पात्र झाला आहात. \n" +
+                "             तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <b>______</b> पर्यत होणारे व्याज ची बाकी नोटीस पोहचले पासून ८ दिवसाच्या आत बँकेकडे भरली नाही तर बॅक तुमच्या विरूध्द सहकारी संस्था अधिनियम \n" +
+                "             १०१ अन्वये सक्षम प्राधिकरणाकडे वसुलीसपात्र रक्कम वसुलीचा दाखला मिळणेसाठी दावा / अर्ज दाखल करून कायदेशीर इलाज करेल व तुमच्याकडील येणे बाकी होणाऱ्या व्याजासह जमीन महसुलीचे थकबाकीप्रमाणे \n" +
+                "             वसुल करण्यात येईल, तसेच तुम्ही, सदर रक्कम वसुल करणेस होणाऱ्या खर्चाच्या रक्कमेसही जबाबदार होत असुन सदरची रक्कम आपलेकडून वसुल केली जाईल.\n" +
+                "        </p>\n" +
+                "\n" +
+                "        <p style=\"text-align: center;\"><b>सचिव</b></p>\n" +
+                "        <p style=\"text-align: center;\"><b>______________________</b></p>\n" +
+                "\n" +
+                "        <div style=\"margin: 15px auto; padding: 0px 50px;\">\n" +
+                "            <table style=\"width: 70%;\">\n" +
+                "                <tr>\n" +
+                "                    <td><b>१)</b></td>\n" +
+                "                    <td><b>कर्जदारचे नाव : </b></td>\n" +
+                "                    <td><b>_______________________________</b></td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td><b>२)</b></td>\n" +
+                "                    <td><b>जामिनदाराचे नाव : </b></td>\n" +
+                "                    <td>_______________________________</td>\n" +
+                "                </tr>\n" +
+                "                <tr>\n" +
+                "                    <td><b>३)</b></td>\n" +
+                "                    <td><b>जामिनदाराचे नाव : </b></td>\n" +
+                "                    <td>_______________________________</td>\n" +
+                "                </tr>\n" +
+                "            </table>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "    <div style=\"margin-top: 250px;\">\n" +
+                "        <hr>\n" +
+                "        <p style=\"text-align: center;\">सुचना :थकबाकी भरणा केली असल्यास ही नोटीस रद्द समजावी, परंतु तशी शाखेत\n" +
+                "            येऊन खात्री करावी.</p>\n" +
+                "    </div>\n" +
+                "</div>\n" +
+                "\n" +
+                "\n" +
+                "<!-- 101 prakaran rojnama -->\n" +
+                "<div style=\"page-break-before: always;\">\n" +
+                "    <div style=\"text-align: center;\">\n" +
+                "        <h3><b>उप निबंधक सहकारी संस्था संगमनेर,</b></h3>\n" +
+                "        <h3><b>महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम १०१ प्रमाणे सुनवणी</b></h3>\n" +
+                "    </div>\n" +
+                "    \n" +
+                "    <div style=\"display: flex; justify-content: flex-end;\">\n" +
+                "            <div style=\"border: 1px solid black; padding: 20px;\">\n" +
+                "            <p><b>दावा क्रमांक : _____ / कलम १०१/२०</b></p>\n" +
+                "            <p>कर्ज प्रकार: <b><u>____________</u></b></p>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <div style=\"margin: 50px;\">\n" +
+                "        <table style=\"width: 100%;\">\n" +
+                "            <tr>\n" +
+                "                <td style=\"padding-bottom: 38px; \">संस्थेचे नाव : साखर ग्रुप वि. का.स सेवा सोसायटी मर्या. साखर, ..</td>\n" +
+                "                <td style=\"padding-bottom: 38px; text-align: end;\">} अर्जदार</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <td><b>१). ________________________________________________________</b></td>\n" +
+                "                <td rowspan=\"3\" style=\"text-align: end;\">} प्रतिवादी</td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <td><b>२). ________________________________________________________</b></td>\n" +
+                "          \n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <td><b>३). ________________________________________________________</b></td>\n" +
+                "               \n" +
+                "            </tr>\n" +
+                "        </table>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <div style=\"text-align: center; padding: 50px;\">\n" +
+                "        <h2><b>रोजनामा</b></h2>\n" +
+                "        <table style=\"width: 100%; border: 1px solid black; border-collapse: collapse;\">\n" +
+                "            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                <td style=\"border: 1px solid black; border-collapse: collapse;\">दिनांक</td>\n" +
+                "                <td style=\"border: 1px solid black; border-collapse: collapse;\">केलेली कामकाज</td>\n" +
+                "            </tr>\n" +
+                "            <tr style=\"width: 100%; border: 1px solid black; border-collapse: collapse; height: 700px;\">\n" +
+                "                <td style=\"border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                <td style=\"border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "            </tr>\n" +
+                "        </table>\n" +
+                "    </div>\n" +
+                "    \n" +
+                "</div>\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "     <!-- page 1 -->\n" +
+                "     <div style=\"page-break-before: always;\">\n" +
+                "            <div style=\"display: flex; justify-content: space-between;\">\n" +
+                "                <h3 style=\"margin: 0;\">उपनिबंधक सहकारी संस्था संगमनेर</h3>\n" +
+                "                <p style=\"margin: 0; align-self: flex-end;\">यांचे समोर ....</p>\n" +
+                "            </div>\n" +
+                "            <div style=\"border: 1px solid black; margin-top: 15px; box-shadow:  4.5px 4.5px black;\">\n" +
+                "                    <h1 style=\"line-height : .6; text-align : center; margin-top : 1.5rem;\">नमुना - \"यू\"</h1>\n" +
+                "                    <p style=\"line-height : .6; text-align : center;\">(नियम ८६ - अ पहावा )</p>\n" +
+                "                    <h2 style=\"text-align : center;\">महाराष्ट्र सहकारी संस्था अधिनियम, १९६० चे  कलम १०१ अन्वये वसुली दाखल्यासाठी दाखल करण्याचा अर्ज </h2>\n" +
+                "            </div>\n" +
+                "        <div>\n" +
+                "                <p>सह/उप/सहाय्यक निबंधक सहकारी संस्था</p>\n" +
+                "                <div style=\"display: flex; justify-content: space-between;\">\n" +
+                "                    <p style=\"margin: 0;\"><b>अर्ज क्र.: --- &nbsp;&nbsp; कलम १०१ /२०२_ - २०२_</b></p>\n" +
+                "                    <div style=\"border: 1px solid black; width: 30%; padding: 5px;\">\n" +
+                "                        <p style=\"margin: 0; align-self: flex-end;\"><b>कर्ज प्रकार :</b> __________</p>\n" +
+                "                    </div>\n" +
+                "                </div>\n" +
+                "        </div>\n" +
+                "        <table style=\"margin: 10px 0px 30px 30px; width: 90%;\">\n" +
+                "            <tr >\n" +
+                "                <td rowspan=\"3\" style=\"vertical-align: baseline; width: 5%;\"><b>१)</b></td>\n" +
+                "                <td>____________________________________________________________</td>\n" +
+                "                <td rowspan=\"3\">&nbsp;&nbsp;&nbsp;} अर्जदार</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >____________________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >____________________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td colspan=\"3\" style=\" text-align: center;\"><b>विरुद्ध</b></td>\n" +
+                "            </tr>\n" +
+                "            <tr>\n" +
+                "                <td style=\" vertical-align: baseline;\"rowspan=\"3\" ><b>१)</b></td>\n" +
+                "                <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>कर्जदाराचे नाव : ______________________________________________</b></td>\n" +
+                "                <td rowspan=\"9\">&nbsp;&nbsp;&nbsp;} जाब देणार</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>२)</b></td>\n" +
+                "                <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>३)</b></td>\n" +
+                "                <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "            <tr >\n" +
+                "                <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "            </tr>\n" +
+                "        </table>\n" +
+                "\n" +
+                "        <table style=\"width: 100%; border: 1px solid black; border-collapse: collapse;\">\n" +
+                "            <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>मुद्दल</b></td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>व्याज</b></td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>दंड व्याज</b></td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>इतर खर्च</b></td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>एकूण</b></td>\n" +
+                "            </tr>\n" +
+                "            <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "            </tr>\n" +
+                "        </table>\n" +
+                "\n" +
+                "        <p><b>अर्जदार : _______________________,.</b> खालील प्रमाणे अर्ज सादर करत आहे. </p>\n" +
+                "                <!-- <p style=\"text-align: end;\"> वसुलीस पात्र रक्कम रु.  _____________</p>\n" +
+                "                <p style=\"text-align: end;\">अर्जदार _____________ सहकारी संस्था मर्यादित ________________</p> -->\n" +
+                "\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <!-- page 2 -->\n" +
+                "    <div>\n" +
+                "                <table>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१)</b></td>\n" +
+                "                        <td>अर्जदार <b>_________,</b> . हि संस्था महाराष्ट्र सहकारी संस्था अधिनियम, १९६० मधील तरतुदीस अनुसरून रजिस्टर करण्यात आलेली संस्था आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>२)</b></td>\n" +
+                "                        <td >वर नमूद केलेले जाब देणार क्र . १ ते ३ सर्वजण संस्थेचे सभासद / नामपञ सभासद आहेत.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>३)</b></td>\n" +
+                "                        <td > अर्जदार संस्थेचे लोन / कॅश क्रेडिट मालतारण/ हायपोथिकेशन कर्ज/जामिनकी कर्ज मिळवण्यासाठी जाब देणार क्र. १ ने दिनांक <b>_____</b> रोजी रितसर अर्ज संस्थेकडे केला आहे. जाब देणार क्र. १\n" +
+                "                            ते\n" +
+                "                            <b>____</b> यांनी वरील कर्ज व्यवहारास जामीनदार राहण्याचे कबूल केले आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>४)</b></td>\n" +
+                "                        <td >सदर अर्ज बँकेच्या संचालक मंडळाने / कर्ज समितीने जाब देणार क्र._____ ते _____ यांनी कर्ज अर्जाचा विचार करुन जाब देणार क्र. १ ते ______ यांस रक्कम रु. <b>_______</b>(अक्षरी रक्कम रु. <b>________ फक्त</b> ) कर्ज मंजूर केले आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>५)</b></td>\n" +
+                "                        <td >सदर कर्ज व्यवहारास जाब देणार क्र. १ ते. ____  यांनी खाली नमूद केलेले तारण दिले आहे.\n" +
+                "                            <p><b>(अ) तारणाचा तपशील : _______________________________________________________________________________________________________</b></p>\n" +
+                "                            <p><b> ___________________________________________________________________________________________________________________________</b></p>\n" +
+                "                            <p><b>(ब) वैयक्तिक जामीन : ________________________________________________________________________________________________________</b></p>\n" +
+                "                            <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;१)______________________________________________________________________________________________________________________</b></p>\n" +
+                "                            <p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;२)______________________________________________________________________________________________________________________</b></p>\n" +
+                "                            \n" +
+                "                        </td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>६)</b></td>\n" +
+                "                        <td >सर्व जाब देणार यांनी बँकेत दिनांक ____ . रोजी डिमांड प्रॉमिसरी नोट आणि इतर योग्य ते दस्तऐवज, करारनामे लिहून दिले आहेत. सदर करारनाम्यातील तपशिलाप्रमाणे सर्व जाब देणार यांनी व्यक्तिशः आणि इतर संयुक्तिकरित्या एकत्रितरित्या कर्ज परतफेड करण्याची हमी दिली आहे. सर्व जाब देणार कर्ज परतफेड करण्यास व्यक्ति आणि संयुक्तिकरित्या जबाबदार आहेत.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>७)</b></td>\n" +
+                "                        <td >जाब देणार क्र. ____ ते ____ यांनी करारनाम्यातील तपशिलाप्रमाणे अर्जदार बँकेच्या कर्ज रकमेची परतफेड व्याजासह वेळेवर केलेली नही. सदर रकमेची त्यांनी थकबाकी केली आहे. सदर रक्कम परतफेड करण्यास त्यांनी कसूर केलेली आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>८)</b></td>\n" +
+                "                        <td >याबाबत अर्जदार संस्थेने सर्व जाब देणार यांनी कर्जाची थकबाकीची रक्कम भरण्याबाबत वेळोवेळी लेखी तसेच तोंडी सूचना दिल्या. मात्र जाब देणार यांनी कर्जाची थकबाकी रकमेचा भरणा अर्जदार बँकेत भरलेला नाही. जाब देणार थकबाकीदार झालेले आहेत.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>९)</b></td>\n" +
+                "                        <td >वरील जाब देणार यांनी लिहून दिलेल्या करारपत्रांच्या अटींप्रमाणे कर्ज रकमेची परतफेड न केल्याने अर्जदार संस्थेच्या संचालक मंडळ / वसुली समिती / प्रशासन मंडळ यांचे मंजुरीनुसार दिनांक ____ . रोजी झालेल्या सभेमध्ये जाब देणार यांच्या कर्ज व्यवहाराबाबत विचारविनिमय झाला. महाराष्ट्र सहकारी संस्था अधिनियम १९६० च्या कलम १०१ अन्वये सर्व जाब देणार यांचेविरुद्ध अर्ज दाखल करण्याबाबतचा ठराव मंजूर केला आहे. त्याचप्रमाणे महाराष्ट्र सहकारी संस्था अधिनियम १९६० च्या कलम १५६ आणि महाराष्ट्र सहकारी संस्था नियम १९६१ नियम क्र. १०७ अन्वये अर्जदारांना मिळणाऱ्या वसुली दाखल्याची अंमलबजावणी करून मिळण्याबाबत ठराव मंजूर केला आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१०</b>)</td>\n" +
+                "                        <td >वर नमूद केल्याप्रमाणे अर्जदार संस्थेने सर्व जाब देणार यांनी रितसर रजिस्टर्ड ए. डी. पोस्टाने दि. ____ रोजी नोटीसा पाठवून रक्कम रु. ____ ची मागणी केली. त्याचप्रमाणे जाब देणार यांनी अर्जदार संस्थेकडे रकमेचा भरणा न केल्यास सर्व जाब देणार यांचेवर महाराष्ट्र सहकारी संस्था अधिनियम १९६० च्या कलम १०१ मधील तरतुदीप्रमाणे अर्ज दाखल करून रक्कम वसुलीबाबत कायदेशीर उपाययोजना करण्यात येईल असे कळविले आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    </table> \n" +
+                "    </div>\n" +
+                "\n" +
+                "    <!-- page 3 -->\n" +
+                "    <div>\n" +
+                "                <table>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>११)</b></td>\n" +
+                "                        <td >कर्जव्यवहाराबाबत तपशील (दिनांक ____ अखेर)\n" +
+                "                            <p><b>(अ) कर्ज मंजुरीचा तपशील</b></p>\n" +
+                "                            <table style=\" border: 1px solid black; border-collapse: collapse; width: 70%; margin-top: 15px;\">\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>अ. क्र. </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>तपशील </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>रक्कम रुपये </b></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>१)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्ज मंजूर रक्कम</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>२)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्ज दिल्याची तारीख</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>३)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्ज परतफेडीचा देय दिनांक</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>४)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्ज परतफेडीचा मासिक हप्ता (लागू असल्यास)</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>५)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्जाचा व्याजदर (द. सा. द. शे. )</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>६)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">कर्ज मंजुरी नियम क्र. ___ प्रमाणे दंडव्याजाचा दर</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "\n" +
+                "                            <p><b>(ब) कर्ज वसुलीबाबतचा तपशील</b></p>\n" +
+                "                            <table style=\" border: 1px solid black; border-collapse: collapse; width: 70%; margin-top: 10px;\">\n" +
+                "                                \n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>अ. क्र. </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>तपशील </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>रक्कम रुपये </b></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>१)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">मंजूर कर्ज रक्कम रु. ___</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">मुद्दल रक्कम रुपये</td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>२)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर मुद्दल वसूल रु.</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>३)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर येणे बाकी रु.</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "\n" +
+                "                            <p><b>(क) व्याज आकारणीबाबत तपशील</b></p>\n" +
+                "                            <table style=\" border: 1px solid black; border-collapse: collapse; width: 70%;\">\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>अ. क्र. </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>तपशील </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>रक्कम रुपये </b></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>४)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर आकारलेले एकूण व्याज\n" +
+                "                                        <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>\n" +
+                "                                    </td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">मुद्दल रक्कम रुपये</td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>५)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर वसूल झालेली व्याजाची एकूण रक्कम</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>६)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर येणेबाकी व्याज</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>७)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर आकारलेले एकूण जादा व्याज\n" +
+                "                                        <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>\n" +
+                "                                    </td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>८)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर वसूल झालेले जादा व्याज</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>९)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर येणे असलेले जादा व्याज</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "\n" +
+                "                            <p><b>(ड) इतर खर्चाचा तपशील</b></p>\n" +
+                "                            <table style=\" border: 1px solid black; border-collapse: collapse; width: 70%;\">\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>अ. क्र. </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>तपशील </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>रक्कम रुपये </b></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>१०</b>)</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर आकारलेला विमा हप्ता</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>११</b>)</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर आकारलेली एकूण नोटीस फी, पोस्टेज, स्टॅप ड्यूटी, जाहिरात इ.</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;text-align: center;\"><b>१२</b>)</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">दिनांक ___ अखेर येणे बाकी</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "\n" +
+                "                            <p><b>(इ) एकूण वसुलपात्र रक्कम रुपये</b></p>\n" +
+                "                            <table style=\" border: 1px solid black; border-collapse: collapse; width: 70%;\">\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>अ. क्र. </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>तपशील </b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>रक्कम रुपये </b></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>अ)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"> मुद्दल रक्कम रुपये</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>ब)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"> व्याज रक्कम रुपये</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>क)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">जादा व्याज रक्कम रुपये</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;text-align: center;\"><b>ड)</b></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">इतर खर्च रक्कम रुपये</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                                <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\">एकूण रुपये</td>\n" +
+                "                                    <td style=\" border: 1px solid black; border-collapse: collapse;\"></td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "                        </td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१२)</b></td>\n" +
+                "                        <td>अर्जासोबत जाब देणार यांचे खाते उतारे, वचनचिठ्ठी, जामिनरोखा / मालतारण / हायपोथिकेशन/ गहाणखत इ.\n" +
+                "                            करार इत्यादी दस्तऐवजाच्या नकला केलेल्या आहेत.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१३)</b></td>\n" +
+                "                        <td>वचनचिठ्ठी/ करारनामे या दस्तऐवजांचे वरुन व्याज व कर्जाच्या वसुलीसाठी हा अर्ज करीत आहे. अर्जदारांचा अर्ज हा नमुद रक्कम </td>\n" +
+                "                    </tr>\n" +
+                "                </table>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <!-- page 4 -->\n" +
+                "    <div>\n" +
+                "        <div class=\"row\">\n" +
+                "            <div class=\"col-md-12\">\n" +
+                "                <p>अर्जदार क्लेम हा सद्हेतूने कायदेशीर असल्याचे अर्जदाराचे म्हणणे आहे व जाब देणार यांस आपले बचावासाठी कोणतेही संयुक्तिक व वैध कारण नाही याची अर्जदारास खात्री आहे. सबब महाराष्ट्र सहकारी संस्था नियम क्र. ७\n" +
+                "                   </p>\n" +
+                "                    <p> (क) मधील तरतुदीच्या तत्त्वास अनुसरुन अर्जांचा समरी पद्धतीने निर्णय करण्यात यावा ही विनंती.</p>\n" +
+                "                <table class=\"mt-3\">\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१४)</b></td>\n" +
+                "                        <td >अर्जास कारण मे. उप/सहाय्यक निबंधक यांचे स्थलसीमेत जाब देणार क्र. १ ते. ___ यांनी दिनांक ___ रोजी कर्ज घेतले. जाब देणार क्र. १ ते. ___ यांनी वचनचिठ्ठी / करारनामा दस्तऐवज लिहून दिले. जाब देणार क्र. १ ते ___ यांनी शर्तींप्रमाणे कजांची परतफेड केली नाही. दिनांक ___ - अखेर जाब देणार क्र. १ ते. ___ यांचेकडून बाकी येणे झाली. त्याची मागणी अर्जदार संस्थेने दिनांक. ___ रोजीचे नोटीशीने करूनही परतफेड केली नाही. त्या प्रत्येक दिवशी घडले आहे. \n" +
+                "                            </td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१५)</b></td>\n" +
+                "                        <td>अर्जाचे मूल्यांकन (व्हॅल्यूएशन) रु. ___ केले असून अर्जास प्रोसेस व स्टॅम्प की रक्कम रु. ___ चा भरणा केला आहे.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td style=\"vertical-align: baseline;\"><b>१६)</b></td>\n" +
+                "                        <td>\n" +
+                "                            अर्जदाराची विनंती की,\n" +
+                "                            <table>\n" +
+                "                                <tr>\n" +
+                "                                    <td style=\"vertical-align: baseline;\">१)</td>\n" +
+                "                                    <td>अर्जदार यांना सर्व जाब देणार यांचेकडून राजम रु. ___ व सदर रकमेवर होणारे दरसाल दरशेकडा ___ % प्रमाणे दिनांक ___ होणारी व्याजाची रक्कम अधिक अर्जाचा व इतर संपूर्ण फी चा खर्च जाब देणार यांनी देणेबाबत योग्य ते हुकूम व्हावेत व त्या रकमेचा वसुली दाखला मिळावा ही विनंती.</td>\n" +
+                "                                </tr>\n" +
+                "                                <tr>\n" +
+                "                                    <td style=\"vertical-align: baseline;\">२)</td>\n" +
+                "                                    <td>वर नमूद केलेल्या वसुली दाखल्याची रक्कम ही जमीन महसूलची बाकी आहे असे समजून वसूल करण्याबाबत योग्य ते हुकूम व्हावेत.</td>\n" +
+                "                                </tr>\n" +
+                "                                <tr>\n" +
+                "                                    <td style=\"vertical-align: baseline;\">३)</td>\n" +
+                "                                    <td>त्याप्रमाणे महाराष्ट्र सहकारी संस्था अधिनियम १९६० कलम १५६ आणि महाराष्ट्र सहकारी संस्था नियम १९६१ नियम १०७ (१) (इ) प्रमाणे वसुलीचा दाखला बजावणीसाठी संस्थेकडील योग्य त्या अधिकारी व विक्री अधिकारी यांचेकडे पुढील कार्यवाहीसाठी पाठविणेबाबत योग्य ते हुकूम व्हावेत.</td>\n" +
+                "                                </tr>\n" +
+                "                                <tr>\n" +
+                "                                    <td style=\"vertical-align: baseline;\">४)</td>\n" +
+                "                                    <td>इतर योग्य ते न्यायाचे हुकूम व्हावेत ही विनंती. <br> हा अर्ज दिनांक ___ रोजी दाखला केला आहे.</p>\n" +
+                "                                    </td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "                        </td>\n" +
+                "                    </tr>\n" +
+                "                </table>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "\n" +
+                "        <div>\n" +
+                "                <p style=\"text-align: end;\">मुख्य कार्यकारी अधिकारी/सचिव/ व्यवस्थापक</p>\n" +
+                "                <p style=\"text-align: end;\"><b>_________________________________</b></p>\n" +
+                "                <hr>\n" +
+                "                <p style=\"text-indent: 35px;\">मा. श्री.<b> ___</b> सहकारी संस्था मर्यादित, ___ सही करणार सत्य प्रतिज्ञेवर मर्यादित, तर्फे अर्जासोबत अर्जदार यांनी खालीलप्रमाणे कागदपत्रे सादर केली आहेत.</p>\n" +
+                "\n" +
+                "                <table style=\"margin-left: 5%;\">\n" +
+                "                    <tr>\n" +
+                "                        <td>१)</td>\n" +
+                "                        <td>या अर्जाचा एकूण २ नकला.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td>२)</td>\n" +
+                "                        <td>संचालक मंडळ / वसुली मंडळ / प्रशासक मंडळ यांचे ठरावाची प्रत</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td>३)</td>\n" +
+                "                        <td>जाब देणार यांना कर्ज खाते क्र. ___ बाबत दिनांक ___ रोजी पाठविलेल्या रजिस्टर्ड नोटीशीची व पोहोच पावतीची प्रत.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td>४)</td>\n" +
+                "                        <td>जाब देणार यांनी अर्जदार संस्थेकडे दिनांक ___ रोजी लिहून दिलेल्या डिमांड प्रॉमिसरी नोट / करारनाम्याची / दस्तऐवजाची खरी नक्कल.</td>\n" +
+                "                    </tr>\n" +
+                "                    <tr>\n" +
+                "                        <td>५)</td>\n" +
+                "                        <td>जाब देणार यांचे क्र. ___ थे खाते उताऱ्याची खरी नक्कल.</td>\n" +
+                "                    </tr>\n" +
+                "                </table>\n" +
+                "                    <p style=\"text-align: end;\">हा अर्ज दिनांक ___ रोजी दाखला केला आहे.</p>\n" +
+                "                    <p style=\"text-align: end;\">___ सहकारी संस्था मर्यादित, करिता</p>\n" +
+                "                \n" +
+                "            </div>\n" +
+                "    </div>\n" +
+                "\n" +
+                "    <!-- page 6 & 7 -->\n" +
+                "    <div style=\"page-break-before: always;\">\n" +
+                "        <div style=\"display: flex; justify-content: space-between;\">\n" +
+                "            <h3 style=\"margin: 0;\">उपनिबंधक सहकारी संस्था संगमनेर</h3>\n" +
+                "            <p style=\"margin: 0; align-self: flex-end;\">यांचे समोर ....</p>\n" +
+                "        </div>\n" +
+                "        <div style=\"border: 1px solid black; margin-top: 15px; box-shadow:  4.5px 4.5px black;\">\n" +
+                "                    <h1 style=\"line-height : .6; text-align : center; margin-top : 1.5rem;\">नमुना - \"व्ही\"</h1>\n" +
+                "                    <p style=\"line-height : .6; text-align : center;\">(नियम ८६ क पहावा)</p>\n" +
+                "                    <h2 style=\"text-align: center;\">कलम १०१ खाली वसुलीसाठी प्रमाणपत्राचा नमुना</h2>\n" +
+                "        </div> \n" +
+                "\n" +
+                "        <p>सह / उप / सहाय्यक निबंधक सहकारी संस्था</p>\n" +
+                "        <div>\n" +
+                "            <div style=\"display: flex; justify-content: space-between;\">\n" +
+                "                        <p style=\"margin: 0;\"><b>अर्ज क्र.: --- &nbsp;&nbsp; कलम १०१ /२०२_ - २०२_</b></p>\n" +
+                "                        <div style=\"border: 1px solid black; width: 30%; padding: 5px;\">\n" +
+                "                            <p style=\"margin: 0; align-self: flex-end;\"><b>कर्ज प्रकार :</b> __________</p>\n" +
+                "                        </div>\n" +
+                "            </div>\n" +
+                "        </div>\n" +
+                "\n" +
+                "        <div class=\"row\">\n" +
+                "                    <table style=\"margin: 10px 0px 30px 30px; width: 90%;\">\n" +
+                "                        <tr >\n" +
+                "                            <td rowspan=\"3\" style=\"vertical-align: baseline; width: 5%;\"><b>१)</b></td>\n" +
+                "                            <td>____________________________________________________________</td>\n" +
+                "                            <td rowspan=\"3\">&nbsp;&nbsp;&nbsp;} अर्जदार</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >____________________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >____________________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td colspan=\"3\" style=\" text-align: center;\"><b>विरुद्ध</b></td>\n" +
+                "                        </tr>\n" +
+                "                        <tr>\n" +
+                "                            <td style=\" vertical-align: baseline;\"rowspan=\"3\" ><b>१)</b></td>\n" +
+                "                            <td>&nbsp;&nbsp;&nbsp;&nbsp;<b>कर्जदाराचे नाव : ______________________________________________</b></td>\n" +
+                "                            <td rowspan=\"9\">&nbsp;&nbsp;&nbsp;} जाब देणार</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>२)</b></td>\n" +
+                "                            <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td style=\" vertical-align: baseline;\" rowspan=\"3\" ><b>३)</b></td>\n" +
+                "                            <td><b>जमीनदारांचे नाव : ______________________________________________</b></td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>राहणार : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                        <tr >\n" +
+                "                            <td >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>व्यवसाय : </b>________________________________________________</td>\n" +
+                "                        </tr>\n" +
+                "                    </table>\n" +
+                "\n" +
+                "        </div>\n" +
+                "\n" +
+                "        <div>\n" +
+                "                        <h4>महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम १०१ अन्वये वसुली प्रकरण वसुलीस पात्र रक्कम रुपये. ______</h4>\n" +
+                "                        <table style=\"width: 100%; border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                            <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>मुद्दल</b></td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>व्याज</b></td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>दंड व्याज</b></td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>इतर खर्च</b></td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse; text-align: center;\"><b>एकूण</b></td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\" border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                                <td style=\" border: 1px solid black; border-collapse: collapse;\">&nbsp;</td>\n" +
+                "                            </tr>\n" +
+                "                        </table>\n" +
+                "                    \n" +
+                "                        <table >\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">१)</td>\n" +
+                "                                <td>अर्जदार संस्थेने दाखल केल्याची तारीख <b>________</b></td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">२)</td>\n" +
+                "                                <td>प्रकरणासोबत अर्जदार संस्थेने सादर केलेल्या कागदपत्रांचा तपशील.\n" +
+                "                                    <table class=\"mt-3\">\n" +
+                "                                        <tr>\n" +
+                "                                            <td >१)</td>\n" +
+                "                                            <td>अर्जदार संस्थेने जाद देणार यांचेकडून रक्कम वसुलीसाठी दाखला मिळणेचा अर्ज.</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >२)</td>\n" +
+                "                                            <td>अर्जदार संस्था व्यवस्थापक मंडळाच्या दिनांक: _/_/२०२ ठरावाची सत्यप्रत.</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >३)</td>\n" +
+                "                                            <td>जाब देणार यांना अर्जदार संस्थेने प्रकरण सादर करण्यापूर्वी दिलेल्या नोटिशीची प्रत.</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >४)</td>\n" +
+                "                                            <td>जाब देणार यांना रुपये. ___ रक्कम अदा केल्यापासूनचा अद्यावत हिशोबी तक्ता.</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >५)</td>\n" +
+                "                                            <td>वचन चिठ्ठीची सत्यप्रत.</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >६)</td>\n" +
+                "                                            <td>करारनाम्याची सत्य प्रत</td>\n" +
+                "                                        </tr>\n" +
+                "                                        <tr>\n" +
+                "                                            <td >७)</td>\n" +
+                "                                            <td>अर्जदार संस्थेस जाब देणार यांचेकडून येणे रक्कम सिद्ध करण्यास जरूर असणारी कागदपत्रे</td>\n" +
+                "                                        </tr>\n" +
+                "                                    </table>\n" +
+                "                                </td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">३)</td>\n" +
+                "                                <td>जाब देणार यांना म्हणणे मांडण्यासाठी सुनावणी नोटीस पाठविल्याची तारीख: _/_/२०२</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">४)</td>\n" +
+                "                                <td>जाब देणार हजर राहिल्याची तारीख: _/_/२०२</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">५)</td>\n" +
+                "                                <td>सुनावणीची तारीख: _/_/२०२</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">६)</td>\n" +
+                "                                <td>अर्जदार संस्थेतर्फे वकील _________</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">७)</td>\n" +
+                "                                <td>जाब देणारातर्फे वकील _________</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">८)</td>\n" +
+                "                                <td>जाब देणाऱ्या अर्जदार संस्थेने येणे बाकीबाबत सादर केलेले म्हणणे ______________</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"vertical-align: baseline; text-align: center;\">९)</td>\n" +
+                "                                <td>वरील निवेदनावर निबंधकांचा अभिप्राय ___________</td>\n" +
+                "                            </tr>\n" +
+                "                        </table>\n" +
+                "\n" +
+                "                        <p style=\"text-indent:35px\">\n" +
+                "                        ज्या अर्थी भी वर नमूद केलेल्या सर्व जाब देणार यांना रीतसर नोटीस पाठवून न्यायाचे दृष्टीने सुनावणीसाठी व म्हणणे मांडण्यासाठी योग्य व भरपूर संधी दिली आहे. तसेच अर्जदार संस्थेला उपरोक्त जाब देणाऱ्यांनी करून दिलेली वचनचिठ्ठी, करारनामा व त्यानुसार संस्थेने सादर केलेला खाते उतारा इ. कागदपत्रांची व व्यवहाराची छाननी व चौकशी केली असता माझी अशी खात्री झाली आहे की, अर्जदार संस्थेकडून जाब देणार यांनी कर्ज घेतले असून ते थकविलेले आहे आणि ते वसूल होण्यासाठी मी अभिप्रायास अनुसरून खालीलप्रमाणे हुकूम करीत आहे.\n" +
+                "                        </p>\n" +
+                "\n" +
+                "                        <p class=\"mt-2\">दि महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम १०१ अन्दये वसुली दाखला</p>\n" +
+                "                        <p>उपरोक्त अर्जदार संस्थेस जाब देणार यांनी</p>\n" +
+                "\n" +
+                "\n" +
+                "                        <table style=\"border: 1px solid black; border-collapse: collapse; width: 70%;\">\n" +
+                "                            <tr>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">अर्जाची रकम</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">या वर्षाची फी व खर्च</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">व अन्य खर्च (नोटीस फी, पोस्टेज, स्टॅप डयूटी, जाहिरात इ.)</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">असे एकूण</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                        </table>\n" +
+                "                        <p style=\"text-indent:35px\">\n" +
+                "                            तसेच मुद्दल रकम रुपये. _____ यावर दिनांक _/_/२०२ पासून पुढे ही सर्व रकम परतफेड होईपर्यंत द. सा. द. शे. _____ % दराने होणाऱ्या व्याजाची रकम अशी परंतु अशा रकमेमध्ये जाब देणार यांनी प्रस्तुतचा अर्ज दाखल केल्यानंतर भरणा केलेली सर्व रक्कम वजा करून शिल्लक राहणारी अशी सर्व रक्कम जाब देणार\n" +
+                "                            यांचेकडून वसूल करावी.\n" +
+                "                        </p>\n" +
+                "                        <p><b>अर्जदार यांचा झालेला खर्च</b></p>\n" +
+                "                        <table style=\"border: 1px solid black; border-collapse: collapse; width: 70%;\">\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse; vertical-align: baseline; text-align: center;\">(अ)</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"> अर्जास लावलेला स्टॅम्प </td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse; vertical-align: baseline; text-align: center;\">ब)</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"> चौकशी फी व खर्च</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse; vertical-align: baseline; text-align: center;\">क)</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"> इतर खर्च</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr>\n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse; vertical-align: baseline; text-align: center;\">ड)</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"> जाहीर समन्स</td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\">रुपये _______</td>\n" +
+                "                            </tr> \n" +
+                "                            <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse; vertical-align: baseline; text-align: center;\"></td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"><b>एकूण खर्च</b></td>\n" +
+                "                                <td style=\"border: 1px solid black; border-collapse: collapse;\"><b>रुपये _______</b></td>\n" +
+                "                            </tr>\n" +
+                "                        </table>\n" +
+                "\n" +
+                "                        <p style=\"text-indent:35px\">मी आणखी असा हुकूम करतो की, जब देणार यांचेकडून वर नमूद केलेली रक्कम महाराष्ट्र महसूल अधिनियम १९६६ मधील तरतुदीस अनुसरून जमीन महसुलाची बाकी वसूल करण्याच्या रितीप्रमाणे ती जाब देणाऱ्यांकडून वसूल करावी अथवा</p>\n" +
+                "                        <p style=\"text-indent:35px\">अर्जदार यांनी या वसुली दाखल्याची बजावणी त्यांचेकडील ज्या अधिकाऱ्यांना महाराष्ट्र सहकारी किंवा अधिनियम १९६० चे कलम १५६ आणि महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे यातील नियम १०७ अन्वये ज्याला अधिकार प्राप्त झाले आहेत. त्यांचेप्रमाणे या वसुली दाखल्याची बजावणी करून वसूल करण्यात यावी. यासाठी स्वतंत्र जर्ज या कार्यालयाकडे करण्याची जरुरी नाही.</p>\n" +
+                "                        <p style=\"text-indent:35px\">हा वसुली दाखला आज दिनांक _/_/२०२ रोजी माझी सही व कार्यालयाचे मुद्रेसह दिला आहे.</p>\n" +
+                "                        \n" +
+                "\n" +
+                "                        <div style=\"height: 100px;\">\n" +
+                "                            <div style=\"float: left; width: 50%;\">\n" +
+                "                                <p>स्थळ :  </p>\n" +
+                "                                <p>दिनांक :</p>\n" +
+                "                            </div>\n" +
+                "                            <div style=\"float: right; width: 50%;\">\n" +
+                "                                <p style=\"text-align: end;\">सह / उप / सहाय्यक निबंधक</p>\n" +
+                "                            </div>\n" +
+                "                        </div>\n" +
+                "\n" +
+                "                        <div>\n" +
+                "                            <hr>\n" +
+                "                            <p>टिप : १) सदरचा वसुली दाखला हा जाब देणार याचेकडून रक्कम वसुलीचा अतिम दाखला असून त्यावर त्यांना अपील करता येणार नाही. मात्र, सदरचा निर्णय अमान्य असल्यास याविरूद्ध विभागीय सहनिबंधक, सहकारी संस्था याचेकडे कलम १५४ अन्वये पुनरिक्षण अर्ज करता येईल / सह निबंधकांच्या निर्णयाविरूद्ध शासनाकडे कलम १५४ अन्वये पुनरिक्षण अर्ज करता येईल.</p>\n" +
+                "                            <p>२) कलम ९१ खाली नमुद केलेल्या परतुकाप्रमाणे हा वादाचा विषय होत नसल्याने याविरुद्ध सहकार न्यायालयात अपील करता येणार नाही तसेच कलम ९५ प्रमाणे स्थगनादेशही घेता येणार नाही.</p>\n" +
+                "                        </div>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "\n" +
+                "</body>\n" +
+                "</html>";
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            fontProvider.addFont("C:\\Users\\swapnilp\\Desktop\\Noto_Sans\\NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            HtmlConverter.convertToPdf(HTML, byteArrayOutputStream, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     /**
      * {@code POST  /court-cases} : Create a new courtCase.

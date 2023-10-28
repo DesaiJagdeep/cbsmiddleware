@@ -84,7 +84,8 @@ import tech.jhipster.web.util.ResponseUtil;
 
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.CourtCase}.
  */
@@ -116,6 +117,9 @@ public class CourtCaseResource {
 
     @Autowired
     CourtCaseSettingRepository caseSettingRepository;
+    
+    @Autowired
+    ResourceLoader resourceLoader;
 
     public CourtCaseResource(
         CourtCaseService courtCaseService,
@@ -260,8 +264,10 @@ public class CourtCaseResource {
             ConverterProperties converterProperties = new ConverterProperties();
 
             FontProvider fontProvider = new FontProvider();
-
-            fontProvider.addFont("D:\\Swapnil\\NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
+            
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath=resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
 
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
@@ -276,14 +282,14 @@ public class CourtCaseResource {
         }
         else if(htmlList.size()>1)
         {
-        	System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+htmlList.size());
         	
         	  // Create ConverterProperties and set the font provider
             ConverterProperties converterProperties = new ConverterProperties();
 
             FontProvider fontProvider = new FontProvider();
-
-            fontProvider.addFont("D:\\Swapnil\\NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath=resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
 
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
@@ -293,7 +299,6 @@ public class CourtCaseResource {
                 ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
 
                 for (String htmlString : htmlList) {
-                	System.out.println(".......................................................");
                 	
                 	//code for the generating pdf from html string
                     
@@ -315,7 +320,7 @@ public class CourtCaseResource {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-                headers.setContentDispositionFormData("attachment", "files.zip");
+                headers.setContentDispositionFormData("attachment", "file"+getUniqueNumberString()+".zip");
 
                 return new ResponseEntity<>(zipBytes, headers, org.springframework.http.HttpStatus.OK);
             } catch (Exception e) {

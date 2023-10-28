@@ -407,6 +407,7 @@ public class CourtCaseResource {
     {
     	 Locale locale = Locale.forLanguageTag("en");
     	 Context context = new Context(locale);
+    	 System.out.println(".............................................+"+courtCase.getNameOfDefaulter());
          context.setVariable("courtCase", courtCase);
          context.setVariable("courtCaseSettings", courtCaseSettings);
          String content = templateEngine.process(template, context);
@@ -414,8 +415,6 @@ public class CourtCaseResource {
     }
     
     
-    
-
     @GetMapping("/testpdf")
     public ResponseEntity<byte[]> testPdf() throws Exception {
 

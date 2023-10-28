@@ -5,10 +5,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class One01ReportParam {
 
+	private String financialYear;
     private String talukaName;
     private String bankName;
     private String sabhasadName;
-    private boolean is101Select;
+    private String oneZeroOneOption;
+    
+    private String courtCaseSettingCode;
 
     public String getTalukaName() {
         return talukaName;
@@ -34,11 +37,31 @@ public class One01ReportParam {
         this.sabhasadName = sabhasadName;
     }
 
-    public boolean isIs101Select() {
-        return is101Select;
-    }
+	public String getFinancialYear() {
+		return financialYear;
+	}
 
-    public void setIs101Select(boolean is101Select) {
-        this.is101Select = is101Select;
-    }
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
+	}
+
+	public String getOneZeroOneOption() {
+		return oneZeroOneOption;
+	}
+
+	public void setOneZeroOneOption(String oneZeroOneOption) {
+		this.oneZeroOneOption = oneZeroOneOption;
+	}
+
+	public String getCourtCaseSettingCode() {
+		return courtCaseSettingCode;
+	}
+
+	public void setCourtCaseSettingCode(String courtCaseSettingCode) {
+		this.courtCaseSettingCode = courtCaseSettingCode;
+	}
+	
+	
+
+   
 }

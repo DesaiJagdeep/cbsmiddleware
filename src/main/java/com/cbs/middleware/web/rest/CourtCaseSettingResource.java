@@ -1,32 +1,7 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.CourtCaseSetting;
-import com.cbs.middleware.repository.CourtCaseSettingRepository;
-import com.cbs.middleware.repository.NotificationRepository;
-import com.cbs.middleware.service.CourtCaseSettingQueryService;
-import com.cbs.middleware.service.CourtCaseSettingService;
-import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
-import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
-import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
-import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
-import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.kernel.font.PdfFont;
-import com.itextpdf.kernel.font.PdfFontFactory;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.layer.PdfLayer;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Text;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -45,6 +20,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -75,6 +51,20 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.CourtCaseSetting;
+import com.cbs.middleware.repository.CourtCaseSettingRepository;
+import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.service.CourtCaseSettingQueryService;
+import com.cbs.middleware.service.CourtCaseSettingService;
+import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -129,39 +119,7 @@ public class CourtCaseSettingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
 
-    @GetMapping("/testFile")
-    public void testFile() throws Exception {
-        String REGULAR = "C:\\\\Users\\\\swapnilp\\\\Desktop\\\\Noto_Sans\\\\NotoSans-Regular.ttf";
-
-        PdfDocument pdf = new PdfDocument(new PdfWriter("D:\\PDCC\\certificate14.pdf"));
-
-        List<PdfLayer> layers = pdf.getCatalog().getOCProperties(true).getLayers();
-
-        for (PdfLayer pdfLayer : layers) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>" + pdfLayer.getTitle());
-        }
-
-        // Initialize document
-        Document document = new Document(pdf);
-        // Add content
-        FontProgram fontProgram = FontProgramFactory.createFont(REGULAR);
-        PdfFont font = PdfFontFactory.createFont(fontProgram); //, PdfEncodings.IDENTITY_H, EmbeddingStrategy.PREFER_EMBEDDED);
-        /*
-         * byte[] byteArray = Encoding.UTF32.GetBytes(""); String unicodeString =
-         * Encoding.Unicode.GetString(byteArray);
-         */
-
-        //Text title = new Text("पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित ,").setFont(font);
-
-        String txt = "Xabd AapNa sara-sapNao vaaprtÜ. yaa XabdaMcao Aqa-hI Aaplyaalaa";
-        Text title = new Text("Xabd AapNa sara-sapNao vaaprtÜ. yaa XabdaMcao Aqa-hI Aaplyaalaa");
-        //Text author = new Text("Robert Louis Stevenson").setFont(font);
-        Paragraph p = new Paragraph(title).setFont(font); //.add();//.add(" by ").add(author);
-        document.add(p);
-
-        //Close document
-        document.close();
-    }
+   
 
     @PostMapping("/court-case-setting-file")
     public ResponseEntity<List<CourtCaseSetting>> createCourtCaseFile(

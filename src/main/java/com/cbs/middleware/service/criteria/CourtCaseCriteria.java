@@ -24,6 +24,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     private LongFilter id;
 
     private StringFilter srNo;
+    
+    private StringFilter financialYear;
 
     private StringFilter talukaName;
 
@@ -86,6 +88,7 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     public CourtCaseCriteria(CourtCaseCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bankName = other.bankName == null ? null : other.bankName.copy();
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
         this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
         this.srNo = other.srNo == null ? null : other.srNo.copy();
         this.accountNo = other.accountNo == null ? null : other.accountNo.copy();
@@ -136,6 +139,22 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
+    public StringFilter getFinancialYear() {
+        return financialYear;
+    }
+
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+        	financialYear = new StringFilter();
+        }
+        return financialYear;
+    }
+
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
+    }
+    
+    
     public StringFilter getSrNo() {
         return srNo;
     }
@@ -150,6 +169,8 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     public void setSrNo(StringFilter srNo) {
         this.srNo = srNo;
     }
+    
+    
 
     public StringFilter getTalukaName() {
         return talukaName;
@@ -576,6 +597,7 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(srNo, that.srNo) &&
+            Objects.equals(financialYear, that.financialYear) &&
             Objects.equals(talukaName, that.talukaName) &&
             Objects.equals(bankName, that.bankName) &&
             Objects.equals(accountNo, that.accountNo) &&
@@ -612,6 +634,7 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             srNo,
+            financialYear,
             talukaName,
             bankName,
             accountNo,
@@ -649,6 +672,7 @@ public class CourtCaseCriteria implements Serializable, Criteria {
         return "CourtCaseCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (srNo != null ? "srNo=" + srNo + ", " : "") +
+            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
             (talukaName != null ? "talukaName=" + talukaName + ", " : "") +
             (bankName != null ? "bankName=" + bankName + ", " : "") +
             (accountNo != null ? "accountNo=" + accountNo + ", " : "") +

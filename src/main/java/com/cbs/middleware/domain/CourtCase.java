@@ -2,13 +2,13 @@ package com.cbs.middleware.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -27,23 +27,28 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Min(value = 1)
+    // //@NotNull
+    // //@Min(value = 1)
     @Column(name = "sr_no")
     private String srNo;
 
-    @NotNull
-    @Min(value = 1)
+    ////@NotNull
+    ////@Min(value = 1)
+    @Column(name = "financial_year")
+    private String financialYear;
+    
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "bank_name")
     private String bankName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "taluka_name")
     private String talukaName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "account_no")
     private String accountNo;
 
@@ -53,36 +58,36 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "unique_file_name")
     private String uniqueFileName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "name_of_defaulter")
     private String nameOfDefaulter;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "address")
     private String address;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "loan_type")
     private String loanType;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "loan_amount")
     private String loanAmount;
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "term_of_loan")
     private String termOfLoan;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "interest_rate")
     private String interestRate;
 
@@ -95,16 +100,16 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "balance")
     private String balance;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "interest_paid")
     private String interestPaid;
 
     @Column(name = "penal_interest_paid")
     private String penalInterestPaid;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "due_amount")
     private String dueAmount;
 
@@ -114,8 +119,8 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "due_interest")
     private String dueInterest;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "due_penal_interest")
     private String duePenalInterest;
 
@@ -131,16 +136,16 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "taaran_en")
     private String taaranEn;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "gaurentor_one")
     private String gaurentorOne;
 
     @Column(name = "gaurentor_one_address")
     private String gaurentorOneAddress;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+    //@Min(value = 1)
     @Column(name = "gaurentor_two")
     private String gaurentorTwo;
 
@@ -255,7 +260,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
+	}
+
+	public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 

@@ -59,7 +59,7 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
     }
 
     @Transactional(readOnly = true)
-    public List<CourtCase> findByCriteriaWithputPage(CourtCaseCriteria criteria) {
+    public List<CourtCase> findByCriteriaWithoutPage(CourtCaseCriteria criteria) {
         log.debug("find by criteria : {}, page: {}", criteria);
         final Specification<CourtCase> specification = createSpecification(criteria);
         return courtCaseRepository.findAll(specification);

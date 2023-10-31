@@ -1,23 +1,5 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.PacsMaster;
-import com.cbs.middleware.domain.User;
-import com.cbs.middleware.domain.UserFileDetails;
-import com.cbs.middleware.repository.NotificationRepository;
-import com.cbs.middleware.repository.PacsMasterRepository;
-import com.cbs.middleware.repository.UserFileDetailsRepository;
-import com.cbs.middleware.repository.UserRepository;
-import com.cbs.middleware.security.AuthoritiesConstants;
-import com.cbs.middleware.service.MailService;
-import com.cbs.middleware.service.UserService;
-import com.cbs.middleware.service.dto.AdminUserDTO;
-import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
-import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
-import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
-import com.cbs.middleware.web.rest.errors.MobileAlreadyUsedException;
-import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -41,8 +23,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
+import javax.websocket.server.PathParam;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -77,6 +62,29 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.PacsMaster;
+import com.cbs.middleware.domain.User;
+import com.cbs.middleware.domain.UserFileDetails;
+import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.repository.UserFileDetailsRepository;
+import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
+import com.cbs.middleware.service.MailService;
+import com.cbs.middleware.service.UserQueryService;
+import com.cbs.middleware.service.UserService;
+import com.cbs.middleware.service.criteria.UserCriteria;
+import com.cbs.middleware.service.dto.AdminUserDTO;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.EmailAlreadyUsedException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.LoginAlreadyUsedException;
+import com.cbs.middleware.web.rest.errors.MobileAlreadyUsedException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -328,6 +336,68 @@ public class UserResource {
         return adminUserDTO;
     }
 
+    @Autowired
+    UserQueryService userQueryService;
+    
+    
+    /**
+     * search with all param
+     * */
+    
+	@GetMapping("/search-user")
+	public ResponseEntity<List<User>> getBySearchUser(@RequestParam(value = "key") String key,
+			@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+		GrantedAuthority authority = authorities.stream().findFirst().get();
+
+		if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+
+			UserCriteria userCriteria = new UserCriteria();
+			StringFilter filter = new StringFilter();
+			filter.setContains(key);
+			userCriteria.setLogin(filter);
+			userCriteria.setFirstName(filter);
+			userCriteria.setMiddleName(filter);
+			userCriteria.setLastName(filter);
+			userCriteria.setMobileNumber(filter);
+			userCriteria.setEmail(filter);
+			userCriteria.setBranchName(filter);
+			userCriteria.setPacsName(filter);
+			Page<User> findByCriteria = userQueryService.findByCriteriaOr(userCriteria, pageable);
+			return ResponseEntity.ok().body(findByCriteria.getContent());
+
+		} else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+			Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+			if (optUser.isPresent()) {
+				UserCriteria userCriteria = new UserCriteria();
+
+				String branchName = optUser.get().getBranchName();
+				StringFilter branchNameFilter = new StringFilter();
+				branchNameFilter.setEquals(branchName);
+				StringFilter filter = new StringFilter();
+				filter.setContains(key);
+
+				userCriteria.setLogin(filter);
+				userCriteria.setFirstName(filter);
+				userCriteria.setMiddleName(filter);
+				userCriteria.setLastName(filter);
+				userCriteria.setMobileNumber(filter);
+				userCriteria.setEmail(filter);
+				userCriteria.setBranchName(branchNameFilter);
+				userCriteria.setPacsName(filter);
+				Page<User> findByCriteria = userQueryService.findByCriteriaAndBranchName(userCriteria, pageable);
+				return ResponseEntity.ok().body(findByCriteria.getContent());
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+
+	}
+	
+    
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this
      * are only allowed for the administrators.

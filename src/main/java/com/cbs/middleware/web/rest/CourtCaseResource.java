@@ -1,27 +1,5 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.CourtCase;
-import com.cbs.middleware.domain.CourtCaseSetting;
-import com.cbs.middleware.domain.One01ReportParam;
-import com.cbs.middleware.repository.CourtCaseRepository;
-import com.cbs.middleware.repository.CourtCaseSettingRepository;
-import com.cbs.middleware.repository.NotificationRepository;
-import com.cbs.middleware.service.CourtCaseQueryService;
-import com.cbs.middleware.service.CourtCaseService;
-import com.cbs.middleware.service.criteria.CourtCaseCriteria;
-import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
-import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
-import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
-import com.cbs.middleware.web.rest.utility.PDFModel;
-import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.io.font.PdfEncodings;
-import com.itextpdf.io.source.ByteArrayOutputStream;
-import com.itextpdf.layout.font.FontProvider;
-import com.itextpdf.licensing.base.LicenseKey;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -42,6 +20,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
@@ -54,6 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -76,16 +59,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.CourtCase;
+import com.cbs.middleware.domain.CourtCaseSetting;
+import com.cbs.middleware.domain.One01ReportParam;
+import com.cbs.middleware.repository.CourtCaseRepository;
+import com.cbs.middleware.repository.CourtCaseSettingRepository;
+import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.service.CourtCaseQueryService;
+import com.cbs.middleware.service.CourtCaseService;
+import com.cbs.middleware.service.criteria.CourtCaseCriteria;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.layout.font.FontProvider;
+
 import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
-
-
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.CourtCase}.
  */
@@ -120,6 +118,9 @@ public class CourtCaseResource {
     
     @Autowired
     ResourceLoader resourceLoader;
+    
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
     public CourtCaseResource(
         CourtCaseService courtCaseService,
@@ -133,42 +134,10 @@ public class CourtCaseResource {
     
     
     
-    
-    
-    //zip files
-    @PostMapping("/add")
-    public ResponseEntity<byte[]> addFilesToZip(@RequestParam("files") MultipartFile[] files) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
-
-            for (MultipartFile file : files) {
-                ZipEntry zipEntry = new ZipEntry(file.getOriginalFilename());
-                zipOutputStream.putNextEntry(zipEntry);
-                zipOutputStream.write(file.getBytes());
-                zipOutputStream.closeEntry();
-            }
-
-            zipOutputStream.close();
-            byteArrayOutputStream.close();
-
-            byte[] zipBytes = byteArrayOutputStream.toByteArray();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            headers.setContentDispositionFormData("attachment", "files.zip");
-
-            return new ResponseEntity<>(zipBytes, headers, org.springframework.http.HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    
-    
-    
-    
+    /**
+     * {@code POST  /oneZeroOneNotice} : download a courtCase file.
+     *
+     */    
     @PostMapping("/oneZeroOneNotice")
     public ResponseEntity<byte[]> generatePDFFromHTML(@RequestBody One01ReportParam one01ReportParam) throws Exception {
     	
@@ -265,18 +234,32 @@ public class CourtCaseResource {
 
             FontProvider fontProvider = new FontProvider();
             
-            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
-            String filepath=resource.getFile().getAbsolutePath();
+            
+           // File file=new File("D:\\PDCC\\gitbranch\\cbs-middleware-api\\src\\main\\resources\\fonts\\NotoSans-Regular.ttf");
+            
+            
+            File file=new File("/home/ubuntu/pdcc/font/NotoSans-Regular.ttf");
+            
+            
+           // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+            
+            String filepath=file.getAbsolutePath();
+            
+            
+            
+            
             fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
 
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
-
+            
+            //converting html to pdf
             HtmlConverter.convertToPdf(htmlList.get(0), byteArrayOutputStream, converterProperties);
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", "application/pdf");
-            headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
+            headers.add("content-disposition", "attachment; filename=" +getUniqueNumberString()+ "certificate.pdf");
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
             response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
         }
@@ -303,10 +286,10 @@ public class CourtCaseResource {
                 	//code for the generating pdf from html string
                     
                 	ByteArrayOutputStream  byteArrayOutputStream1 = new ByteArrayOutputStream();
-
+                	//converting html to pdf
                     HtmlConverter.convertToPdf(htmlString, byteArrayOutputStream1, converterProperties);
 
-                	
+                	//adding files in zip
                     ZipEntry zipEntry = new ZipEntry("certificate"+getUniqueNumberString()+".pdf");
                     zipOutputStream.putNextEntry(zipEntry);
                     zipOutputStream.write(byteArrayOutputStream1.toByteArray());
@@ -381,73 +364,23 @@ public class CourtCaseResource {
 		Calendar cal = new GregorianCalendar();
         return
             "" +
-//            cal.get(Calendar.YEAR) +
-//            cal.get(Calendar.MONTH) +
-//            cal.get(Calendar.DAY_OF_MONTH) +
-//            cal.get(Calendar.HOUR) +
-//            cal.get(Calendar.MINUTE) +
-//            cal.get(Calendar.SECOND) +
-//            cal.get(Calendar.MILLISECOND) +
-//            cal.get(Calendar.MINUTE) +
-//            cal.get(Calendar.MILLISECOND) +
-//            cal.get(Calendar.MONTH) +
-//            cal.get(Calendar.DAY_OF_MONTH) +
-//            cal.get(Calendar.HOUR) +
-//            cal.get(Calendar.SECOND) +
             cal.get(Calendar.MILLISECOND);
 	}
     
     
     
-    
-    @Autowired
-    private SpringTemplateEngine templateEngine;
-    
+
+    //processing template
     String oneZeroOneTemplate(String template,CourtCase courtCase, CourtCaseSetting courtCaseSettings)
     {
     	 Locale locale = Locale.forLanguageTag("en");
     	 Context context = new Context(locale);
-    	 System.out.println(".............................................+"+courtCase.getNameOfDefaulter());
          context.setVariable("courtCase", courtCase);
          context.setVariable("courtCaseSettings", courtCaseSettings);
          String content = templateEngine.process(template, context);
          return content;
     }
     
-    
-    @GetMapping("/testpdf")
-    public ResponseEntity<byte[]> testPdf() throws Exception {
-
-        try {
-            String HTML =
-                "सहाय्यक निबंधक सहकारी संस्था";
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-            // Create ConverterProperties and set the font provider
-            ConverterProperties converterProperties = new ConverterProperties();
-
-            FontProvider fontProvider = new FontProvider();
-
-            fontProvider.addFont("D:\\Swapnil\\NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
-
-            converterProperties.setFontProvider(fontProvider);
-            converterProperties.setCharset("UTF-8");
-
-            HtmlConverter.convertToPdf(HTML, byteArrayOutputStream, converterProperties);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", "application/pdf");
-            headers.add("content-disposition", "attachment; filename=" + "certificate.pdf");
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
-
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     /**
      * {@code POST  /court-cases} : Create a new courtCase.

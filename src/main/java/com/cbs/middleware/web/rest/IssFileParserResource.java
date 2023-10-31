@@ -6,6 +6,7 @@ import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.CastCategoryMaster;
 import com.cbs.middleware.domain.CropMaster;
@@ -20,6 +21,7 @@ import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.BankBranchMasterRepository;
 import com.cbs.middleware.repository.BatchTransactionRepository;
 import com.cbs.middleware.repository.CastCategoryMasterRepository;
 import com.cbs.middleware.repository.CropMasterRepository;
@@ -197,6 +199,9 @@ public class IssFileParserResource {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    BankBranchMasterRepository bankBranchMasterRepository;
 
     @Autowired
     MailService mailService;
@@ -265,6 +270,7 @@ public class IssFileParserResource {
                 flag = true;
             }
 
+            // validating excel heading column name
             String bankName = getCellValue(row.getCell(1));
             if (StringUtils.isNotBlank(bankName)) {
                 bankName = bankName.trim().replace("\n", " ").toLowerCase();
@@ -786,14 +792,63 @@ public class IssFileParserResource {
                 }
             }
 
+            //checking if user is authenticated or not
             rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
 
+            //checking 1st file column data
             boolean flagForData = false;
             String fYear = getCellValue(row.getCell(0));
 
-            if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+            
+            if(StringUtils.isBlank(fYear))
+            {
+            	 flagForData = true;
+            }
+            else if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
                 flagForData = true;
             }
+            
+            
+            
+            
+            String bankNameValue = getCellValue(row.getCell(1));
+            if (StringUtils.isNotBlank(bankNameValue) && !bankNameValue.equalsIgnoreCase("PUNE DISTRICT CENTRAL CO.OP BANK LTD")) {
+                flagForData = true;
+            }
+            
+            String bankCodeValue = getCellValue(row.getCell(2));
+            if (StringUtils.isNotBlank(bankCodeValue) && !bankCodeValue.matches("\\d+")) {
+                flagForData = true;
+            }
+            
+            
+            String branchNameValue = getCellValue(row.getCell(3));
+            if (StringUtils.isNotBlank(branchNameValue)) {
+            	
+            	if(bankBranchMasterRepository.findOneByBranchName(branchNameValue)==null)
+            	{
+            		 flagForData = true;
+            	}
+               
+            }
+            
+            String bankBranchCode = getCellValue(row.getCell(4));
+            if (StringUtils.isNotBlank(bankBranchCode) && !bankBranchCode.matches("\\d+")) {
+                flagForData = true;
+            }
+            
+            
+            String kccIssBranchCode = getCellValue(row.getCell(5));
+            if(StringUtils.isBlank(kccIssBranchCode))
+            {
+            	 flagForData = true;
+            }
+            if (StringUtils.isNotBlank(kccIssBranchCode) && !kccIssBranchCode.matches("\\d+")) {
+                flagForData = true;
+            }
+            
+            
+            
 
             String ifsc = getCellValue(row.getCell(6));
             if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {

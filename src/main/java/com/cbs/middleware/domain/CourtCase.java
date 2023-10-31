@@ -231,6 +231,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "gaurentor_two_address_en")
     private String gaurentorTwoAddressEn;
+    
+    @Column(name = "due_amount_word")
+    private String dueAmountWord;
+    
+    @Column(name = "intrest_amount_word")
+    private String intrestAmountWord;
+    
+    @Column(name = "total_amount_word")
+    private String totalAmountWord;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -300,7 +309,31 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.taaranEn = taaranEn;
     }
 
-    public String getBankName() {
+    public String getDueAmountWord() {
+		return dueAmountWord;
+	}
+
+	public void setDueAmountWord(String dueAmountWord) {
+		this.dueAmountWord = dueAmountWord;
+	}
+
+	public String getIntrestAmountWord() {
+		return intrestAmountWord;
+	}
+
+	public void setIntrestAmountWord(String intrestAmountWord) {
+		this.intrestAmountWord = intrestAmountWord;
+	}
+
+	public String getTotalAmountWord() {
+		return totalAmountWord;
+	}
+
+	public void setTotalAmountWord(String totalAmountWord) {
+		this.totalAmountWord = totalAmountWord;
+	}
+
+	public String getBankName() {
         return bankName;
     }
 

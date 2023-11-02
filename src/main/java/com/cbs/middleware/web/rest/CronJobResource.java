@@ -236,12 +236,16 @@ public class CronJobResource {
                                             applicationByUniqueId.getIssFilePortalId()
                                         );
                                         if (findById.isPresent()) {
-                                            IssPortalFile IssPortalFile = findById.get();
-                                            if (IssPortalFile.getKccErrorRecordCount() == null) {
-                                                IssPortalFile.setKccErrorRecordCount(0);
+                                            IssPortalFile issPortalFile = findById.get();
+                                            if (issPortalFile.getKccErrorRecordCount() == null) {
+                                            	issPortalFile.setKccErrorRecordCount(1);
                                             }
-                                            IssPortalFile.setKccErrorRecordCount(IssPortalFile.getKccErrorRecordCount() + 1);
-                                            issPortalFileRepository.save(IssPortalFile);
+                                            else
+                                            {
+                                            	issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);	
+                                            }
+                                            
+                                            issPortalFileRepository.save(issPortalFile);
                                         }
 
                                         // moving application log to history if exist

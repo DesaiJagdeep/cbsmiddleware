@@ -158,6 +158,8 @@ public class SubmitBatchResource {
     @Autowired
     RBAControl rbaControl;
 
+	private Long issFilePortalId;
+
     public SubmitBatchResource() {}
 
     /**
@@ -583,8 +585,6 @@ public class SubmitBatchResource {
             if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
                 cbsResponceString = responseEntity.getBody();
 
-                applicationRepository.saveAll(applicationTransactionListSave);
-
                 SubmitApiRespDecryption submitApiRespDecryption = null;
 
                 try {
@@ -593,6 +593,7 @@ public class SubmitBatchResource {
                     cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
                     cbsResponce.setBatchId(batchId);
                     if (cbsResponce.isStatus()) {
+                    	 applicationRepository.saveAll(applicationTransactionListSave);
                         String decryption = decryption("" + cbsResponce.getData());
                         objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -603,14 +604,34 @@ public class SubmitBatchResource {
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("New");
                         batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
-
                         batchTransactionRepository.save(batchTransaction);
+                        
+                        try
+                        {
+                        	IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
+                        	issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount()+(long)applicationTransactionListSave.size());
+                        	issPortalFileRepository.save(issPortalFile);
+                        	
+                        }catch (Exception e) {
+							
+						}
+                         
+                        
                     } else {
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("Discarded");
                         batchTransaction.setBatchErrors(cbsResponce.getError());
+                        String fileName="";
+                        try
+                        {
+                        	fileName=applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
+                        }catch (Exception e) {
+							// TODO: handle exception
+						}
+                        
+                        batchTransaction.setNotes("Resubmite batch after some time for file name:"+fileName);
                         batchTransactionRepository.save(batchTransaction);
                     }
                 } catch (Exception e) {

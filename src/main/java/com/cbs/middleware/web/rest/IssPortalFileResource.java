@@ -1,25 +1,5 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.Application;
-import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.IssFileParser;
-import com.cbs.middleware.domain.IssPortalFile;
-import com.cbs.middleware.domain.User;
-import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
-import com.cbs.middleware.repository.ApplicationLogRepository;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.IssFileParserRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.repository.NotificationRepository;
-import com.cbs.middleware.repository.UserRepository;
-import com.cbs.middleware.service.IssPortalFileQueryService;
-import com.cbs.middleware.service.IssPortalFileService;
-import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
-import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
-import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
-import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,10 +8,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +39,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.BankBranchMaster;
+import com.cbs.middleware.domain.IssFileParser;
+import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.domain.TalukaMaster;
+import com.cbs.middleware.domain.User;
+import com.cbs.middleware.domain.domainUtil.TalukaWiseDataReport;
+import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
+import com.cbs.middleware.repository.ApplicationLogRepository;
+import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.IssFileParserRepository;
+import com.cbs.middleware.repository.IssPortalFileRepository;
+import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.repository.TalukaMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.service.IssPortalFileQueryService;
+import com.cbs.middleware.service.IssPortalFileService;
+import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
+
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -118,7 +128,6 @@ public class IssPortalFileResource {
     @GetMapping("/download-file/{idIFP}")
     @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
         if (findByIssPortalFileId.isPresent()) {
             Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByIssPortalFileId.get().getUniqueName());
@@ -176,6 +185,106 @@ public class IssPortalFileResource {
             throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
         }
     }
+    
+    
+    @Autowired
+    TalukaMasterRepository talukaMasterRepository;
+    
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
+    
+    @Autowired
+    BankBranchMasterRepository bankBranchMasterRepository;
+    
+    
+    
+    /**
+     * 
+     * 
+     * */
+    @GetMapping("/taluka-wise-data/{financialYear}")
+    @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
+    public List<TalukaWiseDataReport> talukaWiseData(@PathVariable String financialYear) {
+    	
+    	List<TalukaWiseDataReport> talukaWiseDataReportList=new ArrayList<>();
+    	TalukaWiseDataReport talukaWiseDataReport=new TalukaWiseDataReport();
+    	//calculating current finantial year
+    	//String currentFinantialYear=calculateCurrentFinantialYear();
+    	
+    	List<TalukaMaster> talukaMasterList = talukaMasterRepository.findAll();
+    	int count=0;
+    	int srno=0;
+    	for (TalukaMaster talukaMaster : talukaMasterList) {
+    		count=count+1;
+    		srno=srno+1;
+    		
+    		talukaWiseDataReport=new TalukaWiseDataReport();
+    		talukaWiseDataReport.setSrNo(srno);
+    		talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
+    		
+    		//find society count
+    		
+    		Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
+    		talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
+    		
+    		Integer completedCount=0;
+    		Integer inProgressCount=0;
+    		Integer yetToStartCount=0;
+    		Integer pendingForApprovalCount=0;
+    		
+    		
+    		List<BankBranchMaster> bankBranchMastersList=bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
+    		for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
+    			Long schemeWiseBranchCode=Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
+    			
+    			Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
+    			if(findAllBySchemeWiseBranchCode.isPresent())
+    			{
+    				
+    				completedCount=completedCount+issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode,financialYear);
+    				inProgressCount=inProgressCount+issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode,financialYear);
+        			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
+    			
+        			
+    			}
+    			
+				
+			}
+    		
+    		talukaWiseDataReport.setCompleted(completedCount);
+    		talukaWiseDataReport.setInProgress(inProgressCount);
+    		yetToStartCount=countOfSocietiesByTalukaName-completedCount-inProgressCount-pendingForApprovalCount;
+    		
+    		talukaWiseDataReport.setYetToStart(yetToStartCount);
+    		talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
+    		
+    		
+    		//adding sum
+    		
+    		
+    		
+    		if(talukaMasterList.size()-1==count)
+    		{
+    			talukaWiseDataReport.setNoOfSocietiesSum(null);
+        		talukaWiseDataReport.setCompletedSum(null);
+        		talukaWiseDataReport.setInProgressSum(null);
+        		talukaWiseDataReport.setYetToStartSum(null);
+        		talukaWiseDataReport.setPendingForApprovalSum(null);
+    		}
+    		
+    		
+    		
+    		
+    		talukaWiseDataReportList.add(talukaWiseDataReport);
+    		
+			
+		}
+    	
+		return talukaWiseDataReportList;
+    	
+    }
+    
+    
 
     @GetMapping("/verify-file/{fileId}")
     @PreAuthorize("@authentication.hasPermision('',#fileId,'','FILE_DOWNLOAD','DOWNLOAD')")
@@ -495,5 +604,26 @@ public class IssPortalFileResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+    
+    
+    //calculate financial year
+    String calculateCurrentFinantialYear()
+    {
+    	 Calendar calendar = Calendar.getInstance();
+
+         // Set the current date to the end of the financial year
+         calendar.set(Calendar.MONTH, Calendar.MARCH);
+         calendar.set(Calendar.DAY_OF_MONTH, 31);
+
+         int currentYear = calendar.get(Calendar.YEAR);
+
+         // Financial year starts from April 1 of the previous year
+         int previousYear = currentYear - 1;
+
+         String financialYear = previousYear + "-" + currentYear;
+         System.out.println("Current Financial Year: " + financialYear);
+         return financialYear; 
+     
     }
 }

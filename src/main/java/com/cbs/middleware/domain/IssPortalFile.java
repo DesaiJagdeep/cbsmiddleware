@@ -59,7 +59,7 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     private String status;
 
     @Column(name = "application_count")
-    private Integer applicationCount;
+    private Integer applicationCount = 0;
 
     @Column(name = "notes")
     private String notes;
@@ -68,16 +68,16 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
     private Integer errorRecordCount = 0;
 
     @Column(name = "kcc_error_record_count")
-    private Integer kccErrorRecordCount;
+    private Integer kccErrorRecordCount = 0;
 
     @Column(name = "app_submited_to_kcc_count")
-    private Long appSubmitedToKccCount;
+    private Long appSubmitedToKccCount = 0l;
 
     @Column(name = "app_pending_to_submit_count")
-    private Long appPendingToSubmitCount;
+    private Long appPendingToSubmitCount = 0l;
 
     @Column(name = "app_accepted_by_kcc_count")
-    private Long appAcceptedByKccCount;
+    private Long appAcceptedByKccCount = 0l;
 
     @Column(name = "download_file")
     private boolean downloadFile = false;
@@ -93,6 +93,8 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "verified_by")
     private String verifiedBy;
+    
+    
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -126,13 +128,22 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
         return this;
     }
 
-    public Long getAppSubmitedToKccCount() {
-        return appSubmitedToKccCount;
-    }
+	public Long getAppSubmitedToKccCount() {
+		if (appSubmitedToKccCount == null) {
+			appSubmitedToKccCount = 0l;
+		}
 
-    public void setAppSubmitedToKccCount(Long appSubmitedToKccCount) {
-        this.appSubmitedToKccCount = appSubmitedToKccCount;
-    }
+		return appSubmitedToKccCount;
+	}
+
+	public void setAppSubmitedToKccCount(Long appSubmitedToKccCount) {
+		if (appSubmitedToKccCount == null) {
+			this.appSubmitedToKccCount = 0l;
+		} else {
+			this.appSubmitedToKccCount = appSubmitedToKccCount;
+		}
+
+	}
 
     public Long getAppAcceptedByKccCount() {
         return appAcceptedByKccCount;
@@ -355,6 +366,12 @@ public class IssPortalFile extends AbstractAuditingEntity<Long> implements Seria
 
     public void setPacsName(String pacsName) {
         this.pacsName = pacsName;
+    }
+    
+    
+    public Integer getApplicationCountSum()
+    {
+    	return applicationCount;
     }
 
     @Override

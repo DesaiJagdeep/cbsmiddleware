@@ -18,12 +18,16 @@ public final class Constants {
             public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
             public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
             public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
-
-//    public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
-//    public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
-//    public static final String KMP_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/kmpFiles/";
-//    public static final String KARKHANA_VASULI_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/karkhanaVasuliFiles/";
-//    public static final String USER_DETAIL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/userDetailsFiles/";
+            
+            //public static final String fontFilePath="D:\\PDCC\\gitbranch\\cbs-middleware-api\\src\\main\\resources\\fonts\\NotoSans-Regular.ttf";
+           public static final String fontFilePath="/home/ubuntu/pdcc/font/NotoSans-Regular.ttf";
+           //public static final String fontFilePath="/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
+            
+   // public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
+    //public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
+    //public static final String KMP_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/kmpFiles/";
+    //public static final String KARKHANA_VASULI_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/karkhanaVasuliFiles/";
+    //public static final String USER_DETAIL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/userDetailsFiles/";
 
     public static final String DefaultPassword = "PdcCB@nk@411001";
     public static final String DefaultPasswordForPacs = "Pdcc@123";

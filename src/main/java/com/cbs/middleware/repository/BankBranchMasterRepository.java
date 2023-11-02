@@ -2,6 +2,8 @@ package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BankMaster;
+import com.cbs.middleware.domain.TalukaMaster;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -52,4 +54,6 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
     boolean existsByBranchName(String talukaName);
 
     BankBranchMaster findOneByBranchName(String talukaName);
+
+	List<BankBranchMaster> findAllByTalukaMaster(TalukaMaster talukaMaster);
 }

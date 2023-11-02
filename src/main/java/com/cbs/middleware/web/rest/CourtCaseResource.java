@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -235,10 +236,7 @@ public class CourtCaseResource {
             FontProvider fontProvider = new FontProvider();
             
             
-           // File file=new File("D:\\PDCC\\gitbranch\\cbs-middleware-api\\src\\main\\resources\\fonts\\NotoSans-Regular.ttf");
-            
-            
-            File file=new File("/home/ubuntu/pdcc/font/NotoSans-Regular.ttf");
+            File file=new File(Constants.fontFilePath);
             
             
            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
@@ -1038,5 +1036,62 @@ public class CourtCaseResource {
 
     
    
+//....................................................................................................................................
+    
+    @PostMapping("/oneZeroOneNoticeDemo")
+    public ResponseEntity<byte[]> generatePDFFromHTMLDemo( @RequestParam("file") MultipartFile files) throws Exception {
+    	
+    	InputStream inputStream = files.getInputStream();
+    	
+    	List<InputStream> htmlList=new ArrayList<InputStream>();
+		htmlList.add(inputStream);
+        
+        
+        
+        ResponseEntity<byte[]> response=null;
+        if(htmlList.size()==1)
+        {
+        	//code for the generating pdf from html string
+            
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            
+            
+            File file=new File(Constants.fontFilePath);
+            
+            
+           // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+            
+            String filepath=file.getAbsolutePath();
+            
+            
+            
+            
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+            
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), byteArrayOutputStream, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" +getUniqueNumberString()+ "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        }
+        
+        else
+        {
+        	 throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+        
+        return response;
+    }
 }

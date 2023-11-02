@@ -75,7 +75,6 @@ public class RBAControl {
             return false;
         }
 
-        System.out.println("?????????????????????????????????????????????????????????????????????" + optUser);
         String login = "";
         if (userId != null) {
             Optional<User> userFromId = userRepository.findById(userId);
@@ -122,7 +121,6 @@ public class RBAControl {
             Optional<IssPortalFile> issFilePortal = null;
             if (issPortalId != null) {
                 issFilePortal = issPortalFileRepository.findById(issPortalId);
-                System.out.println("................................................." + issFilePortal);
                 if (issFilePortal.isPresent()) {
                     schemeWiseBranchCodeFromId = "" + issFilePortal.get().getSchemeWiseBranchCode();
                     pacsNumberFromId = "" + issFilePortal.get().getPacsCode();
@@ -149,8 +147,6 @@ public class RBAControl {
                 return false;
             }
 
-            System.out.println("111111111111111111111111111111111111111" + schemeWiseBranchCodeFromId);
-            System.out.println("222222222222222222222222222222222222222" + schemeWiseBranchCodeFromToken);
 
             if (permission.getScope().equalsIgnoreCase(OWN)) {
                 if (
@@ -189,9 +185,9 @@ public class RBAControl {
         }
         return returnData;
     }
+    
 
     public void authenticateByCode(String bankCode, String schemeWiseBranchCode, String packsNumber, String ENTITY_NAME) {
-        System.out.println(">>>>>>>>>>>>>>schemeWiseBranchCode>>>>>>>>>>>>>>>>" + schemeWiseBranchCode);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
@@ -201,11 +197,7 @@ public class RBAControl {
         if (!user.isPresent()) {
             throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         }
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>user>>>>>>" + user);
         if (user.isPresent()) {
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>user>>>>>>" + user.get().getPacsNumber());
-
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + packsNumber);
 
             if (StringUtils.isNotBlank(user.get().getPacsNumber()) && !user.get().getPacsNumber().equalsIgnoreCase(packsNumber)) {
                 throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");

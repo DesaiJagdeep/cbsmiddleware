@@ -243,7 +243,16 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     }
 
     public void setKccIssCropCode(String kccIssCropCode) {
-        this.kccIssCropCode = kccIssCropCode;
+    	if(StringUtils.isNotBlank(kccIssCropCode)&&kccIssCropCode.length()==8)
+    	{
+    		this.kccIssCropCode = "0"+kccIssCropCode;
+    	}
+    	else
+    	{
+    		this.kccIssCropCode = kccIssCropCode;
+    	}
+    	
+        
     }
 
     public String getKccIssCropName() {

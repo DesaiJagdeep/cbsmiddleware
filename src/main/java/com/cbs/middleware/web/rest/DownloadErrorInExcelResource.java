@@ -123,18 +123,21 @@ public class DownloadErrorInExcelResource {
             row.createCell(colNum++).setCellValue("Loan Sanction Amount 37");
             row.createCell(colNum++).setCellValue("Tenure OF Loan 38");
             row.createCell(colNum++).setCellValue("Date Of Over Due Payment 39");
-            row.createCell(colNum++).setCellValue("Crop Name 40");
-            row.createCell(colNum++).setCellValue("survey No 41");
-            row.createCell(colNum++).setCellValue("Sat Bara Subsurvey No 42");
-            row.createCell(colNum++).setCellValue("Season name 43");
-            row.createCell(colNum++).setCellValue("Area Hect 44");
-            row.createCell(colNum++).setCellValue("Land Type 45");
-            row.createCell(colNum++).setCellValue("Disbursement Date 46");
-            row.createCell(colNum++).setCellValue("Disburse Amount 47");
-            row.createCell(colNum++).setCellValue("Maturity Loan Date 48");
-            row.createCell(colNum++).setCellValue("Recovery Amount Principle 49");
-            row.createCell(colNum++).setCellValue("Recovery Amount Interest 50");
-            row.createCell(colNum++).setCellValue("Recovery Date 51");
+            row.createCell(colNum++).setCellValue("KCC Crop Code 40");
+            row.createCell(colNum++).setCellValue("KCC Crop Name 41");
+            row.createCell(colNum++).setCellValue("Crop Name 42");
+            row.createCell(colNum++).setCellValue("survey No 43");
+            row.createCell(colNum++).setCellValue("Sat Bara Subsurvey No 44");
+            row.createCell(colNum++).setCellValue("Season name 45");
+            row.createCell(colNum++).setCellValue("Activity Type 46");
+            row.createCell(colNum++).setCellValue("Area Hect 47");
+            row.createCell(colNum++).setCellValue("Land Type 48");
+            row.createCell(colNum++).setCellValue("Disbursement Date 49");
+            row.createCell(colNum++).setCellValue("Disburse Amount 50");
+            row.createCell(colNum++).setCellValue("Maturity Loan Date 51");
+            row.createCell(colNum++).setCellValue("Recovery Amount Principle 52");
+            row.createCell(colNum++).setCellValue("Recovery Amount Interest 53");
+            row.createCell(colNum++).setCellValue("Recovery Date 54");
             row.createCell(colNum++).setCellValue("Application Error");
             row.createCell(colNum++).setCellValue("ID");
 
@@ -187,11 +190,14 @@ public class DownloadErrorInExcelResource {
                 row.createCell(colNum++).setCellValue(issFileParser.getLoanSanctionAmount());
                 row.createCell(colNum++).setCellValue(issFileParser.getTenureOFLoan());
                 row.createCell(colNum++).setCellValue(issFileParser.getDateOfOverDuePayment());
+                row.createCell(colNum++).setCellValue(issFileParser.getKccIssCropCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getKccIssCropName());
                 row.createCell(colNum++).setCellValue(issFileParser.getCropName());
                 row.createCell(colNum++).setCellValue(issFileParser.getSurveyNo());
 
                 row.createCell(colNum++).setCellValue(issFileParser.getSatBaraSubsurveyNo());
                 row.createCell(colNum++).setCellValue(issFileParser.getSeasonName());
+                row.createCell(colNum++).setCellValue(issFileParser.getActivityType());
                 row.createCell(colNum++).setCellValue(issFileParser.getAreaHect());
                 row.createCell(colNum++).setCellValue(issFileParser.getLandType());
                 row.createCell(colNum++).setCellValue(issFileParser.getDisbursementDate());

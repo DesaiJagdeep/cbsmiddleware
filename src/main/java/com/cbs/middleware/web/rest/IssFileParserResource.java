@@ -1,12 +1,79 @@
 package com.cbs.middleware.web.rest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.BatchData;
 import com.cbs.middleware.domain.CastCategoryMaster;
 import com.cbs.middleware.domain.CropMaster;
@@ -48,71 +115,7 @@ import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -218,12 +221,12 @@ public class IssFileParserResource {
 
     /**
      * Customize code
+     * @return 
      *
      * @throws Exception
      *
      * @throws Exception
      */
-
     @PostMapping("/file-parse-conf/{financialYear}")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('FILE_UPLOAD','UPLOAD')")
     public Object excelReaderConfirmation(
@@ -233,7 +236,7 @@ public class IssFileParserResource {
     ) throws Exception {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
         FileParseConf fileParseConf = new FileParseConf();
-        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+        if (!"xlsx".equalsIgnoreCase(fileExtension)&&!"xls".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
         }
 
@@ -913,7 +916,7 @@ public class IssFileParserResource {
         RedirectAttributes redirectAttributes
     ) throws Exception {
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
-        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+        if (!"xlsx".equalsIgnoreCase(fileExtension)&&!"xls".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
         }
 
@@ -1609,9 +1612,9 @@ public class IssFileParserResource {
                     String AccountNumber = getCellValue(row.getCell(30));
                     String LoanSactionDate = getDateCellValue(row.getCell(35));
                     String KccIssCropCode = getCellValue(row.getCell(39));
-                    String DisbursementDate = getCellValue(row.getCell(48));
-                    String maturityLoanDate = getCellValue(row.getCell(50));
-
+                    String DisbursementDate = getDateCellValue(row.getCell(48));
+                    String maturityLoanDate = getDateCellValue(row.getCell(50));
+                    
                     if (
                         !issFileParserRepository
                             .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
@@ -1624,6 +1627,7 @@ public class IssFileParserResource {
                             )
                             .isPresent()
                     ) {
+                    	
                         issFileParser.setBankName(getCellValue(row.getCell(1)));
 
                         issFileParser.setBankCode(getCellValue(row.getCell(2)));
@@ -2151,19 +2155,14 @@ public class IssFileParserResource {
             
             if (!applicationLogListToSave.isEmpty()) {
                 applicationLogRepository.saveAll(applicationLogListToSave);
-
                 issPortalFile.setErrorRecordCount(applicationLogListToSave.size());
-                if(!correctedRecordsInFile.isEmpty())
-                {
-                	issPortalFile.setAppPendingToSubmitCount((long)correctedRecordsInFile.size());	
-                }
-                
-                issPortalFileRepository.save(issPortalFile);
+               
             }
             
 
             List<Application> applicationList = new ArrayList<>();
             if (!correctedRecordsInFile.isEmpty()) {
+            	issPortalFile.setAppPendingToSubmitCount((long)correctedRecordsInFile.size());	
                 for (IssFileParser issFileParser : correctedRecordsInFile) {
                     if (!applicationRepository.findOneByIssFileParser(issFileParser).isPresent()) {
                         Application application = new Application();
@@ -2177,8 +2176,9 @@ public class IssFileParserResource {
 
                 applicationRepository.saveAll(applicationList);
             }
-
+            
             try {
+            	issPortalFileRepository.save(issPortalFile);
                 notificationDataUtility.notificationData(
                     "Application record file validated",
                     "Application record file : " + issPortalFile.getFileName() + " validated",
@@ -2619,62 +2619,74 @@ public class IssFileParserResource {
         }
 
         ApplicationLog validateOneFileDataObject = getValidateOneFileDataObject(issFileParser, findOneByIssFileParser.get());
-
-        // fetching iss portal file and updating error record count
+        
+        System.out.println(".,.,..........,,,,,,,,,,,,,,,,,,"+validateOneFileDataObject);
+     // fetching iss portal file and updating error record count
         IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
-        if (
-            issPortalFile.getErrorRecordCount() != null &&
-            Constants.validationError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
-            issPortalFile.getErrorRecordCount() != 0
-        ) {
-            issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
-            issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
-        } else if (
-            issPortalFile.getKccErrorRecordCount() != null &&
-            Constants.kccError.equalsIgnoreCase(validateOneFileDataObject.getErrorType()) &&
-            issPortalFile.getErrorRecordCount() != 0
-        ) {
-            issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
-            issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
+        if(validateOneFileDataObject!=null&&validateOneFileDataObject.getStatus().equalsIgnoreCase(Constants.ERROR))
+        {
+        	 applicationLogRepository.save(validateOneFileDataObject);
+        	 
+             IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
+
+             // saving iss file data after validating
+             issFileParser.setIssPortalFile(issPortalFileSave);
+             issFileParser = issFileParserService.update(issFileParser);
         }
+        else
+        {
+        	
+        	System.out.println("............................................................."+findOneByIssFileParser.get().getErrorType());
+        	
+			if (Constants.validationError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
+				issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
+				issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
+			} else if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
+				issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
+				issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
+			}
 
-        IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
+            IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
 
-        // saving iss file data after validating
-        issFileParser.setIssPortalFile(issPortalFileSave);
-        IssFileParser result = issFileParserService.update(issFileParser);
+            // saving iss file data after validating
+            issFileParser.setIssPortalFile(issPortalFileSave);
+            issFileParser = issFileParserService.update(issFileParser);
 
-        // adding file data entry to application tracking table
-        Application application = new Application();
-        application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-        application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-        application.setIssFileParser(result);
-        application.setIssFilePortalId(issPortalFileSave.getId());
-        applicationRepository.save(application);
+            // adding file data entry to application tracking table
+            Application application = new Application();
+            application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+            application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+            application.setIssFileParser(issFileParser);
+            application.setIssFilePortalId(issPortalFileSave.getId());
+            applicationRepository.save(application);
 
-        // adding status fixed in application log
-        ApplicationLog applicationLog = findOneByIssFileParser.get();
-        applicationLog.setStatus(Constants.FIXED);
-        applicationLog.setSevierity("");
-        applicationLog.setErrorRecordCount(0);
-        applicationLogRepository.save(applicationLog);
+            // adding status fixed in application log
+            ApplicationLog applicationLog = findOneByIssFileParser.get();
+            applicationLog.setStatus(Constants.FIXED);
+            applicationLog.setSevierity("");
+            applicationLog.setErrorRecordCount(0);
+            applicationLogRepository.save(applicationLog);
 
-        if (result != null) {
-            try {
-                notificationDataUtility.notificationData(
-                    "Application Updated",
-                    "Application by farmer name : " + result.getFarmerName() + " is updated",
-                    false,
-                    result.getCreatedDate(),
-                    "ActivityTypeMasterUpdated" //type
-                );
-            } catch (Exception e) {}
+            if (issFileParser != null) {
+                try {
+                    notificationDataUtility.notificationData(
+                        "Application Updated",
+                        "Application by farmer name : " + issFileParser.getFarmerName() + " is updated",
+                        false,
+                        issFileParser.getCreatedDate(),
+                        "ActivityTypeMasterUpdated" //type
+                    );
+                } catch (Exception e) {}
+            }
+        	
         }
+        
+        
 
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, issFileParser.getId().toString()))
-            .body(result);
+            .body(issFileParser);
     }
 
     public ApplicationLog getValidateOneFileDataObject(IssFileParser issFileParser, ApplicationLog applicationLog) {
@@ -2716,6 +2728,7 @@ public class IssFileParserResource {
             validationErrorBuilder.append("Incorect Gender:Correct as male or female. ");
         }
 
+        
         // socialCategory
         if (!validateSocialCategory(issFileParser.getSocialCategory())) {
             errorCount = errorCount + 1;
@@ -2891,7 +2904,7 @@ public class IssFileParserResource {
 
         // marineType
 
-        if (validationErrorBuilder == null || validationErrorBuilder.toString().equals("")) {
+        if (StringUtils.isBlank(validationErrorBuilder)) {
             applicationLog.setIssFileParser(issFileParser);
             applicationLog.setStatus(Constants.FIXED);
             applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
@@ -3070,6 +3083,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
+    	System.out.println("///////////////////////////////////////"+castCategoryName);
         boolean flag = false;
         if (StringUtils.isBlank(castCategoryName)) {
             return flag;
@@ -3083,6 +3097,7 @@ public class IssFileParserResource {
                 .findFirst()
                 .isPresent()
         ) {
+        	System.out.println(".........................");
             return true;
         } else {
             return false;
@@ -3139,7 +3154,7 @@ public class IssFileParserResource {
         if (StringUtils.isBlank(satBaraSubsurveyNo)) {
             return false;
         }
-        String satBaraSubsurveyNoPattern = "^([+-]?\\d*\\.?\\d*)$";
+        String satBaraSubsurveyNoPattern = ".*[^a-zA-Z].*";
         return satBaraSubsurveyNo.matches(satBaraSubsurveyNoPattern);
     }
 
@@ -3270,13 +3285,12 @@ public class IssFileParserResource {
             cellValue = decimalFormat.format(bigDecimal);
         } else if (cell.getCellType() == CellType.BOOLEAN) {
             cellValue = String.valueOf(cell.getBooleanCellValue());
-        } else if (cell.getCellType() == CellType.FORMULA) {
-            cellValue = String.valueOf(cell.getNumericCellValue());
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
-        } else if (cell.getCellType() == CellType.BLANK) {
+		} else if (cell.getCellType() == CellType.FORMULA) { cellValue =
+			  String.valueOf(cell.getNumericCellValue());
+			  
+			  if (cellValue.contains(".0")) { cellValue = cellValue.substring(0,
+			  cellValue.indexOf(".")); } }
+			  else if (cell.getCellType() == CellType.BLANK) {
             cellValue = "";
         }
 
@@ -3311,17 +3325,36 @@ public class IssFileParserResource {
         if (cell == null) {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
-            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            
+            
+            Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
             Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+            Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
 
-            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
+            if (patternYYYY_MM_DD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
                 LocalDate date = LocalDate.parse(cell.getStringCellValue());
                 cellValue = date.format(formatter).trim();
-            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+            } else if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM");
+                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                cellValue = date.format(formatter).trim();
+            } 
+            
+            
+            else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter).trim();
-            } else {
+            }
+            
+            else if (patternDD_MM_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                cellValue = date.format(formatter).trim();
+            }
+            
+            else {
                 cellValue = cell.getStringCellValue();
             }
         } else if (cell.getCellType() == CellType.NUMERIC) {

@@ -54,6 +54,8 @@ public interface BankBranchMasterRepository extends JpaRepository<BankBranchMast
     boolean existsByBranchName(String talukaName);
 
     BankBranchMaster findOneByBranchName(String talukaName);
+    
+    Optional<BankBranchMaster> findOneBySchemeWiseBranchCode(String schemeWiseBranchCode);
 
 	List<BankBranchMaster> findAllByTalukaMaster(TalukaMaster talukaMaster);
 }

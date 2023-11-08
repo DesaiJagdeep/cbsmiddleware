@@ -1,7 +1,11 @@
 package com.cbs.middleware.web.rest.utility;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+
+//import org.apache.commons.text.NumberToWords;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,6 +16,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TranslationServiceUtility {
+	
+	
+//	public String convertNumberToWords(int number) {
+//        return NumberToWords.toWords(number);
+//    }
+//	
 
     public String translationText(String text) {
         String returnText = "";
@@ -86,4 +96,22 @@ public class TranslationServiceUtility {
 
         return returnText;
     }
+    
+    
+    
+    public String oneZeroOneDateMr(LocalDate loanDate) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = loanDate.format(formatter);
+
+            return translationText(formattedDate);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+    
+   
 }

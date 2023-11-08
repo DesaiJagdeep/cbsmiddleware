@@ -24,6 +24,12 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     private LongFilter id;
 
     private StringFilter vasuliAdhikariName;
+    
+    private StringFilter branchOrPacsCode;
+    
+    private StringFilter settingCode;
+    
+    private StringFilter financialYear;
 
     private StringFilter arOfficeName;
 
@@ -57,7 +63,10 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
 
     public CourtCaseSettingCriteria(CourtCaseSettingCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.settingCode = other.settingCode == null ? null : other.settingCode.copy();
+        this.branchOrPacsCode = other.branchOrPacsCode == null ? null : other.branchOrPacsCode.copy();
         this.vasuliAdhikariName = other.vasuliAdhikariName == null ? null : other.vasuliAdhikariName.copy();
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
         this.arOfficeName = other.arOfficeName == null ? null : other.arOfficeName.copy();
         this.chairmanName = other.chairmanName == null ? null : other.chairmanName.copy();
         this.sachivName = other.sachivName == null ? null : other.sachivName.copy();
@@ -93,6 +102,42 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public void setId(LongFilter id) {
         this.id = id;
     }
+    
+    
+    
+    public StringFilter getSettingCode() {
+        return settingCode;
+    }
+
+    public StringFilter settingCode() {
+        if (settingCode == null) {
+        	settingCode = new StringFilter();
+        }
+        return settingCode;
+    }
+
+    public void setSettingCode(StringFilter settingCode) {
+        this.settingCode = settingCode;
+    }
+    
+    
+    
+    public StringFilter getBranchOrPacsCode() {
+        return branchOrPacsCode;
+    }
+
+    public StringFilter branchOrPacsCode() {
+        if (branchOrPacsCode == null) {
+        	branchOrPacsCode = new StringFilter();
+        }
+        return branchOrPacsCode;
+    }
+
+    public void setBranchOrPacsCode(StringFilter branchOrPacsCode) {
+        this.branchOrPacsCode = branchOrPacsCode;
+    }
+    
+    
 
     public StringFilter getVasuliAdhikariName() {
         return vasuliAdhikariName;
@@ -108,6 +153,25 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public void setVasuliAdhikariName(StringFilter vasuliAdhikariName) {
         this.vasuliAdhikariName = vasuliAdhikariName;
     }
+    
+    
+    
+    public StringFilter getFinancialYear() {
+        return financialYear;
+    }
+
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+        	financialYear = new StringFilter();
+        }
+        return financialYear;
+    }
+
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
+    }
+    
+    
 
     public StringFilter getArOfficeName() {
         return arOfficeName;
@@ -323,7 +387,9 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
         final CourtCaseSettingCriteria that = (CourtCaseSettingCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(settingCode, that.settingCode) &&
             Objects.equals(vasuliAdhikariName, that.vasuliAdhikariName) &&
+            Objects.equals(financialYear, that.financialYear) &&
             Objects.equals(arOfficeName, that.arOfficeName) &&
             Objects.equals(chairmanName, that.chairmanName) &&
             Objects.equals(sachivName, that.sachivName) &&
@@ -345,7 +411,9 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
+            settingCode,
             vasuliAdhikariName,
+            financialYear,
             arOfficeName,
             chairmanName,
             sachivName,
@@ -368,7 +436,9 @@ public class CourtCaseSettingCriteria implements Serializable, Criteria {
     public String toString() {
         return "CourtCaseSettingCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (settingCode != null ? "settingCode=" + settingCode + ", " : "") +
             (vasuliAdhikariName != null ? "vasuliAdhikariName=" + vasuliAdhikariName + ", " : "") +
+            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
             (arOfficeName != null ? "arOfficeName=" + arOfficeName + ", " : "") +
             (chairmanName != null ? "chairmanName=" + chairmanName + ", " : "") +
             (sachivName != null ? "sachivName=" + sachivName + ", " : "") +

@@ -26,7 +26,9 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     private StringFilter srNo;
     
     private StringFilter financialYear;
-
+    
+    private StringFilter branchOrPacsCode;
+    
     private StringFilter talukaName;
 
     private StringFilter bankName;
@@ -88,6 +90,7 @@ public class CourtCaseCriteria implements Serializable, Criteria {
     public CourtCaseCriteria(CourtCaseCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bankName = other.bankName == null ? null : other.bankName.copy();
+        this.branchOrPacsCode = other.branchOrPacsCode == null ? null : other.branchOrPacsCode.copy();
         this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
         this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
         this.srNo = other.srNo == null ? null : other.srNo.copy();
@@ -152,6 +155,23 @@ public class CourtCaseCriteria implements Serializable, Criteria {
 
     public void setFinancialYear(StringFilter financialYear) {
         this.financialYear = financialYear;
+    }
+    
+    
+    
+    public StringFilter getBranchOrPacsCode() {
+        return branchOrPacsCode;
+    }
+
+    public StringFilter branchOrPacsCode() {
+        if (branchOrPacsCode == null) {
+        	branchOrPacsCode = new StringFilter();
+        }
+        return branchOrPacsCode;
+    }
+
+    public void setBranchOrPacsCode(StringFilter branchOrPacsCode) {
+        this.branchOrPacsCode = branchOrPacsCode;
     }
     
     

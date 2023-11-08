@@ -27,6 +27,12 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
 
     @Column(name = "pacs_number")
     private String pacsNumber;
+    
+    @Column(name = "pacs_address")
+    private String pacsAddress="";
+    
+    @Column(name = "pacs_address_mr")
+    private String pacsAddressMr="";
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "bankMaster" }, allowSetters = true)
@@ -85,7 +91,24 @@ public class PacsMaster extends AbstractAuditingEntity<Long> implements Serializ
         return this.bankBranchMaster;
     }
 
-    public void setBankBranchMaster(BankBranchMaster bankBranchMaster) {
+
+	public String getPacsAddress() {
+		return pacsAddress;
+	}
+
+	public void setPacsAddress(String pacsAddress) {
+		this.pacsAddress = pacsAddress;
+	}
+
+	public String getPacsAddressMr() {
+		return pacsAddressMr;
+	}
+
+	public void setPacsAddressMr(String pacsAddressMr) {
+		this.pacsAddressMr = pacsAddressMr;
+	}
+
+	public void setBankBranchMaster(BankBranchMaster bankBranchMaster) {
         this.bankBranchMaster = bankBranchMaster;
     }
 

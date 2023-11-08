@@ -38,6 +38,6 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query("select count(*) from IssPortalFile issPortalFile where issPortalFile.schemeWiseBranchCode =:schemeWiseBranchCode AND issPortalFile.financialYear =:financialYear AND issPortalFile.errorRecordCount >0 AND issPortalFile.appSubmitedToKccCount=0")
 	Integer findInProgressCountByBankBranch(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode,@Param("financialYear") String financialYear);
 
-    @Query("select count(*) from IssPortalFile issPortalFile where issPortalFile.schemeWiseBranchCode =:schemeWiseBranchCode AND issPortalFile.financialYear =:financialYear AND issPortalFile.errorRecordCount=0 AND issPortalFile.appSubmitedToKccCount>0")
-	Integer findPendingForApprovalCountByBankBranch(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode,@Param("financialYear") String financialYear);
+    @Query("select count(*) from IssPortalFile issPortalFile where issPortalFile.schemeWiseBranchCode =:schemeWiseBranchCode AND issPortalFile.financialYear =:financialYear AND issPortalFile.errorRecordCount=:errorRecordCount AND issPortalFile.appSubmitedToKccCount > :appSubmitedToKccCount")
+	Integer findPendingForApprovalCountByBankBranch(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode,@Param("financialYear") String financialYear, @Param("errorRecordCount") Integer errorRecordCount,@Param("appSubmitedToKccCount") Long appSubmitedToKccCount);
 }

@@ -126,6 +126,17 @@
 	    <version>5.0.2</version>
 	</dependency>
 
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-lang3</artifactId>
+    <version>3.12.0</version> <!-- Use the latest version available -->
+</dependency>
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-text</artifactId>
+    <version>1.9</version> <!-- Use the latest version available -->
+</dependency>
+
 
     <!-- jhipster-needle-maven-add-dependency-management -->     
 		

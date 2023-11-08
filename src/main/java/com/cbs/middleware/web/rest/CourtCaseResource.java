@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -61,18 +62,28 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.CourtCase;
+import com.cbs.middleware.domain.CourtCaseFile;
 import com.cbs.middleware.domain.CourtCaseSetting;
+import com.cbs.middleware.domain.CourtCaseSettingFile;
 import com.cbs.middleware.domain.One01ReportParam;
+import com.cbs.middleware.domain.PacsMaster;
+import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.CourtCaseFileRepository;
 import com.cbs.middleware.repository.CourtCaseRepository;
+import com.cbs.middleware.repository.CourtCaseSettingFileRepository;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.repository.NotificationRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.CourtCaseQueryService;
 import com.cbs.middleware.service.CourtCaseService;
 import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.html2pdf.ConverterProperties;
@@ -117,11 +128,30 @@ public class CourtCaseResource {
     @Autowired
     CourtCaseSettingRepository caseSettingRepository;
     
+    
+    @Autowired
+    RBAControl rbaControl;
+    
     @Autowired
     ResourceLoader resourceLoader;
     
     @Autowired
     private SpringTemplateEngine templateEngine;
+    
+    @Autowired
+    private CourtCaseSettingFileRepository caseSettingFileRepository;
+    
+    @Autowired
+    private CourtCaseFileRepository courtCaseFileRepository;
+    
+    @Autowired
+    private PacsMasterRepository pacsMasterRepository;
+    
+    @Autowired
+    private BankBranchMasterRepository branchMasterRepository;
+    
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public CourtCaseResource(
         CourtCaseService courtCaseService,
@@ -132,7 +162,6 @@ public class CourtCaseResource {
         this.courtCaseRepository = courtCaseRepository;
         this.courtCaseQueryService = courtCaseQueryService;
     }
-    
     
     
     /**
@@ -171,7 +200,7 @@ public class CourtCaseResource {
         	htmlList=new ArrayList<String>();
         	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html",courtCase, getCourtCaseSetting(one01ReportParam.getCourtCaseSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
 				htmlList.add(htmlStringForPdf);
 			}
 
@@ -182,7 +211,7 @@ public class CourtCaseResource {
         	htmlList=new ArrayList<String>();
         	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
 				// generating html from template
-        		String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html",courtCase, getCourtCaseSetting(one01ReportParam.getCourtCaseSettingCode()));
+        		String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -192,7 +221,30 @@ public class CourtCaseResource {
 			htmlList=new ArrayList<String>();
 			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html",courtCase, getCourtCaseSetting(one01ReportParam.getCourtCaseSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+		case "ShetiKarj":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "BigarShetiKarj":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -202,7 +254,7 @@ public class CourtCaseResource {
 			htmlList=new ArrayList<String>();
 			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html",courtCase, getCourtCaseSetting(one01ReportParam.getCourtCaseSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -212,7 +264,7 @@ public class CourtCaseResource {
 			htmlList=new ArrayList<String>();
 			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html",courtCase, getCourtCaseSetting(one01ReportParam.getCourtCaseSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -316,123 +368,76 @@ public class CourtCaseResource {
         
         return response;
     }
-    
-    
-    
-    //getting court case with or without sabhasad name
-    
-	List<CourtCase> getCourtCaseList(CourtCaseCriteria criteria, String sabhasadName) {
 
-		if (StringUtils.isNotBlank(sabhasadName)) {
-			StringFilter sabhasadNameFilter = new StringFilter();
-			sabhasadNameFilter.setEquals(sabhasadName);
-			criteria.setNameOfDefaulter(sabhasadNameFilter);
-		}
-
-		List<CourtCase> courtCaseList = courtCaseQueryService.findByCriteriaWithoutPage(criteria);
-
-		if (courtCaseList.isEmpty()) {
-			throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
-		}
-		return courtCaseList;
-
-	}
-	
-	 //getting court case setting with or without setting
-	CourtCaseSetting getCourtCaseSetting(String setting) {
-		CourtCaseSetting courtCaseSetting = null;
-		if (StringUtils.isNotBlank(setting)) {
-			courtCaseSetting = caseSettingRepository.findTopByOrderByIdDesc();
-		} else {
-			courtCaseSetting = caseSettingRepository.findTopByOrderByIdDesc();
-		}
-
-		if (courtCaseSetting == null) {
-			throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
-		}
-
-		return courtCaseSetting;
-
-	}
     
-	
-	//generate unique number string
-	String getUniqueNumberString()
-	{
-		Calendar cal = new GregorianCalendar();
-        return
-            "" +
-            cal.get(Calendar.MILLISECOND);
-	}
+/**
+ * upload court case and court case setting file
+ * 
+ **/   
     
-    
-    
-
-    //processing template
-    String oneZeroOneTemplate(String template,CourtCase courtCase, CourtCaseSetting courtCaseSettings)
-    {
-    	 Locale locale = Locale.forLanguageTag("en");
-    	 Context context = new Context(locale);
-         context.setVariable("courtCase", courtCase);
-         context.setVariable("courtCaseSettings", courtCaseSettings);
-         String content = templateEngine.process(template, context);
-         return content;
-    }
-    
-
-    /**
-     * {@code POST  /court-cases} : Create a new courtCase.
-     *
-     * @param courtCase the courtCase to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new courtCase, or with status {@code 400 (Bad Request)} if
-     *         the courtCase has already an ID.
-     * @throws Exception
-     */
-    @PostMapping("/court-case-file")
-    public ResponseEntity<List<CourtCase>> createCourtCaseFile(
-        @RequestParam("file") MultipartFile files,
+    @PostMapping("/court-case-and-setting-file")
+    public ResponseEntity<String> uploadCourtCaseAndSettingFile(
+    	@RequestParam("courtCaseFile") MultipartFile courtCaseFile,
+        @RequestParam("courtCaseSettingFile") MultipartFile courtCaseSettingFile,
+        @RequestParam("financialYear") String financialYear,
+        @RequestParam("courtCaseDate") LocalDate courtCaseDate,
         RedirectAttributes redirectAttributes
     ) throws Exception {
-        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
-
-        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+    	
+    	 // Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+    	
+    	//validating court Case File
+    	String courtCaseFileExtension = FilenameUtils.getExtension(courtCaseFile.getOriginalFilename());
+        if (!"xlsx".equalsIgnoreCase(courtCaseFileExtension)&&!"xls".equalsIgnoreCase(courtCaseFileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
         }
-
-        if (courtCaseRepository.existsByFileName(files.getOriginalFilename())) {
+        if (courtCaseRepository.existsByFileName(courtCaseFile.getOriginalFilename())) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
+        }
+    	
+    	
+    	//validating court Case Setting File
+    	String courtCaseSettingFileExtension = FilenameUtils.getExtension(courtCaseSettingFile.getOriginalFilename());
+        if (!"xlsx".equalsIgnoreCase(courtCaseSettingFileExtension)&&!"xls".equalsIgnoreCase(courtCaseFileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+        if (caseSettingRepository.existsByFileName(courtCaseSettingFile.getOriginalFilename())) {
             throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
         }
 
-        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+        //validating court case setting header name
+        try (Workbook workbook = WorkbookFactory.create(courtCaseSettingFile.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
-            Row row = sheet.getRow(2); // Get the current row
-            boolean flagForLabel = false;
-            String srNo = getCellValue(row.getCell(0));
+            int filecount = 0;
+            Row rowForCCS = null;
+            for (int i = 0; i < 10; i++) {
+            	rowForCCS = sheet.getRow(i); // Get the current row
+                String financialYearInFile = getCellValue(rowForCCS.getCell(0));
+                if (StringUtils.isNotBlank(financialYearInFile)) {
+                    financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                    if (financialYearInFile.contains("vasuli") && financialYearInFile.contains("adhikari")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
 
+            rowForCCS = sheet.getRow(filecount); // Get the current row
+            boolean flagForLabel = false;
+            String srNo = getCellValue(rowForCCS.getCell(0));
             if (StringUtils.isNotBlank(srNo)) {
                 srNo = srNo.trim().replace("\n", " ").toLowerCase();
-                if (!srNo.contains("sr") || !srNo.contains("no")) {
+                if (!srNo.contains("vasuli") || !srNo.contains("adhikari") || !srNo.contains("name")) {
                     flagForLabel = true;
                 }
             } else {
                 flagForLabel = true;
             }
 
-            String secondNoticeDate = getCellValue(row.getCell(25));
+            String secondNoticeDate = getCellValue(rowForCCS.getCell(13));
             if (StringUtils.isNoneBlank(secondNoticeDate)) {
                 secondNoticeDate = secondNoticeDate.trim().replace("\n", " ").toLowerCase();
-                if (!secondNoticeDate.contains("second") || !secondNoticeDate.contains("notice") || !secondNoticeDate.contains("date")) {
-                    flagForLabel = true;
-                }
-            } else {
-                flagForLabel = true;
-            }
-
-            String taluka = getCellValue(row.getCell(27));
-            if (StringUtils.isNoneBlank(taluka)) {
-                taluka = taluka.trim().replace("\n", " ").toLowerCase();
-                if (!taluka.contains("taluka") || !taluka.contains("taluka") || !taluka.contains("taluka")) {
+                if (!secondNoticeDate.contains("meeting") || !secondNoticeDate.contains("time")) {
                     flagForLabel = true;
                 }
             } else {
@@ -452,13 +457,762 @@ public class CourtCaseResource {
             throw new Exception("Exception", e);
         }
 
+        
+        String societyOrBranchName="";
+        String societyOrBranchAddress="";
+        
+        
+        //validating court case file header name
+        try (Workbook workbook = WorkbookFactory.create(courtCaseFile.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int filecount = 0;
+            Row rowForCS = null;
+            for (int i = 0; i < 10; i++) {
+            	rowForCS = sheet.getRow(i); // Get the current row
+            	if(rowForCS!=null)
+            	{
+            		 String financialYearInFile = getCellValue(rowForCS.getCell(0));
+                     if (StringUtils.isNotBlank(financialYearInFile)) {
+                         financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                         if (financialYearInFile.contains("sr") && financialYearInFile.contains("no")) {
+                             filecount = i;
+                             break;
+                         }
+                     }
+            	}
+            	
+               
+            }
+
+            rowForCS = sheet.getRow(filecount); // Get the current row
+            
+            boolean flagForLabel = false;
+            
+            
+            String srNo = getCellValue(rowForCS.getCell(0));
+
+            if (StringUtils.isNotBlank(srNo)) {
+                srNo = srNo.trim().replace("\n", " ").toLowerCase();
+                if (!srNo.contains("sr") && !srNo.contains("no")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String financialYearLabel = getCellValue(rowForCS.getCell(1));
+            if (StringUtils.isNotBlank(financialYearLabel)) {
+            	financialYearLabel = financialYearLabel.trim().replace("\n", " ").toLowerCase();
+                if (!financialYearLabel.contains("financial") && !financialYearLabel.contains("year")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String branchOrPacsCode = getCellValue(rowForCS.getCell(2));
+            if (StringUtils.isNotBlank(branchOrPacsCode)) {
+            	branchOrPacsCode = branchOrPacsCode.trim().replace("\n", " ").toLowerCase();
+                if (!branchOrPacsCode.contains("branch") && !branchOrPacsCode.contains("pacs")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String acountNo = getCellValue(rowForCS.getCell(3));
+            if (StringUtils.isNotBlank(acountNo)) {
+            	acountNo = acountNo.trim().replace("\n", " ").toLowerCase();
+                if (!acountNo.contains("a/c") && !acountNo.contains("no")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            
+
+            String nameOfDefaulter = getCellValue(rowForCS.getCell(4));
+            if (StringUtils.isNotBlank(nameOfDefaulter)) {
+            	nameOfDefaulter = nameOfDefaulter.trim().replace("\n", " ").toLowerCase();
+                if (!nameOfDefaulter.contains("name") && !nameOfDefaulter.contains("defaulter")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            
+            
+            String address = getCellValue(rowForCS.getCell(5));
+            if (StringUtils.isNotBlank(address)) {
+            	address = address.trim().replace("\n", " ").toLowerCase();
+                if (!address.contains("address")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String loanType = getCellValue(rowForCS.getCell(6));
+            if (StringUtils.isNotBlank(loanType)) {
+            	loanType = loanType.trim().replace("\n", " ").toLowerCase();
+                if (!loanType.contains("loan")&&!loanType.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String loanAmount = getCellValue(rowForCS.getCell(7));
+            if (StringUtils.isNotBlank(loanAmount)) {
+            	loanAmount = loanAmount.trim().replace("\n", " ").toLowerCase();
+                if (!loanAmount.contains("loan")&&!loanAmount.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String loanDate = getCellValue(rowForCS.getCell(8));
+            if (StringUtils.isNotBlank(loanDate)) {
+            	loanDate = loanDate.trim().replace("\n", " ").toLowerCase();
+                if (!loanDate.contains("loan")&&!loanDate.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String termOfLoan = getCellValue(rowForCS.getCell(9));
+            if (StringUtils.isNotBlank(termOfLoan)) {
+            	termOfLoan = termOfLoan.trim().replace("\n", " ").toLowerCase();
+                if (!termOfLoan.contains("term")&&!termOfLoan.contains("loan")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+
+            
+            String interestRate = getCellValue(rowForCS.getCell(10));
+            if (StringUtils.isNotBlank(interestRate)) {
+            	interestRate = interestRate.trim().replace("\n", " ").toLowerCase();
+                if (!interestRate.contains("interest")&&!interestRate.contains("rate")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String installmentAmount = getCellValue(rowForCS.getCell(11));
+            if (StringUtils.isNotBlank(installmentAmount)) {
+            	installmentAmount = installmentAmount.trim().replace("\n", " ").toLowerCase();
+                if (!installmentAmount.contains("installment")&&!installmentAmount.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            
+            String totalCredit = getCellValue(rowForCS.getCell(12));
+            if (StringUtils.isNotBlank(totalCredit)) {
+            	totalCredit = totalCredit.trim().replace("\n", " ").toLowerCase();
+                if (!totalCredit.contains("total")&&!totalCredit.contains("credit")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String interestPaid = getCellValue(rowForCS.getCell(13));
+            if (StringUtils.isNotBlank(interestPaid)) {
+            	interestPaid = interestPaid.trim().replace("\n", " ").toLowerCase();
+                if (!interestPaid.contains("interest")&&!interestPaid.contains("paid")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String penalInterestPaid = getCellValue(rowForCS.getCell(14));
+            if (StringUtils.isNotBlank(penalInterestPaid)) {
+            	penalInterestPaid = penalInterestPaid.trim().replace("\n", " ").toLowerCase();
+                if (!penalInterestPaid.contains("penal")&&!penalInterestPaid.contains("interest")&&
+                		!penalInterestPaid.contains("paid")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            
+            String balance = getCellValue(rowForCS.getCell(15));
+            if (StringUtils.isNotBlank(balance)) {
+            	balance = balance.trim().replace("\n", " ").toLowerCase();
+                if (!balance.contains("balance")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String dueAmount = getCellValue(rowForCS.getCell(16));
+            if (StringUtils.isNotBlank(dueAmount)) {
+            	dueAmount = dueAmount.trim().replace("\n", " ").toLowerCase();
+                if (!dueAmount.contains("due")&&!dueAmount.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String dueDate = getCellValue(rowForCS.getCell(17));
+            if (StringUtils.isNotBlank(dueDate)) {
+            	dueDate = dueDate.trim().replace("\n", " ").toLowerCase();
+                if (!dueDate.contains("due")&&!dueDate.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String dueInterest = getCellValue(rowForCS.getCell(18));
+            if (StringUtils.isNotBlank(dueInterest)) {
+            	dueInterest = dueInterest.trim().replace("\n", " ").toLowerCase();
+                if (!dueInterest.contains("due")&&!dueInterest.contains("interest")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String duePenalInterest = getCellValue(rowForCS.getCell(19));
+            if (StringUtils.isNotBlank(duePenalInterest)) {
+            	duePenalInterest = duePenalInterest.trim().replace("\n", " ").toLowerCase();
+                if (!duePenalInterest.contains("due")&&!duePenalInterest.contains("penal")
+                		&&!duePenalInterest.contains("interest")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String dueMoreInterest = getCellValue(rowForCS.getCell(20));
+            if (StringUtils.isNotBlank(dueMoreInterest)) {
+            	dueMoreInterest = dueMoreInterest.trim().replace("\n", " ").toLowerCase();
+                if (!dueMoreInterest.contains("due")&&!dueMoreInterest.contains("more")
+                		&&!dueMoreInterest.contains("interest")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            String interestRecivable= getCellValue(rowForCS.getCell(21));
+            if (StringUtils.isNotBlank(interestRecivable)) {
+            	interestRecivable = interestRecivable.trim().replace("\n", " ").toLowerCase();
+                if (!interestRecivable.contains("interest")&&!interestRecivable.contains("recivable")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String gaurentorOne = getCellValue(rowForCS.getCell(22));
+            if (StringUtils.isNotBlank(gaurentorOne)) {
+            	gaurentorOne = gaurentorOne.trim().replace("\n", " ").toLowerCase();
+                if (!gaurentorOne.contains("gaurentor")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            
+            String gaurentorOneAddress = getCellValue(rowForCS.getCell(23));
+            if (StringUtils.isNotBlank(gaurentorOneAddress)) {
+            	gaurentorOneAddress = gaurentorOneAddress.trim().replace("\n", " ").toLowerCase();
+                if (!gaurentorOneAddress.contains("gaurentor")&&!gaurentorOneAddress.contains("address")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String gaurentorTwo= getCellValue(rowForCS.getCell(24));
+            if (StringUtils.isNotBlank(gaurentorTwo)) {
+            	gaurentorTwo = gaurentorTwo.trim().replace("\n", " ").toLowerCase();
+                if (!gaurentorTwo.contains("gaurentor")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            String gaurentorTwoAddress = getCellValue(rowForCS.getCell(25));
+            if (StringUtils.isNotBlank(gaurentorTwoAddress)) {
+            	gaurentorTwoAddress = gaurentorTwoAddress.trim().replace("\n", " ").toLowerCase();
+                if (!gaurentorTwoAddress.contains("gaurentor")&&!gaurentorTwoAddress.contains("address")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            
+            
+            rowForCS = sheet.getRow(filecount+1); 
+            String branchOrPacsCodeValue = getCellValue(rowForCS.getCell(2));
+            
+            if(StringUtils.isNotBlank(branchOrPacsCodeValue))
+            {
+            	//validating user
+            	rbaControl.checkValidationForUsers(branchOrPacsCodeValue);
+                
+            	//checking code is available in db or not
+                Optional<PacsMaster> findOneByPacsNumber = pacsMasterRepository.findOneByPacsNumber(branchOrPacsCodeValue);
+                Optional<BankBranchMaster> findOneBySchemeWiseBranchCode = branchMasterRepository.findOneBySchemeWiseBranchCode(branchOrPacsCodeValue);
+
+                if(findOneByPacsNumber.isEmpty()&&findOneBySchemeWiseBranchCode.isEmpty())
+                {
+                	throw new BadRequestAlertException("Invalid pacs code or scheme wise branch code", ENTITY_NAME, "fileInvalid");
+                }
+                
+                
+                String packsOrBranchNumber="";
+				if (findOneByPacsNumber.isPresent()) {
+					packsOrBranchNumber=findOneByPacsNumber.get().getPacsNumber();
+					societyOrBranchName = findOneByPacsNumber.get().getPacsNameMr();
+					societyOrBranchAddress = findOneByPacsNumber.get().getPacsAddressMr();
+
+				} else if (findOneBySchemeWiseBranchCode.isPresent()) {
+					packsOrBranchNumber=findOneBySchemeWiseBranchCode.get().getSchemeWiseBranchCode();
+					societyOrBranchName = findOneBySchemeWiseBranchCode.get().getBranchNameMr();
+					societyOrBranchAddress = findOneBySchemeWiseBranchCode.get().getBranchAddressMr();
+				}
+                
+                
+				
+//				 if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+//		              //page =issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+//		          if(!branchOrPacksNumber.get(Constants.PACKS_CODE_KEY).equalsIgnoreCase(packsOrBranchNumber))
+//		          {
+//		        	  
+//		        	  
+//		          }
+//				 
+//				 
+//				 } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+//		              //page =issFileParserQueryService.findByCriteriaSchemeWiseBranchCode(criteria,pageable,branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
+//		          
+//				 
+//				 
+//				 } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+//		         //     page = issFileParserQueryService.findByCriteria(criteria, pageable);
+//		         
+//				 
+//				 
+//				 
+//				 } else {
+//		              throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+//		          }
+            	
+            }else
+            {
+            	 throw new ForbiddenAuthRequestAlertException("Invalid file, required pacs or branch code", ENTITY_NAME, "invalidFile");
+            }
+            
+            
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+        } catch (BadRequestAlertException e) {
+            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (UnAuthRequestAlertException e) {
+            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (Exception e) {
+            throw new Exception("Exception", e);
+        }
+        
+        
+      //getting records from court case setting file
+        List<CourtCaseSetting> courtCaseSettingList = createCourtCaseSettingFileRecords(courtCaseSettingFile,financialYear,societyOrBranchAddress);
+        
+        //getting records from court case setting file
+        List<CourtCase> courtCaseList = createCourtCaseFileRecords(courtCaseFile, financialYear, societyOrBranchName, societyOrBranchAddress);
+        
+        if (!courtCaseList.isEmpty() && !courtCaseSettingList.isEmpty()) {
+        	
+			CourtCaseFile courtCaseFileObj = new CourtCaseFile();
+			courtCaseFileObj.setFileName(courtCaseFile.getOriginalFilename());
+			courtCaseFileObj.setUniqueFileName(courtCaseList.get(0).getUniqueFileName());
+			final CourtCaseFile finalCourtCaseFile = courtCaseFileRepository.save(courtCaseFileObj);
+
+			CourtCaseSettingFile courtCaseSettingFileObj = new CourtCaseSettingFile();
+			courtCaseSettingFileObj.setFileName(courtCaseSettingFile.getOriginalFilename());
+			courtCaseSettingFileObj.setUniqueFileName(courtCaseSettingList.get(0).getUniqueFileName());
+			final CourtCaseSettingFile finalCourtCaseSettingFile = caseSettingFileRepository.save(courtCaseSettingFileObj);
+			
+			
+			
+			 String totalPostageValue = getTotalPostageValue(courtCaseSettingList.get(0).getVasuliExpenseEn(),
+					 courtCaseSettingList.get(0).getOtherExpenseEn(),
+					 courtCaseSettingList.get(0).getNoticeExpenseEn());
+					 
+			
+			//Marathi
+			String settingCodeText = translationServiceUtility.translationText(""+finalCourtCaseFile.getId());
+			String courtCaseDateText = translationServiceUtility.oneZeroOneDateMr(courtCaseDate);
+			
+			courtCaseList.forEach(cc -> {
+				cc.setCourtCaseFile(finalCourtCaseFile);
+				cc.setSettingCode(settingCodeText);
+				cc.setSettingCodeEn(finalCourtCaseFile.getId());
+				cc.setFirstNoticeDate(courtCaseDate);
+				cc.setFirstNoticeDateMr(courtCaseDateText);
+				cc.setTotalPostage(totalPostageValue);
+				});
+			
+			
+			courtCaseSettingList.forEach(ccs -> {ccs.setCourtCaseSettingFile(finalCourtCaseSettingFile);
+			ccs.setSettingCode(settingCodeText);
+			ccs.setSettingCodeEn(finalCourtCaseFile.getId());
+			});
+			
+			
+			
+            courtCaseRepository.saveAll(courtCaseList);
+            caseSettingRepository.saveAll(courtCaseSettingList);
+
+            if (courtCaseList.get(0) != null) {
+                try {
+                    notificationDataUtility.notificationData(
+                        "Court Case record file uploaded",
+                        "Court Case record file : " + courtCaseFile.getOriginalFilename() + " uploaded",
+                        false,
+                        courtCaseList.get(0).getCreatedDate(),
+                        "CourtCaseRecordFileUploaded" // type
+                    );
+                } catch (Exception e) {}
+            }
+            
+            if (courtCaseSettingList.get(0) != null) {
+                try {
+                    notificationDataUtility.notificationData(
+                        "Court Case record file uploaded",
+                        "Court Case record file : " + courtCaseSettingFile.getOriginalFilename() + " uploaded",
+                        false,
+                        courtCaseSettingList.get(0).getCreatedDate(),
+                        "CourtCaseRecordFileUploaded" // type
+                    );
+                } catch (Exception e) {}
+            }
+
+            return ResponseEntity
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, ""))
+                .body("File Uploaded Successfully");
+        } else {
+            throw new BadRequestAlertException("Error in file uploading", ENTITY_NAME, "ErrorInFileUpload");
+        }
+        
+       
+    }
+    
+    
+    /**
+    *
+    * @param courtCaseSettingFile the courtCaseSetting to create.
+    * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+    *         body the new courtCase, or with status {@code 400 (Bad Request)} if
+    *         the courtCaseSetting has already an ID.
+    * @throws Exception
+    */
+    
+    private List<CourtCaseSetting> createCourtCaseSettingFileRecords(
+    	MultipartFile courtCaseSettingFile, String financialYear,
+    	String branchOrPacsCodeValue
+    ) throws Exception {
+    	
+    	//validating court Case Setting File
+    	String courtCaseSettingFileExtension = FilenameUtils.getExtension(courtCaseSettingFile.getOriginalFilename());
         File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
         if (!originalFileDir.isDirectory()) {
             originalFileDir.mkdirs();
         }
 
         String filePath = originalFileDir.toString();
-        boolean falgForFileName = false;
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MINUTE) +
+            cal.get(Calendar.MILLISECOND) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.SECOND) +
+            cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + courtCaseSettingFileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = courtCaseSettingFile.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
+        }
+
+        int startRowIndex = 3; // Starting row index
+        List<CourtCaseSetting> courtCaseSettingList = new ArrayList<>();
+       
+        int recourdCount=0;
+        try (Workbook workbook = WorkbookFactory.create(courtCaseSettingFile.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+            	recourdCount=recourdCount+1;
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                CourtCaseSetting courtCaseSetting = new CourtCaseSetting();
+                if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+                    
+                    if(recourdCount==2)
+                    {
+                    	throw new BadRequestAlertException("court case setting file must require only one record", ENTITY_NAME, "fileInvalid");
+                    }
+                    
+                    
+                    
+                   courtCaseSetting.setFileName(courtCaseSettingFile.getOriginalFilename());
+                   courtCaseSetting.setUniqueFileName(uniqueName + "." + courtCaseSettingFileExtension);
+                   courtCaseSetting.setBranchOrPacsCode(branchOrPacsCodeValue);
+                    
+                    courtCaseSetting.setFinancialYear(financialYear);
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(0)))) {
+                        //English
+                        courtCaseSetting.setVasuliAdhikariNameEn(getCellValue(row.getCell(0)));
+
+                        //Marathi
+                        courtCaseSetting.setVasuliAdhikariName(translationServiceUtility.translationText(getCellValue(row.getCell(0))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(1)))) {
+                        //English
+                        courtCaseSetting.setArOfficeNameEn(getCellValue(row.getCell(1)));
+
+                        //Marathi
+                        courtCaseSetting.setArOfficeName(translationServiceUtility.translationText(getCellValue(row.getCell(1))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(2)))) {
+                        //English
+                        courtCaseSetting.setChairmanNameEn(getCellValue(row.getCell(2)));
+
+                        //Marathi
+                        courtCaseSetting.setChairmanName(translationServiceUtility.translationText(getCellValue(row.getCell(2))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(3)))) {
+                        //English
+                        courtCaseSetting.setSachivNameEn(getCellValue(row.getCell(3)));
+
+                        //Marathi
+                        courtCaseSetting.setSachivName(translationServiceUtility.translationText(getCellValue(row.getCell(3))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(4)))) {
+                        //English
+                        courtCaseSetting.setSuchakNameEn(getCellValue(row.getCell(4)));
+
+                        //Marathi
+                        courtCaseSetting.setSuchakName(translationServiceUtility.translationText(getCellValue(row.getCell(4))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(5)))) {
+                        //English
+                        courtCaseSetting.setAnumodakNameEn(getCellValue(row.getCell(5)));
+
+                        //Marathi
+                        courtCaseSetting.setAnumodakName(translationServiceUtility.translationText(getCellValue(row.getCell(5))));
+                    }
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(6)))) {
+                        //English
+                        courtCaseSetting.setVasuliExpenseEn(getCellAmountValue(row.getCell(6)));
+
+                        //Marathi
+
+                        courtCaseSetting.setVasuliExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(6)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(7)))) {
+                        //English
+                        courtCaseSetting.setOtherExpenseEn(getCellAmountValue(row.getCell(7)));
+
+                        //Marathi
+                        courtCaseSetting.setOtherExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(7)))
+                        );
+                    }
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
+                        //English
+                        courtCaseSetting.setNoticeExpenseEn(getCellAmountValue(row.getCell(8)));
+
+                        //Marathi
+                        courtCaseSetting.setNoticeExpense(
+                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8)))
+                        );
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(9))) && getCellValue(row.getCell(9)).matches("[0-9]+")) {
+                        //English
+                        courtCaseSetting.setMeetingNoEn(Long.parseLong(getCellValue(row.getCell(9))));
+
+                        //Marathi
+
+                        courtCaseSetting.setMeetingNo(translationServiceUtility.translationText(getCellValue(row.getCell(9))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(10)))) {
+                        courtCaseSetting.setMeetingDate(getDateCellValue(row.getCell(10)));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(11))) && getCellValue(row.getCell(11)).matches("[0-9]+")) {
+                        //English
+                        courtCaseSetting.setSubjectNoEn(Long.parseLong(getCellValue(row.getCell(11))));
+
+                        //Marathi
+
+                        courtCaseSetting.setSubjectNo(translationServiceUtility.translationText(getCellValue(row.getCell(11))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(12)))) {
+                        //English
+                        courtCaseSetting.setMeetingDayEn(getCellValue(row.getCell(12)));
+
+                        //Marathi
+                        courtCaseSetting.setMeetingDay(translationServiceUtility.translationText(getCellValue(row.getCell(12))));
+                    }
+
+                    String meetingTime = getCellValue(row.getCell(13));
+                    if (StringUtils.isNotBlank(meetingTime)) {
+                        //English
+                        courtCaseSetting.setMeetingTimeEn(meetingTime);
+
+                        //Marathi
+                        courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(meetingTime));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
+                        // english
+                        courtCaseSetting.setBankNameEn(getCellValue(row.getCell(14)));
+                        // marathi
+                        courtCaseSetting.setBankName(translationServiceUtility.translationText(getCellValue(row.getCell(14))));
+                    }
+
+                    if (StringUtils.isNotBlank(getCellValue(row.getCell(15)))) {
+                        // english
+                        courtCaseSetting.setTalukaNameEn(getCellValue(row.getCell(15)));
+                        // marathi
+                        courtCaseSetting.setTalukaName(translationServiceUtility.translationText(getCellValue(row.getCell(15))));
+                    }
+                    
+                   
+                    
+
+                    courtCaseSettingList.add(courtCaseSetting);
+                }
+            }
+            
+          
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
+        }
+        
+        
+    	 return courtCaseSettingList;
+    }
+
+    
+    /**
+     *
+     * @param courtCaseFile the courtCase to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new courtCase, or with status {@code 400 (Bad Request)} if
+     *         the courtCase has already an ID.
+     * @throws Exception
+     */
+    public List<CourtCase> createCourtCaseFileRecords(
+        MultipartFile files, String financialYearFromUI,
+        String societyOrBranchName,
+        String societyOrBranchAddress
+        
+    ) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+        int filecount = 0;
+        File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        
+        String filePath = originalFileDir.toString();
         Calendar cal = new GregorianCalendar();
         String uniqueName =
             "" +
@@ -485,15 +1239,36 @@ public class CourtCaseResource {
         } catch (IOException e) {
             throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
         }
+        
+        
+        Row row=null;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); 
+        for (int i = 0; i < 10; i++) {
+            row = sheet.getRow(i); // Get the current row
+            	String financialYearInFile = getCellValue(row.getCell(1));
+                if (StringUtils.isNotBlank(financialYearInFile)) {
+                    financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                    if (financialYearInFile.contains("financial") && financialYearInFile.contains("year")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            
+            
+        }
+        }
+        
+        
 
-        int startRowIndex = 3; // Starting row index
+        int startRowIndex = filecount+1; // Starting row index
         List<CourtCase> courtCaseList = new ArrayList<>();
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             int lastRowIndex = sheet.getLastRowNum();
             for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
-                Row row = sheet.getRow(rowIndex); // Get the current row
+                row = sheet.getRow(rowIndex); // Get the current row
                 CourtCase courtCase = new CourtCase();
                 if (row != null) {
                     if (
@@ -505,245 +1280,306 @@ public class CourtCaseResource {
                         break;
                     }
 
-                    if (!falgForFileName) {
-                        courtCase.setFileName(files.getOriginalFilename());
-                        courtCase.setUniqueFileName(uniqueName + "." + fileExtension);
-                        falgForFileName = true;
-                    }
+					courtCase.setFileName(files.getOriginalFilename());
+					courtCase.setUniqueFileName(uniqueName + "." + fileExtension);
 
+					courtCase.setBankNameEn(Constants.BANK_NAME);
+					courtCase.setBankName(Constants.BANK_NAME_MARATHI);
+					
+					courtCase.setSocietyBranchName(societyOrBranchName);
+					courtCase.setSocietyBranchAddress(societyOrBranchAddress);
+                    
+                    
                     String srNo = getCellValue(row.getCell(0));
                     if (srNo.matches("\\d+")) {
-                        courtCase.setSrNo(srNo);
+                        // english
+                        courtCase.setSrNoEn(Long.parseLong(srNo));
+                        // marathi
+                        courtCase.setSrNo(translationServiceUtility.translationText(srNo));
+                    }
+                    
+                    
+                    
+                    
+                    String financialYear = getCellValue(row.getCell(1));
+                    if (StringUtils.isNotBlank(financialYear)) {
+                    	if(!financialYear.equalsIgnoreCase(financialYearFromUI))
+                    	{
+                    		  throw new BadRequestAlertException("Invalid Finantial Year", ENTITY_NAME, "FinantialYearInvalid");
+                    	}
+                    	
+                        // english
+                        courtCase.setFinancialYear(financialYear);
+
+                    }
+                    
+                    String branchOrPacsCode = getCellValue(row.getCell(2));
+                    if (StringUtils.isNotBlank(branchOrPacsCode)) {
+                        // english
+                        courtCase.setBranchOrPacsCode(branchOrPacsCode);
+
                     }
 
-                    // add logic for skipping records if exists
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(1)))) {
+                    String acountNo = getCellValue(row.getCell(3));
+                    if (StringUtils.isNotBlank(acountNo)) {
                         // english
-                        courtCase.setAccountNoEn(getCellValue(row.getCell(1)));
+                        courtCase.setAccountNoEn(acountNo);
 
                         // marathi
-                        courtCase.setAccountNo(translationServiceUtility.translationText(getCellValue(row.getCell(1))));
+                        courtCase.setAccountNo(translationServiceUtility.translationText(acountNo));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(2)))) {
+                    
+                    String nameOfDefaulter = getCellValue(row.getCell(4));
+                    if (StringUtils.isNotBlank(nameOfDefaulter)) {
                         // english
-                        courtCase.setNameOfDefaulterEn(getCellValue(row.getCell(2)));
+                        courtCase.setNameOfDefaulterEn(nameOfDefaulter);
                         // marathi
-                        courtCase.setNameOfDefaulter(translationServiceUtility.translationText(getCellValue(row.getCell(2))));
+                        courtCase.setNameOfDefaulter(translationServiceUtility.translationText(nameOfDefaulter));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(3)))) {
+                    
+                    String address = getCellValue(row.getCell(5));
+                    if (StringUtils.isNotBlank(address)) {
                         // english
-                        courtCase.setAddressEn(getCellValue(row.getCell(3)));
-
-                        // marathi
-                        courtCase.setAddress(translationServiceUtility.translationText(getCellValue(row.getCell(3))));
-                    }
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(4)))) {
-                        // english
-                        courtCase.setLoanTypeEn(getCellValue(row.getCell(4)));
+                        courtCase.setAddressEn(address);
 
                         // marathi
-                        courtCase.setLoanType(translationServiceUtility.translationText(getCellValue(row.getCell(4))));
+                        courtCase.setAddress(translationServiceUtility.translationText(address));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(5)))) {
+                    String loanType = getCellValue(row.getCell(6));
+                    if (StringUtils.isNotBlank(loanType)) {
                         // english
-                        courtCase.setLoanAmountEn(getCellAmountValue(row.getCell(5)));
+                        courtCase.setLoanTypeEn(loanType);
 
                         // marathi
-                        courtCase.setLoanAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(5))));
+                        courtCase.setLoanType(translationServiceUtility.translationText(loanType));
                     }
 
-                    if (getDateCellValue(row.getCell(6)) != null) {
-                        courtCase.setLoanDate(getDateCellValue(row.getCell(6)));
-                    }
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(7)))) {
+                    
+                    Double loanAmount =getCellAmountValue(row.getCell(7));
+                    if (loanAmount!=null) {
                         // english
-                        courtCase.setTermOfLoanEn(getCellValue(row.getCell(7)));
+                        courtCase.setLoanAmountEn(loanAmount);
 
                         // marathi
-                        courtCase.setTermOfLoan(translationServiceUtility.translationText(getCellValue(row.getCell(7))));
+                        courtCase.setLoanAmount(translationServiceUtility.translationText(""+loanAmount));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
+                    
+                    LocalDate loanDate = getDateCellValue(row.getCell(8));
+                    if (loanDate != null) {
+                        courtCase.setLoanDate(loanDate);
+                        
+                        // marathi
+                        courtCase.setLoanDateMr(translationServiceUtility.oneZeroOneDateMr(loanDate));
+                        
+                    }
+                    
+                    
+                    String termOfLoan = getCellValue(row.getCell(9));
+                    if (StringUtils.isNotBlank(termOfLoan)) {
                         // english
-                        courtCase.setInterestRateEn(getCellAmountValue(row.getCell(8)));
+                        courtCase.setTermOfLoanEn(termOfLoan);
 
                         // marathi
-                        courtCase.setInterestRate(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8))));
+                        courtCase.setTermOfLoan(translationServiceUtility.translationText(termOfLoan));
+                    }
+                    
+                    
+                    
+                    Double interestRate = getCellAmountValue(row.getCell(10));
+                    if (interestRate!=null) {
+                        // english
+                        courtCase.setInterestRateEn(interestRate);
+
+                        // marathi
+                        courtCase.setInterestRate(translationServiceUtility.translationText(""+interestRate));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(9)))) {
+                    
+                    Double installmentAmount = getCellAmountValue(row.getCell(11));
+                    if (installmentAmount!=null) {
                         // english
-                        courtCase.setInstallmentAmountEn(getCellAmountValue(row.getCell(9)));
+                        courtCase.setInstallmentAmountEn(installmentAmount);
 
                         // marathi
                         courtCase.setInstallmentAmount(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(9)))
+                            translationServiceUtility.translationText(""+installmentAmount)
                         );
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(10)))) {
+                    
+                    Double totalCredit = getCellAmountValue(row.getCell(12));
+                    if (totalCredit!=null) {
                         // english
-                        courtCase.setTotalCreditEn(getCellAmountValue(row.getCell(10)));
+                        courtCase.setTotalCreditEn(totalCredit);
 
                         // marathi
-                        courtCase.setTotalCredit(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(10))));
+                        courtCase.setTotalCredit(translationServiceUtility.translationText(""+totalCredit));
+                    }
+                    
+                    
+                    Double interestPaid = getCellAmountValue(row.getCell(13));
+                    if (interestPaid!=null) {
+                    	
+                    	 courtCase.setInterestPaidEn(interestPaid);
+
+                         // marathi
+                         courtCase.setInterestPaid(translationServiceUtility.translationText(""+interestPaid));
+                         
+                         
+                       
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(11)))) {
+                    
+                    Double penalInterestPaid = getCellAmountValue(row.getCell(14));
+                    if (penalInterestPaid!=null) {
                         // english
-                        courtCase.setBalanceEn(getCellAmountValue(row.getCell(11)));
+                    	
+                    	 courtCase.setPenalInterestPaidEn(penalInterestPaid);
+
+                         // marathi
+                         courtCase.setPenalInterestPaid(
+                             translationServiceUtility.translationText(""+penalInterestPaid)
+                         );
+                       
+                    }
+
+                    
+                    Double balance = getCellAmountValue(row.getCell(15));
+                    if (balance!=null) {
+                    	
+                    	 // english
+                        courtCase.setBalanceEn(balance);
 
                         // marathi
-                        courtCase.setBalance(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(11))));
-                    }
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(12)))) {
+                        courtCase.setBalance(translationServiceUtility.translationText(""+balance));
                         // english
-                        courtCase.setInterestPaidEn(getCellAmountValue(row.getCell(12)));
+                       
+                    }
+                    
+                    Double dueAmount = getCellAmountValue(row.getCell(16));
+                    if (dueAmount!=null) {
+                        // english
+                        courtCase.setDueAmountEn(dueAmount);
 
                         // marathi
-                        courtCase.setInterestPaid(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(12))));
+                        courtCase.setDueAmount(translationServiceUtility.translationText(""+dueAmount));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(13)))) {
+                    
+                    LocalDate dueDate = getDateCellValue(row.getCell(17));
+                    if (dueDate != null) {
+                        courtCase.setDueDate(dueDate);
+                        
+                        // marathi
+                        courtCase.setDueDateMr(translationServiceUtility.oneZeroOneDateMr(dueDate));
+                    }
+                    
+                    
+                    Double dueInterest = getCellAmountValue(row.getCell(18));
+                    if (dueInterest!=null) {
                         // english
-                        courtCase.setPenalInterestPaidEn(getCellAmountValue(row.getCell(13)));
+                        courtCase.setDueInterestEn(dueInterest);
 
                         // marathi
-                        courtCase.setPenalInterestPaid(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(13)))
-                        );
+                        courtCase.setDueInterest(translationServiceUtility.translationText(""+dueInterest));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
+                    
+                    Double duePenalInterest = getCellAmountValue(row.getCell(19));
+                    if (duePenalInterest!=null) {
                         // english
-                        courtCase.setDueAmountEn(getCellAmountValue(row.getCell(14)));
-
-                        // marathi
-                        courtCase.setDueAmount(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(14))));
-                    }
-
-                    if (getDateCellValue(row.getCell(15)) != null) {
-                        courtCase.setDueDate(getDateCellValue(row.getCell(15)));
-                    }
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(16)))) {
-                        // english
-                        courtCase.setDueInterestEn(getCellAmountValue(row.getCell(16)));
-
-                        // marathi
-                        courtCase.setDueInterest(translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(16))));
-                    }
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(17)))) {
-                        // english
-                        courtCase.setDuePenalInterestEn(getCellAmountValue(row.getCell(17)));
+                        courtCase.setDuePenalInterestEn(duePenalInterest);
                         // marathi
                         courtCase.setDuePenalInterest(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(17)))
+                            translationServiceUtility.translationText(""+duePenalInterest)
                         );
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(18)))) {
+                    
+                    Double dueMoreInterest = getCellAmountValue(row.getCell(20));
+                    if (dueMoreInterest!=null) {
                         // english
-                        courtCase.setDueMoreInterestEn(getCellAmountValue(row.getCell(18)));
+                        courtCase.setDueMoreInterestEn(dueMoreInterest);
                         // marathi
                         courtCase.setDueMoreInterest(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(18)))
+                            translationServiceUtility.translationText(""+dueMoreInterest)
                         );
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(19)))) {
+                    
+                    
+                    Double interestRecivable= getCellAmountValue(row.getCell(21));
+                    if (interestRecivable!=null) {
                         // english
-                        courtCase.setInterestRecivableEn(getCellAmountValue(row.getCell(19)));
+                        courtCase.setInterestRecivableEn(interestRecivable);
                         // marathi
                         courtCase.setInterestRecivable(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(19)))
+                            translationServiceUtility.translationText(""+interestRecivable)
                         );
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(20)))) {
+                    
+                    String gaurentorOne = getCellValue(row.getCell(22));
+                    if (StringUtils.isNotBlank(gaurentorOne)) {
                         // english
-                        courtCase.setGaurentorOneEn(getCellValue(row.getCell(20)));
+                        courtCase.setGaurentorOneEn(gaurentorOne);
                         // marathi
-                        courtCase.setGaurentorOne(translationServiceUtility.translationText(getCellValue(row.getCell(20))));
+                        courtCase.setGaurentorOne(translationServiceUtility.translationText(gaurentorOne));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(21)))) {
+                    
+                    
+                    String gaurentorOneAddress = getCellValue(row.getCell(23));
+                    if (StringUtils.isNotBlank(gaurentorOneAddress)) {
                         // english
-                        courtCase.setGaurentorOneAddressEn(getCellValue(row.getCell(21)));
+                        courtCase.setGaurentorOneAddressEn(gaurentorOneAddress);
                         // marathi
-                        courtCase.setGaurentorOneAddress(translationServiceUtility.translationText(getCellValue(row.getCell(21))));
+                        courtCase.setGaurentorOneAddress(translationServiceUtility.translationText(gaurentorOneAddress));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(22)))) {
+                    
+                    String gaurentorTwo= getCellValue(row.getCell(24));
+                    if (StringUtils.isNotBlank(gaurentorTwo)) {
                         // english
-                        courtCase.setGaurentorTwoEn(getCellValue(row.getCell(22)));
+                        courtCase.setGaurentorTwoEn(gaurentorTwo);
                         // marathi
-                        courtCase.setGaurentorTwo(translationServiceUtility.translationText(getCellValue(row.getCell(22))));
+                        courtCase.setGaurentorTwo(translationServiceUtility.translationText(gaurentorTwo));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(23)))) {
+                    
+                    String gaurentorTwoAddress = getCellValue(row.getCell(25));
+                    if (StringUtils.isNotBlank(gaurentorTwoAddress)) {
                         // english
-                        courtCase.setGaurentorTwoAddressEn(getCellValue(row.getCell(23)));
+                        courtCase.setGaurentorTwoAddressEn(gaurentorTwoAddress);
                         // marathi
-                        courtCase.setGaurentorTwoAddress(translationServiceUtility.translationText(getCellValue(row.getCell(23))));
+                        courtCase.setGaurentorTwoAddress(translationServiceUtility.translationText(gaurentorTwoAddress));
                     }
-
-                    if (getDateCellValue(row.getCell(24)) != null) {
-                        courtCase.setFirstNoticeDate(getDateCellValue(row.getCell(24)));
-                    }
-                    if (getDateCellValue(row.getCell(25)) != null) {
-                        courtCase.setSecondNoticeDate(getDateCellValue(row.getCell(25)));
-                    }
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(26)))) {
-                        // english
-                        courtCase.setBankNameEn(getCellValue(row.getCell(26)));
-                        // marathi
-                        courtCase.setBankName(translationServiceUtility.translationText(getCellValue(row.getCell(26))));
-                    }
-
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(27)))) {
-                        // english
-                        courtCase.setTalukaNameEn(getCellValue(row.getCell(27)));
-                        // marathi
-                        courtCase.setTalukaName(translationServiceUtility.translationText(getCellValue(row.getCell(27))));
-                    }
-
+                    
+                    
+                    
+                    //making word for amount
+                  //  String totalValue = getTotalValue(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
+                   
+                   // String moreIntrestValue = getMoreIntrestValue(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
+                   
+                  //  String totalIntrest = getTotalIntrest(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
+                    
+                   
+                  
                     courtCaseList.add(courtCase);
                 }
             }
 
-            if (!courtCaseList.isEmpty()) {
-                courtCaseRepository.saveAll(courtCaseList);
-
-                if (courtCaseList.get(0) != null) {
-                    try {
-                        notificationDataUtility.notificationData(
-                            "Court Case record file uploaded",
-                            "Court Case record file : " + files.getOriginalFilename() + " uploaded",
-                            false,
-                            courtCaseList.get(0).getCreatedDate(),
-                            "CourtCaseRecordFileUploaded" // type
-                        );
-                    } catch (Exception e) {}
-                }
-
-                return ResponseEntity
-                    .ok()
-                    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, files.getOriginalFilename()))
-                    .body(courtCaseList);
-            } else {
-                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
-            }
+            
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
+        
+        return courtCaseList;
     }
 
     /**
@@ -857,7 +1693,28 @@ public class CourtCaseResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get CourtCases by criteria: {}", criteria);
-        Page<CourtCase> page = courtCaseQueryService.findByCriteria(criteria, pageable);
+        //Page<CourtCase> page = courtCaseQueryService.findByCriteria(criteria, pageable);
+        
+        Page<CourtCase> page = null;
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page =
+            		courtCaseQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+            page =
+            		courtCaseQueryService.findByCriteriaSchemeWiseBranchCode(
+                    criteria,
+                    pageable,
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = courtCaseQueryService.findByCriteria(criteria, pageable);
+        } else {
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+        
+        
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -1013,17 +1870,46 @@ public class CourtCaseResource {
 
 
 
-    private String oneZeroOneDateMr(LocalDate loanDate) {
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            String formattedDate = loanDate.format(formatter);
+   
 
-            return translationServiceUtility.translationText(formattedDate);
+    
+    
+    
+    private String getTotalIntrest(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+
+            return translationServiceUtility.translationText(format);
         } catch (Exception e) {
             return "Error in translation";
         }
     }
+    
+    
+    private String getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
 
+            return translationServiceUtility.translationText(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    private String getMoreIntrestValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+
+            return translationServiceUtility.translationText(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+    
     private String getTotalValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
         try {
             String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
@@ -1094,4 +1980,75 @@ public class CourtCaseResource {
         
         return response;
     }
+    
+    
+    //getting court case with or without sabhasad name
+    
+  	List<CourtCase> getCourtCaseList(CourtCaseCriteria criteria, String sabhasadName) {
+
+  		if (StringUtils.isNotBlank(sabhasadName)) {
+  			StringFilter sabhasadNameFilter = new StringFilter();
+  			sabhasadNameFilter.setEquals(sabhasadName);
+  			criteria.setNameOfDefaulter(sabhasadNameFilter);
+  		}
+
+  		
+  		
+  		//List<CourtCase> courtCaseList = courtCaseQueryService.findByCriteriaWithoutPage(criteria);
+  		
+  		Optional<CourtCase> findById = courtCaseRepository.findById(1l);
+  		List<CourtCase> courtCaseList =new ArrayList<>();
+  		
+  		
+  		courtCaseList.add(findById.get());
+  		
+  		
+
+  		if (courtCaseList.isEmpty()) {
+  			throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
+  		}
+  		return courtCaseList;
+
+  	}
+  	
+  	 //getting court case setting with or without setting
+  	CourtCaseSetting getCourtCaseSetting(String settingCode) {
+  		CourtCaseSetting courtCaseSetting = new CourtCaseSetting();
+  		if (StringUtils.isNotBlank(settingCode)) {
+  			courtCaseSetting = caseSettingRepository.findOneBySettingCode(settingCode);
+  		} else {
+  			courtCaseSetting = caseSettingRepository.findTopByOrderByIdDesc();
+  		}
+
+  		if (courtCaseSetting == null) {
+  			throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
+  		}
+
+  		return courtCaseSetting;
+
+  	}
+      
+  	
+  	//generate unique number string
+  	String getUniqueNumberString()
+  	{
+  		Calendar cal = new GregorianCalendar();
+          return
+              "" +
+              cal.get(Calendar.MILLISECOND);
+  	}
+      
+      
+      
+
+      //processing template
+      String oneZeroOneTemplate(String template,CourtCase courtCase, CourtCaseSetting courtCaseSettings)
+      {
+      	 Locale locale = Locale.forLanguageTag("en");
+      	 Context context = new Context(locale);
+           context.setVariable("courtCase", courtCase);
+           context.setVariable("courtCaseSettings", courtCaseSettings);
+           String content = templateEngine.process(template, context);
+           return content;
+      }
 }

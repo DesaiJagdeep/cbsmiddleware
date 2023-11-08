@@ -313,4 +313,32 @@ public class RBAControl {
             throw new Exception("Provide single role to user");
         }
     }
+    
+    
+    
+    
+    
+    
+	public boolean checkValidationForUsers(String code) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");
+		}
+		Optional<User> user = userRepository.findOneByLogin(auth.getName());
+		if (!user.isPresent()) {
+			throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");
+		}
+		if (user.isPresent()) {
+
+			if (StringUtils.isNotBlank(user.get().getPacsNumber())&& user.get().getPacsNumber().equalsIgnoreCase(code)) {
+				return true;
+			} else if (StringUtils.isNotBlank(user.get().getSchemeWiseBranchCode()) && user.get().getSchemeWiseBranchCode().equalsIgnoreCase(code)) {
+				return true;
+			} else {
+				throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");
+			}
+		} else {
+			throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");
+		}
+	}
 }

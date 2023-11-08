@@ -689,7 +689,8 @@ public class UserResource {
 
     @GetMapping("/get-by-packs/{pacsNumber}")
     public PacsMaster packsMasterData(@PathVariable String pacsNumber) {
-        return masterRepository.findOneByPacsNumber(pacsNumber);
+         Optional<PacsMaster> findOneByPacsNumber = masterRepository.findOneByPacsNumber(pacsNumber);
+         return findOneByPacsNumber.get();
     }
 
     @PostMapping("/master-pacs-upload")
@@ -811,7 +812,9 @@ public class UserResource {
                         adminUserDTO.setAuthorities(packsUserSet);
 
                         // System.out.println("................................................................"+packsNumber);
-                        PacsMaster findOneByPacsNumber = masterRepository.findOneByPacsNumber(packsNumber);
+                        Optional<PacsMaster>  findOneByPacsNumberGet = masterRepository.findOneByPacsNumber(packsNumber);
+                        
+                        PacsMaster findOneByPacsNumber=findOneByPacsNumberGet.get();
 
                         if (findOneByPacsNumber != null) {
                             adminUserDTO.setPacsName(findOneByPacsNumber.getPacsName());

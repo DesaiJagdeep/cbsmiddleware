@@ -8,9 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 /**
  * A CourtCase.
@@ -26,6 +25,12 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    
+    @Column(name = "branch_or_pacs_code")
+    private String branchOrPacsCode;
+    
+    @Column(name = "setting_code")
+    private String settingCode;
 
     // //@NotNull
     // //@Min(value = 1)
@@ -81,6 +86,9 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "loan_date")
     private LocalDate loanDate;
 
+    @Column(name = "loan_date_mr")
+    private String loanDateMr;
+
     //@NotNull
     //@Min(value = 1)
     @Column(name = "term_of_loan")
@@ -115,6 +123,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "due_date")
     private LocalDate dueDate;
+    
+    @Column(name = "due_date_mr")
+    private String dueDateMr;
+    
+    @Column(name = "society_branch_name")
+    private String societyBranchName;
+    
+    @Column(name = "society_branch_address")
+    private String societyBranchAddress;
 
     @Column(name = "due_interest")
     private String dueInterest;
@@ -154,11 +171,21 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "first_notice_date")
     private LocalDate firstNoticeDate;
+    
+    @Column(name = "first_notice_date_mr")
+    private String firstNoticeDateMr;
 
     @Column(name = "second_notice_date")
     private LocalDate secondNoticeDate;
+    
+    @Column(name = "second_notice_date_mr")
+    private String secondNoticeDateMr;
+    
 
     //English data
+    
+    @Column(name = "setting_code_en")
+    private Long settingCodeEn;
 
     @Column(name = "sr_no_en")
     private Long srNoEn;
@@ -182,7 +209,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     private String loanTypeEn;
 
     @Column(name = "loan_amount_en")
-    private Double loanAmountEn;
+    private Double loanAmountEn=0.00;
 
     @Column(name = "term_of_loan_en")
     private String termOfLoanEn;
@@ -209,10 +236,10 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     private Double dueAmountEn;
 
     @Column(name = "due_interest_en")
-    private Double dueInterestEn;
+    private Double dueInterestEn=0.00;
 
     @Column(name = "due_penal_interest_en")
-    private Double duePenalInterestEn;
+    private Double duePenalInterestEn=0.00;
 
     @Column(name = "due_more_interest_en")
     private Double dueMoreInterestEn;
@@ -240,6 +267,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     
     @Column(name = "total_amount_word")
     private String totalAmountWord;
+    
+    @Column(name = "total_postage")
+    private String totalPostage;
+    
+    @ManyToOne()
+    private CourtCaseFile courtCaseFile;
+    
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -247,7 +281,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this.id;
     }
 
-    public CourtCase id(Long id) {
+    public CourtCaseFile getCourtCaseFile() {
+		return courtCaseFile;
+	}
+
+	public void setCourtCaseFile(CourtCaseFile courtCaseFile) {
+		this.courtCaseFile = courtCaseFile;
+	}
+
+	public CourtCase id(Long id) {
         this.setId(id);
         return this;
     }
@@ -260,7 +302,32 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this.srNo;
     }
 
-    public CourtCase srNo(String srNo) {
+
+	public String getTotalPostage() {
+		return totalPostage;
+	}
+
+	public void setTotalPostage(String totalPostage) {
+		this.totalPostage = totalPostage;
+	}
+
+	public String getSocietyBranchName() {
+		return societyBranchName;
+	}
+
+	public void setSocietyBranchName(String societyBranchName) {
+		this.societyBranchName = societyBranchName;
+	}
+
+	public String getSocietyBranchAddress() {
+		return societyBranchAddress;
+	}
+
+	public void setSocietyBranchAddress(String societyBranchAddress) {
+		this.societyBranchAddress = societyBranchAddress;
+	}
+
+	public CourtCase srNo(String srNo) {
         this.setSrNo(srNo);
         return this;
     }
@@ -271,6 +338,22 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public String getFinancialYear() {
 		return financialYear;
+	}
+
+	public String getBranchOrPacsCode() {
+		return branchOrPacsCode;
+	}
+
+	public void setBranchOrPacsCode(String branchOrPacsCode) {
+		this.branchOrPacsCode = branchOrPacsCode;
+	}
+
+	public Long getSettingCodeEn() {
+		return settingCodeEn;
+	}
+
+	public void setSettingCodeEn(Long settingCodeEn) {
+		this.settingCodeEn = settingCodeEn;
 	}
 
 	public void setFinancialYear(String financialYear) {
@@ -684,7 +767,39 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.balance = balance;
     }
 
-    public String getInterestPaid() {
+    public String getLoanDateMr() {
+		return loanDateMr;
+	}
+
+	public void setLoanDateMr(String loanDateMr) {
+		this.loanDateMr = loanDateMr;
+	}
+
+	public String getDueDateMr() {
+		return dueDateMr;
+	}
+
+	public void setDueDateMr(String dueDateMr) {
+		this.dueDateMr = dueDateMr;
+	}
+
+	public String getFirstNoticeDateMr() {
+		return firstNoticeDateMr;
+	}
+
+	public void setFirstNoticeDateMr(String firstNoticeDateMr) {
+		this.firstNoticeDateMr = firstNoticeDateMr;
+	}
+
+	public String getSecondNoticeDateMr() {
+		return secondNoticeDateMr;
+	}
+
+	public void setSecondNoticeDateMr(String secondNoticeDateMr) {
+		this.secondNoticeDateMr = secondNoticeDateMr;
+	}
+
+	public String getInterestPaid() {
         return this.interestPaid;
     }
 
@@ -706,7 +821,16 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setPenalInterestPaid(String penalInterestPaid) {
+    
+    public String getSettingCode() {
+		return settingCode;
+	}
+
+	public void setSettingCode(String settingCode) {
+		this.settingCode = settingCode;
+	}
+
+	public void setPenalInterestPaid(String penalInterestPaid) {
         this.penalInterestPaid = penalInterestPaid;
     }
 

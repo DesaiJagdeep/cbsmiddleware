@@ -1,7 +1,6 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.*; // for static metamodels
-import com.cbs.middleware.domain.CourtCaseSetting;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link CourtCaseSetting} entities in the database.
@@ -85,10 +85,20 @@ public class CourtCaseSettingQueryService extends QueryService<CourtCaseSetting>
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), CourtCaseSetting_.id));
             }
+            if (criteria.getSettingCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSettingCode(), CourtCaseSetting_.settingCode));
+            }
             if (criteria.getVasuliAdhikariName() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getVasuliAdhikariName(), CourtCaseSetting_.vasuliAdhikariName));
             }
+            
+            if (criteria.getFinancialYear() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getFinancialYear(), CourtCaseSetting_.financialYear));
+            }
+            
+            
             if (criteria.getArOfficeName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getArOfficeName(), CourtCaseSetting_.arOfficeName));
             }
@@ -131,4 +141,25 @@ public class CourtCaseSettingQueryService extends QueryService<CourtCaseSetting>
         }
         return specification;
     }
+
+	public Page<CourtCaseSetting> findByCriteriaPackNumber(CourtCaseSettingCriteria criteria, Pageable pageable,
+			String pacsNumber) {
+		  StringFilter sf = new StringFilter();
+	        sf.equals(pacsNumber);
+	        criteria.setBranchOrPacsCode(sf);
+
+	        final Specification<CourtCaseSetting> specification = createSpecification(criteria);
+	        return courtCaseSettingRepository.findAll(specification, pageable);
+	}
+
+	public Page<CourtCaseSetting> findByCriteriaSchemeWiseBranchCode(CourtCaseSettingCriteria criteria,
+			Pageable pageable, String schemeWiseBranchCode) {
+		  StringFilter sf = new StringFilter();
+	        sf.equals(schemeWiseBranchCode);
+	        criteria.setBranchOrPacsCode(sf);
+
+	        final Specification<CourtCaseSetting> specification = createSpecification(criteria);
+	        return courtCaseSettingRepository.findAll(specification, pageable);
+	}
 }
+	

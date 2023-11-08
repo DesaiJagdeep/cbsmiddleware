@@ -1,7 +1,6 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.*; // for static metamodels
-import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link CourtCase} entities in the database.
@@ -183,4 +183,31 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
         }
         return specification;
     }
+
+	public Page<CourtCase> findByCriteriaPackNumber(CourtCaseCriteria criteria, Pageable pageable, String pacsNumber) {
+		 log.debug("find by criteria : {}, page: {}", criteria, pageable);
+	        //final Specification<IssFileParser> specification = createSpecification(criteria);
+	        //return issFileParserRepository.findAllByPacsNumber(pacsNumber,specification, page);
+
+	        StringFilter sf = new StringFilter();
+	        sf.equals(pacsNumber);
+	        criteria.setBranchOrPacsCode(sf);
+
+	        final Specification<CourtCase> specification = createSpecification(criteria);
+	        return courtCaseRepository.findAll(specification, pageable);
+	}
+
+	public Page<CourtCase> findByCriteriaSchemeWiseBranchCode(CourtCaseCriteria criteria, Pageable pageable,
+			String schemeWiseBranchCode) {
+		 log.debug("find by criteria : {}, page: {}", criteria, pageable);
+	        // final Specification<IssFileParser> specification = createSpecification(criteria);
+	        // return issFileParserRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode,specification, page);
+
+	        StringFilter sf = new StringFilter();
+	        sf.equals(schemeWiseBranchCode);
+	        criteria.setBranchOrPacsCode(sf);
+
+	        final Specification<CourtCase> specification = createSpecification(criteria);
+	        return courtCaseRepository.findAll(specification, pageable);
+	}
 }

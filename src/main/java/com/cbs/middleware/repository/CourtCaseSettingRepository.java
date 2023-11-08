@@ -13,4 +13,6 @@ public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetti
     boolean existsByFileName(String originalFilename);
 
     CourtCaseSetting findTopByOrderByIdDesc();
+
+	CourtCaseSetting findOneBySettingCode(String settingCode);
 }

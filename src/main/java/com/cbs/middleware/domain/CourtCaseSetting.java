@@ -20,6 +20,16 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    
+    @Column(name = "setting_code")
+    private String settingCode;
+    
+    @Column(name = "financial_year")
+    private String financialYear;
+    
+    @Column(name = "branch_or_pacs_code")
+    private String branchOrPacsCode;
+    
 
     @Column(name = "file_name")
     private String fileName;
@@ -27,88 +37,92 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "unique_file_name")
     private String uniqueFileName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "bank_name")
     private String bankName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "taluka_name")
     private String talukaName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "vasuli_adhikari_name")
     private String vasuliAdhikariName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "ar_office_name")
     private String arOfficeName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "chairman_name")
     private String chairmanName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "sachiv_name")
     private String sachivName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "suchak_name")
     private String suchakName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "anumodak_name")
     private String anumodakName;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "vasuli_expense")
     private String vasuliExpense;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "other_expense")
     private String otherExpense;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "notice_expense")
     private String noticeExpense;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "meeting_no")
     private String meetingNo;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "meeting_date")
     private LocalDate meetingDate;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "subject_no")
     private String subjectNo;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "meeting_day")
     private String meetingDay;
 
-    @NotNull
-    @Min(value = 1)
+    //@NotNull
+   // @Min(value = 1)
     @Column(name = "meeting_time")
     private String meetingTime;
 
     //English Data
 
+    
+    @Column(name = "setting_code_en")
+    private Long settingCodeEn;
+    
     @Column(name = "bank_name_en")
     private String bankNameEn;
 
@@ -134,13 +148,13 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     private String anumodakNameEn;
 
     @Column(name = "vasuli_expense_en")
-    private Double vasuliExpenseEn;
+    private Double vasuliExpenseEn=0.00;
 
     @Column(name = "other_expense_en")
-    private Double otherExpenseEn;
+    private Double otherExpenseEn=0.00;
 
     @Column(name = "notice_expense_en")
-    private Double noticeExpenseEn;
+    private Double noticeExpenseEn=0.00;
 
     @Column(name = "meeting_no_en")
     private Long meetingNoEn;
@@ -153,6 +167,10 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
 
     @Column(name = "meeting_time_en")
     private String meetingTimeEn;
+    
+    
+    @ManyToOne()
+    private CourtCaseSettingFile courtCaseSettingFile;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -186,11 +204,43 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
         return this.arOfficeName;
     }
 
-    public String getFileName() {
+    public String getBranchOrPacsCode() {
+		return branchOrPacsCode;
+	}
+
+	public void setBranchOrPacsCode(String branchOrPacsCode) {
+		this.branchOrPacsCode = branchOrPacsCode;
+	}
+
+	public String getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public CourtCaseSettingFile getCourtCaseSettingFile() {
+		return courtCaseSettingFile;
+	}
+
+	public Long getSettingCodeEn() {
+		return settingCodeEn;
+	}
+
+	public void setSettingCodeEn(Long settingCodeEn) {
+		this.settingCodeEn = settingCodeEn;
+	}
+
+	public void setCourtCaseSettingFile(CourtCaseSettingFile courtCaseSettingFile) {
+		this.courtCaseSettingFile = courtCaseSettingFile;
+	}
+
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
+	}
+
+	public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
@@ -211,7 +261,16 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
         return vasuliAdhikariNameEn;
     }
 
-    public void setVasuliAdhikariNameEn(String vasuliAdhikariNameEn) {
+
+	public String getSettingCode() {
+		return settingCode;
+	}
+
+	public void setSettingCode(String settingCode) {
+		this.settingCode = settingCode;
+	}
+
+	public void setVasuliAdhikariNameEn(String vasuliAdhikariNameEn) {
         this.vasuliAdhikariNameEn = vasuliAdhikariNameEn;
     }
 

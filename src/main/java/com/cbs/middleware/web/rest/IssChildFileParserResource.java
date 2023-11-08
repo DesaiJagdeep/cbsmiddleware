@@ -196,8 +196,8 @@ public class IssChildFileParserResource {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(0); // Get the current row
 
-            String applicationErrorLable = getCellValue(row.getCell(51));
-            String applicationIdLable = getCellValue(row.getCell(52));
+            String applicationErrorLable = getCellValue(row.getCell(54));
+            String applicationIdLable = getCellValue(row.getCell(55));
 
             if (StringUtils.isNotBlank(applicationErrorLable) && StringUtils.isNotBlank(applicationIdLable)) {
                 if (!"Application Error".equalsIgnoreCase(applicationErrorLable) && !"ID".equalsIgnoreCase(applicationIdLable)) {
@@ -288,7 +288,7 @@ public class IssChildFileParserResource {
                 Row row = sheet.getRow(rowIndex); // Get the current row
                 IssFileParser issFileParser = new IssFileParser();
                 if (row != null) {
-                    String idInFIle = decryption(getCellValue(row.getCell(52)));
+                    String idInFIle = decryption(getCellValue(row.getCell(55)));
                     if (StringUtils.isNotBlank(idInFIle)) {
                         Optional<IssFileParser> issFileParseInChildFile = issFileParserRepository.findById(Long.parseLong(idInFIle));
 
@@ -378,29 +378,35 @@ public class IssChildFileParserResource {
 
                             issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
 
-                            issFileParser.setCropName(getCellValue(row.getCell(39)));
+                            issFileParser.setKccIssCropCode(getCellValue(row.getCell(39)));
+                            
+                            issFileParser.setKccIssCropName(getCellValue(row.getCell(40)));
+                            
+                            issFileParser.setCropName(getCellValue(row.getCell(41)));
 
-                            issFileParser.setSurveyNo(getCellValue(row.getCell(40)));
+                            issFileParser.setSurveyNo(getCellValue(row.getCell(42)));
 
-                            issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(41)));
+                            issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(43)));
 
-                            issFileParser.setSeasonName(getCellValue(row.getCell(42)));
+                            issFileParser.setSeasonName(getCellValue(row.getCell(44)));
+                            
+                            issFileParser.setAccountType(getCellValue(row.getCell(45)));
 
-                            issFileParser.setAreaHect(getCellValue(row.getCell(43)));
+                            issFileParser.setAreaHect(getCellValue(row.getCell(46)));
 
-                            issFileParser.setLandType(getCellValue(row.getCell(44)));
+                            issFileParser.setLandType(getCellValue(row.getCell(47)));
 
-                            issFileParser.setDisbursementDate(getDateCellValue(row.getCell(45)));
+                            issFileParser.setDisbursementDate(getDateCellValue(row.getCell(48)));
 
-                            issFileParser.setDisburseAmount(getCellValue(row.getCell(46)));
+                            issFileParser.setDisburseAmount(getCellValue(row.getCell(49)));
 
-                            issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(47)));
+                            issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50)));
 
-                            issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(48)));
+                            issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
 
-                            issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(49)));
+                            issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
 
-                            issFileParser.setRecoveryDate(getDateCellValue(row.getCell(50)));
+                            issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
                             issFileParser.setIssPortalFile(issFileParseInChildFile.get().getIssPortalFile());
 
                             issFileParserList.add(issFileParser);
@@ -976,6 +982,8 @@ public class IssChildFileParserResource {
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
+    	
+    	System.out.println("?????????????????????????????"+castCategoryName);
         boolean flag = false;
         if (StringUtils.isBlank(castCategoryName)) {
             return flag;
@@ -1029,7 +1037,7 @@ public class IssChildFileParserResource {
     }
 
     private boolean validateSatBaraNumber(String satBaraSubsurveyNo) {
-        String satBaraSubsurveyNoPattern = "^[0-9]+$";
+        String satBaraSubsurveyNoPattern = ".*[^a-zA-Z].*";
         return satBaraSubsurveyNo.matches(satBaraSubsurveyNoPattern);
     }
 

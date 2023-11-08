@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -62,6 +63,7 @@ import com.cbs.middleware.service.criteria.CourtCaseSettingCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 
@@ -98,6 +100,9 @@ public class CourtCaseSettingResource {
 
     @Autowired
     TranslationServiceUtility translationServiceUtility;
+    
+    @Autowired
+    BankBranchPacksCodeGet bankBranchPacksCodeGet;
 
     public CourtCaseSettingResource(
         CourtCaseSettingService courtCaseSettingService,
@@ -393,14 +398,6 @@ public class CourtCaseSettingResource {
         }
     }
 
-    @Autowired
-    TranslationServiceUtility serviceUtility;
-
-    @GetMapping("/test")
-    public String test() throws Exception {
-        String text = "123456.12";
-        return serviceUtility.translationText(text);
-    }
 
     /**
      * {@code POST  /court-case-settings} : Create a new courtCaseSetting.
@@ -514,7 +511,34 @@ public class CourtCaseSettingResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get CourtCaseSettings by criteria: {}", criteria);
-        Page<CourtCaseSetting> page = courtCaseSettingQueryService.findByCriteria(criteria, pageable);
+       // Page<CourtCaseSetting> page = courtCaseSettingQueryService.findByCriteria(criteria, pageable);
+        
+        
+        Page<CourtCaseSetting> page = null;
+        Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            page =
+            		courtCaseSettingQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+            page =
+            		courtCaseSettingQueryService.findByCriteriaSchemeWiseBranchCode(
+                    criteria,
+                    pageable,
+                    branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)
+                );
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+            page = courtCaseSettingQueryService.findByCriteria(criteria, pageable);
+        } else {
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }
+        
+        
+        
+        
+        
+        
+        
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

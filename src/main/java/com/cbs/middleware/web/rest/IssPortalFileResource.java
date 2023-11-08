@@ -1,5 +1,6 @@
 package com.cbs.middleware.web.rest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,12 +10,20 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +111,19 @@ public class IssPortalFileResource {
 
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
+    
+    
+    @Autowired
+    TalukaMasterRepository talukaMasterRepository;
+    
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
+    
+    @Autowired
+    BankBranchMasterRepository bankBranchMasterRepository;
+    
+    @Autowired
+    IssFileParserRepository issFileParserRepository;
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -125,6 +147,8 @@ public class IssPortalFileResource {
         this.issPortalFileQueryService = issPortalFileQueryService;
     }
 
+    
+    
     @GetMapping("/download-file/{idIFP}")
     @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
@@ -187,17 +211,199 @@ public class IssPortalFileResource {
     }
     
     
-    @Autowired
-    TalukaMasterRepository talukaMasterRepository;
+
     
-    @Autowired
-    PacsMasterRepository pacsMasterRepository;
+    /**
+     * download-record-file
+     * 
+     * */
+
+
+    @GetMapping("/download-record-file/{idIFP}")
+    @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+    public Object downloadRecordFile(@PathVariable Long idIFP) {
+    	Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
+        if (!findByIssPortalFileId.isPresent()) {
+
+        	throw new BadRequestAlertException("id not found", ENTITY_NAME, "idNotFound");
+        }
+        
+        List<IssFileParser> issFileParserList=issFileParserRepository.findAllByIssPortalFile(findByIssPortalFileId.get());
+        
+        if(issFileParserList.isEmpty())
+        {
+        	throw new BadRequestAlertException("records not found", ENTITY_NAME, "recordsNotFound");
+        }
+
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
+            int rowNum = 0;
+            Row row = sheet.createRow(rowNum++);
+            int colNum = 0;
+            row.createCell(colNum++).setCellValue("Financial Year 1");
+            row.createCell(colNum++).setCellValue("Bank Name 2");
+            row.createCell(colNum++).setCellValue("Bank Code 3");
+            row.createCell(colNum++).setCellValue("Branch Name 4");
+            row.createCell(colNum++).setCellValue("Branch  Code 5");
+            row.createCell(colNum++).setCellValue("Scheme Wise Branch Code 6");
+            row.createCell(colNum++).setCellValue("IFSC 7");
+            row.createCell(colNum++).setCellValue("Loan Account Number kcc 8");
+            row.createCell(colNum++).setCellValue("Farmer Name 9");
+            row.createCell(colNum++).setCellValue("Gender 10");
+            row.createCell(colNum++).setCellValue("Aadhar  Number 11");
+            row.createCell(colNum++).setCellValue("Dateof  Birth 12");
+            row.createCell(colNum++).setCellValue("Age At Time Of Sanction 13");
+            row.createCell(colNum++).setCellValue("Mobile No 14");
+            row.createCell(colNum++).setCellValue("Farmers Category 15");
+            row.createCell(colNum++).setCellValue("Farmer  Type 16");
+            row.createCell(colNum++).setCellValue("Social Category 17");
+            row.createCell(colNum++).setCellValue("Relative Type 18");
+            row.createCell(colNum++).setCellValue("Relative Name 19");
+            row.createCell(colNum++).setCellValue("State Name 20");
+            row.createCell(colNum++).setCellValue("State Code 21");
+            row.createCell(colNum++).setCellValue("District Name 22");
+            row.createCell(colNum++).setCellValue("District code 23");
+            row.createCell(colNum++).setCellValue("Block Code 24");
+            row.createCell(colNum++).setCellValue("Block Name 25");
+            row.createCell(colNum++).setCellValue("Village Code 26");
+            row.createCell(colNum++).setCellValue("Village Name 27");
+            row.createCell(colNum++).setCellValue("Address 28");
+            row.createCell(colNum++).setCellValue("Pin Code 29");
+            row.createCell(colNum++).setCellValue("Account Type 30");
+            row.createCell(colNum++).setCellValue("Account Number 31");
+            row.createCell(colNum++).setCellValue("Pacs Name 32");
+            row.createCell(colNum++).setCellValue("Pacs Number 33");
+            row.createCell(colNum++).setCellValue("Account Holder Type 34");
+            row.createCell(colNum++).setCellValue("Primary occupation 35");
+            row.createCell(colNum++).setCellValue("Loan Saction Date 36");
+            row.createCell(colNum++).setCellValue("Loan Sanction Amount 37");
+            row.createCell(colNum++).setCellValue("Tenure OF Loan 38");
+            row.createCell(colNum++).setCellValue("Date Of Over Due Payment 39");
+            row.createCell(colNum++).setCellValue("KCC Crop Code 40");
+            row.createCell(colNum++).setCellValue("KCC Crop Name 41");
+            row.createCell(colNum++).setCellValue("Crop Name 42");
+            row.createCell(colNum++).setCellValue("survey No 43");
+            row.createCell(colNum++).setCellValue("Sat Bara Subsurvey No 44");
+            row.createCell(colNum++).setCellValue("Season name 45");
+            row.createCell(colNum++).setCellValue("Activity Type 46");
+            row.createCell(colNum++).setCellValue("Area Hect 47");
+            row.createCell(colNum++).setCellValue("Land Type 48");
+            row.createCell(colNum++).setCellValue("Disbursement Date 49");
+            row.createCell(colNum++).setCellValue("Disburse Amount 50");
+            row.createCell(colNum++).setCellValue("Maturity Loan Date 51");
+            row.createCell(colNum++).setCellValue("Recovery Amount Principle 52");
+            row.createCell(colNum++).setCellValue("Recovery Amount Interest 53");
+            row.createCell(colNum++).setCellValue("Recovery Date 54");
+
+            
+            
+            
+            
+            for (IssFileParser issFileParser : issFileParserList) {
+                colNum = 0;
+                row = sheet.createRow(rowNum++);
+                row.createCell(colNum++).setCellValue(issFileParser.getFinancialYear());
+                row.createCell(colNum++).setCellValue(issFileParser.getBankName());
+                row.createCell(colNum++).setCellValue(issFileParser.getBankCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getBranchName());
+                row.createCell(colNum++).setCellValue(issFileParser.getBranchCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getSchemeWiseBranchCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getIfsc());
+                row.createCell(colNum++).setCellValue(issFileParser.getLoanAccountNumberkcc());
+                row.createCell(colNum++).setCellValue(issFileParser.getFarmerName());
+                row.createCell(colNum++).setCellValue(issFileParser.getGender());
+                row.createCell(colNum++).setCellValue(issFileParser.getAadharNumber());
+                row.createCell(colNum++).setCellValue(issFileParser.getDateofBirth());
+                row.createCell(colNum++).setCellValue(issFileParser.getAgeAtTimeOfSanction());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getMobileNo());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getFarmersCategory());
+                row.createCell(colNum++).setCellValue(issFileParser.getFarmerType());
+                row.createCell(colNum++).setCellValue(issFileParser.getSocialCategory());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getRelativeType());
+                row.createCell(colNum++).setCellValue(issFileParser.getRelativeName());
+                row.createCell(colNum++).setCellValue(issFileParser.getStateName());
+                row.createCell(colNum++).setCellValue(issFileParser.getStateCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getDistrictName());
+                row.createCell(colNum++).setCellValue(issFileParser.getDistrictCode());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getBlockCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getBlockName());
+                row.createCell(colNum++).setCellValue(issFileParser.getVillageCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getVillageName());
+                row.createCell(colNum++).setCellValue(issFileParser.getAddress());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getPinCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getAccountType());
+                row.createCell(colNum++).setCellValue(issFileParser.getAccountNumber());
+                row.createCell(colNum++).setCellValue(issFileParser.getPacsName());
+                row.createCell(colNum++).setCellValue(issFileParser.getPacsNumber());
+                row.createCell(colNum++).setCellValue(issFileParser.getAccountHolderType());
+                row.createCell(colNum++).setCellValue(issFileParser.getPrimaryOccupation());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getLoanSactionDate());
+                row.createCell(colNum++).setCellValue(issFileParser.getLoanSanctionAmount());
+                row.createCell(colNum++).setCellValue(issFileParser.getTenureOFLoan());
+                row.createCell(colNum++).setCellValue(issFileParser.getDateOfOverDuePayment());
+                row.createCell(colNum++).setCellValue(issFileParser.getKccIssCropCode());
+                row.createCell(colNum++).setCellValue(issFileParser.getKccIssCropName());
+                row.createCell(colNum++).setCellValue(issFileParser.getCropName());
+                row.createCell(colNum++).setCellValue(issFileParser.getSurveyNo());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getSatBaraSubsurveyNo());
+                row.createCell(colNum++).setCellValue(issFileParser.getSeasonName());
+                row.createCell(colNum++).setCellValue(issFileParser.getActivityType());
+                row.createCell(colNum++).setCellValue(issFileParser.getAreaHect());
+                row.createCell(colNum++).setCellValue(issFileParser.getLandType());
+                row.createCell(colNum++).setCellValue(issFileParser.getDisbursementDate());
+
+                row.createCell(colNum++).setCellValue(issFileParser.getDisburseAmount());
+                row.createCell(colNum++).setCellValue(issFileParser.getMaturityLoanDate());
+                row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountPrinciple());
+                row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountInterest());
+                row.createCell(colNum++).setCellValue(issFileParser.getRecoveryDate());
+
+            }
+
+            // Write Excel to ByteArrayOutputStream
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            outputStream.close();
+            byte[] excelContent = outputStream.toByteArray();
+
+            // Set up the HTTP headers for the response
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            String fileNameWithOutExt = FilenameUtils.removeExtension(findByIssPortalFileId.get().getFileName());
+
+            headers.setContentDispositionFormData("filename", fileNameWithOutExt + "-" + getUniqueName() + ".xlsx");
+
+            List<String> contentDispositionList = new ArrayList<>();
+            contentDispositionList.add("Content-Disposition");
+
+            headers.setAccessControlExposeHeaders(contentDispositionList);
+            return new ResponseEntity<>(excelContent, headers, 200);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(null);
+        }
     
-    @Autowired
-    BankBranchMasterRepository bankBranchMasterRepository;
+    	
+    	
+    }
     
-    
-    
+    public String getUniqueName() {
+        Calendar cal = new GregorianCalendar();
+        return (
+            "" +
+            cal.get(Calendar.YEAR) +
+            cal.get(Calendar.MONTH) +
+            cal.get(Calendar.DAY_OF_MONTH) +
+            cal.get(Calendar.HOUR) +
+            cal.get(Calendar.MILLISECOND)
+        );
+    }
     /**
      * 
      * 
@@ -215,72 +421,113 @@ public class IssPortalFileResource {
     	int count=0;
     	int srno=0;
     	for (TalukaMaster talukaMaster : talukaMasterList) {
-    		count=count+1;
-    		srno=srno+1;
-    		
-    		talukaWiseDataReport=new TalukaWiseDataReport();
-    		talukaWiseDataReport.setSrNo(srno);
-    		talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
-    		
-    		//find society count
-    		
-    		Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
-    		talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
-    		
-    		Integer completedCount=0;
-    		Integer inProgressCount=0;
-    		Integer yetToStartCount=0;
-    		Integer pendingForApprovalCount=0;
     		
     		
-    		List<BankBranchMaster> bankBranchMastersList=bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
-    		for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
-    			Long schemeWiseBranchCode=Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
-    			
-    			Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
-    			if(findAllBySchemeWiseBranchCode.isPresent())
-    			{
-    				
-    				completedCount=completedCount+issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode,financialYear);
-    				inProgressCount=inProgressCount+issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode,financialYear);
-        			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
-    			
-        			
-    			}
-    			
-				
-			}
-    		
-    		talukaWiseDataReport.setCompleted(completedCount);
-    		talukaWiseDataReport.setInProgress(inProgressCount);
-    		yetToStartCount=countOfSocietiesByTalukaName-completedCount-inProgressCount-pendingForApprovalCount;
-    		
-    		talukaWiseDataReport.setYetToStart(yetToStartCount);
-    		talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
-    		
-    		
-    		//adding sum
-    		
-    		
-    		
-    		if(talukaMasterList.size()-1==count)
+    		if(!talukaMaster.getTalukaName().equalsIgnoreCase("PUNE CITY")&&!talukaMaster.getTalukaName().equalsIgnoreCase("PIMPRI-CHINCHWAD"))
     		{
-    			talukaWiseDataReport.setNoOfSocietiesSum(null);
-        		talukaWiseDataReport.setCompletedSum(null);
-        		talukaWiseDataReport.setInProgressSum(null);
-        		talukaWiseDataReport.setYetToStartSum(null);
-        		talukaWiseDataReport.setPendingForApprovalSum(null);
+    			count=count+1;
+        		srno=srno+1;
+        		
+        		talukaWiseDataReport=new TalukaWiseDataReport();
+        		talukaWiseDataReport.setSrNo(srno);
+        		talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
+        		
+        		//find society count
+        		//Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
+        		//talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
+        		
+        		Integer countOfSocietiesByTalukaName=0;
+        		switch(talukaMaster.getTalukaName())
+        		{
+        		case "BHOR":
+        		 countOfSocietiesByTalukaName=68;
+        		break;
+        		case "AMBEGAON":
+        			 countOfSocietiesByTalukaName=59;
+        			break;
+        		case "BARAMATI":
+        			 countOfSocietiesByTalukaName=191;
+        			break;
+        		case "DAUND":
+        			 countOfSocietiesByTalukaName=124;
+        			break;
+        		case "HAVELI":
+        			 countOfSocietiesByTalukaName=140;
+        			break;
+        		case "INDAPUR":
+        			 countOfSocietiesByTalukaName=222;
+        			break;
+        		case "JUNNAR":
+        			 countOfSocietiesByTalukaName=76;
+        			break;
+        		case "KHED":
+        			 countOfSocietiesByTalukaName=104;
+        			break;
+        		case "MAVAL":
+        			 countOfSocietiesByTalukaName=55;
+        			break;
+        		case "MULSHI":
+        			 countOfSocietiesByTalukaName=46;
+        			break;
+        		case "PURANDAR":
+        			 countOfSocietiesByTalukaName=97;
+        			break;
+        		case "SHIRUR":
+        			 countOfSocietiesByTalukaName=128;
+        			break;
+        		case "VELHA":
+        			 countOfSocietiesByTalukaName=26;
+        			break;
+        		default:
+        			 countOfSocietiesByTalukaName=0;
+        		break;
+        		}
+        		
+        		talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
+        		Integer completedCount=0;
+        		Integer inProgressCount=0;
+        		Integer yetToStartCount=0;
+        		Integer pendingForApprovalCount=0;
+        		
+        		
+        		List<BankBranchMaster> bankBranchMastersList=bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
+        		for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
+        			Long schemeWiseBranchCode=Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
+        			
+        			Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
+        			if(findAllBySchemeWiseBranchCode.isPresent())
+        			{
+        				
+        				completedCount=completedCount+issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode,financialYear);
+        				inProgressCount=inProgressCount+issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode,financialYear);
+            			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear,0,0l);
+        			
+            			
+        			}
+        			
+    				
+    			}
+        		
+        		talukaWiseDataReport.setCompleted(completedCount);
+        		talukaWiseDataReport.setInProgress(inProgressCount);
+        		yetToStartCount=countOfSocietiesByTalukaName-completedCount-inProgressCount-pendingForApprovalCount;
+        		
+        		talukaWiseDataReport.setYetToStart(yetToStartCount);
+        		talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
+        		
+        		talukaWiseDataReportList.add(talukaWiseDataReport);
     		}
     		
     		
     		
-    		
-    		talukaWiseDataReportList.add(talukaWiseDataReport);
-    		
 			
 		}
     	
-		return talukaWiseDataReportList;
+    	
+    	List<TalukaWiseDataReport> talukaWiseDataReportList1 = talukaWiseDataReportList.stream()
+                .sorted(Comparator.comparing(TalukaWiseDataReport::getTalukaName))
+                .collect(Collectors.toList());
+		return talukaWiseDataReportList1;
     	
     }
     

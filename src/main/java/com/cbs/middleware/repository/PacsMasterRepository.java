@@ -51,7 +51,7 @@ public interface PacsMasterRepository extends JpaRepository<PacsMaster, Long> {
 
     boolean existsByPacsNumber(String pacsName);
 
-    PacsMaster findOneByPacsNumber(String pacsNumber);
+    Optional<PacsMaster> findOneByPacsNumber(String pacsNumber);
 
     
     @Query("select count(*) from PacsMaster pacsMaster where pacsMaster.bankBranchMaster.talukaMaster.talukaName =:talukaName")

@@ -1,60 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PriorDemandNotice</title>
+    <title>Loan Repay Notice</title>
 </head>
 
 <body>
-
-    <h3 style="text-align: center;"><b>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे.</b></h3>
-    <p style="text-align: center;">__________________ शाखा </p>
-
-    <div style="display: flex; justify-content: space-between;">
-        <div>
-            <p>जावक क्रमांक: </p>
-        </div>
-        <div>
-            <p>दिनांक: ______</p>
-        </div>
-    </div>
-    <h4 style="text-align: center;"><b>कर्ज मागणी नोटीस</b></h4>
-
-    <p style="line-height: 25px;">प्रति, __________________________________________<br>
-    श्री. ___________________________________________<br>
-    मु. _____________________ पो. ___________________<br>
-    तालुका ____________________ जि. पुणे</p>
-
-            <h5 style="text-align: center;"><b>विषय: थेट शेती कर्जाचा थकीत हप्ता भरणेबाबत.</b></h5>
-            <table style="width: 80%; margin: auto;">
-                <tr>
-                    <td>संदर्भ :</td>
-                    <td>१) गु.क. थेट शेती कर्ज जा. क्र./_________ दिनांक: ______</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>२) शाखा जा. क्र. / _________ दिनांक: ________</td>
-                </tr>
-            </table>
-            <p>महाशय,</p>
-            <p style="text-align: justify; text-indent: 35px; line-height: 25px;">आपणास बँकेच्या थेट शेती कर्ज योजने अंतर्गत ________________
-                कारणासाठी संदर्भ क्र. १ अन्वये रुपये. ______________ चे मध्यम मुदत कर्ज मंजुर करण्यात 'आलेले असुन, कर्ज
-                वितरण करण्यात आलेले आहे. संदर्भ क्र. २ अन्वये दिनांक ______ च्या प्रथम वसुलपात्र हप्ता रु. _______
-                 भरणेबाबत आपणास कळविण्यात आलेले आहे. तथापी आपण मुदतीत वसुलपात्र हा न भरल्याने सदर कर्जाची मुदल रुपये
-                _______________ अधिक त्यावरील व्याज रुपये ___________________ 
-                एवढी थकबाकी झालेली आहे. सदर थकबाकीचा त्वरीत भरणा करावा. थकीत खात्मेचा भरणा वेळीच न केल्यास / झाल्यास कायदेशीर
-                कारवाई करणे भाग पडेल याची नोंद घ्यावी.</p>
-
-           <div style="display: flex; justify-content: end;">
-            <div>
-                <p>आपला</p>
-                <p>विकास अधिकारी</p>
-                <p>___________ शाखा</p>
+    <!-- Karj Magani Notice -->
+        <!-- <h4 style="text-align: end;"><b>दिनांक : ______</b> </h4> -->
+        <div style="display: flex; justify-content: space-between; width: 100%;">
+            <div style="width: 30%;">
+                    <p style="margin-top: 0px;"><b>जावक क्रमांक : _________ </b></p>
+                    <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                            <td
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; width: 60%;">
+                                <b>थकीत मुदद्ल &nbsp;</b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse;width: 40%; text-align: right;"><b><span th:text="${courtCase.dueAmount}"/></b></td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                            <td
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                <b>व्याज &nbsp;</b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.dueInterest}"/></b></td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                            <td
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                <b>दंड व्याज &nbsp;</b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.duePenalInterest}"/></b></td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                            <td
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                <b>पोस्टेज व इतर  &nbsp;</b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.totalPostage}"/></b></td>
+                        </tr>
+                        <tr style="border: 1px solid black; border-collapse: collapse;">
+                            <td
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                <b>एकुण  &nbsp;</b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;">_____</td>
+                        </tr>
+                    </table>
             </div>
-           </div>
+            <div style="width: 70%;">
+                <table style="margin: 10px auto; line-height: 20px">
+                    <tr>
+                        <td style="text-align: right;"><b>दिनांक</b></td>
+                        <td style="text-align: left;"><b>: </b></td>
+                        <td style="text-align: left;"> __________</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: end;"><b>कर्ज खाते नं</b></td>
+                        <td style="text-align: left;"><b>: </b></td>
+                        <td style="text-align: start;"><b><span th:text="${courtCase.accountNo}"/></b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: end;"><b>कर्ज प्रकार</b></td>
+                        <td style="text-align: left;"><b>: </b></td>
+                        <td style="text-align: start;"><b><span th:text="${courtCase.loanType}"/></b></td>
+                    </tr>
+                </table>
 
+                <div style="border: 1px solid black; text-align: center; width: 80%; margin: 7px auto;">
+                    <h5 style="font-size: medium; margin: 5px;">कर्ज मागणी नोटीस १०१ (कलम १०१ अन्वये कारवाईकरणेसाठी)
+                    </h5>
+                </div>
+
+                <table style="width: 100%; margin: 0px; line-height: 20px">
+                    <tr>
+                        <td style="text-align: center;"><b><span th:text="${courtCase.societyBranchName}"/></b></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;"><b><span th:text="${courtCase.societyBranchAddress}"/></b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <hr>
+        <p style="margin: 0px;"><b>प्रति,</b></p>
+        <table style="margin-left: 30px; width: 90%;  border-collapse: separate;">
+            <tr>
+                <td style=" vertical-align: baseline;" rowspan="3"><b>१)</b></td>
+                <td><b>कर्जदाराचे नाव :  <span th:text="${courtCase.nameOfDefaulter}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>राहणार : <span th:text="${courtCase.address}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>व्यवसाय : शेती</b></td>
+            </tr>
+            <tr>
+                <td style=" vertical-align: baseline;" rowspan="3"><b>२)</b></td>
+                <td><b>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorOne}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>राहणार : <span th:text="${courtCase.gaurentorOneAddress}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>व्यवसाय : शेती</b></td>
+            </tr>
+
+            <tr>
+                <td style=" vertical-align: baseline;" rowspan="3"><b>३)</b></td>
+                <td><b>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorTwo}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>राहणार : <span th:text="${courtCase.gaurentorTwoAddress}"/></b></td>
+            </tr>
+            <tr>
+                <td><b>व्यवसाय : शेती</b></td>
+            </tr>
+        </table><!-- bind अक्षरी -->
+        <p style="text-indent: 35px; line-height: 20px; text-align: justify;">
+            या नोटीसीने कळविण्यात येते की, सदर <b>काठापूर बुद्रुक व्ही के सेवा सहयोग सोसायटी,</b> कडून घेतलेल्या रू : <b><span th:text="${courtCase.loanAmount}"/></b> कर्जापैकी
+            रू <b><span th:text="${courtCase.dueAmount}"/></b> अक्षरी ( <b>एक्कावन्न हजार दोनशे चाळीस मात्र</b>) थकीत झालेली आहे.
+            सदरची थकीत रक्कम व्याजासह ता. <b><span th:text="${courtCase.dueDate}"/></b> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
+            संस्था अधिनियम १९६० च्या कलम १०१ प्रमाणे कर्ज वसूली बाबत तुमच्यावर कारवाई करणेस तुम्ही पात्र झाला आहात.
+            तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <b><span th:text="${courtCase.firstNoticeDateMr}"/></b> पर्यत होणारे व्याज ची बाकी नोटीस
+            पोहचले पासून <b>८</b> दिवसाच्या आत बँकेकडे भरली नाही तर बॅक तुमच्या विरूध्द सहकारी संस्था अधिनियम
+            १०१ अन्वये सक्षम प्राधिकरणाकडे वसुलीसपात्र रक्कम वसुलीचा दाखला मिळणेसाठी दावा / अर्ज दाखल करून कायदेशीर इलाज
+            करेल व तुमच्याकडील येणे बाकी होणाऱ्या व्याजासह जमीन महसुलीचे थकबाकीप्रमाणे
+            वसुल करण्यात येईल, तसेच तुम्ही, सदर रक्कम वसुल करणेस होणाऱ्या खर्चाच्या रक्कमेसही जबाबदार होत असुन सदरची
+            रक्कम आपलेकडून वसुल केली जाईल.
+        </p>
+        <p>&nbsp</p>
+            <p style="text-align: center; margin: 0px"><b>सचिव</b></p>
+            <p style="text-align: center; margin: 0px"><b><span th:text="${courtCase.societyBranchName}"/></b></p>
+                <table style="width: 70%; margin: auto;">
+                    <tr>
+                        <td><b>१)</b></td>
+                        <td><b>कर्जदारचे नाव : </b></td>
+                        <td><b><span th:text="${courtCase.nameOfDefaulter}"/></b></td>
+                    </tr>
+                    <tr>
+                        <td><b>२)</b></td>
+                        <td><b>जामिनदाराचे नाव : </b></td>
+                        <td><b><span th:text="${courtCase.gaurentorOne}"/></b></td>
+                    </tr>
+                    <tr>
+                        <td><b>३)</b></td>
+                        <td><b>जामिनदाराचे नाव : </b></td>
+                        <td><b><span th:text="${courtCase.gaurentorTwo}"/></b></td>
+                    </tr>
+                </table>
+            <hr style="height: 1px; background-color: black;">
+            <p style="text-align: center;">सुचना :थकबाकी भरणा केली असल्यास ही नोटीस रद्द समजावी, परंतु तशी शाखेत
+                येऊन खात्री करावी.</p>
 </body>
-
 </html>

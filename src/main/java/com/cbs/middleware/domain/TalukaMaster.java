@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "taluka_master")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class TalukaMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;

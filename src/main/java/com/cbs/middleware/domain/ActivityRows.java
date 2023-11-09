@@ -24,7 +24,7 @@ public class ActivityRows implements Serializable {
     private Integer landType;
     private Integer season;
     private String plantationCode;
-    private Long plantationArea;
+    private Float plantationArea;
     private Long liveStockType;
     private Long liveStockCode;
     private Long unitCount;
@@ -98,11 +98,11 @@ public class ActivityRows implements Serializable {
         this.plantationCode = plantationCode;
     }
 
-    public Long getPlantationArea() {
+    public Float getPlantationArea() {
         return plantationArea;
     }
 
-    public void setPlantationArea(Long plantationArea) {
+    public void setPlantationArea(Float plantationArea) {
         this.plantationArea = plantationArea;
     }
 

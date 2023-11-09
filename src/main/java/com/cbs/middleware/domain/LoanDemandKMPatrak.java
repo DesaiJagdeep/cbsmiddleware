@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "loan_demandkmpatrak")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class LoanDemandKMPatrak extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;

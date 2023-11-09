@@ -24,13 +24,13 @@
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
                                 <b>व्याज &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.dueInterest}"/></b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandVyajMr}"/></b></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
                                 <b>दंड व्याज &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.duePenalInterest}"/></b></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandDandVyajMr}"/></b></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
@@ -42,7 +42,7 @@
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
                                 <b>एकुण  &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;">_____</td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandTotalMr}"/></b></td>
                         </tr>
                     </table>
             </div>
@@ -118,8 +118,8 @@
         </table><!-- bind अक्षरी -->
         <p style="text-indent: 35px; line-height: 20px; text-align: justify;">
             या नोटीसीने कळविण्यात येते की, सदर <b>काठापूर बुद्रुक व्ही के सेवा सहयोग सोसायटी,</b> कडून घेतलेल्या रू : <b><span th:text="${courtCase.loanAmount}"/></b> कर्जापैकी
-            रू <b><span th:text="${courtCase.dueAmount}"/></b> अक्षरी ( <b>एक्कावन्न हजार दोनशे चाळीस मात्र</b>) थकीत झालेली आहे.
-            सदरची थकीत रक्कम व्याजासह ता. <b><span th:text="${courtCase.dueDate}"/></b> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
+            रू <b><span th:text="${courtCase.dueAmount}"/></b> अक्षरी (<b><span th:text="${courtCase.dueAmountWord}"/></b>s) थकीत झालेली आहे.
+            सदरची थकीत रक्कम व्याजासह ता. <b><span th:text="${courtCase.dueDateMr}"/></b> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
             संस्था अधिनियम १९६० च्या कलम १०१ प्रमाणे कर्ज वसूली बाबत तुमच्यावर कारवाई करणेस तुम्ही पात्र झाला आहात.
             तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <b><span th:text="${courtCase.firstNoticeDateMr}"/></b> पर्यत होणारे व्याज ची बाकी नोटीस
             पोहचले पासून <b>८</b> दिवसाच्या आत बँकेकडे भरली नाही तर बॅक तुमच्या विरूध्द सहकारी संस्था अधिनियम

@@ -4,6 +4,9 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.IssFileParser;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -96,4 +99,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
+
+    @Transactional
+	void deleteByIssFileParser(IssFileParser issFileParser);
 }

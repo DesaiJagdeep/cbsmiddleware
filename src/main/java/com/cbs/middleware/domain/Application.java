@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "application_transaction")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class Application extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;

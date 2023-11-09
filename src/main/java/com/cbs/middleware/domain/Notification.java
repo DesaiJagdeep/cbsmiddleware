@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "notification")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;

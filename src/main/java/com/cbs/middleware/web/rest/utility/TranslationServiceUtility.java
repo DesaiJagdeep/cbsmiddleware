@@ -22,6 +22,31 @@ public class TranslationServiceUtility {
 //        return NumberToWords.toWords(number);
 //    }
 //	
+	
+	
+	
+	public String numberTOMarathiNumber( String str)
+	{
+		 
+			    String answer = str;
+			    answer = answer.replace("1","१");
+			    answer = answer.replace("2","२");
+			    answer = answer.replace("3","३");
+			    answer = answer.replace("4","४");
+			    answer = answer.replace("5","५");
+			    answer = answer.replace("6","६");
+			    answer = answer.replace("7","७");
+			    answer = answer.replace("8","८");
+			    answer = answer.replace("9","९");
+			    answer = answer.replace("0","०");
+			    
+			    return answer;
+		
+	}
+	
+	
+	
+	
 
     public String translationText(String text) {
         String returnText = "";
@@ -104,7 +129,8 @@ public class TranslationServiceUtility {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDate = loanDate.format(formatter);
 
-            return translationText(formattedDate);
+            
+            return numberTOMarathiNumber(formattedDate);
         } catch (Exception e) {
             return "Error in translation";
         }

@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Entity
 @Table(name = "iss_file_parser")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class IssFileParser extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;

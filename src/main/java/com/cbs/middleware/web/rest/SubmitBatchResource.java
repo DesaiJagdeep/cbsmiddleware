@@ -1,5 +1,44 @@
 package com.cbs.middleware.web.rest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.regex.Pattern;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
@@ -49,46 +88,6 @@ import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.ResponceService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.IssFileParser}.
@@ -474,18 +473,48 @@ public class SubmitBatchResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            // added activity type code as on Activity Type
-            Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                .stream()
-                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getActivityType().toLowerCase()))
-                .map(ActivityType::getActivityTypeCode)
-                .findFirst();
-
-            if (activityTypeCode.isPresent()) {
-                activities.setActivityType((long) activityTypeCode.get());
-            } else {
-                activities.setActivityType(1l);
+            
+            
+            
+            String activityType=issFileParser.getActivityType().toLowerCase();
+            if("horit and veg crops".equalsIgnoreCase(activityType)||
+            		"horti and veg crops".equalsIgnoreCase(activityType))
+            {
+            	 // added activity type code as on Activity Type
+            	 activities.setActivityType(2l);
             }
+            else if("agri crop".equalsIgnoreCase(activityType)||
+            		"sugarcane".equalsIgnoreCase(activityType))
+            {
+            	
+            	 activities.setActivityType(1l);
+            	 // added activity type code as on Activity Type
+                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                    .stream()
+                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
+                    .map(ActivityType::getActivityTypeCode)
+                    .findFirst();
+
+                if (activityTypeCode.isPresent()) {
+                    activities.setActivityType((long) activityTypeCode.get());
+                } 
+            }
+            
+            else 
+            {
+            	 // added activity type code as on Activity Type
+                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                    .stream()
+                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
+                    .map(ActivityType::getActivityTypeCode)
+                    .findFirst();
+
+                if (activityTypeCode.isPresent()) {
+                    activities.setActivityType((long) activityTypeCode.get());
+                } 
+            }
+            
+           
 
             // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
@@ -496,59 +525,88 @@ public class SubmitBatchResource {
 
             activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
 
-            ActivityRows activityRows = new ActivityRows();
             List<ActivityRows> activityRowsList = new ArrayList<>();
-            activityRows.setLandVillage("" + issFileParser.getVillageCode());
+            //setting activity row as per activity type
+            if(activities.getActivityType().equals(1l))
+            {
+            	// adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
-            // add crop code from crop name
-            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                .stream()
-                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                .map(CropMaster::getCropCode)
-                .findFirst();
+                // add crop code from crop name
+                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                    .stream()
+                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                    .map(CropMaster::getCropCode)
+                    .findFirst();
+                if (cropNameMasterCode.isPresent()) {
+                    activityRows.setCropCode(cropNameMasterCode.get());
+                }
 
-            /*
-             * String findCropCodeByCropNameIsContaining = cropMasterRepository
-             * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
-             *
-             * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
-             */
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
 
-            if (cropNameMasterCode.isPresent()) {
-                activityRows.setCropCode(cropNameMasterCode.get());
+                // add land type code and season code from land type and season name
+                Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
+                    .stream()
+                    .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
+                    .map(LandTypeMaster::getLandTypeCode)
+                    .findFirst();
+
+                if (landTypeMasterCode.isPresent()) {
+                    activityRows.setLandType(landTypeMasterCode.get());
+                }
+
+                Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
+                    .stream()
+                    .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                    .map(SeasonMaster::getSeasonCode)
+                    .findFirst();
+
+                if (seasonMasterCode.isPresent()) {
+                    activityRows.setSeason(seasonMasterCode.get());
+                } else {
+                    activityRows.setSeason(3);
+                }
+
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
+
+                activityList.add(activities);
+            	
+            	
             }
+            else if(activities.getActivityType().equals(2l))
+            {
+            	
+            	// adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
-            activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-            activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
-            activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
+                // add crop code from crop name
+                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                    .stream()
+                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                    .map(CropMaster::getCropCode)
+                    .findFirst();
 
-            // add land type code and season code from land type and season name
-            Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
-                .stream()
-                .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
-                .map(LandTypeMaster::getLandTypeCode)
-                .findFirst();
+                if (cropNameMasterCode.isPresent()) {
+                    activityRows.setPlantationCode(cropNameMasterCode.get());
+                }
 
-            if (landTypeMasterCode.isPresent()) {
-                activityRows.setLandType(landTypeMasterCode.get());
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
+
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
+
+                activityList.add(activities);
+            	
             }
-
-            Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
-                .stream()
-                .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                .map(SeasonMaster::getSeasonCode)
-                .findFirst();
-
-            if (seasonMasterCode.isPresent()) {
-                activityRows.setSeason(seasonMasterCode.get());
-            } else {
-                activityRows.setSeason(3);
-            }
-
-            activityRowsList.add(activityRows);
-            activities.setActivityRows(activityRowsList);
-
-            activityList.add(activities);
+            
+            
 
             applicationPayload.setActivities(activityList);
 
@@ -1030,19 +1088,50 @@ public class SubmitBatchResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            // added activity type code as on season name
-            Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                .stream()
-                .filter(f -> f.getActivityType().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                .map(ActivityType::getActivityTypeCode)
-                .findFirst();
-
-            if (activityTypeCode.isPresent()) {
-                activities.setActivityType((long) activityTypeCode.get());
-            } else {
-                activities.setActivityType(1l);
+            
+            
+            
+            String activityType=issFileParser.getActivityType().toLowerCase();
+            if("horit and veg crops".equalsIgnoreCase(activityType)||
+            		"horti and veg crops".equalsIgnoreCase(activityType))
+            {
+            	 // added activity type code as on Activity Type
+            	 activities.setActivityType(2l);
             }
+            else if("agri crop".equalsIgnoreCase(activityType)||
+            		"sugarcane".equalsIgnoreCase(activityType))
+            {
+            	
+            	 activities.setActivityType(1l);
+            	 // added activity type code as on Activity Type
+                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                    .stream()
+                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
+                    .map(ActivityType::getActivityTypeCode)
+                    .findFirst();
 
+                if (activityTypeCode.isPresent()) {
+                    activities.setActivityType((long) activityTypeCode.get());
+                } 
+            }
+            
+            else 
+            {
+            	 // added activity type code as on Activity Type
+                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+                    .stream()
+                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
+                    .map(ActivityType::getActivityTypeCode)
+                    .findFirst();
+
+                if (activityTypeCode.isPresent()) {
+                    activities.setActivityType((long) activityTypeCode.get());
+                } 
+            }
+            
+           
+
+            // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
                 activities.setLoanSanctionedDate(issFileParser.getLoanSactionDate());
             } else {
@@ -1051,59 +1140,87 @@ public class SubmitBatchResource {
 
             activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
 
-            ActivityRows activityRows = new ActivityRows();
             List<ActivityRows> activityRowsList = new ArrayList<>();
-            activityRows.setLandVillage("" + issFileParser.getVillageCode());
+            //setting activity row as per activity type
+            if(activities.getActivityType().equals(1l))
+            {
+            	// adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
-            // add crop code from crop name
-            //            Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-            //                .stream()
-            //                .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-            //                .map(CropMaster::getCropCode)
-            //                .findFirst();
+                // add crop code from crop name
+                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                    .stream()
+                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                    .map(CropMaster::getCropCode)
+                    .findFirst();
+                if (cropNameMasterCode.isPresent()) {
+                    activityRows.setCropCode(cropNameMasterCode.get());
+                }
 
-            activityRows.setCropCode(issFileParser.getKccIssCropCode());
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
 
-            /*
-             * String findCropCodeByCropNameIsContaining = cropMasterRepository
-             * .findCropCodeByCropNameIsContaining(issFileParser.getCropName());
-             *
-             * activityRows.setCropCode(findCropCodeByCropNameIsContaining);
-             */
+                // add land type code and season code from land type and season name
+                Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
+                    .stream()
+                    .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
+                    .map(LandTypeMaster::getLandTypeCode)
+                    .findFirst();
 
-            //            if (cropNameMasterCode.isPresent()) {
-            //                activityRows.setCropCode(cropNameMasterCode.get());
-            //            }
+                if (landTypeMasterCode.isPresent()) {
+                    activityRows.setLandType(landTypeMasterCode.get());
+                }
 
-            activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-            activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
-            activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
+                Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
+                    .stream()
+                    .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                    .map(SeasonMaster::getSeasonCode)
+                    .findFirst();
 
-            // add land type code and season code from land type and season name
-            Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
-                .stream()
-                .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
-                .map(LandTypeMaster::getLandTypeCode)
-                .findFirst();
+                if (seasonMasterCode.isPresent()) {
+                    activityRows.setSeason(seasonMasterCode.get());
+                } else {
+                    activityRows.setSeason(3);
+                }
 
-            if (landTypeMasterCode.isPresent()) {
-                activityRows.setLandType(landTypeMasterCode.get());
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
+
+                activityList.add(activities);
+            	
+            	
+            }
+            else if(activities.getActivityType().equals(2l))
+            {
+            	
+            	// adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
+
+                // add crop code from crop name
+                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+                    .stream()
+                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+                    .map(CropMaster::getCropCode)
+                    .findFirst();
+
+                if (cropNameMasterCode.isPresent()) {
+                    activityRows.setPlantationCode(cropNameMasterCode.get());
+                }
+
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
+
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
+
+                activityList.add(activities);
+            	
             }
 
-            Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
-                .stream()
-                .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                .map(SeasonMaster::getSeasonCode)
-                .findFirst();
-
-            if (seasonMasterCode.isPresent()) {
-                activityRows.setSeason(seasonMasterCode.get());
-            }
-
-            activityRowsList.add(activityRows);
-            activities.setActivityRows(activityRowsList);
-
-            activityList.add(activities);
 
             applicationPayload.setActivities(activityList);
 

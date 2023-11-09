@@ -85,9 +85,9 @@ public class CourtCaseSettingQueryService extends QueryService<CourtCaseSetting>
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), CourtCaseSetting_.id));
             }
-            if (criteria.getSettingCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSettingCode(), CourtCaseSetting_.settingCode));
-            }
+//            if (criteria.getSettingCode() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getSettingCode(), CourtCaseSetting_.settingCode));
+//            }
             if (criteria.getVasuliAdhikariName() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getVasuliAdhikariName(), CourtCaseSetting_.vasuliAdhikariName));

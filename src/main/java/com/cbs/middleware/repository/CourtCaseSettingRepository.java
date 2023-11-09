@@ -14,5 +14,5 @@ public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetti
 
     CourtCaseSetting findTopByOrderByIdDesc();
 
-	CourtCaseSetting findOneBySettingCode(String settingCode);
+	//CourtCaseSetting findOneBySettingCode(String settingCode);
 }

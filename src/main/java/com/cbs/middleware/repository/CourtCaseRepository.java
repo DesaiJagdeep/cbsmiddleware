@@ -1,6 +1,9 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.CourtCase;
+import com.cbs.middleware.domain.CourtCaseSetting;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -14,4 +17,6 @@ public interface CourtCaseRepository extends JpaRepository<CourtCase, Long>, Jpa
     boolean existsByFileName(String originalFilename);
 
     Optional<CourtCase> findOneByNameOfDefaulter(String nameOFdef);
+
+	List<CourtCase> findAllByCourtCaseSetting(CourtCaseSetting courtCaseSetting);
 }

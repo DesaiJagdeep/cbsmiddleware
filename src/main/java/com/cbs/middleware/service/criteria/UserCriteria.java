@@ -17,7 +17,7 @@ import tech.jhipster.service.filter.*;
  * {@link Filter} class are used, we need to use fix type specific filters.
  */
 @ParameterObject
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class UserCriteria implements Serializable, Criteria {
 
 	private static final long serialVersionUID = 1L;

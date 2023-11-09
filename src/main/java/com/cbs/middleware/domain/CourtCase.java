@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "court_case")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class CourtCase extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -85,6 +85,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
+    
+    
+    @Column(name = "claim_date")
+    private LocalDate claimDate;
+    
+    @Column(name = "claim_date_mr")
+    private String claimDateMr;
 
     @Column(name = "loan_date_mr")
     private String loanDateMr;
@@ -271,8 +278,47 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "total_postage")
     private String totalPostage;
     
+    @Column(name = "notice_of_repay_loan_count")
+    private Integer noticeOfRepayLoanCount=0;
+    
+    @Column(name = "prior_demand_notice_count")
+    private Integer priorDemandNoticeCount=0;
+    
+    @Column(name = "sheti_karj_count")
+    private Integer shetiKarjCount=0;
+    
+    @Column(name = "bigar_sheti_karj_count")
+    private Integer bigarShetiKarjCount=0;
+    
+    @Column(name = "one_zero_one_prakaran_count")
+    private Integer oneZeroOnePrakaranCount=0;
+    
+    @Column(name = "appendix_three_count")
+    private Integer appendixThreeCount=0;
+    
+    @Column(name = "appendix_four_count")
+    private Integer appendixFourCount=0;
+    
+    
+    @Column(name = "prior_demand_vyaj")
+    private String priorDemandVyajMr="";
+    
+    @Column(name = "prior_demand_dand_vyaj")
+    private String priorDemandDandVyajMr="";
+    
+    
+    @Column(name = "intrest_amount_sum")
+    private String intrestAmountSum="";
+    
+    @Column(name = "prior_demand_total")
+    private String priorDemandTotalMr="";
+    
+    
     @ManyToOne()
     private CourtCaseFile courtCaseFile;
+    
+    @ManyToOne()
+    private CourtCaseSetting courtCaseSetting;
     
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -294,7 +340,43 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setId(Long id) {
+    public String getPriorDemandVyajMr() {
+		return priorDemandVyajMr;
+	}
+
+	public void setPriorDemandVyajMr(String priorDemandVyajMr) {
+		this.priorDemandVyajMr = priorDemandVyajMr;
+	}
+
+	
+
+	public String getIntrestAmountSum() {
+		return intrestAmountSum;
+	}
+
+	public void setIntrestAmountSum(String intrestAmountSum) {
+		this.intrestAmountSum = intrestAmountSum;
+	}
+
+	public String getPriorDemandDandVyajMr() {
+		return priorDemandDandVyajMr;
+	}
+
+	public void setPriorDemandDandVyajMr(String priorDemandDandVyajMr) {
+		this.priorDemandDandVyajMr = priorDemandDandVyajMr;
+	}
+
+
+
+	public String getPriorDemandTotalMr() {
+		return priorDemandTotalMr;
+	}
+
+	public void setPriorDemandTotalMr(String priorDemandTotalMr) {
+		this.priorDemandTotalMr = priorDemandTotalMr;
+	}
+
+	public void setId(Long id) {
         this.id = id;
     }
 
@@ -315,8 +397,72 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		return societyBranchName;
 	}
 
+	public Integer getNoticeOfRepayLoanCount() {
+		return noticeOfRepayLoanCount;
+	}
+
+	public void setNoticeOfRepayLoanCount(Integer noticeOfRepayLoanCount) {
+		this.noticeOfRepayLoanCount = noticeOfRepayLoanCount;
+	}
+
+	public Integer getPriorDemandNoticeCount() {
+		return priorDemandNoticeCount;
+	}
+
+	public void setPriorDemandNoticeCount(Integer priorDemandNoticeCount) {
+		this.priorDemandNoticeCount = priorDemandNoticeCount;
+	}
+
+	public Integer getShetiKarjCount() {
+		return shetiKarjCount;
+	}
+
+	public void setShetiKarjCount(Integer shetiKarjCount) {
+		this.shetiKarjCount = shetiKarjCount;
+	}
+
+	public Integer getBigarShetiKarjCount() {
+		return bigarShetiKarjCount;
+	}
+
+	public void setBigarShetiKarjCount(Integer bigarShetiKarjCount) {
+		this.bigarShetiKarjCount = bigarShetiKarjCount;
+	}
+
+	public Integer getOneZeroOnePrakaranCount() {
+		return oneZeroOnePrakaranCount;
+	}
+
+	public void setOneZeroOnePrakaranCount(Integer oneZeroOnePrakaranCount) {
+		this.oneZeroOnePrakaranCount = oneZeroOnePrakaranCount;
+	}
+
+	public Integer getAppendixThreeCount() {
+		return appendixThreeCount;
+	}
+
+	public void setAppendixThreeCount(Integer appendixThreeCount) {
+		this.appendixThreeCount = appendixThreeCount;
+	}
+
+	public Integer getAppendixFourCount() {
+		return appendixFourCount;
+	}
+
+	public void setAppendixFourCount(Integer appendixFourCount) {
+		this.appendixFourCount = appendixFourCount;
+	}
+
 	public void setSocietyBranchName(String societyBranchName) {
 		this.societyBranchName = societyBranchName;
+	}
+
+	public CourtCaseSetting getCourtCaseSetting() {
+		return courtCaseSetting;
+	}
+
+	public void setCourtCaseSetting(CourtCaseSetting courtCaseSetting) {
+		this.courtCaseSetting = courtCaseSetting;
 	}
 
 	public String getSocietyBranchAddress() {
@@ -737,7 +883,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setInstallmentAmount(String installmentAmount) {
+    public String getClaimDateMr() {
+		return claimDateMr;
+	}
+
+	public void setClaimDateMr(String claimDateMr) {
+		this.claimDateMr = claimDateMr;
+	}
+
+	public void setInstallmentAmount(String installmentAmount) {
         this.installmentAmount = installmentAmount;
     }
 
@@ -890,7 +1044,15 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this.dueMoreInterest;
     }
 
-    public CourtCase dueMoreInterest(String dueMoreInterest) {
+    public LocalDate getClaimDate() {
+		return claimDate;
+	}
+
+	public void setClaimDate(LocalDate claimDate) {
+		this.claimDate = claimDate;
+	}
+
+	public CourtCase dueMoreInterest(String dueMoreInterest) {
         this.setDueMoreInterest(dueMoreInterest);
         return this;
     }

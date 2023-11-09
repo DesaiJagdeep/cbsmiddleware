@@ -72,6 +72,7 @@ import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.AccountHolderMaster;
+import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.BatchData;
@@ -2101,7 +2102,7 @@ public class IssFileParserResource {
                 applicationLogList.add(new ApplicationLog("Land Type is not in IRRIGATED, NON-IRRIGATED format", issFileParser));
             }
 
-            // Filter invalid season //activityType
+            // Filter invalid season 
             List<IssFileParser> invalidSeasonList = findAllByIssPortalFile
                 .stream()
                 .filter(person -> !validateSeasonName(person.getSeasonName()))
@@ -2111,6 +2112,20 @@ public class IssFileParserResource {
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(
                     new ApplicationLog("Season is not in KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE format", issFileParser)
+                );
+            }
+            
+            
+         // Filter invalid activityType
+            List<IssFileParser> invalidActivityTypeList = findAllByIssPortalFile
+                .stream()
+                .filter(person -> !validateActivityType(person.getActivityType()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidActivityTypeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(
+                    new ApplicationLog("Activity type is not in AGRI CROP,  HORIT AND VEG CROPS", issFileParser)
                 );
             }
 
@@ -2620,7 +2635,6 @@ public class IssFileParserResource {
 
         ApplicationLog validateOneFileDataObject = getValidateOneFileDataObject(issFileParser, findOneByIssFileParser.get());
         
-        System.out.println(".,.,..........,,,,,,,,,,,,,,,,,,"+validateOneFileDataObject);
      // fetching iss portal file and updating error record count
         IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
         if(validateOneFileDataObject!=null&&validateOneFileDataObject.getStatus().equalsIgnoreCase(Constants.ERROR))
@@ -2635,18 +2649,18 @@ public class IssFileParserResource {
         }
         else
         {
-        	
-        	System.out.println("............................................................."+findOneByIssFileParser.get().getErrorType());
-        	
 			if (Constants.validationError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
 				issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
 				issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
 			} else if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
-				issPortalFile.setErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
+				issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
 				issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
+				
+				 applicationRepository.deleteByIssFileParser(issFileParser);
 			}
 
             IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
+            
 
             // saving iss file data after validating
             issFileParser.setIssPortalFile(issPortalFileSave);
@@ -2935,6 +2949,27 @@ public class IssFileParserResource {
                 .stream()
                 .filter(f -> f.getSeasonName().toLowerCase().contains(seasonName.toLowerCase()))
                 .map(SeasonMaster::getSeasonCode)
+                .findFirst()
+                .isPresent()
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    private boolean validateActivityType(String activityType) {
+        boolean flag = false;
+        if (StringUtils.isBlank(activityType)) {
+            return flag;
+        }
+
+        if (
+            MasterDataCacheService.ActivityTypeMasterList
+                .stream()
+                .filter(f -> f.getActivityType().toLowerCase().contains(activityType.toLowerCase()))
+                .map(ActivityType::getActivityType)
                 .findFirst()
                 .isPresent()
         ) {

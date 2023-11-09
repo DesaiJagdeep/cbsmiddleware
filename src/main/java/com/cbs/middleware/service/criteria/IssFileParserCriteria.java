@@ -2,9 +2,13 @@ package com.cbs.middleware.service.criteria;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import org.springdoc.api.annotations.ParameterObject;
+
 import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.*;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Criteria class for the {@link com.cbs.middleware.domain.IssFileParser} entity. This class is used
@@ -16,7 +20,7 @@ import tech.jhipster.service.filter.*;
  * fix type specific filters.
  */
 @ParameterObject
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class IssFileParserCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;

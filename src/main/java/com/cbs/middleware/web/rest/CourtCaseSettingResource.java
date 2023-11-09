@@ -54,7 +54,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.domain.CourtCaseSetting;
+import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.repository.CourtCaseSettingRepository;
 import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.service.CourtCaseSettingQueryService;
@@ -103,6 +105,9 @@ public class CourtCaseSettingResource {
     
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
+    
+    @Autowired
+    CourtCaseRepository courtCaseRepository;
 
     public CourtCaseSettingResource(
         CourtCaseSettingService courtCaseSettingService,
@@ -456,6 +461,78 @@ public class CourtCaseSettingResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, courtCaseSetting.getId().toString()))
             .body(result);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    @PutMapping("/update-court-case-setting-ref/{id}")
+    public ResponseEntity<CourtCaseSetting> updateCourtCaseSettingRef(
+        @PathVariable(value = "id", required = false) final Long id,
+        @RequestBody CourtCaseSetting courtCaseSetting
+    ) throws URISyntaxException {
+        log.debug("REST request to update CourtCaseSetting : {}, {}", id, courtCaseSetting);
+        if (courtCaseSetting.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if (!Objects.equals(id, courtCaseSetting.getId())) {
+            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+        }
+
+        if (!courtCaseSettingRepository.existsById(id)) {
+            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+        }
+
+        List<CourtCase> courtCaseList=courtCaseRepository.findAllByCourtCaseSetting(courtCaseSettingRepository.findById(id).get());
+        
+        //removing object if print
+        courtCaseList.removeIf(cc -> !cc.getNoticeOfRepayLoanCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getPriorDemandNoticeCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getShetiKarjCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getBigarShetiKarjCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getOneZeroOnePrakaranCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getAppendixThreeCount().equals(0));
+        courtCaseList.removeIf(cc -> !cc.getAppendixFourCount().equals(0));
+        
+        
+        courtCaseSetting.setId(null);
+        CourtCaseSetting result = courtCaseSettingService.save(courtCaseSetting);
+        
+        
+      //calculating postage value from setting file
+		 String totalPostageValue = getTotalPostageValue(result.getVasuliExpenseEn(),
+				 result.getOtherExpenseEn(),
+				 result.getNoticeExpenseEn());
+		 
+        courtCaseList.forEach(cc -> {
+			cc.setSettingCode(""+result.getId());
+			cc.setSettingCodeEn(result.getId());
+			cc.setTotalPostage(totalPostageValue);
+			cc.setCourtCaseSetting(result);
+			});
+        
+        
+        courtCaseRepository.saveAll(courtCaseList);
+        
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, courtCaseSetting.getId().toString()))
+            .body(result);
+    }
+    
+    
+    private String getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+
+            return translationServiceUtility.translationText(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
     }
 
     /**

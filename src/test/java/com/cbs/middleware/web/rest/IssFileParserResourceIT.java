@@ -495,7 +495,7 @@ class IssFileParserResourceIT {
             .andExpect(jsonPath("$.[*].recoveryDate").value(hasItem(DEFAULT_RECOVERY_DATE)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllIssFileParsersWithEagerRelationshipsIsEnabled() throws Exception {
         when(issFileParserServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -504,7 +504,7 @@ class IssFileParserResourceIT {
         verify(issFileParserServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllIssFileParsersWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(issFileParserServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

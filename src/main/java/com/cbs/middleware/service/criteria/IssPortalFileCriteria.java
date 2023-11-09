@@ -16,7 +16,7 @@ import tech.jhipster.service.filter.*;
  * fix type specific filters.
  */
 @ParameterObject
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class IssPortalFileCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;

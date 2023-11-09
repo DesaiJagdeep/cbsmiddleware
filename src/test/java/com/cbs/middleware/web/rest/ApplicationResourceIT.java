@@ -190,7 +190,7 @@ class ApplicationResourceIT {
             .andExpect(jsonPath("$.[*].farmerId").value(hasItem(DEFAULT_FARMER_ID)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+   // @SuppressWarnings({ "unchecked" })
     void getAllApplicationsWithEagerRelationshipsIsEnabled() throws Exception {
         when(applicationServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -199,7 +199,7 @@ class ApplicationResourceIT {
         verify(applicationServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+   // @SuppressWarnings({ "unchecked" })
     void getAllApplicationsWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(applicationServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

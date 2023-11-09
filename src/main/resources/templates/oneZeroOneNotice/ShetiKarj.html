@@ -15,15 +15,14 @@
            जावक क्रमांक 
         </div>
         <div style="width: 20%;">
-            दिनांक: 12/12/1212
+            दिनांक: ___________
         </div>
     </div>
     <p style="text-align: center;  margin: 0px;"><u>१०९ नुसार कारवाई करणेपूर्वीची नोटीस</u></p>
     <p style="text-align: center; margin: 0px;">(थेट शेती कर्जासाठी)</p>
     <p style="line-height: 25px;">कर्ज खाते क्रमांक: <b><span th:text="${courtCase.accountNo}"/></b> <br>
         कर्जदार, मे. / श्री./ सौ. <b><span th:text="${courtCase.nameOfDefaulter}"/></b><br>
-        ____________________________________<br>
-        ____________________________________</p>
+        <b><span th:text="${courtCase.address}"/></b><br>
     <h4 style="text-align: center;"><b>विषय: कर्ज फेड करण्याबाबत.</b></h4>
     <p style="margin: 0px;">तुम्हास नोटीस देण्यात येते की,</p>
     <table>
@@ -59,22 +58,22 @@
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">१)</td>
             <td style="border: 1px solid black;">मुदल</td>
-            <td style="border: 1px solid black;"><b><span th:text="${courtCase.dueAmount}"/></b> रुपये</td>
+            <td style="border: 1px solid black;">रुपये <b><span th:text="${courtCase.dueAmount}"/></b></td>
         </tr>
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">२)</td>
             <td style="border: 1px solid black;">व्याज येणे + दंड व्याज</td>
-            <td style="border: 1px solid black;">6546546रुपये</td>
+            <td style="border: 1px solid black;">रुपये <b><span th:text="${courtCase.intrestAmountSum}"/></b></td>
         </tr>
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">३)</td>
             <td style="border: 1px solid black;">इतर खर्च - विमा,नोटीस इ.</td>
-            <td style="border: 1px solid black;">6546546546रुपये</td>
+            <td style="border: 1px solid black;">रुपये need to add</td>
         </tr>
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black;"></td>
             <td style="border: 1px solid black;">एकूण</td>
-            <td style="border: 1px solid black;">5656546रुपये</td>
+            <td style="border: 1px solid black;">रुपये calculate</td>
         </tr>
     </table>
     <p style="text-indent: 35px; text-align: justify; line-height: 25px;">तरी तुम्हास या नोटीशीने कळविण्यात येते की, ही

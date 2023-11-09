@@ -2,7 +2,6 @@ package com.cbs.middleware.web.rest;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -84,6 +83,7 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+import com.cbs.middleware.web.rest.utility.EnglishNumberToWords;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.html2pdf.ConverterProperties;
@@ -168,17 +168,31 @@ public class CourtCaseResource {
      * {@code POST  /oneZeroOneNotice} : download a courtCase file.
      *
      */    
+    
     @PostMapping("/oneZeroOneNotice")
     public ResponseEntity<byte[]> generatePDFFromHTML(@RequestBody One01ReportParam one01ReportParam) throws Exception {
     	
+    	Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+    	String pacsOrbranchCode="";
     	
+		if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+			pacsOrbranchCode=branchOrPacksNumber.get(Constants.PACKS_CODE_KEY);
+
+		} else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+
+			pacsOrbranchCode=branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY);
+		} else {
+			throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+		}
+		
+		
     	List<String> htmlList=new ArrayList<String>();
     	
         CourtCaseCriteria criteria = new CourtCaseCriteria();
         
         //creating filter
-        StringFilter talukaFilter = new StringFilter();
-        talukaFilter.setEquals(one01ReportParam.getTalukaName());
+        StringFilter pacsOrbranchCodeFilter = new StringFilter();
+        pacsOrbranchCodeFilter.setEquals(pacsOrbranchCode);
 
         StringFilter bankFilter = new StringFilter();
         bankFilter.setEquals(one01ReportParam.getBankName());
@@ -187,20 +201,17 @@ public class CourtCaseResource {
         financialYear.setEquals(one01ReportParam.getFinancialYear());
         
         //adding initial values
-        criteria.setTalukaName(talukaFilter);
+        criteria.setBranchOrPacsCode(pacsOrbranchCodeFilter);
         criteria.setBankName(bankFilter);
         criteria.setFinancialYear(financialYear);
-        
-        
-        
         
         switch (one01ReportParam.getOneZeroOneOption()) {
         case "NoticeofRepayLoan":
 			// call function to generate html string
         	htmlList=new ArrayList<String>();
-        	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+        	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 
@@ -209,9 +220,9 @@ public class CourtCaseResource {
         case "PriorDemandNotice":
 			// call function to generate html string
         	htmlList=new ArrayList<String>();
-        	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+        	for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-        		String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+        		String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -219,9 +230,9 @@ public class CourtCaseResource {
 		case "101prakaran":
 			// call function to generate html string
 			htmlList=new ArrayList<String>();
-			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -231,9 +242,9 @@ public class CourtCaseResource {
 		case "ShetiKarj":
 			// call function to generate html string
 			htmlList=new ArrayList<String>();
-			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -242,9 +253,9 @@ public class CourtCaseResource {
 		case "BigarShetiKarj":
 			// call function to generate html string
 			htmlList=new ArrayList<String>();
-			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -252,9 +263,9 @@ public class CourtCaseResource {
 		case "Appendix3":
 			// call function to generate html string
 			htmlList=new ArrayList<String>();
-			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
@@ -262,14 +273,219 @@ public class CourtCaseResource {
 		case "Appendix4":
 			// call function to generate html string
 			htmlList=new ArrayList<String>();
-			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam.getSabhasadName())) {
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
 				// generating html from template
-				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html",courtCase, getCourtCaseSetting(courtCase.getSettingCode()));
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
 			}
 			break;
+			
+			
+			
+		case "JangamJaptiPanchanama":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JangamJaptiPanchanama.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			//...............................................
+			
+			
+			
+			
+		case "JaptiAdesh":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiAdesh.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "TabaNotice":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaNotice.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+		case "TabaghenyachiNotice":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaghenyachiNotice.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "JaptiPurvNotice":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "LilavPurvNotice":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/LilavPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+		case "Jahirnama":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Jahirnama.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+		case "JahirLilav":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JahirLilav.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+		case "AtiVSharti":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/AtiVSharti.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+		case "Proceding":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Proceding.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+		case "VikriTachan":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriTachan.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+			
+			
+		case "MudrakBharane":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/MudrakBharane.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+		case "VikriKalavane":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKalavane.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "VikriKayam":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKayam.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+		case "TabaPavti":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaPavti.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+		case "ChhananiTakta":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ChhananiTakta.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+		case "Dakhala":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Dakhala.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
+			
+		case "StavarJaptiPurvNotice":
+			// call function to generate html string
+			htmlList=new ArrayList<String>();
+			for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+				// generating html from template
+				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/StavarJaptiPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
+				htmlList.add(htmlStringForPdf);
+			}
+			break;
+			
+			
 
 		default:
+			
+			//case not matched
 
 		}
         
@@ -817,44 +1033,15 @@ public class CourtCaseResource {
                 }
                 
                 
-                String packsOrBranchNumber="";
 				if (findOneByPacsNumber.isPresent()) {
-					packsOrBranchNumber=findOneByPacsNumber.get().getPacsNumber();
 					societyOrBranchName = findOneByPacsNumber.get().getPacsNameMr();
 					societyOrBranchAddress = findOneByPacsNumber.get().getPacsAddressMr();
 
 				} else if (findOneBySchemeWiseBranchCode.isPresent()) {
-					packsOrBranchNumber=findOneBySchemeWiseBranchCode.get().getSchemeWiseBranchCode();
 					societyOrBranchName = findOneBySchemeWiseBranchCode.get().getBranchNameMr();
 					societyOrBranchAddress = findOneBySchemeWiseBranchCode.get().getBranchAddressMr();
 				}
                 
-                
-				
-//				 if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
-//		              //page =issFileParserQueryService.findByCriteriaPackNumber(criteria, pageable, branchOrPacksNumber.get(Constants.PACKS_CODE_KEY));
-//		          if(!branchOrPacksNumber.get(Constants.PACKS_CODE_KEY).equalsIgnoreCase(packsOrBranchNumber))
-//		          {
-//		        	  
-//		        	  
-//		          }
-//				 
-//				 
-//				 } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
-//		              //page =issFileParserQueryService.findByCriteriaSchemeWiseBranchCode(criteria,pageable,branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY));
-//		          
-//				 
-//				 
-//				 } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
-//		         //     page = issFileParserQueryService.findByCriteria(criteria, pageable);
-//		         
-//				 
-//				 
-//				 
-//				 } else {
-//		              throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
-//		          }
-            	
             }else
             {
             	 throw new ForbiddenAuthRequestAlertException("Invalid file, required pacs or branch code", ENTITY_NAME, "invalidFile");
@@ -879,50 +1066,64 @@ public class CourtCaseResource {
         List<CourtCaseSetting> courtCaseSettingList = createCourtCaseSettingFileRecords(courtCaseSettingFile,financialYear,societyOrBranchAddress);
         
         //getting records from court case setting file
-        List<CourtCase> courtCaseList = createCourtCaseFileRecords(courtCaseFile, financialYear, societyOrBranchName, societyOrBranchAddress);
+        List<CourtCase> courtCaseList = createCourtCaseFileRecords(courtCaseFile,  financialYear, societyOrBranchName, societyOrBranchAddress);
         
         if (!courtCaseList.isEmpty() && !courtCaseSettingList.isEmpty()) {
         	
+        	CourtCaseSetting courtCaseSetting=courtCaseSettingList.get(0);
+        	//saving court case stting file
+        	CourtCaseSettingFile courtCaseSettingFileObj = new CourtCaseSettingFile();
+			courtCaseSettingFileObj.setFileName(courtCaseSettingFile.getOriginalFilename());
+			courtCaseSettingFileObj.setUniqueFileName(courtCaseSetting.getUniqueFileName());
+			final CourtCaseSettingFile finalCourtCaseSettingFile = caseSettingFileRepository.save(courtCaseSettingFileObj);
+			
+        	//saving court case file
 			CourtCaseFile courtCaseFileObj = new CourtCaseFile();
 			courtCaseFileObj.setFileName(courtCaseFile.getOriginalFilename());
 			courtCaseFileObj.setUniqueFileName(courtCaseList.get(0).getUniqueFileName());
 			final CourtCaseFile finalCourtCaseFile = courtCaseFileRepository.save(courtCaseFileObj);
 
-			CourtCaseSettingFile courtCaseSettingFileObj = new CourtCaseSettingFile();
-			courtCaseSettingFileObj.setFileName(courtCaseSettingFile.getOriginalFilename());
-			courtCaseSettingFileObj.setUniqueFileName(courtCaseSettingList.get(0).getUniqueFileName());
-			final CourtCaseSettingFile finalCourtCaseSettingFile = caseSettingFileRepository.save(courtCaseSettingFileObj);
 			
+			//calculating postage value from setting file
+			 String totalPostageValue = getTotalPostageValue(courtCaseSetting.getVasuliExpenseEn(),
+					 courtCaseSetting.getOtherExpenseEn(),
+					 courtCaseSetting.getNoticeExpenseEn());
+			 
+			 
 			
-			
-			 String totalPostageValue = getTotalPostageValue(courtCaseSettingList.get(0).getVasuliExpenseEn(),
-					 courtCaseSettingList.get(0).getOtherExpenseEn(),
-					 courtCaseSettingList.get(0).getNoticeExpenseEn());
 					 
 			
 			//Marathi
-			String settingCodeText = translationServiceUtility.translationText(""+finalCourtCaseFile.getId());
+			String settingCodeText = translationServiceUtility.translationText(""+courtCaseSetting.getId());
 			String courtCaseDateText = translationServiceUtility.oneZeroOneDateMr(courtCaseDate);
 			
+			//updating court case setting
+			courtCaseSetting.setCourtCaseSettingFile(finalCourtCaseSettingFile);
+			//courtCaseSetting.setSettingCode(settingCodeText);
+			courtCaseSetting.setSettingCodeEn(finalCourtCaseFile.getId());
+			
+			CourtCaseSetting courtCaseSettingSave = caseSettingRepository.save(courtCaseSetting);
+			 
+			 
+			//updating court case object
 			courtCaseList.forEach(cc -> {
+				cc.setPriorDemandTotalMr(getPriorTotalAmount(cc,courtCaseSetting.getVasuliExpenseEn(),
+					 courtCaseSetting.getOtherExpenseEn(),
+					 courtCaseSetting.getNoticeExpenseEn()));
 				cc.setCourtCaseFile(finalCourtCaseFile);
 				cc.setSettingCode(settingCodeText);
 				cc.setSettingCodeEn(finalCourtCaseFile.getId());
-				cc.setFirstNoticeDate(courtCaseDate);
-				cc.setFirstNoticeDateMr(courtCaseDateText);
+				cc.setClaimDate(courtCaseDate);
+				cc.setClaimDateMr(courtCaseDateText);
 				cc.setTotalPostage(totalPostageValue);
+				cc.setCourtCaseSetting(courtCaseSettingSave);
 				});
 			
-			
-			courtCaseSettingList.forEach(ccs -> {ccs.setCourtCaseSettingFile(finalCourtCaseSettingFile);
-			ccs.setSettingCode(settingCodeText);
-			ccs.setSettingCodeEn(finalCourtCaseFile.getId());
-			});
-			
+			//updating court case setting
 			
 			
             courtCaseRepository.saveAll(courtCaseList);
-            caseSettingRepository.saveAll(courtCaseSettingList);
+           
 
             if (courtCaseList.get(0) != null) {
                 try {
@@ -960,7 +1161,119 @@ public class CourtCaseResource {
     }
     
     
-    /**
+
+
+    
+    private String getPriorTotalAmount(CourtCase cc, Double vasuliExpenseEn, Double otherExpenseEn,
+		Double noticeExpenseEn) {
+    	
+    	
+    	try {
+    		
+    		
+    		
+    		Double sumvyaj = Double.sum(cc.getDueInterestEn(), cc.getInterestRecivableEn());
+    		Double dandVyaj =Double.sum(cc.getDuePenalInterestEn(), cc.getDueMoreInterestEn());
+    		Double totalPostage =Double.sum(vasuliExpenseEn, Double.sum(otherExpenseEn, noticeExpenseEn));
+    		
+    		Double total =Double.sum(cc.getLoanAmountEn(),  Double.sum(sumvyaj, Double.sum(dandVyaj, totalPostage)));
+    		
+            String format = String.format("%.2f", total);
+            return translationServiceUtility.numberTOMarathiNumber(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    	
+    	
+}
+
+
+	private String vyaj(Double dueInterestEn, Double interestRecivableEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(dueInterestEn, interestRecivableEn));
+            return translationServiceUtility.numberTOMarathiNumber(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+    
+    private String dandVyaj(Double duePenalInterestEn, Double dueMoreInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(duePenalInterestEn, dueMoreInterestEn));
+            return translationServiceUtility.numberTOMarathiNumber(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+    
+
+
+    private String getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+            return translationServiceUtility.numberTOMarathiNumber(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+   //translate number to word
+    private String dueAmountWord(Double dueAmountEn) {
+        try {
+            String format = String.format("%.2f", dueAmountEn);
+            String convertDoubleToText = EnglishNumberToWords.convertDoubleToText(Double.parseDouble(format));
+            return translationServiceUtility.translationText(convertDoubleToText);
+            
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    private String intrestAmountWord(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(dueInterestEn, Double.sum(duePenalInterestEn, Double.sum(dueMoreInterestEn, interestRecivableEn))));
+            String convertDoubleToText = EnglishNumberToWords.convertDoubleToText(Double.parseDouble(format));
+            return translationServiceUtility.translationText(convertDoubleToText);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    private String intrestAmountSum(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(dueInterestEn, Double.sum(duePenalInterestEn, Double.sum(dueMoreInterestEn, interestRecivableEn))));
+            return translationServiceUtility.numberTOMarathiNumber(format);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+    
+    private String totalAmountWord(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
+            String convertDoubleToText = EnglishNumberToWords.convertDoubleToText(Double.parseDouble(format));
+            return translationServiceUtility.translationText(convertDoubleToText);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
+    
+    
+
+
+	/**
     *
     * @param courtCaseSettingFile the courtCaseSetting to create.
     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
@@ -1097,7 +1410,7 @@ public class CourtCaseResource {
                         //Marathi
 
                         courtCaseSetting.setVasuliExpense(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(6)))
+                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(6)))
                         );
                     }
 
@@ -1107,7 +1420,7 @@ public class CourtCaseResource {
 
                         //Marathi
                         courtCaseSetting.setOtherExpense(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(7)))
+                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(7)))
                         );
                     }
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
@@ -1116,7 +1429,7 @@ public class CourtCaseResource {
 
                         //Marathi
                         courtCaseSetting.setNoticeExpense(
-                            translationServiceUtility.translationText(getCellAmountValueInString(row.getCell(8)))
+                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(8)))
                         );
                     }
 
@@ -1295,7 +1608,7 @@ public class CourtCaseResource {
                         // english
                         courtCase.setSrNoEn(Long.parseLong(srNo));
                         // marathi
-                        courtCase.setSrNo(translationServiceUtility.translationText(srNo));
+                        courtCase.setSrNo(translationServiceUtility.numberTOMarathiNumber(srNo));
                     }
                     
                     
@@ -1326,7 +1639,7 @@ public class CourtCaseResource {
                         courtCase.setAccountNoEn(acountNo);
 
                         // marathi
-                        courtCase.setAccountNo(translationServiceUtility.translationText(acountNo));
+                        courtCase.setAccountNo(translationServiceUtility.numberTOMarathiNumber(acountNo));
                     }
 
                     
@@ -1364,7 +1677,7 @@ public class CourtCaseResource {
                         courtCase.setLoanAmountEn(loanAmount);
 
                         // marathi
-                        courtCase.setLoanAmount(translationServiceUtility.translationText(""+loanAmount));
+                        courtCase.setLoanAmount(translationServiceUtility.numberTOMarathiNumber(""+loanAmount));
                     }
 
                     
@@ -1384,7 +1697,7 @@ public class CourtCaseResource {
                         courtCase.setTermOfLoanEn(termOfLoan);
 
                         // marathi
-                        courtCase.setTermOfLoan(translationServiceUtility.translationText(termOfLoan));
+                        courtCase.setTermOfLoan(translationServiceUtility.numberTOMarathiNumber(termOfLoan));
                     }
                     
                     
@@ -1395,7 +1708,7 @@ public class CourtCaseResource {
                         courtCase.setInterestRateEn(interestRate);
 
                         // marathi
-                        courtCase.setInterestRate(translationServiceUtility.translationText(""+interestRate));
+                        courtCase.setInterestRate(translationServiceUtility.numberTOMarathiNumber(""+interestRate));
                     }
 
                     
@@ -1406,7 +1719,7 @@ public class CourtCaseResource {
 
                         // marathi
                         courtCase.setInstallmentAmount(
-                            translationServiceUtility.translationText(""+installmentAmount)
+                            translationServiceUtility.numberTOMarathiNumber(""+installmentAmount)
                         );
                     }
 
@@ -1417,7 +1730,7 @@ public class CourtCaseResource {
                         courtCase.setTotalCreditEn(totalCredit);
 
                         // marathi
-                        courtCase.setTotalCredit(translationServiceUtility.translationText(""+totalCredit));
+                        courtCase.setTotalCredit(translationServiceUtility.numberTOMarathiNumber(""+totalCredit));
                     }
                     
                     
@@ -1427,7 +1740,7 @@ public class CourtCaseResource {
                     	 courtCase.setInterestPaidEn(interestPaid);
 
                          // marathi
-                         courtCase.setInterestPaid(translationServiceUtility.translationText(""+interestPaid));
+                         courtCase.setInterestPaid(translationServiceUtility.numberTOMarathiNumber(""+interestPaid));
                          
                          
                        
@@ -1442,7 +1755,7 @@ public class CourtCaseResource {
 
                          // marathi
                          courtCase.setPenalInterestPaid(
-                             translationServiceUtility.translationText(""+penalInterestPaid)
+                             translationServiceUtility.numberTOMarathiNumber(""+penalInterestPaid)
                          );
                        
                     }
@@ -1455,7 +1768,7 @@ public class CourtCaseResource {
                         courtCase.setBalanceEn(balance);
 
                         // marathi
-                        courtCase.setBalance(translationServiceUtility.translationText(""+balance));
+                        courtCase.setBalance(translationServiceUtility.numberTOMarathiNumber(""+balance));
                         // english
                        
                     }
@@ -1466,7 +1779,7 @@ public class CourtCaseResource {
                         courtCase.setDueAmountEn(dueAmount);
 
                         // marathi
-                        courtCase.setDueAmount(translationServiceUtility.translationText(""+dueAmount));
+                        courtCase.setDueAmount(translationServiceUtility.numberTOMarathiNumber(""+dueAmount));
                     }
 
                     
@@ -1485,7 +1798,7 @@ public class CourtCaseResource {
                         courtCase.setDueInterestEn(dueInterest);
 
                         // marathi
-                        courtCase.setDueInterest(translationServiceUtility.translationText(""+dueInterest));
+                        courtCase.setDueInterest(translationServiceUtility.numberTOMarathiNumber(""+dueInterest));
                     }
 
                     
@@ -1495,7 +1808,7 @@ public class CourtCaseResource {
                         courtCase.setDuePenalInterestEn(duePenalInterest);
                         // marathi
                         courtCase.setDuePenalInterest(
-                            translationServiceUtility.translationText(""+duePenalInterest)
+                            translationServiceUtility.numberTOMarathiNumber(""+duePenalInterest)
                         );
                     }
 
@@ -1506,7 +1819,7 @@ public class CourtCaseResource {
                         courtCase.setDueMoreInterestEn(dueMoreInterest);
                         // marathi
                         courtCase.setDueMoreInterest(
-                            translationServiceUtility.translationText(""+dueMoreInterest)
+                            translationServiceUtility.numberTOMarathiNumber(""+dueMoreInterest)
                         );
                     }
 
@@ -1518,7 +1831,7 @@ public class CourtCaseResource {
                         courtCase.setInterestRecivableEn(interestRecivable);
                         // marathi
                         courtCase.setInterestRecivable(
-                            translationServiceUtility.translationText(""+interestRecivable)
+                            translationServiceUtility.numberTOMarathiNumber(""+interestRecivable)
                         );
                     }
 
@@ -1561,15 +1874,35 @@ public class CourtCaseResource {
                     
                     
                     
-                    //making word for amount
-                  //  String totalValue = getTotalValue(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
-                   
-                   // String moreIntrestValue = getMoreIntrestValue(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
-                   
-                  //  String totalIntrest = getTotalIntrest(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(), courtCase.getDuePenalInterestEn());
+                    //converting number to marathi number
+                    String priorDemandVyajMr = vyaj(courtCase.getDueInterestEn(), courtCase.getInterestRecivableEn());
+                    courtCase.setPriorDemandVyajMr(priorDemandVyajMr);
                     
+                   String dandVyaj = dandVyaj(courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn());
+                   courtCase.setPriorDemandDandVyajMr(dandVyaj);
                    
-                  
+                   
+                   //making word for amount
+                   
+					String dueAmountWord = dueAmountWord(courtCase.getDueAmountEn());
+					courtCase.setDueAmountWord(dueAmountWord);
+
+					String intrestAmountWord = intrestAmountWord(courtCase.getDueInterestEn(),
+							courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn(),
+							courtCase.getInterestRecivableEn());
+					courtCase.setIntrestAmountWord(intrestAmountWord);
+					
+					
+					String intrestAmountSum = intrestAmountSum(courtCase.getDueInterestEn(),
+							courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn(),
+							courtCase.getInterestRecivableEn());
+					courtCase.setIntrestAmountSum(intrestAmountSum);
+
+					String totalAmountWord = totalAmountWord(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(),
+							courtCase.getDuePenalInterestEn());
+					courtCase.setTotalAmountWord(totalAmountWord);
+                   
+                   
                     courtCaseList.add(courtCase);
                 }
             }
@@ -1776,25 +2109,16 @@ public class CourtCaseResource {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
             cellValue = cell.getStringCellValue().trim();
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
         } else if (cell.getCellType() == CellType.NUMERIC) {
             cellValue = String.valueOf(cell.getNumericCellValue());
             BigDecimal bigDecimal = new BigDecimal(cellValue);
             DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
             DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
-
             cellValue = decimalFormat.format(bigDecimal);
         } else if (cell.getCellType() == CellType.BOOLEAN) {
             cellValue = String.valueOf(cell.getBooleanCellValue());
         } else if (cell.getCellType() == CellType.FORMULA) {
             cellValue = String.valueOf(cell.getNumericCellValue());
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
         } else if (cell.getCellType() == CellType.BLANK) {
             cellValue = "";
         }
@@ -1803,7 +2127,7 @@ public class CourtCaseResource {
     }
 
     private static Double getCellAmountValue(Cell cell) {
-        Double cellValue = 0.0;
+        Double cellValue = 0.00;
 
         if (cell == null) {
             cellValue = 0.0;
@@ -1825,7 +2149,7 @@ public class CourtCaseResource {
     }
 
     private static String getCellAmountValueInString(Cell cell) {
-        String cellValue = "0.0";
+        String cellValue = "0.00";
 
         if (cell == null) {
             return cellValue;
@@ -1868,140 +2192,34 @@ public class CourtCaseResource {
     }
 
 
-
+  
 
    
-
-    
-    
-    
-    private String getTotalIntrest(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
-        try {
-            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
-
-            return translationServiceUtility.translationText(format);
-        } catch (Exception e) {
-            return "Error in translation";
-        }
-    }
-    
-    
-    private String getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
-        try {
-            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
-
-            return translationServiceUtility.translationText(format);
-        } catch (Exception e) {
-            return "Error in translation";
-        }
-    }
-    
-    
-    private String getMoreIntrestValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
-        try {
-            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
-
-            return translationServiceUtility.translationText(format);
-        } catch (Exception e) {
-            return "Error in translation";
-        }
-    }
-    
-    
-    
-    
-    private String getTotalValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
-        try {
-            String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
-
-            return translationServiceUtility.translationText(format);
-        } catch (Exception e) {
-            return "Error in translation";
-        }
-    }
-
-    
-   
-//....................................................................................................................................
-    
-    @PostMapping("/oneZeroOneNoticeDemo")
-    public ResponseEntity<byte[]> generatePDFFromHTMLDemo( @RequestParam("file") MultipartFile files) throws Exception {
-    	
-    	InputStream inputStream = files.getInputStream();
-    	
-    	List<InputStream> htmlList=new ArrayList<InputStream>();
-		htmlList.add(inputStream);
-        
-        
-        
-        ResponseEntity<byte[]> response=null;
-        if(htmlList.size()==1)
-        {
-        	//code for the generating pdf from html string
-            
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-            // Create ConverterProperties and set the font provider
-            ConverterProperties converterProperties = new ConverterProperties();
-
-            FontProvider fontProvider = new FontProvider();
-            
-            
-            File file=new File(Constants.fontFilePath);
-            
-            
-           // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
-            //String filepath=resource.getFile().getAbsolutePath();
-            
-            String filepath=file.getAbsolutePath();
-            
-            
-            
-            
-            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
-
-            converterProperties.setFontProvider(fontProvider);
-            converterProperties.setCharset("UTF-8");
-            
-            //converting html to pdf
-            HtmlConverter.convertToPdf(htmlList.get(0), byteArrayOutputStream, converterProperties);
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", "application/pdf");
-            headers.add("content-disposition", "attachment; filename=" +getUniqueNumberString()+ "certificate.pdf");
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
-        }
-        
-        else
-        {
-        	 throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
-        }
-        
-        return response;
-    }
-    
-    
     //getting court case with or without sabhasad name
     
-  	List<CourtCase> getCourtCaseList(CourtCaseCriteria criteria, String sabhasadName) {
+  	List<CourtCase> getCourtCaseList(CourtCaseCriteria criteria, One01ReportParam one01ReportParam) {
 
-  		if (StringUtils.isNotBlank(sabhasadName)) {
+  		if (StringUtils.isNotBlank(one01ReportParam.getSabhasadName())) {
   			StringFilter sabhasadNameFilter = new StringFilter();
-  			sabhasadNameFilter.setEquals(sabhasadName);
+  			sabhasadNameFilter.setEquals(one01ReportParam.getSabhasadName());
   			criteria.setNameOfDefaulter(sabhasadNameFilter);
   		}
 
   		
+  		List<CourtCase> courtCaseList = courtCaseQueryService.findByCriteriaWithoutPage(criteria);
   		
-  		//List<CourtCase> courtCaseList = courtCaseQueryService.findByCriteriaWithoutPage(criteria);
-  		
-  		Optional<CourtCase> findById = courtCaseRepository.findById(1l);
-  		List<CourtCase> courtCaseList =new ArrayList<>();
-  		
-  		
-  		courtCaseList.add(findById.get());
-  		
+		if (one01ReportParam.getFirstNoticeDate() != null && !courtCaseList.isEmpty()) {
+
+			courtCaseList.forEach(courtCase -> {
+
+				courtCase.setFirstNoticeDate(one01ReportParam.getFirstNoticeDate());
+				courtCase.setFirstNoticeDateMr(
+						translationServiceUtility.oneZeroOneDateMr(one01ReportParam.getFirstNoticeDate()));
+
+			});
+
+			courtCaseRepository.saveAll(courtCaseList);
+		}
   		
 
   		if (courtCaseList.isEmpty()) {
@@ -2010,24 +2228,6 @@ public class CourtCaseResource {
   		return courtCaseList;
 
   	}
-  	
-  	 //getting court case setting with or without setting
-  	CourtCaseSetting getCourtCaseSetting(String settingCode) {
-  		CourtCaseSetting courtCaseSetting = new CourtCaseSetting();
-  		if (StringUtils.isNotBlank(settingCode)) {
-  			courtCaseSetting = caseSettingRepository.findOneBySettingCode(settingCode);
-  		} else {
-  			courtCaseSetting = caseSettingRepository.findTopByOrderByIdDesc();
-  		}
-
-  		if (courtCaseSetting == null) {
-  			throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
-  		}
-
-  		return courtCaseSetting;
-
-  	}
-      
   	
   	//generate unique number string
   	String getUniqueNumberString()
@@ -2047,7 +2247,7 @@ public class CourtCaseResource {
       	 Locale locale = Locale.forLanguageTag("en");
       	 Context context = new Context(locale);
            context.setVariable("courtCase", courtCase);
-           context.setVariable("courtCaseSettings", courtCaseSettings);
+           context.setVariable("courtCaseSetting", courtCaseSettings);
            String content = templateEngine.process(template, context);
            return content;
       }

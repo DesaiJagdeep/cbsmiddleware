@@ -2,16 +2,21 @@ package com.cbs.middleware.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * A CourtCaseSetting.
  */
 @Entity
 @Table(name = "court_case_setting")
-@SuppressWarnings("common-java:DuplicatedBlocks")
+//@SuppressWarnings("common-java:DuplicatedBlocks")
 public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,8 +26,8 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "id")
     private Long id;
     
-    @Column(name = "setting_code")
-    private String settingCode;
+//    @Column(name = "setting_code")
+//    private String settingCode;
     
     @Column(name = "financial_year")
     private String financialYear;
@@ -262,13 +267,13 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     }
 
 
-	public String getSettingCode() {
-		return settingCode;
-	}
-
-	public void setSettingCode(String settingCode) {
-		this.settingCode = settingCode;
-	}
+//	public String getSettingCode() {
+//		return settingCode;
+//	}
+//
+//	public void setSettingCode(String settingCode) {
+//		this.settingCode = settingCode;
+//	}
 
 	public void setVasuliAdhikariNameEn(String vasuliAdhikariNameEn) {
         this.vasuliAdhikariNameEn = vasuliAdhikariNameEn;

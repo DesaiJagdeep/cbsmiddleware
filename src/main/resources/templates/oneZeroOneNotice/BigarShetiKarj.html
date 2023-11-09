@@ -28,39 +28,39 @@
       <tbody>
         <tr>
           <td colspan="2" style="text-align: justify">
-            कर्ज खाते क्रमांक: _____
+            कर्ज खाते क्रमांक: <b><span th:text="${courtCase.accountNo}"/></b>
           </td>
         </tr>
         <tr>
           <td colspan="2" style="text-align: justify">
-            कर्जदार: ______________
+            कर्जदार: <b><span th:text="${courtCase.nameOfDefaulter}"/></b>
           </td>
         </tr>
         <tr>
           <td colspan="2" style="text-align: justify">
-            राहणार: ______________
+            राहणार: <b><span th:text="${courtCase.address}"/></b>
           </td>
         </tr>
         <tr>
           <td style="text-align: justify; vertical-align: baseline" rowspan="2">
             १)
           </td>
-          <td>जमीनदार: ______________</td>
+          <td>जमीनदार: <b><span th:text="${courtCase.gaurentorOne}"/></b></td>
         </tr>
         <tr>
-          <td>राहणार: ______________</td>
+          <td>राहणार: <b><span th:text="${courtCase.gaurentorOneAddress}"/></b></td>
         </tr>
 
         <tr>
           <td style="text-align: justify; vertical-align: baseline" rowspan="2">
             २)
           </td>
-          <td>जमीनदार: ______________</td>
+          <td>जमीनदार: <b><span th:text="${courtCase.gaurentorTwo}"/></b></td>
         </tr>
         <tr>
-          <td>राहणार: ______________</td>
+          <td>राहणार: <b><span th:text="${courtCase.gaurentorTwoAddress}"/></b></td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td style="text-align: justify; vertical-align: baseline" rowspan="2">
             ३)
           </td>
@@ -68,7 +68,7 @@
         </tr>
         <tr>
           <td>राहणार : ___________</td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
 
@@ -77,15 +77,15 @@
       <tr>
         <td style="vertical-align: baseline">१)</td>
         <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-          तुम्ही बँकेच्या ______________ शाखेकडून दिनांक ______ रोजी थेट शेती
-          कर्ज योजनेअंतर्गत ______________ कारणासाठी रुपये _____ चे कर्ज
-          द.सा.द.शे. ___% व्याजदराने घेतले आहे.
+          तुम्ही बँकेच्या <b><span th:text="${courtCase.societyBranchName}"/></b> शाखेकडून दिनांक <b><span th:text="${courtCase.loanDateMr}"/></b> रोजी थेट शेती
+          कर्ज योजनेअंतर्गत <b><span th:text="${courtCase.loanType}"/></b> कारणासाठी रुपये <b><span th:text="${courtCase.loanAmount}"/></b> चे कर्ज
+          द.सा.द.शे. <b><span th:text="${courtCase.interestRate}"/></b>% व्याजदराने <b><span th:text="${courtCase.termOfLoan}"/></b> वर्ष्याच्या मुदतीने घेतले आहे.
         </td>
       </tr>
       <tr>
         <td style="vertical-align: baseline">२)</td>
         <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-          सदर कर्ज व्यवहारास श्री. ______________ व श्री. ______________ हे
+          सदर कर्ज व्यवहारास श्री. <b><span th:text="${courtCase.gaurentorOne}"/></b> व श्री. <b><span th:text="${courtCase.gaurentorTwo}"/></b> हे
           व्यक्तिश: जमीनदार आहेत.
         </td>
       </tr>
@@ -93,7 +93,7 @@
       <tr>
         <td style="vertical-align: baseline">३)</td>
         <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-          मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक ______ रोजी रितसर वचनचिठ्ठी, करारनामे व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.
+          मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक <b><span th:text="${courtCase.loanDateMr}"/></b> रोजी रितसर वचनचिठ्ठी, करारनामे व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.
         </td>
       </tr>
       <tr>
@@ -120,7 +120,7 @@
     </table>
 
     <p style="margin: 0px">
-      <b>दिनांक ________ अखेर तुमचेकडून खालीलप्रमाणे येणे बाकी आहे</b>
+      <b>दिनांक <b><span th:text="${courtCase.claimDateMr}"/></b> अखेर तुमचेकडून खालीलप्रमाणे येणे बाकी आहे</b>
     </p>
     <table
       style="
@@ -134,22 +134,22 @@
       <tr style="border: 1px solid black; max-height: 2px">
         <td style="border: 1px solid black; vertical-align: baseline">१)</td>
         <td style="border: 1px solid black">मुदल</td>
-        <td style="border: 1px solid black">रुपये</td>
+        <td style="border: 1px solid black">रुपये <b><span th:text="${courtCase.dueAmount}"/></b></td>
       </tr>
       <tr style="border: 1px solid black">
         <td style="border: 1px solid black; vertical-align: baseline">२)</td>
         <td style="border: 1px solid black">व्याज येणे + दंड व्याज</td>
-        <td style="border: 1px solid black">रुपये</td>
+        <td style="border: 1px solid black">रुपये <b><span th:text="${courtCase.intrestAmountSum}"/></b></td>
       </tr>
       <tr style="border: 1px solid black">
         <td style="border: 1px solid black; vertical-align: baseline">३)</td>
         <td style="border: 1px solid black">इतर खर्च - विमा,नोटीस इ.</td>
-        <td style="border: 1px solid black">रुपये</td>
+        <td style="border: 1px solid black">रुपये need to calculate</td>
       </tr>
       <tr style="border: 1px solid black">
         <td style="border: 1px solid black"></td>
         <td style="border: 1px solid black">एकूण</td>
-        <td style="border: 1px solid black">रुपये</td>
+        <td style="border: 1px solid black">रुपये calculate</td>
       </tr>
     </table>
 
@@ -174,9 +174,9 @@
           शाखा व्यवस्थापक / वसुली अधिकारी / विकास अधिकारी
         </p>
         <p style="margin: 0px">
-          विभाग :- ______________ द्वारा :- ______________ शाखा,
+          विभाग :- ______________ द्वारा :- <b><span th:text="${courtCase.societyBranchName}"/></b> शाखा,
         </p>
-        <p style="margin: 0px">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्या., पुणे</p>
+        <p style="margin: 0px"><b><span th:text="${courtCase.bankName}"/></b></p>
       </div>
     </div>
   </body>

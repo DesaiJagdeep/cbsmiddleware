@@ -1,5 +1,7 @@
 package com.cbs.middleware.domain;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,6 +12,8 @@ public class One01ReportParam {
     private String bankName;
     private String sabhasadName;
     private String oneZeroOneOption;
+    private LocalDate firstNoticeDate;
+    private boolean isFirstNoticeDateChange;
     
     private String courtCaseSettingCode;
 
@@ -25,15 +29,31 @@ public class One01ReportParam {
         return bankName;
     }
 
-    public void setBankName(String bankName) {
+    public boolean isFirstNoticeDateChange() {
+		return isFirstNoticeDateChange;
+	}
+
+	public void setFirstNoticeDateChange(boolean isFirstNoticeDateChange) {
+		this.isFirstNoticeDateChange = isFirstNoticeDateChange;
+	}
+
+	public void setBankName(String bankName) {
         this.bankName = bankName;
     }
 
     public String getSabhasadName() {
         return sabhasadName;
-    }
+    } 
 
-    public void setSabhasadName(String sabhasadName) {
+    public LocalDate getFirstNoticeDate() {
+		return firstNoticeDate;
+	}
+
+	public void setFirstNoticeDate(LocalDate firstNoticeDate) {
+		this.firstNoticeDate = firstNoticeDate;
+	}
+
+	public void setSabhasadName(String sabhasadName) {
         this.sabhasadName = sabhasadName;
     }
 

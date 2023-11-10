@@ -204,7 +204,7 @@ class ApplicationLogHistoryResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllApplicationLogHistoriesWithEagerRelationshipsIsEnabled() throws Exception {
         when(applicationLogHistoryServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -213,7 +213,7 @@ class ApplicationLogHistoryResourceIT {
         verify(applicationLogHistoryServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllApplicationLogHistoriesWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(applicationLogHistoryServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

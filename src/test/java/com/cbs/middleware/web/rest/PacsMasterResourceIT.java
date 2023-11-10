@@ -146,7 +146,7 @@ class PacsMasterResourceIT {
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllPacsMastersWithEagerRelationshipsIsEnabled() throws Exception {
         when(pacsMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -155,7 +155,7 @@ class PacsMasterResourceIT {
         verify(pacsMasterServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllPacsMastersWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(pacsMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

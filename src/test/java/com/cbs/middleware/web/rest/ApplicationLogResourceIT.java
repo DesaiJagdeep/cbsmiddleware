@@ -207,7 +207,7 @@ class ApplicationLogResourceIT {
             .andExpect(jsonPath("$.[*].batchId").value(hasItem(DEFAULT_BATCH_ID)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllApplicationLogsWithEagerRelationshipsIsEnabled() throws Exception {
         when(applicationLogServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -216,7 +216,7 @@ class ApplicationLogResourceIT {
         verify(applicationLogServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllApplicationLogsWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(applicationLogServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

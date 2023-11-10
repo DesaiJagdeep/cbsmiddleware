@@ -161,7 +161,7 @@ class BankBranchMasterResourceIT {
             .andExpect(jsonPath("$.[*].branchAddress").value(hasItem(DEFAULT_BRANCH_ADDRESS)));
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllBankBranchMastersWithEagerRelationshipsIsEnabled() throws Exception {
         when(bankBranchMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
@@ -170,7 +170,7 @@ class BankBranchMasterResourceIT {
         verify(bankBranchMasterServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
-    @SuppressWarnings({ "unchecked" })
+    //@SuppressWarnings({ "unchecked" })
     void getAllBankBranchMastersWithEagerRelationshipsIsNotEnabled() throws Exception {
         when(bankBranchMasterServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 

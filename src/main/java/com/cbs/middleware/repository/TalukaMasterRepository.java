@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the TalukaMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface TalukaMasterRepository extends JpaRepository<TalukaMaster, Long> {
     boolean existsByTalukaName(String talukaName);

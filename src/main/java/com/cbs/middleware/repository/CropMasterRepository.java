@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CropMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CropMasterRepository extends JpaRepository<CropMaster, Long> {
     boolean existsByCropName(String cropName);

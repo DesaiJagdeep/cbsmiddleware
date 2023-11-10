@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the LandTypeMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface LandTypeMasterRepository extends JpaRepository<LandTypeMaster, Long> {
     List<LandTypeMaster> findByLandTypeIsContaining(String landType);

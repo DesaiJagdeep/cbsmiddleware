@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the FarmerTypeMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface FarmerTypeMasterRepository extends JpaRepository<FarmerTypeMaster, Long> {
     List<FarmerTypeMaster> findByFarmerTypeIsContaining(String farmerType);

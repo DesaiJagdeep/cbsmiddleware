@@ -13,8 +13,6 @@ public final class Constants {
 
 	public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
 
-	public static final String BANK_NAME = "Pune District Central Co.op Bank Ltd";
-	public static final String BANK_NAME_MARATHI = "पुणे जिल्हा मध्यवर्ती सहकारी बँक लि";
 
 	public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
 	public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
@@ -22,8 +20,8 @@ public final class Constants {
 	public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
 	public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
 
-	//public static final String fontFilePath="D:\\PDCC\\gitbranch\\cbs-middleware-api\\src\\main\\resources\\fonts\\NotoSans-Regular.ttf";
-	public static final String fontFilePath = "/home/ubuntu/pdcc/font/NotoSans-Regular.ttf";
+	public static final String fontFilePath="D:\\PDCC\\gitbranch\\cbs-middleware-api\\src\\main\\resources\\fonts\\NotoSans-Regular.ttf";
+	//public static final String fontFilePath = "/home/ubuntu/pdcc/font/NotoSans-Regular.ttf";
     //public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
 
 //    public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";

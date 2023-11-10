@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the KamalMaryadaPatrak entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface KamalMaryadaPatrakRepository
     extends JpaRepository<KamalMaryadaPatrak, Long>, JpaSpecificationExecutor<KamalMaryadaPatrak> {}

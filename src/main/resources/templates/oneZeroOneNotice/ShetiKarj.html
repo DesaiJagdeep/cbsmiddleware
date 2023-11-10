@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <h3 style="text-align: center; margin: 0px;"><b><span th:text="${courtCase.bankName}"/></b></h3>
+    <h3 style="text-align: center; margin: 0px;"><strong><span th:text="${courtCase.bankName}"/></strong></h3>
     <p style="text-align: center; margin: 0px;">रजिस्टर ए. डी.</p>
     <div style="display: flex; justify-content: space-between; width: 100%;">
         <div style="width: 80%;">
@@ -20,21 +20,21 @@
     </div>
     <p style="text-align: center;  margin: 0px;"><u>१०९ नुसार कारवाई करणेपूर्वीची नोटीस</u></p>
     <p style="text-align: center; margin: 0px;">(थेट शेती कर्जासाठी)</p>
-    <p style="line-height: 25px;">कर्ज खाते क्रमांक: <b><span th:text="${courtCase.accountNo}"/></b> <br>
-        कर्जदार, मे. / श्री./ सौ. <b><span th:text="${courtCase.nameOfDefaulter}"/></b><br>
-        <b><span th:text="${courtCase.address}"/></b><br>
-    <h4 style="text-align: center;"><b>विषय: कर्ज फेड करण्याबाबत.</b></h4>
+    <p style="line-height: 25px;">कर्ज खाते क्रमांक: <strong><span th:text="${courtCase.accountNo}"/></strong> <br>
+        कर्जदार, मे. / श्री./ सौ. <strong><span th:text="${courtCase.nameOfDefaulter}"/></strong><br>
+        <strong><span th:text="${courtCase.address}"/></strong><br>
+    <h4 style="text-align: center;"><strong>विषय: कर्ज फेड करण्याबाबत.</strong></h4>
     <p style="margin: 0px;">तुम्हास नोटीस देण्यात येते की,</p>
     <table>
         <tr>
             <td style="vertical-align: baseline;">१)</td>
-            <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">तुम्ही बँकेच्या <b><span th:text="${courtCase.societyBranchName}"/></b> शाखेकडून दिनांक <b><span th:text="${courtCase.loanDateMr}"/></b>
-                रोजी थेट शेती कर्ज योजनेअंतर्गत <b><span th:text="${courtCase.loanType}"/></b> कारणासाठी रुपये <b><span th:text="${courtCase.loanAmount}"/></b> चे कर्ज द.सा.द.शे. <b><span th:text="${courtCase.interestRate}"/></b>% व्याजदराने घेतले आहे.</td>
+            <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">तुम्ही बँकेच्या <strong><span th:text="${courtCase.societyBranchName}"/></strong> शाखेकडून दिनांक <strong><span th:text="${courtCase.loanDateMr}"/></strong>
+                रोजी थेट शेती कर्ज योजनेअंतर्गत <strong><span th:text="${courtCase.loanType}"/></strong> कारणासाठी रुपये <strong><span th:text="${courtCase.loanAmount}"/></strong> चे कर्ज द.सा.द.शे. <strong><span th:text="${courtCase.interestRate}"/></strong>% व्याजदराने घेतले आहे.</td>
         </tr>
         <tr>
             <td style="vertical-align: baseline;">२)</td>
             <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">मूळ कर्जदार यांनी बँकेस दिनांक
-                <b><span th:text="${courtCase.loanDateMr}"/></b>
+                <strong><span th:text="${courtCase.loanDateMr}"/></strong>
                 रोजी रितसर गहाणखत, (सिंपल मॉर्गेज) वचनचिठ्ठी आणि करारनामे लिहून दिलेले आहेत.</td>
         </tr>
         <tr>
@@ -53,17 +53,17 @@
         </tr>
     </table>
 
-    <p><b>दिनांक <b><span th:text="${courtCase.firstNoticeDateMr}"/></b> अखेर तुमचेकडून खालीलप्रमाणे येणेबाकी / थकबाकी आहे</b></p>
+    <p><strong>दिनांक <strong><span th:text="${courtCase.firstNoticeDateMr}"/></strong> अखेर तुमचेकडून खालीलप्रमाणे येणेबाकी / थकबाकी आहे</strong></p>
     <table style="width: 80%; margin: auto; border-collapse: collapse; border: 1px solid black;">
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">१)</td>
             <td style="border: 1px solid black;">मुदल</td>
-            <td style="border: 1px solid black;">रुपये <b><span th:text="${courtCase.dueAmount}"/></b></td>
+            <td style="border: 1px solid black;">रुपये <strong><span th:text="${courtCase.dueAmount}"/></strong></td>
         </tr>
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">२)</td>
             <td style="border: 1px solid black;">व्याज येणे + दंड व्याज</td>
-            <td style="border: 1px solid black;">रुपये <b><span th:text="${courtCase.intrestAmountSum}"/></b></td>
+            <td style="border: 1px solid black;">रुपये <strong><span th:text="${courtCase.intrestAmountSum}"/></strong></td>
         </tr>
         <tr style="border: 1px solid black;">
             <td style="border: 1px solid black; vertical-align: baseline;">३)</td>

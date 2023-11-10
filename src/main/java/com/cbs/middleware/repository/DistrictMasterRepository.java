@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the DistrictMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface DistrictMasterRepository extends JpaRepository<DistrictMaster, Long> {}

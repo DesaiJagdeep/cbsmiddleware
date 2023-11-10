@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the IssPortalFile entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface IssChildPortalFileRepository
     extends JpaRepository<IssChildPortalFile, Long>, JpaSpecificationExecutor<IssChildPortalFile> {

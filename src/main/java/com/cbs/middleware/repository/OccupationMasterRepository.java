@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the OccupationMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface OccupationMasterRepository extends JpaRepository<OccupationMaster, Long> {
     List<OccupationMaster> findByOccupationNameIsContaining(String occupationName);

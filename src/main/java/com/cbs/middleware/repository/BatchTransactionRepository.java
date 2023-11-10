@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the BatchTransaction entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface BatchTransactionRepository extends JpaRepository<BatchTransaction, Long>, JpaSpecificationExecutor<BatchTransaction> {
     List<BatchTransaction> findAllByStatus(String string);

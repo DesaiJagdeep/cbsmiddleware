@@ -16,7 +16,7 @@ import com.cbs.middleware.domain.IssPortalFile;
 /**
  * Spring Data JPA repository for the IssPortalFile entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Long>, JpaSpecificationExecutor<IssPortalFile> {
     Optional<IssPortalFile> findByUniqueName(String uniqueId);

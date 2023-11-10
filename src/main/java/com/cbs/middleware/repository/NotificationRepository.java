@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the Notification entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     List<Notification> findAllByIsReadFalse();

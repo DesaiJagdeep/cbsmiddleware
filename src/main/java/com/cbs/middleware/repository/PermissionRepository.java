@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data  repository for the Permission entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
     Permission findOneByObjectAndActionAndRole(String object, String action, String role);

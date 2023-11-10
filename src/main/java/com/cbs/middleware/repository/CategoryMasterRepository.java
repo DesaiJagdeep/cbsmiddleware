@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CategoryMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CategoryMasterRepository extends JpaRepository<CategoryMaster, Long> {}

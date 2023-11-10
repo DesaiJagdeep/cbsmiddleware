@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CbsDataReport entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CbsDataReportRepository extends JpaRepository<CbsDataReport, Long>, JpaSpecificationExecutor<CbsDataReport> {}

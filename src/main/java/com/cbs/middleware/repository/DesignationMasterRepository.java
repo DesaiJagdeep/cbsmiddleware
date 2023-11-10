@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the DesignationMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface DesignationMasterRepository extends JpaRepository<DesignationMaster, Long> {}

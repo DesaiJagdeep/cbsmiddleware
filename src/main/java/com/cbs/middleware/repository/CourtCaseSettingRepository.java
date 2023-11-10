@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CourtCaseSetting entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CourtCaseSettingRepository extends JpaRepository<CourtCaseSetting, Long>, JpaSpecificationExecutor<CourtCaseSetting> {
     boolean existsByFileName(String originalFilename);

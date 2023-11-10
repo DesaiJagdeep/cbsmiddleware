@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CastCategoryMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CastCategoryMasterRepository extends JpaRepository<CastCategoryMaster, Long> {
     List<CastCategoryMaster> findByCastCategoryNameIsContaining(String castCategoryName);

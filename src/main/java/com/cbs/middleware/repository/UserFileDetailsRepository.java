@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CbsDataReport entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface UserFileDetailsRepository extends JpaRepository<UserFileDetails, Long>, JpaSpecificationExecutor<UserFileDetails> {}

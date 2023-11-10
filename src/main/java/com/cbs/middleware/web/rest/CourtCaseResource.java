@@ -62,6 +62,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.BankBranchMaster;
+import com.cbs.middleware.domain.BankMaster;
 import com.cbs.middleware.domain.CourtCase;
 import com.cbs.middleware.domain.CourtCaseFile;
 import com.cbs.middleware.domain.CourtCaseSetting;
@@ -69,6 +70,7 @@ import com.cbs.middleware.domain.CourtCaseSettingFile;
 import com.cbs.middleware.domain.One01ReportParam;
 import com.cbs.middleware.domain.PacsMaster;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
+import com.cbs.middleware.repository.BankMasterRepository;
 import com.cbs.middleware.repository.CourtCaseFileRepository;
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.repository.CourtCaseSettingFileRepository;
@@ -121,6 +123,9 @@ public class CourtCaseResource {
 
     @Autowired
     NotificationDataUtility notificationDataUtility;
+    
+    @Autowired
+    BankMasterRepository bankMasterRepository;
 
     @Autowired
     TranslationServiceUtility translationServiceUtility;
@@ -204,6 +209,8 @@ public class CourtCaseResource {
         criteria.setBranchOrPacsCode(pacsOrbranchCodeFilter);
         criteria.setBankName(bankFilter);
         criteria.setFinancialYear(financialYear);
+        
+        
         
         switch (one01ReportParam.getOneZeroOneOption()) {
         case "NoticeofRepayLoan":
@@ -1063,14 +1070,13 @@ public class CourtCaseResource {
         
         
       //getting records from court case setting file
-        List<CourtCaseSetting> courtCaseSettingList = createCourtCaseSettingFileRecords(courtCaseSettingFile,financialYear,societyOrBranchAddress);
+        CourtCaseSetting courtCaseSetting = createCourtCaseSettingFileRecord(courtCaseSettingFile,financialYear,societyOrBranchAddress);
         
         //getting records from court case setting file
         List<CourtCase> courtCaseList = createCourtCaseFileRecords(courtCaseFile,  financialYear, societyOrBranchName, societyOrBranchAddress);
         
-        if (!courtCaseList.isEmpty() && !courtCaseSettingList.isEmpty()) {
+        if (!courtCaseList.isEmpty() && courtCaseSetting!=null) {
         	
-        	CourtCaseSetting courtCaseSetting=courtCaseSettingList.get(0);
         	//saving court case stting file
         	CourtCaseSettingFile courtCaseSettingFileObj = new CourtCaseSettingFile();
 			courtCaseSettingFileObj.setFileName(courtCaseSettingFile.getOriginalFilename());
@@ -1085,22 +1091,23 @@ public class CourtCaseResource {
 
 			
 			//calculating postage value from setting file
-			 String totalPostageValue = getTotalPostageValue(courtCaseSetting.getVasuliExpenseEn(),
+			 Double totalPostageValueEn = getTotalPostageValue(courtCaseSetting.getVasuliExpenseEn(),
 					 courtCaseSetting.getOtherExpenseEn(),
 					 courtCaseSetting.getNoticeExpenseEn());
 			 
 			 
-			
+			 String totalPostageValue =	TranslationServiceUtility.numberTOMarathiNumber(""+totalPostageValueEn);
+			 
 					 
 			
 			//Marathi
-			String settingCodeText = translationServiceUtility.translationText(""+courtCaseSetting.getId());
-			String courtCaseDateText = translationServiceUtility.oneZeroOneDateMr(courtCaseDate);
+			String settingCodeText = translationServiceUtility.translationText(""+finalCourtCaseSettingFile.getId());
+			String courtCaseDateText = TranslationServiceUtility.oneZeroOneDateMr(courtCaseDate);
 			
 			//updating court case setting
 			courtCaseSetting.setCourtCaseSettingFile(finalCourtCaseSettingFile);
-			//courtCaseSetting.setSettingCode(settingCodeText);
-			courtCaseSetting.setSettingCodeEn(finalCourtCaseFile.getId());
+			courtCaseSetting.setSettingCode(settingCodeText);
+			courtCaseSetting.setSettingCodeEn(finalCourtCaseSettingFile.getId());
 			
 			CourtCaseSetting courtCaseSettingSave = caseSettingRepository.save(courtCaseSetting);
 			 
@@ -1113,15 +1120,21 @@ public class CourtCaseResource {
 				cc.setCourtCaseFile(finalCourtCaseFile);
 				cc.setSettingCode(settingCodeText);
 				cc.setSettingCodeEn(finalCourtCaseFile.getId());
+				cc.setVasuliExpenseEn(courtCaseSetting.getVasuliExpenseEn());
+				cc.setOtherExpenseEn(courtCaseSetting.getOtherExpenseEn());
+				cc.setNoticeExpenseEn(courtCaseSetting.getNoticeExpenseEn());
+				cc.setVasuliExpense(courtCaseSetting.getVasuliExpense());
+				cc.setOtherExpense(courtCaseSetting.getOtherExpense());
+				cc.setNoticeExpense(courtCaseSetting.getNoticeExpense());
 				cc.setClaimDate(courtCaseDate);
 				cc.setClaimDateMr(courtCaseDateText);
 				cc.setTotalPostage(totalPostageValue);
+				cc.setTotalPostageEn(totalPostageValueEn);
 				cc.setCourtCaseSetting(courtCaseSettingSave);
 				});
 			
-			//updating court case setting
 			
-			
+			//saving court case with expenses
             courtCaseRepository.saveAll(courtCaseList);
            
 
@@ -1137,13 +1150,13 @@ public class CourtCaseResource {
                 } catch (Exception e) {}
             }
             
-            if (courtCaseSettingList.get(0) != null) {
+            if (courtCaseSetting != null) {
                 try {
                     notificationDataUtility.notificationData(
                         "Court Case record file uploaded",
                         "Court Case record file : " + courtCaseSettingFile.getOriginalFilename() + " uploaded",
                         false,
-                        courtCaseSettingList.get(0).getCreatedDate(),
+                        courtCaseSetting.getCreatedDate(),
                         "CourtCaseRecordFileUploaded" // type
                     );
                 } catch (Exception e) {}
@@ -1163,35 +1176,29 @@ public class CourtCaseResource {
     
 
 
-    
+    //calculating total for prior demand notice notice
     private String getPriorTotalAmount(CourtCase cc, Double vasuliExpenseEn, Double otherExpenseEn,
 		Double noticeExpenseEn) {
-    	
-    	
     	try {
-    		
-    		
     		
     		Double sumvyaj = Double.sum(cc.getDueInterestEn(), cc.getInterestRecivableEn());
     		Double dandVyaj =Double.sum(cc.getDuePenalInterestEn(), cc.getDueMoreInterestEn());
     		Double totalPostage =Double.sum(vasuliExpenseEn, Double.sum(otherExpenseEn, noticeExpenseEn));
-    		
     		Double total =Double.sum(cc.getLoanAmountEn(),  Double.sum(sumvyaj, Double.sum(dandVyaj, totalPostage)));
-    		
             String format = String.format("%.2f", total);
-            return translationServiceUtility.numberTOMarathiNumber(format);
+            return TranslationServiceUtility.numberTOMarathiNumber(format);
         } catch (Exception e) {
             return "Error in translation";
         }
-    	
     	
 }
 
 
+    // calculating vyaj for prior notice
 	private String vyaj(Double dueInterestEn, Double interestRecivableEn) {
         try {
             String format = String.format("%.2f", Double.sum(dueInterestEn, interestRecivableEn));
-            return translationServiceUtility.numberTOMarathiNumber(format);
+            return TranslationServiceUtility.numberTOMarathiNumber(format);
         } catch (Exception e) {
             return "Error in translation";
         }
@@ -1199,11 +1206,11 @@ public class CourtCaseResource {
     
     
     
-    
+    // calculating dand vyaj for prior notice
     private String dandVyaj(Double duePenalInterestEn, Double dueMoreInterestEn) {
         try {
             String format = String.format("%.2f", Double.sum(duePenalInterestEn, dueMoreInterestEn));
-            return translationServiceUtility.numberTOMarathiNumber(format);
+            return TranslationServiceUtility.numberTOMarathiNumber(format);
         } catch (Exception e) {
             return "Error in translation";
         }
@@ -1213,19 +1220,32 @@ public class CourtCaseResource {
     
     
 
-
-    private String getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
+//calculating total postage for prior notice
+    private Double getTotalPostageValue(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
         try {
             String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
-            return translationServiceUtility.numberTOMarathiNumber(format);
+
+            return Double.parseDouble(format);
+            
+            
+        } catch (Exception e) {
+            return 0.0;
+        }
+    }
+    
+    
+    //calculating intrest amount sum
+    private String intrestAmountSum(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
+        try {
+            String format = String.format("%.2f", Double.sum(dueInterestEn, Double.sum(duePenalInterestEn, Double.sum(dueMoreInterestEn, interestRecivableEn))));
+            return TranslationServiceUtility.numberTOMarathiNumber(format);
         } catch (Exception e) {
             return "Error in translation";
         }
     }
     
     
-    
-   //translate number to word
+   //translate due amount number to word
     private String dueAmountWord(Double dueAmountEn) {
         try {
             String format = String.format("%.2f", dueAmountEn);
@@ -1237,8 +1257,8 @@ public class CourtCaseResource {
         }
     }
     
-    
-    private String intrestAmountWord(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
+    //translate total due interest amount number to word
+    private String interestAmountWord(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
         try {
             String format = String.format("%.2f", Double.sum(dueInterestEn, Double.sum(duePenalInterestEn, Double.sum(dueMoreInterestEn, interestRecivableEn))));
             String convertDoubleToText = EnglishNumberToWords.convertDoubleToText(Double.parseDouble(format));
@@ -1249,17 +1269,7 @@ public class CourtCaseResource {
     }
     
     
-    private String intrestAmountSum(Double dueInterestEn, Double duePenalInterestEn, Double dueMoreInterestEn, Double interestRecivableEn) {
-        try {
-            String format = String.format("%.2f", Double.sum(dueInterestEn, Double.sum(duePenalInterestEn, Double.sum(dueMoreInterestEn, interestRecivableEn))));
-            return translationServiceUtility.numberTOMarathiNumber(format);
-        } catch (Exception e) {
-            return "Error in translation";
-        }
-    }
-    
-    
-    
+    //translate total amount number to word
     private String totalAmountWord(Double getLoanAmountEn, Double getDueInterestEn, Double getDuePenalInterestEn) {
         try {
             String format = String.format("%.2f", Double.sum(getLoanAmountEn, Double.sum(getDueInterestEn, getDuePenalInterestEn)));
@@ -1282,7 +1292,7 @@ public class CourtCaseResource {
     * @throws Exception
     */
     
-    private List<CourtCaseSetting> createCourtCaseSettingFileRecords(
+    private CourtCaseSetting createCourtCaseSettingFileRecord(
     	MultipartFile courtCaseSettingFile, String financialYear,
     	String branchOrPacsCodeValue
     ) throws Exception {
@@ -1323,7 +1333,6 @@ public class CourtCaseResource {
         }
 
         int startRowIndex = 3; // Starting row index
-        List<CourtCaseSetting> courtCaseSettingList = new ArrayList<>();
        
         int recourdCount=0;
         try (Workbook workbook = WorkbookFactory.create(courtCaseSettingFile.getInputStream())) {
@@ -1342,12 +1351,6 @@ public class CourtCaseResource {
                     ) {
                         break;
                     }
-                    
-                    if(recourdCount==2)
-                    {
-                    	throw new BadRequestAlertException("court case setting file must require only one record", ENTITY_NAME, "fileInvalid");
-                    }
-                    
                     
                     
                    courtCaseSetting.setFileName(courtCaseSettingFile.getOriginalFilename());
@@ -1410,7 +1413,7 @@ public class CourtCaseResource {
                         //Marathi
 
                         courtCaseSetting.setVasuliExpense(
-                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(6)))
+                            TranslationServiceUtility.numberTOMarathiNumber(""+getCellAmountValue(row.getCell(6)))
                         );
                     }
 
@@ -1420,7 +1423,7 @@ public class CourtCaseResource {
 
                         //Marathi
                         courtCaseSetting.setOtherExpense(
-                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(7)))
+                            TranslationServiceUtility.numberTOMarathiNumber(""+getCellAmountValue(row.getCell(7)))
                         );
                     }
                     if (StringUtils.isNotBlank(getCellValue(row.getCell(8)))) {
@@ -1429,7 +1432,7 @@ public class CourtCaseResource {
 
                         //Marathi
                         courtCaseSetting.setNoticeExpense(
-                            translationServiceUtility.numberTOMarathiNumber(getCellAmountValueInString(row.getCell(8)))
+                            TranslationServiceUtility.numberTOMarathiNumber(""+getCellAmountValue(row.getCell(8)))
                         );
                     }
 
@@ -1472,24 +1475,29 @@ public class CourtCaseResource {
                         courtCaseSetting.setMeetingTime(translationServiceUtility.translationText(meetingTime));
                     }
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(14)))) {
-                        // english
-                        courtCaseSetting.setBankNameEn(getCellValue(row.getCell(14)));
-                        // marathi
-                        courtCaseSetting.setBankName(translationServiceUtility.translationText(getCellValue(row.getCell(14))));
-                    }
+					LocalDate firstNoticeDate = getDateCellValue(row.getCell(14));
 
-                    if (StringUtils.isNotBlank(getCellValue(row.getCell(15)))) {
-                        // english
-                        courtCaseSetting.setTalukaNameEn(getCellValue(row.getCell(15)));
-                        // marathi
-                        courtCaseSetting.setTalukaName(translationServiceUtility.translationText(getCellValue(row.getCell(15))));
-                    }
-                    
-                   
-                    
+					if (firstNoticeDate != null) {
+						courtCaseSetting.setFirstNoticeDate(firstNoticeDate);
 
-                    courtCaseSettingList.add(courtCaseSetting);
+						// marathi
+						courtCaseSetting
+								.setFirstNoticeDateMr(TranslationServiceUtility.oneZeroOneDateMr(firstNoticeDate));
+
+					}
+
+					LocalDate secondNoticeDate = getDateCellValue(row.getCell(15));
+
+					if (secondNoticeDate != null) {
+						courtCaseSetting.setSecondNoticeDate(secondNoticeDate);
+
+						// marathi
+						courtCaseSetting
+								.setSecondNoticeDateMr(TranslationServiceUtility.oneZeroOneDateMr(secondNoticeDate));
+
+					}
+                    
+						return courtCaseSetting;
                 }
             }
             
@@ -1497,9 +1505,9 @@ public class CourtCaseResource {
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
+		return null;
         
         
-    	 return courtCaseSettingList;
     }
 
     
@@ -1577,6 +1585,8 @@ public class CourtCaseResource {
         int startRowIndex = filecount+1; // Starting row index
         List<CourtCase> courtCaseList = new ArrayList<>();
 
+        Optional<BankMaster> bankFromDb = bankMasterRepository.findById(1l);
+        
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             int lastRowIndex = sheet.getLastRowNum();
@@ -1596,8 +1606,8 @@ public class CourtCaseResource {
 					courtCase.setFileName(files.getOriginalFilename());
 					courtCase.setUniqueFileName(uniqueName + "." + fileExtension);
 
-					courtCase.setBankNameEn(Constants.BANK_NAME);
-					courtCase.setBankName(Constants.BANK_NAME_MARATHI);
+					courtCase.setBankNameEn(bankFromDb.get().getBankName());
+					courtCase.setBankName(bankFromDb.get().getBankNameMr());
 					
 					courtCase.setSocietyBranchName(societyOrBranchName);
 					courtCase.setSocietyBranchAddress(societyOrBranchAddress);
@@ -1608,7 +1618,7 @@ public class CourtCaseResource {
                         // english
                         courtCase.setSrNoEn(Long.parseLong(srNo));
                         // marathi
-                        courtCase.setSrNo(translationServiceUtility.numberTOMarathiNumber(srNo));
+                        courtCase.setSrNo(TranslationServiceUtility.numberTOMarathiNumber(srNo));
                     }
                     
                     
@@ -1639,7 +1649,7 @@ public class CourtCaseResource {
                         courtCase.setAccountNoEn(acountNo);
 
                         // marathi
-                        courtCase.setAccountNo(translationServiceUtility.numberTOMarathiNumber(acountNo));
+                        courtCase.setAccountNo(TranslationServiceUtility.numberTOMarathiNumber(acountNo));
                     }
 
                     
@@ -1677,11 +1687,12 @@ public class CourtCaseResource {
                         courtCase.setLoanAmountEn(loanAmount);
 
                         // marathi
-                        courtCase.setLoanAmount(translationServiceUtility.numberTOMarathiNumber(""+loanAmount));
+                        courtCase.setLoanAmount(TranslationServiceUtility.numberTOMarathiNumber(""+loanAmount));
                     }
 
                     
                     LocalDate loanDate = getDateCellValue(row.getCell(8));
+                    
                     if (loanDate != null) {
                         courtCase.setLoanDate(loanDate);
                         
@@ -1692,12 +1703,25 @@ public class CourtCaseResource {
                     
                     
                     String termOfLoan = getCellValue(row.getCell(9));
+                    
                     if (StringUtils.isNotBlank(termOfLoan)) {
                         // english
                         courtCase.setTermOfLoanEn(termOfLoan);
 
                         // marathi
-                        courtCase.setTermOfLoan(translationServiceUtility.numberTOMarathiNumber(termOfLoan));
+                        courtCase.setTermOfLoan(TranslationServiceUtility.numberTOMarathiNumber(termOfLoan));
+                        
+                        
+                        if(loanDate != null)
+                        {
+                        	 //calculating maturity loan date
+                            int termLoanInInt=Integer.parseInt(termOfLoan);
+                            LocalDate plusMonths = loanDate.plusDays(termLoanInInt*30);
+                            courtCase.setMaturityLoanDateEn(plusMonths);
+                            
+                            // marathi
+                            courtCase.setMaturityLoanDate(translationServiceUtility.oneZeroOneDateMr(plusMonths));
+                        }
                     }
                     
                     
@@ -1708,7 +1732,7 @@ public class CourtCaseResource {
                         courtCase.setInterestRateEn(interestRate);
 
                         // marathi
-                        courtCase.setInterestRate(translationServiceUtility.numberTOMarathiNumber(""+interestRate));
+                        courtCase.setInterestRate(TranslationServiceUtility.numberTOMarathiNumber(""+interestRate));
                     }
 
                     
@@ -1719,7 +1743,7 @@ public class CourtCaseResource {
 
                         // marathi
                         courtCase.setInstallmentAmount(
-                            translationServiceUtility.numberTOMarathiNumber(""+installmentAmount)
+                            TranslationServiceUtility.numberTOMarathiNumber(""+installmentAmount)
                         );
                     }
 
@@ -1730,7 +1754,7 @@ public class CourtCaseResource {
                         courtCase.setTotalCreditEn(totalCredit);
 
                         // marathi
-                        courtCase.setTotalCredit(translationServiceUtility.numberTOMarathiNumber(""+totalCredit));
+                        courtCase.setTotalCredit(TranslationServiceUtility.numberTOMarathiNumber(""+totalCredit));
                     }
                     
                     
@@ -1740,7 +1764,7 @@ public class CourtCaseResource {
                     	 courtCase.setInterestPaidEn(interestPaid);
 
                          // marathi
-                         courtCase.setInterestPaid(translationServiceUtility.numberTOMarathiNumber(""+interestPaid));
+                         courtCase.setInterestPaid(TranslationServiceUtility.numberTOMarathiNumber(""+interestPaid));
                          
                          
                        
@@ -1755,7 +1779,7 @@ public class CourtCaseResource {
 
                          // marathi
                          courtCase.setPenalInterestPaid(
-                             translationServiceUtility.numberTOMarathiNumber(""+penalInterestPaid)
+                             TranslationServiceUtility.numberTOMarathiNumber(""+penalInterestPaid)
                          );
                        
                     }
@@ -1768,7 +1792,7 @@ public class CourtCaseResource {
                         courtCase.setBalanceEn(balance);
 
                         // marathi
-                        courtCase.setBalance(translationServiceUtility.numberTOMarathiNumber(""+balance));
+                        courtCase.setBalance(TranslationServiceUtility.numberTOMarathiNumber(""+balance));
                         // english
                        
                     }
@@ -1779,7 +1803,7 @@ public class CourtCaseResource {
                         courtCase.setDueAmountEn(dueAmount);
 
                         // marathi
-                        courtCase.setDueAmount(translationServiceUtility.numberTOMarathiNumber(""+dueAmount));
+                        courtCase.setDueAmount(TranslationServiceUtility.numberTOMarathiNumber(""+dueAmount));
                     }
 
                     
@@ -1798,7 +1822,7 @@ public class CourtCaseResource {
                         courtCase.setDueInterestEn(dueInterest);
 
                         // marathi
-                        courtCase.setDueInterest(translationServiceUtility.numberTOMarathiNumber(""+dueInterest));
+                        courtCase.setDueInterest(TranslationServiceUtility.numberTOMarathiNumber(""+dueInterest));
                     }
 
                     
@@ -1808,7 +1832,7 @@ public class CourtCaseResource {
                         courtCase.setDuePenalInterestEn(duePenalInterest);
                         // marathi
                         courtCase.setDuePenalInterest(
-                            translationServiceUtility.numberTOMarathiNumber(""+duePenalInterest)
+                            TranslationServiceUtility.numberTOMarathiNumber(""+duePenalInterest)
                         );
                     }
 
@@ -1819,7 +1843,7 @@ public class CourtCaseResource {
                         courtCase.setDueMoreInterestEn(dueMoreInterest);
                         // marathi
                         courtCase.setDueMoreInterest(
-                            translationServiceUtility.numberTOMarathiNumber(""+dueMoreInterest)
+                            TranslationServiceUtility.numberTOMarathiNumber(""+dueMoreInterest)
                         );
                     }
 
@@ -1831,7 +1855,7 @@ public class CourtCaseResource {
                         courtCase.setInterestRecivableEn(interestRecivable);
                         // marathi
                         courtCase.setInterestRecivable(
-                            translationServiceUtility.numberTOMarathiNumber(""+interestRecivable)
+                            TranslationServiceUtility.numberTOMarathiNumber(""+interestRecivable)
                         );
                     }
 
@@ -1881,23 +1905,22 @@ public class CourtCaseResource {
                    String dandVyaj = dandVyaj(courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn());
                    courtCase.setPriorDemandDandVyajMr(dandVyaj);
                    
+                   //Calculating interest Amount Sum
+                   String intrestAmountSum = intrestAmountSum(courtCase.getDueInterestEn(),
+							courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn(),
+							courtCase.getInterestRecivableEn());
+					courtCase.setIntrestAmountSum(intrestAmountSum);
                    
                    //making word for amount
-                   
 					String dueAmountWord = dueAmountWord(courtCase.getDueAmountEn());
 					courtCase.setDueAmountWord(dueAmountWord);
 
-					String intrestAmountWord = intrestAmountWord(courtCase.getDueInterestEn(),
+					String intrestAmountWord = interestAmountWord(courtCase.getDueInterestEn(),
 							courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn(),
 							courtCase.getInterestRecivableEn());
 					courtCase.setIntrestAmountWord(intrestAmountWord);
 					
 					
-					String intrestAmountSum = intrestAmountSum(courtCase.getDueInterestEn(),
-							courtCase.getDuePenalInterestEn(), courtCase.getDueMoreInterestEn(),
-							courtCase.getInterestRecivableEn());
-					courtCase.setIntrestAmountSum(intrestAmountSum);
-
 					String totalAmountWord = totalAmountWord(courtCase.getLoanAmountEn(), courtCase.getDueInterestEn(),
 							courtCase.getDuePenalInterestEn());
 					courtCase.setTotalAmountWord(totalAmountWord);
@@ -2064,6 +2087,7 @@ public class CourtCaseResource {
         log.debug("REST request to count CourtCases by criteria: {}", criteria);
         return ResponseEntity.ok().body(courtCaseQueryService.countByCriteria(criteria));
     }
+    
 
     /**
      * {@code GET  /court-cases/:id} : get the "id" courtCase.
@@ -2124,13 +2148,13 @@ public class CourtCaseResource {
         }
 
         return cellValue;
-    }
+    } 
 
     private static Double getCellAmountValue(Cell cell) {
         Double cellValue = 0.00;
 
         if (cell == null) {
-            cellValue = 0.0;
+            cellValue = 0.00;
         } else if (cell.getCellType() == CellType.STRING) {
             String cellValueInString = cell.getStringCellValue().trim();
 
@@ -2142,29 +2166,18 @@ public class CourtCaseResource {
             // Convert it to a Double
             cellValue = numericValue;
         } else if (cell.getCellType() == CellType.BLANK) {
-            cellValue = 0.0;
+            cellValue = 0.00;
         }
 
-        return cellValue;
+        String format = String.format("%.2f", cellValue);
+        DecimalFormat decim = new DecimalFormat("0.00");
+        decim.setMaximumFractionDigits(2);
+        Double parseDouble = Double.valueOf(decim.format(Double.parseDouble(format)));
+        
+         return parseDouble;
     }
 
-    private static String getCellAmountValueInString(Cell cell) {
-        String cellValue = "0.00";
-
-        if (cell == null) {
-            return cellValue;
-        } else if (cell.getCellType() == CellType.STRING) {
-            return cell.getStringCellValue().trim();
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            double numericValue = cell.getNumericCellValue();
-            // Convert it to a Double
-            return "" + numericValue;
-        } else if (cell.getCellType() == CellType.BLANK) {
-            return cellValue;
-        } else {
-            return cellValue;
-        }
-    }
+    
 
     private static LocalDate getDateCellValue(Cell cell) {
         LocalDate localDate = null;

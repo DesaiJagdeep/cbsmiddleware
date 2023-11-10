@@ -9,8 +9,8 @@
 
 <body>
 
-    <h3 style="text-align: center;"><b><span th:text="${courtCase.societyBranchName}"/></b></h3>
-    <p style="text-align: center;"><b><span th:text="${courtCase.societyBranchAddress}"/></b></p>
+    <h3 style="text-align: center;"><strong><span th:text="${courtCase.societyBranchName}"/></strong></h3>
+    <p style="text-align: center;"><strong><span th:text="${courtCase.societyBranchAddress}"/></strong></p>
 
     
     
@@ -21,13 +21,13 @@
     </tr>
     </table>
     
-    <h4 style="text-align: center;"><b>कर्ज मागणी नोटीस</b></h4>
+    <h4 style="text-align: center;"><strong>कर्ज मागणी नोटीस</strong></h4>
 
-    <p style="line-height: 25px;"><b>प्रति,<br>
+    <p style="line-height: 25px;"><strong>प्रति,<br>
     कर्जदाराचे नाव : <span th:text="${courtCase.nameOfDefaulter}"/><br>
-    राहणार : <span th:text="${courtCase.address}"/></b></p>
+    राहणार : <span th:text="${courtCase.address}"/></strong></p>
 
-            <p style="text-align: center;"><b>विषय: थेट शेती कर्जाचा थकीत हप्ता भरणेबाबत.</b></p>
+            <p style="text-align: center;"><strong>विषय: थेट शेती कर्जाचा थकीत हप्ता भरणेबाबत.</strong></p>
             <table style="width: 80%; margin: auto;">
                 <tr>
                     <td>संदर्भ :</td>
@@ -39,20 +39,20 @@
                 </tr>
             </table>
             <p>महाशय,</p>
-            <p style="text-align: justify; text-indent: 35px; line-height: 25px;">आपणास बँकेच्या थेट शेती कर्ज योजने अंतर्गत <b><span th:text="${courtCase.loanType}"/></b>
-                कारणासाठी संदर्भ क्र. १ अन्वये रुपये. <b><span th:text="${courtCase.loanAmount}"/></b> चे मध्यम मुदत कर्ज मंजुर करण्यात 'आलेले असुन, कर्ज
-                वितरण करण्यात आलेले आहे. संदर्भ क्र. २ अन्वये दिनांक <b><span th:text="${courtCase.dueDateMr}"/></b> च्या प्रथम वसुलपात्र हप्ता रु. <b><span th:text="${courtCase.dueAmount}"/></b>
+            <p style="text-align: justify; text-indent: 35px; line-height: 25px;">आपणास बँकेच्या थेट शेती कर्ज योजने अंतर्गत <strong><span th:text="${courtCase.loanType}"/></strong>
+                कारणासाठी संदर्भ क्र. १ अन्वये रुपये. <strong><span th:text="${courtCase.loanAmount}"/></strong> चे मध्यम मुदत कर्ज मंजुर करण्यात 'आलेले असुन, कर्ज
+                वितरण करण्यात आलेले आहे. संदर्भ क्र. २ अन्वये दिनांक <strong><span th:text="${courtCase.dueDateMr}"/></strong> च्या प्रथम वसुलपात्र हप्ता रु. <strong><span th:text="${courtCase.dueAmount}"/></strong>
                  भरणेबाबत आपणास कळविण्यात आलेले आहे. तथापी आपण मुदतीत वसुलपात्र हा न भरल्याने सदर कर्जाची मुदल रुपये
-               <b><span th:text="${courtCase.dueAmount}"/></b> अधिक त्यावरील व्याज रुपये <b><span th:text="${courtCase.intrestAmountSum}"/></b>
+               <strong><span th:text="${courtCase.dueAmount}"/></strong> अधिक त्यावरील व्याज रुपये <strong><span th:text="${courtCase.intrestAmountSum}"/></strong>
                 एवढी थकबाकी झालेली आहे. सदर थकबाकीचा त्वरीत भरणा करावा. थकीत खात्मेचा भरणा वेळीच न केल्यास / झाल्यास कायदेशीर
                 कारवाई करणे भाग पडेल याची नोंद घ्यावी.</p>
 
            <div style="display: flex; justify-content: end;">
             <div>
             
-              <p style="line-height: 25px;"><b>आपला,<br><br><br>
+              <p style="line-height: 25px;"><strong>आपला,<br><br><br>
     		विकास अधिकारी <br>
-    		<b><span th:text="${courtCase.societyBranchName}"/></b> </b></p>
+    		<strong><span th:text="${courtCase.societyBranchName}"/></strong> </strong></p>
     
                  
                  

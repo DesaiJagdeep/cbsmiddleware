@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the AccountHolderMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface AccountHolderMasterRepository extends JpaRepository<AccountHolderMaster, Long> {
     List<AccountHolderMaster> findByAccountHolderIsContaining(String accountHolder);

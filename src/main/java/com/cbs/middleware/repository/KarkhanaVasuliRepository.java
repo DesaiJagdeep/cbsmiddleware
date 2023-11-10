@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the KarkhanaVasuli entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface KarkhanaVasuliRepository extends JpaRepository<KarkhanaVasuli, Long>, JpaSpecificationExecutor<KarkhanaVasuli> {
     boolean existsByFileName(String originalFilename);

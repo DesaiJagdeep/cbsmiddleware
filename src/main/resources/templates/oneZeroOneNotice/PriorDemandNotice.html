@@ -9,59 +9,59 @@
 
 <body>
     <!-- Karj Magani Notice -->
-        <!-- <h4 style="text-align: end;"><b>दिनांक : ______</b> </h4> -->
+        <!-- <h4 style="text-align: end;"><strong>दिनांक : ______</strong> </h4> -->
         <div style="display: flex; justify-content: space-between; width: 100%;">
             <div style="width: 30%;">
-                    <p style="margin-top: 0px;"><b>जावक क्रमांक : _________ </b></p>
+                    <p style="margin-top: 0px;"><strong >जावक क्रमांक : _________ </strong ></p>
                     <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right; width: 60%;">
-                                <b>थकीत मुदद्ल &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse;width: 40%; text-align: right;"><b><span th:text="${courtCase.dueAmount}"/></b></td>
+                                <strong>थकीत मुदद्ल &nbsp;</strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse;width: 40%; text-align: right;"><strong><span th:text="${courtCase.dueAmount}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
-                                <b>व्याज &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandVyajMr}"/></b></td>
+                                <strong>व्याज &nbsp;</strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandVyajMr}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
-                                <b>दंड व्याज &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandDandVyajMr}"/></b></td>
+                                <strong>दंड व्याज &nbsp;</strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandDandVyajMr}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
-                                <b>पोस्टेज व इतर  &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.totalPostage}"/></b></td>
+                                <strong>पोस्टेज व इतर  &nbsp;</strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.totalPostage}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
                                 style="border: 1px solid black; border-collapse: collapse; text-align: right;">
-                                <b>एकुण  &nbsp;</b></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><b><span th:text="${courtCase.priorDemandTotalMr}"/></b></td>
+                                <strong>एकुण  &nbsp;</strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandTotalMr}"/></strong></td>
                         </tr>
                     </table>
             </div>
             <div style="width: 70%;">
                 <table style="margin: 10px auto; line-height: 20px">
                     <tr>
-                        <td style="text-align: right;"><b>दिनांक</b></td>
-                        <td style="text-align: left;"><b>: </b></td>
+                        <td style="text-align: right;"><strong>दिनांक</strong></td>
+                        <td style="text-align: left;"><strong>: </strong></td>
                         <td style="text-align: left;"> __________</td>
                     </tr>
                     <tr>
-                        <td style="text-align: end;"><b>कर्ज खाते नं</b></td>
-                        <td style="text-align: left;"><b>: </b></td>
-                        <td style="text-align: start;"><b><span th:text="${courtCase.accountNo}"/></b></td>
+                        <td style="text-align: end;"><strong>कर्ज खाते नं</strong></td>
+                        <td style="text-align: left;"><strong>: </strong></td>
+                        <td style="text-align: start;"><strong><span th:text="${courtCase.accountNo}"/></strong></td>
                     </tr>
                     <tr>
-                        <td style="text-align: end;"><b>कर्ज प्रकार</b></td>
-                        <td style="text-align: left;"><b>: </b></td>
-                        <td style="text-align: start;"><b><span th:text="${courtCase.loanType}"/></b></td>
+                        <td style="text-align: end;"><strong>कर्ज प्रकार</strong></td>
+                        <td style="text-align: left;"><strong>: </strong></td>
+                        <td style="text-align: start;"><strong><span th:text="${courtCase.loanType}"/></strong></td>
                     </tr>
                 </table>
 
@@ -72,80 +72,80 @@
 
                 <table style="width: 100%; margin: 0px; line-height: 20px">
                     <tr>
-                        <td style="text-align: center;"><b><span th:text="${courtCase.societyBranchName}"/></b></td>
+                        <td style="text-align: center;"><strong><span th:text="${courtCase.societyBranchName}"/></strong></td>
                     </tr>
                     <tr>
-                        <td style="text-align: center;"><b><span th:text="${courtCase.societyBranchAddress}"/></b></td>
+                        <td style="text-align: center;"><strong><span th:text="${courtCase.societyBranchAddress}"/></strong></td>
                     </tr>
                 </table>
             </div>
         </div>
 
         <hr>
-        <p style="margin: 0px;"><b>प्रति,</b></p>
+        <p style="margin: 0px;"><strong>प्रति,</strong></p>
         <table style="margin-left: 30px; width: 90%;  border-collapse: separate;">
             <tr>
-                <td style=" vertical-align: baseline;" rowspan="3"><b>१)</b></td>
-                <td><b>कर्जदाराचे नाव :  <span th:text="${courtCase.nameOfDefaulter}"/></b></td>
+                <td style=" vertical-align: baseline;" rowspan="3"><strong>१)</strong></td>
+                <td><strong>कर्जदाराचे नाव :  <span th:text="${courtCase.nameOfDefaulter}"/></strong></td>
             </tr>
             <tr>
-                <td><b>राहणार : <span th:text="${courtCase.address}"/></b></td>
+                <td><strong>राहणार : <span th:text="${courtCase.address}"/></strong></td>
             </tr>
             <tr>
-                <td><b>व्यवसाय : शेती</b></td>
+                <td><strong>व्यवसाय : शेती</strong></td>
             </tr>
             <tr>
-                <td style=" vertical-align: baseline;" rowspan="3"><b>२)</b></td>
-                <td><b>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorOne}"/></b></td>
+                <td style=" vertical-align: baseline;" rowspan="3"><strong>२)</strong></td>
+                <td><strong>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorOne}"/></strong></td>
             </tr>
             <tr>
-                <td><b>राहणार : <span th:text="${courtCase.gaurentorOneAddress}"/></b></td>
+                <td><strong>राहणार : <span th:text="${courtCase.gaurentorOneAddress}"/></strong></td>
             </tr>
             <tr>
-                <td><b>व्यवसाय : शेती</b></td>
+                <td><strong>व्यवसाय : शेती</strong></td>
             </tr>
 
             <tr>
-                <td style=" vertical-align: baseline;" rowspan="3"><b>३)</b></td>
-                <td><b>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorTwo}"/></b></td>
+                <td style=" vertical-align: baseline;" rowspan="3"><strong>३)</strong></td>
+                <td><strong>जमीनदारांचे नाव : <span th:text="${courtCase.gaurentorTwo}"/></strong></td>
             </tr>
             <tr>
-                <td><b>राहणार : <span th:text="${courtCase.gaurentorTwoAddress}"/></b></td>
+                <td><strong>राहणार : <span th:text="${courtCase.gaurentorTwoAddress}"/></strong></td>
             </tr>
             <tr>
-                <td><b>व्यवसाय : शेती</b></td>
+                <td><strong>व्यवसाय : शेती</strong></td>
             </tr>
         </table><!-- bind अक्षरी -->
         <p style="text-indent: 35px; line-height: 20px; text-align: justify;">
-            या नोटीसीने कळविण्यात येते की, सदर <b>काठापूर बुद्रुक व्ही के सेवा सहयोग सोसायटी,</b> कडून घेतलेल्या रू : <b><span th:text="${courtCase.loanAmount}"/></b> कर्जापैकी
-            रू <b><span th:text="${courtCase.dueAmount}"/></b> अक्षरी (<b><span th:text="${courtCase.dueAmountWord}"/></b>s) थकीत झालेली आहे.
-            सदरची थकीत रक्कम व्याजासह ता. <b><span th:text="${courtCase.dueDateMr}"/></b> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
+            या नोटीसीने कळविण्यात येते की, सदर <strong>काठापूर बुद्रुक व्ही के सेवा सहयोग सोसायटी,</strong> कडून घेतलेल्या रू : <strong><span th:text="${courtCase.loanAmount}"/></strong> कर्जापैकी
+            रू <strong><span th:text="${courtCase.dueAmount}"/></strong> अक्षरी (<strong><span th:text="${courtCase.dueAmountWord}"/></strong>s) थकीत झालेली आहे.
+            सदरची थकीत रक्कम व्याजासह ता. <strong><span th:text="${courtCase.dueDateMr}"/></strong> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
             संस्था अधिनियम १९६० च्या कलम १०१ प्रमाणे कर्ज वसूली बाबत तुमच्यावर कारवाई करणेस तुम्ही पात्र झाला आहात.
-            तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <b><span th:text="${courtCase.firstNoticeDateMr}"/></b> पर्यत होणारे व्याज ची बाकी नोटीस
-            पोहचले पासून <b>८</b> दिवसाच्या आत बँकेकडे भरली नाही तर बॅक तुमच्या विरूध्द सहकारी संस्था अधिनियम
+            तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <strong><span th:text="${courtCase.firstNoticeDateMr}"/></strong> पर्यत होणारे व्याज ची बाकी नोटीस
+            पोहचले पासून <strong>८</strong> दिवसाच्या आत बँकेकडे भरली नाही तर बॅक तुमच्या विरूध्द सहकारी संस्था अधिनियम
             १०१ अन्वये सक्षम प्राधिकरणाकडे वसुलीसपात्र रक्कम वसुलीचा दाखला मिळणेसाठी दावा / अर्ज दाखल करून कायदेशीर इलाज
             करेल व तुमच्याकडील येणे बाकी होणाऱ्या व्याजासह जमीन महसुलीचे थकबाकीप्रमाणे
             वसुल करण्यात येईल, तसेच तुम्ही, सदर रक्कम वसुल करणेस होणाऱ्या खर्चाच्या रक्कमेसही जबाबदार होत असुन सदरची
             रक्कम आपलेकडून वसुल केली जाईल.
         </p>
         <p>&nbsp</p>
-            <p style="text-align: center; margin: 0px"><b>सचिव</b></p>
-            <p style="text-align: center; margin: 0px"><b><span th:text="${courtCase.societyBranchName}"/></b></p>
+            <p style="text-align: center; margin: 0px"><strong>सचिव</strong></p>
+            <p style="text-align: center; margin: 0px"><strong><span th:text="${courtCase.societyBranchName}"/></strong></p>
                 <table style="width: 70%; margin: auto;">
                     <tr>
-                        <td><b>१)</b></td>
-                        <td><b>कर्जदारचे नाव : </b></td>
-                        <td><b><span th:text="${courtCase.nameOfDefaulter}"/></b></td>
+                        <td><strong>१)</strong></td>
+                        <td><strong>कर्जदारचे नाव : </strong></td>
+                        <td><strong><span th:text="${courtCase.nameOfDefaulter}"/></strong></td>
                     </tr>
                     <tr>
-                        <td><b>२)</b></td>
-                        <td><b>जामिनदाराचे नाव : </b></td>
-                        <td><b><span th:text="${courtCase.gaurentorOne}"/></b></td>
+                        <td><strong>२)</strong></td>
+                        <td><strong>जामिनदाराचे नाव : </strong></td>
+                        <td><strong><span th:text="${courtCase.gaurentorOne}"/></strong></td>
                     </tr>
                     <tr>
-                        <td><b>३)</b></td>
-                        <td><b>जामिनदाराचे नाव : </b></td>
-                        <td><b><span th:text="${courtCase.gaurentorTwo}"/></b></td>
+                        <td><strong>३)</strong></td>
+                        <td><strong>जामिनदाराचे नाव : </strong></td>
+                        <td><strong><span th:text="${courtCase.gaurentorTwo}"/></strong></td>
                     </tr>
                 </table>
             <hr style="height: 1px; background-color: black;">

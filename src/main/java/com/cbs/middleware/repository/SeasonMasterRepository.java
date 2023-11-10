@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the SeasonMaster entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface SeasonMasterRepository extends JpaRepository<SeasonMaster, Long> {
     List<SeasonMaster> findBySeasonNameIsContaining(String seasonName);

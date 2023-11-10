@@ -25,7 +25,7 @@ public class TranslationServiceUtility {
 	
 	
 	
-	public String numberTOMarathiNumber( String str)
+	public static String numberTOMarathiNumber( String str)
 	{
 		 
 			    String answer = str;
@@ -124,7 +124,7 @@ public class TranslationServiceUtility {
     
     
     
-    public String oneZeroOneDateMr(LocalDate loanDate) {
+    public static String oneZeroOneDateMr(LocalDate loanDate) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDate = loanDate.format(formatter);

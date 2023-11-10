@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the CourtCaseDetails entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CourtCaseDetailsRepository extends JpaRepository<CourtCaseDetails, Long>, JpaSpecificationExecutor<CourtCaseDetails> {}

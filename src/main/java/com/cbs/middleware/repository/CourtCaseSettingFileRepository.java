@@ -9,7 +9,7 @@ import com.cbs.middleware.domain.CourtCaseSettingFile;
 /**
  * Spring Data JPA repository for the CourtCaseSetting entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface CourtCaseSettingFileRepository extends JpaRepository<CourtCaseSettingFile, Long>, JpaSpecificationExecutor<CourtCaseSettingFile> {
     boolean existsByFileName(String originalFilename);

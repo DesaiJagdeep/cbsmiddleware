@@ -26,8 +26,8 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "id")
     private Long id;
     
-//    @Column(name = "setting_code")
-//    private String settingCode;
+    @Column(name = "setting_code")
+    private String settingCode;
     
     @Column(name = "financial_year")
     private String financialYear;
@@ -174,6 +174,27 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
     private String meetingTimeEn;
     
     
+    @Column(name = "first_notice_date")
+    private LocalDate firstNoticeDate;
+    
+    @Column(name = "first_notice_date_mr")
+    private String firstNoticeDateMr;
+
+    @Column(name = "second_notice_date")
+    private LocalDate secondNoticeDate;
+    
+    public String getSettingCode() {
+		return settingCode;
+	}
+
+	public void setSettingCode(String settingCode) {
+		this.settingCode = settingCode;
+	}
+
+	@Column(name = "second_notice_date_mr")
+    private String secondNoticeDateMr;
+    
+    
     @ManyToOne()
     private CourtCaseSettingFile courtCaseSettingFile;
 
@@ -209,7 +230,39 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
         return this.arOfficeName;
     }
 
-    public String getBranchOrPacsCode() {
+    public LocalDate getFirstNoticeDate() {
+		return firstNoticeDate;
+	}
+
+	public void setFirstNoticeDate(LocalDate firstNoticeDate) {
+		this.firstNoticeDate = firstNoticeDate;
+	}
+
+	public String getFirstNoticeDateMr() {
+		return firstNoticeDateMr;
+	}
+
+	public void setFirstNoticeDateMr(String firstNoticeDateMr) {
+		this.firstNoticeDateMr = firstNoticeDateMr;
+	}
+
+	public LocalDate getSecondNoticeDate() {
+		return secondNoticeDate;
+	}
+
+	public void setSecondNoticeDate(LocalDate secondNoticeDate) {
+		this.secondNoticeDate = secondNoticeDate;
+	}
+
+	public String getSecondNoticeDateMr() {
+		return secondNoticeDateMr;
+	}
+
+	public void setSecondNoticeDateMr(String secondNoticeDateMr) {
+		this.secondNoticeDateMr = secondNoticeDateMr;
+	}
+
+	public String getBranchOrPacsCode() {
 		return branchOrPacsCode;
 	}
 

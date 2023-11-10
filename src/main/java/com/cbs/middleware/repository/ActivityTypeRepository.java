@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA repository for the ActivityType entity.
  */
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 @Repository
 public interface ActivityTypeRepository extends JpaRepository<ActivityType, Long>, JpaSpecificationExecutor<ActivityType> {}

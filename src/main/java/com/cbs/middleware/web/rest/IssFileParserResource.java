@@ -11,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;
@@ -1561,16 +1560,12 @@ public class IssFileParserResource {
             cal.get(Calendar.MILLISECOND);
 
         Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
-        System.out.println(">>>>>>>>>>>>>>>>path>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+path);
         try {
-            //byte[] imgbyte = null;
-            //imgbyte = files.getBytes();
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
             
-            Files.copy(files.getInputStream(), path);
-            
-            //Files.write(path, imgbyte);
+            Files.write(path, imgbyte);
         } catch (IOException e) {
-        	System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+e);
             log.error("file not saved successfully", e);
 
             throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");

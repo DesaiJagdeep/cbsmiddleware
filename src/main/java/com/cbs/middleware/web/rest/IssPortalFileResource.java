@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
@@ -52,6 +54,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
+import com.cbs.middleware.domain.Authority;
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
@@ -68,6 +71,7 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
@@ -193,11 +197,11 @@ public class IssPortalFileResource {
                             "ApplicationRecordFileDownload" // type
                         );
 
-                        if (!issPortalFile.isDownloadFile()) {
-                            issPortalFile.setDownloadFileTime(Instant.now());
-                            issPortalFile.setDownloadFile(true);
-                            issPortalFileRepository.save(issPortalFile);
-                        }
+//                        if (!issPortalFile.isDownloadFile()) {
+//                            issPortalFile.setDownloadFileTime(Instant.now());
+//                            issPortalFile.setDownloadFile(true);
+//                            issPortalFileRepository.save(issPortalFile);
+//                        }
                     } catch (Exception e) {}
                 }
 
@@ -227,13 +231,14 @@ public class IssPortalFileResource {
 
         	throw new BadRequestAlertException("id not found", ENTITY_NAME, "idNotFound");
         }
-        
-        List<IssFileParser> issFileParserList=issFileParserRepository.findAllByIssPortalFile(findByIssPortalFileId.get());
+        IssPortalFile issPortalFile = findByIssPortalFileId.get();
+        List<IssFileParser> issFileParserList=issFileParserRepository.findAllByIssPortalFile(issPortalFile);
         
         if(issFileParserList.isEmpty())
         {
         	throw new BadRequestAlertException("records not found", ENTITY_NAME, "recordsNotFound");
         }
+        
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
@@ -384,6 +389,15 @@ public class IssPortalFileResource {
             contentDispositionList.add("Content-Disposition");
 
             headers.setAccessControlExposeHeaders(contentDispositionList);
+            
+            if ( !issPortalFile.isDownloadFile()) {
+            	issPortalFile.setDownloadFileTime(Instant.now());
+            	issPortalFile.setDownloadFile(true);
+                issPortalFileRepository.save(issPortalFile);
+            }
+            
+            
+            
             return new ResponseEntity<>(excelContent, headers, 200);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);

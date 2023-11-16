@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -205,7 +208,28 @@ public class BatchTransactionResource {
         if (branchOrPacksNumber.isEmpty()) {
             throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }
+        
+        
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+        	LongFilter packsCodeFilter=new LongFilter();
+			packsCodeFilter.setEquals(Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)));
+			criteria.setPacksCode(packsCodeFilter);
+			
 
+		} else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+			
+			LongFilter schemeWiseBranchCodeFilter=new LongFilter();
+			schemeWiseBranchCodeFilter.setEquals(Long.parseLong(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)));
+			criteria.setSchemeWiseBranchCode(schemeWiseBranchCodeFilter);
+			
+
+		} else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
+			LongFilter bankCodeFilter=new LongFilter();
+			bankCodeFilter.setEquals(Long.parseLong(branchOrPacksNumber.get(Constants.BANK_CODE_KEY)));
+			criteria.setBankCode(bankCodeFilter);
+
+		}
+        
         log.debug("REST request to get BatchTransactions by criteria: {}", criteria);
         List<BatchTransactionMapper> page = batchTransactionQueryService.findByCriteriaByMapper(criteria, pageable);
         HttpHeaders headers = new HttpHeaders();

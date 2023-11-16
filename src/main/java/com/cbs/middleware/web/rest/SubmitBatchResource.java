@@ -86,6 +86,7 @@ import com.cbs.middleware.repository.RelativeMasterRepository;
 import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.ResponceService;
+import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -157,7 +158,6 @@ public class SubmitBatchResource {
     @Autowired
     RBAControl rbaControl;
 
-	private Long issFilePortalId;
 
     public SubmitBatchResource() {}
 
@@ -170,16 +170,26 @@ public class SubmitBatchResource {
     @PostMapping("/submit-batch")
     @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','SUBMIT_BATCH','SUBMIT')")
     public List<CBSResponce> submitBatch(@RequestBody IssPortalFile issPortalFile) {
-        List<CBSResponce> cbsResponceStringList = new ArrayList<>();
+    	
+    	if (issPortalFile.getId() == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+    	
+		Optional<IssPortalFile> issPortalFileObj = issPortalFileRepository.findById(issPortalFile.getId());
 
+		if (!issPortalFileObj.isPresent()) {
+			   throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+		}
+		
+        
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
             null,
             Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
-            issPortalFile.getId()
+            issPortalFileObj.get().getId()
         );
 
         int batchSize = 999;
-
+        List<CBSResponce> cbsResponceStringList = new ArrayList<>();
         for (int i = 0; i < applicationList.size(); i += batchSize) {
             List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
             CBSResponce cbsResponce = processBatch(batch);
@@ -614,6 +624,9 @@ public class SubmitBatchResource {
 
             applicationTransaction.setBatchId(batchId);
             applicationTransaction.setUniqueId(uniqueId);
+            applicationTransaction.setPacksCode(Long.parseLong(applicationTransaction.getIssFileParser().getPacsNumber()));
+            applicationTransaction.setSchemeWiseBranchCode(Long.parseLong(applicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
+            applicationTransaction.setBankCode(Long.parseLong(applicationTransaction.getIssFileParser().getBankCode()));
             applicationTransactionListSave.add(applicationTransaction);
         }
 
@@ -659,6 +672,10 @@ public class SubmitBatchResource {
 
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
+                        batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
+                        batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
+                        batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
+                        
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("New");
                         batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
@@ -678,6 +695,9 @@ public class SubmitBatchResource {
                     } else {
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
+                        batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
+                        batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
+                        batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("Discarded");
                         batchTransaction.setBatchErrors(cbsResponce.getError());

@@ -1805,7 +1805,6 @@ public class IssFileParserResource {
                 throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
             }
         } catch (IOException e) {
-System.out.println("..........................................................................."+e);
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
     }
@@ -1992,6 +1991,18 @@ System.out.println("............................................................
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(new ApplicationLog("Account Number is incorrect format", issFileParser));
             }
+            
+            
+         // Filter invalid bank code
+            List<IssFileParser> invalidBankCodeList = findAllByIssPortalFile
+                .stream()
+                .filter(person -> !person.getBankCode().matches("^[0-9]{3}$"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidBankCodeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Bank Code is incorrect format", issFileParser));
+            }
 
             // Filter invalid Scheme Wise Branch Code
             List<IssFileParser> invalidBranchCodeList = findAllByIssPortalFile
@@ -2003,7 +2014,8 @@ System.out.println("............................................................
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(new ApplicationLog("Scheme Wise Branch Code is incorrect format", issFileParser));
             }
-
+            
+            
             // Filter invalid ifsc
             List<IssFileParser> invalidIFSCCodeList = findAllByIssPortalFile
                 .stream()
@@ -2186,6 +2198,10 @@ System.out.println("............................................................
                         application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
                         application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
                         application.setIssFileParser(issFileParser);
+                        application.setBankCode(Long.parseLong(issFileParser.getBankCode()));
+                        application.setSchemeWiseBranchCode(Long.parseLong(issFileParser.getSchemeWiseBranchCode()));
+                        application.setPacksCode(Long.parseLong(issFileParser.getPacsNumber()));
+                        application.setFinancialYear(issFileParser.getFinancialYear());
                         application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
                         applicationList.add(application);
                     }
@@ -2207,9 +2223,10 @@ System.out.println("............................................................
         }
     }
 
-    @PostMapping("/validateFile")
-    @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','FILE_VALIDATE','VALIDATE')")
-    public ResponseEntity<Set<ApplicationLog>> validateFile(@RequestBody IssPortalFile issPortalFile) {
+    //need to remove
+   // @PostMapping("/validateFile")
+  //  @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','FILE_VALIDATE','VALIDATE')")
+    private ResponseEntity<Set<ApplicationLog>> validateFile(@RequestBody IssPortalFile issPortalFile) {
         if (issPortalFile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -2673,6 +2690,10 @@ System.out.println("............................................................
             application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
             application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
             application.setIssFileParser(issFileParser);
+            application.setBankCode(Long.parseLong(issFileParser.getBankCode()));
+            application.setSchemeWiseBranchCode(Long.parseLong(issFileParser.getSchemeWiseBranchCode()));
+            application.setPacksCode(Long.parseLong(issFileParser.getPacsNumber()));
+            application.setFinancialYear(issFileParser.getFinancialYear());
             application.setIssFilePortalId(issPortalFileSave.getId());
             applicationRepository.save(application);
 
@@ -2799,7 +2820,22 @@ System.out.println("............................................................
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Branch Code is in incorrect format. ");
         }
-
+        
+      
+        // Scheme Wise Branch Code
+        if (!issFileParser.getSchemeWiseBranchCode().matches("^[0-9]{6}$")) {
+            errorCount = errorCount + 1;
+            validationErrorBuilder.append("Branch Code is in incorrect format. ");
+        }
+        
+        // bank code
+        if (!issFileParser.getBankCode().matches("^[0-9]{3}$")) {
+            errorCount = errorCount + 1;
+            validationErrorBuilder.append("Branch Code is in incorrect format. ");
+        }
+        
+        
+        
         // ifsc
         if (!issFileParser.getIfsc().matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
             errorCount = errorCount + 1;
@@ -2831,13 +2867,16 @@ System.out.println("............................................................
         }
 
         // kccLoanSanctionedAmount
-        // kccDrawingLimitforFY
         if (!validateAmount(issFileParser.getLoanSanctionAmount())) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("kcc Loan Sanctioned Amount is in incorrect format. ");
         }
 
         // activityType
+        if (!validateActivityType(issFileParser.getActivityType())) {
+            errorCount = errorCount + 1;
+            validationErrorBuilder.append("Activity Type must be AGRI CROP, HORTI AND VEG CROPS ");
+        }
 
         // loanSanctionedDate
         if (!validateDate(issFileParser.getLoanSactionDate())) {
@@ -2846,7 +2885,6 @@ System.out.println("............................................................
         }
 
         // loanSanctionedAmount
-
         if (!validateAmount(issFileParser.getLoanSanctionAmount())) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Loan Sanction Amount is incorrect format. ");

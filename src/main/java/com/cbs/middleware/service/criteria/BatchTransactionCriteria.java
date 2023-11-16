@@ -28,6 +28,12 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
     private StringFilter batchDetails;
 
     private LongFilter applicationCount;
+    
+    private LongFilter bankCode;
+    
+    private LongFilter schemeWiseBranchCode;
+
+    private LongFilter packsCode;
 
     private StringFilter notes;
 
@@ -41,6 +47,9 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
 
     public BatchTransactionCriteria(BatchTransactionCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.packsCode = other.packsCode == null ? null : other.packsCode.copy();
+        this.schemeWiseBranchCode = other.schemeWiseBranchCode == null ? null : other.schemeWiseBranchCode.copy();
+        this.bankCode = other.bankCode == null ? null : other.bankCode.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.batchDetails = other.batchDetails == null ? null : other.batchDetails.copy();
         this.applicationCount = other.applicationCount == null ? null : other.applicationCount.copy();
@@ -69,7 +78,54 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
     public void setId(LongFilter id) {
         this.id = id;
     }
+    
+    
+    public LongFilter getSchemeWiseBranchCode() {
+        return schemeWiseBranchCode;
+    }
 
+    public LongFilter schemeWiseBranchCode() {
+        if (schemeWiseBranchCode == null) {
+        	schemeWiseBranchCode = new LongFilter();
+        }
+        return schemeWiseBranchCode;
+    }
+
+    public void setSchemeWiseBranchCode(LongFilter schemeWiseBranchCode) {
+        this.schemeWiseBranchCode = schemeWiseBranchCode;
+    }
+    
+    
+    public LongFilter getBankCode() {
+        return bankCode;
+    }
+
+    public LongFilter bankCode() {
+        if (bankCode == null) {
+        	bankCode = new LongFilter();
+        }
+        return bankCode;
+    }
+
+    public void setBankCode(LongFilter bankCode) {
+        this.bankCode = bankCode;
+    }
+    
+    public LongFilter getPacksCode() {
+        return packsCode;
+    }
+
+    public LongFilter packsCode() {
+        if (packsCode == null) {
+        	packsCode = new LongFilter();
+        }
+        return packsCode;
+    }
+
+    public void setPacksCode(LongFilter packsCode) {
+        this.packsCode = packsCode;
+    }
+    
     public StringFilter getStatus() {
         return status;
     }
@@ -179,6 +235,9 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
         final BatchTransactionCriteria that = (BatchTransactionCriteria) o;
         return (
             Objects.equals(id, that.id) &&
+            Objects.equals(packsCode, that.packsCode) &&
+            Objects.equals(bankCode, that.bankCode) &&
+            Objects.equals(schemeWiseBranchCode, that.schemeWiseBranchCode) &&
             Objects.equals(status, that.status) &&
             Objects.equals(batchDetails, that.batchDetails) &&
             Objects.equals(applicationCount, that.applicationCount) &&
@@ -191,7 +250,9 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, batchDetails, applicationCount, notes, batchId, batchAckId, distinct);
+        return Objects.hash(id,  packsCode,
+                bankCode,
+                schemeWiseBranchCode, status, batchDetails, applicationCount, notes, batchId, batchAckId, distinct);
     }
 
     // prettier-ignore
@@ -199,6 +260,9 @@ public class BatchTransactionCriteria implements Serializable, Criteria {
     public String toString() {
         return "BatchTransactionCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (packsCode != null ? "packsCode" + packsCode + ", " : "") +
+            (bankCode != null ? "bankCode=" + bankCode + ", " : "") +
+            (schemeWiseBranchCode != null ? "schemeWiseBranchCode=" + schemeWiseBranchCode + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
             (batchDetails != null ? "batchDetails=" + batchDetails + ", " : "") +
             (applicationCount != null ? "applicationCount=" + applicationCount + ", " : "") +

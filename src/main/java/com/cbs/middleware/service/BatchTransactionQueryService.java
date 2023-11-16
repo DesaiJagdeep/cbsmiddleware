@@ -29,6 +29,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.LongFilter;
 
 /**
  * Service for executing complex queries for {@link BatchTransaction} entities
@@ -92,12 +93,21 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
     @Transactional(readOnly = true)
     public List<BatchTransactionMapper> findByCriteriaByMapper(BatchTransactionCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
-        final Specification<BatchTransaction> specification = createSpecification(criteria);
 
-        List<BatchTransactionMapper> batchTransactionMapperList = new ArrayList<>();
-        Page<BatchTransaction> findAll = batchTransactionRepository.findAll(specification, page);
+		List<BatchTransactionMapper> batchTransactionMapperList = new ArrayList<>();
+		List<BatchTransaction> content = new ArrayList<BatchTransaction>();
+		Specification<BatchTransaction> specification = createSpecification(criteria);
+		Page<BatchTransaction> findAll = batchTransactionRepository.findAll(specification, page);
+		
+		if(findAll.isEmpty())
+		{
+			//return error
+		}
+		
+		content = findAll.getContent();
 
-        List<BatchTransaction> content = findAll.getContent();
+		
+        
 
         for (BatchTransaction batchTransaction : content) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -112,48 +122,14 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 
                 if (findIssPortalFileById.isPresent()) {
                     IssPortalFile issPortalFile = findIssPortalFileById.get();
+                    batchTransactionMapper.setIssPortalId(issPortalFile.getId());
+                    batchTransactionMapper.setFileName(issPortalFile.getFileName());
+                    batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
+                    batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
 
-                    Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+                    batchTransactionMapperList.add(batchTransactionMapper);
 
-                    if (
-                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)) &&
-                        branchOrPacksNumber.get(Constants.PACKS_CODE_KEY).equalsIgnoreCase("" + issPortalFile.getPacsCode())
-                    ) {
-                        batchTransactionMapper.setAppPendingForExecCount(
-                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
-                        );
-                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
-                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
-                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
-                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
-
-                        batchTransactionMapperList.add(batchTransactionMapper);
-                    } else if (
-                        StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)) &&
-                        branchOrPacksNumber
-                            .get(Constants.KCC_ISS_BRANCH_CODE_KEY)
-                            .equalsIgnoreCase("" + issPortalFile.getSchemeWiseBranchCode())
-                    ) {
-                        batchTransactionMapper.setAppPendingForExecCount(
-                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
-                        );
-                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
-                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
-                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
-                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
-
-                        batchTransactionMapperList.add(batchTransactionMapper);
-                    } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
-                        batchTransactionMapper.setAppPendingForExecCount(
-                            applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId())
-                        );
-                        batchTransactionMapper.setIssPortalId(issPortalFile.getId());
-                        batchTransactionMapper.setFileName(issPortalFile.getFileName());
-                        batchTransactionMapper.setBranchName(issPortalFile.getBranchName());
-                        batchTransactionMapper.setPacksName(issPortalFile.getPacsName());
-
-                        batchTransactionMapperList.add(batchTransactionMapper);
-                    }
+                    
                 }
             } catch (Exception e) {
                 log.error("Error in portal responce api: " + e);
@@ -194,6 +170,27 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), BatchTransaction_.id));
             }
+            
+            
+			if (criteria.getPacksCode() != null) {
+				specification = specification
+						.and(buildRangeSpecification(criteria.getPacksCode(), BatchTransaction_.packsCode));
+			}
+
+			else if (criteria.getSchemeWiseBranchCode() != null) {
+				specification = specification.and(buildRangeSpecification(criteria.getSchemeWiseBranchCode(),
+						BatchTransaction_.schemeWiseBranchCode));
+			}
+
+			else if (criteria.getBankCode() != null) {
+				System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"+criteria.getBankCode() );
+				specification = specification
+						.and(buildRangeSpecification(criteria.getBankCode(), BatchTransaction_.bankCode));
+			}
+            
+           
+            
+            
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStatus(), BatchTransaction_.status));
             }

@@ -41,6 +41,15 @@ public class BatchTransaction extends AbstractAuditingEntity<Long> implements Se
 
     @Column(name = "batch_ack_id")
     private String batchAckId;
+    
+    @Column(name = "bank_code")
+    private Long bankCode;
+
+    @Column(name = "scheme_wise_branch_code")
+    private Long schemeWiseBranchCode;
+
+    @Column(name = "packs_code")
+    private Long packsCode;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -66,7 +75,31 @@ public class BatchTransaction extends AbstractAuditingEntity<Long> implements Se
         return this;
     }
 
-    public void setStatus(String status) {
+    public Long getBankCode() {
+		return bankCode;
+	}
+
+	public void setBankCode(Long bankCode) {
+		this.bankCode = bankCode;
+	}
+
+	public Long getSchemeWiseBranchCode() {
+		return schemeWiseBranchCode;
+	}
+
+	public void setSchemeWiseBranchCode(Long schemeWiseBranchCode) {
+		this.schemeWiseBranchCode = schemeWiseBranchCode;
+	}
+
+	public Long getPacksCode() {
+		return packsCode;
+	}
+
+	public void setPacksCode(Long packsCode) {
+		this.packsCode = packsCode;
+	}
+
+	public void setStatus(String status) {
         this.status = status;
     }
 

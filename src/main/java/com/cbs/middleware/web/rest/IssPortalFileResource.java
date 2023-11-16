@@ -135,7 +135,7 @@ public class IssPortalFileResource {
     private final IssPortalFileService issPortalFileService;
 
     private final IssPortalFileRepository issPortalFileRepository;
-
+    
     private final IssPortalFileQueryService issPortalFileQueryService;
 
     @Autowired
@@ -426,24 +426,21 @@ public class IssPortalFileResource {
     @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public List<TalukaWiseDataReport> talukaWiseData(@PathVariable String financialYear) {
     	
-    	List<TalukaWiseDataReport> talukaWiseDataReportList=new ArrayList<>();
+    	Set<TalukaWiseDataReport> talukaWiseDataReportList=new HashSet<TalukaWiseDataReport>();
     	TalukaWiseDataReport talukaWiseDataReport=new TalukaWiseDataReport();
     	//calculating current finantial year
     	//String currentFinantialYear=calculateCurrentFinantialYear();
     	
     	List<TalukaMaster> talukaMasterList = talukaMasterRepository.findAll();
-    	int count=0;
-    	int srno=0;
+    	
     	for (TalukaMaster talukaMaster : talukaMasterList) {
     		
     		
     		if(!talukaMaster.getTalukaName().equalsIgnoreCase("PUNE CITY")&&!talukaMaster.getTalukaName().equalsIgnoreCase("PIMPRI-CHINCHWAD"))
     		{
-    			count=count+1;
-        		srno=srno+1;
+        		
         		
         		talukaWiseDataReport=new TalukaWiseDataReport();
-        		talukaWiseDataReport.setSrNo(srno);
         		talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
         		
         		//find society count
@@ -511,10 +508,9 @@ public class IssPortalFileResource {
         			Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
         			if(findAllBySchemeWiseBranchCode.isPresent())
         			{
-        				
         				completedCount=completedCount+issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode,financialYear);
         				inProgressCount=inProgressCount+issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode,financialYear);
-            			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear,0,0l);
+            			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
         			
             			
         			}
@@ -541,6 +537,19 @@ public class IssPortalFileResource {
     	List<TalukaWiseDataReport> talukaWiseDataReportList1 = talukaWiseDataReportList.stream()
                 .sorted(Comparator.comparing(TalukaWiseDataReport::getTalukaName))
                 .collect(Collectors.toList());
+//    	int srno=0;
+//    	talukaWiseDataReportList1.forEach(t->{
+//    		t.setSrNo(srno+1);
+//    		});
+    	
+    	int srno=0;
+    	for (TalukaWiseDataReport talukaWiseDataReport2 : talukaWiseDataReportList1) {
+    		srno=srno+1;
+    		talukaWiseDataReport2.setSrNo(srno);
+		}
+    	
+    	
+    	
 		return talukaWiseDataReportList1;
     	
     }

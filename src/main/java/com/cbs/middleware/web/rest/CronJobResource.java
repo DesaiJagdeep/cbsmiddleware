@@ -65,6 +65,7 @@ import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.ResponceService;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.IssFileParser}.
@@ -182,12 +183,14 @@ public class CronJobResource {
                         CBSResponce convertValue = null;
                         ObjectMapper objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        objectMapper.registerModule(new JavaTimeModule());
                         convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
 
                         if (convertValue.isStatus()) {
                             String decryption = decryption("" + convertValue.getData());
                             objectMapper = new ObjectMapper();
                             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                            objectMapper.registerModule(new JavaTimeModule());
                             DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
 
                             if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
@@ -260,6 +263,7 @@ public class CronJobResource {
                                             JSONObject jsonObject = new JSONObject(applicationLog);
                                             ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
                                             applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                            applicationLogHistoryObjMap.registerModule(new JavaTimeModule());
                                             ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
                                                 jsonObject.toString(),
                                                 ApplicationLogHistory.class
@@ -309,6 +313,7 @@ public class CronJobResource {
                         batchTransactionRepository.save(batchTransaction);
                     }
                 } catch (Exception e) {
+                	e.printStackTrace();
                     log.error("Error in cronjob: " + e);
                 }
             }
@@ -403,7 +408,7 @@ public class CronJobResource {
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void updateRecordsInBatchTrans() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
-
+        
         if (!batchTransactionList.isEmpty()) {
             for (BatchTransaction batchTransaction : batchTransactionList) {
                 List<Application> applicationListSave = new ArrayList<>();
@@ -437,12 +442,14 @@ public class CronJobResource {
                         CBSResponce convertValue = null;
                         ObjectMapper objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        objectMapper.registerModule(new JavaTimeModule());
                         convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
 
                         if (convertValue.isStatus()) {
                             String decryption = decryption("" + convertValue.getData());
                             objectMapper = new ObjectMapper();
                             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                            objectMapper.registerModule(new JavaTimeModule());
                             DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
 
                             if (dataByBatchAckId.getStatus() == Constants.DISCARDED_BATCH_STATUS_CODE) {
@@ -515,6 +522,7 @@ public class CronJobResource {
                                             JSONObject jsonObject = new JSONObject(applicationLog);
                                             ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
                                             applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                            applicationLogHistoryObjMap.registerModule(new JavaTimeModule());
                                             ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
                                                 jsonObject.toString(),
                                                 ApplicationLogHistory.class
@@ -523,6 +531,7 @@ public class CronJobResource {
                                             applicationLogHistoryRepository.save(applicationLogHistory);
                                         }
 
+                                        
                                         // updating new error log entry
                                         applicationLog.setIssFileParser(applicationByUniqueId.getIssFileParser());
 
@@ -564,6 +573,7 @@ public class CronJobResource {
                         batchTransactionRepository.save(batchTransaction);
                     }
                 } catch (Exception e) {
+                	e.printStackTrace();
                     log.error("Error in cronjob: " + e);
                 }
             }

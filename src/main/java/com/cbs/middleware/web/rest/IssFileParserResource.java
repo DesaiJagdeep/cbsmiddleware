@@ -3000,9 +3000,8 @@ public class IssFileParserResource {
     
     
     private boolean validateActivityType(String activityType) {
-        boolean flag = false;
         if (StringUtils.isBlank(activityType)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3020,9 +3019,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateLandType(String landType) {
-        boolean flag = false;
         if (StringUtils.isBlank(landType)) {
-            return flag;
+            return false;
         }
         if (
             MasterDataCacheService.LandTypeMasterList
@@ -3041,7 +3039,7 @@ public class IssFileParserResource {
     private boolean validateAmount(String amount) {
         boolean flag = false;
         if (StringUtils.isBlank(amount)) {
-            return flag;
+            return false;
         }
         Pattern patternLongAmount = Pattern.compile("\\d+\\.\\d+");
         Pattern patternDoubleAmount = Pattern.compile("\\d+");
@@ -3058,9 +3056,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateCropCode(String cropCode) {
-        boolean flag = false;
         if (StringUtils.isBlank(cropCode)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3078,9 +3075,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateAccountHolder(String accountHolder) {
-        boolean flag = false;
         if (StringUtils.isBlank(accountHolder)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3098,9 +3094,8 @@ public class IssFileParserResource {
     }
 
     private boolean validatePrimaryOccupation(String occupationName) {
-        boolean flag = false;
         if (StringUtils.isBlank(occupationName)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3118,9 +3113,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateFarmerType(String farmerType) {
-        boolean flag = false;
         if (StringUtils.isBlank(farmerType)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3138,9 +3132,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateFarmerCategory(String farmerCategory) {
-        boolean flag = false;
         if (StringUtils.isBlank(farmerCategory)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3158,10 +3151,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
-    	System.out.println("///////////////////////////////////////"+castCategoryName);
-        boolean flag = false;
         if (StringUtils.isBlank(castCategoryName)) {
-            return flag;
+            return false;
         }
 
         if (
@@ -3172,7 +3163,6 @@ public class IssFileParserResource {
                 .findFirst()
                 .isPresent()
         ) {
-        	System.out.println(".........................");
             return true;
         } else {
             return false;

@@ -182,14 +182,7 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
 
     @Column(name = "second_notice_date")
     private LocalDate secondNoticeDate;
-    
-    public String getSettingCode() {
-		return settingCode;
-	}
-
-	public void setSettingCode(String settingCode) {
-		this.settingCode = settingCode;
-	}
+   
 
 	@Column(name = "second_notice_date_mr")
     private String secondNoticeDateMr;
@@ -232,6 +225,14 @@ public class CourtCaseSetting extends AbstractAuditingEntity<Long> implements Se
 
     public LocalDate getFirstNoticeDate() {
 		return firstNoticeDate;
+	}
+    
+    public String getSettingCode() {
+		return settingCode;
+	}
+
+	public void setSettingCode(String settingCode) {
+		this.settingCode = settingCode;
 	}
 
 	public void setFirstNoticeDate(LocalDate firstNoticeDate) {

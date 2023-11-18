@@ -95,6 +95,16 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
             if (criteria.getSrNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSrNo(), CourtCase_.srNo));
             }
+            
+            if (criteria.getFinancialYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), CourtCase_.financialYear));
+            }
+            
+            
+            if (criteria.getBranchOrPacsCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchOrPacsCode(), CourtCase_.branchOrPacsCode));
+            }
+            
 
             if (criteria.getTalukaName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTalukaName(), CourtCase_.talukaName));
@@ -190,7 +200,7 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
 	        //return issFileParserRepository.findAllByPacsNumber(pacsNumber,specification, page);
 
 	        StringFilter sf = new StringFilter();
-	        sf.equals(pacsNumber);
+	        sf.setEquals(pacsNumber);
 	        criteria.setBranchOrPacsCode(sf);
 
 	        final Specification<CourtCase> specification = createSpecification(criteria);
@@ -204,7 +214,7 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
 	        // return issFileParserRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode,specification, page);
 
 	        StringFilter sf = new StringFilter();
-	        sf.equals(schemeWiseBranchCode);
+	        sf.setEquals(schemeWiseBranchCode);
 	        criteria.setBranchOrPacsCode(sf);
 
 	        final Specification<CourtCase> specification = createSpecification(criteria);

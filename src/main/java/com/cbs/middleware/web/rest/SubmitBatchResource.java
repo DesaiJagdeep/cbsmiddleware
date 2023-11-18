@@ -544,14 +544,16 @@ public class SubmitBatchResource {
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
                 // add crop code from crop name
-                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                    .stream()
-                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                    .map(CropMaster::getCropCode)
-                    .findFirst();
-                if (cropNameMasterCode.isPresent()) {
-                    activityRows.setCropCode(cropNameMasterCode.get());
-                }
+//                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+//                    .stream()
+//                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+//                    .map(CropMaster::getCropCode)
+//                    .findFirst();
+//                if (cropNameMasterCode.isPresent()) {
+//                    activityRows.setCropCode(cropNameMasterCode.get());
+//                }
+                
+                activityRows.setCropCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
                 activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
@@ -595,15 +597,17 @@ public class SubmitBatchResource {
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
                 // add crop code from crop name
-                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                    .stream()
-                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                    .map(CropMaster::getCropCode)
-                    .findFirst();
-
-                if (cropNameMasterCode.isPresent()) {
-                    activityRows.setPlantationCode(cropNameMasterCode.get());
-                }
+//                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+//                    .stream()
+//                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+//                    .map(CropMaster::getCropCode)
+//                    .findFirst();
+//
+//                if (cropNameMasterCode.isPresent()) {
+//                    activityRows.setPlantationCode(cropNameMasterCode.get());
+//                }
+                
+                activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
                 activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
@@ -1169,14 +1173,16 @@ public class SubmitBatchResource {
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
                 // add crop code from crop name
-                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                    .stream()
-                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                    .map(CropMaster::getCropCode)
-                    .findFirst();
-                if (cropNameMasterCode.isPresent()) {
-                    activityRows.setCropCode(cropNameMasterCode.get());
-                }
+				/*
+				 * Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+				 * .stream() .filter(f ->
+				 * f.getCropName().toLowerCase().contains(issFileParser.getCropName().
+				 * toLowerCase())) .map(CropMaster::getCropCode) .findFirst(); if
+				 * (cropNameMasterCode.isPresent()) {
+				 * activityRows.setCropCode(cropNameMasterCode.get()); }
+				 */
+                
+                activityRows.setCropCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
                 activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
@@ -1220,15 +1226,17 @@ public class SubmitBatchResource {
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
                 // add crop code from crop name
-                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
-                    .stream()
-                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
-                    .map(CropMaster::getCropCode)
-                    .findFirst();
-
-                if (cropNameMasterCode.isPresent()) {
-                    activityRows.setPlantationCode(cropNameMasterCode.get());
-                }
+//                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
+//                    .stream()
+//                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
+//                    .map(CropMaster::getCropCode)
+//                    .findFirst();
+//
+//                if (cropNameMasterCode.isPresent()) {
+//                    activityRows.setPlantationCode(cropNameMasterCode.get());
+//                }
+                
+                activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
                 activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());

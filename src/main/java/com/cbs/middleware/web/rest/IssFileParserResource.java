@@ -891,6 +891,7 @@ public class IssFileParserResource {
             fileParseConf.setBankName(getCellValue(row.getCell(1)));
             fileParseConf.setBankCode(bankCode);
             fileParseConf.setBranchName(getCellValue(row.getCell(3)));
+            fileParseConf.setBranchCode(getCellValue(row.getCell(4)));
             fileParseConf.setSchemeWiseBranchCode(schemeWiseBranchCode);
             fileParseConf.setPacsName(getCellValue(row.getCell(31)));
             fileParseConf.setPacsCode(packsCode);
@@ -1718,7 +1719,7 @@ public class IssFileParserResource {
 
                         issFileParser.setSeasonName(getCellValue(row.getCell(44)));
 
-                        issFileParser.setActivityType(getCellValue(row.getCell(45)));
+                        issFileParser.setActivityType(getStringCellValue(row.getCell(45)));
 
                         issFileParser.setAreaHect(getFloatCellValue(row.getCell(46)));
 
@@ -2139,7 +2140,7 @@ public class IssFileParserResource {
             for (IssFileParser issFileParser : invalidActivityTypeList) {
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(
-                    new ApplicationLog("Activity type is not in AGRI CROP,  HORIT AND VEG CROPS", issFileParser)
+                    new ApplicationLog("Activity type is not in AGRI CROP,  HORTI AND VEG CROPS", issFileParser)
                 );
             }
 
@@ -2979,12 +2980,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateSeasonName(String seasonName) {
-        boolean flag = false;
-        if (StringUtils.isBlank(seasonName)) {
-            return flag;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(seasonName)&&
             MasterDataCacheService.SeasonMasterList
                 .stream()
                 .filter(f -> f.getSeasonName().toLowerCase().contains(seasonName.toLowerCase()))
@@ -3000,11 +2996,7 @@ public class IssFileParserResource {
     
     
     private boolean validateActivityType(String activityType) {
-        if (StringUtils.isBlank(activityType)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(activityType)&&
             MasterDataCacheService.ActivityTypeMasterList
                 .stream()
                 .filter(f -> f.getActivityType().toLowerCase().contains(activityType.toLowerCase()))
@@ -3019,10 +3011,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateLandType(String landType) {
-        if (StringUtils.isBlank(landType)) {
-            return false;
-        }
-        if (
+        if (StringUtils.isNotBlank(landType)&&
             MasterDataCacheService.LandTypeMasterList
                 .stream()
                 .filter(f -> f.getLandType().toLowerCase().contains(landType.toLowerCase()))
@@ -3056,11 +3045,8 @@ public class IssFileParserResource {
     }
 
     private boolean validateCropCode(String cropCode) {
-        if (StringUtils.isBlank(cropCode)) {
-            return false;
-        }
 
-        if (
+        if (StringUtils.isNotBlank(cropCode)&&
             MasterDataCacheService.CropMasterList
                 .stream()
                 .filter(f -> f.getCropCode().equals(cropCode))
@@ -3075,11 +3061,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateAccountHolder(String accountHolder) {
-        if (StringUtils.isBlank(accountHolder)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(accountHolder)&&
             MasterDataCacheService.AccountHolderMasterList
                 .stream()
                 .filter(f -> f.getAccountHolder().toLowerCase().contains(accountHolder.toLowerCase()))
@@ -3094,11 +3076,7 @@ public class IssFileParserResource {
     }
 
     private boolean validatePrimaryOccupation(String occupationName) {
-        if (StringUtils.isBlank(occupationName)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(occupationName)&&
             MasterDataCacheService.OccupationMasterList
                 .stream()
                 .filter(f -> f.getOccupationName().toLowerCase().contains(occupationName.toLowerCase()))
@@ -3113,11 +3091,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateFarmerType(String farmerType) {
-        if (StringUtils.isBlank(farmerType)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(farmerType)&&
             MasterDataCacheService.FarmerTypeMasterList
                 .stream()
                 .filter(f -> f.getFarmerType().toLowerCase().contains(farmerType.toLowerCase()))
@@ -3132,11 +3106,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateFarmerCategory(String farmerCategory) {
-        if (StringUtils.isBlank(farmerCategory)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(farmerCategory)&&
             MasterDataCacheService.FarmerCategoryMasterList
                 .stream()
                 .filter(f -> f.getFarmerCategory().toLowerCase().contains(farmerCategory.toLowerCase()))
@@ -3151,11 +3121,7 @@ public class IssFileParserResource {
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
-        if (StringUtils.isBlank(castCategoryName)) {
-            return false;
-        }
-
-        if (
+        if (StringUtils.isNotBlank(castCategoryName)&&
             MasterDataCacheService.CastCategoryMasterList
                 .stream()
                 .filter(c -> c.getCastCategoryName().toLowerCase().contains(castCategoryName.toLowerCase()))
@@ -3330,6 +3296,18 @@ public class IssFileParserResource {
         return new SecretKeySpec(truncatedKey, "AES");
     }
 
+    
+    
+    
+	private static String getStringCellValue(Cell cell) {
+		if (cell != null && cell.getCellType() == CellType.STRING) {
+			return cell.getStringCellValue();
+		} else {
+			return null;
+		}
+	}
+    
+    
     private static String getCellValue(Cell cell) {
         String cellValue = "";
 

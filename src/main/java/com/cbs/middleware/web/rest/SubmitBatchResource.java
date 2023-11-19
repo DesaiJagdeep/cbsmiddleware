@@ -484,47 +484,32 @@ public class SubmitBatchResource {
             Activities activities = new Activities();
 
             
-            
-            
-            String activityType=issFileParser.getActivityType().toLowerCase();
-            if("horit and veg crops".equalsIgnoreCase(activityType)||
-            		"horti and veg crops".equalsIgnoreCase(activityType))
-            {
-            	 // added activity type code as on Activity Type
-            	 activities.setActivityType(2l);
-            }
-            else if("agri crop".equalsIgnoreCase(activityType)||
-            		"sugarcane".equalsIgnoreCase(activityType))
-            {
-            	
-            	 activities.setActivityType(1l);
-            	 // added activity type code as on Activity Type
-                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                    .stream()
-                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
-                    .map(ActivityType::getActivityTypeCode)
-                    .findFirst();
+			String kccCropCode = issFileParser.getKccIssCropCode();
 
-                if (activityTypeCode.isPresent()) {
-                    activities.setActivityType((long) activityTypeCode.get());
-                } 
-            }
-            
-            else 
-            {
-            	 // added activity type code as on Activity Type
-                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                    .stream()
-                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
-                    .map(ActivityType::getActivityTypeCode)
-                    .findFirst();
+			Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList.stream()
+					.filter(f -> f.getCropCode().contains(kccCropCode)).map(CropMaster::getCategoryName).findFirst();
 
-                if (activityTypeCode.isPresent()) {
-                    activities.setActivityType((long) activityTypeCode.get());
-                } 
-            }
+			if (activityTypeBYKccCropCode.isPresent()) {
+
+				String activityCode = activityTypeBYKccCropCode.get().toLowerCase().trim();
+				if ("horit and veg crops".equalsIgnoreCase(activityCode)
+						|| "horti and veg crops".equalsIgnoreCase(activityCode)
+						|| "horti & veg crops".equalsIgnoreCase(activityCode)) {
+					// added activity type code as on Activity Type
+					activities.setActivityType(2l);
+				} else if ("agri crop".equalsIgnoreCase(activityCode) || "sugarcane".equalsIgnoreCase(activityCode)
+						|| "agri crops".equalsIgnoreCase(activityCode)
+
+				) {
+					activities.setActivityType(1l);
+
+				}
+
+			} else {
+				activities.setActivityType(1l);
+			}
+			
             
-           
 
             // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
@@ -1113,47 +1098,36 @@ public class SubmitBatchResource {
             Activities activities = new Activities();
 
             
+            String kccCropCode=issFileParser.getKccIssCropCode();
             
-            
-            String activityType=issFileParser.getActivityType().toLowerCase();
-            if("horit and veg crops".equalsIgnoreCase(activityType)||
-            		"horti and veg crops".equalsIgnoreCase(activityType))
-            {
-            	 // added activity type code as on Activity Type
-            	 activities.setActivityType(2l);
-            }
-            else if("agri crop".equalsIgnoreCase(activityType)||
-            		"sugarcane".equalsIgnoreCase(activityType))
-            {
-            	
-            	 activities.setActivityType(1l);
-            	 // added activity type code as on Activity Type
-                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
+            Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList
                     .stream()
-                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
-                    .map(ActivityType::getActivityTypeCode)
+                    .filter(f -> f.getCropCode().contains(kccCropCode))
+                    .map(CropMaster::getCategoryName)
                     .findFirst();
 
-                if (activityTypeCode.isPresent()) {
-                    activities.setActivityType((long) activityTypeCode.get());
-                } 
-            }
-            
-            else 
-            {
-            	 // added activity type code as on Activity Type
-                Optional<Integer> activityTypeCode = MasterDataCacheService.ActivityTypeMasterList
-                    .stream()
-                    .filter(f -> f.getActivityType().toLowerCase().contains(activityType))
-                    .map(ActivityType::getActivityTypeCode)
-                    .findFirst();
+			if (activityTypeBYKccCropCode.isPresent()) {
+				
+				String activityCode=activityTypeBYKccCropCode.get().toLowerCase().trim();
+				if ("horit and veg crops".equalsIgnoreCase(activityCode)
+						|| "horti and veg crops".equalsIgnoreCase(activityCode)||
+						"horti & veg crops".equalsIgnoreCase(activityCode)
+						) {
+					// added activity type code as on Activity Type
+					activities.setActivityType(2l);
+				} else if ("agri crop".equalsIgnoreCase(activityCode)
+						|| "sugarcane".equalsIgnoreCase(activityCode)
+						|| 	"agri crops".equalsIgnoreCase(activityCode)
+						
+						) {
+					activities.setActivityType(1l);
 
-                if (activityTypeCode.isPresent()) {
-                    activities.setActivityType((long) activityTypeCode.get());
-                } 
-            }
-            
-           
+				}
+
+			} else {
+				activities.setActivityType(1l);
+			}
+			
 
             // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {

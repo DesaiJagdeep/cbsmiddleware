@@ -202,13 +202,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     private String inquiryFee="0.00";
     
     @Column(name = "vasuli_expense")
-    private String vasuliExpense="";
+    private String vasuliExpense="0.00";
     
     @Column(name = "other_expense")
-    private String otherExpense="";
+    private String otherExpense="0.00";
     
     @Column(name = "notice_expense")
-    private String noticeExpense="";
+    private String noticeExpense="0.00";
     
     //English data
     
@@ -363,6 +363,32 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @ManyToOne()
     private CourtCaseSetting courtCaseSetting;
     
+    
+    
+    //101 printing date
+    
+    @Column(name = "notice_of_repay_loan_date")
+    private LocalDate NoticeOfRepayLoanDate;
+    
+    @Column(name = "prior_demand_notice_date")
+    private LocalDate priorDemandNoticeDate;
+    
+    @Column(name = "sheti_karj_date")
+    private LocalDate shetiKarjDate;
+    
+    @Column(name = "bigar_sheti_karj_date")
+    private LocalDate bigarShetiKarjDate;
+    
+    @Column(name = "one_zero_one_prakaran_date")
+    private LocalDate oneZeroOnePrakaranDate;
+    
+    @Column(name = "appendix_three_date")
+    private LocalDate appendixThreeDate;
+    
+    @Column(name = "appendix_four_date")
+    private LocalDate appendixFourDate;
+ 
+    
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -382,12 +408,74 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		return surcharge;
 	}
 
+	
+
 	public void setSurcharge(String surcharge) {
 		this.surcharge = surcharge;
 	}
 
 	public String getInquiryFee() {
 		return inquiryFee;
+	}
+
+	
+
+	public LocalDate getNoticeOfRepayLoanDate() {
+		return NoticeOfRepayLoanDate;
+	}
+
+	public void setNoticeOfRepayLoanDate(LocalDate noticeOfRepayLoanDate) {
+		NoticeOfRepayLoanDate = noticeOfRepayLoanDate;
+	}
+
+	
+
+	public LocalDate getPriorDemandNoticeDate() {
+		return priorDemandNoticeDate;
+	}
+
+	public void setPriorDemandNoticeDate(LocalDate priorDemandNoticeDate) {
+		this.priorDemandNoticeDate = priorDemandNoticeDate;
+	}
+
+	public LocalDate getShetiKarjDate() {
+		return shetiKarjDate;
+	}
+
+	public void setShetiKarjDate(LocalDate shetiKarjDate) {
+		this.shetiKarjDate = shetiKarjDate;
+	}
+
+	public LocalDate getBigarShetiKarjDate() {
+		return bigarShetiKarjDate;
+	}
+
+	public void setBigarShetiKarjDate(LocalDate bigarShetiKarjDate) {
+		this.bigarShetiKarjDate = bigarShetiKarjDate;
+	}
+
+	public LocalDate getOneZeroOnePrakaranDate() {
+		return oneZeroOnePrakaranDate;
+	}
+
+	public void setOneZeroOnePrakaranDate(LocalDate oneZeroOnePrakaranDate) {
+		this.oneZeroOnePrakaranDate = oneZeroOnePrakaranDate;
+	}
+
+	public LocalDate getAppendixThreeDate() {
+		return appendixThreeDate;
+	}
+
+	public void setAppendixThreeDate(LocalDate appendixThreeDate) {
+		this.appendixThreeDate = appendixThreeDate;
+	}
+
+	public LocalDate getAppendixFourDate() {
+		return appendixFourDate;
+	}
+
+	public void setAppendixFourDate(LocalDate appendixFourDate) {
+		this.appendixFourDate = appendixFourDate;
 	}
 
 	public void setInquiryFee(String inquiryFee) {

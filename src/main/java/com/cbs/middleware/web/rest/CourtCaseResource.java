@@ -220,6 +220,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "NoticeofRepayLoan");
 			}
 
 			break;
@@ -231,6 +232,7 @@ public class CourtCaseResource {
 				// generating html from template
         		String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "PriorDemandNotice");
 			}
 			break;
 			
@@ -241,6 +243,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "101prakaran");
 			}
 			break;
 			
@@ -253,6 +256,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "ShetiKarj");
 			}
 			break;
 			
@@ -264,6 +268,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "BigarShetiKarj");
 			}
 			break;
 
@@ -274,6 +279,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "Appendix3");
 			}
 			break;
 
@@ -284,6 +290,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "Appendix4");
 			}
 			break;
 			
@@ -296,6 +303,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JangamJaptiPanchanama.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "JangamJaptiPanchanama");
 			}
 			break;
 			
@@ -311,6 +319,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiAdesh.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "JaptiAdesh");
 			}
 			break;
 			
@@ -322,6 +331,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "TabaNotice");
 			}
 			break;
 			
@@ -334,6 +344,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaghenyachiNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "TabaghenyachiNotice");
 			}
 			break;
 			
@@ -345,6 +356,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "JaptiPurvNotice");
 			}
 			break;
 			
@@ -356,6 +368,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/LilavPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "LilavPurvNotice");
 			}
 			break;
 			
@@ -366,6 +379,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Jahirnama.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "Jahirnama");
 			}
 			break;
 		case "JahirLilav":
@@ -375,6 +389,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JahirLilav.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "JahirLilav");
 			}
 			break;
 		case "AtiVSharti":
@@ -384,6 +399,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/AtiVSharti.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "AtiVSharti");
 			}
 			break;
 			
@@ -394,6 +410,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Proceding.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "Proceding");
 			}
 			break;
 		case "VikriTachan":
@@ -403,6 +420,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriTachan.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "VikriTachan");
 			}
 			break;
 			
@@ -417,6 +435,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/MudrakBharane.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "MudrakBharane");
 			}
 			break;
 			
@@ -427,6 +446,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKalavane.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "VikriKalavane");
 			}
 			break;
 			
@@ -438,6 +458,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKayam.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "VikriKayam");
 			}
 			break;
 			
@@ -449,6 +470,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaPavti.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "TabaPavti");
 			}
 			break;
 			
@@ -461,6 +483,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ChhananiTakta.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "ChhananiTakta");
 			}
 			break;
 			
@@ -473,6 +496,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Dakhala.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "Dakhala");
 			}
 			break;
 			
@@ -485,6 +509,7 @@ public class CourtCaseResource {
 				// generating html from template
 				String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/StavarJaptiPurvNotice.html",courtCase, courtCase.getCourtCaseSetting());
 				htmlList.add(htmlStringForPdf);
+				updateCourtCaseCountAndDate(courtCase, "StavarJaptiPurvNotice");
 			}
 			break;
 			
@@ -591,6 +616,139 @@ public class CourtCaseResource {
         
         return response;
     }
+    
+    
+    
+    //update court case count and date
+	void updateCourtCaseCountAndDate(CourtCase courtCase, String noticeType) {
+
+		switch (noticeType) {
+		case "NoticeofRepayLoan":
+			courtCase.setNoticeOfRepayLoanDate(LocalDate.now());
+			courtCase.setNoticeOfRepayLoanCount(courtCase.getNoticeOfRepayLoanCount() + 1);
+			courtCaseRepository.save(courtCase);
+			break;
+			
+				
+	        case "PriorDemandNotice":
+	        	courtCase.setPriorDemandNoticeDate(LocalDate.now());
+				courtCase.setPriorDemandNoticeCount(courtCase.getPriorDemandNoticeCount()+1);
+				courtCaseRepository.save(courtCase);
+				break;
+				
+			case "101prakaran":
+				courtCase.setOneZeroOnePrakaranDate(LocalDate.now());
+				courtCase.setOneZeroOnePrakaranCount(courtCase.getOneZeroOnePrakaranCount()+1);
+				courtCaseRepository.save(courtCase);
+				break;
+				
+				
+				
+			case "ShetiKarj":
+				courtCase.setShetiKarjDate(LocalDate.now());;
+				courtCase.setShetiKarjCount(courtCase.getShetiKarjCount() + 1);
+				courtCaseRepository.save(courtCase);
+				break;
+				
+				
+			case "BigarShetiKarj":
+				courtCase.setBigarShetiKarjDate(LocalDate.now());
+				courtCase.setBigarShetiKarjCount(courtCase.getBigarShetiKarjCount() + 1);
+				courtCaseRepository.save(courtCase);
+				break;
+
+			case "Appendix3":
+				courtCase.setAppendixThreeDate(LocalDate.now());
+				courtCase.setAppendixThreeCount(courtCase.getAppendixThreeCount() + 1);
+				courtCaseRepository.save(courtCase);
+				break;
+
+			case "Appendix4":
+				courtCase.setAppendixFourDate(LocalDate.now());
+				courtCase.setAppendixFourCount(courtCase.getAppendixFourCount() + 1);
+				courtCaseRepository.save(courtCase);
+				break;
+				
+				
+				
+			case "JangamJaptiPanchanama":
+				break;
+				
+				
+			case "JaptiAdesh":
+				break;
+				
+				
+			case "TabaNotice":
+				break;
+				
+				
+				
+			case "TabaghenyachiNotice":
+				break;
+				
+				
+			case "JaptiPurvNotice":
+				break;
+				
+				
+			case "LilavPurvNotice":
+				break;
+				
+			case "Jahirnama":
+				break;
+			case "JahirLilav":
+				break;
+			case "AtiVSharti":
+				break;
+				
+			case "Proceding":
+				break;
+			case "VikriTachan":
+				break;
+				
+				
+			case "MudrakBharane":
+				break;
+				
+			case "VikriKalavane":
+				break;
+				
+				
+			case "VikriKayam":
+				break;
+				
+				
+			case "TabaPavti":
+				break;
+				
+				
+				
+			case "ChhananiTakta":
+				break;
+				
+				
+				
+			case "Dakhala":
+				break;
+				
+				
+				
+			case "StavarJaptiPurvNotice":
+				break;
+			
+			
+			
+			
+
+		default:
+
+			// case not matched
+
+		}
+
+	}
+    
 
     
 /**

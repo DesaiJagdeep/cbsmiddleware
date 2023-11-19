@@ -466,7 +466,15 @@ public class CourtCaseSettingResource {
     
     
     
-    
+    @GetMapping("/testapi")
+    public List<CourtCase> test()
+    {
+    	
+    	CourtCaseSetting caseSetting=new CourtCaseSetting();
+    	caseSetting.setId(1l);
+    	
+    	return courtCaseRepository.findAllByCourtCaseSettingAndNoticeNotPrint(caseSetting);
+    }
     
     
     
@@ -483,40 +491,39 @@ public class CourtCaseSettingResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
-        if (!courtCaseSettingRepository.existsById(id)) {
+        
+        Optional<CourtCaseSetting> findById = courtCaseSettingRepository.findById(id);
+        if (findById.isEmpty()) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        List<CourtCase> courtCaseList=courtCaseRepository.findAllByCourtCaseSetting(courtCaseSettingRepository.findById(id).get());
-        
-        //removing object if print
-        courtCaseList.removeIf(cc -> !cc.getNoticeOfRepayLoanCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getPriorDemandNoticeCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getShetiKarjCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getBigarShetiKarjCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getOneZeroOnePrakaranCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getAppendixThreeCount().equals(0));
-        courtCaseList.removeIf(cc -> !cc.getAppendixFourCount().equals(0));
-        
-        
-        courtCaseSetting.setId(null);
-        CourtCaseSetting result = courtCaseSettingService.save(courtCaseSetting);
-        
-        
-      //calculating postage value from setting file
-		 String totalPostageValue = getTotalPostageValue(result.getVasuliExpenseEn(),
-				 result.getOtherExpenseEn(),
-				 result.getNoticeExpenseEn());
-		 
-        courtCaseList.forEach(cc -> {
-			cc.setSettingCode(""+result.getId());
-			cc.setSettingCodeEn(result.getId());
-			cc.setTotalPostage(totalPostageValue);
-			cc.setCourtCaseSetting(result);
-			});
+        List<CourtCase> courtCaseList=courtCaseRepository.findAllByCourtCaseSettingAndNoticeNotPrint(findById.get());
+        CourtCaseSetting result =new CourtCaseSetting();
+        if(!courtCaseList.isEmpty())
+        {
+        	 courtCaseSetting.setId(null);
+        	 CourtCaseSetting courtCaseSettingSave = courtCaseSettingService.save(courtCaseSetting);
+        	 result=courtCaseSettingSave;
+          //calculating postage value from setting file
+    		 String totalPostageValue = getTotalPostageValue(result.getVasuliExpenseEn(),
+    				 result.getOtherExpenseEn(),
+    				 result.getNoticeExpenseEn());
+            courtCaseList.forEach(cc -> {
+    			cc.setSettingCode(""+courtCaseSettingSave.getId());
+    			cc.setSettingCodeEn(courtCaseSettingSave.getId());
+    			cc.setTotalPostage(totalPostageValue);
+    			cc.setCourtCaseSetting(courtCaseSettingSave);
+    			});
+            
+            courtCaseRepository.saveAll(courtCaseList);
+        }
+        else
+        {
+        	
+        	  result = courtCaseSettingService.save(courtCaseSetting);
+        }
         
         
-        courtCaseRepository.saveAll(courtCaseList);
         
         return ResponseEntity
             .ok()

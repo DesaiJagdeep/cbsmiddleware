@@ -705,7 +705,7 @@ public class IssPortalFileResource {
         IssPortalFileCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
-        List<IssPortalFile> page = null;
+        Page<IssPortalFile> page = null;
         Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
 
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
@@ -729,14 +729,19 @@ public class IssPortalFileResource {
 
         log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Count", "" + page.size());
-        List<String> contentDispositionList = new ArrayList<>();
-        contentDispositionList.add("X-Total-Count");
-
-        headers.setAccessControlExposeHeaders(contentDispositionList);
-
-        return ResponseEntity.ok().headers(headers).body(page);
+        
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        
+//        
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("X-Total-Count", "" + page.size());
+//        List<String> contentDispositionList = new ArrayList<>();
+//        contentDispositionList.add("X-Total-Count");
+//
+//        headers.setAccessControlExposeHeaders(contentDispositionList);
+//
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
         //
         //			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         //			List<IssPortalFile> page = null;

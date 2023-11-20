@@ -1,24 +1,26 @@
 package com.cbs.middleware.service;
 
-import com.cbs.middleware.domain.*; // for static metamodels
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.service.criteria.ApplicationCriteria;
-import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+// for static metamodels
+import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.domain.IssPortalFile_;
+import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.IssPortalFileRepository;
+import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
+
 import tech.jhipster.service.QueryService;
-import tech.jhipster.service.filter.IntegerFilter;
-import tech.jhipster.service.filter.LongFilter;
 
 /**
  * Service for executing complex queries for {@link IssPortalFile} entities in
@@ -144,13 +146,14 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         return specification;
     }
 
-    public List<IssPortalFile> findByCriteriaCount(IssPortalFileCriteria criteria, Pageable pageable) {
+    public Page<IssPortalFile> findByCriteriaCount(IssPortalFileCriteria criteria, Pageable pageable) {
         final Specification<IssPortalFile> specification = createSpecification(criteria);
 
         List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
         Page<IssPortalFile> findAll = issPortalFileRepository.findAll(specification, pageable);
-
-        for (IssPortalFile issPortalFile : findAll) {
+        if(!findAll.isEmpty())
+        {
+        for (IssPortalFile issPortalFile : findAll.getContent()) {
             issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
 
             Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
@@ -169,19 +172,22 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
             issPortalFileMapperList.add(issPortalFile);
         }
+        }
 
-        return issPortalFileMapperList;
+        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
+        return page;
     }
 
-    public List<IssPortalFile> findByCriteriaCountBySchemeWiseBranchCode(
+    public Page<IssPortalFile> findByCriteriaCountBySchemeWiseBranchCode(
         Long schemeWiseBranchCode,
         IssPortalFileCriteria criteria,
         Pageable pageable
     ) {
         List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
         Page<IssPortalFile> findAll = issPortalFileRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
-
-        for (IssPortalFile issPortalFile : findAll) {
+        if(!findAll.isEmpty())
+        {
+        for (IssPortalFile issPortalFile : findAll.getContent()) {
             issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
 
             Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
@@ -200,34 +206,40 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
             issPortalFileMapperList.add(issPortalFile);
         }
-
-        return issPortalFileMapperList;
+        }
+        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
+        return page;
     }
 
-    public List<IssPortalFile> findByCriteriaCountByPacsCode(Long pacsCode, Pageable pageable) {
+    public Page<IssPortalFile> findByCriteriaCountByPacsCode(Long pacsCode, Pageable pageable) {
         List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
         Page<IssPortalFile> findAll = issPortalFileRepository.findAllByPacsCode(pacsCode, pageable);
 
-        for (IssPortalFile issPortalFile : findAll) {
-            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+        if(!findAll.isEmpty())
+        {
+        	 for (IssPortalFile issPortalFile : findAll.getContent()) {
+                 issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
 
-            Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
-            issPortalFile.setAppSubmitedToKccCount(appSubmitedToKccCount);
+                 Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
+                 issPortalFile.setAppSubmitedToKccCount(appSubmitedToKccCount);
 
-            Long applicationCriteriaSuccessRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(
-                issPortalFile.getId(),
-                1
-            );
+                 Long applicationCriteriaSuccessRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(
+                     issPortalFile.getId(),
+                     1
+                 );
 
-            issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
+                 issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
 
-            Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
+                 Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
 
-            issPortalFile.setKccErrorRecordCount(failRecord.intValue());
+                 issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
-            issPortalFileMapperList.add(issPortalFile);
+                 issPortalFileMapperList.add(issPortalFile);
+             }
         }
-
-        return issPortalFileMapperList;
+        
+       
+        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
+        return page;
     }
 }

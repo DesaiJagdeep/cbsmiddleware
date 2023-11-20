@@ -174,8 +174,7 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         }
         }
 
-        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
-        return page;
+        return findAll;
     }
 
     public Page<IssPortalFile> findByCriteriaCountBySchemeWiseBranchCode(
@@ -207,8 +206,7 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             issPortalFileMapperList.add(issPortalFile);
         }
         }
-        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
-        return page;
+        return findAll;
     }
 
     public Page<IssPortalFile> findByCriteriaCountByPacsCode(Long pacsCode, Pageable pageable) {
@@ -239,7 +237,6 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         }
         
        
-        Page<IssPortalFile> page = new PageImpl<>(issPortalFileMapperList);
-        return page;
+        return findAll;
     }
 }

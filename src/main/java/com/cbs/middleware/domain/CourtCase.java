@@ -25,10 +25,10 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    
+
     @Column(name = "branch_or_pacs_code")
     private String branchOrPacsCode;
-    
+
     @Column(name = "setting_code")
     private String settingCode;
 
@@ -41,7 +41,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     ////@Min(value = 1)
     @Column(name = "financial_year")
     private String financialYear;
-    
+
     //@NotNull
     //@Min(value = 1)
     @Column(name = "bank_name")
@@ -85,11 +85,11 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "loan_date")
     private LocalDate loanDate;
-    
-    
+
+
     @Column(name = "claim_date")
     private LocalDate claimDate;
-    
+
     @Column(name = "claim_date_mr")
     private String claimDateMr;
 
@@ -130,13 +130,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "due_date")
     private LocalDate dueDate;
-    
+
     @Column(name = "due_date_mr")
     private String dueDateMr;
-    
+
     @Column(name = "society_branch_name")
     private String societyBranchName;
-    
+
     @Column(name = "society_branch_address")
     private String societyBranchAddress;
 
@@ -178,52 +178,52 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "first_notice_date")
     private LocalDate firstNoticeDate;
-    
+
     @Column(name = "first_notice_date_mr")
     private String firstNoticeDateMr;
 
     @Column(name = "second_notice_date")
     private LocalDate secondNoticeDate;
-    
+
     @Column(name = "second_notice_date_mr")
     private String secondNoticeDateMr;
-    
+
     //-----------------new added
     @Column(name = "insurance")
     private String insurance="0.00";
-    
+
     @Column(name = "stamp_fee")
     private String stampFee="0.00";
-    
+
     @Column(name = "surcharge")
     private String surcharge="0.00";
-    
+
     @Column(name = "inquiry_fee")
     private String inquiryFee="0.00";
-    
+
     @Column(name = "vasuli_expense")
     private String vasuliExpense="0.00";
-    
+
     @Column(name = "other_expense")
     private String otherExpense="0.00";
-    
+
     @Column(name = "notice_expense")
     private String noticeExpense="0.00";
-    
+
     //English data
-    
+
     @Column(name = "vasuli_expense_en")
     private Double vasuliExpenseEn=0.00;
-    
+
     @Column(name = "other_expense_en")
     private Double otherExpenseEn=0.00;
-    
+
     @Column(name = "notice_expense_en")
     private Double noticeExpenseEn=0.00;
-    
+
     @Column(name = "insurance_en")
     private Double insuranceEn=0.00;
-    
+
     @Column(name = "setting_code_en")
     private Long settingCodeEn;
 
@@ -298,97 +298,97 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "gaurentor_two_address_en")
     private String gaurentorTwoAddressEn;
-    
+
     @Column(name = "due_amount_word")
     private String dueAmountWord;
-    
+
     @Column(name = "intrest_amount_word")
     private String intrestAmountWord;
-    
+
     @Column(name = "total_amount_word")
     private String totalAmountWord;
-    
+
     @Column(name = "total_postage")
     private String totalPostage;
-    
+
     @Column(name = "total_postage_en")
     private Double totalPostageEn;
-    
+
     @Column(name = "notice_of_repay_loan_count")
     private Integer noticeOfRepayLoanCount=0;
-    
+
     @Column(name = "prior_demand_notice_count")
     private Integer priorDemandNoticeCount=0;
-    
+
     @Column(name = "sheti_karj_count")
     private Integer shetiKarjCount=0;
-    
+
     @Column(name = "bigar_sheti_karj_count")
     private Integer bigarShetiKarjCount=0;
-    
+
     @Column(name = "one_zero_one_prakaran_count")
     private Integer oneZeroOnePrakaranCount=0;
-    
+
     @Column(name = "appendix_three_count")
     private Integer appendixThreeCount=0;
-    
+
     @Column(name = "appendix_four_count")
     private Integer appendixFourCount=0;
-    
-    
+
+
     @Column(name = "prior_demand_vyaj")
     private String priorDemandVyajMr="";
-    
+
     @Column(name = "prior_demand_dand_vyaj")
     private String priorDemandDandVyajMr="";
-    
-    
+
+
     @Column(name = "intrest_amount_sum")
     private String intrestAmountSum="";
-    
+
     @Column(name = "prior_demand_total")
     private String priorDemandTotalMr="";
-    
-    
+
+
     @Column(name = "maturity_loan_date")
     private String maturityLoanDate="";
-    
+
     @Column(name = "maturity_loan_date_en")
     private LocalDate maturityLoanDateEn;
-    
-    
+
+
     @ManyToOne()
     private CourtCaseFile courtCaseFile;
-    
+
     @ManyToOne()
     private CourtCaseSetting courtCaseSetting;
-    
-    
-    
+
+
+
     //101 printing date
-    
+
     @Column(name = "notice_of_repay_loan_date")
     private LocalDate NoticeOfRepayLoanDate;
-    
+
     @Column(name = "prior_demand_notice_date")
     private LocalDate priorDemandNoticeDate;
-    
+
     @Column(name = "sheti_karj_date")
     private LocalDate shetiKarjDate;
-    
+
     @Column(name = "bigar_sheti_karj_date")
     private LocalDate bigarShetiKarjDate;
-    
+
     @Column(name = "one_zero_one_prakaran_date")
     private LocalDate oneZeroOnePrakaranDate;
-    
+
     @Column(name = "appendix_three_date")
     private LocalDate appendixThreeDate;
-    
+
     @Column(name = "appendix_four_date")
     private LocalDate appendixFourDate;
- 
-    
+
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -408,7 +408,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		return surcharge;
 	}
 
-	
+
 
 	public void setSurcharge(String surcharge) {
 		this.surcharge = surcharge;
@@ -418,7 +418,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		return inquiryFee;
 	}
 
-	
+
 
 	public LocalDate getNoticeOfRepayLoanDate() {
 		return NoticeOfRepayLoanDate;
@@ -428,7 +428,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		NoticeOfRepayLoanDate = noticeOfRepayLoanDate;
 	}
 
-	
+
 
 	public LocalDate getPriorDemandNoticeDate() {
 		return priorDemandNoticeDate;
@@ -503,7 +503,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		this.priorDemandVyajMr = priorDemandVyajMr;
 	}
 
-	
+
 
 	public Double getTotalPostageEn() {
 		return totalPostageEn;
@@ -550,8 +550,8 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 	public String getPriorDemandTotalMr() {
 		return priorDemandTotalMr;
 	}
-	
-	
+
+
 
 	public String getMaturityLoanDate() {
 		return maturityLoanDate;
@@ -1220,7 +1220,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    
+
     public String getSettingCode() {
 		return settingCode;
 	}
@@ -1396,9 +1396,9 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     public void setSecondNoticeDate(LocalDate secondNoticeDate) {
         this.secondNoticeDate = secondNoticeDate;
     }
-    
-    
-   
+
+
+
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

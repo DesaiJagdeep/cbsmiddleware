@@ -4,7 +4,7 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.repository.CourtCaseRepository;
 import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -95,16 +95,16 @@ public class CourtCaseQueryService extends QueryService<CourtCase> {
             if (criteria.getSrNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSrNo(), CourtCase_.srNo));
             }
-            
+
             if (criteria.getFinancialYear() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), CourtCase_.financialYear));
             }
-            
-            
+
+
             if (criteria.getBranchOrPacsCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBranchOrPacsCode(), CourtCase_.branchOrPacsCode));
             }
-            
+
 
             if (criteria.getTalukaName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getTalukaName(), CourtCase_.talukaName));

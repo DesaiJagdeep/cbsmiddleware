@@ -84,8 +84,6 @@ public class CourtCaseServiceImpl implements CourtCaseService {
 
             }
 
-            courtCase.setLoanDate(courtCase.getLoanDate());
-
             if (StringUtils.isNotBlank(courtCase.getTermOfLoan())) {
                 // english
                 courtCase.setTermOfLoanEn(translationServiceUtility.translationTextMrToEn(courtCase.getTermOfLoan()));
@@ -267,7 +265,7 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getSrNo().equals(courtCaseCheck.getSrNo())
             ) {
                 // english
-                courtCase.setSrNoEn(Long.parseLong(translationServiceUtility.translationTextMrToEn(courtCase.getSrNo())));
+                courtCaseCheck.setSrNoEn(Long.parseLong(translationServiceUtility.translationTextMrToEn(courtCase.getSrNo())));
                 // marathi
                 // courtCase.setSrNo(courtCase.getSrNo());
             }
@@ -278,7 +276,7 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getAccountNo().equals(courtCaseCheck.getAccountNo())
             ) {
                 // english
-                courtCase.setAccountNoEn(translationServiceUtility.translationTextMrToEn(courtCase.getAccountNo()));
+                courtCaseCheck.setAccountNoEn(translationServiceUtility.translationTextMrToEn(courtCase.getAccountNo()));
                 // marathi
                 // courtCase.setAccountNo(courtCase.getAccountNo());
 
@@ -290,9 +288,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getNameOfDefaulter().equals(courtCaseCheck.getNameOfDefaulter())
             ) {
                 // english
-                courtCase.setNameOfDefaulterEn(translationServiceUtility.translationTextMrToEn(courtCase.getNameOfDefaulter()));
+                //courtCaseCheck.setNameOfDefaulterEn(translationServiceUtility.translationTextMrToEn(courtCase.getNameOfDefaulter()));
                 // marathi
-                // courtCase.setNameOfDefaulter(courtCase.getNameOfDefaulter());
+                courtCaseCheck.setNameOfDefaulter(courtCase.getNameOfDefaulter());
 
             }
 
@@ -302,9 +300,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getAddress().equals(courtCaseCheck.getAddress())
             ) {
                 // english
-                courtCase.setAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getAddress()));
+                //courtCaseCheck.setAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getAddress()));
                 // marathi
-                // courtCase.setAddress(courtCase.getAddress());
+                courtCaseCheck.setAddress(courtCase.getAddress());
 
             }
 
@@ -314,9 +312,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getLoanType().equals(courtCaseCheck.getLoanType())
             ) {
                 // english
-                courtCase.setLoanTypeEn(translationServiceUtility.translationTextMrToEn(courtCase.getLoanType()));
+                courtCaseCheck.setLoanTypeEn(translationServiceUtility.translationTextMrToEn(courtCase.getLoanType()));
                 // marathi
-                // courtCase.setLoanType(courtCase.getLoanType());
+                courtCaseCheck.setLoanType(courtCase.getLoanType());
 
             }
 
@@ -326,13 +324,90 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getLoanAmount().equals(courtCaseCheck.getLoanAmount())
             ) {
                 // english
-                courtCase.setLoanAmountEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getLoanAmount())));
+                courtCaseCheck.setLoanAmountEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getLoanAmount())));
                 // marathi
-                // courtCase.setLoanAmount(courtCase.getLoanAmount());
+                courtCaseCheck.setLoanAmount(courtCase.getLoanAmount());
 
             }
 
-            courtCase.setLoanDate(courtCase.getLoanDate());
+            courtCaseCheck.setLoanDate(courtCase.getLoanDate());
+            if (
+                StringUtils.isNotBlank(courtCase.getVasuliExpense()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getVasuliExpense()) &&
+                    !courtCase.getVasuliExpense().equals(courtCaseCheck.getVasuliExpense())
+            ) {
+                // english
+                courtCaseCheck.setVasuliExpenseEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getVasuliExpense())));
+                // marathi
+                courtCaseCheck.setVasuliExpense(courtCase.getVasuliExpense());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getNoticeExpense()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getNoticeExpense()) &&
+                    !courtCase.getNoticeExpense().equals(courtCaseCheck.getNoticeExpense())
+            ) {
+                // english
+                courtCaseCheck.setNoticeExpenseEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getNoticeExpense())));
+                // marathi
+                courtCaseCheck.setNoticeExpense(courtCase.getNoticeExpense());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getOtherExpense()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getOtherExpense()) &&
+                    !courtCase.getOtherExpense().equals(courtCaseCheck.getOtherExpense())
+            ) {
+                // english
+                courtCaseCheck.setOtherExpenseEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getOtherExpense())));
+                // marathi
+                courtCaseCheck.setOtherExpense(courtCase.getOtherExpense());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getSurcharge()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getSurcharge()) &&
+                    !courtCase.getSurcharge().equals(courtCaseCheck.getSurcharge())
+            ) {
+                // english
+                courtCaseCheck.setSurcharge(translationServiceUtility.translationTextMrToEn(courtCase.getSurcharge()));
+                // marathi
+                courtCaseCheck.setSurcharge(courtCase.getSurcharge());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getStampFee()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getStampFee()) &&
+                    !courtCase.getStampFee().equals(courtCaseCheck.getStampFee())
+            ) {
+                // english
+                courtCaseCheck.setStampFee(translationServiceUtility.translationTextMrToEn(courtCase.getStampFee()));
+                // marathi
+                courtCaseCheck.setStampFee(courtCase.getStampFee());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getInquiryFee()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getInquiryFee()) &&
+                    !courtCase.getInquiryFee().equals(courtCaseCheck.getInquiryFee())
+            ) {
+                // english
+                courtCaseCheck.setInquiryFee(translationServiceUtility.translationTextMrToEn(courtCase.getInquiryFee()));
+                // marathi
+                courtCaseCheck.setInquiryFee(courtCase.getInquiryFee());
+            }
+
+            if (
+                StringUtils.isNotBlank(courtCase.getInsurance()) &&
+                    StringUtils.isNotBlank(courtCaseCheck.getInsurance()) &&
+                    !courtCase.getInsurance().equals(courtCaseCheck.getInsurance())
+            ) {
+                // english
+                courtCaseCheck.setInsurance(translationServiceUtility.translationTextMrToEn(courtCase.getInsurance()));
+                // marathi
+                courtCaseCheck.setInsurance(courtCase.getInsurance());
+            }
+
 
             if (
                 StringUtils.isNotBlank(courtCase.getTermOfLoan()) &&
@@ -340,9 +415,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getTermOfLoan().equals(courtCaseCheck.getTermOfLoan())
             ) {
                 // english
-                courtCase.setTermOfLoanEn(translationServiceUtility.translationTextMrToEn(courtCase.getTermOfLoan()));
+                courtCaseCheck.setTermOfLoanEn(translationServiceUtility.translationTextMrToEn(courtCase.getTermOfLoan()));
                 // marathi
-                // courtCase.setTermOfLoan(courtCase.getTermOfLoan());
+                courtCaseCheck.setTermOfLoan(courtCase.getTermOfLoan());
 
             }
 
@@ -352,11 +427,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getInterestRate().equals(courtCaseCheck.getInterestRate())
             ) {
                 // english
-                courtCase.setInterestRateEn(
+                courtCaseCheck.setInterestRateEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getInterestRate()))
                 );
                 // marathi
-                // courtCase.setInterestRate(courtCase.getInterestRate());
+                courtCaseCheck.setInterestRate(courtCase.getInterestRate());
 
             }
 
@@ -366,11 +441,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getInstallmentAmount().equals(courtCaseCheck.getInstallmentAmount())
             ) {
                 // english
-                courtCase.setInstallmentAmountEn(
+                courtCaseCheck.setInstallmentAmountEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getInstallmentAmount()))
                 );
                 // marathi
-                // courtCase.setInstallmentAmount(courtCase.getInstallmentAmount());
+                courtCaseCheck.setInstallmentAmount(courtCase.getInstallmentAmount());
 
             }
 
@@ -380,9 +455,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getTotalCredit().equals(courtCaseCheck.getTotalCredit())
             ) {
                 // english
-                courtCase.setTotalCreditEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getTotalCredit())));
+                courtCaseCheck.setTotalCreditEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getTotalCredit())));
                 // marathi
-                // courtCase.setTotalCredit(courtCase.getTotalCredit());
+                courtCaseCheck.setTotalCredit(courtCase.getTotalCredit());
 
             }
 
@@ -392,9 +467,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getBalance().equals(courtCaseCheck.getBalance())
             ) {
                 // english
-                courtCase.setBalanceEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getBalance())));
+                courtCaseCheck.setBalanceEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getBalance())));
                 // marathi
-                // courtCase.setBalance(courtCase.getBalance());
+                courtCaseCheck.setBalance(courtCase.getBalance());
 
             }
 
@@ -404,11 +479,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getInterestPaid().equals(courtCaseCheck.getInterestPaid())
             ) {
                 // english
-                courtCase.setInterestPaidEn(
+                courtCaseCheck.setInterestPaidEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getInterestPaid()))
                 );
                 // marathi
-                // courtCase.setInterestPaid(courtCase.getInterestPaid());
+                courtCaseCheck.setInterestPaid(courtCase.getInterestPaid());
 
             }
 
@@ -418,11 +493,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getPenalInterestPaid().equals(courtCaseCheck.getPenalInterestPaid())
             ) {
                 // english
-                courtCase.setPenalInterestPaidEn(
+                courtCaseCheck.setPenalInterestPaidEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getPenalInterestPaid()))
                 );
                 // marathi
-                // courtCase.setPenalInterestPaid(courtCase.getPenalInterestPaid());
+                courtCaseCheck.setPenalInterestPaid(courtCase.getPenalInterestPaid());
 
             }
 
@@ -432,13 +507,13 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getDueAmount().equals(courtCaseCheck.getDueAmount())
             ) {
                 // english
-                courtCase.setDueAmountEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDueAmount())));
+                courtCaseCheck.setDueAmountEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDueAmount())));
                 // marathi
-                // courtCase.setDueAmount(courtCase.getDueAmount());
+                courtCaseCheck.setDueAmount(courtCase.getDueAmount());
 
             }
 
-            courtCase.setDueDate(courtCase.getDueDate());
+            courtCaseCheck.setDueDate(courtCase.getDueDate());
 
             if (
                 StringUtils.isNotBlank(courtCase.getDueInterest()) &&
@@ -446,9 +521,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getDueInterest().equals(courtCaseCheck.getDueInterest())
             ) {
                 // english
-                courtCase.setDueInterestEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDueInterest())));
+                courtCaseCheck.setDueInterestEn(Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDueInterest())));
                 // marathi
-                // courtCase.setDueInterest(courtCase.getDueInterest());
+                courtCaseCheck.setDueInterest(courtCase.getDueInterest());
 
             }
 
@@ -458,11 +533,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getDuePenalInterest().equals(courtCaseCheck.getDuePenalInterest())
             ) {
                 // english
-                courtCase.setDuePenalInterestEn(
+                courtCaseCheck.setDuePenalInterestEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDuePenalInterest()))
                 );
                 // marathi
-                // courtCase.setDuePenalInterest(courtCase.getDuePenalInterest());
+                courtCaseCheck.setDuePenalInterest(courtCase.getDuePenalInterest());
 
             }
 
@@ -472,11 +547,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getDueMoreInterest().equals(courtCaseCheck.getDueMoreInterest())
             ) {
                 // english
-                courtCase.setDueMoreInterestEn(
+                courtCaseCheck.setDueMoreInterestEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getDueMoreInterest()))
                 );
                 // marathi
-                // courtCase.setDueMoreInterest(courtCase.getDueMoreInterest());
+                courtCaseCheck.setDueMoreInterest(courtCase.getDueMoreInterest());
 
             }
 
@@ -486,11 +561,11 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getInterestRecivable().equals(courtCaseCheck.getInterestRecivable())
             ) {
                 // english
-                courtCase.setInterestRecivableEn(
+                courtCaseCheck.setInterestRecivableEn(
                     Double.parseDouble(translationServiceUtility.translationTextMrToEn(courtCase.getInterestRecivable()))
                 );
                 // marathi
-                // courtCase.setInterestRecivable(courtCase.getInterestRecivable());
+                courtCaseCheck.setInterestRecivable(courtCase.getInterestRecivable());
 
             }
 
@@ -500,9 +575,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getGaurentorOne().equals(courtCaseCheck.getGaurentorOne())
             ) {
                 // english
-                courtCase.setGaurentorOneEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorOne()));
+                //courtCaseCheck.setGaurentorOneEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorOne()));
                 // marathi
-                // courtCase.setGaurentorOne(courtCase.getGaurentorOne());
+                courtCaseCheck.setGaurentorOne(courtCase.getGaurentorOne());
 
             }
 
@@ -512,9 +587,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getGaurentorOneAddress().equals(courtCaseCheck.getGaurentorOneAddress())
             ) {
                 // english
-                courtCase.setGaurentorOneAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorOneAddress()));
+                //courtCaseCheck.setGaurentorOneAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorOneAddress()));
                 // marathi
-                // courtCase.setGaurentorOneAddress(courtCase.getGaurentorOneAddress());
+                courtCaseCheck.setGaurentorOneAddress(courtCase.getGaurentorOneAddress());
 
             }
 
@@ -524,9 +599,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getGaurentorTwo().equals(courtCaseCheck.getGaurentorTwo())
             ) {
                 // english
-                courtCase.setGaurentorTwoEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorTwo()));
+               // courtCaseCheck.setGaurentorTwoEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorTwo()));
                 // marathi
-                // courtCase.setGaurentorTwo(courtCase.getGaurentorTwo());
+                courtCaseCheck.setGaurentorTwo(courtCase.getGaurentorTwo());
 
             }
 
@@ -536,14 +611,29 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getGaurentorTwoAddress().equals(courtCaseCheck.getGaurentorTwoAddress())
             ) {
                 // english
-                courtCase.setGaurentorTwoAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorTwoAddress()));
+               // courtCaseCheck.setGaurentorTwoAddressEn(translationServiceUtility.translationTextMrToEn(courtCase.getGaurentorTwoAddress()));
                 // marathi
-                // courtCase.setGaurentorTwoAddress(courtCase.getGaurentorTwoAddress());
+                courtCaseCheck.setGaurentorTwoAddress(courtCase.getGaurentorTwoAddress());
 
             }
-            // courtCase.setFirstNoticeDate(courtCase.getFirstNoticeDate());
-
-            // courtCase.setSecondNoticeDate(courtCase.getSecondNoticeDate());
+            if (courtCase.getClaimDate()!=null){
+                courtCaseCheck.setClaimDate(courtCase.getClaimDate());
+            }
+            if (courtCase.getLoanDate()!=null){
+                courtCaseCheck.setLoanDate(courtCase.getLoanDate());
+            }
+            if (courtCase.getMaturityLoanDate()!=null){
+                courtCaseCheck.setMaturityLoanDate(courtCase.getMaturityLoanDate());
+            }
+            if (courtCase.getDueDate()!=null){
+                courtCaseCheck.setDueDate(courtCase.getDueDate());
+            }
+            if (courtCase.getFirstNoticeDate()!=null){
+                courtCaseCheck.setFirstNoticeDate(courtCase.getFirstNoticeDate());
+            }
+            if (courtCase.getSecondNoticeDate()!=null){
+                courtCaseCheck.setSecondNoticeDate(courtCase.getSecondNoticeDate());
+            }
 
             if (
                 StringUtils.isNotBlank(courtCase.getTalukaName()) &&
@@ -551,9 +641,9 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getTalukaName().equals(courtCaseCheck.getTalukaName())
             ) {
                 // english
-                courtCase.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getTalukaName()));
+                courtCaseCheck.setTalukaNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getTalukaName()));
                 // marathi
-                // courtCase.setTalukaName(courtCase.getTalukaName());
+                courtCaseCheck.setTalukaName(courtCase.getTalukaName());
 
             }
 
@@ -563,14 +653,15 @@ public class CourtCaseServiceImpl implements CourtCaseService {
                 !courtCase.getBankName().equals(courtCaseCheck.getBankName())
             ) {
                 // english
-                courtCase.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getBankName()));
+                courtCaseCheck.setBankNameEn(translationServiceUtility.translationTextMrToEn(courtCase.getBankName()));
                 // marathi
-                // courtCase.setBankName(courtCase.getBankName());
+                courtCaseCheck.setBankName(courtCase.getBankName());
 
             }
+
         } catch (Exception e) {}
 
-        return courtCaseRepository.save(courtCase);
+        return courtCaseRepository.save(courtCaseCheck);
     }
 
     @Override

@@ -20,12 +20,10 @@ public final class Constants {
 	public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
 	public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
 
-	
-	//public static final String fontFilePath="E:\\swapnil\\NotoSans-Regular.ttf";
+
+	//public static final String fontFilePath="E:\\riteshFont\\NotoSans-Regular.ttf";
 	public static final String fontFilePath = "/home/ubuntu/pdcc/font/NotoSans-Regular.ttf";
-	
-	
-	
+
 	//producation or dev server
     //public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
 

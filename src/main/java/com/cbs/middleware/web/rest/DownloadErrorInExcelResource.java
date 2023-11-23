@@ -18,12 +18,14 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTProtectedRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.IssFileParser}.
@@ -64,6 +67,66 @@ public class DownloadErrorInExcelResource {
      * @throws Exception
      */
 
+
+    @GetMapping("/testExcel")
+    public ResponseEntity<byte[]> testExcel() {
+        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+            XSSFSheet sheet = workbook.createSheet("data");
+
+            Row row = sheet.createRow(0);
+            int colNum = 0;
+            Cell cell = row.createCell(colNum++);
+            cell.setCellValue("Financial Year 1");
+
+            CellStyle cellStyle = workbook.createCellStyle();
+            if(cellStyle == null) {
+                cellStyle = cell.getSheet().getWorkbook().createCellStyle();
+            }
+            cellStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+            cell.setCellStyle(cellStyle);
+
+
+
+                System.out.println(cell.getAddress());
+            System.out.println("Row = "+cell.getAddress().getRow());
+            System.out.println("Column "+ cell.getAddress().getColumn());
+            String pwd = "AB";
+            byte[] decode = Hex.decodeHex(pwd.toCharArray());
+            CTProtectedRange ctProtectedRange = sheet.getCTWorksheet().addNewProtectedRanges().addNewProtectedRange();
+            ctProtectedRange.setName("protect");
+            ctProtectedRange.setSqref(List.of("F1:J16"));
+
+
+            System.out.println(ctProtectedRange); //get this string:<xml-fragment name="protect" password="AB"/>
+            sheet.protectSheet("data");
+
+            // Set up the HTTP headers for the response
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+
+            headers.setContentDispositionFormData("filename", "test-" + getUniqueName() + ".xlsx");
+
+            List<String> contentDispositionList = new ArrayList<>();
+            contentDispositionList.add("Content-Disposition");
+
+            headers.setAccessControlExposeHeaders(contentDispositionList);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+
+            byte[] excelContent = outputStream.toByteArray();
+            outputStream.close();
+            return new ResponseEntity<>(excelContent, headers, 200);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body(null);
+        } catch (DecoderException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
     @GetMapping("/error-excel/{issPortalFileId}/error-type/{errorType}")
     public ResponseEntity<byte[]> errorExcel(@PathVariable Long issPortalFileId, @PathVariable String errorType) {
         List<ApplicationLog> ApplicationLogList = new ArrayList<>();
@@ -79,8 +142,12 @@ public class DownloadErrorInExcelResource {
                 );
         }
 
+
+
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
+//        try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+//            XSSFSheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
             int rowNum = 0;
             Row row = sheet.createRow(rowNum++);
             int colNum = 0;

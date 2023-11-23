@@ -1,5 +1,58 @@
 package com.cbs.middleware.web.rest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
@@ -14,7 +67,6 @@ import com.cbs.middleware.domain.IssChildPortalFile;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.LandTypeMaster;
-import com.cbs.middleware.domain.Notification;
 import com.cbs.middleware.domain.OccupationMaster;
 import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
@@ -40,56 +92,6 @@ import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * REST controller for managing {@link com.cbs.middleware.domain.IssFileParser}.
@@ -196,8 +198,8 @@ public class IssChildFileParserResource {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
             Row row = sheet.getRow(0); // Get the current row
 
-            String applicationErrorLable = getCellValue(row.getCell(54));
-            String applicationIdLable = getCellValue(row.getCell(55));
+            String applicationErrorLable = getCellValue(row.getCell(63));
+            String applicationIdLable = getCellValue(row.getCell(64));
 
             if (StringUtils.isNotBlank(applicationErrorLable) && StringUtils.isNotBlank(applicationIdLable)) {
                 if (!"Application Error".equalsIgnoreCase(applicationErrorLable) && !"ID".equalsIgnoreCase(applicationIdLable)) {
@@ -288,7 +290,7 @@ public class IssChildFileParserResource {
                 Row row = sheet.getRow(rowIndex); // Get the current row
                 IssFileParser issFileParser = new IssFileParser();
                 if (row != null) {
-                    String idInFIle = decryption(getCellValue(row.getCell(55)));
+                    String idInFIle = decryption(getCellValue(row.getCell(64)));
                     if (StringUtils.isNotBlank(idInFIle)) {
                         Optional<IssFileParser> issFileParseInChildFile = issFileParserRepository.findById(Long.parseLong(idInFIle));
 
@@ -403,10 +405,31 @@ public class IssChildFileParserResource {
                             issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50)));
 
                             issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
-
                             issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
-
                             issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
+                            
+                            
+                            try
+                            {
+                                //second time
+                                issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
+                                issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
+                                issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
+                                
+                                //third time
+                                issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
+                                issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
+                                issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
+                                
+                                //fourth time
+                                issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
+                                issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
+                                issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62)));
+                            }
+                            catch (Exception e) {
+    						}
+                            
+                            
                             issFileParser.setIssPortalFile(issFileParseInChildFile.get().getIssPortalFile());
 
                             issFileParserList.add(issFileParser);
@@ -433,7 +456,10 @@ public class IssChildFileParserResource {
                             issFileParserList.get(0).getCreatedDate(),
                             "ErrorCorrectionFileUploaded" //type
                         );
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    	
+                    	e.printStackTrace();
+                    }
                 }
 
                 return ResponseEntity.ok().body(validateFile);

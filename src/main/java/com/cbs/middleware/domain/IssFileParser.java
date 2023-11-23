@@ -181,6 +181,7 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "maturity_loan_date")
     private String maturityLoanDate;
 
+    //first recovery details
     @Column(name = "recovery_amount_principle")
     private String recoveryAmountPrinciple;
 
@@ -189,6 +190,39 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "recovery_date")
     private String recoveryDate;
+    
+    
+    //second recovery details
+    @Column(name = "second_recovery_amount_principle")
+    private String secondRecoveryAmountPrinciple;
+
+    @Column(name = "second_recovery_amount_interest")
+    private String secondRecoveryAmountInterest;
+
+    @Column(name = "second_recovery_date")
+    private String secondRecoveryDate;
+    
+   //third recovery details
+    @Column(name = "third_recovery_amount_principle")
+    private String thirdRecoveryAmountPrinciple;
+
+    @Column(name = "third_recovery_amount_interest")
+    private String thirdRecoveryAmountInterest;
+
+    @Column(name = "third_recovery_date")
+    private String thirdRecoveryDate;
+    
+    
+    //fourth recovery details
+    @Column(name = "fourth_recovery_amount_principle")
+    private String fourthRecoveryAmountPrinciple;
+
+    @Column(name = "fourth_recovery_amount_interest")
+    private String fourthRecoveryAmountInterest;
+
+    @Column(name = "fourth_recovery_date")
+    private String fourthRecoveryDate;
+    
 
     @ManyToOne
     private IssPortalFile issPortalFile;
@@ -259,7 +293,79 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
         return kccIssCropName;
     }
 
-    public void setKccIssCropName(String kccIssCropName) {
+    public String getSecondRecoveryAmountPrinciple() {
+		return secondRecoveryAmountPrinciple;
+	}
+
+	public void setSecondRecoveryAmountPrinciple(String secondRecoveryAmountPrinciple) {
+		this.secondRecoveryAmountPrinciple = secondRecoveryAmountPrinciple;
+	}
+
+	public String getSecondRecoveryAmountInterest() {
+		return secondRecoveryAmountInterest;
+	}
+
+	public void setSecondRecoveryAmountInterest(String secondRecoveryAmountInterest) {
+		this.secondRecoveryAmountInterest = secondRecoveryAmountInterest;
+	}
+
+	public String getSecondRecoveryDate() {
+		return secondRecoveryDate;
+	}
+
+	public void setSecondRecoveryDate(String secondRecoveryDate) {
+		this.secondRecoveryDate = secondRecoveryDate;
+	}
+
+	public String getThirdRecoveryAmountPrinciple() {
+		return thirdRecoveryAmountPrinciple;
+	}
+
+	public void setThirdRecoveryAmountPrinciple(String thirdRecoveryAmountPrinciple) {
+		this.thirdRecoveryAmountPrinciple = thirdRecoveryAmountPrinciple;
+	}
+
+	public String getThirdRecoveryAmountInterest() {
+		return thirdRecoveryAmountInterest;
+	}
+
+	public void setThirdRecoveryAmountInterest(String thirdRecoveryAmountInterest) {
+		this.thirdRecoveryAmountInterest = thirdRecoveryAmountInterest;
+	}
+
+	public String getThirdRecoveryDate() {
+		return thirdRecoveryDate;
+	}
+
+	public void setThirdRecoveryDate(String thirdRecoveryDate) {
+		this.thirdRecoveryDate = thirdRecoveryDate;
+	}
+
+	public String getFourthRecoveryAmountPrinciple() {
+		return fourthRecoveryAmountPrinciple;
+	}
+
+	public void setFourthRecoveryAmountPrinciple(String fourthRecoveryAmountPrinciple) {
+		this.fourthRecoveryAmountPrinciple = fourthRecoveryAmountPrinciple;
+	}
+
+	public String getFourthRecoveryAmountInterest() {
+		return fourthRecoveryAmountInterest;
+	}
+
+	public void setFourthRecoveryAmountInterest(String fourthRecoveryAmountInterest) {
+		this.fourthRecoveryAmountInterest = fourthRecoveryAmountInterest;
+	}
+
+	public String getFourthRecoveryDate() {
+		return fourthRecoveryDate;
+	}
+
+	public void setFourthRecoveryDate(String fourthRecoveryDate) {
+		this.fourthRecoveryDate = fourthRecoveryDate;
+	}
+
+	public void setKccIssCropName(String kccIssCropName) {
         this.kccIssCropName = kccIssCropName;
     }
 

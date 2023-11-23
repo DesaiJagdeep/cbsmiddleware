@@ -1736,6 +1736,26 @@ public class IssFileParserResource {
                         issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
 
                         issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
+                      //installment recovery details
+                        try
+                        {
+                            //second time
+                            issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
+                            issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
+                            issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
+                            
+                            //third time
+                            issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
+                            issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
+                            issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
+                            
+                            //fourth time
+                            issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
+                            issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
+                            issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62)));
+                        }
+                        catch (Exception e) {
+						}
 
                         if (isSavePortalObj) {
                             issPortalFile = issPortalFileRepository.save(issPortalFile);

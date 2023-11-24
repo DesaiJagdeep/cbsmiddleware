@@ -1,7 +1,9 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -561,13 +563,21 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 		this.maturityLoanDate = maturityLoanDate;
 	}
 
-	public LocalDate getMaturityLoanDateEn() {
-		return maturityLoanDateEn;
-	}
+    public Instant getMaturityLoanDateEn() {
+        if (maturityLoanDateEn!= null) {
+            return this.maturityLoanDateEn.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
+    }
 
-	public void setMaturityLoanDateEn(LocalDate maturityLoanDateEn) {
-		this.maturityLoanDateEn = maturityLoanDateEn;
-	}
+    public void setMaturityLoanDateEn(Instant maturityLoanDateEn) {
+        if (maturityLoanDateEn != null){
+            this.maturityLoanDateEn = LocalDate.ofInstant(maturityLoanDateEn, ZoneId.systemDefault());
+        } else {
+            this.maturityLoanDateEn = null;
+        }
+    }
 
 	public void setPriorDemandTotalMr(String priorDemandTotalMr) {
 		this.priorDemandTotalMr = priorDemandTotalMr;
@@ -1032,17 +1042,26 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.loanAmount = loanAmount;
     }
 
-    public LocalDate getLoanDate() {
-        return this.loanDate;
+    public Instant getLoanDate() {
+        if (loanDate!= null) {
+            return this.loanDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
     }
 
-    public CourtCase loanDate(LocalDate loanDate) {
+    /*public CourtCase loanDate(LocalDate loanDate) {
         this.setLoanDate(loanDate);
         return this;
-    }
+    }*/
 
-    public void setLoanDate(LocalDate loanDate) {
-        this.loanDate = loanDate;
+    public void setLoanDate(Instant loanDate) {
+        if (loanDate != null){
+            this.loanDate = LocalDate.ofInstant(loanDate, ZoneId.systemDefault());
+        } else {
+            this.loanDate = null;
+        }
+
     }
 
     public String getTermOfLoan() {
@@ -1246,17 +1265,26 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.dueAmount = dueAmount;
     }
 
-    public LocalDate getDueDate() {
-        return this.dueDate;
+    public Instant getDueDate() {
+        if (dueDate!= null) {
+            return this.dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
+
     }
 
     public CourtCase dueDate(LocalDate dueDate) {
-        this.setDueDate(dueDate);
+        this.setDueDate(dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return this;
     }
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDate(Instant dueDate) {
+        if (dueDate != null){
+            this.dueDate = LocalDate.ofInstant(dueDate, ZoneId.systemDefault());
+        } else {
+            this.dueDate = null;
+        }
     }
 
     public String getDueInterest() {
@@ -1289,13 +1317,21 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return this.dueMoreInterest;
     }
 
-    public LocalDate getClaimDate() {
-		return claimDate;
-	}
+    public Instant getClaimDate() {
+        if (claimDate!= null) {
+            return this.claimDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
+    }
 
-	public void setClaimDate(LocalDate claimDate) {
-		this.claimDate = claimDate;
-	}
+    public void setClaimDate(Instant claimDate) {
+        if (claimDate != null){
+            this.claimDate = LocalDate.ofInstant(claimDate, ZoneId.systemDefault());
+        } else {
+            this.claimDate = null;
+        }
+    }
 
 	public CourtCase dueMoreInterest(String dueMoreInterest) {
         this.setDueMoreInterest(dueMoreInterest);
@@ -1371,30 +1407,47 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         this.gaurentorTwoAddress = gaurentorTwoAddress;
     }
 
-    public LocalDate getFirstNoticeDate() {
-        return this.firstNoticeDate;
+    public Instant getFirstNoticeDate() {
+        if (firstNoticeDate!= null) {
+            return this.firstNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
     }
 
+
     public CourtCase firstNoticeDate(LocalDate firstNoticeDate) {
-        this.setFirstNoticeDate(firstNoticeDate);
+        this.setFirstNoticeDate(firstNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return this;
     }
 
-    public void setFirstNoticeDate(LocalDate firstNoticeDate) {
-        this.firstNoticeDate = firstNoticeDate;
+    public void setFirstNoticeDate(Instant firstNoticeDate) {
+        if (firstNoticeDate != null){
+            this.firstNoticeDate = LocalDate.ofInstant(firstNoticeDate, ZoneId.systemDefault());
+        } else {
+            this.firstNoticeDate = null;
+        }
     }
 
-    public LocalDate getSecondNoticeDate() {
-        return this.secondNoticeDate;
+    public Instant getSecondNoticeDate() {
+        if (secondNoticeDate!= null) {
+            return this.secondNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        } else {
+            return null;
+        }
     }
 
     public CourtCase secondNoticeDate(LocalDate secondNoticeDate) {
-        this.setSecondNoticeDate(secondNoticeDate);
+        this.setSecondNoticeDate(secondNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return this;
     }
 
-    public void setSecondNoticeDate(LocalDate secondNoticeDate) {
-        this.secondNoticeDate = secondNoticeDate;
+    public void setSecondNoticeDate(Instant secondNoticeDate) {
+        if (secondNoticeDate != null){
+            this.secondNoticeDate = LocalDate.ofInstant(secondNoticeDate, ZoneId.systemDefault());
+        } else {
+            this.secondNoticeDate = null;
+        }
     }
 
 

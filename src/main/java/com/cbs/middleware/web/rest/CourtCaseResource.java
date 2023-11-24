@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1293,7 +1294,7 @@ public class CourtCaseResource {
                 cc.setVasuliExpense(courtCaseSetting.getVasuliExpense());
                 cc.setOtherExpense(courtCaseSetting.getOtherExpense());
                 cc.setNoticeExpense(courtCaseSetting.getNoticeExpense());
-                cc.setClaimDate(courtCaseDate);
+                cc.setClaimDate(courtCaseDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 cc.setClaimDateMr(courtCaseDateText);
                 cc.setTotalPostage(totalPostageValue);
                 cc.setTotalPostageEn(totalPostageValueEn);
@@ -1846,7 +1847,7 @@ public class CourtCaseResource {
                     LocalDate loanDate = getDateCellValue(row.getCell(8));
 
                     if (loanDate != null) {
-                        courtCase.setLoanDate(loanDate);
+                        courtCase.setLoanDate(loanDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         // marathi
                         courtCase.setLoanDateMr(translationServiceUtility.oneZeroOneDateMr(loanDate));
@@ -1869,7 +1870,7 @@ public class CourtCaseResource {
                             //calculating maturity loan date
                             int termLoanInInt = Integer.parseInt(termOfLoan);
                             LocalDate plusMonths = loanDate.plusDays(termLoanInInt * 30);
-                            courtCase.setMaturityLoanDateEn(plusMonths);
+                            courtCase.setMaturityLoanDateEn(plusMonths.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                             // marathi
                             courtCase.setMaturityLoanDate(translationServiceUtility.oneZeroOneDateMr(plusMonths));
@@ -1959,7 +1960,7 @@ public class CourtCaseResource {
 
                     LocalDate dueDate = getDateCellValue(row.getCell(17));
                     if (dueDate != null) {
-                        courtCase.setDueDate(dueDate);
+                        courtCase.setDueDate(dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
                         // marathi
                         courtCase.setDueDateMr(translationServiceUtility.oneZeroOneDateMr(dueDate));
@@ -2310,7 +2311,7 @@ public class CourtCaseResource {
 
             courtCaseList.forEach(courtCase -> {
 
-                courtCase.setFirstNoticeDate(one01ReportParam.getFirstNoticeDate());
+                courtCase.setFirstNoticeDate(one01ReportParam.getFirstNoticeDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
                 courtCase.setFirstNoticeDateMr(
                     translationServiceUtility.oneZeroOneDateMr(one01ReportParam.getFirstNoticeDate()));
 

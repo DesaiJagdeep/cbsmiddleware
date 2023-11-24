@@ -277,98 +277,109 @@ public class CourtCaseResource {
         criteria.setBankName(bankFilter);
         criteria.setFinancialYear(financialYear);
 
+        CourtCase courtCase = null;
+        String htmlStringForPdf = null;
+        String noticeDate="";
 
         switch (one01ReportParam.getOneZeroOneOption()) {
             case "NoticeofRepayLoan":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html", courtCase, courtCase.getCourtCaseSetting());
+                //for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/NoticeofRepayLoan.html", courtCase, courtCase.getCourtCaseSetting(),noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "NoticeofRepayLoan");
-                }
 
                 break;
 
             case "PriorDemandNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/PriorDemandNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "PriorDemandNotice");
-                }
+
                 break;
 
             case "101prakaran":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                     htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/101prakaran.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "101prakaran");
-                }
+
                 break;
 
 
             case "ShetiKarj":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ShetiKarj.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "ShetiKarj");
-                }
+
                 break;
 
 
             case "BigarShetiKarj":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "BigarShetiKarj");
-                }
+
                 break;
 
             case "Appendix3":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix3.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "Appendix3");
-                }
+
                 break;
 
             case "Appendix4":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Appendix4.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "Appendix4");
-                }
+
                 break;
 
 
             case "JangamJaptiPanchanama":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JangamJaptiPanchanama.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JangamJaptiPanchanama.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "JangamJaptiPanchanama");
-                }
+
                 break;
 
             //...............................................
@@ -377,195 +388,212 @@ public class CourtCaseResource {
             case "JaptiAdesh":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiAdesh.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiAdesh.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "JaptiAdesh");
-                }
+
                 break;
 
 
             case "TabaNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                     htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "TabaNotice");
-                }
+
                 break;
 
 
             case "TabaghenyachiNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaghenyachiNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaghenyachiNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "TabaghenyachiNotice");
-                }
+
                 break;
 
 
             case "JaptiPurvNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiPurvNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JaptiPurvNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "JaptiPurvNotice");
-                }
+
                 break;
 
 
             case "LilavPurvNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/LilavPurvNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/LilavPurvNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "LilavPurvNotice");
-                }
+
                 break;
 
             case "Jahirnama":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Jahirnama.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Jahirnama.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "Jahirnama");
-                }
+
                 break;
             case "JahirLilav":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JahirLilav.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/JahirLilav.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "JahirLilav");
-                }
+
                 break;
             case "AtiVSharti":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/AtiVSharti.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/AtiVSharti.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "AtiVSharti");
-                }
+
                 break;
 
             case "Proceding":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Proceding.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Proceding.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "Proceding");
-                }
+
                 break;
             case "VikriTachan":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriTachan.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriTachan.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "VikriTachan");
-                }
+
                 break;
 
 
             case "MudrakBharane":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/MudrakBharane.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/MudrakBharane.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "MudrakBharane");
-                }
+
                 break;
 
             case "VikriKalavane":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKalavane.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKalavane.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "VikriKalavane");
-                }
+
                 break;
 
 
             case "VikriKayam":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKayam.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/VikriKayam.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "VikriKayam");
-                }
+
                 break;
 
 
             case "TabaPavti":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaPavti.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/TabaPavti.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "TabaPavti");
-                }
+
                 break;
 
 
             case "ChhananiTakta":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ChhananiTakta.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/ChhananiTakta.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "ChhananiTakta");
-                }
+
                 break;
 
 
             case "Dakhala":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Dakhala.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/Dakhala.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "Dakhala");
-                }
+
                 break;
 
 
             case "StavarJaptiPurvNotice":
                 // call function to generate html string
                 htmlList = new ArrayList<String>();
-                for (CourtCase courtCase : getCourtCaseList(criteria, one01ReportParam)) {
-                    // generating html from template
-                    String htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/StavarJaptiPurvNotice.html", courtCase, courtCase.getCourtCaseSetting());
+                courtCase = getCourtCase(criteria, one01ReportParam);
+                noticeDate= getNoticeDateInMr(one01ReportParam);
+                // generating html from template
+                    htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/StavarJaptiPurvNotice.html", courtCase, courtCase.getCourtCaseSetting(), noticeDate);
                     htmlList.add(htmlStringForPdf);
                     updateCourtCaseCountAndDate(courtCase, "StavarJaptiPurvNotice");
-                }
+
                 break;
 
 
@@ -651,7 +679,7 @@ public class CourtCaseResource {
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
                 headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
 
-                return new ResponseEntity<>(zipBytes, headers, org.springframework.http.HttpStatus.OK);
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
             } catch (Exception e) {
                 throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
             }
@@ -661,6 +689,15 @@ public class CourtCaseResource {
         }
 
         return response;
+    }
+
+    private String getNoticeDateInMr(One01ReportParam one01ReportParam) {
+        if (one01ReportParam.getNoticeDate()!=null){
+            String noticeDate = translationServiceUtility.oneZeroOneDateMr(LocalDate.ofInstant(one01ReportParam.getNoticeDate(), ZoneId.of("Asia/Kolkata")));
+       return noticeDate;
+        }else {
+            return "";
+        }
     }
 
     //update court case count and date
@@ -1294,7 +1331,7 @@ public class CourtCaseResource {
                 cc.setVasuliExpense(courtCaseSetting.getVasuliExpense());
                 cc.setOtherExpense(courtCaseSetting.getOtherExpense());
                 cc.setNoticeExpense(courtCaseSetting.getNoticeExpense());
-                cc.setClaimDate(courtCaseDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                cc.setClaimDate(courtCaseDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
                 cc.setClaimDateMr(courtCaseDateText);
                 cc.setTotalPostage(totalPostageValue);
                 cc.setTotalPostageEn(totalPostageValueEn);
@@ -1847,7 +1884,7 @@ public class CourtCaseResource {
                     LocalDate loanDate = getDateCellValue(row.getCell(8));
 
                     if (loanDate != null) {
-                        courtCase.setLoanDate(loanDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        courtCase.setLoanDate(loanDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
 
                         // marathi
                         courtCase.setLoanDateMr(translationServiceUtility.oneZeroOneDateMr(loanDate));
@@ -1870,7 +1907,7 @@ public class CourtCaseResource {
                             //calculating maturity loan date
                             int termLoanInInt = Integer.parseInt(termOfLoan);
                             LocalDate plusMonths = loanDate.plusDays(termLoanInInt * 30);
-                            courtCase.setMaturityLoanDateEn(plusMonths.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                            courtCase.setMaturityLoanDateEn(plusMonths.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
 
                             // marathi
                             courtCase.setMaturityLoanDate(translationServiceUtility.oneZeroOneDateMr(plusMonths));
@@ -1960,7 +1997,7 @@ public class CourtCaseResource {
 
                     LocalDate dueDate = getDateCellValue(row.getCell(17));
                     if (dueDate != null) {
-                        courtCase.setDueDate(dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        courtCase.setDueDate(dueDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
 
                         // marathi
                         courtCase.setDueDateMr(translationServiceUtility.oneZeroOneDateMr(dueDate));
@@ -2296,9 +2333,33 @@ public class CourtCaseResource {
 
     //getting court case with or without sabhasad name
 
-    List<CourtCase> getCourtCaseList(CourtCaseCriteria criteria, One01ReportParam one01ReportParam) {
+    CourtCase getCourtCase(CourtCaseCriteria criteria, One01ReportParam one01ReportParam) {
 
-        if (StringUtils.isNotBlank(one01ReportParam.getSabhasadName())) {
+        Optional<CourtCase> courtCase = courtCaseService.findOne(one01ReportParam.getCourtCaseId());
+
+        if (one01ReportParam.getFirstNoticeDate() != null && !courtCase.isEmpty()) {
+            courtCase.get().setFirstNoticeDate(one01ReportParam.getFirstNoticeDate());
+            courtCase.get().setFirstNoticeDateMr(
+                translationServiceUtility.oneZeroOneDateMr(LocalDate.ofInstant(one01ReportParam.getFirstNoticeDate(), ZoneId.of("Asia/Kolkata"))));
+        }
+
+        if (one01ReportParam.getSecondNoticeDate() != null && !courtCase.isEmpty()) {
+
+            courtCase.get().setSecondNoticeDate(one01ReportParam.getSecondNoticeDate());
+            courtCase.get().setSecondNoticeDateMr(
+                translationServiceUtility.oneZeroOneDateMr(LocalDate.ofInstant(one01ReportParam.getSecondNoticeDate(), ZoneId.of("Asia/Kolkata"))));
+        }
+
+        courtCaseRepository.save(courtCase.get());
+
+        if(courtCase.isEmpty())
+        {
+            throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
+        } else {
+            return courtCase.get();
+        }
+
+        /*if (StringUtils.isNotBlank(one01ReportParam.getSabhasadName())) {
             StringFilter sabhasadNameFilter = new StringFilter();
             sabhasadNameFilter.setEquals(one01ReportParam.getSabhasadName());
             criteria.setNameOfDefaulter(sabhasadNameFilter);
@@ -2311,7 +2372,7 @@ public class CourtCaseResource {
 
             courtCaseList.forEach(courtCase -> {
 
-                courtCase.setFirstNoticeDate(one01ReportParam.getFirstNoticeDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                courtCase.setFirstNoticeDate(one01ReportParam.getFirstNoticeDate());
                 courtCase.setFirstNoticeDateMr(
                     translationServiceUtility.oneZeroOneDateMr(one01ReportParam.getFirstNoticeDate()));
 
@@ -2324,7 +2385,7 @@ public class CourtCaseResource {
         if (courtCaseList.isEmpty()) {
             throw new BadRequestAlertException("Data not found", ENTITY_NAME, "datanotfound");
         }
-        return courtCaseList;
+        return courtCaseList;*/
 
     }
 
@@ -2338,11 +2399,12 @@ public class CourtCaseResource {
 
 
     //processing template
-    String oneZeroOneTemplate(String template, CourtCase courtCase, CourtCaseSetting courtCaseSettings) {
+    String oneZeroOneTemplate(String template, CourtCase courtCase, CourtCaseSetting courtCaseSettings, String noticeDate) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("courtCase", courtCase);
         context.setVariable("courtCaseSetting", courtCaseSettings);
+        context.setVariable("noticeDate", noticeDate);
         String content = templateEngine.process(template, context);
         return content;
     }

@@ -3,7 +3,11 @@ package com.cbs.middleware.service.impl;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.IssPortalFileService;
+
+import java.util.List;
 import java.util.Optional;
+
+import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -100,4 +104,26 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
         log.debug("Request to delete IssPortalFile : {}", id);
         issPortalFileRepository.deleteById(id);
     }
+
+    @Override
+    public IssPortalFileCountDTO findAllRecords() {
+        IssPortalFileCountDTO issPortalFileCountDTO=new IssPortalFileCountDTO();
+
+        List<IssPortalFile> issPortalFiles = issPortalFileRepository.findAll();
+        if (!issPortalFiles.isEmpty()){
+            Integer sumOfapplicationCount = issPortalFileRepository.findSumOfapplicationCount();
+            Integer sumOfErrorRecordCount = issPortalFileRepository.findSumOfErrorRecordCount();
+            Integer sumOfAppSubmitedTokccCount = issPortalFileRepository.findSumOfAppSubmitedTokccCount();
+            Integer sumOfappAcceptedByKccCount = issPortalFileRepository.findSumOfappAcceptedByKccCount();
+            Integer sumOfkccErrorRecordCount = issPortalFileRepository.findSumOfkccErrorRecordCount();
+
+            issPortalFileCountDTO.setTotalApplications(sumOfapplicationCount);
+            issPortalFileCountDTO.setValidationErrors(sumOfErrorRecordCount);
+            issPortalFileCountDTO.setkCCSubmitted(sumOfAppSubmitedTokccCount);
+            issPortalFileCountDTO.setkCCAccepted(sumOfappAcceptedByKccCount);
+            issPortalFileCountDTO.setkCCErrors(sumOfkccErrorRecordCount);
+        }
+        return issPortalFileCountDTO;
+    }
+
 }

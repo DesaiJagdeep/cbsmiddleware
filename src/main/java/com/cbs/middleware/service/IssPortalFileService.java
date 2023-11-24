@@ -1,7 +1,10 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.IssPortalFile;
+
 import java.util.Optional;
+
+import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -55,4 +58,7 @@ public interface IssPortalFileService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    IssPortalFileCountDTO findAllRecords();
+
 }

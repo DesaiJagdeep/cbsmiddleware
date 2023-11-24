@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -54,7 +55,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.Authority;
 import com.cbs.middleware.domain.BankBranchMaster;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
@@ -71,7 +71,6 @@ import com.cbs.middleware.repository.NotificationRepository;
 import com.cbs.middleware.repository.PacsMasterRepository;
 import com.cbs.middleware.repository.TalukaMasterRepository;
 import com.cbs.middleware.repository.UserRepository;
-import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.IssPortalFileQueryService;
 import com.cbs.middleware.service.IssPortalFileService;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
@@ -115,17 +114,17 @@ public class IssPortalFileResource {
 
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
-    
-    
+
+
     @Autowired
     TalukaMasterRepository talukaMasterRepository;
-    
+
     @Autowired
     PacsMasterRepository pacsMasterRepository;
-    
+
     @Autowired
     BankBranchMasterRepository bankBranchMasterRepository;
-    
+
     @Autowired
     IssFileParserRepository issFileParserRepository;
 
@@ -135,7 +134,7 @@ public class IssPortalFileResource {
     private final IssPortalFileService issPortalFileService;
 
     private final IssPortalFileRepository issPortalFileRepository;
-    
+
     private final IssPortalFileQueryService issPortalFileQueryService;
 
     @Autowired
@@ -151,8 +150,7 @@ public class IssPortalFileResource {
         this.issPortalFileQueryService = issPortalFileQueryService;
     }
 
-    
-    
+
     @GetMapping("/download-file/{idIFP}")
     @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object excelDownload(@PathVariable Long idIFP) {
@@ -202,7 +200,8 @@ public class IssPortalFileResource {
 //                            issPortalFile.setDownloadFile(true);
 //                            issPortalFileRepository.save(issPortalFile);
 //                        }
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                 }
 
                 return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
@@ -213,32 +212,28 @@ public class IssPortalFileResource {
             throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
         }
     }
-    
-    
 
-    
+
     /**
      * download-record-file
-     * 
-     * */
+     */
 
 
     @GetMapping("/download-record-file/{idIFP}")
     @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object downloadRecordFile(@PathVariable Long idIFP) {
-    	Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
+        Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
         if (!findByIssPortalFileId.isPresent()) {
 
-        	throw new BadRequestAlertException("id not found", ENTITY_NAME, "idNotFound");
+            throw new BadRequestAlertException("id not found", ENTITY_NAME, "idNotFound");
         }
         IssPortalFile issPortalFile = findByIssPortalFileId.get();
-        List<IssFileParser> issFileParserList=issFileParserRepository.findAllByIssPortalFile(issPortalFile);
-        
-        if(issFileParserList.isEmpty())
-        {
-        	throw new BadRequestAlertException("records not found", ENTITY_NAME, "recordsNotFound");
+        List<IssFileParser> issFileParserList = issFileParserRepository.findAllByIssPortalFile(issPortalFile);
+
+        if (issFileParserList.isEmpty()) {
+            throw new BadRequestAlertException("records not found", ENTITY_NAME, "recordsNotFound");
         }
-        
+
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Iss Portal Data for Pacs Member");
@@ -299,23 +294,20 @@ public class IssPortalFileResource {
             row.createCell(colNum++).setCellValue("Recovery Amount Principle 52");
             row.createCell(colNum++).setCellValue("Recovery Amount Interest 53");
             row.createCell(colNum++).setCellValue("Recovery Date 54");
-            
+
             row.createCell(colNum++).setCellValue("Second Recovery Amount Principle 55");
             row.createCell(colNum++).setCellValue("Second Recovery Amount Interest 56");
             row.createCell(colNum++).setCellValue("Second Recovery Date 57");
-            
+
             row.createCell(colNum++).setCellValue("Third Recovery Amount Principle 58");
             row.createCell(colNum++).setCellValue("Third Recovery Amount Interest 59");
             row.createCell(colNum++).setCellValue("Third Recovery Date 60");
-            
+
             row.createCell(colNum++).setCellValue("Fourth Recovery Amount Principle 61");
             row.createCell(colNum++).setCellValue("Fourth Recovery Amount Interest 62");
             row.createCell(colNum++).setCellValue("Fourth Recovery Date 63");
 
-            
-            
-            
-            
+
             for (IssFileParser issFileParser : issFileParserList) {
                 colNum = 0;
                 row = sheet.createRow(rowNum++);
@@ -381,17 +373,17 @@ public class IssPortalFileResource {
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryDate());
-                
-                
+
+
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryDate());
-                
+
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryDate());
-                
-                
+
+
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryDate());
@@ -415,172 +407,163 @@ public class IssPortalFileResource {
             contentDispositionList.add("Content-Disposition");
 
             headers.setAccessControlExposeHeaders(contentDispositionList);
-            
-            if ( !issPortalFile.isDownloadFile()) {
-            	issPortalFile.setDownloadFileTime(Instant.now());
-            	issPortalFile.setDownloadFile(true);
+
+            if (!issPortalFile.isDownloadFile()) {
+                issPortalFile.setDownloadFileTime(Instant.now());
+                issPortalFile.setDownloadFile(true);
                 issPortalFileRepository.save(issPortalFile);
             }
-            
-            
-            
+
+
             return new ResponseEntity<>(excelContent, headers, 200);
         } catch (IOException e) {
             return ResponseEntity.status(500).body(null);
         }
-    
-    	
-    	
+
+
     }
-    
+
     public String getUniqueName() {
         Calendar cal = new GregorianCalendar();
         return (
             "" +
-            cal.get(Calendar.YEAR) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.MILLISECOND)
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MILLISECOND)
         );
     }
+
     /**
-     * 
-     * 
-     * */
+     *
+     */
     @GetMapping("/taluka-wise-data/{financialYear}")
     @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public List<TalukaWiseDataReport> talukaWiseData(@PathVariable String financialYear) {
-    	
-    	Set<TalukaWiseDataReport> talukaWiseDataReportList=new HashSet<TalukaWiseDataReport>();
-    	TalukaWiseDataReport talukaWiseDataReport=new TalukaWiseDataReport();
-    	//calculating current finantial year
-    	//String currentFinantialYear=calculateCurrentFinantialYear();
-    	
-    	List<TalukaMaster> talukaMasterList = talukaMasterRepository.findAll();
-    	
-    	for (TalukaMaster talukaMaster : talukaMasterList) {
-    		
-    		
-    		if(!talukaMaster.getTalukaName().equalsIgnoreCase("PUNE CITY")&&!talukaMaster.getTalukaName().equalsIgnoreCase("PIMPRI-CHINCHWAD"))
-    		{
-        		
-        		
-        		talukaWiseDataReport=new TalukaWiseDataReport();
-        		talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
-        		
-        		//find society count
-        		//Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
-        		//talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
-        		
-        		Integer countOfSocietiesByTalukaName=0;
-        		switch(talukaMaster.getTalukaName())
-        		{
-        		case "BHOR":
-        		 countOfSocietiesByTalukaName=68;
-        		break;
-        		case "AMBEGAON":
-        			 countOfSocietiesByTalukaName=59;
-        			break;
-        		case "BARAMATI":
-        			 countOfSocietiesByTalukaName=191;
-        			break;
-        		case "DAUND":
-        			 countOfSocietiesByTalukaName=124;
-        			break;
-        		case "HAVELI":
-        			 countOfSocietiesByTalukaName=140;
-        			break;
-        		case "INDAPUR":
-        			 countOfSocietiesByTalukaName=222;
-        			break;
-        		case "JUNNAR":
-        			 countOfSocietiesByTalukaName=76;
-        			break;
-        		case "KHED":
-        			 countOfSocietiesByTalukaName=104;
-        			break;
-        		case "MAVAL":
-        			 countOfSocietiesByTalukaName=55;
-        			break;
-        		case "MULSHI":
-        			 countOfSocietiesByTalukaName=46;
-        			break;
-        		case "PURANDAR":
-        			 countOfSocietiesByTalukaName=97;
-        			break;
-        		case "SHIRUR":
-        			 countOfSocietiesByTalukaName=128;
-        			break;
-        		case "VELHA":
-        			 countOfSocietiesByTalukaName=26;
-        			break;
-        		default:
-        			 countOfSocietiesByTalukaName=0;
-        		break;
-        		}
-        		
-        		talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
-        		Integer completedCount=0;
-        		Integer inProgressCount=0;
-        		Integer yetToStartCount=0;
-        		Integer pendingForApprovalCount=0;
-        		
-        		
-        		List<BankBranchMaster> bankBranchMastersList=bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
-        		for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
-        			Long schemeWiseBranchCode=Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
-        			
-        			Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
-        			if(findAllBySchemeWiseBranchCode.isPresent())
-        			{
-        				completedCount=completedCount+issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode,financialYear);
-        				inProgressCount=inProgressCount+issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode,financialYear);
-            			pendingForApprovalCount=pendingForApprovalCount+issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
-        			
-            			
-        			}
-        			
-    				
-    			}
-        		
-        		talukaWiseDataReport.setCompleted(completedCount);
-        		talukaWiseDataReport.setInProgress(inProgressCount);
-        		yetToStartCount=countOfSocietiesByTalukaName-completedCount-inProgressCount-pendingForApprovalCount;
-        		
-        		talukaWiseDataReport.setYetToStart(yetToStartCount);
-        		talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
-        		
-        		talukaWiseDataReportList.add(talukaWiseDataReport);
-    		}
-    		
-    		
-    		
-			
-		}
-    	
-    	
-    	List<TalukaWiseDataReport> talukaWiseDataReportList1 = talukaWiseDataReportList.stream()
-                .sorted(Comparator.comparing(TalukaWiseDataReport::getTalukaName))
-                .collect(Collectors.toList());
+
+        Set<TalukaWiseDataReport> talukaWiseDataReportList = new HashSet<TalukaWiseDataReport>();
+        TalukaWiseDataReport talukaWiseDataReport = new TalukaWiseDataReport();
+        //calculating current finantial year
+        //String currentFinantialYear=calculateCurrentFinantialYear();
+
+        List<TalukaMaster> talukaMasterList = talukaMasterRepository.findAll();
+
+        for (TalukaMaster talukaMaster : talukaMasterList) {
+
+
+            if (!talukaMaster.getTalukaName().equalsIgnoreCase("PUNE CITY") && !talukaMaster.getTalukaName().equalsIgnoreCase("PIMPRI-CHINCHWAD")) {
+
+
+                talukaWiseDataReport = new TalukaWiseDataReport();
+                talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
+
+                //find society count
+                //Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
+                //talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
+
+                Integer countOfSocietiesByTalukaName = 0;
+                switch (talukaMaster.getTalukaName()) {
+                    case "BHOR":
+                        countOfSocietiesByTalukaName = 68;
+                        break;
+                    case "AMBEGAON":
+                        countOfSocietiesByTalukaName = 59;
+                        break;
+                    case "BARAMATI":
+                        countOfSocietiesByTalukaName = 191;
+                        break;
+                    case "DAUND":
+                        countOfSocietiesByTalukaName = 124;
+                        break;
+                    case "HAVELI":
+                        countOfSocietiesByTalukaName = 140;
+                        break;
+                    case "INDAPUR":
+                        countOfSocietiesByTalukaName = 222;
+                        break;
+                    case "JUNNAR":
+                        countOfSocietiesByTalukaName = 76;
+                        break;
+                    case "KHED":
+                        countOfSocietiesByTalukaName = 104;
+                        break;
+                    case "MAVAL":
+                        countOfSocietiesByTalukaName = 55;
+                        break;
+                    case "MULSHI":
+                        countOfSocietiesByTalukaName = 46;
+                        break;
+                    case "PURANDAR":
+                        countOfSocietiesByTalukaName = 97;
+                        break;
+                    case "SHIRUR":
+                        countOfSocietiesByTalukaName = 128;
+                        break;
+                    case "VELHA":
+                        countOfSocietiesByTalukaName = 26;
+                        break;
+                    default:
+                        countOfSocietiesByTalukaName = 0;
+                        break;
+                }
+
+                talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
+                Integer completedCount = 0;
+                Integer inProgressCount = 0;
+                Integer yetToStartCount = 0;
+                Integer pendingForApprovalCount = 0;
+
+
+                List<BankBranchMaster> bankBranchMastersList = bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
+                for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
+                    Long schemeWiseBranchCode = Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
+
+                    Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
+                    if (findAllBySchemeWiseBranchCode.isPresent()) {
+                        completedCount = completedCount + issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode, financialYear);
+                        inProgressCount = inProgressCount + issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode, financialYear);
+                        pendingForApprovalCount = pendingForApprovalCount + issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
+
+
+                    }
+
+
+                }
+
+                talukaWiseDataReport.setCompleted(completedCount);
+                talukaWiseDataReport.setInProgress(inProgressCount);
+                yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingForApprovalCount;
+
+                talukaWiseDataReport.setYetToStart(yetToStartCount);
+                talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
+
+                talukaWiseDataReportList.add(talukaWiseDataReport);
+            }
+
+
+        }
+
+
+        List<TalukaWiseDataReport> talukaWiseDataReportList1 = talukaWiseDataReportList.stream()
+            .sorted(Comparator.comparing(TalukaWiseDataReport::getTalukaName))
+            .collect(Collectors.toList());
 //    	int srno=0;
 //    	talukaWiseDataReportList1.forEach(t->{
 //    		t.setSrNo(srno+1);
 //    		});
-    	
-    	int srno=0;
-    	for (TalukaWiseDataReport talukaWiseDataReport2 : talukaWiseDataReportList1) {
-    		srno=srno+1;
-    		talukaWiseDataReport2.setSrNo(srno);
-		}
-    	
-    	
-    	
-		return talukaWiseDataReportList1;
-    	
+
+        int srno = 0;
+        for (TalukaWiseDataReport talukaWiseDataReport2 : talukaWiseDataReportList1) {
+            srno = srno + 1;
+            talukaWiseDataReport2.setSrNo(srno);
+        }
+
+
+        return talukaWiseDataReportList1;
+
     }
-    
-    
+
 
     @GetMapping("/verify-file/{fileId}")
     @PreAuthorize("@authentication.hasPermision('',#fileId,'','FILE_DOWNLOAD','DOWNLOAD')")
@@ -623,8 +606,8 @@ public class IssPortalFileResource {
      *
      * @param issPortalFile the issPortalFile to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new issPortalFile, or with status {@code 400 (Bad Request)}
-     *         if the issPortalFile has already an ID.
+     * body the new issPortalFile, or with status {@code 400 (Bad Request)}
+     * if the issPortalFile has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/iss-portal-files")
@@ -647,10 +630,10 @@ public class IssPortalFileResource {
      * @param id            the id of the issPortalFile to save.
      * @param issPortalFile the issPortalFile to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated issPortalFile, or with status {@code 400 (Bad Request)}
-     *         if the issPortalFile is not valid, or with status
-     *         {@code 500 (Internal Server Error)} if the issPortalFile couldn't be
-     *         updated.
+     * the updated issPortalFile, or with status {@code 400 (Bad Request)}
+     * if the issPortalFile is not valid, or with status
+     * {@code 500 (Internal Server Error)} if the issPortalFile couldn't be
+     * updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-portal-files/{id}")
@@ -685,14 +668,14 @@ public class IssPortalFileResource {
      * @param id            the id of the issPortalFile to save.
      * @param issPortalFile the issPortalFile to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated issPortalFile, or with status {@code 400 (Bad Request)}
-     *         if the issPortalFile is not valid, or with status
-     *         {@code 404 (Not Found)} if the issPortalFile is not found, or with
-     *         status {@code 500 (Internal Server Error)} if the issPortalFile
-     *         couldn't be updated.
+     * the updated issPortalFile, or with status {@code 400 (Bad Request)}
+     * if the issPortalFile is not valid, or with status
+     * {@code 404 (Not Found)} if the issPortalFile is not found, or with
+     * status {@code 500 (Internal Server Error)} if the issPortalFile
+     * couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/iss-portal-files/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/iss-portal-files/{id}", consumes = {"application/json", "application/merge-patch+json"})
     @PreAuthorize("@authentication.onDatabaseRecordPermission('MASTER_RECORD_UPDATE','EDIT')")
     public ResponseEntity<IssPortalFile> partialUpdateIssPortalFile(
         @PathVariable(value = "id", required = false) final Long id,
@@ -723,7 +706,7 @@ public class IssPortalFileResource {
      * @param pageable the pagination information.
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of issPortalFiles in body.
+     * of issPortalFiles in body.
      */
 
     @GetMapping("/iss-portal-files")
@@ -755,11 +738,11 @@ public class IssPortalFileResource {
 
         log.debug("REST request to get IssPortalFiles by criteria: {}", criteria);
 
-        
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-        
-//        
+
+//
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.add("X-Total-Count", "" + page.size());
 //        List<String> contentDispositionList = new ArrayList<>();
@@ -825,7 +808,7 @@ public class IssPortalFileResource {
      *
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count
-     *         in body.
+     * in body.
      */
     @GetMapping("/iss-portal-files/count")
     public ResponseEntity<Long> countIssPortalFiles(IssPortalFileCriteria criteria) {
@@ -838,7 +821,7 @@ public class IssPortalFileResource {
      *
      * @param id the id of the issPortalFile to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the issPortalFile, or with status {@code 404 (Not Found)}.
+     * the issPortalFile, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/iss-portal-files/{id}")
     public ResponseEntity<IssPortalFile> getIssPortalFile(@PathVariable Long id) {
@@ -898,7 +881,8 @@ public class IssPortalFileResource {
                     issPortalFile.getCreatedDate(),
                     "ApplicationRecordFiledeleted" //type
                 );
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         return ResponseEntity
@@ -906,25 +890,30 @@ public class IssPortalFileResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
-    
-    
+
+
     //calculate financial year
-    String calculateCurrentFinantialYear()
-    {
-    	 Calendar calendar = Calendar.getInstance();
+    String calculateCurrentFinantialYear() {
+        Calendar calendar = Calendar.getInstance();
 
-         // Set the current date to the end of the financial year
-         calendar.set(Calendar.MONTH, Calendar.MARCH);
-         calendar.set(Calendar.DAY_OF_MONTH, 31);
+        // Set the current date to the end of the financial year
+        calendar.set(Calendar.MONTH, Calendar.MARCH);
+        calendar.set(Calendar.DAY_OF_MONTH, 31);
 
-         int currentYear = calendar.get(Calendar.YEAR);
+        int currentYear = calendar.get(Calendar.YEAR);
 
-         // Financial year starts from April 1 of the previous year
-         int previousYear = currentYear - 1;
+        // Financial year starts from April 1 of the previous year
+        int previousYear = currentYear - 1;
 
-         String financialYear = previousYear + "-" + currentYear;
-         System.out.println("Current Financial Year: " + financialYear);
-         return financialYear; 
-     
+        String financialYear = previousYear + "-" + currentYear;
+        System.out.println("Current Financial Year: " + financialYear);
+        return financialYear;
+
+    }
+
+    @GetMapping("/iss-portal-files/counts")
+    public IssPortalFileCountDTO getIssPortalFileCount() {
+        IssPortalFileCountDTO issPortalCount = issPortalFileService.findAllRecords();
+        return issPortalCount;
     }
 }

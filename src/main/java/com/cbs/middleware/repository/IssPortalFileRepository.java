@@ -28,9 +28,9 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     Page<IssPortalFile> findAllBySchemeWiseBranchCode(Long branchCode, Pageable pageable);
 
     Page<IssPortalFile> findAllByPacsCode(Long pacsCode, Pageable pageable);
-    
+
     Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCodeAndFinancialYear(Long branchCode, String financialYear);
-    
+
 
     @Query("select count(*) from IssPortalFile issPortalFile where issPortalFile.schemeWiseBranchCode =:schemeWiseBranchCode AND issPortalFile.financialYear =:financialYear AND issPortalFile.appSubmitedToKccCount>0")
 	Integer findCompletedCountByBankBranch(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode,@Param("financialYear") String financialYear);
@@ -40,4 +40,16 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
 
     @Query("select count(*) from IssPortalFile issPortalFile where issPortalFile.schemeWiseBranchCode =:schemeWiseBranchCode AND issPortalFile.financialYear =:financialYear AND issPortalFile.errorRecordCount=0 AND issPortalFile.appPendingToSubmitCount>0 AND issPortalFile.appSubmitedToKccCount=0")
 	Integer findPendingForApprovalCountByBankBranch(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode,@Param("financialYear") String financialYear);
+
+    @Query("select sum(applicationCount) from IssPortalFile ")
+    Integer findSumOfapplicationCount();
+    @Query("select sum(errorRecordCount) from IssPortalFile ")
+    Integer findSumOfErrorRecordCount();
+    @Query("select sum(appSubmitedToKccCount) from IssPortalFile ")
+    Integer findSumOfAppSubmitedTokccCount();
+    @Query("select sum(appAcceptedByKccCount) from IssPortalFile ")
+    Integer findSumOfappAcceptedByKccCount();
+    @Query("select sum(kccErrorRecordCount) from IssPortalFile ")
+    Integer findSumOfkccErrorRecordCount();
+
 }

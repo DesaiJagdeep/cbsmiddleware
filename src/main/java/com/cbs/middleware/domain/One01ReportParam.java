@@ -1,5 +1,6 @@
 package com.cbs.middleware.domain;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
@@ -10,12 +11,19 @@ public class One01ReportParam {
 	private String financialYear;
     private String talukaName;
     private String bankName;
-    private String sabhasadName;
+    private Long courtCaseId;
     private String oneZeroOneOption;
-    private LocalDate firstNoticeDate;
-    private boolean isFirstNoticeDateChange;
-    
-    private String courtCaseSettingCode;
+    private Instant firstNoticeDate;
+    private Instant secondNoticeDate;
+    private Instant noticeDate;
+
+    public String getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
+    }
 
     public String getTalukaName() {
         return talukaName;
@@ -29,59 +37,47 @@ public class One01ReportParam {
         return bankName;
     }
 
-    public boolean isFirstNoticeDateChange() {
-		return isFirstNoticeDateChange;
-	}
-
-	public void setFirstNoticeDateChange(boolean isFirstNoticeDateChange) {
-		this.isFirstNoticeDateChange = isFirstNoticeDateChange;
-	}
-
-	public void setBankName(String bankName) {
+    public void setBankName(String bankName) {
         this.bankName = bankName;
     }
 
-    public String getSabhasadName() {
-        return sabhasadName;
-    } 
-
-    public LocalDate getFirstNoticeDate() {
-		return firstNoticeDate;
-	}
-
-	public void setFirstNoticeDate(LocalDate firstNoticeDate) {
-		this.firstNoticeDate = firstNoticeDate;
-	}
-
-	public void setSabhasadName(String sabhasadName) {
-        this.sabhasadName = sabhasadName;
+    public Long getCourtCaseId() {
+        return courtCaseId;
     }
 
-	public String getFinancialYear() {
-		return financialYear;
-	}
+    public void setCourtCaseId(Long courtCaseId) {
+        this.courtCaseId = courtCaseId;
+    }
 
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
-	}
+    public String getOneZeroOneOption() {
+        return oneZeroOneOption;
+    }
 
-	public String getOneZeroOneOption() {
-		return oneZeroOneOption;
-	}
+    public void setOneZeroOneOption(String oneZeroOneOption) {
+        this.oneZeroOneOption = oneZeroOneOption;
+    }
 
-	public void setOneZeroOneOption(String oneZeroOneOption) {
-		this.oneZeroOneOption = oneZeroOneOption;
-	}
+    public Instant getFirstNoticeDate() {
+        return firstNoticeDate;
+    }
 
-	public String getCourtCaseSettingCode() {
-		return courtCaseSettingCode;
-	}
+    public void setFirstNoticeDate(Instant firstNoticeDate) {
+        this.firstNoticeDate = firstNoticeDate;
+    }
 
-	public void setCourtCaseSettingCode(String courtCaseSettingCode) {
-		this.courtCaseSettingCode = courtCaseSettingCode;
-	}
-	
-	
+    public Instant getSecondNoticeDate() {
+        return secondNoticeDate;
+    }
 
-   
+    public void setSecondNoticeDate(Instant secondNoticeDate) {
+        this.secondNoticeDate = secondNoticeDate;
+    }
+
+    public Instant getNoticeDate() {
+        return noticeDate;
+    }
+
+    public void setNoticeDate(Instant noticeDate) {
+        this.noticeDate = noticeDate;
+    }
 }

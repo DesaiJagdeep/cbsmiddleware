@@ -565,7 +565,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getMaturityLoanDateEn() {
         if (maturityLoanDateEn!= null) {
-            return this.maturityLoanDateEn.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.maturityLoanDateEn.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
@@ -573,7 +573,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setMaturityLoanDateEn(Instant maturityLoanDateEn) {
         if (maturityLoanDateEn != null){
-            this.maturityLoanDateEn = LocalDate.ofInstant(maturityLoanDateEn, ZoneId.systemDefault());
+            this.maturityLoanDateEn = LocalDate.ofInstant(maturityLoanDateEn, ZoneId.of("Asia/Kolkata"));
         } else {
             this.maturityLoanDateEn = null;
         }
@@ -1044,7 +1044,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getLoanDate() {
         if (loanDate!= null) {
-            return this.loanDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.loanDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
@@ -1057,7 +1057,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setLoanDate(Instant loanDate) {
         if (loanDate != null){
-            this.loanDate = LocalDate.ofInstant(loanDate, ZoneId.systemDefault());
+            this.loanDate = LocalDate.ofInstant(loanDate, ZoneId.of("Asia/Kolkata"));
         } else {
             this.loanDate = null;
         }
@@ -1267,7 +1267,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getDueDate() {
         if (dueDate!= null) {
-            return this.dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.dueDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
@@ -1275,13 +1275,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     }
 
     public CourtCase dueDate(LocalDate dueDate) {
-        this.setDueDate(dueDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.setDueDate(dueDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
         return this;
     }
 
     public void setDueDate(Instant dueDate) {
         if (dueDate != null){
-            this.dueDate = LocalDate.ofInstant(dueDate, ZoneId.systemDefault());
+            this.dueDate = LocalDate.ofInstant(dueDate, ZoneId.of("Asia/Kolkata"));
         } else {
             this.dueDate = null;
         }
@@ -1319,7 +1319,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getClaimDate() {
         if (claimDate!= null) {
-            return this.claimDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.claimDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
@@ -1327,7 +1327,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setClaimDate(Instant claimDate) {
         if (claimDate != null){
-            this.claimDate = LocalDate.ofInstant(claimDate, ZoneId.systemDefault());
+            this.claimDate = LocalDate.ofInstant(claimDate, ZoneId.of("Asia/Kolkata"));
         } else {
             this.claimDate = null;
         }
@@ -1409,7 +1409,7 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getFirstNoticeDate() {
         if (firstNoticeDate!= null) {
-            return this.firstNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.firstNoticeDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
@@ -1417,13 +1417,13 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
 
     public CourtCase firstNoticeDate(LocalDate firstNoticeDate) {
-        this.setFirstNoticeDate(firstNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.setFirstNoticeDate(firstNoticeDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
         return this;
     }
 
     public void setFirstNoticeDate(Instant firstNoticeDate) {
         if (firstNoticeDate != null){
-            this.firstNoticeDate = LocalDate.ofInstant(firstNoticeDate, ZoneId.systemDefault());
+            this.firstNoticeDate = LocalDate.ofInstant(firstNoticeDate, ZoneId.of("Asia/Kolkata"));
         } else {
             this.firstNoticeDate = null;
         }
@@ -1431,20 +1431,20 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
 
     public Instant getSecondNoticeDate() {
         if (secondNoticeDate!= null) {
-            return this.secondNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            return this.secondNoticeDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant();
         } else {
             return null;
         }
     }
 
     public CourtCase secondNoticeDate(LocalDate secondNoticeDate) {
-        this.setSecondNoticeDate(secondNoticeDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.setSecondNoticeDate(secondNoticeDate.atStartOfDay(ZoneId.of("Asia/Kolkata")).toInstant());
         return this;
     }
 
     public void setSecondNoticeDate(Instant secondNoticeDate) {
         if (secondNoticeDate != null){
-            this.secondNoticeDate = LocalDate.ofInstant(secondNoticeDate, ZoneId.systemDefault());
+            this.secondNoticeDate = LocalDate.ofInstant(secondNoticeDate, ZoneId.of("Asia/Kolkata"));
         } else {
             this.secondNoticeDate = null;
         }

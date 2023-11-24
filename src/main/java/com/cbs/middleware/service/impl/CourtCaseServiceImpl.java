@@ -626,8 +626,8 @@ public class CourtCaseServiceImpl implements CourtCaseService {
             if (courtCase.getLoanDate()!=null){
                 courtCaseCheck.setLoanDate(courtCase.getLoanDate());
             }
-            if (courtCase.getMaturityLoanDate()!=null){
-                courtCaseCheck.setMaturityLoanDate(courtCase.getMaturityLoanDate());
+            if (courtCase.getMaturityLoanDateEn()!=null){
+                courtCaseCheck.setMaturityLoanDateEn(courtCase.getMaturityLoanDateEn());
             }
             if (courtCase.getDueDate()!=null){
                 courtCaseCheck.setDueDate(courtCase.getDueDate());

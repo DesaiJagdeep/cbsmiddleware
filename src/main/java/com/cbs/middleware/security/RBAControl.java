@@ -185,7 +185,7 @@ public class RBAControl {
         }
         return returnData;
     }
-    
+
 
     public void authenticateByCode(String bankCode, String schemeWiseBranchCode, String packsNumber, String ENTITY_NAME) {
 
@@ -313,12 +313,12 @@ public class RBAControl {
             throw new Exception("Provide single role to user");
         }
     }
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 	public boolean checkValidationForUsers(String code) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null) {
@@ -335,7 +335,7 @@ public class RBAControl {
 			} else if (StringUtils.isNotBlank(user.get().getSchemeWiseBranchCode()) && user.get().getSchemeWiseBranchCode().equalsIgnoreCase(code)) {
 				return true;
 			} else {
-				throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");
+				throw new ForbiddenAuthRequestAlertException("Access is denied", "", "Forbidden");
 			}
 		} else {
 			throw new UnAuthRequestAlertException("Access is denied", "", "unAuthorized");

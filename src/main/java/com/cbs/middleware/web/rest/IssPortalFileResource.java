@@ -1,6 +1,7 @@
 package com.cbs.middleware.web.rest;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
+import com.cbs.middleware.service.dto.TalukaApplicationDTO;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -41,15 +43,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cbs.middleware.config.Constants;
@@ -90,55 +84,37 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping("/api")
 public class IssPortalFileResource {
 
-    private final Logger log = LoggerFactory.getLogger(IssPortalFileResource.class);
-
     private static final String ENTITY_NAME = "issPortalFile";
-
+    private final Logger log = LoggerFactory.getLogger(IssPortalFileResource.class);
+    private final IssPortalFileService issPortalFileService;
+    private final IssPortalFileRepository issPortalFileRepository;
+    private final IssPortalFileQueryService issPortalFileQueryService;
     @Autowired
     ApplicationRepository applicationRepository;
-
     @Autowired
     IssFileParserRepository fileParserRepository;
-
     @Autowired
     ApplicationLogRepository applicationLogRepository;
-
     @Autowired
     ApplicationLogHistoryRepository applicationLogHistoryRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     NotificationDataUtility notificationDataUtility;
-
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
-
-
     @Autowired
     TalukaMasterRepository talukaMasterRepository;
-
     @Autowired
     PacsMasterRepository pacsMasterRepository;
-
     @Autowired
     BankBranchMasterRepository bankBranchMasterRepository;
-
     @Autowired
     IssFileParserRepository issFileParserRepository;
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
-    private final IssPortalFileService issPortalFileService;
-
-    private final IssPortalFileRepository issPortalFileRepository;
-
-    private final IssPortalFileQueryService issPortalFileQueryService;
-
     @Autowired
     NotificationRepository notificationRepository;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
     public IssPortalFileResource(
         IssPortalFileService issPortalFileService,
@@ -457,7 +433,7 @@ public class IssPortalFileResource {
 
                 talukaWiseDataReport = new TalukaWiseDataReport();
                 talukaWiseDataReport.setTalukaName(talukaMaster.getTalukaName());
-
+                talukaWiseDataReport.setTalukaId(talukaMaster.getId());
                 //find society count
                 //Integer countOfSocietiesByTalukaName=pacsMasterRepository.countOfSocietiesByTalukaName(talukaMaster.getTalukaName());
                 //talukaWiseDataReport.setNoOfSocieties(countOfSocietiesByTalukaName);
@@ -564,6 +540,13 @@ public class IssPortalFileResource {
 
     }
 
+    @GetMapping("/taluka-wise-applications/{talukaId}/{finacialYear}")
+    public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String finacialYear) {
+
+            List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
+            return TalukaApplicationDTOList;
+
+    }
 
     @GetMapping("/verify-file/{fileId}")
     @PreAuthorize("@authentication.hasPermision('',#fileId,'','FILE_DOWNLOAD','DOWNLOAD')")
@@ -912,8 +895,8 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/iss-portal-files/counts")
-    public IssPortalFileCountDTO getIssPortalFileCount() {
-        IssPortalFileCountDTO issPortalCount = issPortalFileService.findAllRecords();
+    public IssPortalFileCountDTO getIssPortalFileCount(@RequestParam String financialYear) {
+        IssPortalFileCountDTO issPortalCount = issPortalFileService.findCounts(financialYear);
         return issPortalCount;
     }
 }

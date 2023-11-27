@@ -7,16 +7,22 @@ public class TalukaWiseDataReport {
 
 	private Integer srNo=0;
 	private String talukaName;
+    private Long talukaId;
 	private Integer noOfSocieties=0;
 	private Integer completed=0;
 	private Integer inProgress=0;
 	private Integer yetToStart=0;
 	private Integer pendingForApproval=0;
-	
-	
-	
-	
-	public Integer getSrNo() {
+
+    public Long getTalukaId() {
+        return talukaId;
+    }
+
+    public void setTalukaId(Long talukaId) {
+        this.talukaId = talukaId;
+    }
+
+    public Integer getSrNo() {
 		return srNo;
 	}
 	public void setSrNo(Integer srNo) {
@@ -55,11 +61,11 @@ public class TalukaWiseDataReport {
 	public Integer getPendingForApproval() {
 		return pendingForApproval;
 	}
-	
+
 	public void setPendingForApproval(Integer pendingForApproval) {
 		this.pendingForApproval = pendingForApproval;
 	}
 
-	
+
 
 }

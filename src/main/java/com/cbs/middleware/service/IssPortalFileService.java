@@ -2,9 +2,11 @@ package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.IssPortalFile;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
+import com.cbs.middleware.service.dto.TalukaApplicationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -59,6 +61,7 @@ public interface IssPortalFileService {
      */
     void delete(Long id);
 
-    IssPortalFileCountDTO findAllRecords();
+    IssPortalFileCountDTO findCounts(String financialYear);
 
+    List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear);
 }

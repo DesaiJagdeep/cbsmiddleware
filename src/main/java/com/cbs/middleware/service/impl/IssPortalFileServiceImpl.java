@@ -1,6 +1,9 @@
 package com.cbs.middleware.service.impl;
 
+import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.IssPortalFileService;
 
@@ -29,9 +32,15 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     private final Logger log = LoggerFactory.getLogger(IssPortalFileServiceImpl.class);
 
     private final IssPortalFileRepository issPortalFileRepository;
+    private final IssFileParserRepository issFileParserRepository;
+    private final ApplicationRepository applicationRepository;
 
-    public IssPortalFileServiceImpl(IssPortalFileRepository issPortalFileRepository) {
+    public IssPortalFileServiceImpl(IssPortalFileRepository issPortalFileRepository,
+                                    IssFileParserRepository issFileParserRepository,
+                                    ApplicationRepository applicationRepository) {
         this.issPortalFileRepository = issPortalFileRepository;
+        this.issFileParserRepository = issFileParserRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     @Override
@@ -111,22 +120,24 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
 
     @Override
     public IssPortalFileCountDTO findCounts(String financialYear) {
-        IssPortalFileCountDTO issPortalFileCountDTO=new IssPortalFileCountDTO();
+        IssPortalFileCountDTO issPortalFileCountDTO = new IssPortalFileCountDTO();
 
         List<IssPortalFile> issPortalFiles = issPortalFileRepository.findAll();
-        if (!issPortalFiles.isEmpty()){
-            Integer sumOfapplicationCount = issPortalFileRepository.findSumOfapplicationCount(financialYear);
-            Integer sumOfErrorRecordCount = issPortalFileRepository.findSumOfErrorRecordCount(financialYear);
-            Integer sumOfAppSubmitedTokccCount = issPortalFileRepository.findSumOfAppSubmitedTokccCount(financialYear);
-            Integer sumOfappAcceptedByKccCount = issPortalFileRepository.findSumOfappAcceptedByKccCount(financialYear);
-            Integer sumOfkccErrorRecordCount = issPortalFileRepository.findSumOfkccErrorRecordCount(financialYear);
 
-            issPortalFileCountDTO.setTotalApplications(sumOfapplicationCount);
+        List<IssFileParser> issFileParser = issFileParserRepository.findAll();
+        issPortalFileCountDTO.setTotalApplications(issFileParser.size());
+
+
+        if (!issPortalFiles.isEmpty()) {
+            Integer sumOfErrorRecordCount = issPortalFileRepository.findSumOfErrorRecordCount(financialYear);
+//            Integer sumOfAppSubmitedTokccCount = issPortalFileRepository.findSumOfAppSubmitedTokccCount(financialYear);
+//            Integer sumOfappAcceptedByKccCount = issPortalFileRepository.findSumOfappAcceptedByKccCount(financialYear);
             issPortalFileCountDTO.setValidationErrors(sumOfErrorRecordCount);
-            issPortalFileCountDTO.setkCCSubmitted(sumOfAppSubmitedTokccCount);
-            issPortalFileCountDTO.setkCCAccepted(sumOfappAcceptedByKccCount);
-            issPortalFileCountDTO.setkCCErrors(sumOfkccErrorRecordCount);
+
         }
+        issPortalFileCountDTO.setkCCRejected(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 0).intValue());
+        issPortalFileCountDTO.setkCCAccepted(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 1).intValue());
+
         return issPortalFileCountDTO;
     }
 
@@ -134,18 +145,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     public List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear) {
 
 
-        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId,finacialYear);
+        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
         return tuples.stream()
             .map(tuple -> {
                 TalukaApplicationDTO dto = new TalukaApplicationDTO();
                 dto.setApplication_count(tuple.get("application_count", Long.class));
                 dto.setError_record_count(tuple.get("error_record_count", Long.class));
-                dto.setKcc_submitted(tuple.get("kcc_submitted",Long.class));
-                dto.setKcc_accepted(tuple.get("kcc_accepted",Long.class));
-                dto.setKcc_error_count(tuple.get("kcc_error_count",Long.class));
-                dto.setBranch_name(tuple.get("branch_name",String.class));
-                dto.setPacs_code(tuple.get("pacs_code",Long.class));
-                dto.setPacs_name(tuple.get("pacs_name",String.class));
+                dto.setKcc_submitted(tuple.get("kcc_submitted", Long.class));
+                dto.setKcc_accepted(tuple.get("kcc_accepted", Long.class));
+                dto.setKcc_error_count(tuple.get("kcc_error_count", Long.class));
+                dto.setBranch_name(tuple.get("branch_name", String.class));
+                dto.setPacs_code(tuple.get("pacs_code", Long.class));
+                dto.setPacs_name(tuple.get("pacs_name", String.class));
                 return dto;
             })
             .collect(Collectors.toList());
@@ -154,18 +165,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     @Override
     public List<TalukaApplicationDTO> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(String sBranchCode, String finacialYear) {
 
-        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode,finacialYear);
+        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode, finacialYear);
         return tuples.stream()
             .map(tuple -> {
                 TalukaApplicationDTO dto = new TalukaApplicationDTO();
                 dto.setApplication_count(tuple.get("application_count", Long.class));
                 dto.setError_record_count(tuple.get("error_record_count", Long.class));
-                dto.setKcc_submitted(tuple.get("kcc_submitted",Long.class));
-                dto.setKcc_accepted(tuple.get("kcc_accepted",Long.class));
-                dto.setKcc_error_count(tuple.get("kcc_error_count",Long.class));
-                dto.setBranch_name(tuple.get("branch_name",String.class));
-                dto.setPacs_code(tuple.get("pacs_code",Long.class));
-                dto.setPacs_name(tuple.get("pacs_name",String.class));
+                dto.setKcc_submitted(tuple.get("kcc_submitted", Long.class));
+                dto.setKcc_accepted(tuple.get("kcc_accepted", Long.class));
+                dto.setKcc_error_count(tuple.get("kcc_error_count", Long.class));
+                dto.setBranch_name(tuple.get("branch_name", String.class));
+                dto.setPacs_code(tuple.get("pacs_code", Long.class));
+                dto.setPacs_name(tuple.get("pacs_name", String.class));
                 return dto;
             })
             .collect(Collectors.toList());

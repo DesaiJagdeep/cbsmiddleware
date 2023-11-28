@@ -5,19 +5,17 @@ public class IssPortalFileCountDTO {
 
     private int  totalApplications;
     private int   validationErrors;
-    private int     kCCSubmitted;
+    private int     kCCRejected;
     private int    kCCAccepted;
-    private int    kCCErrors;
-
-    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCSubmitted, int kCCAccepted, int kCCErrors) {
-        this.totalApplications = totalApplications;
-        this.validationErrors = validationErrors;
-        this.kCCSubmitted = kCCSubmitted;
-        this.kCCAccepted = kCCAccepted;
-        this.kCCErrors = kCCErrors;
-    }
 
     public IssPortalFileCountDTO() {
+    }
+
+    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted) {
+        this.totalApplications = totalApplications;
+        this.validationErrors = validationErrors;
+        this.kCCRejected = kCCRejected;
+        this.kCCAccepted = kCCAccepted;
     }
 
     public int getTotalApplications() {
@@ -36,12 +34,12 @@ public class IssPortalFileCountDTO {
         this.validationErrors = validationErrors;
     }
 
-    public int getkCCSubmitted() {
-        return kCCSubmitted;
+    public int getkCCRejected() {
+        return kCCRejected;
     }
 
-    public void setkCCSubmitted(int kCCSubmitted) {
-        this.kCCSubmitted = kCCSubmitted;
+    public void setkCCRejected(int kCCRejected) {
+        this.kCCRejected = kCCRejected;
     }
 
     public int getkCCAccepted() {
@@ -50,14 +48,6 @@ public class IssPortalFileCountDTO {
 
     public void setkCCAccepted(int kCCAccepted) {
         this.kCCAccepted = kCCAccepted;
-    }
-
-    public int getkCCErrors() {
-        return kCCErrors;
-    }
-
-    public void setkCCErrors(int kCCErrors) {
-        this.kCCErrors = kCCErrors;
     }
 }
 

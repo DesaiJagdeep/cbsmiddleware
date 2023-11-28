@@ -1,7 +1,6 @@
 package com.cbs.middleware.web.rest;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,16 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
@@ -541,12 +531,20 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/taluka-wise-applications/{talukaId}/{finacialYear}")
+    @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String finacialYear) {
 
-            List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
-            return TalukaApplicationDTOList;
-
+        List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
+        return TalukaApplicationDTOList;
     }
+
+    @GetMapping("/branch-wise-applications/{sBranchCode}/{finacialYear}")
+    public List<TalukaApplicationDTO> getIssPortalFilesBySchemeWiseBranchCodeAndYear(@PathVariable String sBranchCode , @PathVariable String finacialYear) {
+
+        List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode, finacialYear);
+        return TalukaApplicationDTOList;
+    }
+
 
     @GetMapping("/verify-file/{fileId}")
     @PreAuthorize("@authentication.hasPermision('',#fileId,'','FILE_DOWNLOAD','DOWNLOAD')")
@@ -895,6 +893,7 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/iss-portal-files/counts")
+    @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public IssPortalFileCountDTO getIssPortalFileCount(@RequestParam String financialYear) {
         IssPortalFileCountDTO issPortalCount = issPortalFileService.findCounts(financialYear);
         return issPortalCount;

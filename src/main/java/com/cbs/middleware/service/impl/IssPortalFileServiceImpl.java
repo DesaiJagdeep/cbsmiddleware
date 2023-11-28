@@ -151,5 +151,25 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
             .collect(Collectors.toList());
     }
 
+    @Override
+    public List<TalukaApplicationDTO> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(String sBranchCode, String finacialYear) {
+
+        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode,finacialYear);
+        return tuples.stream()
+            .map(tuple -> {
+                TalukaApplicationDTO dto = new TalukaApplicationDTO();
+                dto.setApplication_count(tuple.get("application_count", Long.class));
+                dto.setError_record_count(tuple.get("error_record_count", Long.class));
+                dto.setKcc_submitted(tuple.get("kcc_submitted",Long.class));
+                dto.setKcc_accepted(tuple.get("kcc_accepted",Long.class));
+                dto.setKcc_error_count(tuple.get("kcc_error_count",Long.class));
+                dto.setBranch_name(tuple.get("branch_name",String.class));
+                dto.setPacs_code(tuple.get("pacs_code",Long.class));
+                dto.setPacs_name(tuple.get("pacs_name",String.class));
+                return dto;
+            })
+            .collect(Collectors.toList());
+    }
+
 
 }

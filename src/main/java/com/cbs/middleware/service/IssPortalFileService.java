@@ -64,4 +64,6 @@ public interface IssPortalFileService {
     IssPortalFileCountDTO findCounts(String financialYear);
 
     List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear);
+
+    List<TalukaApplicationDTO> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(String sBranchCode, String finacialYear);
 }

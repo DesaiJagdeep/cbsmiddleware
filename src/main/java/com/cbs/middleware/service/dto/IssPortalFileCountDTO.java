@@ -7,15 +7,18 @@ public class IssPortalFileCountDTO {
     private int   validationErrors;
     private int     kCCRejected;
     private int    kCCAccepted;
+    private int    kCCPending;
+
 
     public IssPortalFileCountDTO() {
     }
 
-    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted) {
+    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted, int kCCPending) {
         this.totalApplications = totalApplications;
         this.validationErrors = validationErrors;
         this.kCCRejected = kCCRejected;
         this.kCCAccepted = kCCAccepted;
+        this.kCCPending=kCCPending;
     }
 
     public int getTotalApplications() {
@@ -48,6 +51,14 @@ public class IssPortalFileCountDTO {
 
     public void setkCCAccepted(int kCCAccepted) {
         this.kCCAccepted = kCCAccepted;
+    }
+
+    public int getkCCPending() {
+        return kCCPending;
+    }
+
+    public void setkCCPending(int kCCPending) {
+        this.kCCPending = kCCPending;
     }
 }
 

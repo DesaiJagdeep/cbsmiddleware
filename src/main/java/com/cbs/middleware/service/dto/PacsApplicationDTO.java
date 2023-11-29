@@ -1,27 +1,25 @@
 package com.cbs.middleware.service.dto;
 
-public class TalukaApplicationDTO {
-
+public class PacsApplicationDTO {
     Long totalApplication;
     Long validationError;
     Long kccAccepted;
     Long kccRejected;
     Long kccPending;
-    String branchName;
-    Long schemeWiseBranchCode;
+    String pacsName;
+    Long  pacsCode;
 
-    public TalukaApplicationDTO() {
+    public PacsApplicationDTO() {
     }
 
-    public TalukaApplicationDTO(Long totalApplication, Long validationError, Long kccAccepted, Long kccRejected, Long kccPending, String branchName, Long schemeWiseBranchCode) {
+    public PacsApplicationDTO(Long totalApplication, Long validationError, Long kccAccepted, Long kccRejected, Long kccPending, String pacsName, Long pacsCode) {
         this.totalApplication = totalApplication;
         this.validationError = validationError;
         this.kccAccepted = kccAccepted;
         this.kccRejected = kccRejected;
         this.kccPending = kccPending;
-        this.branchName = branchName;
-        this.schemeWiseBranchCode = schemeWiseBranchCode;
-
+        this.pacsName = pacsName;
+        this.pacsCode = pacsCode;
     }
 
     public Long getTotalApplication() {
@@ -64,21 +62,19 @@ public class TalukaApplicationDTO {
         this.kccPending = kccPending;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public String getPacsName() {
+        return pacsName;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
     }
 
-    public Long getSchemeWiseBranchCode() {
-        return schemeWiseBranchCode;
+    public Long getPacsCode() {
+        return pacsCode;
     }
 
-    public void setSchemeWiseBranchCode(Long schemeWiseBranchCode) {
-        this.schemeWiseBranchCode = schemeWiseBranchCode;
+    public void setPacsCode(Long pacsCode) {
+        this.pacsCode = pacsCode;
     }
-
-
 }

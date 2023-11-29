@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
+import com.cbs.middleware.service.dto.PacsApplicationDTO;
 import com.cbs.middleware.service.dto.TalukaApplicationDTO;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -531,18 +532,18 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/taluka-wise-applications/{talukaId}/{finacialYear}")
-    @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
+    //@PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String finacialYear) {
 
         List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
         return TalukaApplicationDTOList;
     }
 
-    @GetMapping("/branch-wise-applications/{sBranchCode}/{finacialYear}")
-    public List<TalukaApplicationDTO> getIssPortalFilesBySchemeWiseBranchCodeAndYear(@PathVariable String sBranchCode , @PathVariable String finacialYear) {
-
-        List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode, finacialYear);
-        return TalukaApplicationDTOList;
+    @GetMapping("/pacs-wise-applications/{schemeBranchCode}/{financialYear}")
+    //@PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
+    public List<PacsApplicationDTO> getIssPortalFilesBySchemeWiseBranchCodeAndYear(@PathVariable Long schemeBranchCode, @PathVariable String financialYear) {
+        List<PacsApplicationDTO> pacsApplicationDTOList = issPortalFileService.findPacsWiseDataBySchemeBranchCodeAndFinacialYear(schemeBranchCode, financialYear);
+        return pacsApplicationDTOList;
     }
 
 

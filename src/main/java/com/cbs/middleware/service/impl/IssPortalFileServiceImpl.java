@@ -7,11 +7,14 @@ import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.IssPortalFileService;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
+import com.cbs.middleware.service.dto.PacsApplicationDTO;
 import com.cbs.middleware.service.dto.TalukaApplicationDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,21 +125,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     public IssPortalFileCountDTO findCounts(String financialYear) {
         IssPortalFileCountDTO issPortalFileCountDTO = new IssPortalFileCountDTO();
 
-        List<IssPortalFile> issPortalFiles = issPortalFileRepository.findAll();
 
-        List<IssFileParser> issFileParser = issFileParserRepository.findAll();
-        issPortalFileCountDTO.setTotalApplications(issFileParser.size());
+        Integer totalApplication = issPortalFileRepository.findTotalApplicationCountByFinancialYear(financialYear);
+        Integer validationError = issPortalFileRepository.findValidationErrorCountByFinancialYear(financialYear);
+        Integer kccAccepted = issPortalFileRepository.findKccAcceptedCountByFinancialYear(financialYear);
+        Integer kccRejected = issPortalFileRepository.findKccRejectedCountByFinancialYear(financialYear);
+        Integer KccPending = issPortalFileRepository.findKccPendingCountByFinancialYear(financialYear);
 
-
-        if (!issPortalFiles.isEmpty()) {
-            Integer sumOfErrorRecordCount = issPortalFileRepository.findSumOfErrorRecordCount(financialYear);
-//            Integer sumOfAppSubmitedTokccCount = issPortalFileRepository.findSumOfAppSubmitedTokccCount(financialYear);
-//            Integer sumOfappAcceptedByKccCount = issPortalFileRepository.findSumOfappAcceptedByKccCount(financialYear);
-            issPortalFileCountDTO.setValidationErrors(sumOfErrorRecordCount);
-
-        }
-        issPortalFileCountDTO.setkCCRejected(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 0).intValue());
-        issPortalFileCountDTO.setkCCAccepted(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 1).intValue());
+        issPortalFileCountDTO.setTotalApplications(totalApplication);
+        issPortalFileCountDTO.setValidationErrors(validationError);
+        issPortalFileCountDTO.setkCCAccepted(kccAccepted);
+        issPortalFileCountDTO.setkCCRejected(kccRejected);
+        issPortalFileCountDTO.setkCCPending(KccPending);
 
         return issPortalFileCountDTO;
     }
@@ -144,43 +144,50 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     @Override
     public List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear) {
 
+        List<Object[]> talukaWiseBranches = issPortalFileRepository.findTalukaWiseBranches(talukaId, finacialYear);
 
-        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
-        return tuples.stream()
-            .map(tuple -> {
-                TalukaApplicationDTO dto = new TalukaApplicationDTO();
-                dto.setApplication_count(tuple.get("application_count", Long.class));
-                dto.setError_record_count(tuple.get("error_record_count", Long.class));
-                dto.setKcc_submitted(tuple.get("kcc_submitted", Long.class));
-                dto.setKcc_accepted(tuple.get("kcc_accepted", Long.class));
-                dto.setKcc_error_count(tuple.get("kcc_error_count", Long.class));
-                dto.setBranch_name(tuple.get("branch_name", String.class));
-                dto.setPacs_code(tuple.get("pacs_code", Long.class));
-                dto.setPacs_name(tuple.get("pacs_name", String.class));
-                return dto;
-            })
-            .collect(Collectors.toList());
+        List<TalukaApplicationDTO> talukaApplicationDTOList = new ArrayList<>();
+        for (Object[] branch : talukaWiseBranches) {
+            BigInteger schemeWiseBranchCode = (BigInteger) branch[0];
+            String branchName = (String) branch[1];
+            Long totalApps = issPortalFileRepository.findTotalAppByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+            Long validationError = issPortalFileRepository.findValidationErrorByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+            Long kccAccepted = issPortalFileRepository.findKccAcceptedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+            Long kccRejected = issPortalFileRepository.findKccRejectedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+            Long kccPending = issPortalFileRepository.findKccPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+
+            TalukaApplicationDTO talukaApplicationDTO = new TalukaApplicationDTO(
+                totalApps, validationError, kccAccepted, kccRejected, kccPending, branchName, schemeWiseBranchCode.longValue()
+            );
+            talukaApplicationDTOList.add(talukaApplicationDTO);
+        }
+
+        return talukaApplicationDTOList;
+
     }
 
     @Override
-    public List<TalukaApplicationDTO> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(String sBranchCode, String finacialYear) {
+    public List<PacsApplicationDTO> findPacsWiseDataBySchemeBranchCodeAndFinacialYear(Long schemeBranchCode, String finacialYear) {
 
-        List<Tuple> tuples = issPortalFileRepository.findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(sBranchCode, finacialYear);
-        return tuples.stream()
-            .map(tuple -> {
-                TalukaApplicationDTO dto = new TalukaApplicationDTO();
-                dto.setApplication_count(tuple.get("application_count", Long.class));
-                dto.setError_record_count(tuple.get("error_record_count", Long.class));
-                dto.setKcc_submitted(tuple.get("kcc_submitted", Long.class));
-                dto.setKcc_accepted(tuple.get("kcc_accepted", Long.class));
-                dto.setKcc_error_count(tuple.get("kcc_error_count", Long.class));
-                dto.setBranch_name(tuple.get("branch_name", String.class));
-                dto.setPacs_code(tuple.get("pacs_code", Long.class));
-                dto.setPacs_name(tuple.get("pacs_name", String.class));
-                return dto;
-            })
-            .collect(Collectors.toList());
+        List<Object[]> branchWisePacs = issPortalFileRepository.findBranchWisePacs(schemeBranchCode,finacialYear);
+
+        List<PacsApplicationDTO> pacsApplicationDTOList = new ArrayList<>();
+        for (Object[] pacsApp : branchWisePacs) {
+            BigInteger pacsCode = (BigInteger) pacsApp[0];
+            String pacsName = (String) pacsApp[1];
+            Long totalApps = issPortalFileRepository.findTotalAppByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+            Long validationError = issPortalFileRepository.findValidationErrorByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+            Long kccAccepted = issPortalFileRepository.findKccAcceptedByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+            Long kccRejected = issPortalFileRepository.findKccRejectedByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+            Long kccPending = issPortalFileRepository.findKccPendingByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+
+            PacsApplicationDTO pacsApplicationDTO = new PacsApplicationDTO(
+                totalApps, validationError, kccAccepted, kccRejected, kccPending, pacsName, pacsCode.longValue()
+            );
+            pacsApplicationDTOList.add(pacsApplicationDTO);
+        }
+
+        return pacsApplicationDTOList;
     }
-
 
 }

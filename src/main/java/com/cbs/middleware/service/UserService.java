@@ -644,7 +644,18 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
         return userRepository.findAll(pageable).map(AdminUserDTO::new);
+//        return userRepository.findAll(pageable)
+//            .map(user -> mapToAdminUserDTO(user));
     }
+
+//    private AdminUserDTO mapToAdminUserDTO(User user) {
+//        AdminUserDTO adminUserDTO = new AdminUserDTO(user);
+//
+//        Set<String> authorities = userRepository.findAuthoritiesByUsername(user.getUsername());
+//        adminUserDTO.setAuthorities(authorities);
+//
+//        return adminUserDTO;
+//    }
 
     @Transactional(readOnly = true)
     public Page<AdminUserDTO> getAllManagedUsersBySchemeWiseBranchCode(String schemeWiseBranchCode, Pageable pageable) {

@@ -186,7 +186,7 @@ public class IssPortalFileResource {
 
 
     @GetMapping("/download-record-file/{idIFP}")
-    @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+    //@PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
     public Object downloadRecordFile(@PathVariable Long idIFP) {
         Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
         if (!findByIssPortalFileId.isPresent()) {

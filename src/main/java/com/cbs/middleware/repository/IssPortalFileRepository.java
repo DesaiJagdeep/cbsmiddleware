@@ -57,4 +57,21 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     List<Tuple> findIssPortalFilesByTalukaIdAndFinacialYear(@Param("talukaId") Long talukaId  , @Param("finacialYear") String finacialYear );
     @Query("select sum(isf.applicationCount) as application_count,sum(isf.errorRecordCount) as error_record_count,sum(isf.appSubmitedToKccCount) as kcc_submitted,sum(isf.appAcceptedByKccCount) as kcc_accepted, sum(isf.kccErrorRecordCount) as kcc_error_count ,bbm.branchName as branch_name, isf.pacsCode as pacs_code,isf.pacsName as pacs_name from IssPortalFile isf, BankBranchMaster bbm WHERE isf.financialYear =:finacialYear AND  isf.schemeWiseBranchCode = bbm.schemeWiseBranchCode AND bbm.schemeWiseBranchCode=:sBranchCode group by bbm.branchName,isf.pacsCode,isf.pacsName")
     List<Tuple> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(@Param("sBranchCode")String sBranchCode,  @Param("finacialYear") String finacialYear);
+
+
+    //-------------------------------------
+    @Query(value = "select count(id) from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:finacialYear);",nativeQuery = true)
+    Integer findTotalApplicationCountByFinancialYear(@Param("finacialYear") String finacialYear);
+
+    @Query(value = "select count(id) from application_log where status = 'ERROR' and error_type= 'Validation Error' and iss_file_parser_id IN (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:finacialYear));",nativeQuery = true)
+    Integer findValidationErrorCountByFinancialYear(@Param("finacialYear") String finacialYear);
+
+    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:finacialYear))and  application_status = 0;",nativeQuery = true)
+    Integer findKccAcceptedCountByFinancialYear(@Param("finacialYear") String finacialYear);
+
+    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:finacialYear))and  application_status = 1;",nativeQuery = true)
+    Integer findKccRejectedCountByFinancialYear(@Param("finacialYear") String finacialYear);
+
+    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:finacialYear))and  application_status = 2;",nativeQuery = true)
+    Integer findKccPendingCountByFinancialYear(@Param("finacialYear") String finacialYear);
 }

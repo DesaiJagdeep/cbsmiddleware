@@ -335,17 +335,17 @@
 			<version>5.0.0</version>
 		</dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-lite -->
-        <dependency>
+    <!--    <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-lite</artifactId>
             <version>5.2.4</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas &ndash;&gt;
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
             <version>4.1.2</version>
-        </dependency>
+        </dependency>-->
 
 
         <!-- Jackson -->

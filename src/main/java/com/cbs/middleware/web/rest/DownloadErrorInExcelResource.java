@@ -25,7 +25,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTProtectedRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +67,7 @@ public class DownloadErrorInExcelResource {
      */
 
 
-    @GetMapping("/testExcel")
+    /*@GetMapping("/testExcel")
     public ResponseEntity<byte[]> testExcel() {
         try (XSSFWorkbook workbook = new XSSFWorkbook()) {
             XSSFSheet sheet = workbook.createSheet("data");
@@ -123,7 +122,7 @@ public class DownloadErrorInExcelResource {
         } catch (DecoderException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
 
 
@@ -205,19 +204,19 @@ public class DownloadErrorInExcelResource {
             row.createCell(colNum++).setCellValue("Recovery Amount Principle 52");
             row.createCell(colNum++).setCellValue("Recovery Amount Interest 53");
             row.createCell(colNum++).setCellValue("Recovery Date 54");
-            
+
             row.createCell(colNum++).setCellValue("Second Recovery Amount Principle 55");
             row.createCell(colNum++).setCellValue("Second Recovery Amount Interest 56");
             row.createCell(colNum++).setCellValue("Second Recovery Date 57");
-            
+
             row.createCell(colNum++).setCellValue("Third Recovery Amount Principle 58");
             row.createCell(colNum++).setCellValue("Third Recovery Amount Interest 59");
             row.createCell(colNum++).setCellValue("Third Recovery Date 60");
-            
+
             row.createCell(colNum++).setCellValue("Fourth Recovery Amount Principle 61");
             row.createCell(colNum++).setCellValue("Fourth Recovery Amount Interest 62");
             row.createCell(colNum++).setCellValue("Fourth Recovery Date 63");
-            
+
             row.createCell(colNum++).setCellValue("Application Error");
             row.createCell(colNum++).setCellValue("ID");
 
@@ -287,17 +286,17 @@ public class DownloadErrorInExcelResource {
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getRecoveryDate());
-                
-                
+
+
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getSecondRecoveryDate());
-                
+
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getThirdRecoveryDate());
-                
-                
+
+
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryAmountPrinciple());
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryAmountInterest());
                 row.createCell(colNum++).setCellValue(issFileParser.getFourthRecoveryDate());

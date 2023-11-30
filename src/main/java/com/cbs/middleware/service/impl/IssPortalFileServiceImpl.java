@@ -122,21 +122,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     public IssPortalFileCountDTO findCounts(String financialYear) {
         IssPortalFileCountDTO issPortalFileCountDTO = new IssPortalFileCountDTO();
 
-        List<IssPortalFile> issPortalFiles = issPortalFileRepository.findAll();
 
-        List<IssFileParser> issFileParser = issFileParserRepository.findAll();
-        issPortalFileCountDTO.setTotalApplications(issFileParser.size());
+        Integer totalApplication = issPortalFileRepository.findTotalApplicationCountByFinancialYear(financialYear);
+        Integer validationError = issPortalFileRepository.findValidationErrorCountByFinancialYear(financialYear);
+        Integer kccAccepted = issPortalFileRepository.findKccAcceptedCountByFinancialYear(financialYear);
+        Integer kccRejected = issPortalFileRepository.findKccRejectedCountByFinancialYear(financialYear);
+        Integer KccPending = issPortalFileRepository.findKccPendingCountByFinancialYear(financialYear);
 
-
-        if (!issPortalFiles.isEmpty()) {
-            Integer sumOfErrorRecordCount = issPortalFileRepository.findSumOfErrorRecordCount(financialYear);
-//            Integer sumOfAppSubmitedTokccCount = issPortalFileRepository.findSumOfAppSubmitedTokccCount(financialYear);
-//            Integer sumOfappAcceptedByKccCount = issPortalFileRepository.findSumOfappAcceptedByKccCount(financialYear);
-            issPortalFileCountDTO.setValidationErrors(sumOfErrorRecordCount);
-
-        }
-        issPortalFileCountDTO.setkCCRejected(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 0).intValue());
-        issPortalFileCountDTO.setkCCAccepted(applicationRepository.countByFinancialYearAndApplicationStatus(financialYear, 1).intValue());
+        issPortalFileCountDTO.setTotalApplications(totalApplication);
+        issPortalFileCountDTO.setValidationErrors(validationError);
+        issPortalFileCountDTO.setkCCAccepted(kccAccepted);
+        issPortalFileCountDTO.setkCCRejected(kccRejected);
+        issPortalFileCountDTO.setkCCPending(KccPending);
 
         return issPortalFileCountDTO;
     }

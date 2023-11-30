@@ -61,3 +61,4 @@ public class IssPortalFileCountDTO {
         this.kCCPending = kCCPending;
     }
 }
+

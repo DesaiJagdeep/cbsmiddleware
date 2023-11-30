@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
+import com.cbs.middleware.service.dto.PacsApplicationDTO;
 import com.cbs.middleware.service.dto.TalukaApplicationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,5 +66,5 @@ public interface IssPortalFileService {
 
     List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear);
 
-    List<TalukaApplicationDTO> findIssPortalFilesBySchemeWiseBranchCodeAndFinacialYear(String sBranchCode, String finacialYear);
+    List<PacsApplicationDTO> findPacsWiseDataBySchemeBranchCodeAndFinacialYear(Long schemeBranchCode, String finacialYear);
 }

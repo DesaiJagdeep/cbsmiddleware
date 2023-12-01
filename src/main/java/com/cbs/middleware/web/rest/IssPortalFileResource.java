@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.cbs.middleware.security.AuthoritiesConstants;
+import com.cbs.middleware.service.dto.AdminUserDTO;
 import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
 import com.cbs.middleware.service.dto.PacsApplicationDTO;
 import com.cbs.middleware.service.dto.TalukaApplicationDTO;
@@ -33,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -104,6 +107,7 @@ public class IssPortalFileResource {
     IssFileParserRepository issFileParserRepository;
     @Autowired
     NotificationRepository notificationRepository;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
@@ -116,7 +120,6 @@ public class IssPortalFileResource {
         this.issPortalFileRepository = issPortalFileRepository;
         this.issPortalFileQueryService = issPortalFileQueryService;
     }
-
 
     @GetMapping("/download-file/{idIFP}")
     @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
@@ -179,7 +182,10 @@ public class IssPortalFileResource {
             throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
         }
     }
-
+//    	int srno=0;
+//    	talukaWiseDataReportList1.forEach(t->{
+//    		t.setSrNo(srno+1);
+//    		});
 
     /**
      * download-record-file
@@ -390,6 +396,7 @@ public class IssPortalFileResource {
 
     }
 
+
     public String getUniqueName() {
         Calendar cal = new GregorianCalendar();
         return (
@@ -479,46 +486,47 @@ public class IssPortalFileResource {
                 Integer completedCount = 0;
                 Integer inProgressCount = 0;
                 Integer yetToStartCount = 0;
-                Integer pendingForApprovalCount = 0;
+                //Integer pendingForApprovalCount = 0;
+                Integer pendingApprovalFromBranchAdminCount = 0;
+                Integer pendingApprovalFromBranchUserCount = 0;
 
 
-                List<BankBranchMaster> bankBranchMastersList = bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
-                for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
-                    Long schemeWiseBranchCode = Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
+//                List<BankBranchMaster> bankBranchMastersList = bankBranchMasterRepository.findAllByTalukaMaster(talukaMaster);
+//                for (BankBranchMaster bankBranchMaster : bankBranchMastersList) {
+//                    Long schemeWiseBranchCode = Long.parseLong(bankBranchMaster.getSchemeWiseBranchCode());
+//
+//                    Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
+//                    if (findAllBySchemeWiseBranchCode.isPresent()) {
+//                        completedCount = completedCount + issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode, financialYear);
+//                        inProgressCount = inProgressCount + issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode, financialYear);
+//                       pendingForApprovalCount = pendingForApprovalCount + issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
+//
+//                    }
+                Integer totalIssPortalFile = issPortalFileRepository.findTotalIssPortalFileByTalukaId(talukaMaster.getId(), financialYear);
+                Integer notNullIssPortalFile = issPortalFileRepository.findNotNullIssPortalFile(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
 
-                    Optional<List<IssPortalFile>> findAllBySchemeWiseBranchCode = issPortalFileRepository.findAllBySchemeWiseBranchCodeAndFinancialYear(schemeWiseBranchCode, financialYear);
-                    if (findAllBySchemeWiseBranchCode.isPresent()) {
-                        completedCount = completedCount + issPortalFileRepository.findCompletedCountByBankBranch(schemeWiseBranchCode, financialYear);
-                        inProgressCount = inProgressCount + issPortalFileRepository.findInProgressCountByBankBranch(schemeWiseBranchCode, financialYear);
-                        pendingForApprovalCount = pendingForApprovalCount + issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
-
-
-                    }
-
-
-                }
+                completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
+                inProgressCount = issPortalFileRepository.findInProgressCountByTalukaId(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
+                yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
 
                 talukaWiseDataReport.setCompleted(completedCount);
                 talukaWiseDataReport.setInProgress(inProgressCount);
-                yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingForApprovalCount;
-
+                talukaWiseDataReport.setPendingApprovalFromBranchUser(pendingApprovalFromBranchUserCount);
+                talukaWiseDataReport.setPendingApprovalFromBranchAdmin(pendingApprovalFromBranchAdminCount);
                 talukaWiseDataReport.setYetToStart(yetToStartCount);
-                talukaWiseDataReport.setPendingForApproval(pendingForApprovalCount);
 
                 talukaWiseDataReportList.add(talukaWiseDataReport);
+
+
             }
-
-
         }
 
 
         List<TalukaWiseDataReport> talukaWiseDataReportList1 = talukaWiseDataReportList.stream()
             .sorted(Comparator.comparing(TalukaWiseDataReport::getTalukaName))
             .collect(Collectors.toList());
-//    	int srno=0;
-//    	talukaWiseDataReportList1.forEach(t->{
-//    		t.setSrNo(srno+1);
-//    		});
 
         int srno = 0;
         for (TalukaWiseDataReport talukaWiseDataReport2 : talukaWiseDataReportList1) {
@@ -529,21 +537,43 @@ public class IssPortalFileResource {
 
         return talukaWiseDataReportList1;
 
-    }
+}
 
-    @GetMapping("/taluka-wise-applications/{talukaId}/{finacialYear}")
-    //@PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
-    public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String finacialYear) {
+    @GetMapping("/taluka-wise-applications/{talukaId}/{financialYear}")
+    public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String financialYear) {
 
-        List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, finacialYear);
-        return TalukaApplicationDTOList;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            List<TalukaApplicationDTO> TalukaApplicationDTOList = issPortalFileService.findIssPortalFilesByTalukaIdAndFinacialYear(talukaId, financialYear);
+            return TalukaApplicationDTOList;
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
     }
 
     @GetMapping("/pacs-wise-applications/{schemeBranchCode}/{financialYear}")
-    //@PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public List<PacsApplicationDTO> getIssPortalFilesBySchemeWiseBranchCodeAndYear(@PathVariable Long schemeBranchCode, @PathVariable String financialYear) {
-        List<PacsApplicationDTO> pacsApplicationDTOList = issPortalFileService.findPacsWiseDataBySchemeBranchCodeAndFinacialYear(schemeBranchCode, financialYear);
-        return pacsApplicationDTOList;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN) || checkValidUser(auth, schemeBranchCode, authority)) {
+            List<PacsApplicationDTO> pacsApplicationDTOList = issPortalFileService.findPacsWiseDataBySchemeBranchCodeAndFinacialYear(schemeBranchCode, financialYear);
+            return pacsApplicationDTOList;
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+    private boolean checkValidUser(Authentication auth, Long schemeWiseBranchCode, GrantedAuthority authority) {
+        Optional<User> user = userRepository.findOneByLogin(auth.getName());
+
+        User jhiUser = user.get();
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) || authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+            if (String.valueOf(schemeWiseBranchCode).equals(jhiUser.getSchemeWiseBranchCode())) {
+                return true;
+            } else return false;
+
+        } else return false;
+
     }
 
 
@@ -894,9 +924,15 @@ public class IssPortalFileResource {
     }
 
     @GetMapping("/iss-portal-files/counts")
-    @PreAuthorize("@authentication.hasPermision('','','','TALUKA_DATA','VIEW')")
     public IssPortalFileCountDTO getIssPortalFileCount(@RequestParam String financialYear) {
-        IssPortalFileCountDTO issPortalCount = issPortalFileService.findCounts(financialYear);
-        return issPortalCount;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            IssPortalFileCountDTO issPortalCount = issPortalFileService.findCounts(financialYear);
+            return issPortalCount;
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+
     }
 }

@@ -142,19 +142,19 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     }
 
     @Override
-    public List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String finacialYear) {
+    public List<TalukaApplicationDTO> findIssPortalFilesByTalukaIdAndFinacialYear(Long talukaId, String financialYear) {
 
-        List<Object[]> talukaWiseBranches = issPortalFileRepository.findTalukaWiseBranches(talukaId, finacialYear);
+        List<Object[]> talukaWiseBranches = issPortalFileRepository.findTalukaWiseBranches(talukaId, financialYear);
 
         List<TalukaApplicationDTO> talukaApplicationDTOList = new ArrayList<>();
         for (Object[] branch : talukaWiseBranches) {
             BigInteger schemeWiseBranchCode = (BigInteger) branch[0];
             String branchName = (String) branch[1];
-            Long totalApps = issPortalFileRepository.findTotalAppByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
-            Long validationError = issPortalFileRepository.findValidationErrorByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
-            Long kccAccepted = issPortalFileRepository.findKccAcceptedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
-            Long kccRejected = issPortalFileRepository.findKccRejectedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
-            Long kccPending = issPortalFileRepository.findKccPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), finacialYear);
+            Long totalApps = issPortalFileRepository.findTotalAppByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+            Long validationError = issPortalFileRepository.findValidationErrorByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+            Long kccAccepted = issPortalFileRepository.findKccAcceptedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+            Long kccRejected = issPortalFileRepository.findKccRejectedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+            Long kccPending = issPortalFileRepository.findKccPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
 
             TalukaApplicationDTO talukaApplicationDTO = new TalukaApplicationDTO(
                 totalApps, validationError, kccAccepted, kccRejected, kccPending, branchName, schemeWiseBranchCode.longValue()
@@ -167,19 +167,19 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     }
 
     @Override
-    public List<PacsApplicationDTO> findPacsWiseDataBySchemeBranchCodeAndFinacialYear(Long schemeBranchCode, String finacialYear) {
+    public List<PacsApplicationDTO> findPacsWiseDataBySchemeBranchCodeAndFinacialYear(Long schemeBranchCode, String financialYear) {
 
-        List<Object[]> branchWisePacs = issPortalFileRepository.findBranchWisePacs(schemeBranchCode,finacialYear);
+        List<Object[]> branchWisePacs = issPortalFileRepository.findBranchWisePacs(schemeBranchCode,financialYear);
 
         List<PacsApplicationDTO> pacsApplicationDTOList = new ArrayList<>();
         for (Object[] pacsApp : branchWisePacs) {
             BigInteger pacsCode = (BigInteger) pacsApp[0];
             String pacsName = (String) pacsApp[1];
-            Long totalApps = issPortalFileRepository.findTotalAppByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
-            Long validationError = issPortalFileRepository.findValidationErrorByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
-            Long kccAccepted = issPortalFileRepository.findKccAcceptedByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
-            Long kccRejected = issPortalFileRepository.findKccRejectedByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
-            Long kccPending = issPortalFileRepository.findKccPendingByPacsCodeAndFinancialYear(pacsCode.longValue(), finacialYear);
+            Long totalApps = issPortalFileRepository.findTotalAppByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+            Long validationError = issPortalFileRepository.findValidationErrorByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+            Long kccAccepted = issPortalFileRepository.findKccAcceptedByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+            Long kccRejected = issPortalFileRepository.findKccRejectedByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+            Long kccPending = issPortalFileRepository.findKccPendingByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
 
             PacsApplicationDTO pacsApplicationDTO = new PacsApplicationDTO(
                 totalApps, validationError, kccAccepted, kccRejected, kccPending, pacsName, pacsCode.longValue()

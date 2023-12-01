@@ -1,5 +1,7 @@
 package com.cbs.middleware.domain;
 
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -1504,5 +1506,10 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
             ", firstNoticeDate='" + getFirstNoticeDate() + "'" +
             ", secondNoticeDate='" + getSecondNoticeDate() + "'" +
             "}";
+    }
+
+
+    public String getMarathiAddition(){
+        return TranslationServiceUtility.numberTOMarathiNumber("50");
     }
 }

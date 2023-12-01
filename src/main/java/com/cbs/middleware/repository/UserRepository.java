@@ -45,6 +45,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     Page<User> findAllByIdNotNullAndActivatedIsTrue(Pageable pageable);
 
     Page<User> findAllBySchemeWiseBranchCode(String schemeWiseBranchCode, Pageable pageable);
+    List<User> findAllBySchemeWiseBranchCode(String schemeWiseBranchCode);
 
     @Query(value = "select user.email from User user where user.pacsNumber =:pacsNumber")
     Set<String> findAllEmailByPacsNumber(@Param("pacsNumber") String pacsNumber);
@@ -64,6 +65,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
     );
 
     Optional<User> findOneById(Long userId);
-    
+
 	List<User> findAllBySchemeWiseBranchCode(Specification<User> specification);
 }

@@ -140,29 +140,59 @@ public class UserResource {
     );
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final UserService userService;
-
     private final UserRepository userRepository;
-
     private final MailService mailService;
-
     @Autowired
     UserFileDetailsRepository userFileDetailsRepository;
-
     @Autowired
     NotificationRepository notificationRepository;
-
     @Autowired
     NotificationDataUtility notificationDataUtility;
+    @Autowired
+    UserQueryService userQueryService;
+    @Autowired
+    PacsMasterRepository masterRepository;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
     public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
+    }
+
+    private static String getCellValue(Cell cell) {
+        String cellValue = "";
+
+        if (cell == null) {
+            cellValue = "";
+        } else if (cell.getCellType() == CellType.STRING) {
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+            BigDecimal bigDecimal = new BigDecimal(cellValue);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
+
+            cellValue = decimalFormat.format(bigDecimal);
+        } else if (cell.getCellType() == CellType.BOOLEAN) {
+            cellValue = String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
     }
 
     /**
@@ -173,8 +203,8 @@ public class UserResource {
      *
      * @param userDTO the user to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new user, or with status {@code 400 (Bad Request)} if the
-     *         login or email is already in use.
+     * body the new user, or with status {@code 400 (Bad Request)} if the
+     * login or email is already in use.
      * @throws URISyntaxException       if the Location URI syntax is incorrect.
      * @throws BadRequestAlertException {@code 400 (Bad Request)} if the login or
      *                                  email is already in use.
@@ -206,7 +236,7 @@ public class UserResource {
      *
      * @param userDTO the user to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the updated user.
+     * the updated user.
      * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is
      *                                   already in use.
      * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is
@@ -336,75 +366,77 @@ public class UserResource {
         return adminUserDTO;
     }
 
-    @Autowired
-    UserQueryService userQueryService;
-    
-    
     /**
      * search with all param
-     * */
-    
-	@GetMapping("/search-user")
-	public ResponseEntity<List<User>> getBySearchUser(@RequestParam(value = "key") String key,
-			@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
-		GrantedAuthority authority = authorities.stream().findFirst().get();
+     */
 
-		if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+    @GetMapping("/search-user")
+    public ResponseEntity<List<AdminUserDTO>> getBySearchUser(@RequestParam(value = "key") String key,
+                                                              @org.springdoc.api.annotations.ParameterObject Pageable pageable) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        Page<AdminUserDTO> page = null;
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
 
-			UserCriteria userCriteria = new UserCriteria();
-			StringFilter filter = new StringFilter();
-			filter.setContains(key);
-			userCriteria.setLogin(filter);
-			userCriteria.setFirstName(filter);
-			userCriteria.setMiddleName(filter);
-			userCriteria.setLastName(filter);
-			userCriteria.setMobileNumber(filter);
-			userCriteria.setEmail(filter);
-			userCriteria.setBranchName(filter);
-			userCriteria.setPacsName(filter);
-			Page<User> findByCriteria = userQueryService.findByCriteriaOr(userCriteria, pageable);
-			return ResponseEntity.ok().body(findByCriteria.getContent());
+            UserCriteria userCriteria = new UserCriteria();
+            StringFilter filter = new StringFilter();
+            filter.setContains(key);
+            userCriteria.setLogin(filter);
+            userCriteria.setFirstName(filter);
+            userCriteria.setMiddleName(filter);
+            userCriteria.setLastName(filter);
+            userCriteria.setMobileNumber(filter);
+            userCriteria.setEmail(filter);
+            userCriteria.setBranchName(filter);
+            userCriteria.setPacsName(filter);
+            page = userQueryService.findByCriteriaOr(userCriteria, pageable);
 
-		} else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
-			Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
-			if (optUser.isPresent()) {
-				UserCriteria userCriteria = new UserCriteria();
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 
-				String branchName = optUser.get().getBranchName();
-				StringFilter branchNameFilter = new StringFilter();
-				branchNameFilter.setEquals(branchName);
-				StringFilter filter = new StringFilter();
-				filter.setContains(key);
 
-				userCriteria.setLogin(filter);
-				userCriteria.setFirstName(filter);
-				userCriteria.setMiddleName(filter);
-				userCriteria.setLastName(filter);
-				userCriteria.setMobileNumber(filter);
-				userCriteria.setEmail(filter);
-				userCriteria.setBranchName(branchNameFilter);
-				userCriteria.setPacsName(filter);
-				Page<User> findByCriteria = userQueryService.findByCriteriaAndBranchName(userCriteria, pageable);
-				return ResponseEntity.ok().body(findByCriteria.getContent());
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+            Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+            if (optUser.isPresent()) {
 
-	}
-	
-    
+                UserCriteria userCriteria = new UserCriteria();
+
+                String branchName = optUser.get().getBranchName();
+                StringFilter branchNameFilter = new StringFilter();
+                branchNameFilter.setEquals(branchName);
+                StringFilter filter = new StringFilter();
+                filter.setContains(key);
+
+                userCriteria.setLogin(filter);
+                userCriteria.setFirstName(filter);
+                userCriteria.setMiddleName(filter);
+                userCriteria.setLastName(filter);
+                userCriteria.setMobileNumber(filter);
+                userCriteria.setEmail(filter);
+                userCriteria.setBranchName(branchNameFilter);
+                userCriteria.setPacsName(filter);
+                page = userQueryService.findByCriteriaAndBranchName(userCriteria, pageable);
+
+                HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+                return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+
+    }
+
     /**
      * {@code GET /admin/users} : get all users with all the details - calling this
      * are only allowed for the administrators.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         all users.
+     * all users.
      */
     @GetMapping("/users")
     public ResponseEntity<List<AdminUserDTO>> getAllUsers(@org.springdoc.api.annotations.ParameterObject Pageable pageable) {
@@ -441,7 +473,7 @@ public class UserResource {
      *
      * @param login the login of the user to find.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body
-     *         the "login" user, or with status {@code 404 (Not Found)}.
+     * the "login" user, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/users/{login}")
     @PreAuthorize("@authentication.userCheck(#login,'USER','EDIT')")
@@ -483,20 +515,20 @@ public class UserResource {
         Calendar cal = new GregorianCalendar();
         String uniqueName =
             "" +
-            cal.get(Calendar.YEAR) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND);
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND);
 
         Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
         try {
@@ -550,9 +582,9 @@ public class UserResource {
                     if (StringUtils.isNotBlank(mobileNumber) && !userRepository.findOneByMobileNumber(mobileNumber).isPresent()) {
                         if (
                             StringUtils.isBlank(getCellValue(row.getCell(0))) &&
-                            StringUtils.isBlank(getCellValue(row.getCell(1))) &&
-                            StringUtils.isBlank(getCellValue(row.getCell(2))) &&
-                            StringUtils.isBlank(getCellValue(row.getCell(3)))
+                                StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                                StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                                StringUtils.isBlank(getCellValue(row.getCell(3)))
                         ) {
                             break;
                         }
@@ -567,7 +599,8 @@ public class UserResource {
 
                         String talukaName = getCellValue(row.getCell(0));
 
-                        if (StringUtils.isNotBlank(talukaName)) {}
+                        if (StringUtils.isNotBlank(talukaName)) {
+                        }
 
                         String branchName = getCellValue(row.getCell(1));
 
@@ -684,13 +717,10 @@ public class UserResource {
         }
     }
 
-    @Autowired
-    PacsMasterRepository masterRepository;
-
     @GetMapping("/get-by-packs/{pacsNumber}")
     public PacsMaster packsMasterData(@PathVariable String pacsNumber) {
-         Optional<PacsMaster> findOneByPacsNumber = masterRepository.findOneByPacsNumber(pacsNumber);
-         return findOneByPacsNumber.get();
+        Optional<PacsMaster> findOneByPacsNumber = masterRepository.findOneByPacsNumber(pacsNumber);
+        return findOneByPacsNumber.get();
     }
 
     @PostMapping("/master-pacs-upload")
@@ -712,20 +742,20 @@ public class UserResource {
         Calendar cal = new GregorianCalendar();
         String uniqueName =
             "" +
-            cal.get(Calendar.YEAR) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND);
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND);
 
         Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
         try {
@@ -772,9 +802,9 @@ public class UserResource {
 
                 if (
                     StringUtils.isBlank(getCellValue(row.getCell(0))) &&
-                    StringUtils.isBlank(getCellValue(row.getCell(1))) &&
-                    StringUtils.isBlank(getCellValue(row.getCell(2))) &&
-                    StringUtils.isBlank(getCellValue(row.getCell(3)))
+                        StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(3)))
                 ) {
                     break;
                 }
@@ -812,9 +842,9 @@ public class UserResource {
                         adminUserDTO.setAuthorities(packsUserSet);
 
                         // System.out.println("................................................................"+packsNumber);
-                        Optional<PacsMaster>  findOneByPacsNumberGet = masterRepository.findOneByPacsNumber(packsNumber);
-                        
-                        PacsMaster findOneByPacsNumber=findOneByPacsNumberGet.get();
+                        Optional<PacsMaster> findOneByPacsNumberGet = masterRepository.findOneByPacsNumber(packsNumber);
+
+                        PacsMaster findOneByPacsNumber = findOneByPacsNumberGet.get();
 
                         if (findOneByPacsNumber != null) {
                             adminUserDTO.setPacsName(findOneByPacsNumber.getPacsName());
@@ -882,38 +912,5 @@ public class UserResource {
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", "", "nullColumn");
         }
-    }
-
-    private static String getCellValue(Cell cell) {
-        String cellValue = "";
-
-        if (cell == null) {
-            cellValue = "";
-        } else if (cell.getCellType() == CellType.STRING) {
-            cellValue = cell.getStringCellValue().trim();
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            cellValue = String.valueOf(cell.getNumericCellValue());
-            BigDecimal bigDecimal = new BigDecimal(cellValue);
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
-
-            cellValue = decimalFormat.format(bigDecimal);
-        } else if (cell.getCellType() == CellType.BOOLEAN) {
-            cellValue = String.valueOf(cell.getBooleanCellValue());
-        } else if (cell.getCellType() == CellType.FORMULA) {
-            cellValue = String.valueOf(cell.getNumericCellValue());
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
-        } else if (cell.getCellType() == CellType.BLANK) {
-            cellValue = "";
-        }
-
-        return cellValue;
     }
 }

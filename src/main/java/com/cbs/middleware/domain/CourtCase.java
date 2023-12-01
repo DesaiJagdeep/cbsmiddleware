@@ -3,6 +3,7 @@ package com.cbs.middleware.domain;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -1509,7 +1510,26 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
     }
 
 
-    public String getMarathiAddition(){
-        return TranslationServiceUtility.numberTOMarathiNumber("50");
+    public String getMarathiAddition(Object...numbers){
+
+        BigDecimal sum = BigDecimal.ZERO;
+
+        for (Object number : numbers) {
+            try {
+                if (number instanceof String ) {
+                    BigDecimal num = new BigDecimal((String) number);
+                    sum = sum.add(num);
+                } else if (number instanceof Double) {
+                    sum = sum.add(BigDecimal.valueOf((Double) number));
+                } else {
+                    return "Unsupported number type";
+                }
+            } catch (NumberFormatException e) {
+                return "Invalid number format";
+            }
+        }
+
+        return TranslationServiceUtility.numberTOMarathiNumber(sum.toString());
+
     }
 }

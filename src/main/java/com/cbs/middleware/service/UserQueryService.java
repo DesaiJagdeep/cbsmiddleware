@@ -2,6 +2,7 @@ package com.cbs.middleware.service;
 
 import java.util.List;
 
+import com.cbs.middleware.service.dto.AdminUserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -49,15 +50,15 @@ public class UserQueryService extends QueryService<User> {
         final Specification<User> specification = createSpecificationOr(criteria);
         return userRepository.findAll(specification);
     }
-    
+
     @Transactional(readOnly = true)
     public List<User> findByCriteriaAndBranchName(UserCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
         final Specification<User> specification = createSpecificationAndBranchName(criteria);
         return userRepository.findAll(specification);
     }
-    
-    
+
+
     @Transactional(readOnly = true)
     public List<User> findByCriteria(UserCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
@@ -77,19 +78,19 @@ public class UserQueryService extends QueryService<User> {
         final Specification<User> specification = createSpecification(criteria);
         return userRepository.findAll(specification, page);
     }
-    
+
     @Transactional(readOnly = true)
-    public Page<User> findByCriteriaAndBranchName(UserCriteria criteria, Pageable page) {
+    public Page<AdminUserDTO> findByCriteriaAndBranchName(UserCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}", criteria, page);
         final Specification<User> specification = createSpecificationAndBranchName(criteria);
-        return userRepository.findAll(specification, page);
+        return userRepository.findAll(specification, page).map(AdminUserDTO::new);
     }
-    
+
     @Transactional(readOnly = true)
-    public Page<User> findByCriteriaOr(UserCriteria criteria, Pageable page) {
+    public Page<AdminUserDTO> findByCriteriaOr(UserCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}", criteria);
         final Specification<User> specification = createSpecificationOr(criteria);
-        return userRepository.findAll(specification, page);
+        return userRepository.findAll(specification, page).map(AdminUserDTO::new);
     }
 
 //    @Transactional(readOnly = true)
@@ -180,19 +181,19 @@ public class UserQueryService extends QueryService<User> {
             if (criteria.getPacsName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPacsName(), User_.pacsName));
             }
-            
+
             if (criteria.getBranchName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBranchName(), User_.branchName));
             }
-           
+
         }
         return specification;
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     protected Specification<User> createSpecificationOr(UserCriteria criteria) {
         Specification<User> specification = Specification.where(null);
         if (criteria != null) {
@@ -225,17 +226,17 @@ public class UserQueryService extends QueryService<User> {
             if (criteria.getPacsName() != null) {
                 specification = specification.or(buildStringSpecification(criteria.getPacsName(), User_.pacsName));
             }
-            
+
             if (criteria.getBranchName() != null) {
                 specification = specification.or(buildStringSpecification(criteria.getBranchName(), User_.branchName));
             }
-           
+
         }
         return specification;
     }
-    
-    
-    
+
+
+
     protected Specification<User> createSpecificationAndBranchName(UserCriteria criteria) {
         Specification<User> specification = Specification.where(null);
         if (criteria != null) {
@@ -268,11 +269,11 @@ public class UserQueryService extends QueryService<User> {
             if (criteria.getPacsName() != null) {
                 specification = specification.or(buildStringSpecification(criteria.getPacsName(), User_.pacsName));
             }
-            
+
             if (criteria.getBranchName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBranchName(), User_.branchName));
             }
-           
+
         }
         return specification;
     }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +29,9 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     boolean existsByFileNameAndFinancialYear(String originalFilename, String financialYear);
 
     Page<IssPortalFile> findAllBySchemeWiseBranchCode(Long branchCode, Pageable pageable);
+
+    @Query("select i from IssPortalFile i where i.schemeWiseBranchCode = ?1")
+    List<IssPortalFile> findBySchemeWiseBranchCodeEquals(Long schemeWiseBranchCode, Pageable pageable);
 
     Page<IssPortalFile> findAllByPacsCode(Long pacsCode, Pageable pageable);
 

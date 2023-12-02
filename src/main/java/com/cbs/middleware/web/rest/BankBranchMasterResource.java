@@ -6,6 +6,7 @@ import com.cbs.middleware.domain.BankMaster;
 import com.cbs.middleware.domain.PacsMaster;
 import com.cbs.middleware.domain.TalukaMaster;
 import com.cbs.middleware.domain.domainUtil.BranchForPacksList;
+import com.cbs.middleware.domain.domainUtil.PacsNameAndCode;
 import com.cbs.middleware.repository.BankBranchMasterRepository;
 import com.cbs.middleware.repository.BankMasterRepository;
 import com.cbs.middleware.repository.NotificationRepository;
@@ -761,20 +762,20 @@ public class BankBranchMasterResource {
             HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bankBranchMaster.getId().toString())
         );
     }
-    
-    
+
+
     /**
-     * 
-     * 
+     *
+     *
      * */
-    
-    
+
+
     @GetMapping("/taluka-by-branch-name")
     public ResponseEntity<TalukaMaster> getTalukaBankBranchMasters(@RequestParam(value = "branch")String branch) {
         log.debug("REST request to get a page of BankBranchMasters");
-       
+
         BankBranchMaster bankBranchMaster= bankBranchMasterRepository.findOneByBranchName(branch);
-        
+
         return ResponseEntity.ok().body(bankBranchMaster.getTalukaMaster());
     }
 
@@ -819,7 +820,14 @@ public class BankBranchMasterResource {
                 BranchForPacksList branchForPacksListObj = new BranchForPacksList();
                 branchForPacksListObj.setBranchName(bankBranchMaster.getBranchName());
                 List<PacsMaster> pacsMasterMaster = pacsMasterRepository.findAllByBankBranchMaster(bankBranchMaster);
-                branchForPacksListObj.setPacksNameList(pacsMasterMaster.stream().map(PacsMaster::getPacsName).collect(Collectors.toList()));
+                //branchForPacksListObj.setPacksNameList(pacsMasterMaster.stream().map(PacsMaster::getPacsName).collect(Collectors.toList()));
+
+                branchForPacksListObj.setPacksNameList(
+                    pacsMasterMaster.stream()
+                        .map(pacsMaster -> new PacsNameAndCode(pacsMaster.getPacsName(), pacsMaster.getPacsNumber()))
+                        .collect(Collectors.toList())
+                );
+
                 branchForPacksListList.add(branchForPacksListObj);
             }
 

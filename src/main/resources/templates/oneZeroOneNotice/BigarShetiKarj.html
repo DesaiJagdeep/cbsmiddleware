@@ -15,7 +15,7 @@
 <p style="text-align: center; margin: 0px">रजिस्टर ए. डी./यु.पी.सी.</p>
 <div style="display: flex; justify-content: space-between; width: 100%">
   <div style="width: 80%">जावक क्रमांक</div>
-  <div style="width: 20%">दिनांक: <u><span th:text="${courtCase.noticeDate}"/></u></div>
+  <div style="width: 20%">दिनांक: <u><span th:text="${noticeDate}"/></u></div>
 </div>
 
 <table style=" margin: 0px 0px 0px 30px; width: 100%; border-spacing: 0px !important;">
@@ -73,7 +73,7 @@
     <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
       तुम्ही बँकेच्या <u><span th:text="${pacsName}"/></u> शाखेकडून दिनांक <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी थेट शेती
       कर्ज योजनेअंतर्गत <u><span th:text="${courtCase.loanType}"/></u> कारणासाठी रुपये <u><span th:text="${courtCase.loanAmount}"/></u> चे कर्ज
-      द.सा.द.शे. <u><span th:text="${courtCase.interestRate}"/></u>% व्याजदराने घेतले आहे.
+      द.सा.द.शे. <u><span th:text="${courtCase.interestRate}"/></u>% व्याजदराने <u><span th:text="${courtCase.termOfLoan}"/> /१२</u>  वर्षेच्या मुदतीने घेतले आहे.
     </td>
   </tr>
   <tr>
@@ -125,17 +125,18 @@
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black; vertical-align: baseline">२)</td>
     <td style="border: 1px solid black">व्याज येणे + दंड व्याज</td>
-    <td style="border: 1px solid black"><u>__________</u></td>
+    <td style="border: 1px solid black"><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></td>
+
   </tr>
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black; vertical-align: baseline">३)</td>
     <td style="border: 1px solid black">इतर खर्च - विमा,नोटीस इ.</td>
-    <td style="border: 1px solid black"><u>__________</u> </td>
+    <td style="border: 1px solid black"><u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u> </td>
   </tr>
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black"></td>
     <td style="border: 1px solid black">एकूण</td>
-    <td style="border: 1px solid black"><u>__________</u></td>
+    <td style="border: 1px solid black"><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></td>
   </tr>
 </table>
 

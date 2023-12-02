@@ -2,7 +2,9 @@ package com.cbs.middleware.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.cbs.middleware.domain.IssFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import com.cbs.middleware.repository.IssPortalFileRepository;
 import com.cbs.middleware.service.criteria.IssPortalFileCriteria;
 
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link IssPortalFile} entities in
@@ -182,8 +186,15 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         IssPortalFileCriteria criteria,
         Pageable pageable
     ) {
+        LongFilter lf = new LongFilter();
+        lf.setEquals(schemeWiseBranchCode);
+        criteria.setSchemeWiseBranchCode(lf);
+
+        final Specification<IssPortalFile> specification = createSpecification(criteria);
+
         List<IssPortalFile> issPortalFileMapperList = new ArrayList<>();
-        Page<IssPortalFile> findAll = issPortalFileRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
+        Page<IssPortalFile> findAll = issPortalFileRepository.findAll(specification, pageable);
+
         if(!findAll.isEmpty())
         {
         for (IssPortalFile issPortalFile : findAll.getContent()) {
@@ -235,8 +246,8 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
                  issPortalFileMapperList.add(issPortalFile);
              }
         }
-        
-       
+
+
         return findAll;
     }
 }

@@ -21,4 +21,7 @@ public interface CourtCaseRepository extends JpaRepository<CourtCase, Long>, Jpa
 
     @Query("select courtCase from CourtCase courtCase where courtCase.courtCaseSetting =:courtCaseSetting  AND courtCase.noticeOfRepayLoanCount=0 AND courtCase.priorDemandNoticeCount=0")
 	List<CourtCase> findAllByCourtCaseSettingAndNoticeNotPrint(@Param("courtCaseSetting") CourtCaseSetting courtCaseSetting);
+
+    CourtCase findByIdEquals(Long i);
+
 }

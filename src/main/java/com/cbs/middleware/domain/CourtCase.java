@@ -1532,4 +1532,27 @@ public class CourtCase extends AbstractAuditingEntity<Long> implements Serializa
         return TranslationServiceUtility.numberTOMarathiNumber(sum.toString());
 
     }
+
+    public String getMarathiSubstraction(Object number1,Object number2) {
+        BigDecimal substraction = BigDecimal.ZERO;
+
+        BigDecimal num1 = BigDecimal.valueOf(0);
+        BigDecimal num2 = BigDecimal.valueOf(0);
+        if (number1 instanceof String) {
+            num1 = new BigDecimal((String) number1);
+        } else if (number1 instanceof Double) {
+            num1 = BigDecimal.valueOf((Double) number1);
+        }
+        if (number2 instanceof String) {
+            num2 = new BigDecimal((String) number2);
+        } else if (number2 instanceof Double) {
+            num2 = BigDecimal.valueOf((Double) number2);
+        }
+
+         substraction=num1.subtract(num2);
+
+        return TranslationServiceUtility.numberTOMarathiNumber(substraction.toString());
+
+    }
+
 }

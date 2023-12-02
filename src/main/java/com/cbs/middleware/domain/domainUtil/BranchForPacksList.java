@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class BranchForPacksList {
 
     private String branchName;
-    private List<String> packsNameList;
+    private List<PacsNameAndCode> packsNameList;
 
     public String getBranchName() {
         return branchName;
@@ -17,11 +17,11 @@ public class BranchForPacksList {
         this.branchName = branchName;
     }
 
-    public List<String> getPacksNameList() {
+    public List<PacsNameAndCode> getPacksNameList() {
         return packsNameList;
     }
 
-    public void setPacksNameList(List<String> packsNameList) {
+    public void setPacksNameList(List<PacsNameAndCode> packsNameList) {
         this.packsNameList = packsNameList;
     }
 }

@@ -24,7 +24,7 @@
     <div style="display: flex; justify-content: flex-end; margin-right: 45px;">
       <div style="border: 1px solid black; padding: 0px 25px;">
         <p style="margin: 4px 0px 0px 0px;"><strong>दावा क्रमांक : _____ / कलम १०१/२०</strong></p>
-        <p style="margin: 4px 0px 0px 0px;">कर्ज प्रकार: <strong><u>____________</u></strong></p>
+        <p style="margin: 4px 0px 0px 0px;">कर्ज प्रकार: <strong><u><span th:text="${courtCase.loanType}"/></u></strong></p>
       </div>
     </div>
 
@@ -94,7 +94,7 @@
         </p>
       </div>
       <div style="width: 35%;">
-        <div style="border: 1px solid black; padding: 5px;"><strong>कर्ज प्रकार :</strong> __________
+        <div style="border: 1px solid black; padding: 5px;"><strong>कर्ज प्रकार :</strong> <u><span th:text="${courtCase.loanType}"/></u>
         </div>
       </div>
     </div>
@@ -107,7 +107,6 @@
         <td style="text-align: right;"><strong>कर्जदाराचे नाव</strong></td>
         <td>:</td>
         <td><u><span th:text="${courtCase.nameOfDefaulter}"/></u></td>
-<!--        <td><u><span th:text="${courtCase.getMarathiAddition()}"/></u></td>-->
         <td>&nbsp;</td>
       </tr>
       <tr>
@@ -201,7 +200,7 @@
       <tbody>
       <tr>
         <td style="text-align: justify; vertical-align: baseline;"><strong>१)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> अर्जदार <strong>_________,</strong> . हि संस्था
+        <td style="text-align: justify; padding-bottom: 10px;"> अर्जदार <strong></strong> . हि संस्था
           महाराष्ट्र सहकारी
           संस्था अधिनियम, १९६० मधील तरतुदीस अनुसरून रजिस्टर करण्यात आलेली संस्था आहे.</td>
       </tr>
@@ -225,13 +224,13 @@
         <td style="text-align: justify; vertical-align: baseline;"><strong>४)</strong></td>
         <td style="text-align: justify; padding-bottom: 10px;"> सदर अर्ज बँकेच्या संचालक मंडळाने / कर्ज
           समितीने जाब देणार
-          क्र._____ ते _____ यांनी कर्ज अर्जाचा विचार करुन जाब देणार क्र. १ ते ______ यांस रक्कम
+          क्र.<u>१</u> ते <u><३/u> यांनी कर्ज अर्जाचा विचार करुन जाब देणार क्र. १ ते ३ यांस रक्कम
           रु. <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong>(अक्षरी रक्कम रु. <strong>________ फक्त</strong> ) कर्ज मंजूर केले आहे.</td>
       </tr>
       <tr style="page-break-before: always;">
         <td style="text-align: justify; vertical-align: baseline;"><strong>५)</strong></td>
         <td style="text-align: justify; padding-bottom: 10px;">
-          सदर कर्ज व्यवहारास जाब देणार क्र. १ ते. ____ यांनी खाली नमूद केलेले तारण
+          सदर कर्ज व्यवहारास जाब देणार क्र. १ ते. <u>३</u> यांनी खाली नमूद केलेले तारण
           दिले आहे.
           <table>
             <tr>
@@ -268,7 +267,7 @@
       </tr>
       <tr>
         <td style="text-align: justify; vertical-align: baseline;"><strong>७)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> जाब देणार क्र. ____ ते ____ यांनी
+        <td style="text-align: justify; padding-bottom: 10px;"> जाब देणार क्र. <u>१</u> ते <u>३</u> यांनी
           करारनाम्यातील
           तपशिलाप्रमाणे अर्जदार बँकेच्या कर्ज रकमेची परतफेड व्याजासह वेळेवर केलेली नही. सदर रकमेची
           त्यांनी थकबाकी केली आहे. सदर रक्कम परतफेड करण्यास त्यांनी कसूर केलेली आहे.</td>
@@ -419,14 +418,11 @@
               <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
                 <strong>१)</strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
-                मंजूर कर्ज रक्कम रु. ___
-              </td>
               <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; width: 25%;">
-                मुद्दल रक्कम रुपये  <u><span th:text="${courtCase.loanAmount}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
+              मुद्दल रक्कम रुपये  <u><span th:text="${courtCase.loanAmount}"/></u>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
                 <strong>२)</strong>
@@ -477,7 +473,7 @@
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर आकारलेले एकूण व्याज
-                <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>
+                <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>  <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable,courtCase.interestPaid,courtCase.penalInterestPaid)}"/></u>
               </td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
@@ -494,6 +490,7 @@
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर वसूल झालेली व्याजाची एकूण रक्कम</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.interestPaid,courtCase.penalInterestPaid)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -506,6 +503,7 @@
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणेबाकी व्याज</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -520,6 +518,7 @@
               </td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.duePenalInterest,courtCase.dueMoreInterest)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -545,6 +544,7 @@
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणे असलेले जादा व्याज</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiSubstraction(courtCase.getMarathiAddition(courtCase.duePenalInterest,courtCase.dueMoreInterest),courtCase.penalInterestPaid)}"/></u>
               </td>
             </tr>
             </tbody>
@@ -599,7 +599,7 @@
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणे बाकी</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
-                <u><span th:text="${courtCase.insurance}"/></u>
+                <u><span th:text="${courtCase.dueAmount}"/></u>
               </td>
             </tr>
             </tbody>
@@ -639,6 +639,7 @@
                 व्याज रक्कम रुपये</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.interestRecivable)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -651,6 +652,8 @@
                 जादा व्याज रक्कम रुपये</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.dueMoreInterest)}"/></u>
+
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -663,6 +666,7 @@
                 इतर खर्च रक्कम रुपये</td>
               <td
                 style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                <u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.stampFee,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
@@ -723,7 +727,7 @@
       </tr>
       <tr>
         <td style="text-align: justify; vertical-align: baseline;"><strong>१५)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> अर्जाचे मूल्यांकन (व्हॅल्यूएशन) रु. ___
+        <td style="text-align: justify; padding-bottom: 10px;"> अर्जाचे मूल्यांकन (व्हॅल्यूएशन) रु. <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.dueInterest,courtCase.surcharge,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable,courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u>
           केले असून अर्जास
           प्रोसेस व स्टॅम्प की रक्कम रु. <u><span th:text="${courtCase.stampFee}"/></u> चा भरणा केला आहे.</td>
       </tr>
@@ -905,7 +909,7 @@
 
   <div>
     <h4 style="text-align: center;">महाराष्ट्र सहकारी संस्था अधिनियम १९६० चे कलम १०१ अन्वये वसुली प्रकरण वसुलीस
-      पात्र रक्कम रुपये. ______</h4>
+      पात्र रक्कम रुपये. <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.dueInterest,courtCase.surcharge,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></h4>
     <table style="width: 100%; border: 1px solid black; margin: 0px auto; border-collapse: collapse;">
       <tbody>
       <tr style=" border: 1px solid black;">

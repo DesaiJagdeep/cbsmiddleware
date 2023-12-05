@@ -16,33 +16,33 @@
                     <table style="width: 100%; border: 1px solid black; border-collapse: collapse;">
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
-                                style="border: 1px solid black; border-collapse: collapse; text-align: right; width: 60%;">
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; width: 60%; padding: 8px;">
                                 <strong>थकीत मुदद्ल &nbsp;</strong></td>
-                            <td style="border: 1px solid black; border-collapse: collapse;width: 40%; text-align: right;"><strong><span th:text="${courtCase.dueAmount}"/></strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse;width: 40%; text-align: right; padding: 8px;"><strong><span th:text="${courtCase.dueAmount}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
-                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;">
                                 <strong>व्याज &nbsp;</strong></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandVyajMr}"/></strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;"><strong><span th:text="${courtCase.priorDemandVyajMr}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
-                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;">
                                 <strong>दंड व्याज &nbsp;</strong></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandDandVyajMr}"/></strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;"><strong><span th:text="${courtCase.priorDemandDandVyajMr}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
-                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;">
                                 <strong>पोस्टेज व इतर  &nbsp;</strong></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.totalPostage}"/></strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;"><strong><span th:text="${courtCase.totalPostage}"/></strong></td>
                         </tr>
                         <tr style="border: 1px solid black; border-collapse: collapse;">
                             <td
-                                style="border: 1px solid black; border-collapse: collapse; text-align: right;">
+                                style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;">
                                 <strong>एकुण  &nbsp;</strong></td>
-                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right;"><strong><span th:text="${courtCase.priorDemandTotalMr}"/></strong></td>
+                            <td style="border: 1px solid black; border-collapse: collapse; text-align: right; padding: 8px;"><strong><span th:text="${courtCase.priorDemandTotalMr}"/></strong></td>
                         </tr>
                     </table>
             </div>
@@ -116,7 +116,7 @@
                 <td><strong>व्यवसाय : शेती</strong></td>
             </tr>
         </table><!-- bind अक्षरी -->
-        <p style="text-indent: 35px; line-height: 20px; text-align: justify;">
+        <p style="text-indent: 35px; line-height: 20px; text-align: justify; margin-top: 40px; line-height: 25px;">
             या नोटीसीने कळविण्यात येते की, सदर <strong>काठापूर बुद्रुक व्ही के सेवा सहयोग सोसायटी,</strong> कडून घेतलेल्या रू : <strong><span th:text="${courtCase.loanAmount}"/></strong> कर्जापैकी
             रू <strong><span th:text="${courtCase.dueAmount}"/></strong> अक्षरी (<strong><span th:text="${courtCase.dueAmountWord}"/></strong>s) थकीत झालेली आहे.
             सदरची थकीत रक्कम व्याजासह ता. <strong><span th:text="${courtCase.dueDateMr}"/></strong> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
@@ -129,7 +129,7 @@
             रक्कम आपलेकडून वसुल केली जाईल.
         </p>
         <p>&nbsp</p>
-            <p style="text-align: center; margin: 0px"><strong>सचिव</strong></p>
+            <p style="text-align: center; margin-top: 30px 0; font-size: 18px;"><strong>सचिव</strong></p>
             <p style="text-align: center; margin: 0px"><strong><span th:text="${courtCase.societyBranchName}"/></strong></p>
                 <table style="width: 70%; margin: auto;">
                     <tr>

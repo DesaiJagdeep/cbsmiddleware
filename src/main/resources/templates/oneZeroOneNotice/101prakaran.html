@@ -12,7 +12,7 @@
 </head>
 
 
-<body id="container">
+<body id="container" style="font-weight: 400;">
 <div style="margin-left: 20px; size: a4;">
   <!-- 101 prakaran rojnama -->
   <div style="text-align: center;">
@@ -79,7 +79,7 @@
 
   <!-- Namuna U -->
   <div style="page-break-before: always;">
-    <div style="border: 1px solid black; box-shadow:  4.5px 4.5px black;">
+    <div style="margin-bottom: 12px;">
       <h1 style="line-height : .5; text-align : center;">नमुना - "यु"</h1>
       <h3 style="text-align : center; margin: 0px;">महाराष्ट्र सहकारी संस्था अधिनियम, १९६० चे कलम १०१ अन्वये वसुली
         दाखल अर्ज </h3>
@@ -103,7 +103,7 @@
     <table style="width: 100%;  border-collapse: separate; border-spacing: 10px !important;">
       <tbody>
       <tr>
-        <td style="text-align: left;"><strong>१)</strong></td>
+        <td style="text-align: left;"><strong  style="margin: 0;">१)</td>
         <td style="text-align: right;"><strong>कर्जदाराचे नाव</strong></td>
         <td>:</td>
         <td><u><span th:text="${courtCase.nameOfDefaulter}"/></u></td>
@@ -111,14 +111,14 @@
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>राहणार</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">राहणार</strong></td>
         <td>:</td>
         <td><u><span th:text="${courtCase.address}"/></u></td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>व्यवसाय</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">व्यवसाय</strong></td>
         <td>:</td>
         <td>_____________________________________________</td>
         <td>&nbsp;</td>
@@ -126,44 +126,44 @@
 
 
       <tr th:if="${courtCase.gaurentorOne ne null}">
-        <td style="text-align: left;"><strong>२)</strong></td>
-        <td style="text-align: right;"><strong>जमीनदारांचे नाव</strong></td>
+        <td style="text-align: left;"><strong style="margin: 0;">२)</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">जमीनदारांचे नाव</strong></td>
         <td>:</td>
-        <td><u><strong><span th:text="${courtCase.gaurentorOne}"/></strong></u></td>
+        <td><u><h3 style="margin: 0;"><span th:text="${courtCase.gaurentorOne}"/></h3></u></td>
         <td>&nbsp;</td>
       </tr>
       <tr th:if="${courtCase.gaurentorOneAddress ne null}">
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>राहणार</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">राहणार</strong></td>
         <td>:</td>
-        <td><u><strong><span th:text="${courtCase.gaurentorOneAddress}"/></strong></u></td>
-        <td style="text-align: right;">जाब देणार</td>
+        <td><u><h4 style="margin: 0;"><span th:text="${courtCase.gaurentorOneAddress}"/></h4></u></td>
+        <td style="text-align: right;"><strong style="margin: 0;">जाब देणार </strong></td>
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>व्यवसाय</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">व्यवसाय</strong></td>
         <td>:</td>
         <td>_____________________________________________</td>
         <td>&nbsp;</td>
       </tr>
 
       <tr th:if="${courtCase.gaurentorTwo ne null}">
-        <td style="text-align: left;"><strong>३)</strong></td>
-        <td style="text-align: right;"><strong>जमीनदारांचे नाव</strong></td>
+        <td style="text-align: left;"><strong style="margin: 0;">३)</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">जमीनदारांचे नाव</strong></td>
         <td>:</td>
-        <td> <td><u><strong><span th:text="${courtCase.gaurentorOne}"/></strong></u></td></td>
+        <td> <td><u><strong style="margin: 0;"><span th:text="${courtCase.gaurentorOne}"/></strong></u></td></td>
         <td>&nbsp;</td>
       </tr>
       <tr th:if="${courtCase.gaurentorTwoAddress ne null}">
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>राहणार</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">राहणार</strong></td>
         <td>:</td>
-        <td><u><strong><span th:text="${courtCase.gaurentorTwoAddress}"/></strong></u></td>
+        <td><u><strong style="margin: 0;"><span th:text="${courtCase.gaurentorTwoAddress}"/></strong></u></td>
         <td>&nbsp;</td>
       </tr>
       <tr>
         <td>&nbsp;</td>
-        <td style="text-align: right;"><strong>व्यवसाय</strong></td>
+        <td style="text-align: right;"><strong style="margin: 0;">व्यवसाय</strong></td>
         <td>:</td>
         <td>_____________________________________________</td>
         <td>&nbsp;</td>
@@ -193,7 +193,7 @@
       </tr>
       </tbody>
     </table>
-    <p><strong>अर्जदार : <u><span th:text="${courtCase.bankName}"/></u>,.</strong> खालील प्रमाणे अर्ज सादर करत आहे. </p>
+    <p><h3 style="margin: 0; font-size: medium;">अर्जदार : <u><span th:text="${courtCase.bankName}"/></u>,.</h3> खालील प्रमाणे अर्ज सादर करत आहे. </p>
 
 
     <table>
@@ -224,7 +224,7 @@
         <td style="text-align: justify; vertical-align: baseline;"><strong>४)</strong></td>
         <td style="text-align: justify; padding-bottom: 10px;"> सदर अर्ज बँकेच्या संचालक मंडळाने / कर्ज
           समितीने जाब देणार
-          क्र.<u>१</u> ते <u><३/u> यांनी कर्ज अर्जाचा विचार करुन जाब देणार क्र. १ ते ३ यांस रक्कम
+          क्र.<u>१</u> ते यांनी कर्ज अर्जाचा विचार करुन जाब देणार क्र. १ ते ३ यांस रक्कम
           रु. <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong>(अक्षरी रक्कम रु. <strong>________ फक्त</strong> ) कर्ज मंजूर केले आहे.</td>
       </tr>
       <tr style="page-break-before: always;">
@@ -234,24 +234,24 @@
           दिले आहे.
           <table>
             <tr>
-              <td><strong>(अ)</strong></td>
-              <td><strong>तारणाचा तपशील :</strong></td>
-              <td><strong> <u><span th:text="${courtCase.taaran}"/></u></strong></td>
+              <td><h3 style="margin: 0; font-size: medium;">(अ)</h3></td>
+              <td><h3 style="margin: 0; font-size: medium;">तारणाचा तपशील :</h3></td>
+              <td><h3 style="margin: 0;"> <u><span th:text="${courtCase.taaran}"/></u></h3></td>
             </tr>
             <tr>
-              <td><strong>(ब)</strong></td>
-              <td><strong>वैयक्तिक जामीन :</strong></td>
+              <td><h3 style="margin: 0; font-size: medium;">(ब)</h3></td>
+              <td><h3 style="margin: 0; font-size: medium;">वैयक्तिक जामीन :</h3></td>
               <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td><strong>१)  <u><span th:text="${courtCase.gaurentorOne}"/></u> <u><span th:text="${courtCase.gaurentorOneAddress}"/></u></strong></td>
             </tr>
             <tr>
               <td></td>
               <td></td>
-              <td><strong>२) <u><span th:text="${courtCase.gaurentorTwo}"/></u> <u><span th:text="${courtCase.gaurentorTwoAddress}"/></u></strong></td>
+              <td><h3 style="margin: 0; font-size: medium;">१)  <u><span th:text="${courtCase.gaurentorOne}"/></u> <u><span th:text="${courtCase.gaurentorOneAddress}"/></u></h3></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td><h3 style="margin: 0; font-size: medium;">२) <u><span th:text="${courtCase.gaurentorTwo}"/></u> <u><span th:text="${courtCase.gaurentorTwoAddress}"/></u></h3></td>
             </tr>
           </table>
         </td>
@@ -304,301 +304,298 @@
       <tr>
         <td style="text-align: justify; vertical-align: baseline;"><strong>११)</strong></td>
         <td style="text-align: justify; padding-bottom: 10px;"> कर्जव्यवहाराबाबत तपशील (दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u> अखेर)
-          <p><strong>(अ) कर्ज मंजुरीचा तपशील</strong></p>
+          <p><h3 style="margin: 0; font-size: medium;">(अ) कर्ज मंजुरीचा तपशील</h3></p>
           <table style=" border: 1px solid black; border-collapse: collapse; width: 100%; margin-top: 15px;">
             <tbody>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 15%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 15%; padding: 8px;">
                 <strong>अ. क्र. </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>तपशील </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%; padding: 8px;">
                 <strong>रक्कम रुपये </strong>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>१)</strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्ज मंजूर रक्कम
               </td>
-              <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.loanAmount}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>२)</strong>
               </td>
-              <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्ज दिल्याची तारीख</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.loanDateMr}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>३)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्ज परतफेडीचा देय दिनांक</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.maturityLoanDate}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>४)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्ज परतफेडीचा मासिक हप्ता (लागू असल्यास)</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.installmentAmount}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>५)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्जाचा व्याजदर (द. सा. द. शे. )</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.interestRate}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>६)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 कर्ज मंजुरी नियम क्र. <u>२%</u> प्रमाणे दंडव्याजाचा दर</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
               </td>
             </tr>
             </tbody>
           </table>
 
-          <p style="page-break-before: always;"><strong>(ब) कर्ज वसुलीबाबतचा तपशील</strong></p>
+          <p style="page-break-before: always;"><h3 style="margin: 0; font-size: medium;">(ब) कर्ज वसुलीबाबतचा तपशील</h3></p>
           <table style="width: 100%; border: 1px solid black; border-collapse: collapse; margin-top: 10px;">
             <tbody>
-            <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px; width: 15%;">
+            <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px; width: 15%;">
                 <strong>अ. क्र. </strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px; width: 60%;">
                 <strong>तपशील </strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px; width: 25%;">
                 <strong>रक्कम रुपये </strong>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>१)</strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; width: 25%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; width: 25%; padding: 8px;">
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               मुद्दल रक्कम रुपये  <u><span th:text="${courtCase.loanAmount}"/></u>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>२)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u> अखेर मुद्दल वसूल रु.</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.totalCredit}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>३)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक  <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणे बाकी रु.</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.balance}"/></u>
               </td>
             </tr>
             </tbody>
           </table>
 
-          <p><strong>(क) व्याज आकारणीबाबत तपशील</strong></p>
+          <p><h3 style="margin: 0; font-size: medium;">(क) व्याज आकारणीबाबत तपशील</h3></p>
           <table style=" border: 1px solid black; border-collapse: collapse; width: 100%;">
             <tbody>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 15%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 15%; padding: 8px;">
                 <strong>अ. क्र. </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>तपशील </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%; padding: 8px;">
                 <strong>रक्कम रुपये </strong>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>४)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर आकारलेले एकूण व्याज
                 <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>  <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable,courtCase.interestPaid,courtCase.penalInterestPaid)}"/></u>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
 
                 मुद्दल रक्कम रुपये  <u><span th:text="${courtCase.dueAmount}"/></u></td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>५)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर वसूल झालेली व्याजाची एकूण रक्कम</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.interestPaid,courtCase.penalInterestPaid)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>६)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणेबाकी व्याज</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>७)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर आकारलेले एकूण जादा व्याज
                 <p>(द.सा.द.शे. दराने) सोबतच्या तक्त्याप्रमाणे</p>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.duePenalInterest,courtCase.dueMoreInterest)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>८)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर वसूल झालेले जादा व्याज</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.penalInterestPaid}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>९)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणे असलेले जादा व्याज</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiSubstraction(courtCase.getMarathiAddition(courtCase.duePenalInterest,courtCase.dueMoreInterest),courtCase.penalInterestPaid)}"/></u>
               </td>
             </tr>
             </tbody>
           </table>
 
-          <p><strong>(ड) इतर खर्चाचा तपशील</strong></p>
+          <p><h3 style="margin: 0; font-size: medium;">(ड) इतर खर्चाचा तपशील</h3></p>
           <table style=" border: 1px solid black; border-collapse: collapse; width: 100%;">
             <tbody>
-            <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
+            <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px; padding: 8px;">
               <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 15%;">
                 <strong>अ. क्र. </strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>तपशील </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; width: 25%; padding: 8px;">
                 <strong>रक्कम रुपये </strong>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>१०</strong>)
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर आकारलेला विमा हप्ता</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.insurance}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center; padding: 8px;">
                 <strong>११</strong>)
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर आकारलेली एकूण नोटीस फी, पोस्टेज, स्टॅप ड्यूटी, जाहिरात
                 इ.</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; text-align: center;text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px; text-align: center;text-align: center;">
                 <strong>१२</strong>)
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>  अखेर येणे बाकी</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.dueAmount}"/></u>
               </td>
             </tr>
@@ -609,75 +606,75 @@
           <table style=" border: 1px solid black; border-collapse: collapse; width: 100%;">
             <tbody>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; width: 15%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; width: 15%; padding: 8px;">
                 <strong>अ. क्र. </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; padding: 8px;">
                 <strong>तपशील </strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; width: 25%;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; width: 25%; padding: 8px;">
                 <strong>रक्कम रुपये </strong>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; padding: 8px;">
                 <strong>अ)</strong>
               </td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 मुद्दल रक्कम रुपये</td>
-              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+              <td style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.dueAmount}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; padding: 8px;">
                 <strong>ब)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 व्याज रक्कम रुपये</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.interestRecivable)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; padding: 8px;">
                 <strong>क)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 जादा व्याज रक्कम रुपये</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.dueMoreInterest)}"/></u>
 
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;text-align: center; padding: 8px;">
                 <strong>ड)</strong>
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 इतर खर्च रक्कम रुपये</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 <u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.stampFee,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u>
               </td>
             </tr>
             <tr style=" border: 1px solid black; border-collapse: collapse; height: 30px;">
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
               </td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
                 एकूण रुपये</td>
               <td
-                style="text-align: justify;  border: 1px solid black; border-collapse: collapse;">
+                style="text-align: justify;  border: 1px solid black; border-collapse: collapse; padding: 8px;">
               </td>
             </tr>
             </tbody>
@@ -685,15 +682,15 @@
         </td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"><strong>१२)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> अर्जासोबत जाब देणार यांचे खाते उतारे,
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"><strong>१२)</strong></td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> अर्जासोबत जाब देणार यांचे खाते उतारे,
           वचनचिठ्ठी, जामिनरोखा
           / मालतारण / हायपोथिकेशन/ गहाणखत इ.
           करार इत्यादी दस्तऐवजाच्या नकला केलेल्या आहेत.</td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"><strong>१३)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> वचनचिठ्ठी/ करारनामे या दस्तऐवजांचे वरुन
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"><strong>१३)</strong></td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> वचनचिठ्ठी/ करारनामे या दस्तऐवजांचे वरुन
           व्याज व कर्जाच्या
           वसुलीसाठी हा अर्ज करीत आहे. अर्जदारांचा अर्ज हा नमुद रक्कम </td>
       </tr>
@@ -704,8 +701,8 @@
     <table>
       <tbody>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"></td>
-        <td style="text-align: justify; padding-bottom: 10px;">
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"></td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;">
           <p>अर्जदार क्लेम हा सद्हेतूने कायदेशीर असल्याचे अर्जदाराचे म्हणणे आहे व जाब देणार यांस
             आपले बचावासाठी कोणतेही संयुक्तिक व वैध कारण नाही याची अर्जदारास खात्री आहे. सबब
             महाराष्ट्र सहकारी संस्था नियम क्र. ७७
@@ -715,8 +712,8 @@
       </tr>
 
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"><strong>१४)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> अर्जास कारण मे. उप/सहाय्यक निबंधक यांचे
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"><strong>१४)</strong></td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> अर्जास कारण मे. उप/सहाय्यक निबंधक यांचे
           स्थलसीमेत जाब
           देणार क्र. १ ते. <u>३</u> यांनी दिनांक <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी कर्ज घेतले. जाब देणार क्र. १ ते.  <u>३</u> यांनी
           वचनचिठ्ठी / करारनामा दस्तऐवज लिहून दिले. जाब देणार क्र. १ ते <u>३</u>  यांनी शर्तींप्रमाणे
@@ -726,20 +723,20 @@
         </td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"><strong>१५)</strong></td>
-        <td style="text-align: justify; padding-bottom: 10px;"> अर्जाचे मूल्यांकन (व्हॅल्यूएशन) रु. <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.dueInterest,courtCase.surcharge,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable,courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u>
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"><strong>१५)</strong></td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> अर्जाचे मूल्यांकन (व्हॅल्यूएशन) रु. <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.dueInterest,courtCase.surcharge,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable,courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u>
           केले असून अर्जास
           प्रोसेस व स्टॅम्प की रक्कम रु. <u><span th:text="${courtCase.stampFee}"/></u> चा भरणा केला आहे.</td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"><strong>१६)</strong></td>
-        <td style="text-align: justify;">
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"><strong>१६)</strong></td>
+        <td style="text-align: justify; padding: 8px;">
           अर्जदाराची विनंती की,
           <table>
             <tbody>
             <tr>
-              <td style="text-align: justify; vertical-align: baseline;">१)</td>
-              <td style="text-align: justify; padding-bottom: 10px;"> अर्जदार यांना सर्व जाब
+              <td style="text-align: justify; vertical-align: baseline; padding: 8px;">१)</td>
+              <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> अर्जदार यांना सर्व जाब
                 देणार यांचेकडून
                 राजम रु. <u><span th:text="${courtCase.dueAmount}"/></u> व सदर रकमेवर होणारे दरसाल दरशेकडा <u><span th:text="${courtCase.interestRate}"/></u> % प्रमाणे दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u>
                 होणारी व्याजाची रक्कम अधिक अर्जाचा व इतर संपूर्ण फी चा खर्च जाब देणार
@@ -747,15 +744,15 @@
                 ही विनंती.</td>
             </tr>
             <tr>
-              <td style="text-align: justify; vertical-align: baseline;">२)</td>
-              <td style="text-align: justify; padding-bottom: 10px;"> वर नमूद केलेल्या वसुली
+              <td style="text-align: justify; vertical-align: baseline; padding: 8px;">२)</td>
+              <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> वर नमूद केलेल्या वसुली
                 दाखल्याची रक्कम ही
                 जमीन महसूलची बाकी आहे असे समजून वसूल करण्याबाबत योग्य ते हुकूम व्हावेत.
               </td>
             </tr>
             <tr>
-              <td style="text-align: justify; vertical-align: baseline;">३)</td>
-              <td style="text-align: justify; padding-bottom: 10px;"> त्याप्रमाणे महाराष्ट्र
+              <td style="text-align: justify; vertical-align: baseline; padding: 8px;">३)</td>
+              <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> त्याप्रमाणे महाराष्ट्र
                 सहकारी संस्था
                 अधिनियम १९६० कलम १५६ आणि महाराष्ट्र सहकारी संस्था नियम १९६१ नियम १०७ (१)
                 (इ) प्रमाणे वसुलीचा दाखला बजावणीसाठी संस्थेकडील योग्य त्या अधिकारी व
@@ -763,8 +760,8 @@
                 व्हावेत.</td>
             </tr>
             <tr>
-              <td style="text-align: justify; vertical-align: baseline;">४)</td>
-              <td style="text-align: justify; padding-bottom: 10px;"> इतर योग्य ते न्यायाचे
+              <td style="text-align: justify; vertical-align: baseline; padding: 8px;">४)</td>
+              <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> इतर योग्य ते न्यायाचे
                 हुकूम व्हावेत ही विनंती. <br> हा अर्ज दिनांक <u><span th:text="${courtCase.claimDateMr}"/></u> रोजी दाखला केला आहे.<p></p>
               </td>
             </tr>
@@ -788,30 +785,30 @@
     <table style="margin-left: 5%;">
       <tbody>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"> १)</td>
-        <td style="text-align: justify; padding-bottom: 10px;"> या अर्जाचा एकूण २ नकला.</td>
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"> १)</td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> या अर्जाचा एकूण २ नकला.</td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"> २)</td>
-        <td style="text-align: justify; padding-bottom: 10px;"> संचालक मंडळ / वसुली मंडळ / प्रशासक मंडळ
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"> २)</td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> संचालक मंडळ / वसुली मंडळ / प्रशासक मंडळ
           यांचे ठरावाची प्रत
         </td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"> ३)</td>
-        <td style="text-align: justify; padding-bottom: 10px;"> जाब देणार यांना कर्ज खाते क्र. <u><span th:text="${courtCase.accountNo}"/></u> बाबत
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"> ३)</td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> जाब देणार यांना कर्ज खाते क्र. <u><span th:text="${courtCase.accountNo}"/></u> बाबत
           दिनांक <u><span th:text="${courtCase.firstNoticeDateMr}"/></u> रोजी
           पाठविलेल्या रजिस्टर्ड नोटीशीची व पोहोच पावतीची प्रत.</td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"> ४)</td>
-        <td style="text-align: justify; padding-bottom: 10px;"> जाब देणार यांनी अर्जदार संस्थेकडे दिनांक
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"> ४)</td>
+        <td style="text-align: justify; padding-bottom: 10px; padding: 8px;"> जाब देणार यांनी अर्जदार संस्थेकडे दिनांक
           <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी लिहून
           दिलेल्या डिमांड प्रॉमिसरी नोट / करारनाम्याची / दस्तऐवजाची खरी नक्कल.</td>
       </tr>
       <tr>
-        <td style="text-align: justify; vertical-align: baseline;"> ५)</td>
-        <td style="text-align: justify;"> जाब देणार यांचे क्र. <u><span th:text="${courtCase.accountNo}"/></u> थे खाते उताऱ्याची खरी नक्कल.</td>
+        <td style="text-align: justify; vertical-align: baseline; padding: 8px;"> ५)</td>
+        <td style="text-align: justify; padding: 8px;"> जाब देणार यांचे क्र. <u><span th:text="${courtCase.accountNo}"/></u> थे खाते उताऱ्याची खरी नक्कल.</td>
       </tr>
       </tbody>
     </table>
@@ -824,7 +821,7 @@
 
 <!-- namuna V -->
 <div style="page-break-before: always;">
-  <div style="border: 1px solid black; margin-top: 15px; box-shadow:  4.5px 4.5px black;">
+  <div style="margin-bottom: 12;">
     <h1 style="line-height : .6; text-align : center; margin-top : 1.5rem;">नमुना - "व्ही"</h1>
     <h3 style="text-align: center;">कलम १०१ खाली वसुलीसाठी प्रमाणपत्राचा नमुना</h3>
     <p style="line-height : .6; text-align : center;">(नियम ८६ क पहावा)</p>

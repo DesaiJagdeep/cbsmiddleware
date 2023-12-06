@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -617,15 +618,21 @@ public class CourtCaseResource {
 
 
             File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
 
 
             // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
             //String filepath=resource.getFile().getAbsolutePath();
 
             String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
 
 
             fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
 
             converterProperties.setFontProvider(fontProvider);
             converterProperties.setCharset("UTF-8");
@@ -2407,6 +2414,22 @@ public class CourtCaseResource {
         String content = templateEngine.process(template, context);
         return content;
     }
+    public String processHtmlFile(MultipartFile html, CourtCase courtCase, CourtCaseSetting courtCaseSettings, String noticeDate) throws IOException {
+        // Assuming templateEngine is an instance of ThymeleafTemplateEngine
+        String htmlContent = new String (html.getBytes());
+
+        System.out.println("HTML Content: " + htmlContent);
+
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("courtCase", courtCase);
+        context.setVariable("courtCaseSetting", courtCaseSettings);
+        context.setVariable("noticeDate", noticeDate);
+
+        String content = templateEngine.process(htmlContent, context);
+
+        return content;
+    }
 
    /* @GetMapping("/newPdf")
     public ResponseEntity<byte[]> getNewPdf() throws IOException {
@@ -2509,4 +2532,164 @@ public class CourtCaseResource {
         return response;
     }
 */
+
+
+     @GetMapping("/newPdf/{htmlName}")
+    public ResponseEntity<byte[]> getNewPdf(@PathVariable String htmlName) throws IOException {
+        // call function to generate html string
+        String htmlStringForPdf = null;
+
+        List<String> htmlList = new ArrayList<String>();
+        // generating html from template
+        CourtCase courtCase = courtCaseRepository.findByIdEquals(1L);
+        //htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/BigarShetiKarj.html", courtCase, courtCase.getCourtCaseSetting(), "noticeDate");
+        htmlStringForPdf = oneZeroOneTemplate("oneZeroOneNotice/"+htmlName, courtCase, courtCase.getCourtCaseSetting(), "noticeDate");
+
+        htmlList.add(htmlStringForPdf);
+
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+
+            FontProvider fontProvider = new FontProvider();
+
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), byteArrayOutputStream, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, byteArrayOutputStream1, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+
+    @PostMapping("/oneZeroOneNoticeDemo")
+    public ResponseEntity<byte[]> generatePDFFromHTMLDemo( @RequestParam("file") MultipartFile files,
+                                                           RedirectAttributes redirectAttributes) throws Exception {
+        CourtCase courtCase = courtCaseRepository.findByIdEquals(1L);
+
+
+        //processHtml
+        //String htmlContent = new String(files.getBytes(), StandardCharsets.UTF_8);
+
+
+        String content = processHtmlFile(files, courtCase, courtCase.getCourtCaseSetting(), "noticeDate");
+
+        ResponseEntity<byte[]> response = null;
+        //code for the generating pdf from html string
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        // Create ConverterProperties and set the font provider
+        ConverterProperties converterProperties = new ConverterProperties();
+
+        FontProvider fontProvider = new FontProvider();
+
+
+        File file = new File(Constants.fontFilePath);
+        File file1 = new File(Constants.fontFilePath1);
+
+
+        // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+        //String filepath=resource.getFile().getAbsolutePath();
+
+        String filepath = file.getAbsolutePath();
+        String filepath1 = file1.getAbsolutePath();
+
+
+        fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+        fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+        converterProperties.setFontProvider(fontProvider);
+        converterProperties.setCharset("UTF-8");
+
+        //converting html to pdf
+        HtmlConverter.convertToPdf(content, byteArrayOutputStream, converterProperties);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/pdf");
+        headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        return response;
+
+    }
+
 }

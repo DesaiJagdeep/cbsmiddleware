@@ -2650,7 +2650,8 @@ public class CourtCaseResource {
         //String htmlContent = new String(files.getBytes(), StandardCharsets.UTF_8);
 
 
-        String content = processHtmlFile(files, courtCase, courtCase.getCourtCaseSetting(), "noticeDate");
+        //String content = processHtmlFile(files, courtCase, courtCase.getCourtCaseSetting(), "noticeDate");
+        String content = new String (files.getBytes());
 
         ResponseEntity<byte[]> response = null;
         //code for the generating pdf from html string

@@ -203,7 +203,7 @@ public class IssFileParserResource {
 
     @Autowired
     UserRepository userRepository;
-    
+
     @Autowired
     BankBranchMasterRepository bankBranchMasterRepository;
 
@@ -222,7 +222,7 @@ public class IssFileParserResource {
 
     /**
      * Customize code
-     * @return 
+     * @return
      *
      * @throws Exception
      *
@@ -268,10 +268,13 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(financialYearInFileConf)) {
                 financialYearInFileConf = financialYearInFileConf.trim().replace("\n", " ").toLowerCase();
                 if (!financialYearInFileConf.contains("financial") && !financialYearInFileConf.contains("year")) {
+  //                  throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
                     flag = true;
                 }
             } else {
                 flag = true;
+   //             throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
+
             }
 
             // validating excel heading column name
@@ -280,18 +283,26 @@ public class IssFileParserResource {
                 bankName = bankName.trim().replace("\n", " ").toLowerCase();
                 if (!bankName.contains("bank") && !bankName.contains("name")) {
                     flag = true;
+//                    throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
+
                 }
             } else {
                 flag = true;
+//                throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
+
             }
             String bankCodeColumn = getCellValue(row.getCell(2));
             if (StringUtils.isNotBlank(bankCodeColumn)) {
                 bankCodeColumn = bankCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!bankCodeColumn.contains("bank") && !bankCodeColumn.contains("code")) {
                     flag = true;
+//                    throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
+
                 }
             } else {
                 flag = true;
+//                throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
+
             }
 
             String branchNameColumn = getCellValue(row.getCell(3));
@@ -299,9 +310,13 @@ public class IssFileParserResource {
                 branchNameColumn = branchNameColumn.trim().replace("\n", " ").toLowerCase();
                 if (!branchNameColumn.contains("branch") && !branchNameColumn.contains("name")) {
                     flag = true;
+//                    throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
+
                 }
             } else {
                 flag = true;
+//                throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
+
             }
 
             String branchCodeColumn = getCellValue(row.getCell(4));
@@ -309,9 +324,13 @@ public class IssFileParserResource {
                 branchCodeColumn = branchCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!branchCodeColumn.contains("branch") && !branchCodeColumn.contains("code")) {
                     flag = true;
+//                    throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
+
                 }
             } else {
                 flag = true;
+//                throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
+
             }
 
             String kccBranchCodeColumn = getCellValue(row.getCell(5));
@@ -319,6 +338,8 @@ public class IssFileParserResource {
                 kccBranchCodeColumn = kccBranchCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!kccBranchCodeColumn.contains("kcc") && !kccBranchCodeColumn.contains("branch")) {
                     flag = true;
+//                    throw new BadRequestAlertException("Missing KCC Branch Column", ENTITY_NAME, "fileInvalid");
+
                 }
             } else {
                 flag = true;
@@ -803,7 +824,7 @@ public class IssFileParserResource {
             boolean flagForData = false;
             String fYear = getCellValue(row.getCell(0));
 
-            
+
             if(StringUtils.isBlank(fYear))
             {
             	 flagForData = true;
@@ -811,37 +832,37 @@ public class IssFileParserResource {
             else if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
                 flagForData = true;
             }
-            
-            
-            
-            
+
+
+
+
             String bankNameValue = getCellValue(row.getCell(1));
             if (StringUtils.isNotBlank(bankNameValue) && !bankNameValue.equalsIgnoreCase("PUNE DISTRICT CENTRAL CO.OP BANK LTD")) {
                 flagForData = true;
             }
-            
+
             String bankCodeValue = getCellValue(row.getCell(2));
             if (StringUtils.isNotBlank(bankCodeValue) && !bankCodeValue.matches("\\d+")) {
                 flagForData = true;
             }
-            
-            
+
+
             String branchNameValue = getCellValue(row.getCell(3));
             if (StringUtils.isNotBlank(branchNameValue)) {
-            	
+
             	if(bankBranchMasterRepository.findOneByBranchName(branchNameValue)==null)
             	{
             		 flagForData = true;
             	}
-               
+
             }
-            
+
             String bankBranchCode = getCellValue(row.getCell(4));
             if (StringUtils.isNotBlank(bankBranchCode) && !bankBranchCode.matches("\\d+")) {
                 flagForData = true;
             }
-            
-            
+
+
             String kccIssBranchCode = getCellValue(row.getCell(5));
             if(StringUtils.isBlank(kccIssBranchCode))
             {
@@ -850,9 +871,9 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(kccIssBranchCode) && !kccIssBranchCode.matches("\\d+")) {
                 flagForData = true;
             }
-            
-            
-            
+
+
+
 
             String ifsc = getCellValue(row.getCell(6));
             if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
@@ -1564,7 +1585,7 @@ public class IssFileParserResource {
         try {
             byte[] imgbyte = null;
             imgbyte = files.getBytes();
-            
+
             Files.write(path, imgbyte);
         } catch (IOException e) {
             log.error("file not saved successfully", e);
@@ -1617,7 +1638,7 @@ public class IssFileParserResource {
                     String KccIssCropCode = getCellValue(row.getCell(39));
                     String DisbursementDate = getDateCellValue(row.getCell(48));
                     String maturityLoanDate = getDateCellValue(row.getCell(50));
-                    
+
                     if (
                         !issFileParserRepository
                             .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
@@ -1630,7 +1651,7 @@ public class IssFileParserResource {
                             )
                             .isPresent()
                     ) {
-                    	
+
                         issFileParser.setBankName(getCellValue(row.getCell(1)));
 
                         issFileParser.setBankCode(getCellValue(row.getCell(2)));
@@ -1743,12 +1764,12 @@ public class IssFileParserResource {
                             issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
                             issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
                             issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
-                            
+
                             //third time
                             issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
                             issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
                             issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
-                            
+
                             //fourth time
                             issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
                             issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
@@ -2012,8 +2033,8 @@ public class IssFileParserResource {
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(new ApplicationLog("Account Number is incorrect format", issFileParser));
             }
-            
-            
+
+
          // Filter invalid bank code
             List<IssFileParser> invalidBankCodeList = findAllByIssPortalFile
                 .stream()
@@ -2035,8 +2056,8 @@ public class IssFileParserResource {
                 issFileParserValidationErrorSet.add(issFileParser);
                 applicationLogList.add(new ApplicationLog("Scheme Wise Branch Code is incorrect format", issFileParser));
             }
-            
-            
+
+
             // Filter invalid ifsc
             List<IssFileParser> invalidIFSCCodeList = findAllByIssPortalFile
                 .stream()
@@ -2137,7 +2158,7 @@ public class IssFileParserResource {
                 applicationLogList.add(new ApplicationLog("Land Type is not in IRRIGATED, NON-IRRIGATED format", issFileParser));
             }
 
-            // Filter invalid season 
+            // Filter invalid season
             List<IssFileParser> invalidSeasonList = findAllByIssPortalFile
                 .stream()
                 .filter(person -> !validateSeasonName(person.getSeasonName()))
@@ -2149,8 +2170,8 @@ public class IssFileParserResource {
                     new ApplicationLog("Season is not in KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE format", issFileParser)
                 );
             }
-            
-            
+
+
          // Filter invalid activityType
             List<IssFileParser> invalidActivityTypeList = findAllByIssPortalFile
                 .stream()
@@ -2202,17 +2223,17 @@ public class IssFileParserResource {
                 .stream()
                 .filter(c1 -> issFileParserValidationErrorSet.stream().noneMatch(c2 -> c1.getId() == c2.getId()))
                 .collect(Collectors.toList());
-            
+
             if (!applicationLogListToSave.isEmpty()) {
                 applicationLogRepository.saveAll(applicationLogListToSave);
                 issPortalFile.setErrorRecordCount(applicationLogListToSave.size());
-               
+
             }
-            
+
 
             List<Application> applicationList = new ArrayList<>();
             if (!correctedRecordsInFile.isEmpty()) {
-            	issPortalFile.setAppPendingToSubmitCount((long)correctedRecordsInFile.size());	
+            	issPortalFile.setAppPendingToSubmitCount((long)correctedRecordsInFile.size());
                 for (IssFileParser issFileParser : correctedRecordsInFile) {
                     if (!applicationRepository.findOneByIssFileParser(issFileParser).isPresent()) {
                         Application application = new Application();
@@ -2230,7 +2251,7 @@ public class IssFileParserResource {
 
                 applicationRepository.saveAll(applicationList);
             }
-            
+
             try {
             	issPortalFileRepository.save(issPortalFile);
                 notificationDataUtility.notificationData(
@@ -2674,13 +2695,13 @@ public class IssFileParserResource {
         }
 
         ApplicationLog validateOneFileDataObject = getValidateOneFileDataObject(issFileParser, findOneByIssFileParser.get());
-        
+
      // fetching iss portal file and updating error record count
         IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
         if(validateOneFileDataObject!=null&&validateOneFileDataObject.getStatus().equalsIgnoreCase(Constants.ERROR))
         {
         	 applicationLogRepository.save(validateOneFileDataObject);
-        	 
+
              IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
 
              // saving iss file data after validating
@@ -2695,12 +2716,12 @@ public class IssFileParserResource {
 			} else if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
 				issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
 				issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
-				
+
 				 applicationRepository.deleteByIssFileParser(issFileParser);
 			}
 
             IssPortalFile issPortalFileSave = issPortalFileRepository.save(issPortalFile);
-            
+
 
             // saving iss file data after validating
             issFileParser.setIssPortalFile(issPortalFileSave);
@@ -2736,10 +2757,10 @@ public class IssFileParserResource {
                     );
                 } catch (Exception e) {}
             }
-        	
+
         }
-        
-        
+
+
 
         return ResponseEntity
             .ok()
@@ -2786,7 +2807,7 @@ public class IssFileParserResource {
             validationErrorBuilder.append("Incorect Gender:Correct as male or female. ");
         }
 
-        
+
         // socialCategory
         if (!validateSocialCategory(issFileParser.getSocialCategory())) {
             errorCount = errorCount + 1;
@@ -2841,22 +2862,22 @@ public class IssFileParserResource {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Branch Code is in incorrect format. ");
         }
-        
-      
+
+
         // Scheme Wise Branch Code
         if (!issFileParser.getSchemeWiseBranchCode().matches("^[0-9]{6}$")) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Branch Code is in incorrect format. ");
         }
-        
+
         // bank code
         if (!issFileParser.getBankCode().matches("^[0-9]{3}$")) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Branch Code is in incorrect format. ");
         }
-        
-        
-        
+
+
+
         // ifsc
         if (!issFileParser.getIfsc().matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
             errorCount = errorCount + 1;
@@ -3013,8 +3034,8 @@ public class IssFileParserResource {
             return false;
         }
     }
-    
-    
+
+
     private boolean validateActivityType(String activityType) {
         if (StringUtils.isNotBlank(activityType)&&
             MasterDataCacheService.ActivityTypeMasterList
@@ -3316,9 +3337,9 @@ public class IssFileParserResource {
         return new SecretKeySpec(truncatedKey, "AES");
     }
 
-    
-    
-    
+
+
+
 	private static String getStringCellValue(Cell cell) {
 		if (cell != null && cell.getCellType() == CellType.STRING) {
 			return cell.getStringCellValue();
@@ -3326,8 +3347,8 @@ public class IssFileParserResource {
 			return null;
 		}
 	}
-    
-    
+
+
     private static String getCellValue(Cell cell) {
         String cellValue = "";
 
@@ -3350,7 +3371,7 @@ public class IssFileParserResource {
             cellValue = String.valueOf(cell.getBooleanCellValue());
 		} else if (cell.getCellType() == CellType.FORMULA) { cellValue =
 			  String.valueOf(cell.getNumericCellValue());
-			  
+
 			  if (cellValue.contains(".0")) { cellValue = cellValue.substring(0,
 			  cellValue.indexOf(".")); } }
 			  else if (cell.getCellType() == CellType.BLANK) {
@@ -3388,8 +3409,8 @@ public class IssFileParserResource {
         if (cell == null) {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
-            
-            
+
+
             Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
             Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
             Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
@@ -3402,21 +3423,21 @@ public class IssFileParserResource {
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter).trim();
-            } 
-            
-            
+            }
+
+
             else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter).trim();
             }
-            
+
             else if (patternDD_MM_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter).trim();
             }
-            
+
             else {
                 cellValue = cell.getStringCellValue();
             }

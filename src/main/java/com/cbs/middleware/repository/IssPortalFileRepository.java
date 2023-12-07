@@ -56,10 +56,10 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(id) from application_log where status = 'ERROR' and error_type= 'Validation Error' and iss_file_parser_id IN (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))", nativeQuery = true)
     Integer findValidationErrorCountByFinancialYear(@Param("financialYear") String financialYear);
 
-    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))and  application_status = 0", nativeQuery = true)
+    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))and  application_status = 1", nativeQuery = true)
     Integer findKccAcceptedCountByFinancialYear(@Param("financialYear") String financialYear);
 
-    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))and  application_status = 1", nativeQuery = true)
+    @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))and  application_status = 0", nativeQuery = true)
     Integer findKccRejectedCountByFinancialYear(@Param("financialYear") String financialYear);
 
     @Query(value = " select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear))and  application_status = 2", nativeQuery = true)
@@ -76,10 +76,10 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(id) from application_log where status = 'ERROR' and error_type= 'Validation Error' and iss_file_parser_id IN (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode))", nativeQuery = true)
     Long findValidationErrorByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode)) and  application_status = 0", nativeQuery = true)
+    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode)) and  application_status = 1", nativeQuery = true)
     Long findKccAcceptedByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode)) and  application_status = 1", nativeQuery = true)
+    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode)) and  application_status = 0", nativeQuery = true)
     Long findKccRejectedByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
 
     @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code =:schemeWiseBranchCode)) and  application_status = 2", nativeQuery = true)
@@ -96,10 +96,10 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(id) from application_log where status = 'ERROR' and error_type= 'Validation Error' and iss_file_parser_id IN (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode))", nativeQuery = true)
     Long findValidationErrorByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 0", nativeQuery = true)
+    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 1", nativeQuery = true)
     Long findKccAcceptedByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 1", nativeQuery = true)
+    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 0", nativeQuery = true)
     Long findKccRejectedByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
 
     @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 2", nativeQuery = true)

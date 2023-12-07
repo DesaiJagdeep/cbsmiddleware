@@ -29,6 +29,7 @@ public final class Constants {
 
 	//producation or dev server
     //public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
+    //public static final String fontFilePath1 = "/var/lib/tomcat9/webapps/font/NotoSans-Regular_bold.ttf";
 
 //	public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
 //	public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";

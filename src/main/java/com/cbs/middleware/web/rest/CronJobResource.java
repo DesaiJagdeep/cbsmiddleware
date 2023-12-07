@@ -4,9 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -149,9 +148,18 @@ public class CronJobResource {
     @Scheduled(cron = "0 0 6 * * ?")
     public void updateRecordsInBatchTran() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(timeZone);
+        String indianTime = dateFormat.format(new Date());
 
+        log.debug("Crown Job started at"+ indianTime);
+        log.info("Crown Job started at"+ indianTime);
+        log.info("batchTransactionList size =  "+batchTransactionList.size());
         if (!batchTransactionList.isEmpty()) {
+            log.info("Batch transaction list not empty");
             for (BatchTransaction batchTransaction : batchTransactionList) {
+                log.info("Batch transaction found "+batchTransaction.getId());
                 List<Application> applicationListSave = new ArrayList<>();
                 String cbsResponceString = "";
                 BatchAckId batchAckId = new BatchAckId();
@@ -178,8 +186,9 @@ public class CronJobResource {
                     ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
                     if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-                        cbsResponceString = responseEntity.getBody();
 
+                        cbsResponceString = responseEntity.getBody();
+                        log.info("Batch transaction response cbsResponceString = "+cbsResponceString);
                         CBSResponce convertValue = null;
                         ObjectMapper objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -247,9 +256,9 @@ public class CronJobResource {
                                             }
                                             else
                                             {
-                                            	issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);	
+                                            	issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
                                             }
-                                            
+
                                             issPortalFileRepository.save(issPortalFile);
                                         }
 
@@ -401,14 +410,14 @@ public class CronJobResource {
         applicationLog.setStatus("ERROR");
         return applicationLog;
     }
-    
-    
+
+
     //remove
     @GetMapping("/cronJb")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void updateRecordsInBatchTrans() {
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
-        
+
         if (!batchTransactionList.isEmpty()) {
             for (BatchTransaction batchTransaction : batchTransactionList) {
                 List<Application> applicationListSave = new ArrayList<>();
@@ -506,9 +515,9 @@ public class CronJobResource {
                                             }
                                             else
                                             {
-                                            	issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);	
+                                            	issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
                                             }
-                                            
+
                                             issPortalFileRepository.save(issPortalFile);
                                         }
 
@@ -531,7 +540,7 @@ public class CronJobResource {
                                             applicationLogHistoryRepository.save(applicationLogHistory);
                                         }
 
-                                        
+
                                         // updating new error log entry
                                         applicationLog.setIssFileParser(applicationByUniqueId.getIssFileParser());
 

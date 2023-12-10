@@ -155,7 +155,7 @@ public class KarkhanaVasuliRecordsResource {
     @GetMapping("")
     public ResponseEntity<List<KarkhanaVasuliRecords>> getAllKarkhanaVasuliRecords(
         KarkhanaVasuliRecordsCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KarkhanaVasuliRecords by criteria: {}", criteria);
 

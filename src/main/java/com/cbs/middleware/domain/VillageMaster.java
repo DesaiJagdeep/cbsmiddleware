@@ -34,9 +34,7 @@ public class VillageMaster extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "village_code_mr")
     private String villageCodeMr;
 
-    @JsonIgnoreProperties(value = { "villageMaster" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
+    @OneToOne
     private TalukaMaster talukaMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

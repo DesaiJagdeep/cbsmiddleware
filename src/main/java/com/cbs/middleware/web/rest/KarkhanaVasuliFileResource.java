@@ -155,7 +155,7 @@ public class KarkhanaVasuliFileResource {
     @GetMapping("")
     public ResponseEntity<List<KarkhanaVasuliFile>> getAllKarkhanaVasuliFiles(
         KarkhanaVasuliFileCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KarkhanaVasuliFiles by criteria: {}", criteria);
 

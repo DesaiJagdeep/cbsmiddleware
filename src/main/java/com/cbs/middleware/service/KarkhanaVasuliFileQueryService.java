@@ -4,6 +4,8 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
 import com.cbs.middleware.service.criteria.KarkhanaVasuliFileCriteria;
+
+import java.time.Instant;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.InstantFilter;
+import javax.persistence.metamodel.SingularAttribute;
+
 
 /**
  * Service for executing complex queries for {@link KarkhanaVasuliFile} entities in the database.
@@ -124,4 +129,6 @@ public class KarkhanaVasuliFileQueryService extends QueryService<KarkhanaVasuliF
         }
         return specification;
     }
+
+
 }

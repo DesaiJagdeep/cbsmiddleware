@@ -1,6 +1,6 @@
 package com.cbs.middleware.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -10,7 +10,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "karkhana_vasuli_file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KarkhanaVasuliFile implements Serializable {
+public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

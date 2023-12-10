@@ -1,8 +1,9 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "village_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VillageMaster implements Serializable {
+public class VillageMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

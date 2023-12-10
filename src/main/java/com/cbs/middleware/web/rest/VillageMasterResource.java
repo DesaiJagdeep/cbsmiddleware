@@ -6,8 +6,8 @@ import com.cbs.middleware.service.VillageMasterQueryService;
 import com.cbs.middleware.service.VillageMasterService;
 import com.cbs.middleware.service.criteria.VillageMasterCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -156,7 +156,7 @@ public class VillageMasterResource {
     @GetMapping("")
     public ResponseEntity<List<VillageMaster>> getAllVillageMasters(
         VillageMasterCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get VillageMasters by criteria: {}", criteria);
 

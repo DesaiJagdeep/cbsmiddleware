@@ -1,0 +1,189 @@
+<div>
+  <h2 id="page-heading" data-cy="KarkhanaVasuliRecordsHeading">
+    <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.title">Karkhana Vasuli Records</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-karkhana-vasuli-records"
+        [routerLink]="['/karkhana-vasuli-records/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.createLabel">Create a new Karkhana Vasuli Records</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="karkhanaVasuliRecords?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.notFound">No Karkhana Vasuli Records found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="karkhanaVasuliRecords && karkhanaVasuliRecords.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="factoryMemberCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.factoryMemberCode">Factory Member Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karkhanaMemberCodeMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaMemberCodeMr">Karkhana Member Code Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memberName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberName">Member Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memberNameMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberNameMr">Member Name Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="villageName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageName">Village Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="villageNameMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageNameMr">Village Name Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="amount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amount">Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="amountMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amountMr">Amount Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="savingAccNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNo">Saving Acc No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="savingAccNoMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNoMr">Saving Acc No Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="status">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.status">Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="karkhanaVasuliFile.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaVasuliFile">Karkhana Vasuli File</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let karkhanaVasuliRecords of karkhanaVasuliRecords; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'view']">{{ karkhanaVasuliRecords.id }}</a>
+          </td>
+          <td>{{ karkhanaVasuliRecords.factoryMemberCode }}</td>
+          <td>{{ karkhanaVasuliRecords.karkhanaMemberCodeMr }}</td>
+          <td>{{ karkhanaVasuliRecords.memberName }}</td>
+          <td>{{ karkhanaVasuliRecords.memberNameMr }}</td>
+          <td>{{ karkhanaVasuliRecords.villageName }}</td>
+          <td>{{ karkhanaVasuliRecords.villageNameMr }}</td>
+          <td>{{ karkhanaVasuliRecords.amount }}</td>
+          <td>{{ karkhanaVasuliRecords.amountMr }}</td>
+          <td>{{ karkhanaVasuliRecords.savingAccNo }}</td>
+          <td>{{ karkhanaVasuliRecords.savingAccNoMr }}</td>
+          <td>{{ karkhanaVasuliRecords.status }}</td>
+          <td>
+            <div *ngIf="karkhanaVasuliRecords.karkhanaVasuliFile">
+              <a [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliRecords.karkhanaVasuliFile.id, 'view']">{{
+                karkhanaVasuliRecords.karkhanaVasuliFile.id
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <a
+                [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </a>
+
+              <a
+                [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </a>
+
+              <button type="submit" (click)="delete(karkhanaVasuliRecords)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="karkhanaVasuliRecords && karkhanaVasuliRecords.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

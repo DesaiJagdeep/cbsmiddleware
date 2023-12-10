@@ -1,0 +1,67 @@
+{
+  "changelogDate": "20231210145258",
+  "dto": "no",
+  "entityTableName": "karkhana_vasuli_records",
+  "fields": [
+    {
+      "fieldName": "factoryMemberCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "karkhanaMemberCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memberName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memberNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "amountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingAccNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "savingAccNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KarkhanaVasuliRecords",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "karkhanaVasuliFile",
+      "otherEntityRelationshipName": "karkhanaVasuliRecords",
+      "relationshipName": "karkhanaVasuliFile",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

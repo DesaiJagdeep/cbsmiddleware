@@ -1,0 +1,35 @@
+{
+  "cbsMiddlewareApp": {
+    "karkhanaVasuliRecords": {
+      "home": {
+        "title": "Karkhana Vasuli Records",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Karkhana Vasuli Records",
+        "createOrEditLabel": "Create or edit a Karkhana Vasuli Records",
+        "notFound": "No Karkhana Vasuli Records found"
+      },
+      "created": "A new Karkhana Vasuli Records is created with identifier {{ param }}",
+      "updated": "A Karkhana Vasuli Records is updated with identifier {{ param }}",
+      "deleted": "A Karkhana Vasuli Records is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Karkhana Vasuli Records {{ id }}?"
+      },
+      "detail": {
+        "title": "Karkhana Vasuli Records"
+      },
+      "id": "ID",
+      "factoryMemberCode": "Factory Member Code",
+      "karkhanaMemberCodeMr": "Karkhana Member Code Mr",
+      "memberName": "Member Name",
+      "memberNameMr": "Member Name Mr",
+      "villageName": "Village Name",
+      "villageNameMr": "Village Name Mr",
+      "amount": "Amount",
+      "amountMr": "Amount Mr",
+      "savingAccNo": "Saving Acc No",
+      "savingAccNoMr": "Saving Acc No Mr",
+      "status": "Status",
+      "karkhanaVasuliFile": "Karkhana Vasuli File"
+    }
+  }
+}

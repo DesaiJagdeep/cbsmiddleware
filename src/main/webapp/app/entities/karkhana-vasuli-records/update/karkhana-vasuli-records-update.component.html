@@ -1,0 +1,187 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-karkhana-vasuli-records-heading"
+        data-cy="KarkhanaVasuliRecordsCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.createOrEditLabel"
+      >
+        Create or edit a Karkhana Vasuli Records
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.factoryMemberCode" for="field_factoryMemberCode"
+            >Factory Member Code</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="factoryMemberCode"
+            id="field_factoryMemberCode"
+            data-cy="factoryMemberCode"
+            formControlName="factoryMemberCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaMemberCodeMr"
+            for="field_karkhanaMemberCodeMr"
+            >Karkhana Member Code Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="karkhanaMemberCodeMr"
+            id="field_karkhanaMemberCodeMr"
+            data-cy="karkhanaMemberCodeMr"
+            formControlName="karkhanaMemberCodeMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberName" for="field_memberName"
+            >Member Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="memberName"
+            id="field_memberName"
+            data-cy="memberName"
+            formControlName="memberName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberNameMr" for="field_memberNameMr"
+            >Member Name Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="memberNameMr"
+            id="field_memberNameMr"
+            data-cy="memberNameMr"
+            formControlName="memberNameMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageName" for="field_villageName"
+            >Village Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="villageName"
+            id="field_villageName"
+            data-cy="villageName"
+            formControlName="villageName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageNameMr" for="field_villageNameMr"
+            >Village Name Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="villageNameMr"
+            id="field_villageNameMr"
+            data-cy="villageNameMr"
+            formControlName="villageNameMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amount" for="field_amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amountMr" for="field_amountMr">Amount Mr</label>
+          <input type="text" class="form-control" name="amountMr" id="field_amountMr" data-cy="amountMr" formControlName="amountMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNo" for="field_savingAccNo"
+            >Saving Acc No</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="savingAccNo"
+            id="field_savingAccNo"
+            data-cy="savingAccNo"
+            formControlName="savingAccNo"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNoMr" for="field_savingAccNoMr"
+            >Saving Acc No Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="savingAccNoMr"
+            id="field_savingAccNoMr"
+            data-cy="savingAccNoMr"
+            formControlName="savingAccNoMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.status" for="field_status">Status</label>
+          <input type="checkbox" class="form-check" name="status" id="field_status" data-cy="status" formControlName="status" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaVasuliFile" for="field_karkhanaVasuliFile"
+            >Karkhana Vasuli File</label
+          >
+          <select
+            class="form-control"
+            id="field_karkhanaVasuliFile"
+            data-cy="karkhanaVasuliFile"
+            name="karkhanaVasuliFile"
+            formControlName="karkhanaVasuliFile"
+            [compareWith]="compareKarkhanaVasuliFile"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="karkhanaVasuliFileOption" *ngFor="let karkhanaVasuliFileOption of karkhanaVasuliFilesSharedCollection">
+              {{ karkhanaVasuliFileOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

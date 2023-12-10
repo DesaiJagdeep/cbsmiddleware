@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="karkhanaVasuliRecords">
+      <h2 data-cy="karkhanaVasuliRecordsDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.detail.title">Karkhana Vasuli Records</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.factoryMemberCode">Factory Member Code</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.factoryMemberCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaMemberCodeMr">Karkhana Member Code Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.karkhanaMemberCodeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberName">Member Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.memberName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberNameMr">Member Name Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.memberNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageName">Village Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.villageName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageNameMr">Village Name Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.villageNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amount">Amount</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.amount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amountMr">Amount Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.amountMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNo">Saving Acc No</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.savingAccNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNoMr">Saving Acc No Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.savingAccNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.status">Status</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliRecords.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaVasuliFile">Karkhana Vasuli File</span></dt>
+        <dd>
+          <div *ngIf="karkhanaVasuliRecords.karkhanaVasuliFile">
+            <a [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliRecords.karkhanaVasuliFile.id, 'view']">{{
+              karkhanaVasuliRecords.karkhanaVasuliFile.id
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

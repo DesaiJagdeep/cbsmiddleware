@@ -1,0 +1,35 @@
+{
+  "cbsMiddlewareApp": {
+    "karkhanaVasuliRecords": {
+      "home": {
+        "title": "KarkhanaVasuliRecords",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Karkhana Vasuli Records बनाएँ",
+        "createOrEditLabel": "Karkhana Vasuli Records बनाएँ या संपादित करें",
+        "notFound": "No Karkhana Vasuli Records found"
+      },
+      "created": "एक नया Karkhana Vasuli Records [identifier: {{ param }}] तैयार है",
+      "updated": "एक Karkhana Vasuli Records [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Karkhana Vasuli Records [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Karkhana Vasuli Records [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Karkhana Vasuli Records"
+      },
+      "id": "ID",
+      "factoryMemberCode": "Factory Member Code",
+      "karkhanaMemberCodeMr": "Karkhana Member Code Mr",
+      "memberName": "Member Name",
+      "memberNameMr": "Member Name Mr",
+      "villageName": "Village Name",
+      "villageNameMr": "Village Name Mr",
+      "amount": "Amount",
+      "amountMr": "Amount Mr",
+      "savingAccNo": "Saving Acc No",
+      "savingAccNoMr": "Saving Acc No Mr",
+      "status": "Status",
+      "karkhanaVasuliFile": "Karkhana Vasuli File"
+    }
+  }
+}

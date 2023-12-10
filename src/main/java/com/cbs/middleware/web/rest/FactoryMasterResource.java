@@ -154,7 +154,7 @@ public class FactoryMasterResource {
     @GetMapping("")
     public ResponseEntity<List<FactoryMaster>> getAllFactoryMasters(
         FactoryMasterCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get FactoryMasters by criteria: {}", criteria);
 

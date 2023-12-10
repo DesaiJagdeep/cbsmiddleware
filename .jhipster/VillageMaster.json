@@ -1,0 +1,41 @@
+{
+  "changelogDate": "20231210120205",
+  "dto": "no",
+  "entityTableName": "village_master",
+  "fields": [
+    {
+      "fieldName": "villageName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "villageNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "villageCodeMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "VillageMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "talukaMaster",
+      "otherEntityRelationshipName": "villageMaster",
+      "relationshipName": "talukaMaster",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

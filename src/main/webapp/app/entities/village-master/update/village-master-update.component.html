@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-village-master-heading"
+        data-cy="VillageMasterCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.villageMaster.home.createOrEditLabel"
+      >
+        Create or edit a Village Master
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageName" for="field_villageName">Village Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="villageName"
+            id="field_villageName"
+            data-cy="villageName"
+            formControlName="villageName"
+          />
+          <div *ngIf="editForm.get('villageName')!.invalid && (editForm.get('villageName')!.dirty || editForm.get('villageName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('villageName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+              >This field is required.</small
+            >
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageNameMr" for="field_villageNameMr"
+            >Village Name Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="villageNameMr"
+            id="field_villageNameMr"
+            data-cy="villageNameMr"
+            formControlName="villageNameMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageCode" for="field_villageCode">Village Code</label>
+          <input
+            type="number"
+            class="form-control"
+            name="villageCode"
+            id="field_villageCode"
+            data-cy="villageCode"
+            formControlName="villageCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageCodeMr" for="field_villageCodeMr"
+            >Village Code Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="villageCodeMr"
+            id="field_villageCodeMr"
+            data-cy="villageCodeMr"
+            formControlName="villageCodeMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.talukaMaster" for="field_talukaMaster"
+            >Taluka Master</label
+          >
+          <select
+            class="form-control"
+            id="field_talukaMaster"
+            data-cy="talukaMaster"
+            name="talukaMaster"
+            formControlName="talukaMaster"
+            [compareWith]="compareTalukaMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="talukaMasterOption" *ngFor="let talukaMasterOption of talukaMastersCollection">
+              {{ talukaMasterOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

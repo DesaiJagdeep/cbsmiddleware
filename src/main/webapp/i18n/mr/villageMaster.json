@@ -1,0 +1,28 @@
+{
+  "cbsMiddlewareApp": {
+    "villageMaster": {
+      "home": {
+        "title": "Village Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Village Master तयार करा",
+        "createOrEditLabel": "Village Master तयार किंवा संपादित करा",
+        "notFound": "No Village Masters found"
+      },
+      "created": "Village Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Village Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Village Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Village Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Village Master"
+      },
+      "id": "ID",
+      "villageName": "Village Name",
+      "villageNameMr": "Village Name Mr",
+      "villageCode": "Village Code",
+      "villageCodeMr": "Village Code Mr",
+      "talukaMaster": "Taluka Master"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="villageMaster">
+      <h2 data-cy="villageMasterDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.villageMaster.detail.title">Village Master</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ villageMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.villageMaster.villageName">Village Name</span></dt>
+        <dd>
+          <span>{{ villageMaster.villageName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.villageMaster.villageNameMr">Village Name Mr</span></dt>
+        <dd>
+          <span>{{ villageMaster.villageNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.villageMaster.villageCode">Village Code</span></dt>
+        <dd>
+          <span>{{ villageMaster.villageCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.villageMaster.villageCodeMr">Village Code Mr</span></dt>
+        <dd>
+          <span>{{ villageMaster.villageCodeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.villageMaster.talukaMaster">Taluka Master</span></dt>
+        <dd>
+          <div *ngIf="villageMaster.talukaMaster">
+            <a [routerLink]="['/taluka-master', villageMaster.talukaMaster.id, 'view']">{{ villageMaster.talukaMaster.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/village-master', villageMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

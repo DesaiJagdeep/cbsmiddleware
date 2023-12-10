@@ -1,0 +1,46 @@
+{
+  "changelogDate": "20231210124810",
+  "dto": "no",
+  "entityTableName": "factory_master",
+  "fields": [
+    {
+      "fieldName": "factoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "factoryCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryAddressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "FactoryMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

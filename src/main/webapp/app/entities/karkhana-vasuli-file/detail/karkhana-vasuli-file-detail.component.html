@@ -1,0 +1,78 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="karkhanaVasuliFile">
+      <h2 data-cy="karkhanaVasuliFileDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.detail.title">Karkhana Vasuli File</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.fileName">File Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.fileName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.uniqueFileName">Unique File Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.uniqueFileName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.address">Address</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.address }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.addressMr">Address Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.addressMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.hangam">Hangam</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.hangam }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.hangamMr">Hangam Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.hangamMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryName">Factory Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.factoryName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryNameMr">Factory Name Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.factoryNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.totalAmount">Total Amount</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.totalAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.totalAmountMr">Total Amount Mr</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.totalAmountMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.fromDate">From Date</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.fromDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.toDate">To Date</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.toDate | formatMediumDatetime }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

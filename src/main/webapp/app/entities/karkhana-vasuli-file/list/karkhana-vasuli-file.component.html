@@ -1,0 +1,183 @@
+<div>
+  <h2 id="page-heading" data-cy="KarkhanaVasuliFileHeading">
+    <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.title">Karkhana Vasuli Files</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-karkhana-vasuli-file"
+        [routerLink]="['/karkhana-vasuli-file/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.createLabel">Create a new Karkhana Vasuli File</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="karkhanaVasuliFiles?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.notFound">No Karkhana Vasuli Files found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="karkhanaVasuliFiles && karkhanaVasuliFiles.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fileName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.fileName">File Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="uniqueFileName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.uniqueFileName">Unique File Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.address">Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="addressMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.addressMr">Address Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hangam">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.hangam">Hangam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hangamMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.hangamMr">Hangam Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="factoryName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryName">Factory Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="factoryNameMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryNameMr">Factory Name Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.totalAmount">Total Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalAmountMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.totalAmountMr">Total Amount Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fromDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.fromDate">From Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="toDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.toDate">To Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let karkhanaVasuliFile of karkhanaVasuliFiles; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'view']">{{ karkhanaVasuliFile.id }}</a>
+          </td>
+          <td>{{ karkhanaVasuliFile.fileName }}</td>
+          <td>{{ karkhanaVasuliFile.uniqueFileName }}</td>
+          <td>{{ karkhanaVasuliFile.address }}</td>
+          <td>{{ karkhanaVasuliFile.addressMr }}</td>
+          <td>{{ karkhanaVasuliFile.hangam }}</td>
+          <td>{{ karkhanaVasuliFile.hangamMr }}</td>
+          <td>{{ karkhanaVasuliFile.factoryName }}</td>
+          <td>{{ karkhanaVasuliFile.factoryNameMr }}</td>
+          <td>{{ karkhanaVasuliFile.totalAmount }}</td>
+          <td>{{ karkhanaVasuliFile.totalAmountMr }}</td>
+          <td>{{ karkhanaVasuliFile.fromDate | formatMediumDatetime }}</td>
+          <td>{{ karkhanaVasuliFile.toDate | formatMediumDatetime }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <a
+                [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </a>
+
+              <a
+                [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </a>
+
+              <button type="submit" (click)="delete(karkhanaVasuliFile)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="karkhanaVasuliFiles && karkhanaVasuliFiles.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

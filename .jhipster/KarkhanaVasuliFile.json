@@ -1,0 +1,62 @@
+{
+  "changelogDate": "20231210131246",
+  "dto": "no",
+  "entityTableName": "karkhana_vasuli_file",
+  "fields": [
+    {
+      "fieldName": "fileName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uniqueFileName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "addressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangam",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangamMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "factoryNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "toDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KarkhanaVasuliFile",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

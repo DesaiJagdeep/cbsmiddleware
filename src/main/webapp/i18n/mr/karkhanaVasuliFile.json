@@ -1,0 +1,35 @@
+{
+  "cbsMiddlewareApp": {
+    "karkhanaVasuliFile": {
+      "home": {
+        "title": "Karkhana Vasuli Files",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Karkhana Vasuli File तयार करा",
+        "createOrEditLabel": "Karkhana Vasuli File तयार किंवा संपादित करा",
+        "notFound": "No Karkhana Vasuli Files found"
+      },
+      "created": "Karkhana Vasuli File [identifier: {{ param }}] तयार आहे",
+      "updated": "Karkhana Vasuli File [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Karkhana Vasuli File [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Karkhana Vasuli File [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Karkhana Vasuli File"
+      },
+      "id": "ID",
+      "fileName": "File Name",
+      "uniqueFileName": "Unique File Name",
+      "address": "Address",
+      "addressMr": "Address Mr",
+      "hangam": "Hangam",
+      "hangamMr": "Hangam Mr",
+      "factoryName": "Factory Name",
+      "factoryNameMr": "Factory Name Mr",
+      "totalAmount": "Total Amount",
+      "totalAmountMr": "Total Amount Mr",
+      "fromDate": "From Date",
+      "toDate": "To Date"
+    }
+  }
+}

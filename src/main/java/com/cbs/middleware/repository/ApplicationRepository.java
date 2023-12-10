@@ -102,4 +102,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Transactional
 	void deleteByIssFileParser(IssFileParser issFileParser);
+
+    List<Application> findAllByUniqueId(String uniqueId);
 }

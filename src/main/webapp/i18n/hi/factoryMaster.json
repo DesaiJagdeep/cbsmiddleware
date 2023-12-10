@@ -1,0 +1,31 @@
+{
+  "cbsMiddlewareApp": {
+    "factoryMaster": {
+      "home": {
+        "title": "FactoryMasters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Factory Master बनाएँ",
+        "createOrEditLabel": "Factory Master बनाएँ या संपादित करें",
+        "notFound": "No Factory Masters found"
+      },
+      "created": "एक नया Factory Master [identifier: {{ param }}] तैयार है",
+      "updated": "एक Factory Master [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Factory Master [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Factory Master [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Factory Master"
+      },
+      "id": "ID",
+      "factoryName": "Factory Name",
+      "factoryNameMr": "Factory Name Mr",
+      "factoryCode": "Factory Code",
+      "factoryCodeMr": "Factory Code Mr",
+      "factoryAddress": "Factory Address",
+      "factoryAddressMr": "Factory Address Mr",
+      "description": "Description",
+      "status": "Status"
+    }
+  }
+}

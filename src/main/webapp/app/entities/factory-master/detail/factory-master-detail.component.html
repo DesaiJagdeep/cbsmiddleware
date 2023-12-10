@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="factoryMaster">
+      <h2 data-cy="factoryMasterDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.factoryMaster.detail.title">Factory Master</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ factoryMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryName">Factory Name</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryNameMr">Factory Name Mr</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryCode">Factory Code</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryCodeMr">Factory Code Mr</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryCodeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryAddress">Factory Address</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.factoryAddressMr">Factory Address Mr</span></dt>
+        <dd>
+          <span>{{ factoryMaster.factoryAddressMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.description">Description</span></dt>
+        <dd>
+          <span>{{ factoryMaster.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.factoryMaster.status">Status</span></dt>
+        <dd>
+          <span>{{ factoryMaster.status }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/factory-master', factoryMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

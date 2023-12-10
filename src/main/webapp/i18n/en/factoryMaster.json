@@ -1,0 +1,31 @@
+{
+  "cbsMiddlewareApp": {
+    "factoryMaster": {
+      "home": {
+        "title": "Factory Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Factory Master",
+        "createOrEditLabel": "Create or edit a Factory Master",
+        "notFound": "No Factory Masters found"
+      },
+      "created": "A new Factory Master is created with identifier {{ param }}",
+      "updated": "A Factory Master is updated with identifier {{ param }}",
+      "deleted": "A Factory Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Factory Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Factory Master"
+      },
+      "id": "ID",
+      "factoryName": "Factory Name",
+      "factoryNameMr": "Factory Name Mr",
+      "factoryCode": "Factory Code",
+      "factoryCodeMr": "Factory Code Mr",
+      "factoryAddress": "Factory Address",
+      "factoryAddressMr": "Factory Address Mr",
+      "description": "Description",
+      "status": "Status"
+    }
+  }
+}

@@ -1530,7 +1530,7 @@ public class IssFileParserResource {
             }
 
             String accountNumber = getCellValue(row.getCell(30));
-            if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
+            if (StringUtils.isBlank(accountNumber)) {
                 flag = true;
             }
             String landtype = getCellValue(row.getCell(47));

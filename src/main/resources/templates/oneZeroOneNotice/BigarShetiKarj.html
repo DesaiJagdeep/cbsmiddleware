@@ -27,19 +27,19 @@
   </tr>
   <tr>
     <td colspan="2" style="text-align: justify">
-      कर्जदार: <u><strong><span th:text="${courtCase.nameOfDefaulter}"/></strong></u>
+      कर्जदार: <u><strong><span th:text="${courtCase.nameOfDefaulter}"/> </strong></u>
     </td>
   </tr>
   <tr>
     <td colspan="2" style="text-align: justify">
-      राहणार: <u><strong><span th:text="${courtCase.address}"/></strong></u>
+      राहणार: <u><strong><span th:text="${courtCase.address}"/> </strong></u>
     </td>
   </tr>
   <tr th:if="${courtCase.gaurentorOne ne null}">
     <td style="text-align: justify; vertical-align: baseline" rowspan="2">
       १)
     </td>
-    <td>जमीनदार: <u><strong><span th:text="${courtCase.gaurentorOne}"/></strong></u></td>
+    <td>जमीनदार: <u><strong><span th:text="${courtCase.gaurentorOne}"/> </strong></u></td>
   </tr>
   <tr th:if="${courtCase.gaurentorOneAddress ne null}">
     <td>राहणार: <u><strong><span th:text="${courtCase.gaurentorOneAddress}"/></strong></u></td>
@@ -49,7 +49,7 @@
     <td style="text-align: justify; vertical-align: baseline" rowspan="2">
       २)
     </td>
-    <td>जमीनदार: <u><strong><span th:text="${courtCase.gaurentorOne}"/></strong></u></td>
+    <td>जमीनदार: <u><strong><span th:text="${courtCase.gaurentorOne}"/> </strong></u></td>
   </tr>
   <tr th:if="${courtCase.gaurentorTwo ne null}">
     <td>राहणार: <u><strong><span th:text="${courtCase.gaurentorTwoAddress}"/></strong></u></td>
@@ -71,15 +71,15 @@
   <tr>
     <td style="vertical-align: baseline">१)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-      तुम्ही बँकेच्या <u><span th:text="${pacsName}"/></u> शाखेकडून दिनांक <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी थेट शेती
-      कर्ज योजनेअंतर्गत <u><span th:text="${courtCase.loanType}"/></u> कारणासाठी रुपये <u><span th:text="${courtCase.loanAmount}"/></u> चे कर्ज
+      तुम्ही बँकेच्या <u><span th:text="${pacsName}"/>संगमनेर</u> शाखेकडून दिनांक <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी थेट शेती
+      कर्ज योजने अंतर्गत <u><span th:text="${courtCase.loanType}"/>शेती कर्ज </u> कारणासाठी रुपये <u><span th:text="${courtCase.loanAmount}"/></u> चे कर्ज
       द.सा.द.शे. <u><span th:text="${courtCase.interestRate}"/></u>% व्याजदराने <u><span th:text="${courtCase.termOfLoan}"/> /१२</u>  वर्षेच्या मुदतीने घेतले आहे.
     </td>
   </tr>
   <tr>
     <td style="vertical-align: baseline">२)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-      सदर कर्ज व्यवहारास श्री. <u><span th:text="${courtCase.gaurentorOne}"/></u> व श्री. <u><span th:text="${courtCase.gaurentorTwo}"/></u> हे
+      सदर कर्ज व्यवहारास श्री. <strong><u><span th:text="${courtCase.gaurentorOne}"/> </u></strong> व श्री. <strong><u><span th:text="${courtCase.gaurentorTwo}"/> </u></strong> हे
       व्यक्तिश: जमीनदार आहेत.
     </td>
   </tr>
@@ -87,7 +87,7 @@
   <tr>
     <td style="vertical-align: baseline">३)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 20px">
-      मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक <u><span th:text="${courtCase.loanDateMr}"/></u> रोजी रितसर वचनचिठ्ठी, करारनामे व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.
+      मूळ कर्जदार व जामीनदार यांनी बँकेस दिनांक <strong><u><span th:text="${courtCase.loanDateMr}"/></u></strong> रोजी रितसर वचनचिठ्ठी, करारनामे व इतर सर्व कागदपत्रे लिहून दिलेली आहेत.
     </td>
   </tr>
   <tr>
@@ -120,34 +120,27 @@
   <tr style="border: 1px solid black; max-height: 2px">
     <td style="border: 1px solid black; vertical-align: baseline; padding: 8px;">१)</td>
     <td style="border: 1px solid black; padding: 8px;">मुदल</td>
-    <td style="border: 1px solid black; padding: 8px;"><u><span th:text="${courtCase.dueAmount}"/></u></td>
+    <td style="border: 1px solid black; padding: 8px;"><strong><u><span th:text="${courtCase.dueAmount}"/></u></strong></td>
   </tr>
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black; vertical-align: baseline; padding: 8px;">२)</td>
     <td style="border: 1px solid black; padding: 8px;">व्याज येणे + दंड व्याज</td>
-    <td style="border: 1px solid black; padding: 8px;"><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></td>
+    <td style="border: 1px solid black; padding: 8px;"><strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></strong></td>
 
   </tr>
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black; vertical-align: baseline; padding: 8px;">३)</td>
     <td style="border: 1px solid black; padding: 8px;">इतर खर्च - विमा,नोटीस इ.</td>
-    <td style="border: 1px solid black; padding: 8px;"><u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u> </td>
+    <td style="border: 1px solid black; padding: 8px;"><strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u> </strong></td>
   </tr>
   <tr style="border: 1px solid black">
     <td style="border: 1px solid black; padding: 8px;"></td>
     <td style="border: 1px solid black; padding: 8px;">एकूण</td>
-    <td style="border: 1px solid black; padding: 8px;"><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></td>
+    <td style="border: 1px solid black; padding: 8px;"><strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></strong></td>
   </tr>
 </table>
 
-<p
-  style="
-        text-indent: 35px;
-        text-align: justify;
-        line-height: 20px;
-        margin: 0px;
-      "
->
+<p style="text-indent: 35px; text-align: justify; line-height: 20px; margin: 0px;">
   तरी तुम्हास या नोटीशीने कळविण्यात येते की, ही नोटीस मिळाल्यापासून आठ
   दिवसांचे आत वर नमूद केल्याप्रमाणे रकम बँकेत रोख आणून भरावी व पावती घ्यावी.
   सदर मुदतीत संपूर्ण कजांची राम न भरल्यास तुमचे विरुद्ध पुढील कायदेशीर
@@ -155,15 +148,15 @@
   खर्च तुमचे कर्ज खाती नावे टाकले जातील व परिणामाची जबाबदारी तुमचेवर राहील,
   याची नोंद घ्यावी.
 </p>
-<div style="display: flex; justify-content: end; margin: 12px 0; margin-top: 60px;">
+<div style="display: flex; justify-content: end; margin-top: 40px;">
   <div>
     <h3 style="margin: 0px; font-size: medium;">
       शाखा व्यवस्थापक / वसुली अधिकारी / विकास अधिकारी
     </h3>
     <h3 style="margin: 0px; font-size: medium;">
-      विभाग :- ______________ द्वारा :- ______________ शाखा,
+      विभाग :- <strong><u> ______________</u></strong> द्वारा :- <strong><u> ______________</u></strong> शाखा,
     </h3>
-    <p style="margin: 0px; font-size: medium;"><u><span th:text="${courtCase.bankName}"/></u></p>
+    <p style="margin: 0px; font-size: medium;"><u><span th:text="${courtCase.bankName}"/>पुणे जिल्हा मध्य. सह. बँक मर्या.</u></p>
   </div>
 </div>
 </body>

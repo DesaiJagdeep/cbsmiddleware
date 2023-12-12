@@ -130,13 +130,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
         Integer validationError = issPortalFileRepository.findValidationErrorCountByFinancialYear(financialYear);
         Integer kccAccepted = issPortalFileRepository.findKccAcceptedCountByFinancialYear(financialYear);
         Integer kccRejected = issPortalFileRepository.findKccRejectedCountByFinancialYear(financialYear);
+        Integer kccDuplicateOrAccountNumberProcessedCount = issPortalFileRepository.findKccDuplicateOrAccountNumberProcessedCount(financialYear);
+
         Integer KccPending = issPortalFileRepository.findKccPendingCountByFinancialYear(financialYear);
+        Integer totalFarmers = issPortalFileRepository.findDistinctFarmersCountByFinancialYear(financialYear);
+
 
         issPortalFileCountDTO.setTotalApplications(totalApplication);
         issPortalFileCountDTO.setValidationErrors(validationError);
         issPortalFileCountDTO.setkCCAccepted(kccAccepted);
-        issPortalFileCountDTO.setkCCRejected(kccRejected);
+        issPortalFileCountDTO.setkCCRejected(kccRejected-kccDuplicateOrAccountNumberProcessedCount);
         issPortalFileCountDTO.setkCCPending(KccPending);
+        issPortalFileCountDTO.setTotalFarmers(totalFarmers);
 
         return issPortalFileCountDTO;
     }

@@ -7,8 +7,8 @@
   <title>ShetiKarj</title>
 </head>
 
-<body>
-<h3 style="text-align: center; margin: 0px;"><strong><u><span th:text="${courtCase.bankName}"/></u></strong></h3>
+<body style="line-height: 25px;">
+<h2 style="text-align: center; margin-bottom: 10px 0px;"><strong><u><span th:text="${courtCase.bankName}"/></u></strong></h2>
 <p style="text-align: center; margin: 0px;">रजिस्टर ए. डी.</p>
 <div style="display: flex; justify-content: space-between; width: 100%;">
   <div style="width: 80%;">
@@ -18,23 +18,36 @@
     दिनांक: <u><span th:text="${noticeDate}"/></u>
   </div>
 </div>
-<p style="text-align: center;  margin: 0px;"><u>१०९ नुसार कारवाई करणेपूर्वीची नोटीस</u></p>
+<h3 style="text-align: center;  margin: 0px; font-size: medium;"><u>१०९ नुसार कारवाई करणेपूर्वीची नोटीस</u></h3>
 <p style="text-align: center; margin: 0px;">(थेट शेती कर्जासाठी)</p>
-<p style="line-height: 25px;">कर्ज खाते क्रमांक: <strong><u><span th:text="${courtCase.accountNo}"/></u></strong> <br>
-  कर्जदार, मे. / श्री./ सौ. <strong><u><span th:text="${courtCase.nameOfDefaulter}"/></u></strong><br>
-  <strong><u><span th:text="${courtCase.address}"/></u>></strong><br>
-<h4 style="text-align: center;"><strong>विषय: कर्ज फेड करण्याबाबत.</strong></h4>
+<div style="display: flex; margin-top: 30px;">
+  <div style="width: 20%;">
+    <p style="margin: 4px 0;">कर्ज खाते क्रमांक:</p>
+    <p style="margin: 4px 0;">कर्जदार, मे. / श्री./ सौ.: </p>
+  </div>
+  <div style="width: 75%;">
+    <p style="margin: 4px 0;"><strong><u><span th:text="${courtCase.accountNo}"/></u></strong></p>
+    <p style="margin: 4px 0;"><strong><u><span th:text="${courtCase.nameOfDefaulter}"/> </u></strong></p>
+    <p style="margin: 4px 0;"> <strong><u><span th:text="${courtCase.address}"/></u></strong></p>
+  </div>
+</div>
+<h3 style="text-align: center;"><strong>विषय: कर्ज फेड करण्याबाबत.</strong></h3>
 <p style="margin: 0px;">तुम्हास नोटीस देण्यात येते की,</p>
 <table>
   <tr>
     <td style="vertical-align: baseline;">१)</td>
-    <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">तुम्ही बँकेच्या <strong><u><span th:text="${courtCase.societyBranchName}"/></u></strong> शाखेकडून दिनांक <strong><u><span th:text="${courtCase.loanDateMr}"/></u></strong>
-      रोजी थेट शेती कर्ज योजनेअंतर्गत <strong><u><span th:text="${courtCase.loanType}"/></u></strong> कारणासाठी रुपये <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong> चे कर्ज द.सा.द.शे. <strong><u><span th:text="${courtCase.interestRate}"/></u></strong>% व्याजदराने घेतले आहे.</td>
+    <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">
+      तुम्ही बँकेच्या <strong><u><span th:text="${courtCase.societyBranchName}"/>.</u></strong> 
+      शाखेकडून दिनांक <strong><u><span th:text="${courtCase.loanDateMr}"/></u></strong>
+      रोजी थेट शेती कर्ज योजनेअंतर्गत <strong><u><span th:text="${courtCase.loanType}"/></u></strong> 
+      कारणासाठी रुपये <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong> 
+      चे कर्ज द.सा.द.शे. <strong><u><span th:text="${courtCase.interestRate}"/></u></strong>% व्याजदराने घेतले आहे.
+    </td>
   </tr>
   <tr>
     <td style="vertical-align: baseline;">२)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">मूळ कर्जदार यांनी बँकेस दिनांक
-      <strong><u><span th:text="${courtCase.loanDateMr}"/></u></strong>
+      <strong><u><span th:text="${courtCase.loanDateMr}"/>दि.: </u></strong>
       रोजी रितसर गहाणखत, (सिंपल मॉर्गेज) वचनचिठ्ठी आणि करारनामे लिहून दिलेले आहेत.</td>
   </tr>
   <tr>
@@ -56,24 +69,24 @@
 <p><strong>दिनांक <strong><u><span th:text="${courtCase.firstNoticeDateMr}"/></u></strong> अखेर तुमचेकडून खालीलप्रमाणे येणेबाकी / थकबाकी आहे</strong></p>
 <table style="width: 80%; margin: auto; border-collapse: collapse; border: 1px solid black;">
   <tr style="border: 1px solid black;">
-    <td style="border: 1px solid black; vertical-align: baseline;">१)</td>
-    <td style="border: 1px solid black;">मुदल</td>
-    <td style="border: 1px solid black;">रुपये <strong><u><span th:text="${courtCase.dueAmount}"/></u></strong></td>
+    <td style="border: 1px solid black; padding: 5px; vertical-align: baseline;">१)</td>
+    <td style="border: 1px solid black; padding: 5px;">मुदल</td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <strong><u><span th:text="${courtCase.dueAmount}"/></u></strong></td>
   </tr>
   <tr style="border: 1px solid black;">
-    <td style="border: 1px solid black; vertical-align: baseline;">२)</td>
-    <td style="border: 1px solid black;">व्याज येणे + दंड व्याज</td>
-    <td style="border: 1px solid black;">रुपये <strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></strong></td>
+    <td style="border: 1px solid black; padding: 5px; vertical-align: baseline;">२)</td>
+    <td style="border: 1px solid black; padding: 5px;">व्याज येणे + दंड व्याज</td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable)}"/></u></strong></td>
   </tr>
   <tr style="border: 1px solid black;">
-    <td style="border: 1px solid black; vertical-align: baseline;">३)</td>
-    <td style="border: 1px solid black;">इतर खर्च - विमा,नोटीस इ.</td>
-    <td style="border: 1px solid black;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u></td>
+    <td style="border: 1px solid black; padding: 5px; vertical-align: baseline;">३)</td>
+    <td style="border: 1px solid black; padding: 5px;">इतर खर्च - विमा,नोटीस इ.</td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u></td>
   </tr>
   <tr style="border: 1px solid black;">
-    <td style="border: 1px solid black;"></td>
-    <td style="border: 1px solid black;">एकूण</td>
-    <td style="border: 1px solid black;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></td>
+    <td style="border: 1px solid black; padding: 5px;"></td>
+    <td style="border: 1px solid black; padding: 5px;">एकूण</td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></td>
   </tr>
 </table>
 <p style="text-indent: 35px; text-align: justify; line-height: 25px;">तरी तुम्हास या नोटीशीने कळविण्यात येते की, ही

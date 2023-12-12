@@ -8,17 +8,19 @@ public class IssPortalFileCountDTO {
     private int     kCCRejected;
     private int    kCCAccepted;
     private int    kCCPending;
+    private int totalFarmers;
 
 
     public IssPortalFileCountDTO() {
     }
 
-    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted, int kCCPending) {
+    public IssPortalFileCountDTO(int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted, int kCCPending,int totalFarmers) {
         this.totalApplications = totalApplications;
         this.validationErrors = validationErrors;
         this.kCCRejected = kCCRejected;
         this.kCCAccepted = kCCAccepted;
         this.kCCPending=kCCPending;
+        this.totalFarmers=totalFarmers;
     }
 
     public int getTotalApplications() {
@@ -59,6 +61,13 @@ public class IssPortalFileCountDTO {
 
     public void setkCCPending(int kCCPending) {
         this.kCCPending = kCCPending;
+    }
+
+    public int getTotalFarmers() {
+        return totalFarmers;
+    }
+    public void setTotalFarmers(int totalFarmers) {
+        this.totalFarmers = totalFarmers;
     }
 }
 

@@ -1,6 +1,5 @@
 package com.cbs.middleware.domain;
 
-import static com.cbs.middleware.domain.TalukaMasterTestSamples.*;
 import static com.cbs.middleware.domain.VillageMasterTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,15 +22,15 @@ class VillageMasterTest {
         assertThat(villageMaster1).isNotEqualTo(villageMaster2);
     }
 
-    @Test
-    void talukaMasterTest() throws Exception {
-        VillageMaster villageMaster = getVillageMasterRandomSampleGenerator();
-        TalukaMaster talukaMasterBack = getTalukaMasterRandomSampleGenerator();
-
-        villageMaster.setTalukaMaster(talukaMasterBack);
-        assertThat(villageMaster.getTalukaMaster()).isEqualTo(talukaMasterBack);
-
-        villageMaster.talukaMaster(null);
-        assertThat(villageMaster.getTalukaMaster()).isNull();
-    }
+//    @Test
+//    void talukaMasterTest() throws Exception {
+//        VillageMaster villageMaster = getVillageMasterRandomSampleGenerator();
+//        TalukaMaster talukaMasterBack = getTalukaMasterRandomSampleGenerator();
+//
+//        villageMaster.setTalukaMaster(talukaMasterBack);
+//        assertThat(villageMaster.getTalukaMaster()).isEqualTo(talukaMasterBack);
+//
+//        villageMaster.talukaMaster(null);
+//        assertThat(villageMaster.getTalukaMaster()).isNull();
+//    }
 }

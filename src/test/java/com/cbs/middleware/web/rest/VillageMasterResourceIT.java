@@ -9,7 +9,7 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.TalukaMaster;
 import com.cbs.middleware.domain.VillageMaster;
 import com.cbs.middleware.repository.VillageMasterRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;

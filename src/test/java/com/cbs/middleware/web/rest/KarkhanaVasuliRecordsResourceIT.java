@@ -9,7 +9,7 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliRecordsRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;

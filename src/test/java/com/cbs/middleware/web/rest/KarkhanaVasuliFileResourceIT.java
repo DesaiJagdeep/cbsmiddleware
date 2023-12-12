@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

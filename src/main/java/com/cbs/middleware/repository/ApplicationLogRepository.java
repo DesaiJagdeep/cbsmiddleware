@@ -55,4 +55,7 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     List<ApplicationLog> findAllByIssPortalIdAndErrorTypeAndStatus(Long issPortalFileId, String validationerror, String error);
 
     List<ApplicationLog> findAllByIssPortalId(Long id);
+
+    @Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC ERROR' AND status= 'Error' AND error_message LIKE 'This accountNumber is already being processed by batch%' AND iss_file_parser_id IN (SELECT iss_file_parser_id FROM application_transaction  WHERE kcc_status= 0 ) ", nativeQuery = true)
+    List<ApplicationLog> findAllByKCCStatus();
 }

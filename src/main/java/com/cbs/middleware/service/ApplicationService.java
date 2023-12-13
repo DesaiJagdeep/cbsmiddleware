@@ -1,7 +1,11 @@
 package com.cbs.middleware.service;
 
 import com.cbs.middleware.domain.Application;
+
+import java.util.List;
 import java.util.Optional;
+
+import com.cbs.middleware.domain.ApplicationLog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -63,4 +67,5 @@ public interface ApplicationService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
 }

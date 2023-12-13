@@ -17,6 +17,18 @@ public class ApplicationPayload implements Serializable {
     private LoanDetails loanDetails;
     private List<Activities> activities;
 
+    private String farmerId;
+
+    private String preuniqueId;
+
+    public String preuniqueId() {
+        return preuniqueId;
+    }
+
+    public void setPreuniqueId(String preuniqueId) {
+        this.preuniqueId = preuniqueId;
+    }
+
     public String getUniqueId() {
         return uniqueId;
     }
@@ -73,12 +85,25 @@ public class ApplicationPayload implements Serializable {
         this.activities = activities;
     }
 
+    public String getFarmerId() {
+        return farmerId;
+    }
+    public void setFarmerId(String farmerId) {
+        this.farmerId = farmerId;
+    }
+
+
+
+
     @Override
     public String toString() {
         return (
             "ApplicationPayload [uniqueId=" +
             uniqueId +
-            ", recordStatus=" +
+            ",farmerId=" +
+                farmerId +
+                ",preuniqueId=" +
+                preuniqueId + ",recordStatus=" +
             recordStatus +
             ", basicDetails=" +
             basicDetails +

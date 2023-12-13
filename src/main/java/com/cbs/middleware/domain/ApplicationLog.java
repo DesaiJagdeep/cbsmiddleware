@@ -53,7 +53,7 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
     private String batchId;
 
     @Column(name = "error_record_count")
-    private Integer errorRecordCount;
+    private Long errorRecordCount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "issPortalFile" }, allowSetters = true)
@@ -243,11 +243,11 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
         return id != null && id.equals(((ApplicationLog) o).id);
     }
 
-    public Integer getErrorRecordCount() {
+    public Long getErrorRecordCount() {
         return errorRecordCount;
     }
 
-    public void setErrorRecordCount(Integer errorRecordCount) {
+    public void setErrorRecordCount(Long errorRecordCount) {
         this.errorRecordCount = errorRecordCount;
     }
 
@@ -266,7 +266,7 @@ public class ApplicationLog extends AbstractAuditingEntity<Long> implements Seri
 //				+ getErrorCode() + "'" + ", errorMessage='" + getErrorMessage() + "'" + ", columnNumber="
 //				+ getColumnNumber() + ", sevierity='" + getSevierity() + "'" + ", expectedSolution='"
 //				+ getExpectedSolution() + "'" + ", status='" + getStatus() + "'" + ", rowNumber=" + getRowNumber()
-//				+ ", batchId='" + getBatchId() + "'" 
+//				+ ", batchId='" + getBatchId() + "'"
 				+ "}";
 	}
 }

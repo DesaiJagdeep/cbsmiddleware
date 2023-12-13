@@ -1,12 +1,14 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.sun.mail.imap.protocol.ID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -60,6 +62,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);
 
+
     @Query(
         "select count(*) from Application application where application.batchId is null and application.issFilePortalId =:issFilePortalId"
     )
@@ -96,10 +99,20 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         @Param("applicationStatus") Integer applicationStatus
     );
 
+  //@Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC ERROR' AND status= 'Error' AND error_message LIKE 'This accountNumber is already being processed by batch%' AND iss_file_parser_id IN (SELECT iss_file_parser_id FROM application_transaction WHERE kcc_status= 0 ) ", nativeQuery = true)
+
+   // @Query(value = "SELECT al.error_message,al.error_type FROM application_log al WHERE iss_file_parser_id = 24413", nativeQuery = true)
+    //List<ApplicationLog> findAllByKCCStatus();
+
+
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 
+    //Application findOneByISSParserId(Long issFileParserId);
+
     @Transactional
 	void deleteByIssFileParser(IssFileParser issFileParser);
+
+
 }

@@ -381,9 +381,9 @@ public class IssChildFileParserResource {
                             issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
 
                             issFileParser.setKccIssCropCode(getCellValue(row.getCell(39)));
-                            
+
                             issFileParser.setKccIssCropName(getCellValue(row.getCell(40)));
-                            
+
                             issFileParser.setCropName(getCellValue(row.getCell(41)));
 
                             issFileParser.setSurveyNo(getCellValue(row.getCell(42)));
@@ -391,7 +391,7 @@ public class IssChildFileParserResource {
                             issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(43)));
 
                             issFileParser.setSeasonName(getCellValue(row.getCell(44)));
-                            
+
                             issFileParser.setAccountType(getCellValue(row.getCell(45)));
 
                             issFileParser.setAreaHect(getCellValue(row.getCell(46)));
@@ -407,20 +407,20 @@ public class IssChildFileParserResource {
                             issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
                             issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
                             issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
-                            
-                            
+
+
                             try
                             {
                                 //second time
                                 issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
                                 issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
                                 issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
-                                
+
                                 //third time
                                 issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
                                 issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
                                 issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
-                                
+
                                 //fourth time
                                 issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
                                 issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
@@ -428,8 +428,8 @@ public class IssChildFileParserResource {
                             }
                             catch (Exception e) {
     						}
-                            
-                            
+
+
                             issFileParser.setIssPortalFile(issFileParseInChildFile.get().getIssPortalFile());
 
                             issFileParserList.add(issFileParser);
@@ -457,7 +457,7 @@ public class IssChildFileParserResource {
                             "ErrorCorrectionFileUploaded" //type
                         );
                     } catch (Exception e) {
-                    	
+
                     	e.printStackTrace();
                     }
                 }
@@ -487,7 +487,7 @@ public class IssChildFileParserResource {
         Set<IssFileParser> issFileParserValidationErrorSet = new HashSet<>();
         if(!issFileParserList.isEmpty())
         {
-        	 
+
 
               IssPortalFile issPortalFile = issFileParserList.get(0).getIssPortalFile();
 
@@ -808,7 +808,7 @@ public class IssChildFileParserResource {
                   applicationLog.setExpectedSolution("Provide correct information");
                   applicationLog.setStatus(Constants.ERROR);
                   applicationLog.setErrorType(Constants.validationError);
-                  applicationLog.setErrorRecordCount(collect.size());
+                  applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
                   applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
                   applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
                   applicationLogListToSaveError.add(applicationLog);
@@ -843,7 +843,7 @@ public class IssChildFileParserResource {
                       applicationLog.setIssFileParser(issFileParser);
                       applicationLog.setStatus(Constants.FIXED);
                       applicationLog.setSevierity("");
-                      applicationLog.setErrorRecordCount(0);
+                      applicationLog.setErrorRecordCount(Long.valueOf(0));
                       applicationLog.setIssPortalId(issPortalFile.getId());
                       applicationLog.setFileName(issPortalFile.getFileName());
                       applicationLogListMarkedFix.add(applicationLog);
@@ -867,9 +867,9 @@ public class IssChildFileParserResource {
               issChildPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
 
               issChildPortalFileRepository.save(issChildPortalFile);
-        	
+
         }
-        
+
         return applicationLogListToSaveError;
     }
 
@@ -1012,7 +1012,7 @@ public class IssChildFileParserResource {
     }
 
     private boolean validateSocialCategory(String castCategoryName) {
-    	
+
     	System.out.println("?????????????????????????????"+castCategoryName);
         boolean flag = false;
         if (StringUtils.isBlank(castCategoryName)) {

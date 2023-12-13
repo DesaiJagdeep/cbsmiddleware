@@ -3,6 +3,8 @@ package com.cbs.middleware.service.impl;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.service.ApplicationLogService;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,5 +102,11 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
     public void delete(Long id) {
         log.debug("Request to delete ApplicationLog : {}", id);
         applicationLogRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ApplicationLog> findRejectedApplications() {
+        return applicationLogRepository.findAllByKCCStatus();
+
     }
 }

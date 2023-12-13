@@ -908,7 +908,7 @@ public class IssFileParserResource {
             } else if (
                 StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(schemeWiseBranchCode) && StringUtils.isNotBlank(packsCode)
             ) {
-                if (!bankCode.matches("\\d+") && !bankCode.matches("\\d+") && !bankCode.matches("\\d+")) {
+                if (!bankCode.matches("\\d+") && !schemeWiseBranchCode.matches("\\d+") && !packsCode.matches("\\d+")) {
                     throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
                 }
             }
@@ -1595,7 +1595,7 @@ public class IssFileParserResource {
             String packsCode = getCellValue(row.getCell(32));
 
             if (StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(schemeWiseBranchCode) && StringUtils.isNotBlank(packsCode)) {
-                if (!bankCode.matches("\\d+") && !bankCode.matches("\\d+") && !bankCode.matches("\\d+")) {
+                if (!bankCode.matches("\\d+") && !schemeWiseBranchCode.matches("\\d+") && !packsCode.matches("\\d+")) {
                     throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
                 }
             }

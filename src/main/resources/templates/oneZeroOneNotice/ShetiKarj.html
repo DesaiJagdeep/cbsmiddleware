@@ -37,17 +37,17 @@
   <tr>
     <td style="vertical-align: baseline;">१)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">
-      तुम्ही बँकेच्या <strong><u><span th:text="${courtCase.societyBranchName}"/>.</u></strong> 
+      तुम्ही बँकेच्या <strong><u><span th:text="${courtCase.societyBranchName}"/>.</u></strong>
       शाखेकडून दिनांक <strong><u><span th:text="${courtCase.loanDateMr}"/></u></strong>
-      रोजी थेट शेती कर्ज योजनेअंतर्गत <strong><u><span th:text="${courtCase.loanType}"/></u></strong> 
-      कारणासाठी रुपये <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong> 
+      रोजी थेट शेती कर्ज योजनेअंतर्गत <strong><u><span th:text="${courtCase.loanType}"/></u></strong>
+      कारणासाठी रुपये <strong><u><span th:text="${courtCase.loanAmount}"/></u></strong>
       चे कर्ज द.सा.द.शे. <strong><u><span th:text="${courtCase.interestRate}"/></u></strong>% व्याजदराने घेतले आहे.
     </td>
   </tr>
   <tr>
     <td style="vertical-align: baseline;">२)</td>
     <td style="margin-bottom: 10px; text-align: justify; line-height: 25px;">मूळ कर्जदार यांनी बँकेस दिनांक
-      <strong><u><span th:text="${courtCase.loanDateMr}"/>दि.: </u></strong>
+      <strong><u><span th:text="${courtCase.loanDateMr}"/> </u></strong>
       रोजी रितसर गहाणखत, (सिंपल मॉर्गेज) वचनचिठ्ठी आणि करारनामे लिहून दिलेले आहेत.</td>
   </tr>
   <tr>
@@ -81,12 +81,12 @@
   <tr style="border: 1px solid black;">
     <td style="border: 1px solid black; padding: 5px; vertical-align: baseline;">३)</td>
     <td style="border: 1px solid black; padding: 5px;">इतर खर्च - विमा,नोटीस इ.</td>
-    <td style="border: 1px solid black; padding: 5px;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u></td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee)}"/></u></strong></td>
   </tr>
   <tr style="border: 1px solid black;">
     <td style="border: 1px solid black; padding: 5px;"></td>
     <td style="border: 1px solid black; padding: 5px;">एकूण</td>
-    <td style="border: 1px solid black; padding: 5px;">रुपये <u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></td>
+    <td style="border: 1px solid black; padding: 5px;">रुपये <strong><u><span th:text="${courtCase.getMarathiAddition(courtCase.dueAmount,courtCase.getMarathiAddition(courtCase.dueInterest,courtCase.duePenalInterest,courtCase.dueMoreInterest,courtCase.interestRecivable),courtCase.getMarathiAddition(courtCase.vasuliExpense,courtCase.otherExpense,courtCase.insurance,courtCase.noticeExpense,courtCase.inquiryFee))}"/></u></strong></td>
   </tr>
 </table>
 <p style="text-indent: 35px; text-align: justify; line-height: 25px;">तरी तुम्हास या नोटीशीने कळविण्यात येते की, ही

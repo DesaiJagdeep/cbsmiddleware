@@ -508,7 +508,8 @@ public class IssPortalFileResource {
 
                 completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
                 inProgressCount = issPortalFileRepository.findInProgressCountByTalukaId(talukaMaster.getId(), financialYear);
-                pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
+               // pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
+                pendingApprovalFromBranchAdminCount=issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
                 yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
 
                 talukaWiseDataReport.setCompleted(completedCount);

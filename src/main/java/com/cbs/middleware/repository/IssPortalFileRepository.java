@@ -111,8 +111,11 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 2", nativeQuery = true)
     Long findKccPendingByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and verified_file=0", nativeQuery = true)
+   // @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and verified_file=0", nativeQuery = true)
+   @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and download_file = 0", nativeQuery = true)
     Integer findPendingForApprovalCountByBanchUser(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and download_file = 1 and verified_file=0 ", nativeQuery = true)
+   Integer findPendingForApprovalCountByBanchAdmin(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
     @Query(value = "select count(ipf.id) from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId)", nativeQuery = true)
     Integer findTotalIssPortalFileByTalukaId(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);

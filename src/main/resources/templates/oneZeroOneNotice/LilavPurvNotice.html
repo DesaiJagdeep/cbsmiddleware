@@ -33,19 +33,19 @@
                     <td >ता. <strong><u></u></strong>, जि. पुणे.</u></strong></td>
                 </tr>
             </table>
-            
+
         </div>
     </div>
-    
+
     <h2 style="text-align: center">
-        <strong>लिलामापूर्वीची नोटीस</strong>
+        <strong>लिलावापूर्वीची नोटीस</strong>
     </h2>
     <h3 style="margin: 0; font-size: medium;">प्रति,</h3>
     <div style="text-indent: 45px;">
-        <p style="margin: 2px 0;"><strong><u>श्री. </u></strong>, कर्जदार</p>
+        <p style="margin: 2px 0;"><strong><u>श्री. <span th:text="${courtCase.nameOfDefaulter}"/> </u></strong>, कर्जदार</p>
         <p style="margin: 2px 0;"><strong><u></u></strong> शाखा, मु. पो. <strong><u></u></strong>,</u></strong></p>
         <p style="margin: 2px 0;"><strong><u>श्री.  जामीनदार</u></strong>,</p>
-        <p style="margin: 2px 0;">ता. <strong><u></u></strong>, जि. पुणे.</u></strong></p>
+        <p style="margin: 2px 0;">ता. <strong><u><span th:text="${courtCaseSetting.talukaName}"/> </u></strong>, जि. पुणे.</u></strong></p>
     </div>
 
     <div style="margin: 20px 0; display: flex; justify-content: space-between">
@@ -102,7 +102,7 @@
     <div style="display: flex; justify-content: flex-end">
         <div>
             <h3 style="margin: 30px 0 0 0;">वसुली अधिकारी</h3>
-            <p>तालुका <strong><u></u></strong></p>
+            <p>तालुका <strong><u> <span th:text="${courtCaseSetting.talukaName}"/></u></strong></p>
         </div>
     </div>
 </body>

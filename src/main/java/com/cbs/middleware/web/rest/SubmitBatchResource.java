@@ -170,18 +170,18 @@ public class SubmitBatchResource {
     @PostMapping("/submit-batch")
     @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','SUBMIT_BATCH','SUBMIT')")
     public List<CBSResponce> submitBatch(@RequestBody IssPortalFile issPortalFile) {
-    	
+
     	if (issPortalFile.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-    	
+
 		Optional<IssPortalFile> issPortalFileObj = issPortalFileRepository.findById(issPortalFile.getId());
 
 		if (!issPortalFileObj.isPresent()) {
 			   throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
 		}
-		
-        
+
+
         List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
             null,
             Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
@@ -483,7 +483,7 @@ public class SubmitBatchResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            
+
 			String kccCropCode = issFileParser.getKccIssCropCode();
 
 			Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList.stream()
@@ -508,8 +508,8 @@ public class SubmitBatchResource {
 			} else {
 				activities.setActivityType(1l);
 			}
-			
-            
+
+
 
             // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
@@ -537,11 +537,14 @@ public class SubmitBatchResource {
 //                if (cropNameMasterCode.isPresent()) {
 //                    activityRows.setCropCode(cropNameMasterCode.get());
 //                }
-                
+
                 activityRows.setCropCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                String satBaraSubsurveyNo = issFileParser.getSatBaraSubsurveyNo();
+                String satBaraSubsurveyNo30Char = satBaraSubsurveyNo.substring(0, Math.min(satBaraSubsurveyNo.length(), 30));
+
+                activityRows.setKhataNumber(satBaraSubsurveyNo30Char);
                 activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
 
                 // add land type code and season code from land type and season name
@@ -571,12 +574,12 @@ public class SubmitBatchResource {
                 activities.setActivityRows(activityRowsList);
 
                 activityList.add(activities);
-            	
-            	
+
+
             }
             else if(activities.getActivityType().equals(2l))
             {
-            	
+
             	// adding activities row
                 ActivityRows activityRows = new ActivityRows();
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
@@ -591,21 +594,23 @@ public class SubmitBatchResource {
 //                if (cropNameMasterCode.isPresent()) {
 //                    activityRows.setPlantationCode(cropNameMasterCode.get());
 //                }
-                
+
                 activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                String satBaraSubsurveyNo = issFileParser.getSatBaraSubsurveyNo();
+                String satBaraSubsurveyNo30Char = satBaraSubsurveyNo.substring(0, Math.min(satBaraSubsurveyNo.length(), 30));
+                activityRows.setKhataNumber(satBaraSubsurveyNo30Char);
                 activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
 
                 activityRowsList.add(activityRows);
                 activities.setActivityRows(activityRowsList);
 
                 activityList.add(activities);
-            	
+
             }
-            
-            
+
+
 
             applicationPayload.setActivities(activityList);
 
@@ -664,23 +669,23 @@ public class SubmitBatchResource {
                         batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
                         batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
                         batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
-                        
+
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("New");
                         batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
                         batchTransactionRepository.save(batchTransaction);
-                        
+
                         try
                         {
                         	IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
                         	issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount()+(long)applicationTransactionListSave.size());
                         	issPortalFileRepository.save(issPortalFile);
-                        	
+
                         }catch (Exception e) {
-							
+
 						}
-                         
-                        
+
+
                     } else {
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
@@ -697,7 +702,7 @@ public class SubmitBatchResource {
                         }catch (Exception e) {
 							// TODO: handle exception
 						}
-                        
+
                         batchTransaction.setNotes("Resubmite batch after some time for file name:"+fileName);
                         batchTransactionRepository.save(batchTransaction);
                     }
@@ -1097,9 +1102,9 @@ public class SubmitBatchResource {
             List<Activities> activityList = new ArrayList<>();
             Activities activities = new Activities();
 
-            
+
             String kccCropCode=issFileParser.getKccIssCropCode();
-            
+
             Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList
                     .stream()
                     .filter(f -> f.getCropCode().contains(kccCropCode))
@@ -1107,7 +1112,7 @@ public class SubmitBatchResource {
                     .findFirst();
 
 			if (activityTypeBYKccCropCode.isPresent()) {
-				
+
 				String activityCode=activityTypeBYKccCropCode.get().toLowerCase().trim();
 				if ("horit and veg crops".equalsIgnoreCase(activityCode)
 						|| "horti and veg crops".equalsIgnoreCase(activityCode)||
@@ -1118,7 +1123,7 @@ public class SubmitBatchResource {
 				} else if ("agri crop".equalsIgnoreCase(activityCode)
 						|| "sugarcane".equalsIgnoreCase(activityCode)
 						|| 	"agri crops".equalsIgnoreCase(activityCode)
-						
+
 						) {
 					activities.setActivityType(1l);
 
@@ -1127,7 +1132,7 @@ public class SubmitBatchResource {
 			} else {
 				activities.setActivityType(1l);
 			}
-			
+
 
             // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
             if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
@@ -1155,11 +1160,14 @@ public class SubmitBatchResource {
 				 * (cropNameMasterCode.isPresent()) {
 				 * activityRows.setCropCode(cropNameMasterCode.get()); }
 				 */
-                
+
                 activityRows.setCropCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+
+                String satBaraSubsurveyNo = issFileParser.getSatBaraSubsurveyNo();
+                String satBaraSubsurveyNo30Char = satBaraSubsurveyNo.substring(0, Math.min(satBaraSubsurveyNo.length(), 30));
+                activityRows.setKhataNumber(satBaraSubsurveyNo30Char);
                 activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
 
                 // add land type code and season code from land type and season name
@@ -1189,12 +1197,12 @@ public class SubmitBatchResource {
                 activities.setActivityRows(activityRowsList);
 
                 activityList.add(activities);
-            	
-            	
+
+
             }
             else if(activities.getActivityType().equals(2l))
             {
-            	
+
             	// adding activities row
                 ActivityRows activityRows = new ActivityRows();
                 activityRows.setLandVillage("" + issFileParser.getVillageCode());
@@ -1209,18 +1217,20 @@ public class SubmitBatchResource {
 //                if (cropNameMasterCode.isPresent()) {
 //                    activityRows.setPlantationCode(cropNameMasterCode.get());
 //                }
-                
+
                 activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
 
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                String satBaraSubsurveyNo = issFileParser.getSatBaraSubsurveyNo();
+                String satBaraSubsurveyNo30Char = satBaraSubsurveyNo.substring(0, Math.min(satBaraSubsurveyNo.length(), 30));
+                activityRows.setKhataNumber(satBaraSubsurveyNo30Char);
                 activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
 
                 activityRowsList.add(activityRows);
                 activities.setActivityRows(activityRowsList);
 
                 activityList.add(activities);
-            	
+
             }
 
 

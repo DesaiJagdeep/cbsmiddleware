@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.domain.IssFileParser;
+import com.cbs.middleware.repository.ApplicationLogRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +47,12 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
     @Autowired
     ApplicationQueryService applicationQueryService;
+    private final ApplicationLogRepository applicationLogRepository;
 
-    public IssPortalFileQueryService(IssPortalFileRepository issPortalFileRepository) {
+    public IssPortalFileQueryService(IssPortalFileRepository issPortalFileRepository,
+                                     ApplicationLogRepository applicationLogRepository) {
         this.issPortalFileRepository = issPortalFileRepository;
+        this.applicationLogRepository = applicationLogRepository;
     }
 
     /**
@@ -240,8 +244,10 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
                  issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
 
                  Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
-
                  issPortalFile.setKccErrorRecordCount(failRecord.intValue());
+
+//                 Long kccErrorCount=applicationLogRepository.countByKccError(issPortalFile.getId());
+//                issPortalFile.setKccErrorRecordCount(kccErrorCount.intValue());
 
                  issPortalFileMapperList.add(issPortalFile);
              }

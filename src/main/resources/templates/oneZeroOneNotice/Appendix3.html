@@ -14,7 +14,7 @@
 <div style="display: flex; justify-content: right; margin-top: 30px;">
   <div>
     <h3 style="margin: 5px; font-size: medium;">जावक नं. वसुली : १०१ /</h3>
-    <p style="margin: 5px;">विशेष वसुली अधिकारी <u><span th:text="${courtCaseSetting.vasuliAdhikariName}"/></u> यांचे कार्यालय</p>
+    <p style="margin: 5px;">विशेष वसुली अधिकारी <strong><u><span th:text="${courtCaseSetting.vasuliAdhikariName}"/></u> </strong> यांचे कार्यालय</p>
     <p style="margin: 5px;">Clo. पुणे जिल्हा मध्यवर्ती सहकारी बैंक मर्यादित, पुणे</p>
     <p style="margin: 5px; margin-bottom: 10px;"><strong><u></u></strong> तालुका द्वारा <strong><u></u></strong> शाखा </p>
     <h3 style="margin: 5px; font-size: medium;">दिनांक:  </h3>
@@ -23,10 +23,10 @@
 
 <div>
   <p style="text-indent : 35px; line-height: 25px; text-align: justify; margin-top: 30px;">
-    श्री. <u><span th:text="${courtCase.nameOfDefaulter}"/></u> राहणार <u><span th:text="${courtCase.address}"/></u> तालुका ______ जि. पुणे. यांस तुम्ही <u><span th:text="${courtCase.bankName}"/></u> वि. का. सेवा सहकारी सोसायटी लि.,
-    <u><span th:text="${courtCase.societyBranchName}"/></u> तालुका _________ जि. पुणे. चे थकवाकीदार असून संस्थेने तुमचे विरुद्ध महाराष्ट्र सहकारी संस्था
+    श्री. <strong><u><span th:text="${courtCase.nameOfDefaulter}"/></u></strong> राहणार <strong><u><span th:text="${courtCase.address}"/></u></strong> तालुका ______ जि. पुणे. यांस तुम्ही <strong><u><span th:text="${courtCase.bankName}"/></u></strong> वि. का. सेवा सहकारी सोसायटी लि.,
+    <strong><u><span th:text="${courtCase.societyBranchName}"/></u></strong> तालुका <strong><u><span th:text="${courtCaseSetting.talukaName}"/></u></strong> जि. पुणे. चे थकवाकीदार असून संस्थेने तुमचे विरुद्ध महाराष्ट्र सहकारी संस्था
     अधिनियम १०१ चे पोटनियम (१) (२) खाली प्रमाणपत्र मिळविले असून तुम्ही अद्याप थकीत रक्कम भरलेली नाही व अद्यापही
-    रुपये <u><span th:text="${courtCase.dueAmount}"/></u> अधिक होणारे व्याज तुमचेकडे येणे आहे.
+    रुपये <strong><u><span th:text="${courtCase.dueAmount}"/></u></strong> अधिक होणारे व्याज तुमचेकडे येणे आहे.
   </p>
   <p style="text-indent : 35px; line-height: 25px; text-align: justify;">
     तरी तुम्हास सदर नोटीसी अन्वये कळविण्यात येते की, तुम्ही सदर नोटीशीच्या दिनांकापासून दहा दिवसाचे संपूर्ण
@@ -36,7 +36,7 @@
   <div style="display: flex; justify-content: right; margin-top: 100px;">
     <div>
       <h3 style="margin: 5px; font-size: medium;">वसुली अधिकारी</h3>
-      <p style="margin: 5px;"><strong><u></u></strong> तालुका</p>
+      <p style="margin: 5px;"><strong><u></u></strong> तालुका : <strong><u><span th:text="${courtCaseSetting.talukaName}"/></u></strong> </p>
       <p style="margin: 5px;">द्वारा <strong><u></u></strong> शाखा</p>
     </div>
   </div>

@@ -84,30 +84,30 @@
         <p style="margin: 0px;"><strong>प्रति,</strong></p>
         <table style="margin-left: 20px;  border-collapse: separate;">
             <tr>
-                <table>
-                    <tr>
-                        <td style=" vertical-align: baseline; width: 5%;" rowspan="3"><strong>१)</strong></td>
-                        <td style="width: 15%;">कर्जदाराचे नाव</td>
-                        <td>:</td>
-                        <td> <strong><u><span th:text="${courtCase.nameOfDefaulter}"/> </strong></u></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 15%;">राहणार<span th:text="${courtCase.address}"/></td>
-                        <td><strong>:</td>
-                        <td><strong><u><span th:text="${courtCase.address}"/>, ता.  </strong></u></td>
-                    </tr>
-                    <tr>
-                        <td style="width: 15%;">व्यवसाय</td>
-                        <td><strong>:</strong></td>
-                        <td><strong><u>शेती</u></strong></td>
-                    </tr>
-                </table>
+              <table>
+                <tr>
+                  <td style=" vertical-align: baseline; width: 5%;" rowspan="3"><strong>१)</strong></td>
+                  <td>कर्जदाराचे नाव</td>
+                  <td>:</td>
+                  <td> <strong><u><span th:text="${courtCase.nameOfDefaulter}"/> </strong></u></td>
+                </tr>
+                <tr>
+                  <td style="width: 15%;">राहणार</td>
+                  <td><strong>:</td>
+                  <td><strong><u><span th:text="${courtCase.address}"/> , ता.  </strong></u></td>
+                </tr>
+                <tr>
+                  <td style="width: 15%;">व्यवसाय</td>
+                  <td><strong>:</strong></td>
+                  <td><strong><u>शेती</u></strong></td>
+                </tr>
+              </table>
             </tr>
             <tr>
                 <table>
                     <tr>
                         <td style=" vertical-align: baseline; width: 5%;" rowspan="3"><strong>२)</strong></td>
-                        <td>जमीनदारांचे नाव</td>                       
+                        <td>जमीनदारांचे नाव</td>
                         <td>:</td>
                         <td> <strong><u><span th:text="${courtCase.gaurentorOne}"/> </strong></u></td>
                     </tr>
@@ -127,7 +127,7 @@
                 <table>
                     <tr>
                         <td style=" vertical-align: baseline; width: 5%;" rowspan="3"><strong>२)</strong></td>
-                        <td>जमीनदारांचे नाव</td>                       
+                        <td>जमीनदारांचे नाव</td>
                         <td>:</td>
                         <td> <strong><u><span th:text="${courtCase.gaurentorTwo}"/> </strong></u></td>
                     </tr>
@@ -146,7 +146,7 @@
         </table><!-- bind अक्षरी -->
         <p style="text-indent: 35px; line-height: 20px; text-align: justify; margin-top: 40px; line-height: 25px;">
             या नोटीसीने कळविण्यात येते की, सदर <strong>,</strong> कडून घेतलेल्या रू : <strong><span th:text="${courtCase.loanAmount}"/></strong> कर्जापैकी
-            रू <strong><span th:text="${courtCase.dueAmount}"/></strong> अक्षरी (<strong><span th:text="${courtCase.dueAmountWord}"/></strong>s) थकीत झालेली आहे.
+            रू <strong><span th:text="${courtCase.dueAmount}"/></strong> अक्षरी (<strong><span th:text="${courtCase.dueAmountWord}"/></strong>) थकीत झालेली आहे.
             सदरची थकीत रक्कम व्याजासह ता. <strong><span th:text="${courtCase.dueDateMr}"/></strong> रोजी अगर मुदतीत परतफेड केली नसल्यामुळे महाराष्ट्र सहकारी
             संस्था अधिनियम १९६० च्या कलम १०१ प्रमाणे कर्ज वसूली बाबत तुमच्यावर कारवाई करणेस तुम्ही पात्र झाला आहात.
             तरी तुम्ही जर तुमच्याकडे असलेली थक मुदलाची रक्कम व व्याज <strong><span th:text="${courtCase.firstNoticeDateMr}"/></strong> पर्यत होणारे व्याज ची बाकी नोटीस
@@ -156,25 +156,25 @@
             वसुल करण्यात येईल, तसेच तुम्ही, सदर रक्कम वसुल करणेस होणाऱ्या खर्चाच्या रक्कमेसही जबाबदार होत असुन सदरची
             रक्कम आपलेकडून वसुल केली जाईल.
         </p>
-        <p>&nbsp</p>
+        <p style="page-break: always;">&nbsp</p>
             <p style="text-align: center; margin-top: 30px 0; font-size: 18px;"><strong>सचिव</strong></p>
             <p style="text-align: center; margin: 0px"><strong><span th:text="${courtCase.societyBranchName}"/></strong></p>
                 <table style="width: 96%; margin: auto;">
                     <tr>
                         <td style="width: 3%;"><strong>१)</strong></td>
-                        <td style="width: 12%;"><strong>कर्जदाराचे नाव </strong></td>
+                        <td style="width: 15%;"><strong>कर्जदाराचे नाव </strong></td>
                         <td style="width: 1%;">:</td>
                         <td><strong><span th:text="${courtCase.nameOfDefaulter}"/> </strong></td>
                     </tr>
                     <tr>
                         <td style="width: 3%;"><strong>२)</strong></td>
-                        <td style="width: 12%;"><strong>जामिनदाराचे नाव</strong></td>
+                        <td style="width: 15%;"><strong>जामिनदाराचे नाव</strong></td>
                         <td>:</td>
                         <td><strong><span th:text="${courtCase.gaurentorOne}"/> </strong></td>
                     </tr>
                     <tr>
                         <td style="width: 3%;"><strong>३)</strong></td>
-                        <td style="width: 12%;"><strong>जामिनदाराचे नाव</strong></td>
+                        <td style="width: 15%;"><strong>जामिनदाराचे नाव</strong></td>
                         <td>:</td>
                         <td><strong><span th:text="${courtCase.gaurentorTwo}"/> </strong></td>
                     </tr>

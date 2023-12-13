@@ -268,12 +268,12 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(financialYearInFileConf)) {
                 financialYearInFileConf = financialYearInFileConf.trim().replace("\n", " ").toLowerCase();
                 if (!financialYearInFileConf.contains("financial") && !financialYearInFileConf.contains("year")) {
-  //                  throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
-                    flag = true;
+                    throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
+                    //flag = true;
                 }
             } else {
-                flag = true;
-   //             throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
+                //flag = true;
+                throw new BadRequestAlertException("Missing Financial Year Column", ENTITY_NAME, "fileInvalid");
 
             }
 
@@ -282,26 +282,26 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(bankName)) {
                 bankName = bankName.trim().replace("\n", " ").toLowerCase();
                 if (!bankName.contains("bank") && !bankName.contains("name")) {
-                    flag = true;
-//                    throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
 
                 }
             } else {
-                flag = true;
-//                throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
+                //flag = true;
+                throw new BadRequestAlertException("Missing Bank Name Column", ENTITY_NAME, "fileInvalid");
 
             }
             String bankCodeColumn = getCellValue(row.getCell(2));
             if (StringUtils.isNotBlank(bankCodeColumn)) {
                 bankCodeColumn = bankCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!bankCodeColumn.contains("bank") && !bankCodeColumn.contains("code")) {
-                    flag = true;
-//                    throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
 
                 }
             } else {
-                flag = true;
-//                throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
+                //flag = true;
+                throw new BadRequestAlertException("Missing Bank Code Column", ENTITY_NAME, "fileInvalid");
 
             }
 
@@ -309,13 +309,13 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(branchNameColumn)) {
                 branchNameColumn = branchNameColumn.trim().replace("\n", " ").toLowerCase();
                 if (!branchNameColumn.contains("branch") && !branchNameColumn.contains("name")) {
-                    flag = true;
-//                    throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
 
                 }
             } else {
-                flag = true;
-//                throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
+                //flag = true;
+                throw new BadRequestAlertException("Missing Branch Name Column", ENTITY_NAME, "fileInvalid");
 
             }
 
@@ -323,13 +323,12 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(branchCodeColumn)) {
                 branchCodeColumn = branchCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!branchCodeColumn.contains("branch") && !branchCodeColumn.contains("code")) {
-                    flag = true;
-//                    throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
-
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
-//                throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
+               // flag = true;
+                throw new BadRequestAlertException("Missing Branch Code Column", ENTITY_NAME, "fileInvalid");
 
             }
 
@@ -337,337 +336,410 @@ public class IssFileParserResource {
             if (StringUtils.isNotBlank(kccBranchCodeColumn)) {
                 kccBranchCodeColumn = kccBranchCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!kccBranchCodeColumn.contains("kcc") && !kccBranchCodeColumn.contains("branch")) {
-                    flag = true;
-//                    throw new BadRequestAlertException("Missing KCC Branch Column", ENTITY_NAME, "fileInvalid");
-
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing KCC Branch Column", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing KCC Branch Column", ENTITY_NAME, "fileInvalid");
+
             }
             String ifscCodeColumn = getCellValue(row.getCell(6));
             if (StringUtils.isNotBlank(ifscCodeColumn)) {
                 ifscCodeColumn = ifscCodeColumn.trim().replace("\n", " ").toLowerCase();
                 if (!ifscCodeColumn.contains("ifsc")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Ifsc Column", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Ifsc Column", ENTITY_NAME, "fileInvalid");
             }
             String loanAccountNumberKcc = getCellValue(row.getCell(7));
             if (StringUtils.isNotBlank(loanAccountNumberKcc)) {
                 loanAccountNumberKcc = loanAccountNumberKcc.trim().replace("\n", " ").toLowerCase();
                 if (!loanAccountNumberKcc.contains("loan") && !loanAccountNumberKcc.contains("account")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Loan Account Column", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Loan Account Column", ENTITY_NAME, "fileInvalid");
             }
             String farmerName = getCellValue(row.getCell(8));
             if (StringUtils.isNotBlank(farmerName)) {
                 farmerName = farmerName.trim().replace("\n", " ").toLowerCase();
                 if (!farmerName.contains("farmer") && !farmerName.contains("name")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Farmer Name Column", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Farmer Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String gender = getCellValue(row.getCell(9));
             if (StringUtils.isNotBlank(gender)) {
                 gender = gender.trim().replace("\n", " ").toLowerCase();
                 if (!gender.contains("gender")) {
-                    flag = true;
+                    // flag = true;
+                    throw new BadRequestAlertException("Missing Gender Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                // flag = true;
+                throw new BadRequestAlertException("Missing Gender Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String aadharNumber = getCellValue(row.getCell(10));
             if (StringUtils.isNotBlank(aadharNumber)) {
                 aadharNumber = aadharNumber.trim().replace("\n", " ").toLowerCase();
                 if (!aadharNumber.contains("aadhar") && !aadharNumber.contains("number")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Aadhar Number Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Aadhar Number Column ", ENTITY_NAME, "fileInvalid");
             }
             String dateOfBirth = getCellValue(row.getCell(11));
             if (StringUtils.isNotBlank(dateOfBirth)) {
                 dateOfBirth = dateOfBirth.trim().replace("\n", " ").toLowerCase();
                 if (!dateOfBirth.contains("date") && !dateOfBirth.contains("birth")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Date of Birth Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Date of Birth Column ", ENTITY_NAME, "fileInvalid");
             }
             String AGE_AT_THE_TIME_OF_SANCTION = getCellValue(row.getCell(12));
             if (StringUtils.isNotBlank(AGE_AT_THE_TIME_OF_SANCTION)) {
                 AGE_AT_THE_TIME_OF_SANCTION = AGE_AT_THE_TIME_OF_SANCTION.trim().replace("\n", " ").toLowerCase();
                 if (!AGE_AT_THE_TIME_OF_SANCTION.contains("age") && !AGE_AT_THE_TIME_OF_SANCTION.contains("sanction")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Age at sanction Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Age at sanction Column ", ENTITY_NAME, "fileInvalid");
             }
             String MOBILE_NUMBER = getCellValue(row.getCell(13));
             if (StringUtils.isNotBlank(MOBILE_NUMBER)) {
                 MOBILE_NUMBER = MOBILE_NUMBER.trim().replace("\n", " ").toLowerCase();
                 if (!MOBILE_NUMBER.contains("mobile") && !MOBILE_NUMBER.contains("number")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Mobile Number Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Mobile Number Column ", ENTITY_NAME, "fileInvalid");
             }
             String FARMERS_CATEGORY = getCellValue(row.getCell(14));
             if (StringUtils.isNotBlank(FARMERS_CATEGORY)) {
                 FARMERS_CATEGORY = FARMERS_CATEGORY.trim().replace("\n", " ").toLowerCase();
                 if (!FARMERS_CATEGORY.contains("farmers") && !FARMERS_CATEGORY.contains("category")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Mobile Number Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Mobile Number Column ", ENTITY_NAME, "fileInvalid");
             }
             String FARMER_TYPE = getCellValue(row.getCell(15));
             if (StringUtils.isNotBlank(FARMER_TYPE)) {
                 FARMER_TYPE = FARMER_TYPE.trim().replace("\n", " ").toLowerCase();
                 if (!FARMER_TYPE.contains("farmer") && !FARMER_TYPE.contains("type")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Farmer Type Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Farmer Type Column ", ENTITY_NAME, "fileInvalid");
             }
             String SOCIAL_CATEGORY = getCellValue(row.getCell(16));
             if (StringUtils.isNotBlank(SOCIAL_CATEGORY)) {
                 SOCIAL_CATEGORY = SOCIAL_CATEGORY.trim().replace("\n", " ").toLowerCase();
                 if (!SOCIAL_CATEGORY.contains("social") && !SOCIAL_CATEGORY.contains("category")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Social Category Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Social Category Column ", ENTITY_NAME, "fileInvalid");
             }
             String RELATIVE_TYPE = getCellValue(row.getCell(17));
             if (StringUtils.isNotBlank(RELATIVE_TYPE)) {
                 RELATIVE_TYPE = RELATIVE_TYPE.trim().replace("\n", " ").toLowerCase();
                 if (!RELATIVE_TYPE.contains("relative") && !RELATIVE_TYPE.contains("type")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Relative Type Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Relative Type Column ", ENTITY_NAME, "fileInvalid");
             }
             String RELATIVE_NAME = getCellValue(row.getCell(18));
             if (StringUtils.isNotBlank(RELATIVE_NAME)) {
                 RELATIVE_NAME = RELATIVE_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!RELATIVE_NAME.contains("relative") && !RELATIVE_NAME.contains("name")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Relative Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Relative Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String STATE_NAME = getCellValue(row.getCell(19));
             if (StringUtils.isNotBlank(STATE_NAME)) {
                 STATE_NAME = STATE_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!STATE_NAME.contains("state") && !STATE_NAME.contains("name")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing State Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing State Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String STATE_CODE = getCellValue(row.getCell(20));
             if (StringUtils.isNotBlank(STATE_CODE)) {
                 STATE_CODE = STATE_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!STATE_CODE.contains("state") && !STATE_CODE.contains("code")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing State Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing State Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String DISTRICT_NAME = getCellValue(row.getCell(21));
             if (StringUtils.isNotBlank(DISTRICT_NAME)) {
                 DISTRICT_NAME = DISTRICT_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!DISTRICT_NAME.contains("district") && !DISTRICT_NAME.contains("name")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing District Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing District Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String DISTRICT_CODE = getCellValue(row.getCell(22));
             if (StringUtils.isNotBlank(DISTRICT_CODE)) {
                 DISTRICT_CODE = DISTRICT_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!DISTRICT_CODE.contains("district") && !DISTRICT_CODE.contains("code")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing District Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing District Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String BLOCK_CODE = getCellValue(row.getCell(23));
             if (StringUtils.isNotBlank(BLOCK_CODE)) {
                 BLOCK_CODE = BLOCK_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!BLOCK_CODE.contains("block") && !BLOCK_CODE.contains("code")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Block Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Block Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String BLOCK_NAME = getCellValue(row.getCell(24));
             if (StringUtils.isNotBlank(BLOCK_NAME)) {
                 BLOCK_NAME = BLOCK_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!BLOCK_NAME.contains("block") && !BLOCK_NAME.contains("name")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Block Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Block Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String VILLAGE_CODE = getCellValue(row.getCell(25));
             if (StringUtils.isNotBlank(VILLAGE_CODE)) {
                 VILLAGE_CODE = VILLAGE_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!VILLAGE_CODE.contains("village") && !VILLAGE_CODE.contains("code")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Village Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Village Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String VILLAGE_NAME = getCellValue(row.getCell(26));
             if (StringUtils.isNotBlank(VILLAGE_NAME)) {
                 VILLAGE_NAME = VILLAGE_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!VILLAGE_NAME.contains("village") && !VILLAGE_NAME.contains("name")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Village Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Village Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String ADDRESS = getCellValue(row.getCell(27));
             if (StringUtils.isNotBlank(ADDRESS)) {
                 ADDRESS = ADDRESS.trim().replace("\n", " ").toLowerCase();
                 if (!ADDRESS.contains("address")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Address Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Address Column ", ENTITY_NAME, "fileInvalid");
             }
             String PIN_CODE = getCellValue(row.getCell(28));
             if (StringUtils.isNotBlank(PIN_CODE)) {
                 PIN_CODE = PIN_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!PIN_CODE.contains("pin") && !PIN_CODE.contains("code")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Pin Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Pin Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String Account_TYPE = getCellValue(row.getCell(29));
             if (StringUtils.isNotBlank(Account_TYPE)) {
                 Account_TYPE = Account_TYPE.trim().replace("\n", " ").toLowerCase();
                 if (!Account_TYPE.contains("account") && !Account_TYPE.contains("type")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Account Type Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Account Type Column ", ENTITY_NAME, "fileInvalid");
             }
             String ACCOUNT_NUMBER = getCellValue(row.getCell(30));
             if (StringUtils.isNotBlank(ACCOUNT_NUMBER)) {
                 ACCOUNT_NUMBER = ACCOUNT_NUMBER.trim().replace("\n", " ").toLowerCase();
                 if (!ACCOUNT_NUMBER.contains("account") && !ACCOUNT_NUMBER.contains("number")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Account Number Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Account Number Column ", ENTITY_NAME, "fileInvalid");
             }
             String PACS_NAME = getCellValue(row.getCell(31));
             if (StringUtils.isNotBlank(PACS_NAME)) {
                 PACS_NAME = PACS_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!PACS_NAME.contains("pacs") && !PACS_NAME.contains("name")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Pacs Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Pacs Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String PACS_NUMBER = getCellValue(row.getCell(32));
             if (StringUtils.isNotBlank(PACS_NUMBER)) {
                 PACS_NUMBER = PACS_NUMBER.trim().replace("\n", " ").toLowerCase();
                 if (!PACS_NUMBER.contains("pacs") && !PACS_NUMBER.contains("number")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Pacs Number Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Pacs Number Column ", ENTITY_NAME, "fileInvalid");
             }
             String ACCOUNT_HOLDER_TYPE = getCellValue(row.getCell(33));
             if (StringUtils.isNotBlank(ACCOUNT_HOLDER_TYPE)) {
                 ACCOUNT_HOLDER_TYPE = ACCOUNT_HOLDER_TYPE.trim().replace("\n", " ").toLowerCase();
                 if (!ACCOUNT_HOLDER_TYPE.contains("account") && !ACCOUNT_HOLDER_TYPE.contains("holder")) {
-                    flag = true;
+                  //  flag = true;
+                    throw new BadRequestAlertException("Missing Account Holder Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Account Holder Column ", ENTITY_NAME, "fileInvalid");
             }
             String PRIMARY_OCCUPATION = getCellValue(row.getCell(34));
             if (StringUtils.isNotBlank(PRIMARY_OCCUPATION)) {
                 PRIMARY_OCCUPATION = PRIMARY_OCCUPATION.trim().replace("\n", " ").toLowerCase();
                 if (!PRIMARY_OCCUPATION.contains("primary") && !PRIMARY_OCCUPATION.contains("occupation")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Primary Occupation Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Primary Occupation Column ", ENTITY_NAME, "fileInvalid");
             }
             String LOAN_SANCTION_DATE = getCellValue(row.getCell(35));
             if (StringUtils.isNotBlank(LOAN_SANCTION_DATE)) {
                 LOAN_SANCTION_DATE = LOAN_SANCTION_DATE.trim().replace("\n", " ").toLowerCase();
                 if (!LOAN_SANCTION_DATE.contains("loan") && !LOAN_SANCTION_DATE.contains("date")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Loan Date Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+              //  flag = true;
+                throw new BadRequestAlertException("Missing Loan Date Column ", ENTITY_NAME, "fileInvalid");
             }
             String LOAN_SANCTION_AMOUNT = getCellValue(row.getCell(36));
             if (StringUtils.isNotBlank(LOAN_SANCTION_AMOUNT)) {
                 LOAN_SANCTION_AMOUNT = LOAN_SANCTION_AMOUNT.trim().replace("\n", " ").toLowerCase();
                 if (!LOAN_SANCTION_AMOUNT.contains("loan") && !LOAN_SANCTION_AMOUNT.contains("amount")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Loan Amount Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Loan Amount Column ", ENTITY_NAME, "fileInvalid");
             }
             String TENURE_OF_LOAN = getCellValue(row.getCell(37));
             if (StringUtils.isNotBlank(TENURE_OF_LOAN)) {
                 TENURE_OF_LOAN = TENURE_OF_LOAN.trim().replace("\n", " ").toLowerCase();
                 if (!TENURE_OF_LOAN.contains("tenure") && !TENURE_OF_LOAN.contains("loan")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Tenure Loan Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                 throw new BadRequestAlertException("Missing Tenure Loan Column ", ENTITY_NAME, "fileInvalid");
             }
             String DATE_OF_OVERDUE_PAYMENT = getCellValue(row.getCell(38));
             if (StringUtils.isNotBlank(DATE_OF_OVERDUE_PAYMENT)) {
                 DATE_OF_OVERDUE_PAYMENT = DATE_OF_OVERDUE_PAYMENT.trim().replace("\n", " ").toLowerCase();
                 if (!DATE_OF_OVERDUE_PAYMENT.contains("date") && !DATE_OF_OVERDUE_PAYMENT.contains("overdue")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Date Overdue Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Date Overdue Column ", ENTITY_NAME, "fileInvalid");
             }
             String KCCISS_CROP_CODE = getCellValue(row.getCell(39));
             if (StringUtils.isNotBlank(KCCISS_CROP_CODE)) {
                 KCCISS_CROP_CODE = KCCISS_CROP_CODE.trim().replace("\n", " ").toLowerCase();
                 if (!KCCISS_CROP_CODE.contains("crop") && !KCCISS_CROP_CODE.contains("code")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Crop Code Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Crop Code Column ", ENTITY_NAME, "fileInvalid");
             }
             String KCCISS_CROP_NAME = getCellValue(row.getCell(40));
             if (StringUtils.isNotBlank(KCCISS_CROP_NAME)) {
                 KCCISS_CROP_NAME = KCCISS_CROP_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!KCCISS_CROP_NAME.contains("crop") && !KCCISS_CROP_NAME.contains("name")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Crop Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Crop Name Column ", ENTITY_NAME, "fileInvalid");
             }
             String CROP_NAME = getCellValue(row.getCell(41));
             if (StringUtils.isNotBlank(CROP_NAME)) {
                 CROP_NAME = CROP_NAME.trim().replace("\n", " ").toLowerCase();
                 if (!CROP_NAME.contains("crop") && !CROP_NAME.contains("name")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Crop Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Crop Name Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String SURVEY_NO = getCellValue(row.getCell(42));
@@ -675,20 +747,24 @@ public class IssFileParserResource {
                 SURVEY_NO = SURVEY_NO.trim().replace("\n", " ").toLowerCase();
 
                 if (!SURVEY_NO.contains("survey") && !SURVEY_NO.contains("no")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Survey No Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Survey No Column ", ENTITY_NAME, "fileInvalid");
             }
             String SAT_BARA_SUBSURVEY_No = getCellValue(row.getCell(43));
             if (StringUtils.isNoneBlank(SAT_BARA_SUBSURVEY_No)) {
                 SAT_BARA_SUBSURVEY_No = SAT_BARA_SUBSURVEY_No.trim().replace("\n", " ").toLowerCase();
 
                 if (!SAT_BARA_SUBSURVEY_No.contains("sat") && !SAT_BARA_SUBSURVEY_No.contains("bara")) {
-                    flag = true;
+                  //  flag = true;
+                    throw new BadRequestAlertException("Missing Sat bara Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Sat bara Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String SEASON_NAME = getCellValue(row.getCell(44));
@@ -696,10 +772,12 @@ public class IssFileParserResource {
                 SEASON_NAME = SEASON_NAME.trim().replace("\n", " ").toLowerCase();
 
                 if (!SEASON_NAME.contains("season") && !SEASON_NAME.contains("name")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Season Name Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Season Name Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String ACTIVITY_TYPE = getCellValue(row.getCell(45));
@@ -707,10 +785,12 @@ public class IssFileParserResource {
                 ACTIVITY_TYPE = ACTIVITY_TYPE.trim().replace("\n", " ").toLowerCase();
 
                 if (!ACTIVITY_TYPE.contains("activity") && !ACTIVITY_TYPE.contains("type")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Activity Type Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Activity Type Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String AREA_HECT = getCellValue(row.getCell(46));
@@ -718,10 +798,12 @@ public class IssFileParserResource {
                 AREA_HECT = AREA_HECT.trim().replace("\n", " ").toLowerCase();
 
                 if (!AREA_HECT.contains("area") && !AREA_HECT.contains("hect")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Area Hect Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Area Hect Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String LAND_TYPE = getCellValue(row.getCell(47));
@@ -729,20 +811,24 @@ public class IssFileParserResource {
                 LAND_TYPE = LAND_TYPE.trim().replace("\n", " ").toLowerCase();
 
                 if (!LAND_TYPE.contains("land") && !LAND_TYPE.contains("type")) {
-                    flag = true;
+                    //flag = true;
+                    throw new BadRequestAlertException("Missing Land Type Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Land Type Column ", ENTITY_NAME, "fileInvalid");
             }
             String DISBURSEMENT_DATE = getCellValue(row.getCell(48));
             if (StringUtils.isNoneBlank(DISBURSEMENT_DATE)) {
                 DISBURSEMENT_DATE = DISBURSEMENT_DATE.trim().replace("\n", " ").toLowerCase();
 
                 if (!DISBURSEMENT_DATE.contains("disbursement") && !DISBURSEMENT_DATE.contains("date")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Disbursement Date Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Disbursement Date Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String DISBURSE_AMOUNT = getCellValue(row.getCell(49));
@@ -750,10 +836,12 @@ public class IssFileParserResource {
                 DISBURSE_AMOUNT = DISBURSE_AMOUNT.trim().replace("\n", " ").toLowerCase();
 
                 if (!DISBURSE_AMOUNT.contains("disburse") && !DISBURSE_AMOUNT.contains("amount")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Disbursement amount Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Disbursement amount Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String MATURITY_LOAN_DATE = getCellValue(row.getCell(50));
@@ -761,30 +849,36 @@ public class IssFileParserResource {
                 MATURITY_LOAN_DATE = MATURITY_LOAN_DATE.trim().replace("\n", " ").toLowerCase();
 
                 if (!MATURITY_LOAN_DATE.contains("maturity") && !MATURITY_LOAN_DATE.contains("date")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Maturity Date Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Maturity Date Column ", ENTITY_NAME, "fileInvalid");
             }
             String RECOVERY_AMOUNT_PRINCIPLE = getCellValue(row.getCell(51));
             if (StringUtils.isNoneBlank(RECOVERY_AMOUNT_PRINCIPLE)) {
                 RECOVERY_AMOUNT_PRINCIPLE = RECOVERY_AMOUNT_PRINCIPLE.trim().replace("\n", " ").toLowerCase();
 
                 if (!RECOVERY_AMOUNT_PRINCIPLE.contains("recovery") && !RECOVERY_AMOUNT_PRINCIPLE.contains("amount")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Recovery Amount Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Recovery Amount Column ", ENTITY_NAME, "fileInvalid");
             }
             String RECOVERY_AMOUNT_INTEREST = getCellValue(row.getCell(52));
             if (StringUtils.isNoneBlank(RECOVERY_AMOUNT_INTEREST)) {
                 RECOVERY_AMOUNT_INTEREST = RECOVERY_AMOUNT_INTEREST.trim().replace("\n", " ").toLowerCase();
 
                 if (!RECOVERY_AMOUNT_INTEREST.contains("recovery") && !RECOVERY_AMOUNT_INTEREST.contains("interest")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Recovery interest Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+                //flag = true;
+                throw new BadRequestAlertException("Missing Recovery interest Column ", ENTITY_NAME, "fileInvalid");
             }
 
             String recoveryDate = getCellValue(row.getCell(53));
@@ -792,10 +886,12 @@ public class IssFileParserResource {
                 recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
 
                 if (!recoveryDate.contains("recovery") && !recoveryDate.contains("date")) {
-                    flag = true;
+                   // flag = true;
+                    throw new BadRequestAlertException("Missing Recovery Date Column ", ENTITY_NAME, "fileInvalid");
                 }
             } else {
-                flag = true;
+               // flag = true;
+                throw new BadRequestAlertException("Missing Recovery Date Column ", ENTITY_NAME, "fileInvalid");
             }
 
             if (flag) {
@@ -906,7 +1002,7 @@ public class IssFileParserResource {
             }
 
             if (flagForData) {
-                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+                throw new BadRequestAlertException("Invalid file Or File does not contain data in correct format", ENTITY_NAME, "fileInvalid");
             }
 
             fileParseConf.setBankName(getCellValue(row.getCell(1)));
@@ -919,7 +1015,8 @@ public class IssFileParserResource {
             return fileParseConf;
         } catch (BadRequestAlertException e) {
             e.printStackTrace();
-            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            throw e;
+            //throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
         } catch (ForbiddenAuthRequestAlertException e) {
             throw new ForbiddenAuthRequestAlertException("Unauthorized Operation", ENTITY_NAME, "unAuthorized");
         } catch (UnAuthRequestAlertException e) {
@@ -2923,7 +3020,7 @@ public class IssFileParserResource {
         // loanSanctionedDate
         if (!validateDate(issFileParser.getLoanSactionDate())) {
             errorCount = errorCount + 1;
-            validationErrorBuilder.append("Loan Saction Date is not in dd-mm-yyyy format.");
+            validationErrorBuilder.append("Loan Sanction Date is not in dd-mm-yyyy format.");
         }
 
         // loanSanctionedAmount

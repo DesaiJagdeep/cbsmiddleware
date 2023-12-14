@@ -36,7 +36,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
     private LocalDateFilter toDisbursementDate;
 
     private LongFilter pacsCode;
-
+    private StringFilter pacsName;
     private StringFilter status;
 
     private IntegerFilter applicationCount;
@@ -57,6 +57,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.toDisbursementDate = other.toDisbursementDate == null ? null : other.toDisbursementDate.copy();
         this.pacsCode = other.pacsCode == null ? null : other.pacsCode.copy();
         this.status = other.status == null ? null : other.status.copy();
+        this.pacsName = other.pacsName == null ? null : other.pacsName.copy();
         this.applicationCount = other.applicationCount == null ? null : other.applicationCount.copy();
         this.notes = other.notes == null ? null : other.notes.copy();
         this.distinct = other.distinct;
@@ -202,6 +203,24 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
+    public StringFilter getpacsName() {
+        return pacsName;
+    }
+
+    public StringFilter pacsName() {
+        if (pacsName == null) {
+            pacsName = new StringFilter();
+        }
+        return pacsName;
+    }
+
+    public void setpacsName(StringFilter pacsName) {
+        this.pacsName = pacsName;
+    }
+
+
+
+
     public IntegerFilter getApplicationCount() {
         return applicationCount;
     }
@@ -259,6 +278,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             Objects.equals(toDisbursementDate, that.toDisbursementDate) &&
             Objects.equals(pacsCode, that.pacsCode) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(pacsName, that.pacsName) &&
             Objects.equals(applicationCount, that.applicationCount) &&
             Objects.equals(notes, that.notes) &&
             Objects.equals(distinct, that.distinct)
@@ -276,6 +296,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             fromDisbursementDate,
             toDisbursementDate,
             pacsCode,
+            pacsName,
             status,
             applicationCount,
             notes,
@@ -296,6 +317,7 @@ public class IssPortalFileCriteria implements Serializable, Criteria {
             (toDisbursementDate != null ? "toDisbursementDate=" + toDisbursementDate + ", " : "") +
             (pacsCode != null ? "pacsCode=" + pacsCode + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
+            (pacsName != null ? "pacsName=" + pacsName + ", " : "") +
             (applicationCount != null ? "applicationCount=" + applicationCount + ", " : "") +
             (notes != null ? "notes=" + notes + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

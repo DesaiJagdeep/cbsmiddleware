@@ -161,8 +161,11 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
             Long kccRejected = issPortalFileRepository.findKccRejectedByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
             Long kccPending = issPortalFileRepository.findKccPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
 
+            Long pendingFromBranchAdmin = issPortalFileRepository.findBranchAdminApprovalPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+            Long pendingFromBranchUser = issPortalFileRepository.findBranchUserApprovalPendingByBranchCodeAndFinancialYear(schemeWiseBranchCode.longValue(), financialYear);
+
             TalukaApplicationDTO talukaApplicationDTO = new TalukaApplicationDTO(
-                totalApps, validationError, kccAccepted, kccRejected, kccPending, branchName, schemeWiseBranchCode.longValue()
+                totalApps, validationError, kccAccepted, kccRejected, kccPending, branchName, schemeWiseBranchCode.longValue(),pendingFromBranchAdmin,pendingFromBranchUser
             );
             talukaApplicationDTOList.add(talukaApplicationDTO);
         }

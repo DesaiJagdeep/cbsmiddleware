@@ -72,7 +72,7 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     Integer findDistinctFarmersCountByFinancialYear(@Param("financialYear") String financialYear);
 
     //-------------------
-    //Branch by taluka id and financial year
+    //All Branches Under Taluka  (by taluka id and financial year)
     @Query(value = "select distinct(scheme_wise_branch_code),branch_name from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) order by branch_name asc", nativeQuery = true)
     List<Object[]> findTalukaWiseBranches(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
@@ -92,7 +92,7 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     Long findKccPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
 
     //------------------------------------------------
-    //pacs by schemeWiseDBanchCode and FinancialYear
+    //All Pacs Under Branch (by schemeWiseDBanchCode and FinancialYear)
     @Query(value = "select pacs_code,pacs_name from iss_portal_file where scheme_wise_branch_code=:schemeBranchCode and financial_year=:financialYear order by pacs_name asc ", nativeQuery = true)
     List<Object[]> findBranchWisePacs(@Param("schemeBranchCode") Long schemeBranchCode, @Param("financialYear") String financialYear);
 
@@ -129,4 +129,9 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and ipf.error_record_count>0 AND ipf.app_submited_to_kcc_count=0",nativeQuery = true)
     Integer findInProgressCountByTalukaId(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
+    //BranchWise Pending Approvals
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 1 and verified_file=0 ",nativeQuery = true)
+    Long findBranchAdminApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 0",nativeQuery = true)
+    Long findBranchUserApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
 }

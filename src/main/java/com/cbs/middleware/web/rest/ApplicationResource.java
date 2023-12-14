@@ -208,6 +208,7 @@ public class ApplicationResource {
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.BANK_CODE_KEY))) {
             page = applicationQueryService.findByCriteria(criteria, pageable);
+
         } else {
             throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
         }

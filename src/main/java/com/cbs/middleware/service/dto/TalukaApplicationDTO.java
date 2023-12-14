@@ -9,11 +9,13 @@ public class TalukaApplicationDTO {
     Long kccPending;
     String branchName;
     Long schemeWiseBranchCode;
+    Long pendingApprovalFromBranchAdmin;
+    Long pendingApprovalFromBranchUser;
 
     public TalukaApplicationDTO() {
     }
 
-    public TalukaApplicationDTO(Long totalApplication, Long validationError, Long kccAccepted, Long kccRejected, Long kccPending, String branchName, Long schemeWiseBranchCode) {
+    public TalukaApplicationDTO(Long totalApplication, Long validationError, Long kccAccepted, Long kccRejected, Long kccPending, String branchName, Long schemeWiseBranchCode, Long pendingApprovalFromBranchAdmin, Long pendingApprovalFromBranchUser) {
         this.totalApplication = totalApplication;
         this.validationError = validationError;
         this.kccAccepted = kccAccepted;
@@ -21,7 +23,8 @@ public class TalukaApplicationDTO {
         this.kccPending = kccPending;
         this.branchName = branchName;
         this.schemeWiseBranchCode = schemeWiseBranchCode;
-
+        this.pendingApprovalFromBranchAdmin = pendingApprovalFromBranchAdmin;
+        this.pendingApprovalFromBranchUser = pendingApprovalFromBranchUser;
     }
 
     public Long getTotalApplication() {
@@ -80,5 +83,19 @@ public class TalukaApplicationDTO {
         this.schemeWiseBranchCode = schemeWiseBranchCode;
     }
 
+    public Long getPendingApprovalFromBranchAdmin() {
+        return pendingApprovalFromBranchAdmin;
+    }
 
+    public void setPendingApprovalFromBranchAdmin(Long pendingApprovalFromBranchAdmin) {
+        this.pendingApprovalFromBranchAdmin = pendingApprovalFromBranchAdmin;
+    }
+
+    public Long getPendingApprovalFromBranchUser() {
+        return pendingApprovalFromBranchUser;
+    }
+
+    public void setPendingApprovalFromBranchUser(Long pendingApprovalFromBranchUser) {
+        this.pendingApprovalFromBranchUser = pendingApprovalFromBranchUser;
+    }
 }

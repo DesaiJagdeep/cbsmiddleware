@@ -143,6 +143,9 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStatus(), IssPortalFile_.status));
+
+            } if (criteria.getpacsName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getpacsName(), IssPortalFile_.pacsName));
             }
             if (criteria.getApplicationCount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getApplicationCount(), IssPortalFile_.applicationCount));

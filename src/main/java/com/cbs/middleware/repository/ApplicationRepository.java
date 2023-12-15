@@ -2,6 +2,7 @@ package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.IssFileParser;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -101,7 +102,10 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 
     @Transactional
-	void deleteByIssFileParser(IssFileParser issFileParser);
+    void deleteByIssFileParser(IssFileParser issFileParser);
 
     List<Application> findAllByUniqueId(String uniqueId);
+
+    @Query(value = "delete from application_transaction where iss_file_parser_id=:id ", nativeQuery = true)
+    void deleteByIssFileParserId(@Param("id") Long id);
 }

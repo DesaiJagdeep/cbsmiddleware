@@ -58,4 +58,6 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
 
     @Query(value = "select count(*) from application_log where iss_portal_id=:id and error_type='KCC Error' and status='ERROR' ",nativeQuery = true)
     Long countByKccError(@Param("id") Long id);
+    @Query(value = "delete from application_log where iss_file_parser_id=:id ",nativeQuery = true)
+    void deleteByIssFileParser(@Param("id") Long id);
 }

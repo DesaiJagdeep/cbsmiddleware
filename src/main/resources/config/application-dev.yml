@@ -15,10 +15,10 @@
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: WARN
     tech.jhipster: ERROR
     org.hibernate.SQL: ERROR
-    com.cbs.middleware: DEBUG
+    com.cbs.middleware: WARN
 
 spring:
   devtools:

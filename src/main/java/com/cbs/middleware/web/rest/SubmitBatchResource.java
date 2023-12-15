@@ -46,7 +46,6 @@ import com.cbs.middleware.domain.AccountDetails;
 import com.cbs.middleware.domain.AccountHolderMaster;
 import com.cbs.middleware.domain.Activities;
 import com.cbs.middleware.domain.ActivityRows;
-import com.cbs.middleware.domain.ActivityType;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.ApplicationPayload;
@@ -227,7 +226,7 @@ public class SubmitBatchResource {
             IssFileParser issFileParser = applicationTransaction.getIssFileParser();
 
             ApplicationPayload applicationPayload = new ApplicationPayload();
-            String uniqueId = batchData.getBatchId() + generateRandomNumber();
+            String uniqueId = batchData.getBatchId() + generateUniqueId(issFileParser.getId());
 
             applicationPayload.setUniqueId(uniqueId);
             // application.setUniqueId("1207231567261098695");
@@ -722,6 +721,20 @@ public class SubmitBatchResource {
         return cbsResponce;
     }
 
+    private String generateUniqueId(Long id) {
+        String toReturn = id.toString();
+        String uniqueId = "";
+        if (toReturn.length() > 5) {
+            uniqueId = toReturn.substring(toReturn.length() - 5);
+        } else{
+          for (int i=0; i < (5-toReturn.length()); i++){
+              uniqueId += "0";
+          }
+            uniqueId += toReturn;
+        }
+        return uniqueId;
+    }
+
     public static byte[] objectToBytes(BatchData encDecObject) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -783,7 +796,6 @@ public class SubmitBatchResource {
         Random random = new Random();
         int min = 10000;
         int max = 99999;
-
         return random.nextInt(max - min + 1) + min;
     }
 

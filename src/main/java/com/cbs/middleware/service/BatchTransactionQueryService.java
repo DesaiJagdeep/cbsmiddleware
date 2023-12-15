@@ -98,16 +98,16 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 		List<BatchTransaction> content = new ArrayList<BatchTransaction>();
 		Specification<BatchTransaction> specification = createSpecification(criteria);
 		Page<BatchTransaction> findAll = batchTransactionRepository.findAll(specification, page);
-		
+
 		if(findAll.isEmpty())
 		{
 			//return error
 		}
-		
+
 		content = findAll.getContent();
 
-		
-        
+
+
 
         for (BatchTransaction batchTransaction : content) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -129,7 +129,7 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 
                     batchTransactionMapperList.add(batchTransactionMapper);
 
-                    
+
                 }
             } catch (Exception e) {
                 log.error("Error in portal responce api: " + e);
@@ -170,8 +170,8 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), BatchTransaction_.id));
             }
-            
-            
+
+
 			if (criteria.getPacksCode() != null) {
 				specification = specification
 						.and(buildRangeSpecification(criteria.getPacksCode(), BatchTransaction_.packsCode));
@@ -183,14 +183,13 @@ public class BatchTransactionQueryService extends QueryService<BatchTransaction>
 			}
 
 			else if (criteria.getBankCode() != null) {
-				System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,"+criteria.getBankCode() );
 				specification = specification
 						.and(buildRangeSpecification(criteria.getBankCode(), BatchTransaction_.bankCode));
 			}
-            
-           
-            
-            
+
+
+
+
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getStatus(), BatchTransaction_.status));
             }

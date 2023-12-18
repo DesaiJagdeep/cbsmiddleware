@@ -135,17 +135,22 @@ public class ApplicationQueryService extends QueryService<Application> {
         return specification;
     }
 
-    public Page<Application> findByCriteriaByPacsCode(Long PacsCode, Pageable pageable) {
+    public Page<Application> findByCriteriaByPacsCode(ApplicationCriteria criteria, Pageable pageable) {
         log.debug("find by criteria : {}, page: {}", pageable);
-        return applicationRepository.findAllByPacksCode(PacsCode, pageable);
+        final Specification<Application> specification = createSpecification(criteria);
+
+        //return applicationRepository.findAllByPacksCode(specification, pageable);
+        return applicationRepository.findAll(specification, pageable);
     }
 
     public Page<Application> findByCriteriaBySchemeWiseBranchCode(
-        Long schemeWiseBranchCode,
         ApplicationCriteria criteria,
         Pageable pageable
     ) {
+        final Specification<Application> specification = createSpecification(criteria);
+
         log.debug("find by criteria : {}, page: {}", criteria, pageable);
-        return applicationRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
+        //return applicationRepository.findAllBySchemeWiseBranchCode(schemeWiseBranchCode, pageable);
+        return applicationRepository.findAll(specification, pageable);
     }
 }

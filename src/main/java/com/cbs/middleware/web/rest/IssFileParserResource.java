@@ -13,19 +13,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -1927,7 +1919,13 @@ public class IssFileParserResource {
 
                         issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(43)));
 
-                        issFileParser.setSeasonName(getCellValue(row.getCell(44)));
+                        //seasonName as per DisbursementDate
+                        // 01-03 to 30-09 (KHARIP)
+                        // 01-10 to 31-03 (RABBI)
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date disbursementDate = dateFormat.parse(getDateCellValue(row.getCell(48)));
+                        String seasonName=seasonNameAsPerDisbursementDate(disbursementDate);
+                        issFileParser.setSeasonName(seasonName);
 
                         issFileParser.setActivityType(getStringCellValue(row.getCell(45)));
 
@@ -2038,6 +2036,14 @@ public class IssFileParserResource {
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
+    }
+
+    private String seasonNameAsPerDisbursementDate(Date disbursementDate) {
+        // Note: Month is 0-based in Date class
+        int month = disbursementDate.getMonth() + 1;
+        if(month >= 4 && month <= 9) {
+            return "KHARIP";
+        }else return "RABBI";
     }
 
     private void validateFileFile(IssPortalFile issPortalFile) {

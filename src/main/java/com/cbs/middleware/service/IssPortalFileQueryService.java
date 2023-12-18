@@ -177,8 +177,8 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
             issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
 
-            Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
-
+            //Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
+            Long failRecord = applicationLogRepository.countByKccError(issPortalFile.getId());
             issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
             issPortalFileMapperList.add(issPortalFile);
@@ -217,8 +217,8 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
             issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
 
-            Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
-
+            //Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
+            Long failRecord = applicationLogRepository.countByKccError(issPortalFile.getId());
             issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
             issPortalFileMapperList.add(issPortalFile);
@@ -246,11 +246,12 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
                  issPortalFile.setAppAcceptedByKccCount(applicationCriteriaSuccessRecord);
 
-                 Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
+                 //Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
+                 Long failRecord=applicationLogRepository.countByKccError(issPortalFile.getId());
                  issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
-//                 Long kccErrorCount=applicationLogRepository.countByKccError(issPortalFile.getId());
-//                issPortalFile.setKccErrorRecordCount(kccErrorCount.intValue());
+
+
 
                  issPortalFileMapperList.add(issPortalFile);
              }

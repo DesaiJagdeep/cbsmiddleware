@@ -3,11 +3,9 @@ package com.cbs.middleware.web.rest;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.BankCode;
+import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.domainUtil.Report;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.BankBranchMasterRepository;
-import com.cbs.middleware.repository.BankMasterRepository;
-import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.repository.*;
 import com.cbs.middleware.service.ApplicationQueryService;
 import com.cbs.middleware.service.ApplicationService;
 import com.cbs.middleware.service.criteria.ApplicationCriteria;
@@ -196,13 +194,14 @@ public class ApplicationResource {
         if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
             page =
                 applicationQueryService.findByCriteriaByPacsCode(
-                    Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
+//                    Long.parseLong(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY)),
+                    criteria,
                     pageable
                 );
         } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
             page =
                 applicationQueryService.findByCriteriaBySchemeWiseBranchCode(
-                    Long.parseLong(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)),
+                    //Long.parseLong(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY)),
                     criteria,
                     pageable
                 );
@@ -249,6 +248,8 @@ public class ApplicationResource {
 
     @Autowired
     PacsMasterRepository pacsMasterRepository;
+    @Autowired
+    private IssFileParserRepository issFileParserRepository;
 
     @PostMapping("/bank-code")
     public BankCode getCodes(@RequestBody BankCode bankCode) {
@@ -333,5 +334,18 @@ public class ApplicationResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/financialYear")
+    public void updateFinancialYearInAppTransactionAsPerFileParser (){
+
+
+        List<Application> appTxList = applicationRepository.findByFianacialYearNull();
+
+            for (Application appTx:appTxList) {
+                Optional<IssFileParser> fileParser = issFileParserRepository.findById(appTx.getIssFileParser().getId());
+                        appTx.setFinancialYear(fileParser.get().getFinancialYear());
+                        applicationRepository.save(appTx);
+            }
     }
 }

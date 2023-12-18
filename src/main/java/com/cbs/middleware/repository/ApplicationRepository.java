@@ -108,4 +108,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Query(value = "delete from application_transaction where iss_file_parser_id=:id ", nativeQuery = true)
     void deleteByIssFileParserId(@Param("id") Long id);
+    @Query(value = "select * from application_transaction where financial_year is null; ", nativeQuery = true)
+    List<Application> findByFianacialYearNull();
 }

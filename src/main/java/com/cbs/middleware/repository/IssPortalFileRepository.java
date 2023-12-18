@@ -134,4 +134,6 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     Long findBranchAdminApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
     @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 0",nativeQuery = true)
     Long findBranchUserApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
+    @Query(value = "select pacs_code,pacs_name,branch_name from iss_portal_file where scheme_wise_branch_code IN (select distinct(scheme_wise_branch_code) from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId )) and financial_year=:financialYear order by branch_name asc ;",nativeQuery = true)
+    List<Object[]> pacsUnderTaluka(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 }

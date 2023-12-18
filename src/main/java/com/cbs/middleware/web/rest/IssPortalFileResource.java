@@ -12,10 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.cbs.middleware.security.AuthoritiesConstants;
-import com.cbs.middleware.service.dto.AdminUserDTO;
-import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
-import com.cbs.middleware.service.dto.PacsApplicationDTO;
-import com.cbs.middleware.service.dto.TalukaApplicationDTO;
+import com.cbs.middleware.service.dto.*;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -508,8 +505,8 @@ public class IssPortalFileResource {
 
                 completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
                 inProgressCount = issPortalFileRepository.findInProgressCountByTalukaId(talukaMaster.getId(), financialYear);
-               // pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
-                pendingApprovalFromBranchAdminCount=issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
+                // pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
+                pendingApprovalFromBranchAdminCount = issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
                 yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
 
                 talukaWiseDataReport.setCompleted(completedCount);
@@ -538,7 +535,7 @@ public class IssPortalFileResource {
 
         return talukaWiseDataReportList1;
 
-}
+    }
 
     @GetMapping("/taluka-wise-applications/{talukaId}/{financialYear}")
     public List<TalukaApplicationDTO> getBankBranchByTalukaId(@PathVariable Long talukaId, @PathVariable String financialYear) {
@@ -937,5 +934,67 @@ public class IssPortalFileResource {
 
     }
 
-    
+    @GetMapping("/taluka-branch-pacs-excel")
+    public ResponseEntity<byte[]> talukaBranchPacsWiseExcel(@RequestParam String financialYear) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        List<IssPortalFileDTO> issPortalFileDTOList = new ArrayList<>();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            issPortalFileDTOList = issPortalFileService.findAllRecordsByTalukaBranchPacsWise(financialYear);
+
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = workbook.createSheet("Taluka wise data");
+                int rowNum = 0;
+                Row row = sheet.createRow(rowNum++);
+                int colNum = 0;
+                row.createCell(colNum++).setCellValue("Financial Year ");
+                row.createCell(colNum++).setCellValue("Taluka");
+                row.createCell(colNum++).setCellValue("Branch");
+                row.createCell(colNum++).setCellValue("Pacs");
+                row.createCell(colNum++).setCellValue("Total Application");
+                row.createCell(colNum++).setCellValue("Validation Error");
+                row.createCell(colNum++).setCellValue("KCC Accepted");
+                row.createCell(colNum++).setCellValue("KCC Rejected");
+                row.createCell(colNum++).setCellValue("KCC Pending");
+
+                for (IssPortalFileDTO issPortalFile : issPortalFileDTOList) {
+                    colNum = 0;
+                    row = sheet.createRow(rowNum++);
+                    row.createCell(colNum++).setCellValue(financialYear);
+                    row.createCell(colNum++).setCellValue(issPortalFile.getTaluka());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getBranch());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getPacs());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getTotalApplications());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getValidationErrors());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getkCCAccepted());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getkCCRejected());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getkCCPending());
+
+                }
+
+                // Write Excel to ByteArrayOutputStream
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                workbook.write(outputStream);
+                outputStream.close();
+                byte[] excelContent = outputStream.toByteArray();
+
+                // Set up the HTTP headers for the response
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+//
+                headers.setContentDispositionFormData("filename", "TalukaBranchPacs" + "-" + getUniqueName() + ".xlsx");
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
+                return new ResponseEntity<>(excelContent, headers, 200);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body(null);
+            }
+
+
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
 }

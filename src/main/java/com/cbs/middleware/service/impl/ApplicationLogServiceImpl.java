@@ -1,7 +1,9 @@
 package com.cbs.middleware.service.impl;
 
+import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.repository.ApplicationLogRepository;
+import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.service.ApplicationLogService;
 
 import java.util.List;
@@ -23,9 +25,12 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
     private final Logger log = LoggerFactory.getLogger(ApplicationLogServiceImpl.class);
 
     private final ApplicationLogRepository applicationLogRepository;
+    private final ApplicationRepository applicationRepository;
 
-    public ApplicationLogServiceImpl(ApplicationLogRepository applicationLogRepository) {
+    public ApplicationLogServiceImpl(ApplicationLogRepository applicationLogRepository,
+                                     ApplicationRepository applicationRepository) {
         this.applicationLogRepository = applicationLogRepository;
+        this.applicationRepository = applicationRepository;
     }
 
     @Override
@@ -104,9 +109,4 @@ public class ApplicationLogServiceImpl implements ApplicationLogService {
         applicationLogRepository.deleteById(id);
     }
 
-    @Override
-    public List<ApplicationLog> findRejectedApplications() {
-        return applicationLogRepository.findAllByKCCStatus();
-
-    }
 }

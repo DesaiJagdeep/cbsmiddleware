@@ -12,7 +12,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.*;
 import org.apache.commons.codec.binary.Hex;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,32 +36,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
-import com.cbs.middleware.domain.Application;
-import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.ApplicationLogHistory;
-import com.cbs.middleware.domain.ApplicationsByBatchAckId;
-import com.cbs.middleware.domain.BatchAckId;
-import com.cbs.middleware.domain.BatchData;
-import com.cbs.middleware.domain.BatchTransaction;
-import com.cbs.middleware.domain.CBSMiddleareInputPayload;
-import com.cbs.middleware.domain.CBSResponce;
-import com.cbs.middleware.domain.DataByBatchAckId;
-import com.cbs.middleware.domain.IssPortalFile;
-import com.cbs.middleware.repository.AccountHolderMasterRepository;
-import com.cbs.middleware.repository.ApplicationLogHistoryRepository;
-import com.cbs.middleware.repository.ApplicationLogRepository;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.BatchTransactionRepository;
-import com.cbs.middleware.repository.CastCategoryMasterRepository;
-import com.cbs.middleware.repository.CropMasterRepository;
-import com.cbs.middleware.repository.DesignationMasterRepository;
-import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
-import com.cbs.middleware.repository.FarmerTypeMasterRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.repository.LandTypeMasterRepository;
-import com.cbs.middleware.repository.OccupationMasterRepository;
-import com.cbs.middleware.repository.RelativeMasterRepository;
-import com.cbs.middleware.repository.SeasonMasterRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.ResponceService;
@@ -135,6 +112,12 @@ public class CronJobResource {
     BatchTransactionRepository batchTransactionRepository;
 
     @Autowired
+    RetryBatchTransactionRepository retryBatchTransactionRepository;
+
+    @Autowired
+    RetryBatchTransactionDetailsRepository retryBatchTransactionDetailsRepository;
+
+    @Autowired
     RBAControl rbaControl;
 
     public CronJobResource() {}
@@ -144,6 +127,7 @@ public class CronJobResource {
      *
      * @throws Exception
      */
+
 
     @Scheduled(cron = "0 0 6 * * ?")
     public void updateRecordsInBatchTran() {
@@ -329,6 +313,219 @@ public class CronJobResource {
         }
     }
 
+
+
+    //Ashvini
+    @GetMapping("/updateRecordsInRetryBatchTran")
+    public void updateRecordsInRetryBatchTran() {
+        List<RetryBatchTransaction> retryBatchTransactionList = retryBatchTransactionRepository.findAllByStatus(Constants.SUBMITTED);
+
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(timeZone);
+        String indianTime = dateFormat.format(new Date());
+
+        log.debug("Crown Job started at"+ indianTime);
+        log.info("Crown Job started at"+ indianTime);
+        log.info("retryBatchTransactionList size =  "+retryBatchTransactionList.size());
+        if (!retryBatchTransactionList.isEmpty()) {
+            log.info("Retry Batch transaction list not empty");
+            for (RetryBatchTransaction retryBatchTransaction : retryBatchTransactionList) {
+                log.info("Retry Batch transaction found "+retryBatchTransaction.getId());
+                List<Application> applicationListSave = new ArrayList<>();
+                List<RetryBatchTransactionDetails> retryBatchTransactionapplicationListSave = new ArrayList<>();
+
+                String cbsResponceString = "";
+                BatchAckId batchAckId = new BatchAckId();
+                batchAckId.setBatchAckId(retryBatchTransaction.getBatchAckId());
+
+                String encryption = encryption(batchAckId);
+
+                List<ApplicationLog> applicationLogListToSave = new ArrayList<>();
+
+                Integer totalApplicationCount = 0;
+                // Making input payload
+                CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
+                cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
+                cbsMiddleareInputPayload.setData(encryption);
+
+                try {
+                    // Set the request URL
+                    String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databybatchackid;
+                    // Set the request headers
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    // Create the HttpEntity object with headers and body
+                    HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
+                    // Make the HTTP POST request
+                    ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+                    if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+
+                        cbsResponceString = responseEntity.getBody();
+                        log.info("Batch transaction response cbsResponceString = "+cbsResponceString);
+                        CBSResponce convertValue = null;
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        objectMapper.registerModule(new JavaTimeModule());
+                        convertValue = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+
+                        if (convertValue.isStatus()) {
+                            String decryption = decryption("" + convertValue.getData());
+                            objectMapper = new ObjectMapper();
+                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                            objectMapper.registerModule(new JavaTimeModule());
+                            DataByBatchAckId dataByBatchAckId = objectMapper.readValue(decryption, DataByBatchAckId.class);
+
+                            totalApplicationCount=dataByBatchAckId.getApplications().size();
+
+
+                            Long kccApplErrCount = 0l;
+                            if (!dataByBatchAckId.getApplications().isEmpty()) {
+                                for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
+
+                                    //application_transaction
+                                    Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
+                                        applicationsByBatchAckId.getUniqueId()
+                                    );
+
+                                    //application_log
+                                    Optional<ApplicationLog> applicationLog = applicationLogRepository.findOneByIssFileParser(
+                                        applicationByUniqueId.getIssFileParser()
+                                    );
+
+                                    //retryBatchTransactionDetails
+                                    RetryBatchTransactionDetails retryBatchTransactionDetailsByUniqueId = retryBatchTransactionDetailsRepository.findOneByUniqueId(
+                                        applicationsByBatchAckId.getUniqueId()
+                                    );
+
+                                    applicationByUniqueId.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
+                                    applicationByUniqueId.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
+                                    if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                        applicationByUniqueId.setKccStatus(1l);
+                                        applicationByUniqueId.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                        applicationByUniqueId.setFarmerId(applicationsByBatchAckId.getFarmerId());
+
+                                        //update applicationLog based on result
+                                        applicationLog.get().setStatus(Constants.FIXED);
+
+                                        //Update application in retry batch transaction details as Accepted
+                                        retryBatchTransactionDetailsByUniqueId.setStatus("1");
+
+
+                                    } else {
+                                        applicationByUniqueId.setKccStatus(0l);
+
+                                        try {
+                                            if (applicationsByBatchAckId.getErrors() != null) {
+                                                applicationByUniqueId.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                            } else {
+                                                applicationByUniqueId.setApplicationErrors("CBS Portal not provided fail case information");
+                                            }
+                                        } catch (Exception e) {
+                                            log.error("Exception in cron job", e);
+                                        }
+
+                                        kccApplErrCount = kccApplErrCount + 1l;
+
+                                        // setting kscc error count in portal file object
+                                        Optional<IssPortalFile> findById = issPortalFileRepository.findById(
+                                            applicationByUniqueId.getIssFilePortalId()
+                                        );
+                                        if (findById.isPresent()) {
+                                            IssPortalFile issPortalFile = findById.get();
+                                            if (issPortalFile.getKccErrorRecordCount() == null) {
+                                                issPortalFile.setKccErrorRecordCount(1);
+                                            }
+                                            else
+                                            {
+                                                issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
+                                            }
+
+                                            issPortalFileRepository.save(issPortalFile);
+                                        }
+
+                                        // moving application log to history if exist
+                                        ApplicationLog applicationLog1 = new ApplicationLog();
+                                        Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
+                                            applicationByUniqueId.getIssFileParser()
+                                        );
+                                        if (applicationLogSaved.isPresent()) {
+                                            applicationLog1 = applicationLogSaved.get();
+                                            JSONObject jsonObject = new JSONObject(applicationLog);
+                                            ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
+                                            applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                            applicationLogHistoryObjMap.registerModule(new JavaTimeModule());
+                                            ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
+                                                jsonObject.toString(),
+                                                ApplicationLogHistory.class
+                                            );
+
+                                            applicationLogHistoryRepository.save(applicationLogHistory);
+                                        }
+
+                                        // updating new error log entry
+                                        applicationLog1.setIssFileParser(applicationByUniqueId.getIssFileParser());
+
+                                        try {
+                                            if (applicationsByBatchAckId.getErrors() != null) {
+                                                applicationLog1.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                            } else {
+                                                applicationLog1.setErrorMessage("CBS Portal not provided fail case information");
+                                            }
+                                        } catch (Exception e) {
+                                            log.error("Exception in cron job", e);
+                                        }
+
+                                        applicationLog1.setSevierity(Constants.HighSevierity);
+                                        applicationLog1.setExpectedSolution("Provide correct information");
+                                        applicationLog1.setStatus(Constants.ERROR);
+                                        applicationLog1.setErrorType(Constants.kccError);
+                                        applicationLog1.setIssPortalId(applicationByUniqueId.getIssFileParser().getIssPortalFile().getId());
+                                        applicationLog1.setFileName(
+                                            applicationByUniqueId.getIssFileParser().getIssPortalFile().getFileName()
+                                        );
+                                        applicationLogListToSave.add(applicationLog1);
+                                    }
+
+                                    applicationListSave.add(applicationByUniqueId);
+                                    applicationLogListToSave.add(applicationLog.get());
+                                    retryBatchTransactionapplicationListSave.add(retryBatchTransactionDetailsByUniqueId);
+                                }
+
+
+                                if (!applicationListSave.isEmpty()) {
+                                    applicationRepository.saveAll(applicationListSave);
+                                }
+                                if (!applicationLogListToSave.isEmpty()) {
+                                    applicationLogRepository.saveAll(applicationLogListToSave);
+                                }
+                                if (!retryBatchTransactionapplicationListSave.isEmpty()) {
+                                    retryBatchTransactionDetailsRepository.saveAll(retryBatchTransactionapplicationListSave);
+                                }
+                            }
+                        } else {
+                            retryBatchTransaction.setBatchErrors("Batch is not processed yet");
+                        }
+
+                        /* Retrieve RetryBatchTransactionDetails record with status 1*/
+                        Integer batchTransactionCount=retryBatchTransactionDetailsRepository.countByStatus(retryBatchTransaction.getBatchAckId());
+
+                        //total application count is equal batch transaction count, set batch status as PROCESSED
+                        if(totalApplicationCount==batchTransactionCount)
+                        {
+                            retryBatchTransaction.setStatus(Constants.PROCESSED);
+                        }
+                        retryBatchTransactionRepository.save(retryBatchTransaction);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    log.error("Error in cronjob: " + e);
+                }
+            }
+        }
+    }
     public static byte[] objectToBytes(BatchData encDecObject) {
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

@@ -99,20 +99,18 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         @Param("applicationStatus") Integer applicationStatus
     );
 
-  //@Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC ERROR' AND status= 'Error' AND error_message LIKE 'This accountNumber is already being processed by batch%' AND iss_file_parser_id IN (SELECT iss_file_parser_id FROM application_transaction WHERE kcc_status= 0 ) ", nativeQuery = true)
-
-   // @Query(value = "SELECT al.error_message,al.error_type FROM application_log al WHERE iss_file_parser_id = 24413", nativeQuery = true)
-    //List<ApplicationLog> findAllByKCCStatus();
-
 
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 
-    //Application findOneByISSParserId(Long issFileParserId);
+    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:IssFileParserId", nativeQuery = true)
+    Application findRejectedApplicatonsByParserId(@Param("IssFileParserId") Long IssFileParserId) ;
 
     @Transactional
 	void deleteByIssFileParser(IssFileParser issFileParser);
 
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
+  List<Long> findDistinctByPortalId();
 
 }

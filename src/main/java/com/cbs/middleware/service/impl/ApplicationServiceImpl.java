@@ -99,7 +99,14 @@ public class ApplicationServiceImpl implements ApplicationService {
         applicationRepository.deleteById(id);
     }
 
+    @Override
+    public List<Long> findRejectedApplicationsWithErrorDuplicateNo() {
 
+        //Get the distinct iss_portal_id from transaction with
+     return   applicationRepository.findDistinctByPortalId();
 
-
+    }
 }
+
+
+

@@ -21,7 +21,7 @@ public class ApplicationPayload implements Serializable {
 
     private String preuniqueId;
 
-    public String preuniqueId() {
+    public String getPreuniqueId() {
         return preuniqueId;
     }
 

@@ -66,6 +66,5 @@ public interface ApplicationLogService {
      */
     void delete(Long id);
 
-    List<ApplicationLog> findRejectedApplications();
 
 }

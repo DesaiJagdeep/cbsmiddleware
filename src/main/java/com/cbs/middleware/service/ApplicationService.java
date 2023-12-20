@@ -68,4 +68,6 @@ public interface ApplicationService {
      */
     void delete(Long id);
 
+
+    List<Long> findRejectedApplicationsWithErrorDuplicateNo();
 }

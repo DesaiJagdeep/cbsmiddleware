@@ -51,7 +51,10 @@ public final class Constants {
 	public static final String PROCESSED = "Processed";
 	public static final String NEW = "New";
 
-	public static final Integer DISCARDED_BATCH_STATUS_CODE = 0; // Discarded
+    public static final String SUBMITTED = "Submitted";
+
+
+    public static final Integer DISCARDED_BATCH_STATUS_CODE = 0; // Discarded
 	public static final Integer PENDING_FOR_PROCESSING_BATCH_STATUS_CODE = 1; // Pending for processing
 	public static final Integer PROCESSING_BATCH_STATUS_CODE = 2; // Processing
 	public static final Integer PROCESSED_BATCH_STATUS_CODE = 3; // Processed

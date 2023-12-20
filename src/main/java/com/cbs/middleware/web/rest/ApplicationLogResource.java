@@ -7,6 +7,7 @@ import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.*;
 import com.cbs.middleware.service.ApplicationLogQueryService;
 import com.cbs.middleware.service.ApplicationLogService;
+import com.cbs.middleware.service.ApplicationService;
 import com.cbs.middleware.service.criteria.ApplicationLogCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
@@ -16,11 +17,13 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -50,6 +53,8 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * REST controller for managing
@@ -68,6 +73,8 @@ public class ApplicationLogResource {
 
     private final ApplicationLogService applicationLogService;
 
+    private final ApplicationService applicationService;
+
     private final ApplicationLogRepository applicationLogRepository;
 
     private final ApplicationLogQueryService applicationLogQueryService;
@@ -77,6 +84,9 @@ public class ApplicationLogResource {
 
     @Autowired
     BatchTransactionRepository batchTransactionRepository;
+
+    @Autowired
+    RetryBatchTransactionRepository retryBatchTransactionRepository;
 
     @Autowired
     BankBranchPacksCodeGet bankBranchPacksCodeGet;
@@ -91,14 +101,18 @@ public class ApplicationLogResource {
     @Autowired
     private RestTemplate restTemplate;
     private final ApplicationRepository applicationRepository;
+    @Autowired
+    private RetryBatchTransactionDetailsRepository retryBatchTransactionDetailsRepository;
 
     public ApplicationLogResource(
         ApplicationLogService applicationLogService,
+        ApplicationService applicationService,
         ApplicationLogRepository applicationLogRepository,
         ApplicationRepository applicationRepository,
         ApplicationLogQueryService applicationLogQueryService
     ) {
         this.applicationLogService = applicationLogService;
+        this.applicationService=applicationService;
         this.applicationLogRepository = applicationLogRepository;
         this.applicationRepository = applicationRepository;
         this.applicationLogQueryService = applicationLogQueryService;
@@ -376,47 +390,59 @@ public class ApplicationLogResource {
 
     //Ashvini
     @GetMapping("/addloandetails")
-    public List<ApplicationLog> getRejectedApplication() {
+    public CBSResponce getApplicationsByKCCWithErrorDuplicateAccNo() {
 
-        List<ApplicationLog> rejectedApplications = applicationLogService.findRejectedApplications();
+        CBSResponce cbsResponce = null;
 
-        List<String> numbers = null;
-        List<Application> applicationTransactionList = new ArrayList<>();
-        List<Application> rejectedApplicationTransactionList = new ArrayList<>();
-        for (ApplicationLog appLog : rejectedApplications) {
+        //get distinct iss_portal_id from application_transaction with kcc_status = 0
+       List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
 
-            //Extract batch & unique id
-            Pattern p = Pattern.compile("-?\\d+");
-            Matcher m = p.matcher(appLog.getErrorMessage());
-            numbers = new ArrayList<String>();
-            while (m.find()) {
-                numbers.add(m.group());
+       //loop through applications
+       for(Long applicationsPortalId: applicationsPortalIds) {
 
-            }
-            System.out.println(numbers);
+           //get application log records with iss_portal_id
+           List<ApplicationLog> rejectedApplications = applicationLogRepository.findAllByStatusError(applicationsPortalId);
 
-            //Get application record by unique id: farmerId
-            Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
-                numbers.get(1)
-            );
+           List<String> numbers = null;
+           List<Application> applicationTransactionList = new ArrayList<>();
+           List<Application> rejectedApplicationTransactionList = new ArrayList<>();
 
-            //get rejected record unique id from application transaction
-           // Application errorApplication = applicationRepository.findOneByISSParserId(appLog.getIssFileParser().getId());
-            //System.out.println("errorApplication: " + errorApplication);
-            //rejectedApplicationTransactionList.add(errorApplication);
+           //Extract ids from error_message
+           for (ApplicationLog appLog : rejectedApplications) {
 
+               //Pattern to extract batch & unique id
+               Pattern p = Pattern.compile("-?\\d+");
+               Matcher m = p.matcher(appLog.getErrorMessage());
+               numbers = new ArrayList<String>();
+               while (m.find()) {
+                   numbers.add(m.group());
 
-            if (applicationByUniqueId != null) {
+               }
+               System.out.println(numbers);
 
-                applicationTransactionList.add(applicationByUniqueId);
-                System.out.println("applicationTransactionList: " + applicationTransactionList);
-                 break;
-            }
-        }
-        CBSResponce cbsResponce = addloandetails(applicationTransactionList,rejectedApplicationTransactionList);
-        System.out.println("cbsResponse: " + cbsResponce);
+               //Get application_transaction record by unique id to get the farmerId
+               Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
+                   numbers.get(1)
+               );
+               if (applicationByUniqueId != null) {
 
-        return rejectedApplications;
+                   applicationTransactionList.add(applicationByUniqueId);
+
+                   //get rejected record unique id from application transaction by IssFileParserId
+                   Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
+                   rejectedApplicationTransactionList.add(rejectedApp);
+               }
+
+           }
+           if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
+               cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
+              System.out.println("cbsResponse: " + cbsResponce);
+
+           }
+
+       }
+
+        return cbsResponce;
     }
 
     private CBSResponce addloandetails(List<Application> applicationTransactionList,List<Application>rejectedApplicationTransactionList) {
@@ -429,113 +455,112 @@ public class ApplicationLogResource {
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
         String formattedDate = dateFormat.format(currentDate);
 
-        String batchId = formattedDate + applicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
-
-
+        String batchId = formattedDate + rejectedApplicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
         batchData.setBatchId(batchId);
+        batchData.setFinancialYear(rejectedApplicationTransactionList.get(0).getIssFileParser().getFinancialYear());
+
+        Long IssPortalId=rejectedApplicationTransactionList.get(0).getIssFilePortalId();
+
         List<Application> applicationTransactionListSave = new ArrayList<>();
 
-        for (Application applicationTransaction : applicationTransactionList) {
-            for (Application rejectedApplicationTransaction : applicationTransactionList) {
-                System.out.println("applicationTransaction in load details: " + applicationTransaction);
-                batchData.setFinancialYear(applicationTransactionList.get(0).getIssFileParser().getFinancialYear());
-                IssFileParser issFileParser = applicationTransaction.getIssFileParser();
+        for ( int i = 0; i < rejectedApplicationTransactionList.size() ; i ++) {
 
-                ApplicationPayload applicationPayload = new ApplicationPayload();
+            String uniqueId = batchData.getBatchId() + generateRandomNumber();
 
-                applicationPayload.setUniqueId(rejectedApplicationTransaction.getUniqueId());
+            Application rejectedApplicationTransaction=rejectedApplicationTransactionList.get(i);
+            IssFileParser issFileParser = rejectedApplicationTransaction.getIssFileParser();
 
-                applicationPayload.setRecordStatus(Constants.LOAN_DETAIL.longValue());
+            ApplicationPayload applicationPayload = new ApplicationPayload();
+            applicationPayload.setUniqueId(uniqueId);
+            applicationPayload.setRecordStatus(Constants.LOAN_DETAIL.longValue());
 
-
-                Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
 
 
-                // "loanDetails": {
-                // "kccLoanSanctionedDate": "2022-04-26",
-                // "kccLimitSanctionedAmount": 60800,
-                // "kccDrawingLimitForFY": 60800
-                // },
+            // "loanDetails": {
+            // "kccLoanSanctionedDate": "2022-04-26",
+            // "kccLimitSanctionedAmount": 60800,
+            // "kccDrawingLimitForFY": 60800
+            // },
+
+            LoanDetails loanDetails = new LoanDetails();
+            //loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                loanDetails.setKccLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                loanDetails.setKccLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
+
+            loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+            loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+            applicationPayload.setLoanDetails(loanDetails);
+            // "activities": [
+            // {
+            // "activityType": 1,
+            // "loanSanctionedDate": "2022-04-26",
+            // "loanSanctionedAmount": 60800,
+            // "activityRows": [
+            // {
+            // "landVillage": "557043",
+            // "cropCode": "011507800",
+            // "surveyNumber": "265/1",
+            // "khataNumber": "1247", //satBaraSubsurveyNo
+            // "landArea": 0.19, //"areaHect": 0.19,
+            // "landType": 1, // "landType": "Irrigated",
+            // "season": 3
+            // }
+            // ]
+            // }
+            // ]
+            // }
+            List<Activities> activityList = new ArrayList<>();
+            Activities activities = new Activities();
 
 
-                LoanDetails loanDetails = new LoanDetails();
-                //loanDetails.setKccLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            String kccCropCode = issFileParser.getKccIssCropCode();
 
-                if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
-                    loanDetails.setKccLoanSanctionedDate(issFileParser.getLoanSactionDate());
-                } else {
-                    loanDetails.setKccLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
-                }
+            Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList.stream()
+                .filter(f -> f.getCropCode().contains(kccCropCode)).map(CropMaster::getCategoryName).findFirst();
 
-                loanDetails.setKccLimitSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
-                loanDetails.setKccDrawingLimitForFY(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
-                applicationPayload.setLoanDetails(loanDetails);
-                // "activities": [
-                // {
-                // "activityType": 1,
-                // "loanSanctionedDate": "2022-04-26",
-                // "loanSanctionedAmount": 60800,
-                // "activityRows": [
-                // {
-                // "landVillage": "557043",
-                // "cropCode": "011507800",
-                // "surveyNumber": "265/1",
-                // "khataNumber": "1247", //satBaraSubsurveyNo
-                // "landArea": 0.19, //"areaHect": 0.19,
-                // "landType": 1, // "landType": "Irrigated",
-                // "season": 3
-                // }
-                // ]
-                // }
-                // ]
-                // }
-                List<Activities> activityList = new ArrayList<>();
-                Activities activities = new Activities();
+            if (activityTypeBYKccCropCode.isPresent()) {
 
+                String activityCode = activityTypeBYKccCropCode.get().toLowerCase().trim();
+                if ("horit and veg crops".equalsIgnoreCase(activityCode)
+                    || "horti and veg crops".equalsIgnoreCase(activityCode)
+                    || "horti & veg crops".equalsIgnoreCase(activityCode)) {
+                    // added activity type code as on Activity Type
+                    activities.setActivityType(2l);
+                } else if ("agri crop".equalsIgnoreCase(activityCode) || "sugarcane".equalsIgnoreCase(activityCode)
+                    || "agri crops".equalsIgnoreCase(activityCode)
 
-                String kccCropCode = issFileParser.getKccIssCropCode();
-
-                Optional<String> activityTypeBYKccCropCode = MasterDataCacheService.CropMasterList.stream()
-                    .filter(f -> f.getCropCode().contains(kccCropCode)).map(CropMaster::getCategoryName).findFirst();
-
-                if (activityTypeBYKccCropCode.isPresent()) {
-
-                    String activityCode = activityTypeBYKccCropCode.get().toLowerCase().trim();
-                    if ("horit and veg crops".equalsIgnoreCase(activityCode)
-                        || "horti and veg crops".equalsIgnoreCase(activityCode)
-                        || "horti & veg crops".equalsIgnoreCase(activityCode)) {
-                        // added activity type code as on Activity Type
-                        activities.setActivityType(2l);
-                    } else if ("agri crop".equalsIgnoreCase(activityCode) || "sugarcane".equalsIgnoreCase(activityCode)
-                        || "agri crops".equalsIgnoreCase(activityCode)
-
-                    ) {
-                        activities.setActivityType(1l);
-
-                    }
-
-                } else {
+                ) {
                     activities.setActivityType(1l);
+
                 }
 
+            } else {
+                activities.setActivityType(1l);
+            }
 
-                // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
-                if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
-                    activities.setLoanSanctionedDate(issFileParser.getLoanSactionDate());
-                } else {
-                    activities.setLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
-                }
 
-                activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
+            // activities.setLoanSanctionedDate("" + issFileParser.getLoanSactionDate());
+            if (patternYYYY_MM_DD.matcher(issFileParser.getLoanSactionDate()).matches()) {
+                activities.setLoanSanctionedDate(issFileParser.getLoanSactionDate());
+            } else {
+                activities.setLoanSanctionedDate(dateInYYYYMMDD(issFileParser.getLoanSactionDate()));
+            }
 
-                List<ActivityRows> activityRowsList = new ArrayList<>();
-                //setting activity row as per activity type
-                if (activities.getActivityType().equals(1l)) {
-                    // adding activities row
-                    ActivityRows activityRows = new ActivityRows();
-                    activityRows.setLandVillage("" + issFileParser.getVillageCode());
+            activities.setLoanSanctionedAmount(Math.round(Double.parseDouble(issFileParser.getLoanSanctionAmount())));
 
-                    // add crop code from crop name
+            List<ActivityRows> activityRowsList = new ArrayList<>();
+            //setting activity row as per activity type
+            if (activities.getActivityType().equals(1l)) {
+                // adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
+
+                // add crop code from crop name
 //                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
 //                    .stream()
 //                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
@@ -545,48 +570,48 @@ public class ApplicationLogResource {
 //                    activityRows.setCropCode(cropNameMasterCode.get());
 //                }
 
-                    activityRows.setCropCode(issFileParser.getKccIssCropCode());
+                activityRows.setCropCode(issFileParser.getKccIssCropCode());
 
-                    activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                    activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
-                    activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setLandArea(Float.parseFloat(issFileParser.getAreaHect()));
 
-                    // add land type code and season code from land type and season name
-                    Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
-                        .stream()
-                        .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
-                        .map(LandTypeMaster::getLandTypeCode)
-                        .findFirst();
+                // add land type code and season code from land type and season name
+                Optional<Integer> landTypeMasterCode = MasterDataCacheService.LandTypeMasterList
+                    .stream()
+                    .filter(f -> f.getLandType().toLowerCase().contains(issFileParser.getLandType().toLowerCase()))
+                    .map(LandTypeMaster::getLandTypeCode)
+                    .findFirst();
 
-                    if (landTypeMasterCode.isPresent()) {
-                        activityRows.setLandType(landTypeMasterCode.get());
-                    }
+                if (landTypeMasterCode.isPresent()) {
+                    activityRows.setLandType(landTypeMasterCode.get());
+                }
 
-                    Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
-                        .stream()
-                        .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
-                        .map(SeasonMaster::getSeasonCode)
-                        .findFirst();
+                Optional<Integer> seasonMasterCode = MasterDataCacheService.SeasonMasterList
+                    .stream()
+                    .filter(f -> f.getSeasonName().toLowerCase().contains(issFileParser.getSeasonName().toLowerCase()))
+                    .map(SeasonMaster::getSeasonCode)
+                    .findFirst();
 
-                    if (seasonMasterCode.isPresent()) {
-                        activityRows.setSeason(seasonMasterCode.get());
-                    } else {
-                        activityRows.setSeason(3);
-                    }
+                if (seasonMasterCode.isPresent()) {
+                    activityRows.setSeason(seasonMasterCode.get());
+                } else {
+                    activityRows.setSeason(3);
+                }
 
-                    activityRowsList.add(activityRows);
-                    activities.setActivityRows(activityRowsList);
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
 
-                    activityList.add(activities);
+                activityList.add(activities);
 
 
-                } else if (activities.getActivityType().equals(2l)) {
+            } else if (activities.getActivityType().equals(2l)) {
 
-                    // adding activities row
-                    ActivityRows activityRows = new ActivityRows();
-                    activityRows.setLandVillage("" + issFileParser.getVillageCode());
+                // adding activities row
+                ActivityRows activityRows = new ActivityRows();
+                activityRows.setLandVillage("" + issFileParser.getVillageCode());
 
-                    // add crop code from crop name
+                // add crop code from crop name
 //                Optional<String> cropNameMasterCode = MasterDataCacheService.CropMasterList
 //                    .stream()
 //                    .filter(f -> f.getCropName().toLowerCase().contains(issFileParser.getCropName().toLowerCase()))
@@ -597,134 +622,141 @@ public class ApplicationLogResource {
 //                    activityRows.setPlantationCode(cropNameMasterCode.get());
 //                }
 
-                    activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
+                activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
 
-                    activityRows.setSurveyNumber(issFileParser.getSurveyNo());
-                    activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
-                    activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
+                activityRows.setSurveyNumber(issFileParser.getSurveyNo());
+                activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
+                activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
 
-                    activityRowsList.add(activityRows);
-                    activities.setActivityRows(activityRowsList);
+                activityRowsList.add(activityRows);
+                activities.setActivityRows(activityRowsList);
 
-                    activityList.add(activities);
-
-                }
-                applicationPayload.setPreuniqueId(rejectedApplicationTransaction.getRecipientUniqueId());
-                applicationPayload.setFarmerId(applicationTransaction.getFarmerId());
-                applicationPayload.setActivities(activityList);
-
-                applicationsList.add(applicationPayload);
-
-                applicationTransaction.setBatchId(batchId);
-                applicationTransaction.setUniqueId(rejectedApplicationTransaction.getUniqueId());
-                applicationTransaction.setPacksCode(Long.parseLong(applicationTransaction.getIssFileParser().getPacsNumber()));
-                applicationTransaction.setSchemeWiseBranchCode(Long.parseLong(applicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
-                applicationTransaction.setBankCode(Long.parseLong(applicationTransaction.getIssFileParser().getBankCode()));
-                applicationTransactionListSave.add(applicationTransaction);
-
+                activityList.add(activities);
 
             }
+            applicationPayload.setPreuniqueId(rejectedApplicationTransaction.getUniqueId());
+            applicationPayload.setFarmerId(applicationTransactionList.get(i).getFarmerId());
+            applicationPayload.setActivities(activityList);
+            applicationsList.add(applicationPayload);
+
+            rejectedApplicationTransaction.setBatchId(batchId);
+            rejectedApplicationTransaction.setUniqueId(uniqueId);
+            rejectedApplicationTransaction.setPacksCode(Long.parseLong(rejectedApplicationTransaction.getIssFileParser().getPacsNumber()));
+            rejectedApplicationTransaction.setSchemeWiseBranchCode(Long.parseLong(rejectedApplicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
+            rejectedApplicationTransaction.setBankCode(Long.parseLong(rejectedApplicationTransaction.getIssFileParser().getBankCode()));
+
+            applicationTransactionListSave.add(rejectedApplicationTransaction);
+
+
         }
-            batchData.setApplications(applicationsList);
+        batchData.setApplications(applicationsList);
 
-            System.out.println("batchData: " + batchData);
+        System.out.println("batchData: " + batchData);
 
+        String encryption = encryptObject(batchData);
 
-            String encryption = encryptObject(batchData);
+        // Making input payload
+        CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
+        cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
+        cbsMiddleareInputPayload.setData(encryption);
 
-            // Making input payload
-            CBSMiddleareInputPayload cbsMiddleareInputPayload = new CBSMiddleareInputPayload();
-            cbsMiddleareInputPayload.setAuthCode(Constants.AUTH_CODE);
-            cbsMiddleareInputPayload.setData(encryption);
+        CBSResponce cbsResponce = null;
 
-            CBSResponce cbsResponce = null;
+//        // call fasalrin submit api
+//        try {
+//            // Set the request URL
+//            String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.addloandetails;
+//            // Set the request headers
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_JSON);
+//            // Create the HttpEntity object with headers and body
+//            HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
+//            // Make the HTTP POST request
+//            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+//
+//            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+//                cbsResponceString = responseEntity.getBody();
+//
+//                SubmitApiRespDecryption submitApiRespDecryption = null;
+//
+//                try {
+//                    ObjectMapper objectMapper = new ObjectMapper();
+//                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                    cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+//                    cbsResponce.setBatchId(batchId);
+//                    Date triggeredDate = new Date();
+//                    if (cbsResponce.isStatus()) {
+//
+//                        applicationRepository.saveAll(applicationTransactionListSave);
+//                        String decryption = decryption("" + cbsResponce.getData());
+//                        objectMapper = new ObjectMapper();
+//                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                        submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
+//
+//                        RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
+//                        retryBatchTransaction.setBatchId(batchId);
+//                        retryBatchTransaction.setStatus("Submitted");
+//                        retryBatchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
+//                        retryBatchTransaction.setTriggeredDate(triggeredDate);
+//                        retryBatchTransaction.setIssPortalId(IssPortalId);
+//                        retryBatchTransactionRepository.save(retryBatchTransaction);
+//
+//                        saveRetryBatchTransactionDetails(applicationTransactionListSave,retryBatchTransaction);
+//
+//                        try {
+//                            IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
+//                            issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount() + (long) applicationTransactionListSave.size());
+//                            issPortalFileRepository.save(issPortalFile);
+//
+//                        } catch (Exception e) {
+//
+//                        }
+//
+//
+//                    } else {
+//                       // RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
+//                       // retryBatchTransaction.setBatchId(batchId);
+//                       // retryBatchTransaction.setStatus("Discarded");
+//                       // retryBatchTransaction.setTriggeredDate(triggeredDate);
+//                      //  retryBatchTransaction.setBatchErrors(cbsResponce.getError());
+//                      //  String fileName = "";
+//                       // try {
+//                            //fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
+//                        //} catch (Exception e) {
+//                            // TODO: handle exception
+//                       // }
+//
+//
+//                      //  retryBatchTransactionRepository.save(retryBatchTransaction);
+//                    }
+//                } catch (Exception e) {
+//                    log.error("Error in conversion of object: ", e);
+//                }
+//            } else {
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//                cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+//                cbsResponce.setBatchId(batchId);
+//            }
+//        } catch (Exception e) {
+//            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
+//        }
 
-            // call fasalrin submit api
-            /*try {
-                // Set the request URL
-                String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.addloandetails;
-                // Set the request headers
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                // Create the HttpEntity object with headers and body
-                HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
-                // Make the HTTP POST request
-                ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
-                if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-                    cbsResponceString = responseEntity.getBody();
-
-                    SubmitApiRespDecryption submitApiRespDecryption = null;
-
-                    try {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                        cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-                        cbsResponce.setBatchId(batchId);
-                        if (cbsResponce.isStatus()) {
-                            applicationRepository.saveAll(applicationTransactionListSave);
-                            String decryption = decryption("" + cbsResponce.getData());
-                            objectMapper = new ObjectMapper();
-                            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                            submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
-
-                            BatchTransaction batchTransaction = new BatchTransaction();
-                            batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
-                            batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
-                            batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
-                            batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
-
-                            batchTransaction.setBatchId(batchId);
-                            batchTransaction.setStatus("New");
-                            batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
-                            batchTransactionRepository.save(batchTransaction);
-
-                            try {
-                                IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
-                                issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount() + (long) applicationTransactionListSave.size());
-                                issPortalFileRepository.save(issPortalFile);
-
-                            } catch (Exception e) {
-
-                            }
-
-
-                        } else {
-                            BatchTransaction batchTransaction = new BatchTransaction();
-                            batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
-                            batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
-                            batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
-                            batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
-                            batchTransaction.setBatchId(batchId);
-                            batchTransaction.setStatus("Discarded");
-                            batchTransaction.setBatchErrors(cbsResponce.getError());
-                            String fileName = "";
-                            try {
-                                fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
-                            } catch (Exception e) {
-                                // TODO: handle exception
-                            }
-
-                            batchTransaction.setNotes("Resubmite batch after some time for file name:" + fileName);
-                            batchTransactionRepository.save(batchTransaction);
-                        }
-                    } catch (Exception e) {
-                        log.error("Error in conversion of object: ", e);
-                    }
-                } else {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                    cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-                    cbsResponce.setBatchId(batchId);
-                }
-            } catch (Exception e) {
-                log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
-            }*/
-
-            return cbsResponce;
+        return cbsResponce;
 
 
     }
+    public void saveRetryBatchTransactionDetails(List<Application> applicationTransactionList, RetryBatchTransaction retryBatchTransaction) {
 
+        for (Application applicationTransaction : applicationTransactionList) {
+
+            RetryBatchTransactionDetails retryBatchTransactionDetails = new RetryBatchTransactionDetails();
+            retryBatchTransactionDetails.setUniqueId(applicationTransaction.getUniqueId());
+            retryBatchTransactionDetails.setISSFileParserId(applicationTransaction.getIssFileParser().getId());
+            retryBatchTransactionDetails.setRetryBatchTransaction(retryBatchTransaction);
+            retryBatchTransactionDetailsRepository.save(retryBatchTransactionDetails);
+
+        }
+    }
 
 }

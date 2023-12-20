@@ -662,85 +662,85 @@ public class ApplicationLogResource {
 
         CBSResponce cbsResponce = null;
 
-//        // call fasalrin submit api
-//        try {
-//            // Set the request URL
-//            String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.addloandetails;
-//            // Set the request headers
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_JSON);
-//            // Create the HttpEntity object with headers and body
-//            HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
-//            // Make the HTTP POST request
-//            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-//
-//            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
-//                cbsResponceString = responseEntity.getBody();
-//
-//                SubmitApiRespDecryption submitApiRespDecryption = null;
-//
-//                try {
-//                    ObjectMapper objectMapper = new ObjectMapper();
-//                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//                    cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-//                    cbsResponce.setBatchId(batchId);
-//                    Date triggeredDate = new Date();
-//                    if (cbsResponce.isStatus()) {
-//
-//                        applicationRepository.saveAll(applicationTransactionListSave);
-//                        String decryption = decryption("" + cbsResponce.getData());
-//                        objectMapper = new ObjectMapper();
-//                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//                        submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
-//
-//                        RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
-//                        retryBatchTransaction.setBatchId(batchId);
-//                        retryBatchTransaction.setStatus("Submitted");
-//                        retryBatchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
-//                        retryBatchTransaction.setTriggeredDate(triggeredDate);
-//                        retryBatchTransaction.setIssPortalId(IssPortalId);
-//                        retryBatchTransactionRepository.save(retryBatchTransaction);
-//
-//                        saveRetryBatchTransactionDetails(applicationTransactionListSave,retryBatchTransaction);
-//
-//                        try {
-//                            IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
-//                            issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount() + (long) applicationTransactionListSave.size());
-//                            issPortalFileRepository.save(issPortalFile);
-//
-//                        } catch (Exception e) {
-//
-//                        }
-//
-//
-//                    } else {
-//                       // RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
-//                       // retryBatchTransaction.setBatchId(batchId);
-//                       // retryBatchTransaction.setStatus("Discarded");
-//                       // retryBatchTransaction.setTriggeredDate(triggeredDate);
-//                      //  retryBatchTransaction.setBatchErrors(cbsResponce.getError());
-//                      //  String fileName = "";
-//                       // try {
-//                            //fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
-//                        //} catch (Exception e) {
-//                            // TODO: handle exception
-//                       // }
-//
-//
-//                      //  retryBatchTransactionRepository.save(retryBatchTransaction);
-//                    }
-//                } catch (Exception e) {
-//                    log.error("Error in conversion of object: ", e);
-//                }
-//            } else {
-//                ObjectMapper objectMapper = new ObjectMapper();
-//                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//                cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
-//                cbsResponce.setBatchId(batchId);
-//            }
-//        } catch (Exception e) {
-//            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
-//        }
+        // call fasalrin submit api
+        try {
+            // Set the request URL
+            String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.addloandetails;
+            // Set the request headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Create the HttpEntity object with headers and body
+            HttpEntity<Object> requestEntity = new HttpEntity<>(cbsMiddleareInputPayload, headers);
+            // Make the HTTP POST request
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
+                cbsResponceString = responseEntity.getBody();
+
+                SubmitApiRespDecryption submitApiRespDecryption = null;
+
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                    cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+                    cbsResponce.setBatchId(batchId);
+                    Date triggeredDate = new Date();
+                    if (cbsResponce.isStatus()) {
+
+                        applicationRepository.saveAll(applicationTransactionListSave);
+                        String decryption = decryption("" + cbsResponce.getData());
+                        objectMapper = new ObjectMapper();
+                        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                        submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
+
+                        RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
+                        retryBatchTransaction.setBatchId(batchId);
+                        retryBatchTransaction.setStatus("Submitted");
+                        retryBatchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());
+                        retryBatchTransaction.setTriggeredDate(triggeredDate);
+                        retryBatchTransaction.setIssPortalId(IssPortalId);
+                        retryBatchTransactionRepository.save(retryBatchTransaction);
+
+                        saveRetryBatchTransactionDetails(applicationTransactionListSave,retryBatchTransaction);
+
+                        try {
+                            IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
+                            issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount() + (long) applicationTransactionListSave.size());
+                            issPortalFileRepository.save(issPortalFile);
+
+                        } catch (Exception e) {
+
+                        }
+
+
+                    } else {
+                       // RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
+                       // retryBatchTransaction.setBatchId(batchId);
+                       // retryBatchTransaction.setStatus("Discarded");
+                       // retryBatchTransaction.setTriggeredDate(triggeredDate);
+                      //  retryBatchTransaction.setBatchErrors(cbsResponce.getError());
+                      //  String fileName = "";
+                       // try {
+                            //fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
+                        //} catch (Exception e) {
+                            // TODO: handle exception
+                       // }
+
+
+                      //  retryBatchTransactionRepository.save(retryBatchTransaction);
+                    }
+                } catch (Exception e) {
+                    log.error("Error in conversion of object: ", e);
+                }
+            } else {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
+                cbsResponce.setBatchId(batchId);
+            }
+        } catch (Exception e) {
+            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
+        }
 
         return cbsResponce;
 

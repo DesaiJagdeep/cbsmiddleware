@@ -1144,6 +1144,7 @@ public class IssFileParserResource {
                 }
             }
 
+
             row = sheet.getRow(filecount); // Get the current row
             boolean flagForLabel = false;
 
@@ -1665,68 +1666,83 @@ public class IssFileParserResource {
             }
 
             filecount = filecount + 1;
-            row = sheet.getRow(filecount);
-            if (
-                StringUtils.isBlank(getCellValue(row.getCell(2))) &&
-                    StringUtils.isBlank(getCellValue(row.getCell(4))) &&
-                    StringUtils.isBlank(getCellValue(row.getCell(32)))
-            ) {
-                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
-            }
+            int lastRowOfRecord = sheet.getLastRowNum();
 
-            String bankCode = getCellValue(row.getCell(2));
-            String schemeWiseBranchCode = getCellValue(row.getCell(5));
-            String packsCode = getCellValue(row.getCell(32));
-
-            if (StringUtils.isNotBlank(bankCode) && StringUtils.isNotBlank(schemeWiseBranchCode) && StringUtils.isNotBlank(packsCode)) {
-                if (!bankCode.matches("\\d+") && !schemeWiseBranchCode.matches("\\d+") && !packsCode.matches("\\d+")) {
-                    throw new BadRequestAlertException("Invalid financial year in file", ENTITY_NAME, "financialYearInvalid");
+            for (int rowIndex = filecount; rowIndex <= lastRowOfRecord; rowIndex++) {
+                row = sheet.getRow(rowIndex);
+                int rowNumber = row.getRowNum() + 1;
+                if (
+                    StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(4))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(32)))
+                ) {
+                    throw new BadRequestAlertException("Invalid KCC Bank Code or Branch Code or Pacs Code at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
                 }
-            }
-            rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
-            boolean flag = false;
-            String fYear = getCellValue(row.getCell(0));
 
-            if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
-                flag = true;
+                String branchCode = getCellValue(row.getCell(4));
+                    if (!branchCode.matches("\\d+") ) {
+                        throw new BadRequestAlertException("Invalid Branch code at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+
+                String bankCode = getCellValue(row.getCell(2));
+                String schemeWiseBranchCode = getCellValue(row.getCell(5));
+                String packsCode = getCellValue(row.getCell(32));
+                    if (!bankCode.matches("\\d+") || !schemeWiseBranchCode.matches("\\d+") || !packsCode.matches("\\d+")) {
+                        throw new BadRequestAlertException("Invalid Bank Code or KCC ISS Branch Code or Pacs Code at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+
+                rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
+                boolean flag = false;
+                String fYear = getCellValue(row.getCell(0));
+
+                if (!fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+                    //flag = true;
+                    throw new BadRequestAlertException("Invalid financial year at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+
+                }
+
+                String ifsc = getCellValue(row.getCell(6));
+                if (!ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+                   // flag = true;
+                    throw new BadRequestAlertException("Invalid IFSC Code at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String aadharNumberValue = getCellValue(row.getCell(10));
+                if (!validateAadhaarNumber(aadharNumberValue)) {
+                   //flag = true;
+                    throw new BadRequestAlertException("Invalid Aadhar Number at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+
+                }
+
+                String villageCode = getCellValue(row.getCell(25));
+                if (!villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
+                   // flag = true;
+                    throw new BadRequestAlertException("Invalid Village Code at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+                String pinCode = getCellValue(row.getCell(28));
+                if (!pinCode.matches("^[0-9]{6}$")) {
+                   // flag = true;
+                    throw new BadRequestAlertException("Invalid Pincode at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String accountNumber = getCellValue(row.getCell(30));
+                if (StringUtils.isBlank(accountNumber)) {
+                   // flag = true;
+                    throw new BadRequestAlertException("Invalid Account Number at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+                String landtype = getCellValue(row.getCell(47));
+                if (
+                   !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
+                ) {
+                    //flag = true;
+                    throw new BadRequestAlertException("Invalid  Land Type at ROW: "+rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
             }
 
-            String ifsc = getCellValue(row.getCell(6));
-            if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
-                flag = true;
-            }
-
-            String aadharNumberValue = getCellValue(row.getCell(10));
-            if (StringUtils.isNotBlank(aadharNumberValue) && !validateAadhaarNumber(aadharNumberValue)) {
-                flag = true;
-            }
-
-            String villageCode = getCellValue(row.getCell(25));
-            if (StringUtils.isNotBlank(villageCode) && !villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
-                flag = true;
-            }
-            String pinCode = getCellValue(row.getCell(28));
-            if (StringUtils.isNotBlank(pinCode) && !pinCode.matches("^[0-9]{6}$")) {
-                flag = true;
-            }
-
-            String accountNumber = getCellValue(row.getCell(30));
-            if (StringUtils.isBlank(accountNumber)) {
-                flag = true;
-            }
-            String landtype = getCellValue(row.getCell(47));
-            if (
-                StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
-            ) {
-                flag = true;
-            }
-
-            if (flag) {
-                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
-            }
         } catch (BadRequestAlertException e) {
             e.printStackTrace();
-            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            throw new BadRequestAlertException(e.getTitle(), ENTITY_NAME, "fileInvalid");
         } catch (ForbiddenAuthRequestAlertException e) {
             throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
         } catch (UnAuthRequestAlertException e) {
@@ -1790,6 +1806,49 @@ public class IssFileParserResource {
 
         try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
             Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+
+//----------------------------------------FY Check------------------------------------------------
+
+            int firstRowOfRecord = filecount ;
+            int lastRowOfRecord = sheet.getLastRowNum();
+            String financialYearToCheck = null;
+            boolean allRowsHaveSameFinancialYear = true;
+            int financialYearMismatchRowNumber=0;
+
+            Row firstRow = sheet.getRow(firstRowOfRecord);
+            if (firstRow != null) {
+                financialYearToCheck = getCellValue(firstRow.getCell(0));
+                if (financialYearToCheck.matches("\\d{4}/\\d{4}")) {
+                    financialYearToCheck=financialYearToCheck.replace("/", "-");
+                }
+            }
+
+            for (int rowIndex = firstRowOfRecord + 1; rowIndex <= lastRowOfRecord; rowIndex++) {
+                Row currentRow = sheet.getRow(rowIndex);
+
+                if (currentRow != null) {
+                    String currentFinancialYear = getCellValue(currentRow.getCell(0));
+                    if (currentFinancialYear.matches("\\d{4}/\\d{4}")) {
+                        currentFinancialYear=currentFinancialYear.replace("/", "-");
+                    }
+
+                    if (!financialYearToCheck.equals(currentFinancialYear)) {
+                        allRowsHaveSameFinancialYear = false;
+                        financialYearMismatchRowNumber= currentRow.getRowNum();
+                        break;
+                    }
+                    financialYearToCheck = currentFinancialYear;
+                }
+            }
+            if (!allRowsHaveSameFinancialYear) {
+                throw new BadRequestAlertException("financial year Mismatch at ROW: "+financialYearMismatchRowNumber, ENTITY_NAME, "fileInvalid");
+            }
+            if(!financialYearToCheck.equals(financialYear)){
+                throw new BadRequestAlertException("Selected Financial Year and Financial year in file does not matches", ENTITY_NAME, "fileInvalid");
+            }
+//---------------------------------------------------------------------
+
+
             int lastRowIndex = sheet.getLastRowNum();
             for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
                 Row row = sheet.getRow(rowIndex); // Get the current row
@@ -1924,7 +1983,7 @@ public class IssFileParserResource {
                         // 01-10 to 31-03 (RABBI)
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         Date disbursementDate = dateFormat.parse(getDateCellValue(row.getCell(48)));
-                        String seasonName=seasonNameAsPerDisbursementDate(disbursementDate);
+                        String seasonName = seasonNameAsPerDisbursementDate(disbursementDate);
                         issFileParser.setSeasonName(seasonName);
 
                         issFileParser.setActivityType(getStringCellValue(row.getCell(45)));
@@ -2041,9 +2100,9 @@ public class IssFileParserResource {
     private String seasonNameAsPerDisbursementDate(Date disbursementDate) {
         // Note: Month is 0-based in Date class
         int month = disbursementDate.getMonth() + 1;
-        if(month >= 4 && month <= 9) {
+        if (month >= 4 && month <= 9) {
             return "KHARIP";
-        }else return "RABBI";
+        } else return "RABBI";
     }
 
     private void validateFileFile(IssPortalFile issPortalFile) {

@@ -537,17 +537,6 @@ public class IssChildFileParserResource {
                   applicationLogList.add(new ApplicationLog("Mobile number is incorrect format", issFileParser));
               }
 
-            //duplicate kcc loan account number
-            List<IssFileParser> duplicatesAccountNumber = issFileParserList
-                .stream()
-                .filter(person -> issFileParserList.stream().filter(p -> p != person).anyMatch(person::isDuplicate))
-                .collect(Collectors.toList());
-
-            for (IssFileParser issFileParser : duplicatesAccountNumber) {
-                issFileParserValidationErrorSet.add(issFileParser);
-                applicationLogList.add(new ApplicationLog("Duplicate KCC Loan Account Number found.", issFileParser));
-            }
-
               // Filter invalid dob
 
               List<IssFileParser> invalidDOBList = issFileParserList

@@ -10,7 +10,7 @@ import com.cbs.middleware.domain.FactoryMaster;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

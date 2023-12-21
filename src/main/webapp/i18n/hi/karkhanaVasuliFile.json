@@ -29,7 +29,11 @@
       "totalAmount": "Total Amount",
       "totalAmountMr": "Total Amount Mr",
       "fromDate": "From Date",
-      "toDate": "To Date"
+      "toDate": "To Date",
+      "branchCode": "Branch Code",
+      "pacsName": "Pacs Name",
+      "factoryMaster": "Factory Master",
+      "karkhanaVasuliRecords": "Karkhana Vasuli Records"
     }
   }
 }

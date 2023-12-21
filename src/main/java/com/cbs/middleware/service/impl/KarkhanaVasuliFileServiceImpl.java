@@ -81,6 +81,12 @@ public class KarkhanaVasuliFileServiceImpl implements KarkhanaVasuliFileService 
                 if (karkhanaVasuliFile.getToDate() != null) {
                     existingKarkhanaVasuliFile.setToDate(karkhanaVasuliFile.getToDate());
                 }
+                if (karkhanaVasuliFile.getBranchCode() != null) {
+                    existingKarkhanaVasuliFile.setBranchCode(karkhanaVasuliFile.getBranchCode());
+                }
+                if (karkhanaVasuliFile.getPacsName() != null) {
+                    existingKarkhanaVasuliFile.setPacsName(karkhanaVasuliFile.getPacsName());
+                }
 
                 return existingKarkhanaVasuliFile;
             })

@@ -50,13 +50,31 @@
     {
       "fieldName": "toDate",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "branchCode",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "pacsName",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,
   "name": "KarkhanaVasuliFile",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "factoryMaster",
+      "otherEntityRelationshipName": "karkhanaVasuliFile",
+      "relationshipName": "factoryMaster",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceImpl"
 }

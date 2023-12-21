@@ -44,6 +44,9 @@ type KarkhanaVasuliFileFormGroupContent = {
   totalAmountMr: FormControl<KarkhanaVasuliFileFormRawValue['totalAmountMr']>;
   fromDate: FormControl<KarkhanaVasuliFileFormRawValue['fromDate']>;
   toDate: FormControl<KarkhanaVasuliFileFormRawValue['toDate']>;
+  branchCode: FormControl<KarkhanaVasuliFileFormRawValue['branchCode']>;
+  pacsName: FormControl<KarkhanaVasuliFileFormRawValue['pacsName']>;
+  factoryMaster: FormControl<KarkhanaVasuliFileFormRawValue['factoryMaster']>;
 };
 
 export type KarkhanaVasuliFileFormGroup = FormGroup<KarkhanaVasuliFileFormGroupContent>;
@@ -75,6 +78,9 @@ export class KarkhanaVasuliFileFormService {
       totalAmountMr: new FormControl(karkhanaVasuliFileRawValue.totalAmountMr),
       fromDate: new FormControl(karkhanaVasuliFileRawValue.fromDate),
       toDate: new FormControl(karkhanaVasuliFileRawValue.toDate),
+      branchCode: new FormControl(karkhanaVasuliFileRawValue.branchCode),
+      pacsName: new FormControl(karkhanaVasuliFileRawValue.pacsName),
+      factoryMaster: new FormControl(karkhanaVasuliFileRawValue.factoryMaster),
     });
   }
 

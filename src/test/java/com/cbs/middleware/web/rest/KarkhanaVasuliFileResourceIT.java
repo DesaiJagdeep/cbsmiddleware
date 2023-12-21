@@ -6,9 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cbs.middleware.IntegrationTest;
+import com.cbs.middleware.domain.FactoryMaster;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
+import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -68,6 +70,13 @@ class KarkhanaVasuliFileResourceIT {
     private static final Instant DEFAULT_TO_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_TO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
+    private static final Long DEFAULT_BRANCH_CODE = 1L;
+    private static final Long UPDATED_BRANCH_CODE = 2L;
+    private static final Long SMALLER_BRANCH_CODE = 1L - 1L;
+
+    private static final String DEFAULT_PACS_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NAME = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/karkhana-vasuli-files";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -104,7 +113,9 @@ class KarkhanaVasuliFileResourceIT {
             .totalAmount(DEFAULT_TOTAL_AMOUNT)
             .totalAmountMr(DEFAULT_TOTAL_AMOUNT_MR)
             .fromDate(DEFAULT_FROM_DATE)
-            .toDate(DEFAULT_TO_DATE);
+            .toDate(DEFAULT_TO_DATE)
+            .branchCode(DEFAULT_BRANCH_CODE)
+            .pacsName(DEFAULT_PACS_NAME);
         return karkhanaVasuliFile;
     }
 
@@ -127,7 +138,9 @@ class KarkhanaVasuliFileResourceIT {
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .totalAmountMr(UPDATED_TOTAL_AMOUNT_MR)
             .fromDate(UPDATED_FROM_DATE)
-            .toDate(UPDATED_TO_DATE);
+            .toDate(UPDATED_TO_DATE)
+            .branchCode(UPDATED_BRANCH_CODE)
+            .pacsName(UPDATED_PACS_NAME);
         return karkhanaVasuliFile;
     }
 
@@ -163,6 +176,8 @@ class KarkhanaVasuliFileResourceIT {
         assertThat(testKarkhanaVasuliFile.getTotalAmountMr()).isEqualTo(DEFAULT_TOTAL_AMOUNT_MR);
         assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
         assertThat(testKarkhanaVasuliFile.getToDate()).isEqualTo(DEFAULT_TO_DATE);
+        assertThat(testKarkhanaVasuliFile.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
+        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
     }
 
     @Test
@@ -208,7 +223,9 @@ class KarkhanaVasuliFileResourceIT {
             .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].totalAmountMr").value(hasItem(DEFAULT_TOTAL_AMOUNT_MR)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
-            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())));
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE.intValue())))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)));
     }
 
     @Test
@@ -234,7 +251,9 @@ class KarkhanaVasuliFileResourceIT {
             .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.doubleValue()))
             .andExpect(jsonPath("$.totalAmountMr").value(DEFAULT_TOTAL_AMOUNT_MR))
             .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
-            .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()));
+            .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
+            .andExpect(jsonPath("$.branchCode").value(DEFAULT_BRANCH_CODE.intValue()))
+            .andExpect(jsonPath("$.pacsName").value(DEFAULT_PACS_NAME));
     }
 
     @Test
@@ -1009,6 +1028,206 @@ class KarkhanaVasuliFileResourceIT {
         defaultKarkhanaVasuliFileShouldNotBeFound("toDate.specified=false");
     }
 
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode equals to DEFAULT_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.equals=" + DEFAULT_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode equals to UPDATED_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.equals=" + UPDATED_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode in DEFAULT_BRANCH_CODE or UPDATED_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.in=" + DEFAULT_BRANCH_CODE + "," + UPDATED_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode equals to UPDATED_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.in=" + UPDATED_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode is not null
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.specified=true");
+
+        // Get all the karkhanaVasuliFileList where branchCode is null
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode is greater than or equal to DEFAULT_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.greaterThanOrEqual=" + DEFAULT_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode is greater than or equal to UPDATED_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.greaterThanOrEqual=" + UPDATED_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode is less than or equal to DEFAULT_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.lessThanOrEqual=" + DEFAULT_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode is less than or equal to SMALLER_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.lessThanOrEqual=" + SMALLER_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsLessThanSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode is less than DEFAULT_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.lessThan=" + DEFAULT_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode is less than UPDATED_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.lessThan=" + UPDATED_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByBranchCodeIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where branchCode is greater than DEFAULT_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldNotBeFound("branchCode.greaterThan=" + DEFAULT_BRANCH_CODE);
+
+        // Get all the karkhanaVasuliFileList where branchCode is greater than SMALLER_BRANCH_CODE
+        defaultKarkhanaVasuliFileShouldBeFound("branchCode.greaterThan=" + SMALLER_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByPacsNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where pacsName equals to DEFAULT_PACS_NAME
+        defaultKarkhanaVasuliFileShouldBeFound("pacsName.equals=" + DEFAULT_PACS_NAME);
+
+        // Get all the karkhanaVasuliFileList where pacsName equals to UPDATED_PACS_NAME
+        defaultKarkhanaVasuliFileShouldNotBeFound("pacsName.equals=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByPacsNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where pacsName in DEFAULT_PACS_NAME or UPDATED_PACS_NAME
+        defaultKarkhanaVasuliFileShouldBeFound("pacsName.in=" + DEFAULT_PACS_NAME + "," + UPDATED_PACS_NAME);
+
+        // Get all the karkhanaVasuliFileList where pacsName equals to UPDATED_PACS_NAME
+        defaultKarkhanaVasuliFileShouldNotBeFound("pacsName.in=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByPacsNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where pacsName is not null
+        defaultKarkhanaVasuliFileShouldBeFound("pacsName.specified=true");
+
+        // Get all the karkhanaVasuliFileList where pacsName is null
+        defaultKarkhanaVasuliFileShouldNotBeFound("pacsName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByPacsNameContainsSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where pacsName contains DEFAULT_PACS_NAME
+        defaultKarkhanaVasuliFileShouldBeFound("pacsName.contains=" + DEFAULT_PACS_NAME);
+
+        // Get all the karkhanaVasuliFileList where pacsName contains UPDATED_PACS_NAME
+        defaultKarkhanaVasuliFileShouldNotBeFound("pacsName.contains=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByPacsNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+
+        // Get all the karkhanaVasuliFileList where pacsName does not contain DEFAULT_PACS_NAME
+        defaultKarkhanaVasuliFileShouldNotBeFound("pacsName.doesNotContain=" + DEFAULT_PACS_NAME);
+
+        // Get all the karkhanaVasuliFileList where pacsName does not contain UPDATED_PACS_NAME
+        defaultKarkhanaVasuliFileShouldBeFound("pacsName.doesNotContain=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByFactoryMasterIsEqualToSomething() throws Exception {
+        FactoryMaster factoryMaster;
+        if (TestUtil.findAll(em, FactoryMaster.class).isEmpty()) {
+            karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+            factoryMaster = FactoryMasterResourceIT.createEntity(em);
+        } else {
+            factoryMaster = TestUtil.findAll(em, FactoryMaster.class).get(0);
+        }
+        em.persist(factoryMaster);
+        em.flush();
+        karkhanaVasuliFile.setFactoryMaster(factoryMaster);
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+        Long factoryMasterId = factoryMaster.getId();
+        // Get all the karkhanaVasuliFileList where factoryMaster equals to factoryMasterId
+        defaultKarkhanaVasuliFileShouldBeFound("factoryMasterId.equals=" + factoryMasterId);
+
+        // Get all the karkhanaVasuliFileList where factoryMaster equals to (factoryMasterId + 1)
+        defaultKarkhanaVasuliFileShouldNotBeFound("factoryMasterId.equals=" + (factoryMasterId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllKarkhanaVasuliFilesByKarkhanaVasuliRecordsIsEqualToSomething() throws Exception {
+        KarkhanaVasuliRecords karkhanaVasuliRecords;
+        if (TestUtil.findAll(em, KarkhanaVasuliRecords.class).isEmpty()) {
+            karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+            karkhanaVasuliRecords = KarkhanaVasuliRecordsResourceIT.createEntity(em);
+        } else {
+            karkhanaVasuliRecords = TestUtil.findAll(em, KarkhanaVasuliRecords.class).get(0);
+        }
+        em.persist(karkhanaVasuliRecords);
+        em.flush();
+        karkhanaVasuliFile.addKarkhanaVasuliRecords(karkhanaVasuliRecords);
+        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
+        Long karkhanaVasuliRecordsId = karkhanaVasuliRecords.getId();
+        // Get all the karkhanaVasuliFileList where karkhanaVasuliRecords equals to karkhanaVasuliRecordsId
+        defaultKarkhanaVasuliFileShouldBeFound("karkhanaVasuliRecordsId.equals=" + karkhanaVasuliRecordsId);
+
+        // Get all the karkhanaVasuliFileList where karkhanaVasuliRecords equals to (karkhanaVasuliRecordsId + 1)
+        defaultKarkhanaVasuliFileShouldNotBeFound("karkhanaVasuliRecordsId.equals=" + (karkhanaVasuliRecordsId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -1029,7 +1248,9 @@ class KarkhanaVasuliFileResourceIT {
             .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].totalAmountMr").value(hasItem(DEFAULT_TOTAL_AMOUNT_MR)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
-            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())));
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE.intValue())))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)));
 
         // Check, that the count call also returns 1
         restKarkhanaVasuliFileMockMvc
@@ -1089,7 +1310,9 @@ class KarkhanaVasuliFileResourceIT {
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .totalAmountMr(UPDATED_TOTAL_AMOUNT_MR)
             .fromDate(UPDATED_FROM_DATE)
-            .toDate(UPDATED_TO_DATE);
+            .toDate(UPDATED_TO_DATE)
+            .branchCode(UPDATED_BRANCH_CODE)
+            .pacsName(UPDATED_PACS_NAME);
 
         restKarkhanaVasuliFileMockMvc
             .perform(
@@ -1115,6 +1338,8 @@ class KarkhanaVasuliFileResourceIT {
         assertThat(testKarkhanaVasuliFile.getTotalAmountMr()).isEqualTo(UPDATED_TOTAL_AMOUNT_MR);
         assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testKarkhanaVasuliFile.getToDate()).isEqualTo(UPDATED_TO_DATE);
+        assertThat(testKarkhanaVasuliFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
     }
 
     @Test
@@ -1188,10 +1413,15 @@ class KarkhanaVasuliFileResourceIT {
         partialUpdatedKarkhanaVasuliFile.setId(karkhanaVasuliFile.getId());
 
         partialUpdatedKarkhanaVasuliFile
+            .fileName(UPDATED_FILE_NAME)
             .uniqueFileName(UPDATED_UNIQUE_FILE_NAME)
-            .address(UPDATED_ADDRESS)
+            .hangam(UPDATED_HANGAM)
             .hangamMr(UPDATED_HANGAM_MR)
-            .toDate(UPDATED_TO_DATE);
+            .factoryName(UPDATED_FACTORY_NAME)
+            .factoryNameMr(UPDATED_FACTORY_NAME_MR)
+            .fromDate(UPDATED_FROM_DATE)
+            .toDate(UPDATED_TO_DATE)
+            .branchCode(UPDATED_BRANCH_CODE);
 
         restKarkhanaVasuliFileMockMvc
             .perform(
@@ -1205,18 +1435,20 @@ class KarkhanaVasuliFileResourceIT {
         List<KarkhanaVasuliFile> karkhanaVasuliFileList = karkhanaVasuliFileRepository.findAll();
         assertThat(karkhanaVasuliFileList).hasSize(databaseSizeBeforeUpdate);
         KarkhanaVasuliFile testKarkhanaVasuliFile = karkhanaVasuliFileList.get(karkhanaVasuliFileList.size() - 1);
-        assertThat(testKarkhanaVasuliFile.getFileName()).isEqualTo(DEFAULT_FILE_NAME);
+        assertThat(testKarkhanaVasuliFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testKarkhanaVasuliFile.getUniqueFileName()).isEqualTo(UPDATED_UNIQUE_FILE_NAME);
-        assertThat(testKarkhanaVasuliFile.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testKarkhanaVasuliFile.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testKarkhanaVasuliFile.getAddressMr()).isEqualTo(DEFAULT_ADDRESS_MR);
-        assertThat(testKarkhanaVasuliFile.getHangam()).isEqualTo(DEFAULT_HANGAM);
+        assertThat(testKarkhanaVasuliFile.getHangam()).isEqualTo(UPDATED_HANGAM);
         assertThat(testKarkhanaVasuliFile.getHangamMr()).isEqualTo(UPDATED_HANGAM_MR);
-        assertThat(testKarkhanaVasuliFile.getFactoryName()).isEqualTo(DEFAULT_FACTORY_NAME);
-        assertThat(testKarkhanaVasuliFile.getFactoryNameMr()).isEqualTo(DEFAULT_FACTORY_NAME_MR);
+        assertThat(testKarkhanaVasuliFile.getFactoryName()).isEqualTo(UPDATED_FACTORY_NAME);
+        assertThat(testKarkhanaVasuliFile.getFactoryNameMr()).isEqualTo(UPDATED_FACTORY_NAME_MR);
         assertThat(testKarkhanaVasuliFile.getTotalAmount()).isEqualTo(DEFAULT_TOTAL_AMOUNT);
         assertThat(testKarkhanaVasuliFile.getTotalAmountMr()).isEqualTo(DEFAULT_TOTAL_AMOUNT_MR);
-        assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
+        assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testKarkhanaVasuliFile.getToDate()).isEqualTo(UPDATED_TO_DATE);
+        assertThat(testKarkhanaVasuliFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
     }
 
     @Test
@@ -1243,7 +1475,9 @@ class KarkhanaVasuliFileResourceIT {
             .totalAmount(UPDATED_TOTAL_AMOUNT)
             .totalAmountMr(UPDATED_TOTAL_AMOUNT_MR)
             .fromDate(UPDATED_FROM_DATE)
-            .toDate(UPDATED_TO_DATE);
+            .toDate(UPDATED_TO_DATE)
+            .branchCode(UPDATED_BRANCH_CODE)
+            .pacsName(UPDATED_PACS_NAME);
 
         restKarkhanaVasuliFileMockMvc
             .perform(
@@ -1269,6 +1503,8 @@ class KarkhanaVasuliFileResourceIT {
         assertThat(testKarkhanaVasuliFile.getTotalAmountMr()).isEqualTo(UPDATED_TOTAL_AMOUNT_MR);
         assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testKarkhanaVasuliFile.getToDate()).isEqualTo(UPDATED_TO_DATE);
+        assertThat(testKarkhanaVasuliFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
     }
 
     @Test

@@ -20,7 +20,9 @@ public class KarkhanaVasuliFileTestSamples {
             .hangamMr("hangamMr1")
             .factoryName("factoryName1")
             .factoryNameMr("factoryNameMr1")
-            .totalAmountMr("totalAmountMr1");
+            .totalAmountMr("totalAmountMr1")
+            .branchCode(1L)
+            .pacsName("pacsName1");
     }
 
     public static KarkhanaVasuliFile getKarkhanaVasuliFileSample2() {
@@ -34,7 +36,9 @@ public class KarkhanaVasuliFileTestSamples {
             .hangamMr("hangamMr2")
             .factoryName("factoryName2")
             .factoryNameMr("factoryNameMr2")
-            .totalAmountMr("totalAmountMr2");
+            .totalAmountMr("totalAmountMr2")
+            .branchCode(2L)
+            .pacsName("pacsName2");
     }
 
     public static KarkhanaVasuliFile getKarkhanaVasuliFileRandomSampleGenerator() {
@@ -48,6 +52,8 @@ public class KarkhanaVasuliFileTestSamples {
             .hangamMr(UUID.randomUUID().toString())
             .factoryName(UUID.randomUUID().toString())
             .factoryNameMr(UUID.randomUUID().toString())
-            .totalAmountMr(UUID.randomUUID().toString());
+            .totalAmountMr(UUID.randomUUID().toString())
+            .branchCode(longCount.incrementAndGet())
+            .pacsName(UUID.randomUUID().toString());
     }
 }

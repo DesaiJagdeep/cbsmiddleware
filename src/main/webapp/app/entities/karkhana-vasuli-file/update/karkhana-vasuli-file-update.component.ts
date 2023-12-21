@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import SharedModule from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
+import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
 import { KarkhanaVasuliFileFormService, KarkhanaVasuliFileFormGroup } from './karkhana-vasuli-file-form.service';
@@ -21,13 +23,19 @@ export class KarkhanaVasuliFileUpdateComponent implements OnInit {
   isSaving = false;
   karkhanaVasuliFile: IKarkhanaVasuliFile | null = null;
 
+  factoryMastersCollection: IFactoryMaster[] = [];
+
   editForm: KarkhanaVasuliFileFormGroup = this.karkhanaVasuliFileFormService.createKarkhanaVasuliFileFormGroup();
 
   constructor(
     protected karkhanaVasuliFileService: KarkhanaVasuliFileService,
     protected karkhanaVasuliFileFormService: KarkhanaVasuliFileFormService,
+    protected factoryMasterService: FactoryMasterService,
     protected activatedRoute: ActivatedRoute,
   ) {}
+
+  compareFactoryMaster = (o1: IFactoryMaster | null, o2: IFactoryMaster | null): boolean =>
+    this.factoryMasterService.compareFactoryMaster(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ karkhanaVasuliFile }) => {
@@ -35,6 +43,8 @@ export class KarkhanaVasuliFileUpdateComponent implements OnInit {
       if (karkhanaVasuliFile) {
         this.updateForm(karkhanaVasuliFile);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -74,5 +84,25 @@ export class KarkhanaVasuliFileUpdateComponent implements OnInit {
   protected updateForm(karkhanaVasuliFile: IKarkhanaVasuliFile): void {
     this.karkhanaVasuliFile = karkhanaVasuliFile;
     this.karkhanaVasuliFileFormService.resetForm(this.editForm, karkhanaVasuliFile);
+
+    this.factoryMastersCollection = this.factoryMasterService.addFactoryMasterToCollectionIfMissing<IFactoryMaster>(
+      this.factoryMastersCollection,
+      karkhanaVasuliFile.factoryMaster,
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.factoryMasterService
+      .query({ 'karkhanaVasuliFileId.specified': 'false' })
+      .pipe(map((res: HttpResponse<IFactoryMaster[]>) => res.body ?? []))
+      .pipe(
+        map((factoryMasters: IFactoryMaster[]) =>
+          this.factoryMasterService.addFactoryMasterToCollectionIfMissing<IFactoryMaster>(
+            factoryMasters,
+            this.karkhanaVasuliFile?.factoryMaster,
+          ),
+        ),
+      )
+      .subscribe((factoryMasters: IFactoryMaster[]) => (this.factoryMastersCollection = factoryMasters));
   }
 }

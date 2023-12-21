@@ -64,6 +64,20 @@
         <dd>
           <span>{{ karkhanaVasuliFile.toDate | formatMediumDatetime }}</span>
         </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.pacsName">Pacs Name</span></dt>
+        <dd>
+          <span>{{ karkhanaVasuliFile.pacsName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryMaster">Factory Master</span></dt>
+        <dd>
+          <div *ngIf="karkhanaVasuliFile.factoryMaster">
+            <a [routerLink]="['/factory-master', karkhanaVasuliFile.factoryMaster.id, 'view']">{{ karkhanaVasuliFile.factoryMaster.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

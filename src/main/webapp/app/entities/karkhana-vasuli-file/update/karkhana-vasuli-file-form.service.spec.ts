@@ -32,6 +32,9 @@ describe('KarkhanaVasuliFile Form Service', () => {
             totalAmountMr: expect.any(Object),
             fromDate: expect.any(Object),
             toDate: expect.any(Object),
+            branchCode: expect.any(Object),
+            pacsName: expect.any(Object),
+            factoryMaster: expect.any(Object),
           }),
         );
       });
@@ -54,6 +57,9 @@ describe('KarkhanaVasuliFile Form Service', () => {
             totalAmountMr: expect.any(Object),
             fromDate: expect.any(Object),
             toDate: expect.any(Object),
+            branchCode: expect.any(Object),
+            pacsName: expect.any(Object),
+            factoryMaster: expect.any(Object),
           }),
         );
       });

@@ -141,6 +141,42 @@
             />
           </div>
         </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.branchCode" for="field_branchCode">Branch Code</label>
+          <input
+            type="number"
+            class="form-control"
+            name="branchCode"
+            id="field_branchCode"
+            data-cy="branchCode"
+            formControlName="branchCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.pacsName" for="field_pacsName">Pacs Name</label>
+          <input type="text" class="form-control" name="pacsName" id="field_pacsName" data-cy="pacsName" formControlName="pacsName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryMaster" for="field_factoryMaster"
+            >Factory Master</label
+          >
+          <select
+            class="form-control"
+            id="field_factoryMaster"
+            data-cy="factoryMaster"
+            name="factoryMaster"
+            formControlName="factoryMaster"
+            [compareWith]="compareFactoryMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="factoryMasterOption" *ngFor="let factoryMasterOption of factoryMastersCollection">
+              {{ factoryMasterOption.id }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

@@ -4,8 +4,7 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
 import com.cbs.middleware.service.criteria.KarkhanaVasuliFileCriteria;
-
-import java.time.Instant;
+import jakarta.persistence.criteria.JoinType;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
-import tech.jhipster.service.filter.InstantFilter;
-import javax.persistence.metamodel.SingularAttribute;
-
 
 /**
  * Service for executing complex queries for {@link KarkhanaVasuliFile} entities in the database.
@@ -126,9 +122,31 @@ public class KarkhanaVasuliFileQueryService extends QueryService<KarkhanaVasuliF
             if (criteria.getToDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getToDate(), KarkhanaVasuliFile_.toDate));
             }
+            if (criteria.getBranchCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchCode(), KarkhanaVasuliFile_.branchCode));
+            }
+            if (criteria.getPacsName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsName(), KarkhanaVasuliFile_.pacsName));
+            }
+            if (criteria.getFactoryMasterId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getFactoryMasterId(),
+                            root -> root.join(KarkhanaVasuliFile_.factoryMaster, JoinType.LEFT).get(FactoryMaster_.id)
+                        )
+                    );
+            }
+            if (criteria.getKarkhanaVasuliRecordsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getKarkhanaVasuliRecordsId(),
+                            root -> root.join(KarkhanaVasuliFile_.karkhanaVasuliRecords, JoinType.LEFT).get(KarkhanaVasuliRecords_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }
-
-
 }

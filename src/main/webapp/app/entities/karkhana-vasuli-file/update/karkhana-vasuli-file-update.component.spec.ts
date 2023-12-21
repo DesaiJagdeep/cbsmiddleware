@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
+import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
+import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
 import { KarkhanaVasuliFileFormService } from './karkhana-vasuli-file-form.service';
@@ -18,6 +20,7 @@ describe('KarkhanaVasuliFile Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let karkhanaVasuliFileFormService: KarkhanaVasuliFileFormService;
   let karkhanaVasuliFileService: KarkhanaVasuliFileService;
+  let factoryMasterService: FactoryMasterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,17 +42,39 @@ describe('KarkhanaVasuliFile Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     karkhanaVasuliFileFormService = TestBed.inject(KarkhanaVasuliFileFormService);
     karkhanaVasuliFileService = TestBed.inject(KarkhanaVasuliFileService);
+    factoryMasterService = TestBed.inject(FactoryMasterService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call factoryMaster query and add missing value', () => {
       const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 456 };
+      const factoryMaster: IFactoryMaster = { id: 28627 };
+      karkhanaVasuliFile.factoryMaster = factoryMaster;
+
+      const factoryMasterCollection: IFactoryMaster[] = [{ id: 25066 }];
+      jest.spyOn(factoryMasterService, 'query').mockReturnValue(of(new HttpResponse({ body: factoryMasterCollection })));
+      const expectedCollection: IFactoryMaster[] = [factoryMaster, ...factoryMasterCollection];
+      jest.spyOn(factoryMasterService, 'addFactoryMasterToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ karkhanaVasuliFile });
       comp.ngOnInit();
 
+      expect(factoryMasterService.query).toHaveBeenCalled();
+      expect(factoryMasterService.addFactoryMasterToCollectionIfMissing).toHaveBeenCalledWith(factoryMasterCollection, factoryMaster);
+      expect(comp.factoryMastersCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 456 };
+      const factoryMaster: IFactoryMaster = { id: 22972 };
+      karkhanaVasuliFile.factoryMaster = factoryMaster;
+
+      activatedRoute.data = of({ karkhanaVasuliFile });
+      comp.ngOnInit();
+
+      expect(comp.factoryMastersCollection).toContain(factoryMaster);
       expect(comp.karkhanaVasuliFile).toEqual(karkhanaVasuliFile);
     });
   });
@@ -119,6 +144,18 @@ describe('KarkhanaVasuliFile Management Update Component', () => {
       expect(karkhanaVasuliFileService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareFactoryMaster', () => {
+      it('Should forward to factoryMasterService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(factoryMasterService, 'compareFactoryMaster');
+        comp.compareFactoryMaster(entity, entity2);
+        expect(factoryMasterService.compareFactoryMaster).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

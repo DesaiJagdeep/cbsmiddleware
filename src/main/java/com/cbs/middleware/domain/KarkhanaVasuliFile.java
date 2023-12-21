@@ -1,8 +1,11 @@
 package com.cbs.middleware.domain;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A KarkhanaVasuliFile.
@@ -10,7 +13,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "karkhana_vasuli_file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements Serializable {
+public class KarkhanaVasuliFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,6 +57,21 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
 
     @Column(name = "to_date")
     private Instant toDate;
+
+    @Column(name = "branch_code")
+    private Long branchCode;
+
+    @Column(name = "pacs_name")
+    private String pacsName;
+
+    @JsonIgnoreProperties(value = { "karkhanaVasuliFile" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
+    private FactoryMaster factoryMaster;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "karkhanaVasuliFile")
+    @JsonIgnoreProperties(value = { "karkhanaVasuliFile" }, allowSetters = true)
+    private Set<KarkhanaVasuliRecords> karkhanaVasuliRecords = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -226,6 +244,76 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
         this.toDate = toDate;
     }
 
+    public Long getBranchCode() {
+        return this.branchCode;
+    }
+
+    public KarkhanaVasuliFile branchCode(Long branchCode) {
+        this.setBranchCode(branchCode);
+        return this;
+    }
+
+    public void setBranchCode(Long branchCode) {
+        this.branchCode = branchCode;
+    }
+
+    public String getPacsName() {
+        return this.pacsName;
+    }
+
+    public KarkhanaVasuliFile pacsName(String pacsName) {
+        this.setPacsName(pacsName);
+        return this;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public FactoryMaster getFactoryMaster() {
+        return this.factoryMaster;
+    }
+
+    public void setFactoryMaster(FactoryMaster factoryMaster) {
+        this.factoryMaster = factoryMaster;
+    }
+
+    public KarkhanaVasuliFile factoryMaster(FactoryMaster factoryMaster) {
+        this.setFactoryMaster(factoryMaster);
+        return this;
+    }
+
+    public Set<KarkhanaVasuliRecords> getKarkhanaVasuliRecords() {
+        return this.karkhanaVasuliRecords;
+    }
+
+    public void setKarkhanaVasuliRecords(Set<KarkhanaVasuliRecords> karkhanaVasuliRecords) {
+        if (this.karkhanaVasuliRecords != null) {
+            this.karkhanaVasuliRecords.forEach(i -> i.setKarkhanaVasuliFile(null));
+        }
+        if (karkhanaVasuliRecords != null) {
+            karkhanaVasuliRecords.forEach(i -> i.setKarkhanaVasuliFile(this));
+        }
+        this.karkhanaVasuliRecords = karkhanaVasuliRecords;
+    }
+
+    public KarkhanaVasuliFile karkhanaVasuliRecords(Set<KarkhanaVasuliRecords> karkhanaVasuliRecords) {
+        this.setKarkhanaVasuliRecords(karkhanaVasuliRecords);
+        return this;
+    }
+
+    public KarkhanaVasuliFile addKarkhanaVasuliRecords(KarkhanaVasuliRecords karkhanaVasuliRecords) {
+        this.karkhanaVasuliRecords.add(karkhanaVasuliRecords);
+        karkhanaVasuliRecords.setKarkhanaVasuliFile(this);
+        return this;
+    }
+
+    public KarkhanaVasuliFile removeKarkhanaVasuliRecords(KarkhanaVasuliRecords karkhanaVasuliRecords) {
+        this.karkhanaVasuliRecords.remove(karkhanaVasuliRecords);
+        karkhanaVasuliRecords.setKarkhanaVasuliFile(null);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -262,6 +350,8 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
             ", totalAmountMr='" + getTotalAmountMr() + "'" +
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
+            ", branchCode=" + getBranchCode() +
+            ", pacsName='" + getPacsName() + "'" +
             "}";
     }
 }

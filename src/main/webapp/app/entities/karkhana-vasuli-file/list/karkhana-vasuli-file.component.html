@@ -112,6 +112,24 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="branchCode">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.branchCode">Branch Code</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.pacsName">Pacs Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="factoryMaster.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.factoryMaster">Factory Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -132,8 +150,32 @@
           <td>{{ karkhanaVasuliFile.totalAmountMr }}</td>
           <td>{{ karkhanaVasuliFile.fromDate | formatMediumDatetime }}</td>
           <td>{{ karkhanaVasuliFile.toDate | formatMediumDatetime }}</td>
+          <td>{{ karkhanaVasuliFile.branchCode }}</td>
+          <td>{{ karkhanaVasuliFile.pacsName }}</td>
+          <td>
+            <div *ngIf="karkhanaVasuliFile.factoryMaster">
+              <a [routerLink]="['/factory-master', karkhanaVasuliFile.factoryMaster.id, 'view']">{{
+                karkhanaVasuliFile.factoryMaster.id
+              }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/karkhana-vasuli-records']"
+                [queryParams]="{ 'filter[karkhanaVasuliFileId.in]': karkhanaVasuliFile.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('cbsMiddlewareApp.karkhanaVasuliFile.karkhanaVasuliRecords' | translate) }"
+                  >Show Karkhana Vasuli Records</span
+                >
+              </button>
               <a
                 [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'view']"
                 class="btn btn-info btn-sm"

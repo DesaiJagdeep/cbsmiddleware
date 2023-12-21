@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "karkhana_vasuli_file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KarkhanaVasuliFile implements Serializable {
+public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,12 +64,10 @@ public class KarkhanaVasuliFile implements Serializable {
     @Column(name = "pacs_name")
     private String pacsName;
 
-    @JsonIgnoreProperties(value = { "karkhanaVasuliFile" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
+    @OneToOne
     private FactoryMaster factoryMaster;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "karkhanaVasuliFile")
+    @OneToMany
     @JsonIgnoreProperties(value = { "karkhanaVasuliFile" }, allowSetters = true)
     private Set<KarkhanaVasuliRecords> karkhanaVasuliRecords = new HashSet<>();
 

@@ -1,8 +1,11 @@
 package com.cbs.middleware.service.impl;
 
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.repository.ApplicationRepository;
 import com.cbs.middleware.service.ApplicationService;
+
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,4 +98,15 @@ public class ApplicationServiceImpl implements ApplicationService {
         log.debug("Request to delete Application : {}", id);
         applicationRepository.deleteById(id);
     }
+
+    @Override
+    public List<Long> findRejectedApplicationsWithErrorDuplicateNo() {
+
+        //Get the distinct iss_portal_id from transaction with
+     return   applicationRepository.findDistinctByPortalId();
+
+    }
 }
+
+
+

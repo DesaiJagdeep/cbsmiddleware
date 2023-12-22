@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.BankCode;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.domainUtil.Report;
@@ -336,6 +337,7 @@ public class ApplicationResource {
             .build();
     }
 
+
     @GetMapping("/financialYear")
     public void updateFinancialYearInAppTransactionAsPerFileParser (){
 
@@ -348,4 +350,5 @@ public class ApplicationResource {
                         applicationRepository.save(appTx);
             }
     }
+
 }

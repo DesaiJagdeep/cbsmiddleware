@@ -719,6 +719,7 @@ public class SubmitBatchResource {
         }
 
         return cbsResponce;
+
     }
 
     private String generateUniqueId(Long id) {
@@ -1267,7 +1268,7 @@ public class SubmitBatchResource {
         return cbsMiddleareInputPayload;
     }
 
-    private String dateInYYYYMMDD(String date) {
+    public String dateInYYYYMMDD(String date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
         Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");

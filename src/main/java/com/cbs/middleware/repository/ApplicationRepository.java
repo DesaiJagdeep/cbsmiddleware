@@ -1,6 +1,7 @@
 package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.Application;
+import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.sun.mail.imap.protocol.ID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -61,6 +63,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);
 
+
     @Query(
         "select count(*) from Application application where application.batchId is null and application.issFilePortalId =:issFilePortalId"
     )
@@ -97,11 +100,16 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
         @Param("applicationStatus") Integer applicationStatus
     );
 
+
     Page<Application> findAllByPacksCode(Long pacsCode, Pageable pageable);
 
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 
+    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:IssFileParserId", nativeQuery = true)
+    Application findRejectedApplicatonsByParserId(@Param("IssFileParserId") Long IssFileParserId) ;
+
     @Transactional
+
     void deleteByIssFileParser(IssFileParser issFileParser);
 
     List<Application> findAllByUniqueId(String uniqueId);
@@ -110,4 +118,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     void deleteByIssFileParserId(@Param("id") Long id);
     @Query(value = "select * from application_transaction where financial_year is null; ", nativeQuery = true)
     List<Application> findByFianacialYearNull();
+
+
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
+  List<Long> findDistinctByPortalId();
+
 }

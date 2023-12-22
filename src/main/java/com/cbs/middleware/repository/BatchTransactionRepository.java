@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BatchTransactionRepository extends JpaRepository<BatchTransaction, Long>, JpaSpecificationExecutor<BatchTransaction> {
     List<BatchTransaction> findAllByStatus(String string);
+
 }

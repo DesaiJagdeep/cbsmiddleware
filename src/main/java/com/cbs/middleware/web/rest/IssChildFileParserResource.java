@@ -808,7 +808,7 @@ public class IssChildFileParserResource {
                   applicationLog.setExpectedSolution("Provide correct information");
                   applicationLog.setStatus(Constants.ERROR);
                   applicationLog.setErrorType(Constants.validationError);
-                  applicationLog.setErrorRecordCount(collect.size());
+                  applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
                   applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
                   applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
                   applicationLogListToSaveError.add(applicationLog);
@@ -844,7 +844,7 @@ public class IssChildFileParserResource {
                       applicationLog.setIssFileParser(issFileParser);
                       applicationLog.setStatus(Constants.FIXED);
                       applicationLog.setSevierity("");
-                      applicationLog.setErrorRecordCount(0);
+                      applicationLog.setErrorRecordCount(Long.valueOf(0));
                       applicationLog.setIssPortalId(issPortalFile.getId());
                       applicationLog.setFileName(issPortalFile.getFileName());
                       applicationLogListMarkedFix.add(applicationLog);

@@ -2507,7 +2507,7 @@ public class IssFileParserResource {
                 applicationLog.setExpectedSolution("Provide correct information");
                 applicationLog.setStatus(Constants.ERROR);
                 applicationLog.setErrorType(Constants.validationError);
-                applicationLog.setErrorRecordCount(collect.size());
+                applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
                 applicationLog.setIssPortalId(issPortalFile.getId());
                 applicationLog.setFileName(issPortalFile.getFileName());
                 applicationLogListToSave.add(applicationLog);
@@ -2911,7 +2911,7 @@ public class IssFileParserResource {
             applicationLog.setExpectedSolution("Provide correct information");
             applicationLog.setStatus(Constants.ERROR);
             applicationLog.setErrorType(Constants.validationError);
-            applicationLog.setErrorRecordCount(collect.size());
+            applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
             applicationLog.setIssPortalId(issPortalFile.getId());
             applicationLog.setFileName(issPortalFile.getFileName());
             applicationLogListToSave.add(applicationLog);
@@ -3036,7 +3036,7 @@ public class IssFileParserResource {
             ApplicationLog applicationLog = findOneByIssFileParser.get();
             applicationLog.setStatus(Constants.FIXED);
             applicationLog.setSevierity("");
-            applicationLog.setErrorRecordCount(0);
+            applicationLog.setErrorRecordCount(0L);
             applicationLogRepository.save(applicationLog);
 
             if (issFileParser != null) {
@@ -3304,7 +3304,7 @@ public class IssFileParserResource {
             applicationLog.setExpectedSolution("Provide correct information");
             applicationLog.setStatus(Constants.ERROR);
             applicationLog.setErrorType(Constants.validationError);
-            applicationLog.setErrorRecordCount(errorCount);
+            applicationLog.setErrorRecordCount(Long.valueOf(errorCount));
             applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
             applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
         }

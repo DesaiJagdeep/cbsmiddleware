@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.cbs.middleware.domain.Application;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -60,4 +61,9 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     Long countByKccError(@Param("id") Long id);
     @Query(value = "delete from application_log where iss_file_parser_id=:id ",nativeQuery = true)
     void deleteByIssFileParser(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC Error' AND status= 'Error' AND error_message LIKE 'This accountNumber is already being processed by batch%' AND iss_portal_id =:iss_portal_id", nativeQuery = true)
+    List<ApplicationLog> findAllByStatusError(@Param("iss_portal_id") Long iss_portal_id);
+
+
 }

@@ -135,7 +135,10 @@ public class CronJobResource {
      * @throws Exception
      */
 
-    @Scheduled(cron = "0 0 6 * * ?")
+    //@Scheduled(cron = "0 0 6 * * ?")
+    //30 19 * * *   (7:30 pm UTC i.e  1 am IST)
+
+    @Scheduled(cron = "0 30 19 * * *")
     public void updateRecordsInBatchTran() {
 
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);

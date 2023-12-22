@@ -110,7 +110,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Transactional
 	void deleteByIssFileParser(IssFileParser issFileParser);
 
-    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
   List<Long> findDistinctByPortalId();
 
 }

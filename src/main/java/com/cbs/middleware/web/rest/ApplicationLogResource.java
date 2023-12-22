@@ -389,19 +389,24 @@ public class ApplicationLogResource {
     }
 
     //Ashvini
-    @GetMapping("/addloandetails")
-    public CBSResponce getApplicationsByKCCWithErrorDuplicateAccNo() {
+    @PostMapping("/addloandetails")
+    public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
 
+        System.out.println("Get Applications with KCC Error Duplicate Number");
         CBSResponce cbsResponce = null;
 
         //get distinct iss_portal_id from application_transaction with kcc_status = 0
        List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
+
+       System.out.println("Application portalIds size:" + applicationsPortalIds.size());
 
        //loop through applications
        for(Long applicationsPortalId: applicationsPortalIds) {
 
            //get application log records with iss_portal_id
            List<ApplicationLog> rejectedApplications = applicationLogRepository.findAllByStatusError(applicationsPortalId);
+
+           System.out.println("rejectedApplications size:" + rejectedApplications.size());
 
            List<String> numbers = null;
            List<Application> applicationTransactionList = new ArrayList<>();
@@ -418,25 +423,33 @@ public class ApplicationLogResource {
                    numbers.add(m.group());
 
                }
-               System.out.println(numbers);
 
                //Get application_transaction record by unique id to get the farmerId
                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                    numbers.get(1)
                );
+
+               System.out.println("Check if application is exists or not in database");
+
                if (applicationByUniqueId != null) {
 
                    applicationTransactionList.add(applicationByUniqueId);
 
-                   //get rejected record unique id from application transaction by IssFileParserId
+                   //get rejected record from application transaction by IssFileParserId
                    Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
                    rejectedApplicationTransactionList.add(rejectedApp);
                }
-
            }
+           List<CBSResponce> cbsResponceStringList = new ArrayList<>();
+
+
            if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
+               System.out.println("Call add loan details method");
                cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
-              System.out.println("cbsResponse: " + cbsResponce);
+               cbsResponceStringList.add(cbsResponce);
+               System.out.println("applicationTransactionList:" + applicationTransactionList);
+               System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
+              System.out.println("cbsResponse list: " + cbsResponceStringList);
 
            }
 
@@ -457,17 +470,19 @@ public class ApplicationLogResource {
 
         String batchId = formattedDate + rejectedApplicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
         batchData.setBatchId(batchId);
+        System.out.println("batchId in add loan details:" + batchId);
+
         batchData.setFinancialYear(rejectedApplicationTransactionList.get(0).getIssFileParser().getFinancialYear());
 
-        Long IssPortalId=rejectedApplicationTransactionList.get(0).getIssFilePortalId();
+        Long IssPortalId = rejectedApplicationTransactionList.get(0).getIssFilePortalId();
 
         List<Application> applicationTransactionListSave = new ArrayList<>();
 
-        for ( int i = 0; i < rejectedApplicationTransactionList.size() ; i ++) {
+        for (int i = 0; i < rejectedApplicationTransactionList.size(); i++) {
 
-            String uniqueId = batchData.getBatchId() + generateRandomNumber();
+             String uniqueId = batchData.getBatchId() + generateRandomNumber();
 
-            Application rejectedApplicationTransaction=rejectedApplicationTransactionList.get(i);
+            Application rejectedApplicationTransaction = rejectedApplicationTransactionList.get(i);
             IssFileParser issFileParser = rejectedApplicationTransaction.getIssFileParser();
 
             ApplicationPayload applicationPayload = new ApplicationPayload();
@@ -623,7 +638,6 @@ public class ApplicationLogResource {
 //                }
 
                 activityRows.setPlantationCode(issFileParser.getKccIssCropCode());
-
                 activityRows.setSurveyNumber(issFileParser.getSurveyNo());
                 activityRows.setKhataNumber(issFileParser.getSatBaraSubsurveyNo());
                 activityRows.setPlantationArea(Float.parseFloat(issFileParser.getAreaHect()));
@@ -634,7 +648,7 @@ public class ApplicationLogResource {
                 activityList.add(activities);
 
             }
-            applicationPayload.setPreuniqueId(rejectedApplicationTransaction.getUniqueId());
+            applicationPayload.setPreuniqueId(applicationTransactionList.get(i).getUniqueId());
             applicationPayload.setFarmerId(applicationTransactionList.get(i).getFarmerId());
             applicationPayload.setActivities(activityList);
             applicationsList.add(applicationPayload);
@@ -646,7 +660,6 @@ public class ApplicationLogResource {
             rejectedApplicationTransaction.setBankCode(Long.parseLong(rejectedApplicationTransaction.getIssFileParser().getBankCode()));
 
             applicationTransactionListSave.add(rejectedApplicationTransaction);
-
 
         }
         batchData.setApplications(applicationsList);
@@ -701,7 +714,7 @@ public class ApplicationLogResource {
                         retryBatchTransaction.setIssPortalId(IssPortalId);
                         retryBatchTransactionRepository.save(retryBatchTransaction);
 
-                        saveRetryBatchTransactionDetails(applicationTransactionListSave,retryBatchTransaction);
+                        saveRetryBatchTransactionDetails(applicationTransactionListSave, retryBatchTransaction);
 
                         try {
                             IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
@@ -714,23 +727,25 @@ public class ApplicationLogResource {
 
 
                     } else {
-                       // RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
-                       // retryBatchTransaction.setBatchId(batchId);
-                       // retryBatchTransaction.setStatus("Discarded");
-                       // retryBatchTransaction.setTriggeredDate(triggeredDate);
-                      //  retryBatchTransaction.setBatchErrors(cbsResponce.getError());
-                      //  String fileName = "";
-                       // try {
-                            //fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
+                        System.out.println("Batch is not processed yet");
+
+                        // RetryBatchTransaction retryBatchTransaction = new RetryBatchTransaction();
+                        // retryBatchTransaction.setBatchId(batchId);
+                        // retryBatchTransaction.setStatus("Discarded");
+                        // retryBatchTransaction.setTriggeredDate(triggeredDate);
+                        //  retryBatchTransaction.setBatchErrors(cbsResponce.getError());
+                        //  String fileName = "";
+                        // try {
+                        //fileName = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
                         //} catch (Exception e) {
-                            // TODO: handle exception
-                       // }
+                        // TODO: handle exception
+                        // }
 
 
-                      //  retryBatchTransactionRepository.save(retryBatchTransaction);
+                        //  retryBatchTransactionRepository.save(retryBatchTransaction);
                     }
                 } catch (Exception e) {
-                    log.error("Error in conversion of object: ", e);
+                    log.error("Error in conversion of object duplicate account number: ", e);
                 }
             } else {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -739,7 +754,7 @@ public class ApplicationLogResource {
                 cbsResponce.setBatchId(batchId);
             }
         } catch (Exception e) {
-            log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
+            log.error("Error in sending data to fasalrin duplicate account number: " + cbsMiddleareInputPayload);
         }
 
         return cbsResponce;
@@ -748,6 +763,8 @@ public class ApplicationLogResource {
     }
     public void saveRetryBatchTransactionDetails(List<Application> applicationTransactionList, RetryBatchTransaction retryBatchTransaction) {
 
+        System.out.println("application transaction list:"+applicationTransactionList);
+        System.out.println("Retry batch transaction:"+retryBatchTransaction);
         for (Application applicationTransaction : applicationTransactionList) {
 
             RetryBatchTransactionDetails retryBatchTransactionDetails = new RetryBatchTransactionDetails();

@@ -430,17 +430,25 @@ public class ApplicationLogResource {
                 }
                 System.out.println("Application Log Id: "+ appLog.getId() + " Error message: " +appLog.getErrorMessage());
                 //Get application_transaction record by unique id to get the farmerId
-                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
+                List<Application> applicationByUniqueId = applicationRepository.findAllByUniqueId(
                     numbers.get(1)
                 );
 
                 if (applicationByUniqueId != null) {
 
-                    applicationTransactionList.add(applicationByUniqueId);
+                    if(applicationByUniqueId.size()> 1){
 
-                    //get rejected record from application transaction by IssFileParserId
-                    Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
-                    rejectedApplicationTransactionList.add(rejectedApp);
+                        System.out.println("applicationByUniqueId size: "+ applicationByUniqueId.size());
+
+                    }
+                    else
+                    {
+                        applicationTransactionList.add(applicationByUniqueId.get(0));
+
+                        //get rejected record from application transaction by IssFileParserId
+                        Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
+                        rejectedApplicationTransactionList.add(rejectedApp);
+                    }
                 }
                 else
                 {
@@ -451,7 +459,7 @@ public class ApplicationLogResource {
 
             if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
                 System.out.println("Call add loan details method");
-                 cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
+                cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
                 cbsResponceStringList.add(cbsResponce);
                 System.out.println("applicationTransactionList:" + applicationTransactionList);
                 System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);

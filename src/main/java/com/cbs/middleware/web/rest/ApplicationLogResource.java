@@ -13,6 +13,7 @@ import com.cbs.middleware.service.criteria.ApplicationLogCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +56,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,21 +68,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/api")
 public class ApplicationLogResource {
 
-    private final Logger log = LoggerFactory.getLogger(ApplicationLogResource.class);
-
     private static final String ENTITY_NAME = "applicationLog";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
+    private final Logger log = LoggerFactory.getLogger(ApplicationLogResource.class);
     private final ApplicationLogService applicationLogService;
-
     private final ApplicationService applicationService;
-
     private final ApplicationLogRepository applicationLogRepository;
-
     private final ApplicationLogQueryService applicationLogQueryService;
-
+    private final ApplicationRepository applicationRepository;
     @Autowired
     IssFileParserRepository issFileParserRepository;
 
@@ -99,12 +93,14 @@ public class ApplicationLogResource {
 
     @Autowired
     ApplicationProperties applicationProperties;
-
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
     @Autowired
     private RestTemplate restTemplate;
-    private final ApplicationRepository applicationRepository;
     @Autowired
     private RetryBatchTransactionDetailsRepository retryBatchTransactionDetailsRepository;
+    @Autowired
+    private SubmitBatchResource submitBatchResource;
 
     public ApplicationLogResource(
         ApplicationLogService applicationLogService,
@@ -114,10 +110,17 @@ public class ApplicationLogResource {
         ApplicationLogQueryService applicationLogQueryService
     ) {
         this.applicationLogService = applicationLogService;
-        this.applicationService=applicationService;
+        this.applicationService = applicationService;
         this.applicationLogRepository = applicationLogRepository;
         this.applicationRepository = applicationRepository;
         this.applicationLogQueryService = applicationLogQueryService;
+    }
+
+    private static SecretKey generateSecretKey(String secretKey, int keySize) {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        byte[] truncatedKey = new byte[keySize / 8];
+        System.arraycopy(keyBytes, 0, truncatedKey, 0, truncatedKey.length);
+        return new SecretKeySpec(truncatedKey, "AES");
     }
 
     /**
@@ -307,6 +310,7 @@ public class ApplicationLogResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
     public String decryption(String encDecObject) {
         IvParameterSpec ivParameterSpec = new IvParameterSpec(applicationProperties.getIv().getBytes(StandardCharsets.UTF_8));
         final byte[] keyParse = applicationProperties.getSecretKey().getBytes();
@@ -326,12 +330,7 @@ public class ApplicationLogResource {
         }
         return null;
     }
-    private static SecretKey generateSecretKey(String secretKey, int keySize) {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        byte[] truncatedKey = new byte[keySize / 8];
-        System.arraycopy(keyBytes, 0, truncatedKey, 0, truncatedKey.length);
-        return new SecretKeySpec(truncatedKey, "AES");
-    }
+
     public String encryptObject(Object encDecObject) {
         try {
             SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
@@ -382,6 +381,7 @@ public class ApplicationLogResource {
 
         return date;
     }
+
     private int generateRandomNumber() {
         Random random = new Random();
         int min = 10000;
@@ -404,7 +404,7 @@ public class ApplicationLogResource {
         System.out.println("Application portalIds size:" + applicationsPortalIds.size());
 
         //loop through applications
-        for(Long applicationsPortalId: applicationsPortalIds) {
+        for (Long applicationsPortalId : applicationsPortalIds) {
 
             System.out.println(".........Loop through all the portals ids......");
             System.out.println("Application portalId: " + applicationsPortalId);
@@ -428,7 +428,7 @@ public class ApplicationLogResource {
                     numbers.add(m.group());
 
                 }
-                System.out.println("Application Log Id: "+ appLog.getId() + " Error message: " +appLog.getErrorMessage());
+                System.out.println("Application Log Id: " + appLog.getId() + " Error message: " + appLog.getErrorMessage());
                 //Get application_transaction record by unique id to get the farmerId
                 Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                     numbers.get(1)
@@ -441,17 +441,15 @@ public class ApplicationLogResource {
                     //get rejected record from application transaction by IssFileParserId
                     Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
                     rejectedApplicationTransactionList.add(rejectedApp);
-                }
-                else
-                {
-                    System.out.println("No record found for this uniqueId in application trans: "+ numbers.get(1));
+                } else {
+                    System.out.println("No record found for this uniqueId in application trans: " + numbers.get(1));
                 }
             }
             List<CBSResponce> cbsResponceStringList = new ArrayList<>();
 
             if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
                 System.out.println("Call add loan details method");
-                 cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
+                cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
                 cbsResponceStringList.add(cbsResponce);
                 System.out.println("applicationTransactionList:" + applicationTransactionList);
                 System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
@@ -465,9 +463,7 @@ public class ApplicationLogResource {
     }
 
 
-
-
-    private CBSResponce addloandetails(List<Application> applicationTransactionList,List<Application>rejectedApplicationTransactionList) {
+    private CBSResponce addloandetails(List<Application> applicationTransactionList, List<Application> rejectedApplicationTransactionList) {
 
         String cbsResponceString = "";
         List<ApplicationPayload> applicationsList = new ArrayList<>();
@@ -489,10 +485,10 @@ public class ApplicationLogResource {
 
         for (int i = 0; i < rejectedApplicationTransactionList.size(); i++) {
 
-             String uniqueId = batchData.getBatchId() + generateRandomNumber();
 
             Application rejectedApplicationTransaction = rejectedApplicationTransactionList.get(i);
             IssFileParser issFileParser = rejectedApplicationTransaction.getIssFileParser();
+            String uniqueId = batchData.getBatchId() + submitBatchResource.generateUniqueId(issFileParser.getId());
 
             ApplicationPayload applicationPayload = new ApplicationPayload();
             applicationPayload.setUniqueId(uniqueId);
@@ -770,10 +766,11 @@ public class ApplicationLogResource {
 
 
     }
+
     public void saveRetryBatchTransactionDetails(List<Application> applicationTransactionList, RetryBatchTransaction retryBatchTransaction) {
 
-        System.out.println("application transaction list:"+applicationTransactionList);
-        System.out.println("Retry batch transaction:"+retryBatchTransaction);
+        System.out.println("application transaction list:" + applicationTransactionList);
+        System.out.println("Retry batch transaction:" + retryBatchTransaction);
         for (Application applicationTransaction : applicationTransactionList) {
 
             RetryBatchTransactionDetails retryBatchTransactionDetails = new RetryBatchTransactionDetails();

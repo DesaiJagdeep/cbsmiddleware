@@ -722,7 +722,7 @@ public class SubmitBatchResource {
 
     }
 
-    private String generateUniqueId(Long id) {
+    public String generateUniqueId(Long id) {
         String toReturn = id.toString();
         String uniqueId = "";
         if (toReturn.length() > 5) {

@@ -5,6 +5,7 @@ import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.*;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.ApplicationLogQueryService;
 import com.cbs.middleware.service.ApplicationLogService;
 import com.cbs.middleware.service.ApplicationService;
@@ -34,6 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -390,73 +392,80 @@ public class ApplicationLogResource {
 
     //Ashvini
     @PostMapping("/addloandetails")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
 
         System.out.println("Get Applications with KCC Error Duplicate Number");
         CBSResponce cbsResponce = null;
 
         //get distinct iss_portal_id from application_transaction with kcc_status = 0
-       List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
+        List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
 
-       System.out.println("Application portalIds size:" + applicationsPortalIds.size());
+        System.out.println("Application portalIds size:" + applicationsPortalIds.size());
 
-       //loop through applications
-       for(Long applicationsPortalId: applicationsPortalIds) {
+        //loop through applications
+        for(Long applicationsPortalId: applicationsPortalIds) {
 
-           //get application log records with iss_portal_id
-           List<ApplicationLog> rejectedApplications = applicationLogRepository.findAllByStatusError(applicationsPortalId);
+            System.out.println(".........Loop through all the portals ids......");
+            System.out.println("Application portalId: " + applicationsPortalId);
+            //get application log records with iss_portal_id
+            List<ApplicationLog> rejectedApplications = applicationLogRepository.findAllByStatusError(applicationsPortalId);
 
-           System.out.println("rejectedApplications size:" + rejectedApplications.size());
+            System.out.println("rejectedApplications size:" + rejectedApplications.size());
 
-           List<String> numbers = null;
-           List<Application> applicationTransactionList = new ArrayList<>();
-           List<Application> rejectedApplicationTransactionList = new ArrayList<>();
+            List<String> numbers = null;
+            List<Application> applicationTransactionList = new ArrayList<>();
+            List<Application> rejectedApplicationTransactionList = new ArrayList<>();
 
-           //Extract ids from error_message
-           for (ApplicationLog appLog : rejectedApplications) {
+            //Extract ids from error_message
+            for (ApplicationLog appLog : rejectedApplications) {
 
-               //Pattern to extract batch & unique id
-               Pattern p = Pattern.compile("-?\\d+");
-               Matcher m = p.matcher(appLog.getErrorMessage());
-               numbers = new ArrayList<String>();
-               while (m.find()) {
-                   numbers.add(m.group());
+                //Pattern to extract batch & unique id
+                Pattern p = Pattern.compile("-?\\d+");
+                Matcher m = p.matcher(appLog.getErrorMessage());
+                numbers = new ArrayList<String>();
+                while (m.find()) {
+                    numbers.add(m.group());
 
-               }
+                }
+                System.out.println("Application Log Id: "+ appLog.getId() + " Error message: " +appLog.getErrorMessage());
+                //Get application_transaction record by unique id to get the farmerId
+                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
+                    numbers.get(1)
+                );
 
-               //Get application_transaction record by unique id to get the farmerId
-               Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
-                   numbers.get(1)
-               );
+                if (applicationByUniqueId != null) {
 
-               System.out.println("Check if application is exists or not in database");
+                    applicationTransactionList.add(applicationByUniqueId);
 
-               if (applicationByUniqueId != null) {
+                    //get rejected record from application transaction by IssFileParserId
+                    Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
+                    rejectedApplicationTransactionList.add(rejectedApp);
+                }
+                else
+                {
+                    System.out.println("No record found for this uniqueId in application trans: "+ numbers.get(1));
+                }
+            }
+            List<CBSResponce> cbsResponceStringList = new ArrayList<>();
 
-                   applicationTransactionList.add(applicationByUniqueId);
+            if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
+                System.out.println("Call add loan details method");
+                 cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
+                cbsResponceStringList.add(cbsResponce);
+                System.out.println("applicationTransactionList:" + applicationTransactionList);
+                System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
+                System.out.println("cbsResponse list: " + cbsResponceStringList);
 
-                   //get rejected record from application transaction by IssFileParserId
-                   Application rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
-                   rejectedApplicationTransactionList.add(rejectedApp);
-               }
-           }
-           List<CBSResponce> cbsResponceStringList = new ArrayList<>();
+            }
 
-
-           if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
-               System.out.println("Call add loan details method");
-               cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
-               cbsResponceStringList.add(cbsResponce);
-               System.out.println("applicationTransactionList:" + applicationTransactionList);
-               System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
-              System.out.println("cbsResponse list: " + cbsResponceStringList);
-
-           }
-
-       }
+        }
 
         return cbsResponce;
     }
+
+
+
 
     private CBSResponce addloandetails(List<Application> applicationTransactionList,List<Application>rejectedApplicationTransactionList) {
 

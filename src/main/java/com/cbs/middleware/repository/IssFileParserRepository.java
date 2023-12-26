@@ -71,5 +71,7 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
         String maturityLoanDate
     );
 
+@Query(value = "select * from iss_file_parser where aadhar_number=:aadhaarNumber and farmer_name=:beneficiaryName and loan_sanction_amount=:loanSanctionedAmount and loan_saction_date =:loanSanctionedDate ",nativeQuery = true)
+    IssFileParser findByRecipientParameters( @Param("aadhaarNumber") String aadhaarNumber, @Param("beneficiaryName") String beneficiaryName,@Param("loanSanctionedAmount") Long loanSanctionedAmount, @Param("loanSanctionedDate") String loanSanctionedDate);
 
 }

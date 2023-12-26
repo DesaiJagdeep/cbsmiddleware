@@ -20,6 +20,24 @@ public class ApplicationPayload implements Serializable {
     private String farmerId;
 
     private String preuniqueId;
+    private String recipientUniqueId;
+    private String applicationNumber;
+
+    public String getRecipientUniqueId() {
+        return recipientUniqueId;
+    }
+
+    public void setRecipientUniqueId(String recipientUniqueId) {
+        this.recipientUniqueId = recipientUniqueId;
+    }
+
+    public String getApplicationNumber() {
+        return applicationNumber;
+    }
+
+    public void setApplicationNumber(String applicationNumber) {
+        this.applicationNumber = applicationNumber;
+    }
 
     public String getPreuniqueId() {
         return preuniqueId;
@@ -115,6 +133,10 @@ public class ApplicationPayload implements Serializable {
             loanDetails +
             ", activities=" +
             activities +
+                ", recipientUniqueId=" +
+                recipientUniqueId +
+                ", applicationNumber=" +
+                applicationNumber +
             "]"
         );
     }

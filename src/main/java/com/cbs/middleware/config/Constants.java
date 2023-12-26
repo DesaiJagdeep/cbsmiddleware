@@ -11,7 +11,7 @@ public final class Constants {
 	public static final String SYSTEM = "system";
 	public static final String DEFAULT_LANGUAGE = "en";
 
-	public static final String AUTH_CODE = "68f18c5f-a0e2-4d35-930f-5da9b947f5e1";
+	public static final String AUTH_CODE = "619cd8ee-c012-4cca-9b00-ec428f1a0b7f";
 
 	//local or dev server
 	public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
@@ -28,9 +28,9 @@ public final class Constants {
 	public static final String fontFilePath1 = "/home/ubuntu/pdcc/font/NotoSans-Regular_bold.ttf";
 
 	//producation or dev server
-    //public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
-    //public static final String fontFilePath1 = "/var/lib/tomcat9/webapps/font/NotoSans-Regular_bold.ttf";
-
+//    public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
+//    public static final String fontFilePath1 = "/var/lib/tomcat9/webapps/font/NotoSans-Regular_bold.ttf";
+//
 //	public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
 //	public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
 //	public static final String KMP_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/kmpFiles/";

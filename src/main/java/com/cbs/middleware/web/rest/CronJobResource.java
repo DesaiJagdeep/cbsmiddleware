@@ -110,7 +110,8 @@ public class CronJobResource {
     private String applicationName;
     @Autowired
     private RestTemplate restTemplate;
-
+    @Autowired
+    private IssFileParserRepository issFileParserRepository;
 
 
     public static byte[] objectToBytes(BatchData encDecObject) {
@@ -142,12 +143,13 @@ public class CronJobResource {
 
 
     //@Scheduled(cron = "0 0 6 * * ?")
-    //30 19 * * *   (7:30 pm UTC i.e  1 am IST)
+    //0 30 19 * * *   (7:30 pm UTC i.e  1 am IST)
 
-    @Scheduled(cron = "0 0 6 * * ?")
+    @Scheduled(cron = "0 30 19 * * *")
     public void updateRecordsInBatchTran() {
 
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
+        //List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus("TEST");
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setTimeZone(timeZone);
@@ -318,42 +320,153 @@ public class CronJobResource {
 
                                     //if Size is greater than one
                                     else if (applicationListFromKcc.size() > 1) {
+                                        String recipientUniqueID = applicationsByBatchAckId.getRecipientUniqueID();
+                                        ArrayList<String> arrayOfRecipientUniqueId=new ArrayList<>();
+                                        arrayOfRecipientUniqueId.add(recipientUniqueID);
 
-                                        for (Application applicationFromKcc : applicationListFromKcc) {
-                                            String recipientUniqueId = applicationFromKcc.getRecipientUniqueId();
-                                            log.error("**************************************************");
-                                            log.error("RecipientUniquId " + recipientUniqueId);
-                                            log.error("UniqueId " + applicationFromKcc.getUniqueId());
-                                            log.error("#########################################################");
 
-                                            //https://fasalrin.gov.in/v1/issintegration/databyrecipientuniqueids
+                                        //Encrpt the data
+                                        BatchAckAndRecipientUniqueId batchAckAndRecipientUniqueId = new BatchAckAndRecipientUniqueId();
+                                        batchAckAndRecipientUniqueId.setBatchAckId(batchTransaction.getBatchAckId());
+                                        batchAckAndRecipientUniqueId.setRecipientUniqueIds(arrayOfRecipientUniqueId);
+                                        String encryptedData = encryption(batchAckAndRecipientUniqueId);
 
-//                                            Request(HTTP POST):
-//                                            {
-//                                                "authCode":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-//                                                "data":{
-//                                                "batchAckId":"13102200000014",
-//                                                    "recipientUniqueIds":[
-//                                                        “recipientUniqueId”
-//                                                    ]
-//                                            }
-//                                            }
+                                        // Making input payload
+                                        CBSMiddleareInputPayload cbsMiddlewareInputPayload = new CBSMiddleareInputPayload();
+                                        cbsMiddlewareInputPayload.setAuthCode(Constants.AUTH_CODE);
+                                        cbsMiddlewareInputPayload.setData(encryptedData);
 
-                                            //RESPONSE:
+                                        // https://fasalrin.gov.in/v1/issintegration/databyrecipientuniqueids
+                                        try {
+                                            String urlForRecipientUniqueId = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databyrecipientuniqueids;
+                                            // Set the request headers
+                                            HttpHeaders header = new HttpHeaders();
+                                            headers.setContentType(MediaType.APPLICATION_JSON);
+                                            // Create the HttpEntity object with headers and body
+                                            HttpEntity<Object> requestEntityReciUniqueId = new HttpEntity<>(cbsMiddlewareInputPayload, header);
+                                            // Make the HTTP POST request
+                                            ResponseEntity<String> responseEntityReciUniqueId = restTemplate.exchange(urlForRecipientUniqueId, HttpMethod.POST, requestEntityReciUniqueId, String.class);
 
-/*
-                                            basicDetails":{
-                                            "beneficiaryName, adharNo,
-                                            accountDetails":{
-                                           "accountNumber":"
-                                            loanDetails":{
-                                            "kccLoanSanctionedDate":"2022-06-17",
-                                                "kccLimitSanctionedAmount
+                                            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
 
-                                                hit query in issFileParser with above parameter
-                                                if filepsrerId == applicationTx_ >>file parser Id
-*/
+                                                String cbsResponceStringRecUniqueId = responseEntityReciUniqueId.getBody();
+                                                log.info("Batch transaction response cbsResponceStringRecUniqueId = " + cbsResponceStringRecUniqueId);
+                                                CBSResponce cbsResponceReciUniqueId = null;
+                                                ObjectMapper objectMapperReciUniqueId = new ObjectMapper();
+                                                objectMapperReciUniqueId.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                objectMapperReciUniqueId.registerModule(new JavaTimeModule());
+                                                cbsResponceReciUniqueId= objectMapperReciUniqueId.readValue(cbsResponceStringRecUniqueId, CBSResponce.class);
 
+                                                if (cbsResponceReciUniqueId.isStatus()) {
+                                                    String decryptedResponse = decryption("" + cbsResponceReciUniqueId.getData());
+                                                    objectMapperReciUniqueId = new ObjectMapper();
+                                                    objectMapperReciUniqueId.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                    objectMapperReciUniqueId.registerModule(new JavaTimeModule());
+                                                    ApplicationPayload[] arryDataByRecipientUniqueId = objectMapperReciUniqueId.readValue(decryptedResponse, ApplicationPayload[].class);
+                                                    ApplicationPayload dataByRecipientUniqueId = arryDataByRecipientUniqueId[0];
+
+                                                    String aadhaarNumber = dataByRecipientUniqueId.getBasicDetails().getAadhaarNumber();
+                                                    String beneficiaryName = dataByRecipientUniqueId.getBasicDetails().getBeneficiaryName();
+                                                    Long loanSanctionedAmount = dataByRecipientUniqueId.getActivities().get(0).getLoanSanctionedAmount();
+                                                    String loanSanctionedDate = dataByRecipientUniqueId.getActivities().get(0).getLoanSanctionedDate();
+
+                                                    IssFileParser issFileParser= issFileParserRepository.findByRecipientParameters(aadhaarNumber,beneficiaryName,loanSanctionedAmount,loanSanctionedDate);
+
+                                                    for (Application applicationFromKcc : applicationListFromKcc) {
+
+                                                        if (applicationFromKcc.getIssFileParser().getId().equals(issFileParser.getId())){
+                                                            //you got the right parserId(application) now set recipientUId,farmerId,applicationNumber
+
+                                                            applicationFromKcc.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
+                                                            applicationFromKcc.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
+                                                            if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                                                applicationFromKcc.setKccStatus(1l);
+                                                                applicationFromKcc.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                                                applicationFromKcc.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                                            } else {
+                                                                applicationFromKcc.setKccStatus(0l);
+
+                                                                try {
+                                                                    if (applicationsByBatchAckId.getErrors() != null) {
+                                                                        applicationFromKcc.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                                                    } else {
+                                                                        applicationFromKcc.setApplicationErrors("CBS Portal not provided fail case information");
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    log.error("Exception in cron job", e);
+                                                                }
+
+                                                                kccApplErrCount = kccApplErrCount + 1l;
+
+                                                                // setting kscc error count in portal file object
+                                                                Optional<IssPortalFile> findById = issPortalFileRepository.findById(
+                                                                    applicationFromKcc.getIssFilePortalId()
+                                                                );
+                                                                if (findById.isPresent()) {
+                                                                    IssPortalFile issPortalFile = findById.get();
+                                                                    if (issPortalFile.getKccErrorRecordCount() == null) {
+                                                                        issPortalFile.setKccErrorRecordCount(1);
+                                                                    } else {
+                                                                        issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
+                                                                    }
+
+                                                                    issPortalFileRepository.save(issPortalFile);
+                                                                }
+
+                                                                // moving application log to history if exist
+                                                                ApplicationLog applicationLog = new ApplicationLog();
+                                                                Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
+                                                                    applicationFromKcc.getIssFileParser()
+                                                                );
+                                                                if (applicationLogSaved.isPresent()) {
+                                                                    applicationLog = applicationLogSaved.get();
+                                                                    JSONObject jsonObject = new JSONObject(applicationLog);
+                                                                    ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
+                                                                    applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                                    applicationLogHistoryObjMap.registerModule(new JavaTimeModule());
+                                                                    ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
+                                                                        jsonObject.toString(),
+                                                                        ApplicationLogHistory.class
+                                                                    );
+
+                                                                    applicationLogHistoryRepository.save(applicationLogHistory);
+                                                                }
+
+                                                                // updating new error log entry
+                                                                applicationLog.setIssFileParser(applicationFromKcc.getIssFileParser());
+
+                                                                try {
+                                                                    if (applicationsByBatchAckId.getErrors() != null) {
+                                                                        applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                                                    } else {
+                                                                        applicationLog.setErrorMessage("CBS Portal not provided fail case information");
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    log.error("Exception in cron job", e);
+                                                                }
+
+                                                                applicationLog.setSevierity(Constants.HighSevierity);
+                                                                applicationLog.setExpectedSolution("Provide correct information");
+                                                                applicationLog.setStatus(Constants.ERROR);
+                                                                applicationLog.setErrorType(Constants.kccError);
+                                                                applicationLog.setIssPortalId(applicationFromKcc.getIssFileParser().getIssPortalFile().getId());
+                                                                applicationLog.setFileName(
+                                                                    applicationFromKcc.getIssFileParser().getIssPortalFile().getFileName()
+                                                                );
+                                                                applicationLogListToSave.add(applicationLog);
+                                                            }
+                                                            applicationListSave.add(applicationFromKcc);
+
+                                                        }
+                                                    }
+
+                                                }
+
+
+                                            }
+                                        }catch (Exception e) {
+                                            log.error("Exception in cron job", e);
                                         }
 
                                     }
@@ -383,7 +496,6 @@ public class CronJobResource {
         }
 
     }
-
 
     //Ashvini
     @GetMapping("/cronJobToUpdateRetryBatch")
@@ -688,10 +800,11 @@ public class CronJobResource {
 
     //remove
     @GetMapping("/cronJb")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+   @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public void updateRecordsInBatchTrans() {
 
-        List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
+        //List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
+        List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus("TEST");
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setTimeZone(timeZone);
@@ -863,42 +976,153 @@ public class CronJobResource {
 
                                     //if Size is greater than one
                                     else if (applicationListFromKcc.size() > 1) {
+                                        String recipientUniqueID = applicationsByBatchAckId.getRecipientUniqueID();
+                                        ArrayList<String> arrayOfRecipientUniqueId=new ArrayList<>();
+                                        arrayOfRecipientUniqueId.add(recipientUniqueID);
 
-                                        for (Application applicationFromKcc : applicationListFromKcc) {
-                                            String recipientUniqueId = applicationFromKcc.getRecipientUniqueId();
-                                            log.error("**************************************************");
-                                            log.error("RecipientUniquId " + recipientUniqueId);
-                                            log.error("UniqueId " + applicationFromKcc.getUniqueId());
-                                            log.error("#########################################################");
 
-                                            //https://fasalrin.gov.in/v1/issintegration/databyrecipientuniqueids
+                                        //Encrpt the data
+                                        BatchAckAndRecipientUniqueId batchAckAndRecipientUniqueId = new BatchAckAndRecipientUniqueId();
+                                        batchAckAndRecipientUniqueId.setBatchAckId(batchTransaction.getBatchAckId());
+                                        batchAckAndRecipientUniqueId.setRecipientUniqueIds(arrayOfRecipientUniqueId);
+                                        String encryptedData = encryption(batchAckAndRecipientUniqueId);
 
-//                                            Request(HTTP POST):
-//                                            {
-//                                                "authCode":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-//                                                "data":{
-//                                                "batchAckId":"13102200000014",
-//                                                    "recipientUniqueIds":[
-//                                                        “recipientUniqueId”
-//                                                    ]
-//                                            }
-//                                            }
+                                        // Making input payload
+                                        CBSMiddleareInputPayload cbsMiddlewareInputPayload = new CBSMiddleareInputPayload();
+                                        cbsMiddlewareInputPayload.setAuthCode(Constants.AUTH_CODE);
+                                        cbsMiddlewareInputPayload.setData(encryptedData);
 
-                                            //RESPONSE:
+                                        // https://fasalrin.gov.in/v1/issintegration/databyrecipientuniqueids
+                                        try {
+                                            String urlForRecipientUniqueId = applicationProperties.getCBSMiddlewareBaseURL() + Constants.databyrecipientuniqueids;
+                                            // Set the request headers
+                                            HttpHeaders header = new HttpHeaders();
+                                            headers.setContentType(MediaType.APPLICATION_JSON);
+                                            // Create the HttpEntity object with headers and body
+                                            HttpEntity<Object> requestEntityReciUniqueId = new HttpEntity<>(cbsMiddlewareInputPayload, header);
+                                            // Make the HTTP POST request
+                                            ResponseEntity<String> responseEntityReciUniqueId = restTemplate.exchange(urlForRecipientUniqueId, HttpMethod.POST, requestEntityReciUniqueId, String.class);
 
-/*
-                                            basicDetails":{
-                                            "beneficiaryName, adharNo,
-                                            accountDetails":{
-                                           "accountNumber":"
-                                            loanDetails":{
-                                            "kccLoanSanctionedDate":"2022-06-17",
-                                                "kccLimitSanctionedAmount
+                                            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
 
-                                                hit query in issFileParser with above parameter
-                                                if filepsrerId == applicationTx_ >>file parser Id
-*/
+                                                String cbsResponceStringRecUniqueId = responseEntityReciUniqueId.getBody();
+                                                log.info("Batch transaction response cbsResponceStringRecUniqueId = " + cbsResponceStringRecUniqueId);
+                                                CBSResponce cbsResponceReciUniqueId = null;
+                                                ObjectMapper objectMapperReciUniqueId = new ObjectMapper();
+                                                objectMapperReciUniqueId.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                objectMapperReciUniqueId.registerModule(new JavaTimeModule());
+                                                cbsResponceReciUniqueId= objectMapperReciUniqueId.readValue(cbsResponceStringRecUniqueId, CBSResponce.class);
 
+                                                if (cbsResponceReciUniqueId.isStatus()) {
+                                                    String decryptedResponse = decryption("" + cbsResponceReciUniqueId.getData());
+                                                    objectMapperReciUniqueId = new ObjectMapper();
+                                                    objectMapperReciUniqueId.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                    objectMapperReciUniqueId.registerModule(new JavaTimeModule());
+                                                    ApplicationPayload[] arryDataByRecipientUniqueId = objectMapperReciUniqueId.readValue(decryptedResponse, ApplicationPayload[].class);
+                                                    ApplicationPayload dataByRecipientUniqueId = arryDataByRecipientUniqueId[0];
+
+                                                    String aadhaarNumber = dataByRecipientUniqueId.getBasicDetails().getAadhaarNumber();
+                                                    String beneficiaryName = dataByRecipientUniqueId.getBasicDetails().getBeneficiaryName();
+                                                    Long loanSanctionedAmount = dataByRecipientUniqueId.getActivities().get(0).getLoanSanctionedAmount();
+                                                    String loanSanctionedDate = dataByRecipientUniqueId.getActivities().get(0).getLoanSanctionedDate();
+
+                                                    IssFileParser issFileParser= issFileParserRepository.findByRecipientParameters(aadhaarNumber,beneficiaryName,loanSanctionedAmount,loanSanctionedDate);
+
+                                                    for (Application applicationFromKcc : applicationListFromKcc) {
+
+                                                        if (applicationFromKcc.getIssFileParser().getId().equals(issFileParser.getId())){
+                                                            //you got the right parserId(application) now set recipientUId,farmerId,applicationNumber
+
+                                                            applicationFromKcc.setApplicationStatus(applicationsByBatchAckId.getApplicationStatus());
+                                                            applicationFromKcc.setRecipientUniqueId(applicationsByBatchAckId.getRecipientUniqueID());
+
+                                                            if (applicationsByBatchAckId.getApplicationStatus() == 1) {
+                                                                applicationFromKcc.setKccStatus(1l);
+                                                                applicationFromKcc.setApplicationNumber(applicationsByBatchAckId.getApplicationNumber());
+                                                                applicationFromKcc.setFarmerId(applicationsByBatchAckId.getFarmerId());
+                                                            } else {
+                                                                applicationFromKcc.setKccStatus(0l);
+
+                                                                try {
+                                                                    if (applicationsByBatchAckId.getErrors() != null) {
+                                                                        applicationFromKcc.setApplicationErrors(applicationsByBatchAckId.getErrors());
+                                                                    } else {
+                                                                        applicationFromKcc.setApplicationErrors("CBS Portal not provided fail case information");
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    log.error("Exception in cron job", e);
+                                                                }
+
+                                                                kccApplErrCount = kccApplErrCount + 1l;
+
+                                                                // setting kscc error count in portal file object
+                                                                Optional<IssPortalFile> findById = issPortalFileRepository.findById(
+                                                                    applicationFromKcc.getIssFilePortalId()
+                                                                );
+                                                                if (findById.isPresent()) {
+                                                                    IssPortalFile issPortalFile = findById.get();
+                                                                    if (issPortalFile.getKccErrorRecordCount() == null) {
+                                                                        issPortalFile.setKccErrorRecordCount(1);
+                                                                    } else {
+                                                                        issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
+                                                                    }
+
+                                                                    issPortalFileRepository.save(issPortalFile);
+                                                                }
+
+                                                                // moving application log to history if exist
+                                                                ApplicationLog applicationLog = new ApplicationLog();
+                                                                Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
+                                                                    applicationFromKcc.getIssFileParser()
+                                                                );
+                                                                if (applicationLogSaved.isPresent()) {
+                                                                    applicationLog = applicationLogSaved.get();
+                                                                    JSONObject jsonObject = new JSONObject(applicationLog);
+                                                                    ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
+                                                                    applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                                                                    applicationLogHistoryObjMap.registerModule(new JavaTimeModule());
+                                                                    ApplicationLogHistory applicationLogHistory = applicationLogHistoryObjMap.readValue(
+                                                                        jsonObject.toString(),
+                                                                        ApplicationLogHistory.class
+                                                                    );
+
+                                                                    applicationLogHistoryRepository.save(applicationLogHistory);
+                                                                }
+
+                                                                // updating new error log entry
+                                                                applicationLog.setIssFileParser(applicationFromKcc.getIssFileParser());
+
+                                                                try {
+                                                                    if (applicationsByBatchAckId.getErrors() != null) {
+                                                                        applicationLog.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                                                    } else {
+                                                                        applicationLog.setErrorMessage("CBS Portal not provided fail case information");
+                                                                    }
+                                                                } catch (Exception e) {
+                                                                    log.error("Exception in cron job", e);
+                                                                }
+
+                                                                applicationLog.setSevierity(Constants.HighSevierity);
+                                                                applicationLog.setExpectedSolution("Provide correct information");
+                                                                applicationLog.setStatus(Constants.ERROR);
+                                                                applicationLog.setErrorType(Constants.kccError);
+                                                                applicationLog.setIssPortalId(applicationFromKcc.getIssFileParser().getIssPortalFile().getId());
+                                                                applicationLog.setFileName(
+                                                                    applicationFromKcc.getIssFileParser().getIssPortalFile().getFileName()
+                                                                );
+                                                                applicationLogListToSave.add(applicationLog);
+                                                            }
+                                                            applicationListSave.add(applicationFromKcc);
+
+                                                        }
+                                                    }
+
+                                                }
+
+
+                                            }
+                                        }catch (Exception e) {
+                                            log.error("Exception in cron job", e);
                                         }
 
                                     }

@@ -26,6 +26,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.cbs.middleware.domain.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -64,21 +65,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
-import com.cbs.middleware.domain.AccountHolderMaster;
-import com.cbs.middleware.domain.ActivityType;
-import com.cbs.middleware.domain.Application;
-import com.cbs.middleware.domain.ApplicationLog;
-import com.cbs.middleware.domain.BatchData;
-import com.cbs.middleware.domain.CastCategoryMaster;
-import com.cbs.middleware.domain.CropMaster;
-import com.cbs.middleware.domain.FarmerCategoryMaster;
-import com.cbs.middleware.domain.FarmerTypeMaster;
-import com.cbs.middleware.domain.FileParseConf;
-import com.cbs.middleware.domain.IssFileParser;
-import com.cbs.middleware.domain.IssPortalFile;
-import com.cbs.middleware.domain.LandTypeMaster;
-import com.cbs.middleware.domain.OccupationMaster;
-import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.AccountHolderMasterRepository;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import com.cbs.middleware.repository.ApplicationRepository;
@@ -1010,85 +996,71 @@ public class IssFileParserResource {
             rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
 
             //checking 1st file column data
-            boolean flagForData = false;
             String fYear = getCellValue(row.getCell(0));
+            int rowNumber = row.getRowNum() + 1;
 
-
-            if (StringUtils.isBlank(fYear)) {
-                flagForData = true;
-            } else if (StringUtils.isNotBlank(fYear) && !fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
-                flagForData = true;
+            if (!fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+                throw new BadRequestAlertException("Invalid financial year at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
-
             String bankNameValue = getCellValue(row.getCell(1));
-            if (StringUtils.isNotBlank(bankNameValue) && !bankNameValue.equalsIgnoreCase("PUNE DISTRICT CENTRAL CO.OP BANK LTD")) {
-                flagForData = true;
+            if (!bankNameValue.equalsIgnoreCase("PUNE DISTRICT CENTRAL CO.OP BANK LTD")) {
+                throw new BadRequestAlertException("Invalid Bank Name at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
             String bankCodeValue = getCellValue(row.getCell(2));
-            if (StringUtils.isNotBlank(bankCodeValue) && !bankCodeValue.matches("\\d+")) {
-                flagForData = true;
+            if ( !bankCodeValue.matches("\\d+")) {
+                throw new BadRequestAlertException("Invalid Bank Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
 
             String branchNameValue = getCellValue(row.getCell(3));
             if (StringUtils.isNotBlank(branchNameValue)) {
-
-                if (bankBranchMasterRepository.findOneByBranchName(branchNameValue) == null) {
-                    flagForData = true;
+                if (bankBranchMasterRepository.findOneByBranchName(branchNameValue)==null) {
+                    throw new BadRequestAlertException("Invalid Branch Name at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
                 }
-
             }
 
             String bankBranchCode = getCellValue(row.getCell(4));
-            if (StringUtils.isNotBlank(bankBranchCode) && !bankBranchCode.matches("\\d+")) {
-                flagForData = true;
+            if (!bankBranchCode.matches("\\d+")) {
+                throw new BadRequestAlertException("Invalid Bank Branch Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
-
 
             String kccIssBranchCode = getCellValue(row.getCell(5));
-            if (StringUtils.isBlank(kccIssBranchCode)) {
-                flagForData = true;
+            if (!kccIssBranchCode.matches("\\d+")) {
+                throw new BadRequestAlertException("Invalid kcc Iss Branch Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
-            if (StringUtils.isNotBlank(kccIssBranchCode) && !kccIssBranchCode.matches("\\d+")) {
-                flagForData = true;
-            }
-
 
             String ifsc = getCellValue(row.getCell(6));
-            if (StringUtils.isNotBlank(ifsc) && !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
-                flagForData = true;
+            if ( !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+                throw new BadRequestAlertException("Invalid IFSC Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
             String aadharNumberValue = getCellValue(row.getCell(10));
-            if (StringUtils.isNotBlank(aadharNumberValue) && !validateAadhaarNumber(aadharNumberValue)) {
-                flagForData = true;
+            if (!validateAadhaarNumber(aadharNumberValue)) {
+                throw new BadRequestAlertException("Invalid Aadhar Number at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
             String villageCode = getCellValue(row.getCell(25));
-            if (StringUtils.isNotBlank(villageCode) && !villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
-                flagForData = true;
+            if (!villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
+                throw new BadRequestAlertException("Invalid village Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
             String pinCode = getCellValue(row.getCell(28));
-            if (StringUtils.isNotBlank(pinCode) && !pinCode.matches("^[0-9]{6}$")) {
-                flagForData = true;
+            if (!pinCode.matches("^[0-9]{6}$")) {
+                throw new BadRequestAlertException("Invalid PinCode at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
             String accountNumber = getCellValue(row.getCell(30));
             if (StringUtils.isNotBlank(accountNumber) && !pinCode.matches("\\d+")) {
-                flagForData = true;
+                throw new BadRequestAlertException("Invalid Account Number at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
             String landtype = getCellValue(row.getCell(47));
             if (
-                StringUtils.isNotBlank(landtype) && !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
+                !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
             ) {
-                flagForData = true;
+                throw new BadRequestAlertException("Invalid Land Type at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
-            if (flagForData) {
-                throw new BadRequestAlertException("Invalid file Or File does not contain data in correct format", ENTITY_NAME, "fileInvalid");
-            }
 
             fileParseConf.setBankName(getCellValue(row.getCell(1)));
             fileParseConf.setBankCode(bankCode);
@@ -1669,7 +1641,7 @@ public class IssFileParserResource {
             filecount = filecount + 1;
 
      //-------To get actual last row of excel (skip blank row in the end if any)------
-            
+
             int lastRowIndex = sheet.getLastRowNum();
             for (int i = lastRowIndex; i >= 0; i--) {
                 Row row1 = sheet.getRow(i);
@@ -1733,9 +1705,7 @@ public class IssFileParserResource {
                 if (!validateAadhaarNumber(aadharNumberValue)) {
                     //flag = true;
                     throw new BadRequestAlertException("Invalid Aadhar Number at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
-
                 }
-
                 String villageCode = getCellValue(row.getCell(25));
                 if (!villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
                     // flag = true;

@@ -399,7 +399,8 @@ public class ApplicationLogResource {
 
    // @PostMapping("/addloandetails")
    // @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-   @Scheduled(cron = "0 30 16 * * *")
+    //0 30 16 * * *   (04:30 pm UTC i.e  10:00 pm IST)
+    @Scheduled(cron = "0 30 16 * * *")
     public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
 
         System.out.println("Get Applications with KCC Error Duplicate Number");

@@ -501,7 +501,7 @@ public class CronJobResource {
     public void updateRecordsInRetryBatchTranController(@RequestParam("batchId") String batchId) {
         updateRecordsInRetryBatchTran(batchId);
     }
-
+    //0 30 0 * * *   (12:30 am UTC i.e  06:00 am IST)
     @Scheduled(cron = "0 30 0 * * *")
     public void updateRecordsInRetryBatchTranScheduler() {
         updateRecordsInRetryBatchTran("0000");
@@ -709,7 +709,7 @@ public class CronJobResource {
                     if (!retryBatchTransactionapplicationListSave.isEmpty()) {
                         retryBatchTransactionDetailsRepository.saveAll(retryBatchTransactionapplicationListSave);
                     }
-                    
+
                 }
             } else {
                 retryBatchTransaction.setBatchErrors("Batch is not processed yet");

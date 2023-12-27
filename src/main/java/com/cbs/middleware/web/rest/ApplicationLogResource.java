@@ -434,7 +434,7 @@ public class ApplicationLogResource {
                     numbers.get(1)
                 );
 
-                if (applicationByUniqueId != null) {
+                if (!applicationByUniqueId.isEmpty()) {
 
                     if(applicationByUniqueId.size()> 1){
 

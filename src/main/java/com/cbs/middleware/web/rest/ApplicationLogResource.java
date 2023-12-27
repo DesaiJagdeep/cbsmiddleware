@@ -424,10 +424,14 @@ public class ApplicationLogResource {
 
                }
 
+<<<<<<< Updated upstream
                //Get application_transaction record by unique id to get the farmerId
                Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                    numbers.get(1)
                );
+=======
+                if (!applicationByUniqueId.isEmpty()) {
+>>>>>>> Stashed changes
 
                System.out.println("Check if application is exists or not in database");
 
@@ -442,6 +446,16 @@ public class ApplicationLogResource {
            }
            List<CBSResponce> cbsResponceStringList = new ArrayList<>();
 
+<<<<<<< Updated upstream
+=======
+            if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
+                System.out.println("Call add loan details method");
+              //  cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList);
+                cbsResponceStringList.add(cbsResponce);
+                System.out.println("applicationTransactionList:" + applicationTransactionList);
+                System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
+                System.out.println("cbsResponse list: " + cbsResponceStringList);
+>>>>>>> Stashed changes
 
            if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
                System.out.println("Call add loan details method");

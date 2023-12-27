@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.repository.ApplicationLogRepository;
 import org.slf4j.Logger;
@@ -165,10 +167,15 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         if(!findAll.isEmpty())
         {
         for (IssPortalFile issPortalFile : findAll.getContent()) {
-            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
 
             Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
-            issPortalFile.setAppSubmitedToKccCount(appSubmitedToKccCount);
+
+            List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
+                null,
+                Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
+                issPortalFile.getId()
+            );
+            issPortalFile.setAppPendingToSubmitCount(Long.valueOf(applicationList.size()));
 
             Long applicationCriteriaSuccessRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(
                 issPortalFile.getId(),
@@ -181,7 +188,11 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
             Long failRecord = applicationLogRepository.countByKccError(issPortalFile.getId());
             issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
+            Long  validationError= applicationLogRepository.countByValidationError(issPortalFile.getId());
+            issPortalFile.setErrorRecordCount(validationError.intValue());
+
             issPortalFileMapperList.add(issPortalFile);
+
         }
         }
 
@@ -205,7 +216,12 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         if(!findAll.isEmpty())
         {
         for (IssPortalFile issPortalFile : findAll.getContent()) {
-            issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+            List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
+                null,
+                Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
+                issPortalFile.getId()
+            );
+            issPortalFile.setAppPendingToSubmitCount((long) applicationList.size());
 
             Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
             issPortalFile.setAppSubmitedToKccCount(appSubmitedToKccCount);
@@ -219,8 +235,9 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
 
             //Long failRecord = applicationRepository.countByIssFilePortalIdAndApplicationStatus(issPortalFile.getId(), 0);
             Long failRecord = applicationLogRepository.countByKccError(issPortalFile.getId());
+            Long  validationError= applicationLogRepository.countByValidationError(issPortalFile.getId());
+            issPortalFile.setErrorRecordCount(validationError.intValue());
             issPortalFile.setKccErrorRecordCount(failRecord.intValue());
-
             issPortalFileMapperList.add(issPortalFile);
         }
         }
@@ -234,7 +251,13 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
         if(!findAll.isEmpty())
         {
         	 for (IssPortalFile issPortalFile : findAll.getContent()) {
-                 issPortalFile.setAppPendingToSubmitCount(applicationRepository.countByIssFilePortalIdAndBatchIdNull(issPortalFile.getId()));
+
+                 List<Application> applicationList = applicationRepository.findAllByBatchIdAndApplicationStatusAndIssFilePortalId(
+                     null,
+                     Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD,
+                     issPortalFile.getId()
+                 );
+                 issPortalFile.setAppPendingToSubmitCount(Long.valueOf(applicationList.size()));
 
                  Long appSubmitedToKccCount = applicationRepository.countByIssFilePortalIdAndBatchIdNotNull(issPortalFile.getId());
                  issPortalFile.setAppSubmitedToKccCount(appSubmitedToKccCount);
@@ -250,7 +273,8 @@ public class IssPortalFileQueryService extends QueryService<IssPortalFile> {
                  Long failRecord=applicationLogRepository.countByKccError(issPortalFile.getId());
                  issPortalFile.setKccErrorRecordCount(failRecord.intValue());
 
-
+                 Long  validationError= applicationLogRepository.countByValidationError(issPortalFile.getId());
+                 issPortalFile.setErrorRecordCount(validationError.intValue());
 
 
                  issPortalFileMapperList.add(issPortalFile);

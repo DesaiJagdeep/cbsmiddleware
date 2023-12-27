@@ -702,7 +702,7 @@ public class SubmitBatchResource {
 							// TODO: handle exception
 						}
 
-                        batchTransaction.setNotes("Resubmite batch after some time for file name:"+fileName);
+                        batchTransaction.setNotes("Resubmit batch after some time for file name:"+fileName);
                         batchTransactionRepository.save(batchTransaction);
                     }
                 } catch (Exception e) {

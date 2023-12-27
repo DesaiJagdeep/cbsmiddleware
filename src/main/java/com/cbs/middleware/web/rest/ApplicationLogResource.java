@@ -101,6 +101,9 @@ public class ApplicationLogResource {
     ApplicationProperties applicationProperties;
 
     @Autowired
+    SubmitBatchResource submitBatchResource;
+
+    @Autowired
     private RestTemplate restTemplate;
     private final ApplicationRepository applicationRepository;
     @Autowired
@@ -497,10 +500,10 @@ public class ApplicationLogResource {
 
         for (int i = 0; i < rejectedApplicationTransactionList.size(); i++) {
 
-             String uniqueId = batchData.getBatchId() + generateRandomNumber();
 
             Application rejectedApplicationTransaction = rejectedApplicationTransactionList.get(i);
             IssFileParser issFileParser = rejectedApplicationTransaction.getIssFileParser();
+            String uniqueId = batchData.getBatchId() + submitBatchResource.generateUniqueId(issFileParser.getId());
 
             ApplicationPayload applicationPayload = new ApplicationPayload();
             applicationPayload.setUniqueId(uniqueId);

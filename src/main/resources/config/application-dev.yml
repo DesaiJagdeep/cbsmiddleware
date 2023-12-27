@@ -34,8 +34,8 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/cbsmiddlewarepdcc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: root
-    #password: Mysql@It@rium
+    #password: root
+    password: Mysql@It@rium
     #RDS
     #    url: jdbc:mysql://pdcc.csth66h3avwq.ap-south-1.rds.amazonaws.com:3306/cbsmiddlewarepdcc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     #    username: pdccadmin

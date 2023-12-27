@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -394,8 +395,11 @@ public class ApplicationLogResource {
     }
 
     //Ashvini
-    @PostMapping("/addloandetails")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+
+
+   // @PostMapping("/addloandetails")
+   // @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+   @Scheduled(cron = "0 30 16 * * *")
     public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
 
         System.out.println("Get Applications with KCC Error Duplicate Number");

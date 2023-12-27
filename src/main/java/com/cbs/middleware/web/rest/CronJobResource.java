@@ -496,11 +496,18 @@ public class CronJobResource {
         }
 
     }
-
-    //Ashvini
     @GetMapping("/cronJobToUpdateRetryBatch")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-    public void updateRecordsInRetryBatchTran(@RequestParam("batchId") String batchId) {
+    public void updateRecordsInRetryBatchTranController(@RequestParam("batchId") String batchId) {
+        updateRecordsInRetryBatchTran(batchId);
+    }
+
+    @Scheduled(cron = "0 30 0 * * *")
+    public void updateRecordsInRetryBatchTranScheduler() {
+        updateRecordsInRetryBatchTran("0000");
+    }
+
+    private void updateRecordsInRetryBatchTran(String batchId) {
 
         List<RetryBatchTransaction> retryBatchTransactionList = new ArrayList<>();
         if(batchId.equals("0000"))
@@ -514,7 +521,7 @@ public class CronJobResource {
             retryBatchTransactionList.add(retryBatch);
         }
 
-        System.out.println("RetryTransactionList: " + retryBatchTransactionList.get(0).getBatchId());
+        System.out.println("RetryTransactionList batchId: " + retryBatchTransactionList.get(0).getBatchId());
         System.out.println("RetryTransactionList size: " + retryBatchTransactionList.size());
 
         TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
@@ -526,8 +533,8 @@ public class CronJobResource {
             log.info("Retry Batch transaction list not empty");
             System.out.println("Retry Batch transaction list not empty");
             for (RetryBatchTransaction retryBatchTransaction : retryBatchTransactionList) {
-                log.info("Retry Batch transaction found "+retryBatchTransaction.getId());
-                System.out.println("Retry Batch transaction found "+retryBatchTransaction.getId());
+
+                System.out.println("Retry Batch transaction id"+retryBatchTransaction.getId());
 
     List<Application> applicationListSave = new ArrayList<>();
     List<RetryBatchTransactionDetails> retryBatchTransactionapplicationListSave = new ArrayList<>();
@@ -561,7 +568,7 @@ public class CronJobResource {
 
             cbsResponceString = responseEntity.getBody();
             log.info("Retry Batch transaction response cbsResponceString = "+cbsResponceString);
-            System.out.println("Retry Batch transaction response cbsResponceString = "+cbsResponceString);
+
             CBSResponce convertValue = null;
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -630,7 +637,6 @@ public class CronJobResource {
                             }
 
                             kccApplErrCount = kccApplErrCount + 1l;
-
                             // setting kscc error count in portal file object
                             Optional<IssPortalFile> findById = issPortalFileRepository.findById(
                                 applicationByUniqueId.getIssFilePortalId()
@@ -639,9 +645,7 @@ public class CronJobResource {
                                 IssPortalFile issPortalFile = findById.get();
                                 if (issPortalFile.getKccErrorRecordCount() == null) {
                                     issPortalFile.setKccErrorRecordCount(1);
-                                }
-                                else
-                                {
+                                } else {
                                     issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() + 1);
                                 }
 
@@ -649,12 +653,12 @@ public class CronJobResource {
                             }
 
                             // moving application log to history if exist
-                            ApplicationLog applicationLog1 = new ApplicationLog();
+
                             Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(
                                 applicationByUniqueId.getIssFileParser()
                             );
                             if (applicationLogSaved.isPresent()) {
-                                applicationLog1 = applicationLogSaved.get();
+
                                 JSONObject jsonObject = new JSONObject(applicationLog);
                                 ObjectMapper applicationLogHistoryObjMap = new ObjectMapper();
                                 applicationLogHistoryObjMap.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -668,27 +672,27 @@ public class CronJobResource {
                             }
 
                             // updating new error log entry
-                            applicationLog1.setIssFileParser(applicationByUniqueId.getIssFileParser());
+                            applicationLog.get().setIssFileParser(applicationByUniqueId.getIssFileParser());
 
                             try {
                                 if (applicationsByBatchAckId.getErrors() != null) {
-                                    applicationLog1.setErrorMessage(applicationsByBatchAckId.getErrors());
+                                    applicationLog.get().setErrorMessage(applicationsByBatchAckId.getErrors());
                                 } else {
-                                    applicationLog1.setErrorMessage("CBS Portal not provided fail case information");
+                                    applicationLog.get().setErrorMessage("CBS Portal not provided fail case information");
                                 }
                             } catch (Exception e) {
                                 log.error("Exception in Retry Batch cron job ", e);
                             }
 
-                            applicationLog1.setSevierity(Constants.HighSevierity);
-                            applicationLog1.setExpectedSolution("Provide correct information");
-                            applicationLog1.setStatus(Constants.ERROR);
-                            applicationLog1.setErrorType(Constants.kccError);
-                            applicationLog1.setIssPortalId(applicationByUniqueId.getIssFileParser().getIssPortalFile().getId());
-                            applicationLog1.setFileName(
-                                applicationByUniqueId.getIssFileParser().getIssPortalFile().getFileName()
-                            );
-                            applicationLogListToSave.add(applicationLog1);
+                            //applicationLog.get().setSevierity(Constants.HighSevierity);
+                           // applicationLog.get().setExpectedSolution("Provide correct information");
+                            applicationLog.get().setStatus(Constants.ERROR);
+                            applicationLog.get().setErrorType(Constants.kccError);
+                            //applicationLog.get().setIssPortalId(applicationByUniqueId.getIssFileParser().getIssPortalFile().getId());
+                            //applicationLog.get().setFileName(
+                               // applicationByUniqueId.getIssFileParser().getIssPortalFile().getFileName()
+                            //);
+                         //   applicationLogListToSave.add(applicationLog.get());
                         }
                         applicationListSave.add(applicationByUniqueId);
                         applicationLogListToSave.add(applicationLog.get());
@@ -705,21 +709,23 @@ public class CronJobResource {
                     if (!retryBatchTransactionapplicationListSave.isEmpty()) {
                         retryBatchTransactionDetailsRepository.saveAll(retryBatchTransactionapplicationListSave);
                     }
-
-                    System.out.println("applicationListSave: "+applicationListSave);
-                    System.out.println("applicationLogListToSave: "+applicationLogListToSave);
-                    System.out.println("retryBatchTransactionapplicationListSave: "+retryBatchTransactionapplicationListSave);
+                    
                 }
             } else {
                 retryBatchTransaction.setBatchErrors("Batch is not processed yet");
             }
 
-            /* Retrieve RetryBatchTransactionDetails record with status 1*/
+            /* Retrieve RetryBatchTransactionDetails record */
             Integer batchTransactionCount=retryBatchTransactionDetailsRepository.countByStatus(retryBatchTransaction.getBatchAckId());
 
+            System.out.println("batchTransactionCount: "+batchTransactionCount);
+            System.out.println("totalApplicationcount from batch status: "+totalApplicationCount);
+
             //total application count is equal batch transaction count, set batch status as PROCESSED
-            if(totalApplicationCount==batchTransactionCount)
+            if(totalApplicationCount.equals(batchTransactionCount))
             {
+                System.out.println("Applications count is same");
+
                 retryBatchTransaction.setStatus(Constants.PROCESSED);
             }
             retryBatchTransactionRepository.save(retryBatchTransaction);
@@ -972,6 +978,7 @@ public class CronJobResource {
                                         }
 
                                         applicationListSave.add(applicationFromKcc);
+
                                     }
 
                                     //if Size is greater than one

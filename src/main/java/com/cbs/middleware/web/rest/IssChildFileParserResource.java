@@ -472,6 +472,36 @@ public class IssChildFileParserResource {
     }
 
     public Set<ApplicationLog> validateFile(List<IssFileParser> issFileParserList, IssChildPortalFile issChildPortalFile) {
+        //------------for KCC ERROR -------------------------------------------
+        for (IssFileParser issFileParser:issFileParserList) {
+            Optional<ApplicationLog> findOneByIssFileParser = applicationLogRepository.findOneByIssFileParser(issFileParser);
+
+            if(findOneByIssFileParser.isPresent()){
+                if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType()) && findOneByIssFileParser.get().getStatus().equals("ERROR")) {
+                    applicationRepository.deleteByIssFileParser(issFileParser);
+
+                    Application application = new Application();
+                    application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                    application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+                    application.setIssFileParser(issFileParser);
+                    application.setBankCode(Long.parseLong(issFileParser.getBankCode()));
+                    application.setSchemeWiseBranchCode(Long.parseLong(issFileParser.getSchemeWiseBranchCode()));
+                    application.setPacksCode(Long.parseLong(issFileParser.getPacsNumber()));
+                    application.setFinancialYear(issFileParser.getFinancialYear());
+                    application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                    applicationRepository.save(application);
+
+                    // adding status fixed in application log
+                    ApplicationLog applicationLog = findOneByIssFileParser.get();
+                    applicationLog.setStatus(Constants.FIXED);
+                    applicationLog.setSevierity("");
+                    applicationLog.setErrorRecordCount(0L);
+                    applicationLogRepository.save(applicationLog);
+                }
+            }
+        }
+        //-----------------------------------------------------------------
+
         List<Application> findAllByIssFilePortalId = applicationRepository.findAllByIssFilePortalId(
             issFileParserList.get(0).getIssPortalFile().getId()
         );

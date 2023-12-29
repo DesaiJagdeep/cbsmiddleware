@@ -2100,7 +2100,7 @@ public class IssFileParserResource {
 
                 return ResponseEntity.ok().body(issFileParserList);
             } else {
-                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
+                throw new BadRequestAlertException("File is already Exist", ENTITY_NAME, "FileExist");
             }
         } catch (IOException e) {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");

@@ -18,7 +18,7 @@ logging:
     ROOT: WARN
     tech.jhipster: ERROR
     org.hibernate.SQL: ERROR
-    com.cbs.middleware: DEBUG
+    com.cbs.middleware: WARN
 
 spring:
   devtools:
@@ -37,9 +37,9 @@ spring:
     #password: root
     password: Mysql@It@rium
     #RDS
-    #    url: jdbc:mysql://pdcc.csth66h3avwq.ap-south-1.rds.amazonaws.com:3306/cbsmiddlewarepdcc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    #    username: pdccadmin
-    #    password: PdccBank$123
+    #url: jdbc:mysql://pdcc.csth66h3avwq.ap-south-1.rds.amazonaws.com:3306/cbsmiddlewarepdcc?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    #username: pdccadmin
+    #password: PdccBank$123
     hikari:
       poolName: Hikari
       auto-commit: false

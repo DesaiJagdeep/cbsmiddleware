@@ -46,10 +46,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -478,25 +475,34 @@ public class IssChildFileParserResource {
 
             if(findOneByIssFileParser.isPresent()){
                 if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType()) && findOneByIssFileParser.get().getStatus().equals("ERROR")) {
-                    applicationRepository.deleteByIssFileParser(issFileParser);
 
-                    Application application = new Application();
-                    application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-                    application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-                    application.setIssFileParser(issFileParser);
-                    application.setBankCode(Long.parseLong(issFileParser.getBankCode()));
-                    application.setSchemeWiseBranchCode(Long.parseLong(issFileParser.getSchemeWiseBranchCode()));
-                    application.setPacksCode(Long.parseLong(issFileParser.getPacsNumber()));
-                    application.setFinancialYear(issFileParser.getFinancialYear());
-                    application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
-                    applicationRepository.save(application);
+                    if (!findOneByIssFileParser.get().getErrorMessage().contains("eixsts") &&
+                        !findOneByIssFileParser.get().getErrorMessage().contains("already") &&
+                        !findOneByIssFileParser.get().getErrorMessage().contains("Batch") &&
+                        !findOneByIssFileParser.get().getErrorMessage().contains("proper") &&
+                        !findOneByIssFileParser.get().getErrorMessage().contains("token")
+                    ){
+                        applicationRepository.deleteByIssFileParser(issFileParser);
 
-                    // adding status fixed in application log
-                    ApplicationLog applicationLog = findOneByIssFileParser.get();
-                    applicationLog.setStatus(Constants.FIXED);
-                    applicationLog.setSevierity("");
-                    applicationLog.setErrorRecordCount(0L);
-                    applicationLogRepository.save(applicationLog);
+                        Application application = new Application();
+                        application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                        application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+                        application.setIssFileParser(issFileParser);
+                        application.setBankCode(Long.parseLong(issFileParser.getBankCode()));
+                        application.setSchemeWiseBranchCode(Long.parseLong(issFileParser.getSchemeWiseBranchCode()));
+                        application.setPacksCode(Long.parseLong(issFileParser.getPacsNumber()));
+                        application.setFinancialYear(issFileParser.getFinancialYear());
+                        application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                        applicationRepository.save(application);
+
+                        // adding status fixed in application log
+                        ApplicationLog applicationLog = findOneByIssFileParser.get();
+                        applicationLog.setStatus(Constants.FIXED);
+                        applicationLog.setSevierity("");
+                        applicationLog.setErrorRecordCount(0L);
+                        applicationLogRepository.save(applicationLog);
+                    }
+
                 }
             }
         }

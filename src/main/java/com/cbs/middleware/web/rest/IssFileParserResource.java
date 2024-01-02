@@ -2381,7 +2381,7 @@ public class IssFileParserResource {
             // Filter invalid surveyNumber
             List<IssFileParser> invalidSurveyNumberList = findAllByIssPortalFile
                 .stream()
-                .filter(person -> StringUtils.isBlank(person.getSurveyNo()))
+                .filter(person -> (!person.getSurveyNo().matches("^[0-9,\\/ ]+$")))
                 .collect(Collectors.toList());
 
             for (IssFileParser issFileParser : invalidSurveyNumberList) {
@@ -2799,7 +2799,7 @@ public class IssFileParserResource {
         // Filter invalid surveyNumber
         List<IssFileParser> invalidSurveyNumberList = findAllByIssPortalFile
             .stream()
-            .filter(person -> StringUtils.isBlank(person.getSurveyNo()))
+            .filter(person -> (!person.getSurveyNo().matches("^[0-9,\\/ ]+$")))
             .collect(Collectors.toList());
 
         for (IssFileParser issFileParser : invalidSurveyNumberList) {
@@ -3213,7 +3213,7 @@ public class IssFileParserResource {
         }
 
         // surveyNumber
-        if (!issFileParser.getSurveyNo().matches("^[0-9/]+$")) {
+        if (!issFileParser.getSurveyNo().matches("^[0-9,\\/ ]+$")) {
             errorCount = errorCount + 1;
             validationErrorBuilder.append("Survey Number is in incorrect format. ");
         }

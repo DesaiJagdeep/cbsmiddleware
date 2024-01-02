@@ -480,7 +480,8 @@ public class IssChildFileParserResource {
                         !findOneByIssFileParser.get().getErrorMessage().contains("already") &&
                         !findOneByIssFileParser.get().getErrorMessage().contains("Batch") &&
                         !findOneByIssFileParser.get().getErrorMessage().contains("proper") &&
-                        !findOneByIssFileParser.get().getErrorMessage().contains("token")
+                        !findOneByIssFileParser.get().getErrorMessage().contains("token") &&
+                        !findOneByIssFileParser.get().getErrorMessage().contains("preUniqueId")
                     ){
                         applicationRepository.deleteByIssFileParser(issFileParser);
 
@@ -762,7 +763,7 @@ public class IssChildFileParserResource {
               // Filter invalid surveyNumber
               List<IssFileParser> invalidSurveyNumberList = issFileParserList
                   .stream()
-                  .filter(person -> StringUtils.isBlank(person.getSurveyNo()))
+                  .filter(person -> (!person.getSurveyNo().matches("^[0-9,\\/ ]+$")))
                   .collect(Collectors.toList());
 
               for (IssFileParser issFileParser : invalidSurveyNumberList) {

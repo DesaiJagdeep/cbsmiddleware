@@ -4,10 +4,16 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ICropMaster } from '../crop-master.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../crop-master.test-samples';
 
-import { CropMasterService } from './crop-master.service';
+import { CropMasterService, RestCropMaster } from './crop-master.service';
 
-const requireRestSample: ICropMaster = {
+const requireRestSample: RestCropMaster = {
   ...sampleWithRequiredData,
+  vatapFromDay: sampleWithRequiredData.vatapFromDay?.toJSON(),
+  vatapToMonth: sampleWithRequiredData.vatapToMonth?.toJSON(),
+  lastToDay: sampleWithRequiredData.lastToDay?.toJSON(),
+  lastToMonth: sampleWithRequiredData.lastToMonth?.toJSON(),
+  dueDay: sampleWithRequiredData.dueDay?.toJSON(),
+  dueMonth: sampleWithRequiredData.dueMonth?.toJSON(),
 };
 
 describe('CropMaster Service', () => {
@@ -37,7 +43,6 @@ describe('CropMaster Service', () => {
     });
 
     it('should create a CropMaster', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const cropMaster = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };

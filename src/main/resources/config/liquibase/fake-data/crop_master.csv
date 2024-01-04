@@ -1,11 +1,11 @@
-id;crop_code;crop_name;category_code
-1;deposit SQL Pants;virtual;programming
-2;magenta Grocery;Shirt up;Open-architected
-3;Metrics;monetize;payment
-4;Proactive;Assistant Market Loan;Garden Vista Minnesota
-5;Implementation Connecticut Light;Chicken;Health
-6;Kansas reboot;Personal Soft Directives;frame compressing
-7;SSL Quality Dram;intuitive lime payment;state yellow
-8;Austria;Fish Baby;cyan Small Electronics
-9;Handcrafted Cambridgeshire;Peru Chair;synthesizing quantify best-of-breed
-10;synthesize;lavender;Grocery Mexico
+id;crop_code;crop_name;category_code;category_name;vatap_from_day;vatap_to_month;last_to_day;last_to_month;due_day;due_month;crop_period;sanction_amt;previous_amt
+1;esteem;nature sousaphone incidentally;clear questioningly eventually;yum aha midst;2023-06-21T04:18:53;2023-06-21T04:47:39;2023-06-21T06:57:32;2023-06-20T18:56:23;2023-06-20T16:50:34;2023-06-21T05:24:32;yet sudden hm;29942.59;5248.45
+2;embitter gosh mill;meanwhile outside knotty;including;palpitate aw;2023-06-20T20:36:08;2023-06-21T08:58:34;2023-06-21T13:32:05;2023-06-20T19:45:03;2023-06-21T09:15:13;2023-06-20T19:35:30;knight cone hmph;25938.62;26950.9
+3;euphoric where nut;trivialize;huzzah magnify when;behind sift;2023-06-21T06:06:15;2023-06-21T12:24:18;2023-06-21T08:52:13;2023-06-21T09:50:40;2023-06-21T06:49:15;2023-06-21T07:52:33;politics joshingly except;6095.73;26239.04
+4;imaginary zowie;blare as;intuit ew roughly;that;2023-06-21T12:59:52;2023-06-20T19:50:30;2023-06-21T07:12:55;2023-06-20T21:14:12;2023-06-21T04:38:28;2023-06-21T09:49:44;gee oof;18865.38;14233.3
+5;duh bowl unhappy;duh;nest inquisitively;inasmuch empty plus;2023-06-20T21:14:15;2023-06-21T03:55:38;2023-06-20T21:47:58;2023-06-21T03:55:31;2023-06-21T10:34:22;2023-06-21T13:24:37;properly ha stereo;11763.87;5891.02
+6;simplistic decoration fervently;aw worth brr;pamphlet jealously;textbook;2023-06-20T15:10:42;2023-06-20T15:28:35;2023-06-21T01:56:40;2023-06-20T19:30:33;2023-06-21T05:46:14;2023-06-20T22:57:49;than;7450.03;29089.52
+7;which schema which;overtax;political pumpkin;buffalo icing;2023-06-21T01:06:30;2023-06-21T14:06:54;2023-06-20T15:45:28;2023-06-21T13:19:55;2023-06-21T02:26:43;2023-06-21T05:10:28;gentle;27478.53;8742.48
+8;content;talk;finally;unbearably;2023-06-21T09:00:10;2023-06-21T12:25:12;2023-06-21T04:02:50;2023-06-20T22:36:34;2023-06-20T17:00:54;2023-06-21T08:00:32;freely;8889.25;31772.77
+9;banker alongside;mineshaft;juxtapose;eek clear phew;2023-06-21T11:55:40;2023-06-21T00:32:14;2023-06-21T01:17:00;2023-06-20T17:02:37;2023-06-20T14:24:38;2023-06-20T16:25:07;lest warped following;2916.27;11017.17
+10;whip and;eek;divvy now;anoint er;2023-06-21T12:30:33;2023-06-20T19:14:14;2023-06-21T05:19:37;2023-06-21T11:11:12;2023-06-20T15:11:38;2023-06-20T21:20:36;fatally;746.58;18494.94

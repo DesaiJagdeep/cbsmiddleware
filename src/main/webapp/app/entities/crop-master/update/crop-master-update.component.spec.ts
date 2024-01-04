@@ -6,9 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
-import { CropMasterFormService } from './crop-master-form.service';
 import { CropMasterService } from '../service/crop-master.service';
 import { ICropMaster } from '../crop-master.model';
+import { CropMasterFormService } from './crop-master-form.service';
 
 import { CropMasterUpdateComponent } from './crop-master-update.component';
 
@@ -21,8 +21,7 @@ describe('CropMaster Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
-      declarations: [CropMasterUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), CropMasterUpdateComponent],
       providers: [
         FormBuilder,
         {

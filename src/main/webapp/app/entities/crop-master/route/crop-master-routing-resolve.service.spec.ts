@@ -8,12 +8,11 @@ import { of } from 'rxjs';
 import { ICropMaster } from '../crop-master.model';
 import { CropMasterService } from '../service/crop-master.service';
 
-import { CropMasterRoutingResolveService } from './crop-master-routing-resolve.service';
+import cropMasterResolve from './crop-master-routing-resolve.service';
 
 describe('CropMaster routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
-  let routingResolveService: CropMasterRoutingResolveService;
   let service: CropMasterService;
   let resultCropMaster: ICropMaster | null | undefined;
 
@@ -34,7 +33,6 @@ describe('CropMaster routing resolve service', () => {
     mockRouter = TestBed.inject(Router);
     jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
-    routingResolveService = TestBed.inject(CropMasterRoutingResolveService);
     service = TestBed.inject(CropMasterService);
     resultCropMaster = undefined;
   });
@@ -46,8 +44,12 @@ describe('CropMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
-        resultCropMaster = result;
+      TestBed.runInInjectionContext(() => {
+        cropMasterResolve(mockActivatedRouteSnapshot).subscribe({
+          next(result) {
+            resultCropMaster = result;
+          },
+        });
       });
 
       // THEN
@@ -61,8 +63,12 @@ describe('CropMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
-      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
-        resultCropMaster = result;
+      TestBed.runInInjectionContext(() => {
+        cropMasterResolve(mockActivatedRouteSnapshot).subscribe({
+          next(result) {
+            resultCropMaster = result;
+          },
+        });
       });
 
       // THEN
@@ -76,8 +82,12 @@ describe('CropMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
-        resultCropMaster = result;
+      TestBed.runInInjectionContext(() => {
+        cropMasterResolve(mockActivatedRouteSnapshot).subscribe({
+          next(result) {
+            resultCropMaster = result;
+          },
+        });
       });
 
       // THEN

@@ -15,7 +15,7 @@
         [routerLink]="['/crop-master/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="cbsMiddlewareApp.cropMaster.home.createLabel"> Create a new Crop Master </span>
+        <span jhiTranslate="cbsMiddlewareApp.cropMaster.home.createLabel">Create a new Crop Master</span>
       </button>
     </div>
   </h2>
@@ -56,6 +56,66 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="categoryName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName">Category Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vatapFromDay">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay">Vatap From Day</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vatapToMonth">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth">Vatap To Month</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastToDay">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay">Last To Day</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="lastToMonth">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth">Last To Month</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueDay">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay">Due Day</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueMonth">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth">Due Month</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropPeriod">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod">Crop Period</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sanctionAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt">Sanction Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="previousAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt">Previous Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -67,27 +127,27 @@
           <td>{{ cropMaster.cropCode }}</td>
           <td>{{ cropMaster.cropName }}</td>
           <td>{{ cropMaster.categoryCode }}</td>
+          <td>{{ cropMaster.categoryName }}</td>
+          <td>{{ cropMaster.vatapFromDay | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.vatapToMonth | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.lastToDay | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.lastToMonth | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.dueDay | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.dueMonth | formatMediumDatetime }}</td>
+          <td>{{ cropMaster.cropPeriod }}</td>
+          <td>{{ cropMaster.sanctionAmt }}</td>
+          <td>{{ cropMaster.previousAmt }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/crop-master', cropMaster.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
+              <a [routerLink]="['/crop-master', cropMaster.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+              </a>
 
-              <button
-                type="submit"
-                [routerLink]="['/crop-master', cropMaster.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
+              <a [routerLink]="['/crop-master', cropMaster.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+              </a>
 
               <button type="submit" (click)="delete(cropMaster)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>

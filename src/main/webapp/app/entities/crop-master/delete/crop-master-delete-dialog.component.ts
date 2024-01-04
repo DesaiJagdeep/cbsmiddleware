@@ -1,17 +1,24 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+import SharedModule from 'app/shared/shared.module';
+import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { ICropMaster } from '../crop-master.model';
 import { CropMasterService } from '../service/crop-master.service';
-import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 
 @Component({
+  standalone: true,
   templateUrl: './crop-master-delete-dialog.component.html',
+  imports: [SharedModule, FormsModule],
 })
 export class CropMasterDeleteDialogComponent {
   cropMaster?: ICropMaster;
 
-  constructor(protected cropMasterService: CropMasterService, protected activeModal: NgbActiveModal) {}
+  constructor(
+    protected cropMasterService: CropMasterService,
+    protected activeModal: NgbActiveModal,
+  ) {}
 
   cancel(): void {
     this.activeModal.dismiss();

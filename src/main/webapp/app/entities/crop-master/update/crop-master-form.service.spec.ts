@@ -23,7 +23,17 @@ describe('CropMaster Form Service', () => {
             cropCode: expect.any(Object),
             cropName: expect.any(Object),
             categoryCode: expect.any(Object),
-          })
+            categoryName: expect.any(Object),
+            vatapFromDay: expect.any(Object),
+            vatapToMonth: expect.any(Object),
+            lastToDay: expect.any(Object),
+            lastToMonth: expect.any(Object),
+            dueDay: expect.any(Object),
+            dueMonth: expect.any(Object),
+            cropPeriod: expect.any(Object),
+            sanctionAmt: expect.any(Object),
+            previousAmt: expect.any(Object),
+          }),
         );
       });
 
@@ -36,14 +46,23 @@ describe('CropMaster Form Service', () => {
             cropCode: expect.any(Object),
             cropName: expect.any(Object),
             categoryCode: expect.any(Object),
-          })
+            categoryName: expect.any(Object),
+            vatapFromDay: expect.any(Object),
+            vatapToMonth: expect.any(Object),
+            lastToDay: expect.any(Object),
+            lastToMonth: expect.any(Object),
+            dueDay: expect.any(Object),
+            dueMonth: expect.any(Object),
+            cropPeriod: expect.any(Object),
+            sanctionAmt: expect.any(Object),
+            previousAmt: expect.any(Object),
+          }),
         );
       });
     });
 
     describe('getCropMaster', () => {
       it('should return NewCropMaster for default CropMaster initial value', () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createCropMasterFormGroup(sampleWithNewData);
 
         const cropMaster = service.getCropMaster(formGroup) as any;

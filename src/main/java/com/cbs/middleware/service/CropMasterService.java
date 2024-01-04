@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Service Interface for managing {@link CropMaster}.
+ * Service Interface for managing {@link com.cbs.middleware.domain.CropMaster}.
  */
 public interface CropMasterService {
     /**

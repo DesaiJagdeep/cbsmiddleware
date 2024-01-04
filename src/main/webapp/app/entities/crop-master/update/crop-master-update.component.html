@@ -12,22 +12,22 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropCode" for="field_cropCode">Crop Code</label>
           <input type="text" class="form-control" name="cropCode" id="field_cropCode" data-cy="cropCode" formControlName="cropCode" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropName" for="field_cropName">Crop Name</label>
           <input type="text" class="form-control" name="cropName" id="field_cropName" data-cy="cropName" formControlName="cropName" />
         </div>
 
-        <div class="row mb-3">
+        <div class="mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.categoryCode" for="field_categoryCode">Category Code</label>
           <input
             type="text"
@@ -36,6 +36,144 @@
             id="field_categoryCode"
             data-cy="categoryCode"
             formControlName="categoryCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName" for="field_categoryName">Category Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="categoryName"
+            id="field_categoryName"
+            data-cy="categoryName"
+            formControlName="categoryName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay" for="field_vatapFromDay">Vatap From Day</label>
+          <div class="d-flex">
+            <input
+              id="field_vatapFromDay"
+              data-cy="vatapFromDay"
+              type="datetime-local"
+              class="form-control"
+              name="vatapFromDay"
+              formControlName="vatapFromDay"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth" for="field_vatapToMonth">Vatap To Month</label>
+          <div class="d-flex">
+            <input
+              id="field_vatapToMonth"
+              data-cy="vatapToMonth"
+              type="datetime-local"
+              class="form-control"
+              name="vatapToMonth"
+              formControlName="vatapToMonth"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay" for="field_lastToDay">Last To Day</label>
+          <div class="d-flex">
+            <input
+              id="field_lastToDay"
+              data-cy="lastToDay"
+              type="datetime-local"
+              class="form-control"
+              name="lastToDay"
+              formControlName="lastToDay"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth" for="field_lastToMonth">Last To Month</label>
+          <div class="d-flex">
+            <input
+              id="field_lastToMonth"
+              data-cy="lastToMonth"
+              type="datetime-local"
+              class="form-control"
+              name="lastToMonth"
+              formControlName="lastToMonth"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay" for="field_dueDay">Due Day</label>
+          <div class="d-flex">
+            <input
+              id="field_dueDay"
+              data-cy="dueDay"
+              type="datetime-local"
+              class="form-control"
+              name="dueDay"
+              formControlName="dueDay"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth" for="field_dueMonth">Due Month</label>
+          <div class="d-flex">
+            <input
+              id="field_dueMonth"
+              data-cy="dueMonth"
+              type="datetime-local"
+              class="form-control"
+              name="dueMonth"
+              formControlName="dueMonth"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod" for="field_cropPeriod">Crop Period</label>
+          <input
+            type="text"
+            class="form-control"
+            name="cropPeriod"
+            id="field_cropPeriod"
+            data-cy="cropPeriod"
+            formControlName="cropPeriod"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt" for="field_sanctionAmt">Sanction Amt</label>
+          <input
+            type="number"
+            class="form-control"
+            name="sanctionAmt"
+            id="field_sanctionAmt"
+            data-cy="sanctionAmt"
+            formControlName="sanctionAmt"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt" for="field_previousAmt">Previous Amt</label>
+          <input
+            type="number"
+            class="form-control"
+            name="previousAmt"
+            id="field_previousAmt"
+            data-cy="previousAmt"
+            formControlName="previousAmt"
           />
         </div>
       </div>

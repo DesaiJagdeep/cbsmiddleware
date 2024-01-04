@@ -14,6 +14,46 @@
     {
       "fieldName": "categoryCode",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "categoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vatapFromDay",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "vatapToMonth",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastToDay",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastToMonth",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dueDay",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "dueMonth",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "cropPeriod",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sanctionAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "previousAmt",
+      "fieldType": "Double"
     }
   ],
   "jpaMetamodelFiltering": false,
@@ -21,6 +61,6 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [],
-  "searchEngine": false,
+  "searchEngine": "no",
   "service": "serviceImpl"
 }

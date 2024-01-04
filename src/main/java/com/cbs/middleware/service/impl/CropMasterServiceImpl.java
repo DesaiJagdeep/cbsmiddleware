@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link CropMaster}.
+ * Service Implementation for managing {@link com.cbs.middleware.domain.CropMaster}.
  */
 @Service
 @Transactional
@@ -53,6 +53,36 @@ public class CropMasterServiceImpl implements CropMasterService {
                 }
                 if (cropMaster.getCategoryCode() != null) {
                     existingCropMaster.setCategoryCode(cropMaster.getCategoryCode());
+                }
+                if (cropMaster.getCategoryName() != null) {
+                    existingCropMaster.setCategoryName(cropMaster.getCategoryName());
+                }
+                if (cropMaster.getVatapFromDay() != null) {
+                    existingCropMaster.setVatapFromDay(cropMaster.getVatapFromDay());
+                }
+                if (cropMaster.getVatapToMonth() != null) {
+                    existingCropMaster.setVatapToMonth(cropMaster.getVatapToMonth());
+                }
+                if (cropMaster.getLastToDay() != null) {
+                    existingCropMaster.setLastToDay(cropMaster.getLastToDay());
+                }
+                if (cropMaster.getLastToMonth() != null) {
+                    existingCropMaster.setLastToMonth(cropMaster.getLastToMonth());
+                }
+                if (cropMaster.getDueDay() != null) {
+                    existingCropMaster.setDueDay(cropMaster.getDueDay());
+                }
+                if (cropMaster.getDueMonth() != null) {
+                    existingCropMaster.setDueMonth(cropMaster.getDueMonth());
+                }
+                if (cropMaster.getCropPeriod() != null) {
+                    existingCropMaster.setCropPeriod(cropMaster.getCropPeriod());
+                }
+                if (cropMaster.getSanctionAmt() != null) {
+                    existingCropMaster.setSanctionAmt(cropMaster.getSanctionAmt());
+                }
+                if (cropMaster.getPreviousAmt() != null) {
+                    existingCropMaster.setPreviousAmt(cropMaster.getPreviousAmt());
                 }
 
                 return existingCropMaster;

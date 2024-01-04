@@ -1,36 +1,38 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { CropMasterDetailComponent } from './crop-master-detail.component';
 
 describe('CropMaster Management Detail Component', () => {
-  let comp: CropMasterDetailComponent;
-  let fixture: ComponentFixture<CropMasterDetailComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CropMasterDetailComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CropMasterDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
       providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: { data: of({ cropMaster: { id: 123 } }) },
-        },
+        provideRouter(
+          [
+            {
+              path: '**',
+              component: CropMasterDetailComponent,
+              resolve: { cropMaster: () => of({ id: 123 }) },
+            },
+          ],
+          withComponentInputBinding(),
+        ),
       ],
     })
       .overrideTemplate(CropMasterDetailComponent, '')
       .compileComponents();
-    fixture = TestBed.createComponent(CropMasterDetailComponent);
-    comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load cropMaster on init', () => {
-      // WHEN
-      comp.ngOnInit();
+    it('Should load cropMaster on init', async () => {
+      const harness = await RouterTestingHarness.create();
+      const instance = await harness.navigateByUrl('/', CropMasterDetailComponent);
 
       // THEN
-      expect(comp.cropMaster).toEqual(expect.objectContaining({ id: 123 }));
+      expect(instance.cropMaster).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

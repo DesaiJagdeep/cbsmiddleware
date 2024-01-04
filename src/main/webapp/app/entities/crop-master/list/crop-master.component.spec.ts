@@ -18,8 +18,11 @@ describe('CropMaster Management Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([{ path: 'crop-master', component: CropMasterComponent }]), HttpClientTestingModule],
-      declarations: [CropMasterComponent],
+      imports: [
+        RouterTestingModule.withRoutes([{ path: 'crop-master', component: CropMasterComponent }]),
+        HttpClientTestingModule,
+        CropMasterComponent,
+      ],
       providers: [
         {
           provide: ActivatedRoute,
@@ -32,7 +35,7 @@ describe('CropMaster Management Component', () => {
                 page: '1',
                 size: '1',
                 sort: 'id,desc',
-              })
+              }),
             ),
             snapshot: { queryParams: {} },
           },
@@ -53,8 +56,8 @@ describe('CropMaster Management Component', () => {
         new HttpResponse({
           body: [{ id: 123 }],
           headers,
-        })
-      )
+        }),
+      ),
     );
   });
 
@@ -107,7 +110,7 @@ describe('CropMaster Management Component', () => {
         queryParams: expect.objectContaining({
           sort: ['name,asc'],
         }),
-      })
+      }),
     );
   });
 });

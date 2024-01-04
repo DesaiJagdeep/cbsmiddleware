@@ -4,13 +4,18 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { CropMasterFormService, CropMasterFormGroup } from './crop-master-form.service';
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { ICropMaster } from '../crop-master.model';
 import { CropMasterService } from '../service/crop-master.service';
+import { CropMasterFormService, CropMasterFormGroup } from './crop-master-form.service';
 
 @Component({
+  standalone: true,
   selector: 'jhi-crop-master-update',
   templateUrl: './crop-master-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class CropMasterUpdateComponent implements OnInit {
   isSaving = false;
@@ -21,7 +26,7 @@ export class CropMasterUpdateComponent implements OnInit {
   constructor(
     protected cropMasterService: CropMasterService,
     protected cropMasterFormService: CropMasterFormService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {

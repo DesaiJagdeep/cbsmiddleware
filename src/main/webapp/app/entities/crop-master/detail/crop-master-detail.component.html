@@ -26,6 +26,46 @@
         <dd>
           <span>{{ cropMaster.categoryCode }}</span>
         </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName">Category Name</span></dt>
+        <dd>
+          <span>{{ cropMaster.categoryName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay">Vatap From Day</span></dt>
+        <dd>
+          <span>{{ cropMaster.vatapFromDay | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth">Vatap To Month</span></dt>
+        <dd>
+          <span>{{ cropMaster.vatapToMonth | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay">Last To Day</span></dt>
+        <dd>
+          <span>{{ cropMaster.lastToDay | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth">Last To Month</span></dt>
+        <dd>
+          <span>{{ cropMaster.lastToMonth | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay">Due Day</span></dt>
+        <dd>
+          <span>{{ cropMaster.dueDay | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth">Due Month</span></dt>
+        <dd>
+          <span>{{ cropMaster.dueMonth | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod">Crop Period</span></dt>
+        <dd>
+          <span>{{ cropMaster.cropPeriod }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt">Sanction Amt</span></dt>
+        <dd>
+          <span>{{ cropMaster.sanctionAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt">Previous Amt</span></dt>
+        <dd>
+          <span>{{ cropMaster.previousAmt }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

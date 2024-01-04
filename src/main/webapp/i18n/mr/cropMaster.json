@@ -20,7 +20,17 @@
       "id": "ID",
       "cropCode": "Crop Code",
       "cropName": "Crop Name",
-      "categoryCode": "Category Code"
+      "categoryCode": "Category Code",
+      "categoryName": "Category Name",
+      "vatapFromDay": "Vatap From Day",
+      "vatapToMonth": "Vatap To Month",
+      "lastToDay": "Last To Day",
+      "lastToMonth": "Last To Month",
+      "dueDay": "Due Day",
+      "dueMonth": "Due Month",
+      "cropPeriod": "Crop Period",
+      "sanctionAmt": "Sanction Amt",
+      "previousAmt": "Previous Amt"
     }
   }
 }

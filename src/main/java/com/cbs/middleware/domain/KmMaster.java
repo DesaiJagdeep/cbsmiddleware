@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "km_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmMaster implements Serializable {
+public class KmMaster  extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

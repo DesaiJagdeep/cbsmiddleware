@@ -1,0 +1,98 @@
+{
+  "changelogDate": "20240104122557",
+  "dto": "no",
+  "entityTableName": "km_master",
+  "fields": [
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "caste",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "casteMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHect",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "aadharNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "panNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "panNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kccNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kccNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entryFlag",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

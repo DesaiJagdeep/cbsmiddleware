@@ -1,0 +1,54 @@
+{
+  "cbsMiddlewareApp": {
+    "kmDetails": {
+      "home": {
+        "title": "KmDetails",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Km Details बनाएँ",
+        "createOrEditLabel": "Km Details बनाएँ या संपादित करें",
+        "notFound": "No Km Details found"
+      },
+      "created": "एक नया Km Details [identifier: {{ param }}] तैयार है",
+      "updated": "एक Km Details [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Km Details [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Km Details [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Km Details"
+      },
+      "id": "ID",
+      "shares": "Shares",
+      "sharesMr": "Shares Mr",
+      "sugarShares": "Sugar Shares",
+      "sugarSharesMr": "Sugar Shares Mr",
+      "deposit": "Deposit",
+      "depositMr": "Deposit Mr",
+      "dueLoan": "Due Loan",
+      "dueLoanMr": "Due Loan Mr",
+      "dueAmount": "Due Amount",
+      "dueAmountMr": "Due Amount Mr",
+      "dueDate": "Due Date",
+      "kmDate": "Km Date",
+      "kmFromDate": "Km From Date",
+      "kmToDate": "Km To Date",
+      "bagayatHector": "Bagayat Hector",
+      "bagayatHectorMr": "Bagayat Hector Mr",
+      "bagayatAre": "Bagayat Are",
+      "bagayatAreMr": "Bagayat Are Mr",
+      "jirayatHector": "Jirayat Hector",
+      "jirayatHectorMr": "Jirayat Hector Mr",
+      "jirayatAre": "Jirayat Are",
+      "jirayatAreMr": "Jirayat Are Mr",
+      "landValue": "Land Value",
+      "landValueMr": "Land Value Mr",
+      "eAggrementAmt": "E Aggrement Amt",
+      "eAgreementAmt": "E Agreement Amt",
+      "eAgreementDate": "E Agreement Date",
+      "bojaAmount": "Boja Amount",
+      "bojaAmountMr": "Boja Amount Mr",
+      "bojaDate": "Boja Date",
+      "kmMaster": "Km Master"
+    }
+  }
+}

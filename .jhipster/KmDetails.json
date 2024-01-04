@@ -1,0 +1,144 @@
+{
+  "changelogDate": "20240104135527",
+  "dto": "no",
+  "entityTableName": "km_details",
+  "fields": [
+    {
+      "fieldName": "shares",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sugarShares",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sugarSharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deposit",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "depositMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueLoan",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dueLoanMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dueAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmFromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmToDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bagayatHector",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bagayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayatAre",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bagayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatHector",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jirayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatAre",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jirayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "landValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "landValueMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eAggrementAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "eAgreementAmt",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eAgreementDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bojaAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bojaAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bojaDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmDetails",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "kmMaster",
+      "otherEntityRelationshipName": "kmDetails",
+      "relationshipName": "kmMaster",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

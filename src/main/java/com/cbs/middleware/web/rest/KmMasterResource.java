@@ -154,7 +154,7 @@ public class KmMasterResource {
     @GetMapping("")
     public ResponseEntity<List<KmMaster>> getAllKmMasters(
         KmMasterCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KmMasters by criteria: {}", criteria);
 

@@ -1,6 +1,6 @@
 package com.cbs.middleware.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**

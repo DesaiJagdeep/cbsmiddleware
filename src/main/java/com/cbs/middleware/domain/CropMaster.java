@@ -1,6 +1,6 @@
 package com.cbs.middleware.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -10,7 +10,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "crop_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class CropMaster implements Serializable {
+public class CropMaster extends AbstractAuditingEntity<Long> implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 

@@ -9,7 +9,7 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.KmDetails;
 import com.cbs.middleware.domain.KmLoans;
 import com.cbs.middleware.repository.KmLoansRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

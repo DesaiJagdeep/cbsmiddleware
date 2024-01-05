@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.KmMaster;
 import com.cbs.middleware.repository.KmMasterRepository;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;

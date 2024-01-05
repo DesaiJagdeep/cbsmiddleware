@@ -148,7 +148,7 @@ public class KmCropsResource {
     @GetMapping("")
     public ResponseEntity<List<KmCrops>> getAllKmCrops(
         KmCropsCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KmCrops by criteria: {}", criteria);
 

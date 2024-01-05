@@ -148,7 +148,7 @@ public class KmLoansResource {
     @GetMapping("")
     public ResponseEntity<List<KmLoans>> getAllKmLoans(
         KmLoansCriteria criteria,
-        @org.springdoc.core.annotations.ParameterObject Pageable pageable
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KmLoans by criteria: {}", criteria);
 

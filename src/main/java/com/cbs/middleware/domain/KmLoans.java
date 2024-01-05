@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -11,7 +11,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "km_loans")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmLoans implements Serializable {
+public class KmLoans extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

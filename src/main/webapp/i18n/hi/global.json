@@ -41,6 +41,7 @@
         "loanDemandKmPatrak": "Loan Demand KM Patrak",
         "kmpUpload": "KMP Upload",
         "karkhanaVasuli": "Karkhana Vasuli",
+        "kmMaster": "Km Master",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

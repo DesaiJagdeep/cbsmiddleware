@@ -1,0 +1,130 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myKmMasterLabel" jhiTranslate="cbsMiddlewareApp.kmMaster.home.createOrEditLabel">Create or edit a Km Master</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!kmMaster.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="kmMaster.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode" for="field_branchCode">Branch Code</label>
+            <input type="text" class="form-control" name="branchCode" id="field_branchCode"
+                [(ngModel)]="kmMaster.branchCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName" for="field_farmerName">Farmer Name</label>
+            <input type="text" class="form-control" name="farmerName" id="field_farmerName"
+                [(ngModel)]="kmMaster.farmerName"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr" for="field_farmerNameMr">Farmer Name Mr</label>
+            <input type="text" class="form-control" name="farmerNameMr" id="field_farmerNameMr"
+                [(ngModel)]="kmMaster.farmerNameMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress" for="field_farmerAddress">Farmer Address</label>
+            <input type="text" class="form-control" name="farmerAddress" id="field_farmerAddress"
+                [(ngModel)]="kmMaster.farmerAddress"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr" for="field_farmerAddressMr">Farmer Address Mr</label>
+            <input type="text" class="form-control" name="farmerAddressMr" id="field_farmerAddressMr"
+                [(ngModel)]="kmMaster.farmerAddressMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.gender" for="field_gender">Gender</label>
+            <input type="text" class="form-control" name="gender" id="field_gender"
+                [(ngModel)]="kmMaster.gender"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.caste" for="field_caste">Caste</label>
+            <input type="text" class="form-control" name="caste" id="field_caste"
+                [(ngModel)]="kmMaster.caste"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.casteMr" for="field_casteMr">Caste Mr</label>
+            <input type="text" class="form-control" name="casteMr" id="field_casteMr"
+                [(ngModel)]="kmMaster.casteMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+            <input type="text" class="form-control" name="pacsNumber" id="field_pacsNumber"
+                [(ngModel)]="kmMaster.pacsNumber"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.areaHect" for="field_areaHect">Area Hect</label>
+            <input type="text" class="form-control" name="areaHect" id="field_areaHect"
+                [(ngModel)]="kmMaster.areaHect"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo" for="field_aadharNo">Aadhar No</label>
+            <input type="number" class="form-control" name="aadharNo" id="field_aadharNo"
+                [(ngModel)]="kmMaster.aadharNo"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr" for="field_aadharNoMr">Aadhar No Mr</label>
+            <input type="text" class="form-control" name="aadharNoMr" id="field_aadharNoMr"
+                [(ngModel)]="kmMaster.aadharNoMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.panNo" for="field_panNo">Pan No</label>
+            <input type="number" class="form-control" name="panNo" id="field_panNo"
+                [(ngModel)]="kmMaster.panNo"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr" for="field_panNoMr">Pan No Mr</label>
+            <input type="text" class="form-control" name="panNoMr" id="field_panNoMr"
+                [(ngModel)]="kmMaster.panNoMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo" for="field_mobileNo">Mobile No</label>
+            <input type="text" class="form-control" name="mobileNo" id="field_mobileNo"
+                [(ngModel)]="kmMaster.mobileNo"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr" for="field_mobileNoMr">Mobile No Mr</label>
+            <input type="text" class="form-control" name="mobileNoMr" id="field_mobileNoMr"
+                [(ngModel)]="kmMaster.mobileNoMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.kccNo" for="field_kccNo">Kcc No</label>
+            <input type="text" class="form-control" name="kccNo" id="field_kccNo"
+                [(ngModel)]="kmMaster.kccNo"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.kccNoMr" for="field_kccNoMr">Kcc No Mr</label>
+            <input type="text" class="form-control" name="kccNoMr" id="field_kccNoMr"
+                [(ngModel)]="kmMaster.kccNoMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.savingNo" for="field_savingNo">Saving No</label>
+            <input type="text" class="form-control" name="savingNo" id="field_savingNo"
+                [(ngModel)]="kmMaster.savingNo"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.savingNoMr" for="field_savingNoMr">Saving No Mr</label>
+            <input type="text" class="form-control" name="savingNoMr" id="field_savingNoMr"
+                [(ngModel)]="kmMaster.savingNoMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag" for="field_entryFlag">Entry Flag</label>
+            <input type="text" class="form-control" name="entryFlag" id="field_entryFlag"
+                [(ngModel)]="kmMaster.entryFlag"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

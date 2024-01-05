@@ -1,0 +1,104 @@
+<div>
+    <h2>
+        <span jhiTranslate="cbsMiddlewareApp.kmMaster.home.title">Km Masters</span>
+        <button class="btn btn-primary float-right jh-create-entity create-km-master" [routerLink]="['/', { outlets: { popup: ['km-master-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="cbsMiddlewareApp.kmMaster.home.createLabel">
+            Create new Km Master
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="kmMasters">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="branchCode"><span jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode">Branch Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="farmerName"><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName">Farmer Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="farmerNameMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr">Farmer Name Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="farmerAddress"><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress">Farmer Address</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="farmerAddressMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr">Farmer Address Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="gender"><span jhiTranslate="cbsMiddlewareApp.kmMaster.gender">Gender</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="caste"><span jhiTranslate="cbsMiddlewareApp.kmMaster.caste">Caste</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="casteMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.casteMr">Caste Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="pacsNumber"><span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber">Pacs Number</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="areaHect"><span jhiTranslate="cbsMiddlewareApp.kmMaster.areaHect">Area Hect</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="aadharNo"><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo">Aadhar No</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="aadharNoMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr">Aadhar No Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="panNo"><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNo">Pan No</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="panNoMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr">Pan No Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mobileNo"><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo">Mobile No</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mobileNoMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr">Mobile No Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kccNo"><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNo">Kcc No</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kccNoMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNoMr">Kcc No Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="savingNo"><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNo">Saving No</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="savingNoMr"><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNoMr">Saving No Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="entryFlag"><span jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag">Entry Flag</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let kmMaster of kmMasters ;trackBy: trackId">
+                <td><a [routerLink]="['../km-master', kmMaster.id ]">{{kmMaster.id}}</a></td>
+                <td>{{kmMaster.branchCode}}</td>
+                <td>{{kmMaster.farmerName}}</td>
+                <td>{{kmMaster.farmerNameMr}}</td>
+                <td>{{kmMaster.farmerAddress}}</td>
+                <td>{{kmMaster.farmerAddressMr}}</td>
+                <td>{{kmMaster.gender}}</td>
+                <td>{{kmMaster.caste}}</td>
+                <td>{{kmMaster.casteMr}}</td>
+                <td>{{kmMaster.pacsNumber}}</td>
+                <td>{{kmMaster.areaHect}}</td>
+                <td>{{kmMaster.aadharNo}}</td>
+                <td>{{kmMaster.aadharNoMr}}</td>
+                <td>{{kmMaster.panNo}}</td>
+                <td>{{kmMaster.panNoMr}}</td>
+                <td>{{kmMaster.mobileNo}}</td>
+                <td>{{kmMaster.mobileNoMr}}</td>
+                <td>{{kmMaster.kccNo}}</td>
+                <td>{{kmMaster.kccNoMr}}</td>
+                <td>{{kmMaster.savingNo}}</td>
+                <td>{{kmMaster.savingNoMr}}</td>
+                <td>{{kmMaster.entryFlag}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../km-master', kmMaster.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'km-master/'+ kmMaster.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'km-master/'+ kmMaster.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="kmMasters && kmMasters.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

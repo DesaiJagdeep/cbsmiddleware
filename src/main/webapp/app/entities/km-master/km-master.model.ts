@@ -1,26 +1,29 @@
-export interface IKmMaster {
-  id: number;
-  branchCode?: string | null;
-  farmerName?: string | null;
-  farmerNameMr?: string | null;
-  farmerAddress?: string | null;
-  farmerAddressMr?: string | null;
-  gender?: string | null;
-  caste?: string | null;
-  casteMr?: string | null;
-  pacsNumber?: string | null;
-  areaHect?: string | null;
-  aadharNo?: number | null;
-  aadharNoMr?: string | null;
-  panNo?: number | null;
-  panNoMr?: string | null;
-  mobileNo?: string | null;
-  mobileNoMr?: string | null;
-  kccNo?: string | null;
-  kccNoMr?: string | null;
-  savingNo?: string | null;
-  savingNoMr?: string | null;
-  entryFlag?: string | null;
-}
+import { BaseEntity } from './../../shared';
 
-export type NewKmMaster = Omit<IKmMaster, 'id'> & { id: null };
+export class KmMaster implements BaseEntity {
+    constructor(
+        public id?: number,
+        public branchCode?: string,
+        public farmerName?: string,
+        public farmerNameMr?: string,
+        public farmerAddress?: string,
+        public farmerAddressMr?: string,
+        public gender?: string,
+        public caste?: string,
+        public casteMr?: string,
+        public pacsNumber?: string,
+        public areaHect?: string,
+        public aadharNo?: number,
+        public aadharNoMr?: string,
+        public panNo?: number,
+        public panNoMr?: string,
+        public mobileNo?: string,
+        public mobileNoMr?: string,
+        public kccNo?: string,
+        public kccNoMr?: string,
+        public savingNo?: string,
+        public savingNoMr?: string,
+        public entryFlag?: string,
+    ) {
+    }
+}

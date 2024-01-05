@@ -1,0 +1,105 @@
+
+<div *ngIf="kmMaster">
+    <h2><span jhiTranslate="cbsMiddlewareApp.kmMaster.detail.title">Km Master</span> {{kmMaster.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode">Branch Code</span></dt>
+        <dd>
+            <span>{{kmMaster.branchCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName">Farmer Name</span></dt>
+        <dd>
+            <span>{{kmMaster.farmerName}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr">Farmer Name Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.farmerNameMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress">Farmer Address</span></dt>
+        <dd>
+            <span>{{kmMaster.farmerAddress}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr">Farmer Address Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.farmerAddressMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.gender">Gender</span></dt>
+        <dd>
+            <span>{{kmMaster.gender}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.caste">Caste</span></dt>
+        <dd>
+            <span>{{kmMaster.caste}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.casteMr">Caste Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.casteMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber">Pacs Number</span></dt>
+        <dd>
+            <span>{{kmMaster.pacsNumber}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.areaHect">Area Hect</span></dt>
+        <dd>
+            <span>{{kmMaster.areaHect}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo">Aadhar No</span></dt>
+        <dd>
+            <span>{{kmMaster.aadharNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr">Aadhar No Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.aadharNoMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNo">Pan No</span></dt>
+        <dd>
+            <span>{{kmMaster.panNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr">Pan No Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.panNoMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo">Mobile No</span></dt>
+        <dd>
+            <span>{{kmMaster.mobileNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr">Mobile No Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.mobileNoMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNo">Kcc No</span></dt>
+        <dd>
+            <span>{{kmMaster.kccNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNoMr">Kcc No Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.kccNoMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNo">Saving No</span></dt>
+        <dd>
+            <span>{{kmMaster.savingNo}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNoMr">Saving No Mr</span></dt>
+        <dd>
+            <span>{{kmMaster.savingNoMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag">Entry Flag</span></dt>
+        <dd>
+            <span>{{kmMaster.entryFlag}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'km-master/'+ kmMaster.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

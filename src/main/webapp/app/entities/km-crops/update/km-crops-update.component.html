@@ -1,0 +1,157 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-km-crops-heading" data-cy="KmCropsCreateUpdateHeading" jhiTranslate="cbsMiddlewareApp.kmCrops.home.createOrEditLabel">
+        Create or edit a Km Crops
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.cropName" for="field_cropName">Crop Name</label>
+          <input type="text" class="form-control" name="cropName" id="field_cropName" data-cy="cropName" formControlName="cropName" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.cropNameMr" for="field_cropNameMr">Crop Name Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="cropNameMr"
+            id="field_cropNameMr"
+            data-cy="cropNameMr"
+            formControlName="cropNameMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.hector" for="field_hector">Hector</label>
+          <input type="number" class="form-control" name="hector" id="field_hector" data-cy="hector" formControlName="hector" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.hectorMr" for="field_hectorMr">Hector Mr</label>
+          <input type="text" class="form-control" name="hectorMr" id="field_hectorMr" data-cy="hectorMr" formControlName="hectorMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.are" for="field_are">Are</label>
+          <input type="number" class="form-control" name="are" id="field_are" data-cy="are" formControlName="are" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.areMr" for="field_areMr">Are Mr</label>
+          <input type="text" class="form-control" name="areMr" id="field_areMr" data-cy="areMr" formControlName="areMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.prviousAmt" for="field_prviousAmt">Prvious Amt</label>
+          <input
+            type="number"
+            class="form-control"
+            name="prviousAmt"
+            id="field_prviousAmt"
+            data-cy="prviousAmt"
+            formControlName="prviousAmt"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.previousAmtMr" for="field_previousAmtMr">Previous Amt Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="previousAmtMr"
+            id="field_previousAmtMr"
+            data-cy="previousAmtMr"
+            formControlName="previousAmtMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.demand" for="field_demand">Demand</label>
+          <input type="number" class="form-control" name="demand" id="field_demand" data-cy="demand" formControlName="demand" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.demandMr" for="field_demandMr">Demand Mr</label>
+          <input type="text" class="form-control" name="demandMr" id="field_demandMr" data-cy="demandMr" formControlName="demandMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.society" for="field_society">Society</label>
+          <input type="text" class="form-control" name="society" id="field_society" data-cy="society" formControlName="society" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.societyMr" for="field_societyMr">Society Mr</label>
+          <input type="text" class="form-control" name="societyMr" id="field_societyMr" data-cy="societyMr" formControlName="societyMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmt" for="field_bankAmt">Bank Amt</label>
+          <input type="number" class="form-control" name="bankAmt" id="field_bankAmt" data-cy="bankAmt" formControlName="bankAmt" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmtMr" for="field_bankAmtMr">Bank Amt Mr</label>
+          <input type="text" class="form-control" name="bankAmtMr" id="field_bankAmtMr" data-cy="bankAmtMr" formControlName="bankAmtMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTree" for="field_noOfTree">No Of Tree</label>
+          <input type="number" class="form-control" name="noOfTree" id="field_noOfTree" data-cy="noOfTree" formControlName="noOfTree" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTreeMr" for="field_noOfTreeMr">No Of Tree Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="noOfTreeMr"
+            id="field_noOfTreeMr"
+            data-cy="noOfTreeMr"
+            formControlName="noOfTreeMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.kmDetails" for="field_kmDetails">Km Details</label>
+          <select
+            class="form-control"
+            id="field_kmDetails"
+            data-cy="kmDetails"
+            name="kmDetails"
+            formControlName="kmDetails"
+            [compareWith]="compareKmDetails"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kmDetailsOption" *ngFor="let kmDetailsOption of kmDetailsSharedCollection">{{ kmDetailsOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

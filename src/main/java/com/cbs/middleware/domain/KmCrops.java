@@ -67,8 +67,9 @@ public class KmCrops extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "no_of_tree_mr")
     private String noOfTreeMr;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "kmMaster", "kmLoans", "kmCrops" }, allowSetters = true)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnoreProperties(value = { "kmMaster", "kmLoans", "kmCrops" }, allowSetters = true)
+    @ManyToOne
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

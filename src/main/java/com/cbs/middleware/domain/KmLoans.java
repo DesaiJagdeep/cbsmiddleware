@@ -56,8 +56,9 @@ public class KmLoans extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "due_date")
     private Instant dueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "kmMaster", "kmLoans" }, allowSetters = true)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnoreProperties(value = { "kmMaster", "kmLoans" }, allowSetters = true)
+    @ManyToOne
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

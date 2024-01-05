@@ -1,36 +1,33 @@
 {
-  "cbsMiddlewareApp": {
-    "cropMaster": {
-      "home": {
-        "title": "Crop Masters",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "नवीन Crop Master तयार करा",
-        "createOrEditLabel": "Crop Master तयार किंवा संपादित करा",
-        "notFound": "No Crop Masters found"
-      },
-      "created": "Crop Master [identifier: {{ param }}] तयार आहे",
-      "updated": "Crop Master [identifier: {{ param }}] सुधारित केले आहे",
-      "deleted": "Crop Master [identifier: {{ param }}] हटविले आहे",
-      "delete": {
-        "question": "Crop Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
-      },
-      "detail": {
-        "title": "Crop Master"
-      },
-      "id": "ID",
-      "cropCode": "Crop Code",
-      "cropName": "Crop Name",
-      "categoryCode": "Category Code",
-      "categoryName": "Category Name",
-      "vatapFromDay": "Vatap From Day",
-      "vatapToMonth": "Vatap To Month",
-      "lastToDay": "Last To Day",
-      "lastToMonth": "Last To Month",
-      "dueDay": "Due Day",
-      "dueMonth": "Due Month",
-      "cropPeriod": "Crop Period",
-      "sanctionAmt": "Sanction Amt",
-      "previousAmt": "Previous Amt"
+    "cbsMiddlewareApp": {
+        "cropMaster" : {
+            "home": {
+                "title": "Crop Masters",
+                "createLabel": "नवीन Crop Master तयार करा",
+                "createOrEditLabel": "Crop Master तयार किंवा संपादित करा"
+            },
+            "created": "Crop Master [identifier: {{ param }}] तयार आहे",
+            "updated": "Crop Master [identifier: {{ param }}] सुधारित केले आहे",
+            "deleted": "Crop Master [identifier: {{ param }}] हटविले आहे",
+            "delete": {
+                "question": "Crop Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+            },
+            "detail": {
+                "title": "Crop Master"
+            },
+            "cropCode": "Crop Code",
+            "cropName": "Crop Name",
+            "categoryCode": "Category Code",
+            "categoryName": "Category Name",
+            "vatapFromDay": "Vatap From Day",
+            "vatapToMonth": "Vatap To Month",
+            "lastToDay": "Last To Day",
+            "lastToMonth": "Last To Month",
+            "dueDay": "Due Day",
+            "dueMonth": "Due Month",
+            "cropPeriod": "Crop Period",
+            "sanctionAmt": "Sanction Amt",
+            "previousAmt": "Previous Amt"
+        }
     }
-  }
 }

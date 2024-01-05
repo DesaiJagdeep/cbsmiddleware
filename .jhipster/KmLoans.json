@@ -1,0 +1,71 @@
+{
+  "changelogDate": "20240105053808",
+  "dto": "no",
+  "entityTableName": "km_loans",
+  "fields": [
+    {
+      "fieldName": "cropName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "loanAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "loanAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "are",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "areMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receivableAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "receivableAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dueAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmLoans",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kmDetails",
+      "otherEntityRelationshipName": "kmLoans",
+      "relationshipName": "kmDetails",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

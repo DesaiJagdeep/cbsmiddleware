@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmLoans">
+      <h2 data-cy="kmLoansDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmLoans.detail.title">Km Loans</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmLoans.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.cropName">Crop Name</span></dt>
+        <dd>
+          <span>{{ kmLoans.cropName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.cropNameMr">Crop Name Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.cropNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.loanDate">Loan Date</span></dt>
+        <dd>
+          <span>{{ kmLoans.loanDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmount">Loan Amount</span></dt>
+        <dd>
+          <span>{{ kmLoans.loanAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmountMr">Loan Amount Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.loanAmountMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.are">Are</span></dt>
+        <dd>
+          <span>{{ kmLoans.are }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.areMr">Are Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.areMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmt">Receivable Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.receivableAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmtMr">Receivable Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.receivableAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt">Due Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmtMr">Due Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueDate">Due Date</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.kmDetails">Km Details</span></dt>
+        <dd>
+          <div *ngIf="kmLoans.kmDetails">
+            <a [routerLink]="['/km-details', kmLoans.kmDetails.id, 'view']">{{ kmLoans.kmDetails.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-loans', kmLoans.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

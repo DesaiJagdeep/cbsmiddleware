@@ -1,0 +1,73 @@
+
+<div *ngIf="cropMaster">
+    <h2><span jhiTranslate="cbsMiddlewareApp.cropMaster.detail.title">Crop Master</span> {{cropMaster.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropCode">Crop Code</span></dt>
+        <dd>
+            <span>{{cropMaster.cropCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropName">Crop Name</span></dt>
+        <dd>
+            <span>{{cropMaster.cropName}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryCode">Category Code</span></dt>
+        <dd>
+            <span>{{cropMaster.categoryCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName">Category Name</span></dt>
+        <dd>
+            <span>{{cropMaster.categoryName}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay">Vatap From Day</span></dt>
+        <dd>
+            <span>{{cropMaster.vatapFromDay | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth">Vatap To Month</span></dt>
+        <dd>
+            <span>{{cropMaster.vatapToMonth | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay">Last To Day</span></dt>
+        <dd>
+            <span>{{cropMaster.lastToDay | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth">Last To Month</span></dt>
+        <dd>
+            <span>{{cropMaster.lastToMonth | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay">Due Day</span></dt>
+        <dd>
+            <span>{{cropMaster.dueDay | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth">Due Month</span></dt>
+        <dd>
+            <span>{{cropMaster.dueMonth | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod">Crop Period</span></dt>
+        <dd>
+            <span>{{cropMaster.cropPeriod}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt">Sanction Amt</span></dt>
+        <dd>
+            <span>{{cropMaster.sanctionAmt}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt">Previous Amt</span></dt>
+        <dd>
+            <span>{{cropMaster.previousAmt}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'crop-master/'+ cropMaster.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

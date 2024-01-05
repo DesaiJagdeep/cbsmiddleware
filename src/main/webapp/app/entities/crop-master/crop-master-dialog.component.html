@@ -1,0 +1,102 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myCropMasterLabel" jhiTranslate="cbsMiddlewareApp.cropMaster.home.createOrEditLabel">Create or edit a Crop Master</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!cropMaster.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="cropMaster.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropCode" for="field_cropCode">Crop Code</label>
+            <input type="text" class="form-control" name="cropCode" id="field_cropCode"
+                [(ngModel)]="cropMaster.cropCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropName" for="field_cropName">Crop Name</label>
+            <input type="text" class="form-control" name="cropName" id="field_cropName"
+                [(ngModel)]="cropMaster.cropName"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.categoryCode" for="field_categoryCode">Category Code</label>
+            <input type="text" class="form-control" name="categoryCode" id="field_categoryCode"
+                [(ngModel)]="cropMaster.categoryCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName" for="field_categoryName">Category Name</label>
+            <input type="text" class="form-control" name="categoryName" id="field_categoryName"
+                [(ngModel)]="cropMaster.categoryName"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay" for="field_vatapFromDay">Vatap From Day</label>
+            <div class="d-flex">
+                <input id="field_vatapFromDay" type="datetime-local" class="form-control" name="vatapFromDay" [(ngModel)]="cropMaster.vatapFromDay"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth" for="field_vatapToMonth">Vatap To Month</label>
+            <div class="d-flex">
+                <input id="field_vatapToMonth" type="datetime-local" class="form-control" name="vatapToMonth" [(ngModel)]="cropMaster.vatapToMonth"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay" for="field_lastToDay">Last To Day</label>
+            <div class="d-flex">
+                <input id="field_lastToDay" type="datetime-local" class="form-control" name="lastToDay" [(ngModel)]="cropMaster.lastToDay"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth" for="field_lastToMonth">Last To Month</label>
+            <div class="d-flex">
+                <input id="field_lastToMonth" type="datetime-local" class="form-control" name="lastToMonth" [(ngModel)]="cropMaster.lastToMonth"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay" for="field_dueDay">Due Day</label>
+            <div class="d-flex">
+                <input id="field_dueDay" type="datetime-local" class="form-control" name="dueDay" [(ngModel)]="cropMaster.dueDay"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth" for="field_dueMonth">Due Month</label>
+            <div class="d-flex">
+                <input id="field_dueMonth" type="datetime-local" class="form-control" name="dueMonth" [(ngModel)]="cropMaster.dueMonth"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod" for="field_cropPeriod">Crop Period</label>
+            <input type="text" class="form-control" name="cropPeriod" id="field_cropPeriod"
+                [(ngModel)]="cropMaster.cropPeriod"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt" for="field_sanctionAmt">Sanction Amt</label>
+            <input type="number" class="form-control" name="sanctionAmt" id="field_sanctionAmt"
+                [(ngModel)]="cropMaster.sanctionAmt"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt" for="field_previousAmt">Previous Amt</label>
+            <input type="number" class="form-control" name="previousAmt" id="field_previousAmt"
+                [(ngModel)]="cropMaster.previousAmt"  />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

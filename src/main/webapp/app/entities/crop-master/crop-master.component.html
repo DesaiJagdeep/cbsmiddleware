@@ -1,0 +1,88 @@
+<div>
+    <h2>
+        <span jhiTranslate="cbsMiddlewareApp.cropMaster.home.title">Crop Masters</span>
+        <button class="btn btn-primary float-right jh-create-entity create-crop-master" [routerLink]="['/', { outlets: { popup: ['crop-master-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="cbsMiddlewareApp.cropMaster.home.createLabel">
+            Create new Crop Master
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="cropMasters">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cropCode"><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropCode">Crop Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cropName"><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropName">Crop Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="categoryCode"><span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryCode">Category Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="categoryName"><span jhiTranslate="cbsMiddlewareApp.cropMaster.categoryName">Category Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="vatapFromDay"><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapFromDay">Vatap From Day</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="vatapToMonth"><span jhiTranslate="cbsMiddlewareApp.cropMaster.vatapToMonth">Vatap To Month</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastToDay"><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToDay">Last To Day</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="lastToMonth"><span jhiTranslate="cbsMiddlewareApp.cropMaster.lastToMonth">Last To Month</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueDay"><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueDay">Due Day</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueMonth"><span jhiTranslate="cbsMiddlewareApp.cropMaster.dueMonth">Due Month</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cropPeriod"><span jhiTranslate="cbsMiddlewareApp.cropMaster.cropPeriod">Crop Period</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sanctionAmt"><span jhiTranslate="cbsMiddlewareApp.cropMaster.sanctionAmt">Sanction Amt</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="previousAmt"><span jhiTranslate="cbsMiddlewareApp.cropMaster.previousAmt">Previous Amt</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cropMaster of cropMasters ;trackBy: trackId">
+                <td><a [routerLink]="['../crop-master', cropMaster.id ]">{{cropMaster.id}}</a></td>
+                <td>{{cropMaster.cropCode}}</td>
+                <td>{{cropMaster.cropName}}</td>
+                <td>{{cropMaster.categoryCode}}</td>
+                <td>{{cropMaster.categoryName}}</td>
+                <td>{{cropMaster.vatapFromDay | date:'medium'}}</td>
+                <td>{{cropMaster.vatapToMonth | date:'medium'}}</td>
+                <td>{{cropMaster.lastToDay | date:'medium'}}</td>
+                <td>{{cropMaster.lastToMonth | date:'medium'}}</td>
+                <td>{{cropMaster.dueDay | date:'medium'}}</td>
+                <td>{{cropMaster.dueMonth | date:'medium'}}</td>
+                <td>{{cropMaster.cropPeriod}}</td>
+                <td>{{cropMaster.sanctionAmt}}</td>
+                <td>{{cropMaster.previousAmt}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../crop-master', cropMaster.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'crop-master/'+ cropMaster.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'crop-master/'+ cropMaster.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="cropMasters && cropMasters.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

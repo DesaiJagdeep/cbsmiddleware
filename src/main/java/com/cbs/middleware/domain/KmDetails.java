@@ -110,10 +110,9 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "boja_date")
     private Instant bojaDate;
 
-//    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true)
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(unique = true)
-    @OneToOne
+    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(unique = true)
     private KmMaster kmMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

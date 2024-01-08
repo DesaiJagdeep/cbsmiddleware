@@ -1,0 +1,44 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMaster": {
+      "home": {
+        "title": "Km Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Km Master",
+        "createOrEditLabel": "Create or edit a Km Master",
+        "notFound": "No Km Masters found"
+      },
+      "created": "A new Km Master is created with identifier {{ param }}",
+      "updated": "A Km Master is updated with identifier {{ param }}",
+      "deleted": "A Km Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Km Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Km Master"
+      },
+      "id": "ID",
+      "branchCode": "Branch Code",
+      "farmerName": "Farmer Name",
+      "farmerNameMr": "Farmer Name Mr",
+      "farmerAddress": "Farmer Address",
+      "farmerAddressMr": "Farmer Address Mr",
+      "gender": "Gender",
+      "cast": "Cast",
+      "castMr": "Cast Mr",
+      "pacsNumber": "Pacs Number",
+      "areaHector": "Area Hector",
+      "aadharNo": "Aadhar No",
+      "aadharNoMr": "Aadhar No Mr",
+      "panNo": "Pan No",
+      "panNoMr": "Pan No Mr",
+      "mobileNo": "Mobile No",
+      "mobileNoMr": "Mobile No Mr",
+      "savingNo": "Saving No",
+      "savingNoMr": "Saving No Mr",
+      "pacsMemberCode": "Pacs Member Code",
+      "entryFlag": "Entry Flag",
+      "farmerTypeMaster": "Farmer Type Master"
+    }
+  }
+}

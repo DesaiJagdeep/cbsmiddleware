@@ -1,0 +1,272 @@
+<div>
+  <h2 id="page-heading" data-cy="KmMasterHeading">
+    <span jhiTranslate="cbsMiddlewareApp.kmMaster.home.title">Km Masters</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmMaster.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-km-master"
+        [routerLink]="['/km-master/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmMaster.home.createLabel">Create a new Km Master</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  @if (kmMasters?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="cbsMiddlewareApp.kmMaster.home.notFound">No Km Masters found</span>
+    </div>
+  }
+
+  @if (kmMasters && kmMasters.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="branchCode">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode">Branch Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="farmerName">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName">Farmer Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="farmerNameMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr">Farmer Name Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="farmerAddress">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress">Farmer Address</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="farmerAddressMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr">Farmer Address Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gender">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.gender">Gender</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="cast">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.cast">Cast</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="castMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.castMr">Cast Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="pacsNumber">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber">Pacs Number</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="areaHector">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.areaHector">Area Hector</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aadharNo">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo">Aadhar No</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="aadharNoMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr">Aadhar No Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="panNo">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.panNo">Pan No</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="panNoMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr">Pan No Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="mobileNo">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo">Mobile No</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="mobileNoMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr">Mobile No Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="savingNo">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNo">Saving No</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="savingNoMr">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.savingNoMr">Saving No Mr</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="pacsMemberCode">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsMemberCode">Pacs Member Code</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="entryFlag">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag">Entry Flag</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="farmerTypeMaster.id">
+              <div class="d-flex">
+                <span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerTypeMaster">Farmer Type Master</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (kmMaster of kmMasters; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/km-master', kmMaster.id, 'view']">{{ kmMaster.id }}</a>
+              </td>
+              <td>{{ kmMaster.branchCode }}</td>
+              <td>{{ kmMaster.farmerName }}</td>
+              <td>{{ kmMaster.farmerNameMr }}</td>
+              <td>{{ kmMaster.farmerAddress }}</td>
+              <td>{{ kmMaster.farmerAddressMr }}</td>
+              <td>{{ kmMaster.gender }}</td>
+              <td>{{ kmMaster.cast }}</td>
+              <td>{{ kmMaster.castMr }}</td>
+              <td>{{ kmMaster.pacsNumber }}</td>
+              <td>{{ kmMaster.areaHector }}</td>
+              <td>{{ kmMaster.aadharNo }}</td>
+              <td>{{ kmMaster.aadharNoMr }}</td>
+              <td>{{ kmMaster.panNo }}</td>
+              <td>{{ kmMaster.panNoMr }}</td>
+              <td>{{ kmMaster.mobileNo }}</td>
+              <td>{{ kmMaster.mobileNoMr }}</td>
+              <td>{{ kmMaster.savingNo }}</td>
+              <td>{{ kmMaster.savingNoMr }}</td>
+              <td>{{ kmMaster.pacsMemberCode }}</td>
+              <td>{{ kmMaster.entryFlag }}</td>
+              <td>
+                @if (kmMaster.farmerTypeMaster) {
+                  <div>
+                    <a [routerLink]="['/farmer-type-master', kmMaster.farmerTypeMaster.id, 'view']">{{ kmMaster.farmerTypeMaster.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/km-master', kmMaster.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/km-master', kmMaster.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(kmMaster)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (kmMasters && kmMasters.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

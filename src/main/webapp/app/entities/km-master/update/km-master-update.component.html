@@ -1,0 +1,236 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-km-master-heading" data-cy="KmMasterCreateUpdateHeading" jhiTranslate="cbsMiddlewareApp.kmMaster.home.createOrEditLabel">
+        Create or edit a Km Master
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode" for="field_branchCode">Branch Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="branchCode"
+            id="field_branchCode"
+            data-cy="branchCode"
+            formControlName="branchCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName" for="field_farmerName">Farmer Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="farmerName"
+            id="field_farmerName"
+            data-cy="farmerName"
+            formControlName="farmerName"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr" for="field_farmerNameMr">Farmer Name Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="farmerNameMr"
+            id="field_farmerNameMr"
+            data-cy="farmerNameMr"
+            formControlName="farmerNameMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress" for="field_farmerAddress">Farmer Address</label>
+          <input
+            type="text"
+            class="form-control"
+            name="farmerAddress"
+            id="field_farmerAddress"
+            data-cy="farmerAddress"
+            formControlName="farmerAddress"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr" for="field_farmerAddressMr"
+            >Farmer Address Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="farmerAddressMr"
+            id="field_farmerAddressMr"
+            data-cy="farmerAddressMr"
+            formControlName="farmerAddressMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.gender" for="field_gender">Gender</label>
+          <input type="text" class="form-control" name="gender" id="field_gender" data-cy="gender" formControlName="gender" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.cast" for="field_cast">Cast</label>
+          <input type="text" class="form-control" name="cast" id="field_cast" data-cy="cast" formControlName="cast" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.castMr" for="field_castMr">Cast Mr</label>
+          <input type="text" class="form-control" name="castMr" id="field_castMr" data-cy="castMr" formControlName="castMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.areaHector" for="field_areaHector">Area Hector</label>
+          <input
+            type="text"
+            class="form-control"
+            name="areaHector"
+            id="field_areaHector"
+            data-cy="areaHector"
+            formControlName="areaHector"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo" for="field_aadharNo">Aadhar No</label>
+          <input type="number" class="form-control" name="aadharNo" id="field_aadharNo" data-cy="aadharNo" formControlName="aadharNo" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr" for="field_aadharNoMr">Aadhar No Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="aadharNoMr"
+            id="field_aadharNoMr"
+            data-cy="aadharNoMr"
+            formControlName="aadharNoMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.panNo" for="field_panNo">Pan No</label>
+          <input type="number" class="form-control" name="panNo" id="field_panNo" data-cy="panNo" formControlName="panNo" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr" for="field_panNoMr">Pan No Mr</label>
+          <input type="text" class="form-control" name="panNoMr" id="field_panNoMr" data-cy="panNoMr" formControlName="panNoMr" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo" for="field_mobileNo">Mobile No</label>
+          <input type="text" class="form-control" name="mobileNo" id="field_mobileNo" data-cy="mobileNo" formControlName="mobileNo" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr" for="field_mobileNoMr">Mobile No Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mobileNoMr"
+            id="field_mobileNoMr"
+            data-cy="mobileNoMr"
+            formControlName="mobileNoMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.savingNo" for="field_savingNo">Saving No</label>
+          <input type="number" class="form-control" name="savingNo" id="field_savingNo" data-cy="savingNo" formControlName="savingNo" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.savingNoMr" for="field_savingNoMr">Saving No Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="savingNoMr"
+            id="field_savingNoMr"
+            data-cy="savingNoMr"
+            formControlName="savingNoMr"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.pacsMemberCode" for="field_pacsMemberCode"
+            >Pacs Member Code</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="pacsMemberCode"
+            id="field_pacsMemberCode"
+            data-cy="pacsMemberCode"
+            formControlName="pacsMemberCode"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag" for="field_entryFlag">Entry Flag</label>
+          <input type="text" class="form-control" name="entryFlag" id="field_entryFlag" data-cy="entryFlag" formControlName="entryFlag" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.farmerTypeMaster" for="field_farmerTypeMaster"
+            >Farmer Type Master</label
+          >
+          <select
+            class="form-control"
+            id="field_farmerTypeMaster"
+            data-cy="farmerTypeMaster"
+            name="farmerTypeMaster"
+            formControlName="farmerTypeMaster"
+            [compareWith]="compareFarmerTypeMaster"
+          >
+            <option [ngValue]="null"></option>
+            @for (farmerTypeMasterOption of farmerTypeMastersCollection; track $index) {
+              <option [ngValue]="farmerTypeMasterOption">{{ farmerTypeMasterOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

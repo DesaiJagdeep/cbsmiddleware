@@ -1,0 +1,106 @@
+{
+  "annotations": {
+    "changelogDate": "20240108111326"
+  },
+  "dto": "no",
+  "entityTableName": "km_master",
+  "fields": [
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cast",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "castMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHector",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "aadharNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "panNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "panNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "savingNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsMemberCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entryFlag",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "farmerTypeMaster",
+      "otherEntityRelationshipName": "kmMaster",
+      "relationshipName": "farmerTypeMaster",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

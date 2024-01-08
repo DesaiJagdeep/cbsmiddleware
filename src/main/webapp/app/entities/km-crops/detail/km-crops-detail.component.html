@@ -1,0 +1,112 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmCrops">
+      <h2 data-cy="kmCropsDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmCrops.detail.title">Km Crops</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmCrops.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.hector">Hector</span></dt>
+        <dd>
+          <span>{{ kmCrops.hector }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.hectorMr">Hector Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.hectorMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.are">Are</span></dt>
+        <dd>
+          <span>{{ kmCrops.are }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.areMr">Are Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.areMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTree">No Of Tree</span></dt>
+        <dd>
+          <span>{{ kmCrops.noOfTree }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTreeMr">No Of Tree Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.noOfTreeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.demand">Demand</span></dt>
+        <dd>
+          <span>{{ kmCrops.demand }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.demandMr">Demand Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.demandMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.society">Society</span></dt>
+        <dd>
+          <span>{{ kmCrops.society }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.societyMr">Society Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.societyMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmt">Bank Amt</span></dt>
+        <dd>
+          <span>{{ kmCrops.bankAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmtMr">Bank Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.bankAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikari">Vibhagi Adhikari</span></dt>
+        <dd>
+          <span>{{ kmCrops.vibhagiAdhikari }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikariMr">Vibhagi Adhikari Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.vibhagiAdhikariMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.branch">Branch</span></dt>
+        <dd>
+          <span>{{ kmCrops.branch }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.branchMr">Branch Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.branchMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmt">Insp Amt</span></dt>
+        <dd>
+          <span>{{ kmCrops.inspAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmtMr">Insp Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmCrops.inspAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.cropMaster">Crop Master</span></dt>
+        <dd>
+          <div *ngIf="kmCrops.cropMaster">
+            <a [routerLink]="['/crop-master', kmCrops.cropMaster.id, 'view']">{{ kmCrops.cropMaster.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmCrops.kmDetails">Km Details</span></dt>
+        <dd>
+          <div *ngIf="kmCrops.kmDetails">
+            <a [routerLink]="['/km-details', kmCrops.kmDetails.id, 'view']">{{ kmCrops.kmDetails.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-crops', kmCrops.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

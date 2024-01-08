@@ -1,0 +1,249 @@
+<div>
+  <h2 id="page-heading" data-cy="KmCropsHeading">
+    <span jhiTranslate="cbsMiddlewareApp.kmCrops.home.title">Km Crops</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmCrops.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-km-crops"
+        [routerLink]="['/km-crops/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmCrops.home.createLabel"> Create a new Km Crops </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="kmCrops?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.kmCrops.home.notFound">No Km Crops found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="kmCrops && kmCrops.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hector">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.hector">Hector</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hectorMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.hectorMr">Hector Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="are">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.are">Are</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="areMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.areMr">Are Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noOfTree">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTree">No Of Tree</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noOfTreeMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTreeMr">No Of Tree Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demand">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.demand">Demand</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="demandMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.demandMr">Demand Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="society">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.society">Society</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="societyMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.societyMr">Society Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmt">Bank Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bankAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmtMr">Bank Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vibhagiAdhikari">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikari">Vibhagi Adhikari</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="vibhagiAdhikariMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikariMr">Vibhagi Adhikari Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branch">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.branch">Branch</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.branchMr">Branch Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="inspAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmt">Insp Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="inspAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmtMr">Insp Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropMaster.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.cropMaster">Crop Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDetails.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmCrops.kmDetails">Km Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kmCrops of kmCrops; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/km-crops', kmCrops.id, 'view']">{{ kmCrops.id }}</a>
+          </td>
+          <td>{{ kmCrops.hector }}</td>
+          <td>{{ kmCrops.hectorMr }}</td>
+          <td>{{ kmCrops.are }}</td>
+          <td>{{ kmCrops.areMr }}</td>
+          <td>{{ kmCrops.noOfTree }}</td>
+          <td>{{ kmCrops.noOfTreeMr }}</td>
+          <td>{{ kmCrops.demand }}</td>
+          <td>{{ kmCrops.demandMr }}</td>
+          <td>{{ kmCrops.society }}</td>
+          <td>{{ kmCrops.societyMr }}</td>
+          <td>{{ kmCrops.bankAmt }}</td>
+          <td>{{ kmCrops.bankAmtMr }}</td>
+          <td>{{ kmCrops.vibhagiAdhikari }}</td>
+          <td>{{ kmCrops.vibhagiAdhikariMr }}</td>
+          <td>{{ kmCrops.branch }}</td>
+          <td>{{ kmCrops.branchMr }}</td>
+          <td>{{ kmCrops.inspAmt }}</td>
+          <td>{{ kmCrops.inspAmtMr }}</td>
+          <td>
+            <div *ngIf="kmCrops.cropMaster">
+              <a [routerLink]="['/crop-master', kmCrops.cropMaster.id, 'view']">{{ kmCrops.cropMaster.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="kmCrops.kmDetails">
+              <a [routerLink]="['/km-details', kmCrops.kmDetails.id, 'view']">{{ kmCrops.kmDetails.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/km-crops', kmCrops.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/km-crops', kmCrops.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(kmCrops)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="kmCrops && kmCrops.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

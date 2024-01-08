@@ -1,0 +1,97 @@
+{
+  "changelogDate": "20240108180137",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "hector",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "hectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "are",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "areMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "noOfTree",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "noOfTreeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "demand",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "demandMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "society",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "societyMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bankAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vibhagiAdhikari",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vibhagiAdhikariMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branch",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "inspAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "inspAmtMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmCrops",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "cropMaster",
+      "relationshipName": "cropMaster",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kmDetails",
+      "relationshipName": "kmDetails",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

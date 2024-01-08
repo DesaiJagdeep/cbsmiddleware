@@ -1,0 +1,138 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmMaster">
+      <h2 data-cy="kmMasterDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmMaster.detail.title">Km Master</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmMaster.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ kmMaster.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.branchCodeMr">Branch Code Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.branchCodeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerName">Farmer Name</span></dt>
+        <dd>
+          <span>{{ kmMaster.farmerName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerNameMr">Farmer Name Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.farmerNameMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddress">Farmer Address</span></dt>
+        <dd>
+          <span>{{ kmMaster.farmerAddress }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerAddressMr">Farmer Address Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.farmerAddressMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.gender">Gender</span></dt>
+        <dd>
+          <span>{{ kmMaster.gender }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.genderMr">Gender Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.genderMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.caste">Caste</span></dt>
+        <dd>
+          <span>{{ kmMaster.caste }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.casteMr">Caste Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.casteMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsNumber">Pacs Number</span></dt>
+        <dd>
+          <span>{{ kmMaster.pacsNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.areaHector">Area Hector</span></dt>
+        <dd>
+          <span>{{ kmMaster.areaHector }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.areaHectorMr">Area Hector Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.areaHectorMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo">Aadhar No</span></dt>
+        <dd>
+          <span>{{ kmMaster.aadharNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNoMr">Aadhar No Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.aadharNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNo">Pan No</span></dt>
+        <dd>
+          <span>{{ kmMaster.panNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.panNoMr">Pan No Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.panNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo">Mobile No</span></dt>
+        <dd>
+          <span>{{ kmMaster.mobileNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNoMr">Mobile No Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.mobileNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNo">Kcc No</span></dt>
+        <dd>
+          <span>{{ kmMaster.kccNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.kccNoMr">Kcc No Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.kccNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingAcNo">Saving Ac No</span></dt>
+        <dd>
+          <span>{{ kmMaster.savingAcNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.savingAcNoMr">Saving Ac No Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.savingAcNoMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsMemberCode">Pacs Member Code</span></dt>
+        <dd>
+          <span>{{ kmMaster.pacsMemberCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.pacsMemberCodeMr">Pacs Member Code Mr</span></dt>
+        <dd>
+          <span>{{ kmMaster.pacsMemberCodeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.entryFlag">Entry Flag</span></dt>
+        <dd>
+          <span>{{ kmMaster.entryFlag }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaster.farmerTypeMaster">Farmer Type Master</span></dt>
+        <dd>
+          <div *ngIf="kmMaster.farmerTypeMaster">
+            <a [routerLink]="['/farmer-type-master', kmMaster.farmerTypeMaster.id, 'view']">{{ kmMaster.farmerTypeMaster.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-master', kmMaster.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

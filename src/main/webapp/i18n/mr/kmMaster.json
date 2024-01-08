@@ -1,0 +1,50 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMaster": {
+      "home": {
+        "title": "Km Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Km Master तयार करा",
+        "createOrEditLabel": "Km Master तयार किंवा संपादित करा",
+        "notFound": "No Km Masters found"
+      },
+      "created": "Km Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Km Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Km Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Km Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Km Master"
+      },
+      "id": "ID",
+      "branchCode": "Branch Code",
+      "branchCodeMr": "Branch Code Mr",
+      "farmerName": "Farmer Name",
+      "farmerNameMr": "Farmer Name Mr",
+      "farmerAddress": "Farmer Address",
+      "farmerAddressMr": "Farmer Address Mr",
+      "gender": "Gender",
+      "genderMr": "Gender Mr",
+      "caste": "Caste",
+      "casteMr": "Caste Mr",
+      "pacsNumber": "Pacs Number",
+      "areaHector": "Area Hector",
+      "areaHectorMr": "Area Hector Mr",
+      "aadharNo": "Aadhar No",
+      "aadharNoMr": "Aadhar No Mr",
+      "panNo": "Pan No",
+      "panNoMr": "Pan No Mr",
+      "mobileNo": "Mobile No",
+      "mobileNoMr": "Mobile No Mr",
+      "kccNo": "Kcc No",
+      "kccNoMr": "Kcc No Mr",
+      "savingAcNo": "Saving Ac No",
+      "savingAcNoMr": "Saving Ac No Mr",
+      "pacsMemberCode": "Pacs Member Code",
+      "pacsMemberCodeMr": "Pacs Member Code Mr",
+      "entryFlag": "Entry Flag",
+      "farmerTypeMaster": "Farmer Type Master"
+    }
+  }
+}

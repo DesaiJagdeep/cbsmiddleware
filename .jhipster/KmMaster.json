@@ -1,0 +1,123 @@
+{
+  "changelogDate": "20240108160031",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "genderMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "caste",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "casteMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHector",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "aadharNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "panNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "panNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kccNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kccNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingAcNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "savingAcNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsMemberCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsMemberCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entryFlag",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "farmerTypeMaster",
+      "relationshipName": "farmerTypeMaster",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

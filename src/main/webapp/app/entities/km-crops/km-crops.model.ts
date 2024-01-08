@@ -1,24 +1,25 @@
-import { IKmDetails } from 'app/entities/km-details/km-details.model';
+import { BaseEntity } from './../../shared';
 
-export interface IKmCrops {
-  id: number;
-  cropName?: string | null;
-  cropNameMr?: string | null;
-  hector?: number | null;
-  hectorMr?: string | null;
-  are?: number | null;
-  areMr?: string | null;
-  prviousAmt?: number | null;
-  previousAmtMr?: string | null;
-  demand?: number | null;
-  demandMr?: string | null;
-  society?: string | null;
-  societyMr?: string | null;
-  bankAmt?: number | null;
-  bankAmtMr?: string | null;
-  noOfTree?: number | null;
-  noOfTreeMr?: string | null;
-  kmDetails?: Pick<IKmDetails, 'id'> | null;
+export class KmCrops implements BaseEntity {
+    constructor(
+        public id?: number,
+        public cropName?: string,
+        public cropNameMr?: string,
+        public hector?: number,
+        public hectorMr?: string,
+        public are?: number,
+        public areMr?: string,
+        public prviousAmt?: number,
+        public previousAmtMr?: string,
+        public demand?: number,
+        public demandMr?: string,
+        public society?: string,
+        public societyMr?: string,
+        public bankAmt?: number,
+        public bankAmtMr?: string,
+        public noOfTree?: number,
+        public noOfTreeMr?: string,
+        public kmDetails?: BaseEntity,
+    ) {
+    }
 }
-
-export type NewKmCrops = Omit<IKmCrops, 'id'> & { id: null };

@@ -50,6 +50,7 @@
     <include file="config/liquibase/changelog/20230928074751_added_entity_KMPUpload.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20231002122853_added_entity_KarkhanaVasuli.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240104135527_added_entity_KmDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240105061859_added_entity_KmCrops.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20230710064404_added_entity_constraints_IssFileParser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712044312_added_entity_constraints_ApplicationLog.xml" relativeToChangelogFile="false"/>
@@ -59,6 +60,7 @@
     <include file="config/liquibase/changelog/20230621135333_added_entity_constraints_BankBranchMaster.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230621140146_added_entity_constraints_PacsMaster.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240104135527_added_entity_constraints_KmDetails.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240105061859_added_entity_constraints_KmCrops.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

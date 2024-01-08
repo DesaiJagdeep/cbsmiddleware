@@ -1,8 +1,7 @@
 package com.cbs.middleware.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A KmMaster.
@@ -37,17 +36,23 @@ public class KmMaster implements Serializable {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "cast")
-    private String cast;
+    @Column(name = "gender_mr")
+    private String genderMr;
 
-    @Column(name = "cast_mr")
-    private String castMr;
+    @Column(name = "caste")
+    private String caste;
+
+    @Column(name = "caste_mr")
+    private String casteMr;
 
     @Column(name = "pacs_number")
     private String pacsNumber;
 
-    @Column(name = "area_hector")
-    private String areaHector;
+    @Column(name = "area_hect")
+    private String areaHect;
+
+    @Column(name = "area_hect_mr")
+    private String areaHectMr;
 
     @Column(name = "aadhar_no")
     private Long aadharNo;
@@ -67,21 +72,28 @@ public class KmMaster implements Serializable {
     @Column(name = "mobile_no_mr")
     private String mobileNoMr;
 
-    @Column(name = "saving_no")
-    private Long savingNo;
+    @Column(name = "kcc_no")
+    private String kccNo;
 
-    @Column(name = "saving_no_mr")
-    private String savingNoMr;
+    @Column(name = "kcc_no_mr")
+    private String kccNoMr;
 
-    @Column(name = "pacs_member_code")
-    private String pacsMemberCode;
+    @Column(name = "saving_ac_no")
+    private String savingAcNo;
+
+    @Column(name = "saving_ac_no_mr")
+    private String savingAcNoMr;
 
     @Column(name = "entry_flag")
     private String entryFlag;
 
-    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
+    @Column(name = "pacs_member_code")
+    private String pacsMemberCode;
+
+    @Column(name = "pacs_member_code_mr")
+    private String pacsMemberCodeMr;
+
+    @ManyToOne
     private FarmerTypeMaster farmerTypeMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -177,30 +189,43 @@ public class KmMaster implements Serializable {
         this.gender = gender;
     }
 
-    public String getCast() {
-        return this.cast;
+    public String getGenderMr() {
+        return this.genderMr;
     }
 
-    public KmMaster cast(String cast) {
-        this.setCast(cast);
+    public KmMaster genderMr(String genderMr) {
+        this.setGenderMr(genderMr);
         return this;
     }
 
-    public void setCast(String cast) {
-        this.cast = cast;
+    public void setGenderMr(String genderMr) {
+        this.genderMr = genderMr;
     }
 
-    public String getCastMr() {
-        return this.castMr;
+    public String getCaste() {
+        return this.caste;
     }
 
-    public KmMaster castMr(String castMr) {
-        this.setCastMr(castMr);
+    public KmMaster caste(String caste) {
+        this.setCaste(caste);
         return this;
     }
 
-    public void setCastMr(String castMr) {
-        this.castMr = castMr;
+    public void setCaste(String caste) {
+        this.caste = caste;
+    }
+
+    public String getCasteMr() {
+        return this.casteMr;
+    }
+
+    public KmMaster casteMr(String casteMr) {
+        this.setCasteMr(casteMr);
+        return this;
+    }
+
+    public void setCasteMr(String casteMr) {
+        this.casteMr = casteMr;
     }
 
     public String getPacsNumber() {
@@ -216,17 +241,30 @@ public class KmMaster implements Serializable {
         this.pacsNumber = pacsNumber;
     }
 
-    public String getAreaHector() {
-        return this.areaHector;
+    public String getAreaHect() {
+        return this.areaHect;
     }
 
-    public KmMaster areaHector(String areaHector) {
-        this.setAreaHector(areaHector);
+    public KmMaster areaHect(String areaHect) {
+        this.setAreaHect(areaHect);
         return this;
     }
 
-    public void setAreaHector(String areaHector) {
-        this.areaHector = areaHector;
+    public void setAreaHect(String areaHect) {
+        this.areaHect = areaHect;
+    }
+
+    public String getAreaHectMr() {
+        return this.areaHectMr;
+    }
+
+    public KmMaster areaHectMr(String areaHectMr) {
+        this.setAreaHectMr(areaHectMr);
+        return this;
+    }
+
+    public void setAreaHectMr(String areaHectMr) {
+        this.areaHectMr = areaHectMr;
     }
 
     public Long getAadharNo() {
@@ -307,30 +345,69 @@ public class KmMaster implements Serializable {
         this.mobileNoMr = mobileNoMr;
     }
 
-    public Long getSavingNo() {
-        return this.savingNo;
+    public String getKccNo() {
+        return this.kccNo;
     }
 
-    public KmMaster savingNo(Long savingNo) {
-        this.setSavingNo(savingNo);
+    public KmMaster kccNo(String kccNo) {
+        this.setKccNo(kccNo);
         return this;
     }
 
-    public void setSavingNo(Long savingNo) {
-        this.savingNo = savingNo;
+    public void setKccNo(String kccNo) {
+        this.kccNo = kccNo;
     }
 
-    public String getSavingNoMr() {
-        return this.savingNoMr;
+    public String getKccNoMr() {
+        return this.kccNoMr;
     }
 
-    public KmMaster savingNoMr(String savingNoMr) {
-        this.setSavingNoMr(savingNoMr);
+    public KmMaster kccNoMr(String kccNoMr) {
+        this.setKccNoMr(kccNoMr);
         return this;
     }
 
-    public void setSavingNoMr(String savingNoMr) {
-        this.savingNoMr = savingNoMr;
+    public void setKccNoMr(String kccNoMr) {
+        this.kccNoMr = kccNoMr;
+    }
+
+    public String getSavingAcNo() {
+        return this.savingAcNo;
+    }
+
+    public KmMaster savingAcNo(String savingAcNo) {
+        this.setSavingAcNo(savingAcNo);
+        return this;
+    }
+
+    public void setSavingAcNo(String savingAcNo) {
+        this.savingAcNo = savingAcNo;
+    }
+
+    public String getSavingAcNoMr() {
+        return this.savingAcNoMr;
+    }
+
+    public KmMaster savingAcNoMr(String savingAcNoMr) {
+        this.setSavingAcNoMr(savingAcNoMr);
+        return this;
+    }
+
+    public void setSavingAcNoMr(String savingAcNoMr) {
+        this.savingAcNoMr = savingAcNoMr;
+    }
+
+    public String getEntryFlag() {
+        return this.entryFlag;
+    }
+
+    public KmMaster entryFlag(String entryFlag) {
+        this.setEntryFlag(entryFlag);
+        return this;
+    }
+
+    public void setEntryFlag(String entryFlag) {
+        this.entryFlag = entryFlag;
     }
 
     public String getPacsMemberCode() {
@@ -346,17 +423,17 @@ public class KmMaster implements Serializable {
         this.pacsMemberCode = pacsMemberCode;
     }
 
-    public String getEntryFlag() {
-        return this.entryFlag;
+    public String getPacsMemberCodeMr() {
+        return this.pacsMemberCodeMr;
     }
 
-    public KmMaster entryFlag(String entryFlag) {
-        this.setEntryFlag(entryFlag);
+    public KmMaster pacsMemberCodeMr(String pacsMemberCodeMr) {
+        this.setPacsMemberCodeMr(pacsMemberCodeMr);
         return this;
     }
 
-    public void setEntryFlag(String entryFlag) {
-        this.entryFlag = entryFlag;
+    public void setPacsMemberCodeMr(String pacsMemberCodeMr) {
+        this.pacsMemberCodeMr = pacsMemberCodeMr;
     }
 
     public FarmerTypeMaster getFarmerTypeMaster() {
@@ -382,7 +459,7 @@ public class KmMaster implements Serializable {
         if (!(o instanceof KmMaster)) {
             return false;
         }
-        return getId() != null && getId().equals(((KmMaster) o).getId());
+        return id != null && id.equals(((KmMaster) o).id);
     }
 
     @Override
@@ -402,20 +479,25 @@ public class KmMaster implements Serializable {
             ", farmerAddress='" + getFarmerAddress() + "'" +
             ", farmerAddressMr='" + getFarmerAddressMr() + "'" +
             ", gender='" + getGender() + "'" +
-            ", cast='" + getCast() + "'" +
-            ", castMr='" + getCastMr() + "'" +
+            ", genderMr='" + getGenderMr() + "'" +
+            ", caste='" + getCaste() + "'" +
+            ", casteMr='" + getCasteMr() + "'" +
             ", pacsNumber='" + getPacsNumber() + "'" +
-            ", areaHector='" + getAreaHector() + "'" +
+            ", areaHect='" + getAreaHect() + "'" +
+            ", areaHectMr='" + getAreaHectMr() + "'" +
             ", aadharNo=" + getAadharNo() +
             ", aadharNoMr='" + getAadharNoMr() + "'" +
             ", panNo=" + getPanNo() +
             ", panNoMr='" + getPanNoMr() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
             ", mobileNoMr='" + getMobileNoMr() + "'" +
-            ", savingNo=" + getSavingNo() +
-            ", savingNoMr='" + getSavingNoMr() + "'" +
-            ", pacsMemberCode='" + getPacsMemberCode() + "'" +
+            ", kccNo='" + getKccNo() + "'" +
+            ", kccNoMr='" + getKccNoMr() + "'" +
+            ", savingAcNo='" + getSavingAcNo() + "'" +
+            ", savingAcNoMr='" + getSavingAcNoMr() + "'" +
             ", entryFlag='" + getEntryFlag() + "'" +
+            ", pacsMemberCode='" + getPacsMemberCode() + "'" +
+            ", pacsMemberCodeMr='" + getPacsMemberCodeMr() + "'" +
             "}";
     }
 }

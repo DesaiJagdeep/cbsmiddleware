@@ -1,0 +1,96 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myKmLoansLabel" jhiTranslate="cbsMiddlewareApp.kmLoans.home.createOrEditLabel">Create or edit a Km Loans</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!kmLoans.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="kmLoans.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.cropName" for="field_cropName">Crop Name</label>
+            <input type="text" class="form-control" name="cropName" id="field_cropName"
+                [(ngModel)]="kmLoans.cropName"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.cropNameMr" for="field_cropNameMr">Crop Name Mr</label>
+            <input type="text" class="form-control" name="cropNameMr" id="field_cropNameMr"
+                [(ngModel)]="kmLoans.cropNameMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanDate" for="field_loanDate">Loan Date</label>
+            <div class="d-flex">
+                <input id="field_loanDate" type="datetime-local" class="form-control" name="loanDate" [(ngModel)]="kmLoans.loanDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmount" for="field_loanAmount">Loan Amount</label>
+            <input type="number" class="form-control" name="loanAmount" id="field_loanAmount"
+                [(ngModel)]="kmLoans.loanAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmountMr" for="field_loanAmountMr">Loan Amount Mr</label>
+            <input type="text" class="form-control" name="loanAmountMr" id="field_loanAmountMr"
+                [(ngModel)]="kmLoans.loanAmountMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.are" for="field_are">Are</label>
+            <input type="number" class="form-control" name="are" id="field_are"
+                [(ngModel)]="kmLoans.are"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.areMr" for="field_areMr">Are Mr</label>
+            <input type="text" class="form-control" name="areMr" id="field_areMr"
+                [(ngModel)]="kmLoans.areMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmt" for="field_receivableAmt">Receivable Amt</label>
+            <input type="number" class="form-control" name="receivableAmt" id="field_receivableAmt"
+                [(ngModel)]="kmLoans.receivableAmt"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmtMr" for="field_receivableAmtMr">Receivable Amt Mr</label>
+            <input type="text" class="form-control" name="receivableAmtMr" id="field_receivableAmtMr"
+                [(ngModel)]="kmLoans.receivableAmtMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt" for="field_dueAmt">Due Amt</label>
+            <input type="number" class="form-control" name="dueAmt" id="field_dueAmt"
+                [(ngModel)]="kmLoans.dueAmt"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmtMr" for="field_dueAmtMr">Due Amt Mr</label>
+            <input type="text" class="form-control" name="dueAmtMr" id="field_dueAmtMr"
+                [(ngModel)]="kmLoans.dueAmtMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueDate" for="field_dueDate">Due Date</label>
+            <div class="d-flex">
+                <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate" [(ngModel)]="kmLoans.dueDate"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmLoans.kmDetails" for="field_kmDetails">Km Details</label>
+            <select class="form-control" id="field_kmDetails" name="kmDetails" [(ngModel)]="kmLoans.kmDetails" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="kmDetailsOption.id === kmLoans.kmDetails?.id ? kmLoans.kmDetails : kmDetailsOption" *ngFor="let kmDetailsOption of kmdetails; trackBy: trackKmDetailsById">{{kmDetailsOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

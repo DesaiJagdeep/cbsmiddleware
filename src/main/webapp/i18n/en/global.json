@@ -44,6 +44,7 @@
         "kmMaster": "Km Master",
         "kmDetails": "Km Details",
         "kmCrops": "Km Crops",
+        "kmLoans": "Km Loans",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

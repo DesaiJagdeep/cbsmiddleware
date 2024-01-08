@@ -1,26 +1,26 @@
 import { IVillageMaster, NewVillageMaster } from './village-master.model';
 
 export const sampleWithRequiredData: IVillageMaster = {
-  id: 27007,
-  villageName: 'crazy but',
+  id: 17139,
+  villageName: 'Optimization',
 };
 
 export const sampleWithPartialData: IVillageMaster = {
-  id: 4798,
-  villageName: 'belch phew',
-  villageNameMr: 'knottily as who',
+  id: 73569,
+  villageName: 'Terrace Cambridgeshire Producer',
+  villageNameMr: 'transmit policy e-business',
 };
 
 export const sampleWithFullData: IVillageMaster = {
-  id: 31363,
-  villageName: 'cycle',
-  villageNameMr: 'nor roll',
-  villageCode: 21548,
-  villageCodeMr: 'up present courteous',
+  id: 32273,
+  villageName: 'Freeway system',
+  villageNameMr: 'face Investor',
+  villageCode: 56265,
+  villageCodeMr: 'functionalities Concrete',
 };
 
 export const sampleWithNewData: NewVillageMaster = {
-  villageName: 'zowie yell',
+  villageName: 'Denar salmon',
   id: null,
 };
 

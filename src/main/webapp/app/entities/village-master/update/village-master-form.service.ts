@@ -40,7 +40,7 @@ export class VillageMasterFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        },
+        }
       ),
       villageName: new FormControl(villageMasterRawValue.villageName, {
         validators: [Validators.required],
@@ -62,7 +62,7 @@ export class VillageMasterFormService {
       {
         ...villageMasterRawValue,
         id: { value: villageMasterRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 

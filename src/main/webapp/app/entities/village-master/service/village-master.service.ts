@@ -16,10 +16,7 @@ export type EntityArrayResponseType = HttpResponse<IVillageMaster[]>;
 export class VillageMasterService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/village-masters');
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(villageMaster: NewVillageMaster): Observable<EntityResponseType> {
     return this.http.post<IVillageMaster>(this.resourceUrl, villageMaster, { observe: 'response' });
@@ -65,7 +62,7 @@ export class VillageMasterService {
     const villageMasters: Type[] = villageMastersToCheck.filter(isPresent);
     if (villageMasters.length > 0) {
       const villageMasterCollectionIdentifiers = villageMasterCollection.map(
-        villageMasterItem => this.getVillageMasterIdentifier(villageMasterItem)!,
+        villageMasterItem => this.getVillageMasterIdentifier(villageMasterItem)!
       );
       const villageMastersToAdd = villageMasters.filter(villageMasterItem => {
         const villageMasterIdentifier = this.getVillageMasterIdentifier(villageMasterItem);

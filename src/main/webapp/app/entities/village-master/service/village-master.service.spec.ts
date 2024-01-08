@@ -37,6 +37,7 @@ describe('VillageMaster Service', () => {
     });
 
     it('should create a VillageMaster', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const villageMaster = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };

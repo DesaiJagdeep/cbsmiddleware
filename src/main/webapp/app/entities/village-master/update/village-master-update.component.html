@@ -12,12 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageName" for="field_villageName">Village Name</label>
           <input
             type="text"
@@ -32,12 +32,13 @@
               class="form-text text-danger"
               *ngIf="editForm.get('villageName')?.errors?.required"
               jhiTranslate="entity.validation.required"
-              >This field is required.</small
             >
+              This field is required.
+            </small>
           </div>
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageNameMr" for="field_villageNameMr"
             >Village Name Mr</label
           >
@@ -51,7 +52,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageCode" for="field_villageCode">Village Code</label>
           <input
             type="number"
@@ -63,7 +64,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.villageCodeMr" for="field_villageCodeMr"
             >Village Code Mr</label
           >
@@ -77,7 +78,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.villageMaster.talukaMaster" for="field_talukaMaster"
             >Taluka Master</label
           >
@@ -90,7 +91,7 @@
             [compareWith]="compareTalukaMaster"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="talukaMasterOption" *ngFor="let talukaMasterOption of talukaMastersCollection">
+            <option [ngValue]="talukaMasterOption" *ngFor="let talukaMasterOption of talukaMastersSharedCollection">
               {{ talukaMasterOption.id }}
             </option>
           </select>

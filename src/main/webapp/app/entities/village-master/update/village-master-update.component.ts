@@ -4,26 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import SharedModule from 'app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { ITalukaMaster } from 'app/entities/taluka-master/taluka-master.model';
-import { TalukaMasterService } from 'app/entities/taluka-master/service/taluka-master.service';
+import { VillageMasterFormService, VillageMasterFormGroup } from './village-master-form.service';
 import { IVillageMaster } from '../village-master.model';
 import { VillageMasterService } from '../service/village-master.service';
-import { VillageMasterFormService, VillageMasterFormGroup } from './village-master-form.service';
+import { ITalukaMaster } from 'app/entities/taluka-master/taluka-master.model';
+import { TalukaMasterService } from 'app/entities/taluka-master/service/taluka-master.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-village-master-update',
   templateUrl: './village-master-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class VillageMasterUpdateComponent implements OnInit {
   isSaving = false;
   villageMaster: IVillageMaster | null = null;
 
-  talukaMastersCollection: ITalukaMaster[] = [];
+  talukaMastersSharedCollection: ITalukaMaster[] = [];
 
   editForm: VillageMasterFormGroup = this.villageMasterFormService.createVillageMasterFormGroup();
 
@@ -31,7 +26,7 @@ export class VillageMasterUpdateComponent implements OnInit {
     protected villageMasterService: VillageMasterService,
     protected villageMasterFormService: VillageMasterFormService,
     protected talukaMasterService: TalukaMasterService,
-    protected activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareTalukaMaster = (o1: ITalukaMaster | null, o2: ITalukaMaster | null): boolean =>
@@ -85,21 +80,21 @@ export class VillageMasterUpdateComponent implements OnInit {
     this.villageMaster = villageMaster;
     this.villageMasterFormService.resetForm(this.editForm, villageMaster);
 
-    this.talukaMastersCollection = this.talukaMasterService.addTalukaMasterToCollectionIfMissing<ITalukaMaster>(
-      this.talukaMastersCollection,
-      villageMaster.talukaMaster,
+    this.talukaMastersSharedCollection = this.talukaMasterService.addTalukaMasterToCollectionIfMissing<ITalukaMaster>(
+      this.talukaMastersSharedCollection,
+      villageMaster.talukaMaster
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.talukaMasterService
-      .query({ filter: 'villagemaster-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<ITalukaMaster[]>) => res.body ?? []))
       .pipe(
         map((talukaMasters: ITalukaMaster[]) =>
-          this.talukaMasterService.addTalukaMasterToCollectionIfMissing<ITalukaMaster>(talukaMasters, this.villageMaster?.talukaMaster),
-        ),
+          this.talukaMasterService.addTalukaMasterToCollectionIfMissing<ITalukaMaster>(talukaMasters, this.villageMaster?.talukaMaster)
+        )
       )
-      .subscribe((talukaMasters: ITalukaMaster[]) => (this.talukaMastersCollection = talukaMasters));
+      .subscribe((talukaMasters: ITalukaMaster[]) => (this.talukaMastersSharedCollection = talukaMasters));
   }
 }

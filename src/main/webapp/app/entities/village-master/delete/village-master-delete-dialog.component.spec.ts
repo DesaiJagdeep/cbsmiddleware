@@ -18,7 +18,8 @@ describe('VillageMaster Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, VillageMasterDeleteDialogComponent],
+      imports: [HttpClientTestingModule],
+      declarations: [VillageMasterDeleteDialogComponent],
       providers: [NgbActiveModal],
     })
       .overrideTemplate(VillageMasterDeleteDialogComponent, '')
@@ -43,7 +44,7 @@ describe('VillageMaster Management Delete Component', () => {
         // THEN
         expect(service.delete).toHaveBeenCalledWith(123);
         expect(mockActiveModal.close).toHaveBeenCalledWith('deleted');
-      }),
+      })
     ));
 
     it('Should not call delete service on clear', () => {

@@ -1,10 +1,8 @@
 package com.cbs.middleware.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import java.io.Serializable;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A VillageMaster.
@@ -12,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "village_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VillageMaster extends AbstractAuditingEntity<Long> implements Serializable {
+public class VillageMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +33,7 @@ public class VillageMaster extends AbstractAuditingEntity<Long> implements Seria
     private String villageCodeMr;
 
     @OneToOne
+    @JoinColumn(unique = true)
     private TalukaMaster talukaMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -127,7 +126,7 @@ public class VillageMaster extends AbstractAuditingEntity<Long> implements Seria
         if (!(o instanceof VillageMaster)) {
             return false;
         }
-        return getId() != null && getId().equals(((VillageMaster) o).getId());
+        return id != null && id.equals(((VillageMaster) o).id);
     }
 
     @Override

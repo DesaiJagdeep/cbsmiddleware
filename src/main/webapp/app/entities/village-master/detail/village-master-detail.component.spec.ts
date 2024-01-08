@@ -1,38 +1,36 @@
-import { TestBed } from '@angular/core/testing';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { VillageMasterDetailComponent } from './village-master-detail.component';
 
 describe('VillageMaster Management Detail Component', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [VillageMasterDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+  let comp: VillageMasterDetailComponent;
+  let fixture: ComponentFixture<VillageMasterDetailComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [VillageMasterDetailComponent],
       providers: [
-        provideRouter(
-          [
-            {
-              path: '**',
-              component: VillageMasterDetailComponent,
-              resolve: { villageMaster: () => of({ id: 123 }) },
-            },
-          ],
-          withComponentInputBinding(),
-        ),
+        {
+          provide: ActivatedRoute,
+          useValue: { data: of({ villageMaster: { id: 123 } }) },
+        },
       ],
     })
       .overrideTemplate(VillageMasterDetailComponent, '')
       .compileComponents();
+    fixture = TestBed.createComponent(VillageMasterDetailComponent);
+    comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load villageMaster on init', async () => {
-      const harness = await RouterTestingHarness.create();
-      const instance = await harness.navigateByUrl('/', VillageMasterDetailComponent);
+    it('Should load villageMaster on init', () => {
+      // WHEN
+      comp.ngOnInit();
 
       // THEN
-      expect(instance.villageMaster).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.villageMaster).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

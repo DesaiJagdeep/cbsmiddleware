@@ -4,8 +4,8 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.VillageMaster;
 import com.cbs.middleware.repository.VillageMasterRepository;
 import com.cbs.middleware.service.criteria.VillageMasterCriteria;
-import javax.persistence.criteria.JoinType;
 import java.util.List;
+import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -102,7 +102,7 @@ public class VillageMasterQueryService extends QueryService<VillageMaster> {
                     specification.and(
                         buildSpecification(
                             criteria.getTalukaMasterId(),
-                            root -> root.join(VillageMaster_.talukaMaster,JoinType.LEFT).get(TalukaMaster_.id)
+                            root -> root.join(VillageMaster_.talukaMaster, JoinType.LEFT).get(TalukaMaster_.id)
                         )
                     );
             }

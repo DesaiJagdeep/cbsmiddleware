@@ -203,4 +203,195 @@ public class KarkhanaVasuliFileResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+	
+	/*    @PostMapping("/karkhana-vasuli-file-upload")
+    public ResponseEntity<List<KarkhanaVasuli>> uploadKarkhanaVasuliFileUploadFile(
+        @RequestParam("file") MultipartFile files,
+        RedirectAttributes redirectAttributes
+    ) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+
+        if (!"xlsx".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        if (karkhanaVasuliFileRepository.existsByFileName(files.getOriginalFilename())) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
+        }
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            Row row = sheet.getRow(2); // Get the current row
+            boolean flagForLabel = false;
+            String karkhanaName = getCellValue(row.getCell(0));
+
+            if (StringUtils.isNotBlank(karkhanaName)) {
+                karkhanaName = karkhanaName.trim().replace("\n", " ").toLowerCase();
+                if (!karkhanaName.contains("karkhana") || !karkhanaName.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String khataNumber = getCellValue(row.getCell(5));
+            if (StringUtils.isNoneBlank(khataNumber)) {
+                khataNumber = khataNumber.trim().replace("\n", " ").toLowerCase();
+                if (!khataNumber.contains("khata") || !khataNumber.contains("number")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+        } catch (BadRequestAlertException e) {
+            throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (UnAuthRequestAlertException e) {
+            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (Exception e) {
+            throw new Exception("Exception", e);
+        }
+
+        File originalFileDir = new File(Constants.KARKHANA_VASULI_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+        boolean falgForFileName = false;
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
+        }
+
+        int startRowIndex = 3; // Starting row index
+        List<KarkhanaVasuli> karkhanaUploadList = new ArrayList<>();
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                KarkhanaVasuli KarkhanaVasuli = new KarkhanaVasuli();
+                if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+
+                    if (!falgForFileName) {
+                        KarkhanaVasuli.setFileName(files.getOriginalFilename());
+                        KarkhanaVasuli.setUniqueFileName(uniqueName + "." + fileExtension);
+                        falgForFileName = true;
+                    }
+
+                    String karkhanaNAme = getCellValue(row.getCell(0));
+                    if (StringUtils.isNotEmpty(karkhanaNAme)) {
+                        // english
+                        KarkhanaVasuli.setKarkhanaNameEn(karkhanaNAme);
+
+                        // marathi
+                        KarkhanaVasuli.setKarkhanaName(translationServiceUtility.translationText(karkhanaNAme));
+                    }
+
+                    // add logic for skipping records if exists
+                    String societyName = getCellValue(row.getCell(1));
+                    if (StringUtils.isNotBlank(societyName)) {
+                        // english
+                        KarkhanaVasuli.setSocietyNameEn(societyName);
+
+                        // marathi
+                        KarkhanaVasuli.setSocietyName(translationServiceUtility.translationText(societyName));
+                    }
+
+                    String talukaName = getCellValue(row.getCell(2));
+                    if (StringUtils.isNotBlank(talukaName)) {
+                        // english
+                        KarkhanaVasuli.setTalukaNameEn(talukaName);
+                        // marathi
+                        KarkhanaVasuli.setTalukaName(translationServiceUtility.translationText(talukaName));
+                    }
+
+                    String branchName = getCellValue(row.getCell(3));
+                    if (StringUtils.isNotBlank(branchName)) {
+                        // english
+                        KarkhanaVasuli.setBranchNameEn(branchName);
+                        // marathi
+                        KarkhanaVasuli.setBranchName(translationServiceUtility.translationText(branchName));
+                    }
+
+                    String defaulterName = getCellValue(row.getCell(4));
+                    if (StringUtils.isNotBlank(talukaName)) {
+                        // english
+                        KarkhanaVasuli.setDefaulterNameEn(defaulterName);
+                        // marathi
+                        KarkhanaVasuli.setDefaulterName(translationServiceUtility.translationText(defaulterName));
+                    }
+
+                    String khataNumber = getCellValue(row.getCell(5));
+                    if (StringUtils.isNotBlank(talukaName)) {
+                        // english
+                        KarkhanaVasuli.setKhataNumberEn(khataNumber);
+                        // marathi
+                        KarkhanaVasuli.setKhataNumber(translationServiceUtility.translationText(khataNumber));
+                    }
+
+                    karkhanaUploadList.add(KarkhanaVasuli);
+                }
+            }
+
+            if (!karkhanaUploadList.isEmpty()) {
+                karkhanaVasuliRepository.saveAll(karkhanaUploadList);
+
+                if (karkhanaUploadList.get(0) != null) {
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Kamal Marayada Patrak file uploaded",
+                            "Kamal Marayada Patrak file : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            karkhanaUploadList.get(0).getCreatedDate(),
+                            "KamalMarayadaPatrakFileUploaded" // type
+                        );
+                    } catch (Exception e) {}
+                }
+
+                return ResponseEntity.ok().body(karkhanaUploadList);
+            } else {
+                throw new BadRequestAlertException("File is already parsed", ENTITY_NAME, "FileExist");
+            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
+        }
+    }*/
 }

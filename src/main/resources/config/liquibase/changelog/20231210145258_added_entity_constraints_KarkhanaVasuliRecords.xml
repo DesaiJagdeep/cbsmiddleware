@@ -12,7 +12,6 @@
                                  baseTableName="karkhana_vasuli_records"
                                  constraintName="fk_karkhana_vasuli_records__karkhana_vasuli_file_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="karkhana_vasuli_file"
-                                 />
+                                 referencedTableName="karkhana_vasuli_file"/>
     </changeSet>
 </databaseChangeLog>

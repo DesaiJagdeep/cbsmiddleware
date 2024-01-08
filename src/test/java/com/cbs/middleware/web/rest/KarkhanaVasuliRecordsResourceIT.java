@@ -9,10 +9,11 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliRecordsRepository;
-import javax.persistence.EntityManager;
+import com.cbs.middleware.service.criteria.KarkhanaVasuliRecordsCriteria;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ class KarkhanaVasuliRecordsResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private KarkhanaVasuliRecordsRepository karkhanaVasuliRecordsRepository;
@@ -1038,6 +1039,7 @@ class KarkhanaVasuliRecordsResourceIT {
         karkhanaVasuliRecords.setKarkhanaVasuliFile(karkhanaVasuliFile);
         karkhanaVasuliRecordsRepository.saveAndFlush(karkhanaVasuliRecords);
         Long karkhanaVasuliFileId = karkhanaVasuliFile.getId();
+
         // Get all the karkhanaVasuliRecordsList where karkhanaVasuliFile equals to karkhanaVasuliFileId
         defaultKarkhanaVasuliRecordsShouldBeFound("karkhanaVasuliFileId.equals=" + karkhanaVasuliFileId);
 
@@ -1109,9 +1111,7 @@ class KarkhanaVasuliRecordsResourceIT {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
 
         // Update the karkhanaVasuliRecords
-        KarkhanaVasuliRecords updatedKarkhanaVasuliRecords = karkhanaVasuliRecordsRepository
-            .findById(karkhanaVasuliRecords.getId())
-            .orElseThrow();
+        KarkhanaVasuliRecords updatedKarkhanaVasuliRecords = karkhanaVasuliRecordsRepository.findById(karkhanaVasuliRecords.getId()).get();
         // Disconnect from session so that the updates on updatedKarkhanaVasuliRecords are not directly saved in db
         em.detach(updatedKarkhanaVasuliRecords);
         updatedKarkhanaVasuliRecords
@@ -1156,7 +1156,7 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void putNonExistingKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc
@@ -1176,12 +1176,12 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void putWithIdMismatchKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(karkhanaVasuliRecords))
             )
@@ -1196,7 +1196,7 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void putWithMissingIdPathParamKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc
@@ -1226,14 +1226,11 @@ class KarkhanaVasuliRecordsResourceIT {
 
         partialUpdatedKarkhanaVasuliRecords
             .factoryMemberCode(UPDATED_FACTORY_MEMBER_CODE)
-            .karkhanaMemberCodeMr(UPDATED_KARKHANA_MEMBER_CODE_MR)
             .memberName(UPDATED_MEMBER_NAME)
             .memberNameMr(UPDATED_MEMBER_NAME_MR)
             .villageName(UPDATED_VILLAGE_NAME)
             .villageNameMr(UPDATED_VILLAGE_NAME_MR)
-            .amount(UPDATED_AMOUNT)
-            .amountMr(UPDATED_AMOUNT_MR)
-            .status(UPDATED_STATUS);
+            .savingAccNoMr(UPDATED_SAVING_ACC_NO_MR);
 
         restKarkhanaVasuliRecordsMockMvc
             .perform(
@@ -1248,16 +1245,16 @@ class KarkhanaVasuliRecordsResourceIT {
         assertThat(karkhanaVasuliRecordsList).hasSize(databaseSizeBeforeUpdate);
         KarkhanaVasuliRecords testKarkhanaVasuliRecords = karkhanaVasuliRecordsList.get(karkhanaVasuliRecordsList.size() - 1);
         assertThat(testKarkhanaVasuliRecords.getFactoryMemberCode()).isEqualTo(UPDATED_FACTORY_MEMBER_CODE);
-        assertThat(testKarkhanaVasuliRecords.getKarkhanaMemberCodeMr()).isEqualTo(UPDATED_KARKHANA_MEMBER_CODE_MR);
+        assertThat(testKarkhanaVasuliRecords.getKarkhanaMemberCodeMr()).isEqualTo(DEFAULT_KARKHANA_MEMBER_CODE_MR);
         assertThat(testKarkhanaVasuliRecords.getMemberName()).isEqualTo(UPDATED_MEMBER_NAME);
         assertThat(testKarkhanaVasuliRecords.getMemberNameMr()).isEqualTo(UPDATED_MEMBER_NAME_MR);
         assertThat(testKarkhanaVasuliRecords.getVillageName()).isEqualTo(UPDATED_VILLAGE_NAME);
         assertThat(testKarkhanaVasuliRecords.getVillageNameMr()).isEqualTo(UPDATED_VILLAGE_NAME_MR);
-        assertThat(testKarkhanaVasuliRecords.getAmount()).isEqualTo(UPDATED_AMOUNT);
-        assertThat(testKarkhanaVasuliRecords.getAmountMr()).isEqualTo(UPDATED_AMOUNT_MR);
+        assertThat(testKarkhanaVasuliRecords.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testKarkhanaVasuliRecords.getAmountMr()).isEqualTo(DEFAULT_AMOUNT_MR);
         assertThat(testKarkhanaVasuliRecords.getSavingAccNo()).isEqualTo(DEFAULT_SAVING_ACC_NO);
-        assertThat(testKarkhanaVasuliRecords.getSavingAccNoMr()).isEqualTo(DEFAULT_SAVING_ACC_NO_MR);
-        assertThat(testKarkhanaVasuliRecords.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testKarkhanaVasuliRecords.getSavingAccNoMr()).isEqualTo(UPDATED_SAVING_ACC_NO_MR);
+        assertThat(testKarkhanaVasuliRecords.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -1314,7 +1311,7 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void patchNonExistingKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc
@@ -1334,12 +1331,12 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void patchWithIdMismatchKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(karkhanaVasuliRecords))
             )
@@ -1354,7 +1351,7 @@ class KarkhanaVasuliRecordsResourceIT {
     @Transactional
     void patchWithMissingIdPathParamKarkhanaVasuliRecords() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliRecordsRepository.findAll().size();
-        karkhanaVasuliRecords.setId(longCount.incrementAndGet());
+        karkhanaVasuliRecords.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliRecordsMockMvc

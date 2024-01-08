@@ -16,10 +16,7 @@ export type EntityArrayResponseType = HttpResponse<IKarkhanaVasuliRecords[]>;
 export class KarkhanaVasuliRecordsService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/karkhana-vasuli-records');
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(karkhanaVasuliRecords: NewKarkhanaVasuliRecords): Observable<EntityResponseType> {
     return this.http.post<IKarkhanaVasuliRecords>(this.resourceUrl, karkhanaVasuliRecords, { observe: 'response' });
@@ -29,7 +26,7 @@ export class KarkhanaVasuliRecordsService {
     return this.http.put<IKarkhanaVasuliRecords>(
       `${this.resourceUrl}/${this.getKarkhanaVasuliRecordsIdentifier(karkhanaVasuliRecords)}`,
       karkhanaVasuliRecords,
-      { observe: 'response' },
+      { observe: 'response' }
     );
   }
 
@@ -37,7 +34,7 @@ export class KarkhanaVasuliRecordsService {
     return this.http.patch<IKarkhanaVasuliRecords>(
       `${this.resourceUrl}/${this.getKarkhanaVasuliRecordsIdentifier(karkhanaVasuliRecords)}`,
       karkhanaVasuliRecords,
-      { observe: 'response' },
+      { observe: 'response' }
     );
   }
 
@@ -69,7 +66,7 @@ export class KarkhanaVasuliRecordsService {
     const karkhanaVasuliRecords: Type[] = karkhanaVasuliRecordsToCheck.filter(isPresent);
     if (karkhanaVasuliRecords.length > 0) {
       const karkhanaVasuliRecordsCollectionIdentifiers = karkhanaVasuliRecordsCollection.map(
-        karkhanaVasuliRecordsItem => this.getKarkhanaVasuliRecordsIdentifier(karkhanaVasuliRecordsItem)!,
+        karkhanaVasuliRecordsItem => this.getKarkhanaVasuliRecordsIdentifier(karkhanaVasuliRecordsItem)!
       );
       const karkhanaVasuliRecordsToAdd = karkhanaVasuliRecords.filter(karkhanaVasuliRecordsItem => {
         const karkhanaVasuliRecordsIdentifier = this.getKarkhanaVasuliRecordsIdentifier(karkhanaVasuliRecordsItem);

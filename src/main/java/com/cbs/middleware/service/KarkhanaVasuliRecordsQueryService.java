@@ -4,8 +4,8 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliRecordsRepository;
 import com.cbs.middleware.service.criteria.KarkhanaVasuliRecordsCriteria;
-import javax.persistence.criteria.JoinType;
 import java.util.List;
+import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

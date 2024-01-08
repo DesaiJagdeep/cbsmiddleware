@@ -37,7 +37,7 @@ export type KarkhanaVasuliRecordsFormGroup = FormGroup<KarkhanaVasuliRecordsForm
 @Injectable({ providedIn: 'root' })
 export class KarkhanaVasuliRecordsFormService {
   createKarkhanaVasuliRecordsFormGroup(
-    karkhanaVasuliRecords: KarkhanaVasuliRecordsFormGroupInput = { id: null },
+    karkhanaVasuliRecords: KarkhanaVasuliRecordsFormGroupInput = { id: null }
   ): KarkhanaVasuliRecordsFormGroup {
     const karkhanaVasuliRecordsRawValue = {
       ...this.getFormDefaults(),
@@ -49,7 +49,7 @@ export class KarkhanaVasuliRecordsFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        },
+        }
       ),
       factoryMemberCode: new FormControl(karkhanaVasuliRecordsRawValue.factoryMemberCode),
       karkhanaMemberCodeMr: new FormControl(karkhanaVasuliRecordsRawValue.karkhanaMemberCodeMr),
@@ -76,7 +76,7 @@ export class KarkhanaVasuliRecordsFormService {
       {
         ...karkhanaVasuliRecordsRawValue,
         id: { value: karkhanaVasuliRecordsRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 

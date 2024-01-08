@@ -18,7 +18,8 @@ describe('KarkhanaVasuliRecords Management Delete Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, KarkhanaVasuliRecordsDeleteDialogComponent],
+      imports: [HttpClientTestingModule],
+      declarations: [KarkhanaVasuliRecordsDeleteDialogComponent],
       providers: [NgbActiveModal],
     })
       .overrideTemplate(KarkhanaVasuliRecordsDeleteDialogComponent, '')
@@ -43,7 +44,7 @@ describe('KarkhanaVasuliRecords Management Delete Component', () => {
         // THEN
         expect(service.delete).toHaveBeenCalledWith(123);
         expect(mockActiveModal.close).toHaveBeenCalledWith('deleted');
-      }),
+      })
     ));
 
     it('Should not call delete service on clear', () => {

@@ -8,8 +8,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "crop_master")
-//@SuppressWarnings("common-java:DuplicatedBlocks")
-public class CropMaster extends AbstractAuditingEntity<Long> implements Serializable {
+@SuppressWarnings("common-java:DuplicatedBlocks")
+public class CropMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,11 +24,11 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "crop_name")
     private String cropName;
 
-    @Column(name = "category_code")
-    private String categoryCode;
+    @Column(name = "crop_name_mr")
+    private String cropNameMr;
 
-    @Column(name = "category_name")
-    private String categoryName;
+    @ManyToOne
+    private CropCategoryMaster cropCategoryMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -71,26 +71,33 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
         this.cropName = cropName;
     }
 
-    public String getCategoryCode() {
-        return this.categoryCode;
+    public String getCropNameMr() {
+        return this.cropNameMr;
     }
 
-    public CropMaster categoryCode(String categoryCode) {
-        this.setCategoryCode(categoryCode);
+    public CropMaster cropNameMr(String cropNameMr) {
+        this.setCropNameMr(cropNameMr);
         return this;
     }
 
-    public void setCategoryCode(String categoryCode) {
-        this.categoryCode = categoryCode;
+    public void setCropNameMr(String cropNameMr) {
+        this.cropNameMr = cropNameMr;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public CropCategoryMaster getCropCategoryMaster() {
+        return this.cropCategoryMaster;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setCropCategoryMaster(CropCategoryMaster cropCategoryMaster) {
+        this.cropCategoryMaster = cropCategoryMaster;
     }
+
+    public CropMaster cropCategoryMaster(CropCategoryMaster cropCategoryMaster) {
+        this.setCropCategoryMaster(cropCategoryMaster);
+        return this;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -105,27 +112,18 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
 
     @Override
     public int hashCode() {
-        // see
-        // https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
-        return (
-            "CropMaster [id=" +
-            id +
-            ", cropCode=" +
-            cropCode +
-            ", cropName=" +
-            cropName +
-            ", categoryCode=" +
-            categoryCode +
-            ", categoryName=" +
-            categoryName +
-            "]"
-        );
+        return "CropMaster{" +
+            "id=" + getId() +
+            ", cropCode='" + getCropCode() + "'" +
+            ", cropName='" + getCropName() + "'" +
+            ", cropNameMr='" + getCropNameMr() + "'" +
+            "}";
     }
-    // prettier-ignore
-
 }

@@ -8,8 +8,8 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "crop_category_master")
-//@SuppressWarnings("common-java:DuplicatedBlocks")
-public class CropCategoryMaster extends AbstractAuditingEntity<Long> implements Serializable {
+@SuppressWarnings("common-java:DuplicatedBlocks")
+public class CropCategoryMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,8 +21,14 @@ public class CropCategoryMaster extends AbstractAuditingEntity<Long> implements 
     @Column(name = "category_code")
     private String categoryCode;
 
+    @Column(name = "category_code_mr")
+    private String categoryCodeMr;
+
     @Column(name = "category_name")
     private String categoryName;
+
+    @Column(name = "category_name_mr")
+    private String categoryNameMr;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -52,6 +58,19 @@ public class CropCategoryMaster extends AbstractAuditingEntity<Long> implements 
         this.categoryCode = categoryCode;
     }
 
+    public String getCategoryCodeMr() {
+        return this.categoryCodeMr;
+    }
+
+    public CropCategoryMaster categoryCodeMr(String categoryCodeMr) {
+        this.setCategoryCodeMr(categoryCodeMr);
+        return this;
+    }
+
+    public void setCategoryCodeMr(String categoryCodeMr) {
+        this.categoryCodeMr = categoryCodeMr;
+    }
+
     public String getCategoryName() {
         return this.categoryName;
     }
@@ -63,6 +82,19 @@ public class CropCategoryMaster extends AbstractAuditingEntity<Long> implements 
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getCategoryNameMr() {
+        return this.categoryNameMr;
+    }
+
+    public CropCategoryMaster categoryNameMr(String categoryNameMr) {
+        this.setCategoryNameMr(categoryNameMr);
+        return this;
+    }
+
+    public void setCategoryNameMr(String categoryNameMr) {
+        this.categoryNameMr = categoryNameMr;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -90,7 +122,9 @@ public class CropCategoryMaster extends AbstractAuditingEntity<Long> implements 
         return "CropCategoryMaster{" +
             "id=" + getId() +
             ", categoryCode='" + getCategoryCode() + "'" +
+            ", categoryCodeMr='" + getCategoryCodeMr() + "'" +
             ", categoryName='" + getCategoryName() + "'" +
+            ", categoryNameMr='" + getCategoryNameMr() + "'" +
             "}";
     }
 }

@@ -6,9 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
+import { FactoryMasterFormService } from './factory-master-form.service';
 import { FactoryMasterService } from '../service/factory-master.service';
 import { IFactoryMaster } from '../factory-master.model';
-import { FactoryMasterFormService } from './factory-master-form.service';
 
 import { FactoryMasterUpdateComponent } from './factory-master-update.component';
 
@@ -21,7 +21,8 @@ describe('FactoryMaster Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), FactoryMasterUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      declarations: [FactoryMasterUpdateComponent],
       providers: [
         FormBuilder,
         {

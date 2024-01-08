@@ -4,18 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import SharedModule from 'app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FactoryMasterFormService, FactoryMasterFormGroup } from './factory-master-form.service';
 import { IFactoryMaster } from '../factory-master.model';
 import { FactoryMasterService } from '../service/factory-master.service';
-import { FactoryMasterFormService, FactoryMasterFormGroup } from './factory-master-form.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-factory-master-update',
   templateUrl: './factory-master-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class FactoryMasterUpdateComponent implements OnInit {
   isSaving = false;
@@ -26,7 +21,7 @@ export class FactoryMasterUpdateComponent implements OnInit {
   constructor(
     protected factoryMasterService: FactoryMasterService,
     protected factoryMasterFormService: FactoryMasterFormService,
-    protected activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

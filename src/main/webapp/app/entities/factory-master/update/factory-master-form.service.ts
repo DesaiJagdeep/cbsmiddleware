@@ -43,7 +43,7 @@ export class FactoryMasterFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        },
+        }
       ),
       factoryName: new FormControl(factoryMasterRawValue.factoryName),
       factoryNameMr: new FormControl(factoryMasterRawValue.factoryNameMr),
@@ -66,7 +66,7 @@ export class FactoryMasterFormService {
       {
         ...factoryMasterRawValue,
         id: { value: factoryMasterRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 

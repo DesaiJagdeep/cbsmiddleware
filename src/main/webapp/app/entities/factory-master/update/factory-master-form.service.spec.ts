@@ -28,7 +28,7 @@ describe('FactoryMaster Form Service', () => {
             factoryAddressMr: expect.any(Object),
             description: expect.any(Object),
             status: expect.any(Object),
-          }),
+          })
         );
       });
 
@@ -46,13 +46,14 @@ describe('FactoryMaster Form Service', () => {
             factoryAddressMr: expect.any(Object),
             description: expect.any(Object),
             status: expect.any(Object),
-          }),
+          })
         );
       });
     });
 
     describe('getFactoryMaster', () => {
       it('should return NewFactoryMaster for default FactoryMaster initial value', () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createFactoryMasterFormGroup(sampleWithNewData);
 
         const factoryMaster = service.getFactoryMaster(formGroup) as any;

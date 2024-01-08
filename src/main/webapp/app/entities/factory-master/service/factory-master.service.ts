@@ -16,10 +16,7 @@ export type EntityArrayResponseType = HttpResponse<IFactoryMaster[]>;
 export class FactoryMasterService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/factory-masters');
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(factoryMaster: NewFactoryMaster): Observable<EntityResponseType> {
     return this.http.post<IFactoryMaster>(this.resourceUrl, factoryMaster, { observe: 'response' });
@@ -65,7 +62,7 @@ export class FactoryMasterService {
     const factoryMasters: Type[] = factoryMastersToCheck.filter(isPresent);
     if (factoryMasters.length > 0) {
       const factoryMasterCollectionIdentifiers = factoryMasterCollection.map(
-        factoryMasterItem => this.getFactoryMasterIdentifier(factoryMasterItem)!,
+        factoryMasterItem => this.getFactoryMasterIdentifier(factoryMasterItem)!
       );
       const factoryMastersToAdd = factoryMasters.filter(factoryMasterItem => {
         const factoryMasterIdentifier = this.getFactoryMasterIdentifier(factoryMasterItem);

@@ -1,38 +1,36 @@
-import { TestBed } from '@angular/core/testing';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { FactoryMasterDetailComponent } from './factory-master-detail.component';
 
 describe('FactoryMaster Management Detail Component', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [FactoryMasterDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+  let comp: FactoryMasterDetailComponent;
+  let fixture: ComponentFixture<FactoryMasterDetailComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [FactoryMasterDetailComponent],
       providers: [
-        provideRouter(
-          [
-            {
-              path: '**',
-              component: FactoryMasterDetailComponent,
-              resolve: { factoryMaster: () => of({ id: 123 }) },
-            },
-          ],
-          withComponentInputBinding(),
-        ),
+        {
+          provide: ActivatedRoute,
+          useValue: { data: of({ factoryMaster: { id: 123 } }) },
+        },
       ],
     })
       .overrideTemplate(FactoryMasterDetailComponent, '')
       .compileComponents();
+    fixture = TestBed.createComponent(FactoryMasterDetailComponent);
+    comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load factoryMaster on init', async () => {
-      const harness = await RouterTestingHarness.create();
-      const instance = await harness.navigateByUrl('/', FactoryMasterDetailComponent);
+    it('Should load factoryMaster on init', () => {
+      // WHEN
+      comp.ngOnInit();
 
       // THEN
-      expect(instance.factoryMaster).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.factoryMaster).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

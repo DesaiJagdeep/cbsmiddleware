@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_loans")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmLoans implements Serializable {
+public class KmLoans extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

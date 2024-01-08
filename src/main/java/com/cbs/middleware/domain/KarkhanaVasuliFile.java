@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "karkhana_vasuli_file")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KarkhanaVasuliFile implements Serializable {
+public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

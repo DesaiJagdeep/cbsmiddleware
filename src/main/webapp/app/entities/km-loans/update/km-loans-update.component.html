@@ -1,0 +1,198 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-km-loans-heading" data-cy="KmLoansCreateUpdateHeading" jhiTranslate="cbsMiddlewareApp.kmLoans.home.createOrEditLabel">
+        Create or edit a Km Loans
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.hector" for="field_hector">Hector</label>
+          <input type="number" class="form-control" name="hector" id="field_hector" data-cy="hector" formControlName="hector" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.hectorMr" for="field_hectorMr">Hector Mr</label>
+          <input type="text" class="form-control" name="hectorMr" id="field_hectorMr" data-cy="hectorMr" formControlName="hectorMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.are" for="field_are">Are</label>
+          <input type="number" class="form-control" name="are" id="field_are" data-cy="are" formControlName="are" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.aremr" for="field_aremr">Aremr</label>
+          <input type="text" class="form-control" name="aremr" id="field_aremr" data-cy="aremr" formControlName="aremr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTree" for="field_noOfTree">No Of Tree</label>
+          <input type="number" class="form-control" name="noOfTree" id="field_noOfTree" data-cy="noOfTree" formControlName="noOfTree" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTreeMr" for="field_noOfTreeMr">No Of Tree Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="noOfTreeMr"
+            id="field_noOfTreeMr"
+            data-cy="noOfTreeMr"
+            formControlName="noOfTreeMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmt" for="field_sanctionAmt">Sanction Amt</label>
+          <input
+            type="number"
+            class="form-control"
+            name="sanctionAmt"
+            id="field_sanctionAmt"
+            data-cy="sanctionAmt"
+            formControlName="sanctionAmt"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmtMr" for="field_sanctionAmtMr">Sanction Amt Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="sanctionAmtMr"
+            id="field_sanctionAmtMr"
+            data-cy="sanctionAmtMr"
+            formControlName="sanctionAmtMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmt" for="field_loanAmt">Loan Amt</label>
+          <input type="number" class="form-control" name="loanAmt" id="field_loanAmt" data-cy="loanAmt" formControlName="loanAmt" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmtMr" for="field_loanAmtMr">Loan Amt Mr</label>
+          <input type="text" class="form-control" name="loanAmtMr" id="field_loanAmtMr" data-cy="loanAmtMr" formControlName="loanAmtMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmt" for="field_receivableAmt">Receivable Amt</label>
+          <input
+            type="number"
+            class="form-control"
+            name="receivableAmt"
+            id="field_receivableAmt"
+            data-cy="receivableAmt"
+            formControlName="receivableAmt"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmtMr" for="field_receivableAmtMr"
+            >Receivable Amt Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="receivableAmtMr"
+            id="field_receivableAmtMr"
+            data-cy="receivableAmtMr"
+            formControlName="receivableAmtMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt" for="field_dueAmt">Due Amt</label>
+          <input type="number" class="form-control" name="dueAmt" id="field_dueAmt" data-cy="dueAmt" formControlName="dueAmt" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmtMr" for="field_dueAmtMr">Due Amt Mr</label>
+          <input type="text" class="form-control" name="dueAmtMr" id="field_dueAmtMr" data-cy="dueAmtMr" formControlName="dueAmtMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueDate" for="field_dueDate">Due Date</label>
+          <div class="d-flex">
+            <input
+              id="field_dueDate"
+              data-cy="dueDate"
+              type="datetime-local"
+              class="form-control"
+              name="dueDate"
+              formControlName="dueDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueDateMr" for="field_dueDateMr">Due Date Mr</label>
+          <input type="text" class="form-control" name="dueDateMr" id="field_dueDateMr" data-cy="dueDateMr" formControlName="dueDateMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.spare" for="field_spare">Spare</label>
+          <input type="text" class="form-control" name="spare" id="field_spare" data-cy="spare" formControlName="spare" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.cropMaster" for="field_cropMaster">Crop Master</label>
+          <select
+            class="form-control"
+            id="field_cropMaster"
+            data-cy="cropMaster"
+            name="cropMaster"
+            formControlName="cropMaster"
+            [compareWith]="compareCropMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="cropMasterOption" *ngFor="let cropMasterOption of cropMastersSharedCollection">
+              {{ cropMasterOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.kmDetails" for="field_kmDetails">Km Details</label>
+          <select
+            class="form-control"
+            id="field_kmDetails"
+            data-cy="kmDetails"
+            name="kmDetails"
+            formControlName="kmDetails"
+            [compareWith]="compareKmDetails"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kmDetailsOption" *ngFor="let kmDetailsOption of kmDetailsSharedCollection">{{ kmDetailsOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

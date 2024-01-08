@@ -1,0 +1,242 @@
+<div>
+  <h2 id="page-heading" data-cy="KmLoansHeading">
+    <span jhiTranslate="cbsMiddlewareApp.kmLoans.home.title">Km Loans</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmLoans.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-km-loans"
+        [routerLink]="['/km-loans/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kmLoans.home.createLabel"> Create a new Km Loans </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="kmLoans?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.kmLoans.home.notFound">No Km Loans found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="kmLoans && kmLoans.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hector">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.hector">Hector</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="hectorMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.hectorMr">Hector Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="are">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.are">Are</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="aremr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.aremr">Aremr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noOfTree">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTree">No Of Tree</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="noOfTreeMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTreeMr">No Of Tree Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sanctionAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmt">Sanction Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="sanctionAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmtMr">Sanction Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmt">Loan Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="loanAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmtMr">Loan Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="receivableAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmt">Receivable Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="receivableAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmtMr">Receivable Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueAmt">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt">Due Amt</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueAmtMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmtMr">Due Amt Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.dueDate">Due Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dueDateMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.dueDateMr">Due Date Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="spare">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.spare">Spare</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropMaster.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.cropMaster">Crop Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDetails.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmLoans.kmDetails">Km Details</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kmLoans of kmLoans; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/km-loans', kmLoans.id, 'view']">{{ kmLoans.id }}</a>
+          </td>
+          <td>{{ kmLoans.hector }}</td>
+          <td>{{ kmLoans.hectorMr }}</td>
+          <td>{{ kmLoans.are }}</td>
+          <td>{{ kmLoans.aremr }}</td>
+          <td>{{ kmLoans.noOfTree }}</td>
+          <td>{{ kmLoans.noOfTreeMr }}</td>
+          <td>{{ kmLoans.sanctionAmt }}</td>
+          <td>{{ kmLoans.sanctionAmtMr }}</td>
+          <td>{{ kmLoans.loanAmt }}</td>
+          <td>{{ kmLoans.loanAmtMr }}</td>
+          <td>{{ kmLoans.receivableAmt }}</td>
+          <td>{{ kmLoans.receivableAmtMr }}</td>
+          <td>{{ kmLoans.dueAmt }}</td>
+          <td>{{ kmLoans.dueAmtMr }}</td>
+          <td>{{ kmLoans.dueDate | formatMediumDatetime }}</td>
+          <td>{{ kmLoans.dueDateMr }}</td>
+          <td>{{ kmLoans.spare }}</td>
+          <td>
+            <div *ngIf="kmLoans.cropMaster">
+              <a [routerLink]="['/crop-master', kmLoans.cropMaster.id, 'view']">{{ kmLoans.cropMaster.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="kmLoans.kmDetails">
+              <a [routerLink]="['/km-details', kmLoans.kmDetails.id, 'view']">{{ kmLoans.kmDetails.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/km-loans', kmLoans.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/km-loans', kmLoans.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(kmLoans)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="kmLoans && kmLoans.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

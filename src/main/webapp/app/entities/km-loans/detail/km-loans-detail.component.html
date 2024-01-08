@@ -1,0 +1,108 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmLoans">
+      <h2 data-cy="kmLoansDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmLoans.detail.title">Km Loans</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmLoans.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.hector">Hector</span></dt>
+        <dd>
+          <span>{{ kmLoans.hector }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.hectorMr">Hector Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.hectorMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.are">Are</span></dt>
+        <dd>
+          <span>{{ kmLoans.are }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.aremr">Aremr</span></dt>
+        <dd>
+          <span>{{ kmLoans.aremr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTree">No Of Tree</span></dt>
+        <dd>
+          <span>{{ kmLoans.noOfTree }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTreeMr">No Of Tree Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.noOfTreeMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmt">Sanction Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.sanctionAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.sanctionAmtMr">Sanction Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.sanctionAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmt">Loan Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.loanAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmtMr">Loan Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.loanAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmt">Receivable Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.receivableAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.receivableAmtMr">Receivable Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.receivableAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt">Due Amt</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmtMr">Due Amt Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueAmtMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueDate">Due Date</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.dueDateMr">Due Date Mr</span></dt>
+        <dd>
+          <span>{{ kmLoans.dueDateMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.spare">Spare</span></dt>
+        <dd>
+          <span>{{ kmLoans.spare }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.cropMaster">Crop Master</span></dt>
+        <dd>
+          <div *ngIf="kmLoans.cropMaster">
+            <a [routerLink]="['/crop-master', kmLoans.cropMaster.id, 'view']">{{ kmLoans.cropMaster.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmLoans.kmDetails">Km Details</span></dt>
+        <dd>
+          <div *ngIf="kmLoans.kmDetails">
+            <a [routerLink]="['/km-details', kmLoans.kmDetails.id, 'view']">{{ kmLoans.kmDetails.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-loans', kmLoans.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

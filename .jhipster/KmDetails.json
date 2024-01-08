@@ -1,0 +1,179 @@
+{
+  "changelogDate": "20240108171612",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "shares",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sugarShares",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "sugarSharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deposite",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "depositeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueLoan",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dueLoanMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "dueAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmFromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmFromDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmToDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmToDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayatHector",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bagayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayatAre",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bagayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatHector",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jirayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatAre",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "jirayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zindagiAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "zindagiNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "surveyNo",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "landValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "landValueMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eAgreementAmt",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "eAgreementAmtMr",
+      "fieldType": "String",
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "eAgreementDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "eAgreementDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bojaAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "bojaAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bojaDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bojaDateMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmDetails",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "kmMaster",
+      "otherEntityRelationshipName": "kmDetails",
+      "ownerSide": true,
+      "relationshipName": "kmMaster",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -39,6 +39,7 @@ describe('KarkhanaVasuliFile Service', () => {
     });
 
     it('should create a KarkhanaVasuliFile', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const karkhanaVasuliFile = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };

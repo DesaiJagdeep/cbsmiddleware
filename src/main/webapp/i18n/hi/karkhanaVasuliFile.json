@@ -32,8 +32,7 @@
       "toDate": "To Date",
       "branchCode": "Branch Code",
       "pacsName": "Pacs Name",
-      "factoryMaster": "Factory Master",
-      "karkhanaVasuliRecords": "Karkhana Vasuli Records"
+      "factoryMaster": "Factory Master"
     }
   }
 }

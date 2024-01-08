@@ -1,24 +1,17 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import SharedModule from 'app/shared/shared.module';
-import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
+import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 
 @Component({
-  standalone: true,
   templateUrl: './karkhana-vasuli-file-delete-dialog.component.html',
-  imports: [SharedModule, FormsModule],
 })
 export class KarkhanaVasuliFileDeleteDialogComponent {
   karkhanaVasuliFile?: IKarkhanaVasuliFile;
 
-  constructor(
-    protected karkhanaVasuliFileService: KarkhanaVasuliFileService,
-    protected activeModal: NgbActiveModal,
-  ) {}
+  constructor(protected karkhanaVasuliFileService: KarkhanaVasuliFileService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

@@ -4,26 +4,21 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import SharedModule from 'app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
-import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
+import { KarkhanaVasuliFileFormService, KarkhanaVasuliFileFormGroup } from './karkhana-vasuli-file-form.service';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
-import { KarkhanaVasuliFileFormService, KarkhanaVasuliFileFormGroup } from './karkhana-vasuli-file-form.service';
+import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
+import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
 
 @Component({
-  standalone: true,
   selector: 'jhi-karkhana-vasuli-file-update',
   templateUrl: './karkhana-vasuli-file-update.component.html',
-  imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class KarkhanaVasuliFileUpdateComponent implements OnInit {
   isSaving = false;
   karkhanaVasuliFile: IKarkhanaVasuliFile | null = null;
 
-  factoryMastersCollection: IFactoryMaster[] = [];
+  factoryMastersSharedCollection: IFactoryMaster[] = [];
 
   editForm: KarkhanaVasuliFileFormGroup = this.karkhanaVasuliFileFormService.createKarkhanaVasuliFileFormGroup();
 
@@ -31,7 +26,7 @@ export class KarkhanaVasuliFileUpdateComponent implements OnInit {
     protected karkhanaVasuliFileService: KarkhanaVasuliFileService,
     protected karkhanaVasuliFileFormService: KarkhanaVasuliFileFormService,
     protected factoryMasterService: FactoryMasterService,
-    protected activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   compareFactoryMaster = (o1: IFactoryMaster | null, o2: IFactoryMaster | null): boolean =>
@@ -85,24 +80,24 @@ export class KarkhanaVasuliFileUpdateComponent implements OnInit {
     this.karkhanaVasuliFile = karkhanaVasuliFile;
     this.karkhanaVasuliFileFormService.resetForm(this.editForm, karkhanaVasuliFile);
 
-    this.factoryMastersCollection = this.factoryMasterService.addFactoryMasterToCollectionIfMissing<IFactoryMaster>(
-      this.factoryMastersCollection,
-      karkhanaVasuliFile.factoryMaster,
+    this.factoryMastersSharedCollection = this.factoryMasterService.addFactoryMasterToCollectionIfMissing<IFactoryMaster>(
+      this.factoryMastersSharedCollection,
+      karkhanaVasuliFile.factoryMaster
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.factoryMasterService
-      .query({ 'karkhanaVasuliFileId.specified': 'false' })
+      .query()
       .pipe(map((res: HttpResponse<IFactoryMaster[]>) => res.body ?? []))
       .pipe(
         map((factoryMasters: IFactoryMaster[]) =>
           this.factoryMasterService.addFactoryMasterToCollectionIfMissing<IFactoryMaster>(
             factoryMasters,
-            this.karkhanaVasuliFile?.factoryMaster,
-          ),
-        ),
+            this.karkhanaVasuliFile?.factoryMaster
+          )
+        )
       )
-      .subscribe((factoryMasters: IFactoryMaster[]) => (this.factoryMastersCollection = factoryMasters));
+      .subscribe((factoryMasters: IFactoryMaster[]) => (this.factoryMastersSharedCollection = factoryMasters));
   }
 }

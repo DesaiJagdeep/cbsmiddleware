@@ -4,8 +4,8 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
 import com.cbs.middleware.service.criteria.KarkhanaVasuliFileCriteria;
-import javax.persistence.criteria.JoinType;
 import java.util.List;
+import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -134,15 +134,6 @@ public class KarkhanaVasuliFileQueryService extends QueryService<KarkhanaVasuliF
                         buildSpecification(
                             criteria.getFactoryMasterId(),
                             root -> root.join(KarkhanaVasuliFile_.factoryMaster, JoinType.LEFT).get(FactoryMaster_.id)
-                        )
-                    );
-            }
-            if (criteria.getKarkhanaVasuliRecordsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getKarkhanaVasuliRecordsId(),
-                            root -> root.join(KarkhanaVasuliFile_.karkhanaVasuliRecords, JoinType.LEFT).get(KarkhanaVasuliRecords_.id)
                         )
                     );
             }

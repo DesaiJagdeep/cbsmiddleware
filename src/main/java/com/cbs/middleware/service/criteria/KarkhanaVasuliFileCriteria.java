@@ -53,8 +53,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
 
     private LongFilter factoryMasterId;
 
-    private LongFilter karkhanaVasuliRecordsId;
-
     private Boolean distinct;
 
     public KarkhanaVasuliFileCriteria() {}
@@ -76,7 +74,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
         this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
         this.pacsName = other.pacsName == null ? null : other.pacsName.copy();
         this.factoryMasterId = other.factoryMasterId == null ? null : other.factoryMasterId.copy();
-        this.karkhanaVasuliRecordsId = other.karkhanaVasuliRecordsId == null ? null : other.karkhanaVasuliRecordsId.copy();
         this.distinct = other.distinct;
     }
 
@@ -325,21 +322,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
         this.factoryMasterId = factoryMasterId;
     }
 
-    public LongFilter getKarkhanaVasuliRecordsId() {
-        return karkhanaVasuliRecordsId;
-    }
-
-    public LongFilter karkhanaVasuliRecordsId() {
-        if (karkhanaVasuliRecordsId == null) {
-            karkhanaVasuliRecordsId = new LongFilter();
-        }
-        return karkhanaVasuliRecordsId;
-    }
-
-    public void setKarkhanaVasuliRecordsId(LongFilter karkhanaVasuliRecordsId) {
-        this.karkhanaVasuliRecordsId = karkhanaVasuliRecordsId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -374,7 +356,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
             Objects.equals(branchCode, that.branchCode) &&
             Objects.equals(pacsName, that.pacsName) &&
             Objects.equals(factoryMasterId, that.factoryMasterId) &&
-            Objects.equals(karkhanaVasuliRecordsId, that.karkhanaVasuliRecordsId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -398,7 +379,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
             branchCode,
             pacsName,
             factoryMasterId,
-            karkhanaVasuliRecordsId,
             distinct
         );
     }
@@ -423,7 +403,6 @@ public class KarkhanaVasuliFileCriteria implements Serializable, Criteria {
             (branchCode != null ? "branchCode=" + branchCode + ", " : "") +
             (pacsName != null ? "pacsName=" + pacsName + ", " : "") +
             (factoryMasterId != null ? "factoryMasterId=" + factoryMasterId + ", " : "") +
-            (karkhanaVasuliRecordsId != null ? "karkhanaVasuliRecordsId=" + karkhanaVasuliRecordsId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

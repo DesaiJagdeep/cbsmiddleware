@@ -15,7 +15,7 @@
         [routerLink]="['/karkhana-vasuli-file/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.createLabel">Create a new Karkhana Vasuli File</span>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliFile.home.createLabel"> Create a new Karkhana Vasuli File </span>
       </button>
     </div>
   </h2>
@@ -163,36 +163,23 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/karkhana-vasuli-records']"
-                [queryParams]="{ 'filter[karkhanaVasuliFileId.in]': karkhanaVasuliFile.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span
-                  class="d-none d-md-inline"
-                  jhiTranslate="entity.action.show"
-                  [translateValues]="{ otherEntity: ('cbsMiddlewareApp.karkhanaVasuliFile.karkhanaVasuliRecords' | translate) }"
-                  >Show Karkhana Vasuli Records</span
-                >
-              </button>
-              <a
                 [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </a>
+              </button>
 
-              <a
+              <button
+                type="submit"
                 [routerLink]="['/karkhana-vasuli-file', karkhanaVasuliFile.id, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </a>
+              </button>
 
               <button type="submit" (click)="delete(karkhanaVasuliFile)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>

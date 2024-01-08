@@ -64,7 +64,7 @@ export class KarkhanaVasuliFileFormService {
         {
           nonNullable: true,
           validators: [Validators.required],
-        },
+        }
       ),
       fileName: new FormControl(karkhanaVasuliFileRawValue.fileName),
       uniqueFileName: new FormControl(karkhanaVasuliFileRawValue.uniqueFileName),
@@ -86,7 +86,7 @@ export class KarkhanaVasuliFileFormService {
 
   getKarkhanaVasuliFile(form: KarkhanaVasuliFileFormGroup): IKarkhanaVasuliFile | NewKarkhanaVasuliFile {
     return this.convertKarkhanaVasuliFileRawValueToKarkhanaVasuliFile(
-      form.getRawValue() as KarkhanaVasuliFileFormRawValue | NewKarkhanaVasuliFileFormRawValue,
+      form.getRawValue() as KarkhanaVasuliFileFormRawValue | NewKarkhanaVasuliFileFormRawValue
     );
   }
 
@@ -99,7 +99,7 @@ export class KarkhanaVasuliFileFormService {
       {
         ...karkhanaVasuliFileRawValue,
         id: { value: karkhanaVasuliFileRawValue.id, disabled: true },
-      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */,
+      } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }
 
@@ -114,7 +114,7 @@ export class KarkhanaVasuliFileFormService {
   }
 
   private convertKarkhanaVasuliFileRawValueToKarkhanaVasuliFile(
-    rawKarkhanaVasuliFile: KarkhanaVasuliFileFormRawValue | NewKarkhanaVasuliFileFormRawValue,
+    rawKarkhanaVasuliFile: KarkhanaVasuliFileFormRawValue | NewKarkhanaVasuliFileFormRawValue
   ): IKarkhanaVasuliFile | NewKarkhanaVasuliFile {
     return {
       ...rawKarkhanaVasuliFile,
@@ -124,7 +124,7 @@ export class KarkhanaVasuliFileFormService {
   }
 
   private convertKarkhanaVasuliFileToKarkhanaVasuliFileRawValue(
-    karkhanaVasuliFile: IKarkhanaVasuliFile | (Partial<NewKarkhanaVasuliFile> & KarkhanaVasuliFileFormDefaults),
+    karkhanaVasuliFile: IKarkhanaVasuliFile | (Partial<NewKarkhanaVasuliFile> & KarkhanaVasuliFileFormDefaults)
   ): KarkhanaVasuliFileFormRawValue | PartialWithRequiredKeyOf<NewKarkhanaVasuliFileFormRawValue> {
     return {
       ...karkhanaVasuliFile,

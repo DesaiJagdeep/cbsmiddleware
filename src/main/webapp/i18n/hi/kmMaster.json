@@ -1,44 +1,43 @@
 {
-  "cbsMiddlewareApp": {
-    "kmMaster": {
-      "home": {
-        "title": "KmMasters",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "नया Km Master बनाएँ",
-        "createOrEditLabel": "Km Master बनाएँ या संपादित करें",
-        "notFound": "No Km Masters found"
-      },
-      "created": "एक नया Km Master [identifier: {{ param }}] तैयार है",
-      "updated": "एक Km Master [identifier: {{ param }}] का अद्यतन हुआ है",
-      "deleted": "Km Master [identifier: {{ param }}] हटा दिया है",
-      "delete": {
-        "question": "Km Master [id: {{ id }}] हटाने की पुष्टि करें"
-      },
-      "detail": {
-        "title": "Km Master"
-      },
-      "id": "ID",
-      "branchCode": "Branch Code",
-      "farmerName": "Farmer Name",
-      "farmerNameMr": "Farmer Name Mr",
-      "farmerAddress": "Farmer Address",
-      "farmerAddressMr": "Farmer Address Mr",
-      "gender": "Gender",
-      "caste": "Caste",
-      "casteMr": "Caste Mr",
-      "pacsNumber": "Pacs Number",
-      "areaHect": "Area Hect",
-      "aadharNo": "Aadhar No",
-      "aadharNoMr": "Aadhar No Mr",
-      "panNo": "Pan No",
-      "panNoMr": "Pan No Mr",
-      "mobileNo": "Mobile No",
-      "mobileNoMr": "Mobile No Mr",
-      "kccNo": "Kcc No",
-      "kccNoMr": "Kcc No Mr",
-      "savingNo": "Saving No",
-      "savingNoMr": "Saving No Mr",
-      "entryFlag": "Entry Flag"
+    "cbsMiddlewareApp": {
+        "kmMaster" : {
+            "home": {
+                "title": "KmMasters",
+                "createLabel": "नया Km Master बनाएँ",
+                "createOrEditLabel": "Km Master बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Km Master [identifier: {{ param }}] तैयार है",
+            "updated": "एक Km Master [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Km Master [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Km Master [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Km Master"
+            },
+            "branchCode": "Branch Code",
+            "farmerName": "Farmer Name",
+            "farmerNameMr": "Farmer Name Mr",
+            "farmerAddress": "Farmer Address",
+            "farmerAddressMr": "Farmer Address Mr",
+            "gender": "Gender",
+            "caste": "Caste",
+            "casteMr": "Caste Mr",
+            "pacsNumber": "Pacs Number",
+            "areaHect": "Area Hect",
+            "aadharNo": "Aadhar No",
+            "aadharNoMr": "Aadhar No Mr",
+            "panNo": "Pan No",
+            "panNoMr": "Pan No Mr",
+            "mobileNo": "Mobile No",
+            "mobileNoMr": "Mobile No Mr",
+            "kccNo": "Kcc No",
+            "kccNoMr": "Kcc No Mr",
+            "savingNo": "Saving No",
+            "savingNoMr": "Saving No Mr",
+            "entryFlag": "Entry Flag",
+            "pacsMemberCode": "Pacs Member Code",
+            "farmerTypeMaster": "Farmer Type Master"
+        }
     }
-  }
 }

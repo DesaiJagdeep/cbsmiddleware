@@ -9,6 +9,8 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { KmMaster } from './km-master.model';
 import { KmMasterPopupService } from './km-master-popup.service';
 import { KmMasterService } from './km-master.service';
+import { FarmerTypeMaster, FarmerTypeMasterService } from '../farmer-type-master';
+import { ResponseWrapper } from '../../shared';
 
 @Component({
     selector: 'jhi-km-master-dialog',
@@ -19,16 +21,21 @@ export class KmMasterDialogComponent implements OnInit {
     kmMaster: KmMaster;
     isSaving: boolean;
 
+    farmertypemasters: FarmerTypeMaster[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private kmMasterService: KmMasterService,
+        private farmerTypeMasterService: FarmerTypeMasterService,
         private eventManager: JhiEventManager
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+        this.farmerTypeMasterService.query()
+            .subscribe((res: ResponseWrapper) => { this.farmertypemasters = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -69,6 +76,10 @@ export class KmMasterDialogComponent implements OnInit {
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
+    }
+
+    trackFarmerTypeMasterById(index: number, item: FarmerTypeMaster) {
+        return item.id;
     }
 }
 

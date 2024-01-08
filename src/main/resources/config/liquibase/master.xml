@@ -52,6 +52,7 @@
     <include file="config/liquibase/changelog/20240104135527_added_entity_KmDetails.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240105061859_added_entity_KmCrops.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20240105053808_added_entity_KmLoans.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20240104122557_added_entity_KmMaster.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20230710064404_added_entity_constraints_IssFileParser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230712044312_added_entity_constraints_ApplicationLog.xml" relativeToChangelogFile="false"/>

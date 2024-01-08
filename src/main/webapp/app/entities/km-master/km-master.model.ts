@@ -24,6 +24,8 @@ export class KmMaster implements BaseEntity {
         public savingNo?: string,
         public savingNoMr?: string,
         public entryFlag?: string,
+        public pacsMemberCode?: string,
+        public farmerTypeMaster?: BaseEntity,
     ) {
     }
 }

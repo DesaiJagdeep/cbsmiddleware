@@ -343,6 +343,12 @@
                             <span jhiTranslate="global.menu.entities.kmMaster">Km Master</span>
                         </a>
                     </li>
+            <li>
+                        <a class="dropdown-item" routerLink="km-details" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span jhiTranslate="global.menu.entities.kmDetails">Km Details</span>
+                        </a>
+                    </li>
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
           </ul>
         </li>

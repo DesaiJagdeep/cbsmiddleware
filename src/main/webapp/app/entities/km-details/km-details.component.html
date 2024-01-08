@@ -1,0 +1,128 @@
+<div>
+    <h2>
+        <span jhiTranslate="cbsMiddlewareApp.kmDetails.home.title">Km Details</span>
+        <button class="btn btn-primary float-right jh-create-entity create-km-details" [routerLink]="['/', { outlets: { popup: ['km-details-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="cbsMiddlewareApp.kmDetails.home.createLabel">
+            Create new Km Details
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="kmDetails">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="shares"><span jhiTranslate="cbsMiddlewareApp.kmDetails.shares">Shares</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sharesMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.sharesMr">Shares Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sugarShares"><span jhiTranslate="cbsMiddlewareApp.kmDetails.sugarShares">Sugar Shares</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sugarSharesMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.sugarSharesMr">Sugar Shares Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="deposit"><span jhiTranslate="cbsMiddlewareApp.kmDetails.deposit">Deposit</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="depositMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.depositMr">Deposit Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueLoan"><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoan">Due Loan</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueLoanMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoanMr">Due Loan Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueAmount"><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmount">Due Amount</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueAmountMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmountMr">Due Amount Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="dueDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueDate">Due Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kmDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmDate">Km Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kmFromDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmFromDate">Km From Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kmToDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmToDate">Km To Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bagayatHector"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHector">Bagayat Hector</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bagayatHectorMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHectorMr">Bagayat Hector Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bagayatAre"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAre">Bagayat Are</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bagayatAreMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAreMr">Bagayat Are Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="jirayatHector"><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHector">Jirayat Hector</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="jirayatHectorMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHectorMr">Jirayat Hector Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="jirayatAre"><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAre">Jirayat Are</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="jirayatAreMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAreMr">Jirayat Are Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="landValue"><span jhiTranslate="cbsMiddlewareApp.kmDetails.landValue">Land Value</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="landValueMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.landValueMr">Land Value Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="eAggrementAmt"><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAggrementAmt">E Aggrement Amt</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="eAgreementAmt"><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementAmt">E Agreement Amt</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="eAgreementDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementDate">E Agreement Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bojaAmount"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmount">Boja Amount</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bojaAmountMr"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmountMr">Boja Amount Mr</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="bojaDate"><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaDate">Boja Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="kmMaster.id"><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmMaster">Km Master</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let kmDetails of kmDetails ;trackBy: trackId">
+                <td><a [routerLink]="['../km-details', kmDetails.id ]">{{kmDetails.id}}</a></td>
+                <td>{{kmDetails.shares}}</td>
+                <td>{{kmDetails.sharesMr}}</td>
+                <td>{{kmDetails.sugarShares}}</td>
+                <td>{{kmDetails.sugarSharesMr}}</td>
+                <td>{{kmDetails.deposit}}</td>
+                <td>{{kmDetails.depositMr}}</td>
+                <td>{{kmDetails.dueLoan}}</td>
+                <td>{{kmDetails.dueLoanMr}}</td>
+                <td>{{kmDetails.dueAmount}}</td>
+                <td>{{kmDetails.dueAmountMr}}</td>
+                <td>{{kmDetails.dueDate | date:'medium'}}</td>
+                <td>{{kmDetails.kmDate | date:'medium'}}</td>
+                <td>{{kmDetails.kmFromDate | date:'medium'}}</td>
+                <td>{{kmDetails.kmToDate | date:'medium'}}</td>
+                <td>{{kmDetails.bagayatHector}}</td>
+                <td>{{kmDetails.bagayatHectorMr}}</td>
+                <td>{{kmDetails.bagayatAre}}</td>
+                <td>{{kmDetails.bagayatAreMr}}</td>
+                <td>{{kmDetails.jirayatHector}}</td>
+                <td>{{kmDetails.jirayatHectorMr}}</td>
+                <td>{{kmDetails.jirayatAre}}</td>
+                <td>{{kmDetails.jirayatAreMr}}</td>
+                <td>{{kmDetails.landValue}}</td>
+                <td>{{kmDetails.landValueMr}}</td>
+                <td>{{kmDetails.eAggrementAmt}}</td>
+                <td>{{kmDetails.eAgreementAmt}}</td>
+                <td>{{kmDetails.eAgreementDate | date:'medium'}}</td>
+                <td>{{kmDetails.bojaAmount}}</td>
+                <td>{{kmDetails.bojaAmountMr}}</td>
+                <td>{{kmDetails.bojaDate | date:'medium'}}</td>
+                <td>
+                    <div *ngIf="kmDetails.kmMaster">
+                        <a [routerLink]="['../km-master', kmDetails.kmMaster?.id ]" >{{kmDetails.kmMaster?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../km-details', kmDetails.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'km-details/'+ kmDetails.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'km-details/'+ kmDetails.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="kmDetails && kmDetails.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

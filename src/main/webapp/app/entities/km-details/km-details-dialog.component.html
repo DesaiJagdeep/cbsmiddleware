@@ -1,0 +1,194 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myKmDetailsLabel" jhiTranslate="cbsMiddlewareApp.kmDetails.home.createOrEditLabel">Create or edit a Km Details</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!kmDetails.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="kmDetails.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.shares" for="field_shares">Shares</label>
+            <input type="number" class="form-control" name="shares" id="field_shares"
+                [(ngModel)]="kmDetails.shares"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.sharesMr" for="field_sharesMr">Shares Mr</label>
+            <input type="text" class="form-control" name="sharesMr" id="field_sharesMr"
+                [(ngModel)]="kmDetails.sharesMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.sugarShares" for="field_sugarShares">Sugar Shares</label>
+            <input type="number" class="form-control" name="sugarShares" id="field_sugarShares"
+                [(ngModel)]="kmDetails.sugarShares"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.sugarSharesMr" for="field_sugarSharesMr">Sugar Shares Mr</label>
+            <input type="text" class="form-control" name="sugarSharesMr" id="field_sugarSharesMr"
+                [(ngModel)]="kmDetails.sugarSharesMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.deposit" for="field_deposit">Deposit</label>
+            <input type="number" class="form-control" name="deposit" id="field_deposit"
+                [(ngModel)]="kmDetails.deposit"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.depositMr" for="field_depositMr">Deposit Mr</label>
+            <input type="text" class="form-control" name="depositMr" id="field_depositMr"
+                [(ngModel)]="kmDetails.depositMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoan" for="field_dueLoan">Due Loan</label>
+            <input type="number" class="form-control" name="dueLoan" id="field_dueLoan"
+                [(ngModel)]="kmDetails.dueLoan"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoanMr" for="field_dueLoanMr">Due Loan Mr</label>
+            <input type="text" class="form-control" name="dueLoanMr" id="field_dueLoanMr"
+                [(ngModel)]="kmDetails.dueLoanMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmount" for="field_dueAmount">Due Amount</label>
+            <input type="number" class="form-control" name="dueAmount" id="field_dueAmount"
+                [(ngModel)]="kmDetails.dueAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmountMr" for="field_dueAmountMr">Due Amount Mr</label>
+            <input type="text" class="form-control" name="dueAmountMr" id="field_dueAmountMr"
+                [(ngModel)]="kmDetails.dueAmountMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.dueDate" for="field_dueDate">Due Date</label>
+            <div class="d-flex">
+                <input id="field_dueDate" type="datetime-local" class="form-control" name="dueDate" [(ngModel)]="kmDetails.dueDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.kmDate" for="field_kmDate">Km Date</label>
+            <div class="d-flex">
+                <input id="field_kmDate" type="datetime-local" class="form-control" name="kmDate" [(ngModel)]="kmDetails.kmDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.kmFromDate" for="field_kmFromDate">Km From Date</label>
+            <div class="d-flex">
+                <input id="field_kmFromDate" type="datetime-local" class="form-control" name="kmFromDate" [(ngModel)]="kmDetails.kmFromDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.kmToDate" for="field_kmToDate">Km To Date</label>
+            <div class="d-flex">
+                <input id="field_kmToDate" type="datetime-local" class="form-control" name="kmToDate" [(ngModel)]="kmDetails.kmToDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHector" for="field_bagayatHector">Bagayat Hector</label>
+            <input type="number" class="form-control" name="bagayatHector" id="field_bagayatHector"
+                [(ngModel)]="kmDetails.bagayatHector"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHectorMr" for="field_bagayatHectorMr">Bagayat Hector Mr</label>
+            <input type="text" class="form-control" name="bagayatHectorMr" id="field_bagayatHectorMr"
+                [(ngModel)]="kmDetails.bagayatHectorMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAre" for="field_bagayatAre">Bagayat Are</label>
+            <input type="number" class="form-control" name="bagayatAre" id="field_bagayatAre"
+                [(ngModel)]="kmDetails.bagayatAre"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAreMr" for="field_bagayatAreMr">Bagayat Are Mr</label>
+            <input type="text" class="form-control" name="bagayatAreMr" id="field_bagayatAreMr"
+                [(ngModel)]="kmDetails.bagayatAreMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHector" for="field_jirayatHector">Jirayat Hector</label>
+            <input type="number" class="form-control" name="jirayatHector" id="field_jirayatHector"
+                [(ngModel)]="kmDetails.jirayatHector"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHectorMr" for="field_jirayatHectorMr">Jirayat Hector Mr</label>
+            <input type="text" class="form-control" name="jirayatHectorMr" id="field_jirayatHectorMr"
+                [(ngModel)]="kmDetails.jirayatHectorMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAre" for="field_jirayatAre">Jirayat Are</label>
+            <input type="number" class="form-control" name="jirayatAre" id="field_jirayatAre"
+                [(ngModel)]="kmDetails.jirayatAre"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAreMr" for="field_jirayatAreMr">Jirayat Are Mr</label>
+            <input type="text" class="form-control" name="jirayatAreMr" id="field_jirayatAreMr"
+                [(ngModel)]="kmDetails.jirayatAreMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.landValue" for="field_landValue">Land Value</label>
+            <input type="number" class="form-control" name="landValue" id="field_landValue"
+                [(ngModel)]="kmDetails.landValue"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.landValueMr" for="field_landValueMr">Land Value Mr</label>
+            <input type="text" class="form-control" name="landValueMr" id="field_landValueMr"
+                [(ngModel)]="kmDetails.landValueMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.eAggrementAmt" for="field_eAggrementAmt">E Aggrement Amt</label>
+            <input type="number" class="form-control" name="eAggrementAmt" id="field_eAggrementAmt"
+                [(ngModel)]="kmDetails.eAggrementAmt"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementAmt" for="field_eAgreementAmt">E Agreement Amt</label>
+            <input type="text" class="form-control" name="eAgreementAmt" id="field_eAgreementAmt"
+                [(ngModel)]="kmDetails.eAgreementAmt"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementDate" for="field_eAgreementDate">E Agreement Date</label>
+            <div class="d-flex">
+                <input id="field_eAgreementDate" type="datetime-local" class="form-control" name="eAgreementDate" [(ngModel)]="kmDetails.eAgreementDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmount" for="field_bojaAmount">Boja Amount</label>
+            <input type="number" class="form-control" name="bojaAmount" id="field_bojaAmount"
+                [(ngModel)]="kmDetails.bojaAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmountMr" for="field_bojaAmountMr">Boja Amount Mr</label>
+            <input type="text" class="form-control" name="bojaAmountMr" id="field_bojaAmountMr"
+                [(ngModel)]="kmDetails.bojaAmountMr"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.bojaDate" for="field_bojaDate">Boja Date</label>
+            <div class="d-flex">
+                <input id="field_bojaDate" type="datetime-local" class="form-control" name="bojaDate" [(ngModel)]="kmDetails.bojaDate"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="cbsMiddlewareApp.kmDetails.kmMaster" for="field_kmMaster">Km Master</label>
+            <select class="form-control" id="field_kmMaster" name="kmMaster" [(ngModel)]="kmDetails.kmMaster">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="kmMasterOption.id === kmDetails.kmMaster?.id ? kmDetails.kmMaster : kmMasterOption" *ngFor="let kmMasterOption of kmmasters; trackBy: trackKmMasterById">{{kmMasterOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,147 @@
+
+<div *ngIf="kmDetails">
+    <h2><span jhiTranslate="cbsMiddlewareApp.kmDetails.detail.title">Km Details</span> {{kmDetails.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.shares">Shares</span></dt>
+        <dd>
+            <span>{{kmDetails.shares}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.sharesMr">Shares Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.sharesMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.sugarShares">Sugar Shares</span></dt>
+        <dd>
+            <span>{{kmDetails.sugarShares}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.sugarSharesMr">Sugar Shares Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.sugarSharesMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.deposit">Deposit</span></dt>
+        <dd>
+            <span>{{kmDetails.deposit}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.depositMr">Deposit Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.depositMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoan">Due Loan</span></dt>
+        <dd>
+            <span>{{kmDetails.dueLoan}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueLoanMr">Due Loan Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.dueLoanMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmount">Due Amount</span></dt>
+        <dd>
+            <span>{{kmDetails.dueAmount}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueAmountMr">Due Amount Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.dueAmountMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.dueDate">Due Date</span></dt>
+        <dd>
+            <span>{{kmDetails.dueDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmDate">Km Date</span></dt>
+        <dd>
+            <span>{{kmDetails.kmDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmFromDate">Km From Date</span></dt>
+        <dd>
+            <span>{{kmDetails.kmFromDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmToDate">Km To Date</span></dt>
+        <dd>
+            <span>{{kmDetails.kmToDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHector">Bagayat Hector</span></dt>
+        <dd>
+            <span>{{kmDetails.bagayatHector}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatHectorMr">Bagayat Hector Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.bagayatHectorMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAre">Bagayat Are</span></dt>
+        <dd>
+            <span>{{kmDetails.bagayatAre}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bagayatAreMr">Bagayat Are Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.bagayatAreMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHector">Jirayat Hector</span></dt>
+        <dd>
+            <span>{{kmDetails.jirayatHector}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatHectorMr">Jirayat Hector Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.jirayatHectorMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAre">Jirayat Are</span></dt>
+        <dd>
+            <span>{{kmDetails.jirayatAre}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.jirayatAreMr">Jirayat Are Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.jirayatAreMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.landValue">Land Value</span></dt>
+        <dd>
+            <span>{{kmDetails.landValue}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.landValueMr">Land Value Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.landValueMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAggrementAmt">E Aggrement Amt</span></dt>
+        <dd>
+            <span>{{kmDetails.eAggrementAmt}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementAmt">E Agreement Amt</span></dt>
+        <dd>
+            <span>{{kmDetails.eAgreementAmt}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.eAgreementDate">E Agreement Date</span></dt>
+        <dd>
+            <span>{{kmDetails.eAgreementDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmount">Boja Amount</span></dt>
+        <dd>
+            <span>{{kmDetails.bojaAmount}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaAmountMr">Boja Amount Mr</span></dt>
+        <dd>
+            <span>{{kmDetails.bojaAmountMr}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.bojaDate">Boja Date</span></dt>
+        <dd>
+            <span>{{kmDetails.bojaDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmDetails.kmMaster">Km Master</span></dt>
+        <dd>
+            <div *ngIf="kmDetails.kmMaster">
+                <a [routerLink]="['/km-master', kmDetails.kmMaster?.id]">{{kmDetails.kmMaster?.id}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'km-details/'+ kmDetails.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

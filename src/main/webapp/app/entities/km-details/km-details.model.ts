@@ -1,39 +1,39 @@
-import dayjs from 'dayjs/esm';
-import { IKmMaster } from 'app/entities/km-master/km-master.model';
+import { BaseEntity } from './../../shared';
 
-export interface IKmDetails {
-  id: number;
-  shares?: number | null;
-  sharesMr?: string | null;
-  sugarShares?: number | null;
-  sugarSharesMr?: string | null;
-  deposit?: number | null;
-  depositMr?: string | null;
-  dueLoan?: number | null;
-  dueLoanMr?: string | null;
-  dueAmount?: number | null;
-  dueAmountMr?: string | null;
-  dueDate?: dayjs.Dayjs | null;
-  kmDate?: dayjs.Dayjs | null;
-  kmFromDate?: dayjs.Dayjs | null;
-  kmToDate?: dayjs.Dayjs | null;
-  bagayatHector?: number | null;
-  bagayatHectorMr?: string | null;
-  bagayatAre?: number | null;
-  bagayatAreMr?: string | null;
-  jirayatHector?: number | null;
-  jirayatHectorMr?: string | null;
-  jirayatAre?: number | null;
-  jirayatAreMr?: string | null;
-  landValue?: number | null;
-  landValueMr?: string | null;
-  eAggrementAmt?: number | null;
-  eAgreementAmt?: string | null;
-  eAgreementDate?: dayjs.Dayjs | null;
-  bojaAmount?: number | null;
-  bojaAmountMr?: string | null;
-  bojaDate?: dayjs.Dayjs | null;
-  kmMaster?: Pick<IKmMaster, 'id'> | null;
+export class KmDetails implements BaseEntity {
+    constructor(
+        public id?: number,
+        public shares?: number,
+        public sharesMr?: string,
+        public sugarShares?: number,
+        public sugarSharesMr?: string,
+        public deposit?: number,
+        public depositMr?: string,
+        public dueLoan?: number,
+        public dueLoanMr?: string,
+        public dueAmount?: number,
+        public dueAmountMr?: string,
+        public dueDate?: any,
+        public kmDate?: any,
+        public kmFromDate?: any,
+        public kmToDate?: any,
+        public bagayatHector?: number,
+        public bagayatHectorMr?: string,
+        public bagayatAre?: number,
+        public bagayatAreMr?: string,
+        public jirayatHector?: number,
+        public jirayatHectorMr?: string,
+        public jirayatAre?: number,
+        public jirayatAreMr?: string,
+        public landValue?: number,
+        public landValueMr?: string,
+        public eAggrementAmt?: number,
+        public eAgreementAmt?: string,
+        public eAgreementDate?: any,
+        public bojaAmount?: number,
+        public bojaAmountMr?: string,
+        public bojaDate?: any,
+        public kmMaster?: BaseEntity,
+    ) {
+    }
 }
-
-export type NewKmDetails = Omit<IKmDetails, 'id'> & { id: null };

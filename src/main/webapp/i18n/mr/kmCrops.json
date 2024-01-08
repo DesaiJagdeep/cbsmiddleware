@@ -1,0 +1,37 @@
+{
+    "cbsMiddlewareApp": {
+        "kmCrops" : {
+            "home": {
+                "title": "Km Crops",
+                "createLabel": "नवीन Km Crops तयार करा",
+                "createOrEditLabel": "Km Crops तयार किंवा संपादित करा"
+            },
+            "created": "Km Crops [identifier: {{ param }}] तयार आहे",
+            "updated": "Km Crops [identifier: {{ param }}] सुधारित केले आहे",
+            "deleted": "Km Crops [identifier: {{ param }}] हटविले आहे",
+            "delete": {
+                "question": "Km Crops [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+            },
+            "detail": {
+                "title": "Km Crops"
+            },
+            "cropName": "Crop Name",
+            "cropNameMr": "Crop Name Mr",
+            "hector": "Hector",
+            "hectorMr": "Hector Mr",
+            "are": "Are",
+            "areMr": "Are Mr",
+            "prviousAmt": "Prvious Amt",
+            "previousAmtMr": "Previous Amt Mr",
+            "demand": "Demand",
+            "demandMr": "Demand Mr",
+            "society": "Society",
+            "societyMr": "Society Mr",
+            "bankAmt": "Bank Amt",
+            "bankAmtMr": "Bank Amt Mr",
+            "noOfTree": "No Of Tree",
+            "noOfTreeMr": "No Of Tree Mr",
+            "kmDetails": "Km Details"
+        }
+    }
+}

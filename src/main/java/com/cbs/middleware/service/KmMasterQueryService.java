@@ -4,7 +4,7 @@ import com.cbs.middleware.domain.*; // for static metamodels
 import com.cbs.middleware.domain.KmMaster;
 import com.cbs.middleware.repository.KmMasterRepository;
 import com.cbs.middleware.service.criteria.KmMasterCriteria;
-import jakarta.persistence.criteria.JoinType;
+import javax.persistence.criteria.JoinType;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

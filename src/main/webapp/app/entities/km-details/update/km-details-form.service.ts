@@ -98,44 +98,86 @@ export class KmDetailsFormService {
           validators: [Validators.required],
         }
       ),
-      shares: new FormControl(kmDetailsRawValue.shares),
+      shares: new FormControl(kmDetailsRawValue.shares, {
+        validators: [Validators.required],
+      }),
       sharesMr: new FormControl(kmDetailsRawValue.sharesMr),
-      sugarShares: new FormControl(kmDetailsRawValue.sugarShares),
+      sugarShares: new FormControl(kmDetailsRawValue.sugarShares, {
+        validators: [Validators.required],
+      }),
       sugarSharesMr: new FormControl(kmDetailsRawValue.sugarSharesMr),
-      deposite: new FormControl(kmDetailsRawValue.deposite),
+      deposite: new FormControl(kmDetailsRawValue.deposite, {
+        validators: [Validators.required],
+      }),
       depositeMr: new FormControl(kmDetailsRawValue.depositeMr),
-      dueLoan: new FormControl(kmDetailsRawValue.dueLoan),
+      dueLoan: new FormControl(kmDetailsRawValue.dueLoan, {
+        validators: [Validators.required],
+      }),
       dueLoanMr: new FormControl(kmDetailsRawValue.dueLoanMr),
-      dueAmount: new FormControl(kmDetailsRawValue.dueAmount),
+      dueAmount: new FormControl(kmDetailsRawValue.dueAmount, {
+        validators: [Validators.required],
+      }),
       dueAmountMr: new FormControl(kmDetailsRawValue.dueAmountMr),
       dueDateMr: new FormControl(kmDetailsRawValue.dueDateMr),
-      dueDate: new FormControl(kmDetailsRawValue.dueDate),
-      kmDate: new FormControl(kmDetailsRawValue.kmDate),
+      dueDate: new FormControl(kmDetailsRawValue.dueDate, {
+        validators: [Validators.required],
+      }),
+      kmDate: new FormControl(kmDetailsRawValue.kmDate, {
+        validators: [Validators.required],
+      }),
       kmDateMr: new FormControl(kmDetailsRawValue.kmDateMr),
-      kmFromDate: new FormControl(kmDetailsRawValue.kmFromDate),
+      kmFromDate: new FormControl(kmDetailsRawValue.kmFromDate, {
+        validators: [Validators.required],
+      }),
       kmFromDateMr: new FormControl(kmDetailsRawValue.kmFromDateMr),
-      kmToDate: new FormControl(kmDetailsRawValue.kmToDate),
+      kmToDate: new FormControl(kmDetailsRawValue.kmToDate, {
+        validators: [Validators.required],
+      }),
       kmToDateMr: new FormControl(kmDetailsRawValue.kmToDateMr),
-      bagayatHector: new FormControl(kmDetailsRawValue.bagayatHector),
+      bagayatHector: new FormControl(kmDetailsRawValue.bagayatHector, {
+        validators: [Validators.required],
+      }),
       bagayatHectorMr: new FormControl(kmDetailsRawValue.bagayatHectorMr),
-      bagayatAre: new FormControl(kmDetailsRawValue.bagayatAre),
+      bagayatAre: new FormControl(kmDetailsRawValue.bagayatAre, {
+        validators: [Validators.required],
+      }),
       bagayatAreMr: new FormControl(kmDetailsRawValue.bagayatAreMr),
-      jirayatHector: new FormControl(kmDetailsRawValue.jirayatHector),
+      jirayatHector: new FormControl(kmDetailsRawValue.jirayatHector, {
+        validators: [Validators.required],
+      }),
       jirayatHectorMr: new FormControl(kmDetailsRawValue.jirayatHectorMr),
-      jirayatAre: new FormControl(kmDetailsRawValue.jirayatAre),
+      jirayatAre: new FormControl(kmDetailsRawValue.jirayatAre, {
+        validators: [Validators.required],
+      }),
       jirayatAreMr: new FormControl(kmDetailsRawValue.jirayatAreMr),
-      zindagiAmt: new FormControl(kmDetailsRawValue.zindagiAmt),
-      zindagiNo: new FormControl(kmDetailsRawValue.zindagiNo),
-      surveyNo: new FormControl(kmDetailsRawValue.surveyNo),
-      landValue: new FormControl(kmDetailsRawValue.landValue),
+      zindagiAmt: new FormControl(kmDetailsRawValue.zindagiAmt, {
+        validators: [Validators.required],
+      }),
+      zindagiNo: new FormControl(kmDetailsRawValue.zindagiNo, {
+        validators: [Validators.required],
+      }),
+      surveyNo: new FormControl(kmDetailsRawValue.surveyNo, {
+        validators: [Validators.required, Validators.maxLength(1000)],
+      }),
+      landValue: new FormControl(kmDetailsRawValue.landValue, {
+        validators: [Validators.required],
+      }),
       landValueMr: new FormControl(kmDetailsRawValue.landValueMr),
-      eAgreementAmt: new FormControl(kmDetailsRawValue.eAgreementAmt),
+      eAgreementAmt: new FormControl(kmDetailsRawValue.eAgreementAmt, {
+        validators: [Validators.required],
+      }),
       eAgreementAmtMr: new FormControl(kmDetailsRawValue.eAgreementAmtMr),
-      eAgreementDate: new FormControl(kmDetailsRawValue.eAgreementDate),
+      eAgreementDate: new FormControl(kmDetailsRawValue.eAgreementDate, {
+        validators: [Validators.required],
+      }),
       eAgreementDateMr: new FormControl(kmDetailsRawValue.eAgreementDateMr),
-      bojaAmount: new FormControl(kmDetailsRawValue.bojaAmount),
+      bojaAmount: new FormControl(kmDetailsRawValue.bojaAmount, {
+        validators: [Validators.required],
+      }),
       bojaAmountMr: new FormControl(kmDetailsRawValue.bojaAmountMr),
-      bojaDate: new FormControl(kmDetailsRawValue.bojaDate),
+      bojaDate: new FormControl(kmDetailsRawValue.bojaDate, {
+        validators: [Validators.required],
+      }),
       bojaDateMr: new FormControl(kmDetailsRawValue.bojaDateMr),
       kmMaster: new FormControl(kmDetailsRawValue.kmMaster),
     });

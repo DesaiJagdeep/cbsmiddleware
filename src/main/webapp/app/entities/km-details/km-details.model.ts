@@ -31,7 +31,7 @@ export interface IKmDetails {
   jirayatAreMr?: string | null;
   zindagiAmt?: number | null;
   zindagiNo?: number | null;
-  surveyNo?: number | null;
+  surveyNo?: string | null;
   landValue?: number | null;
   landValueMr?: string | null;
   eAgreementAmt?: number | null;

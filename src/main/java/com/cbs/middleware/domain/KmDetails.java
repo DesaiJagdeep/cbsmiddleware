@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A KmDetails.
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_details")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmDetails extends AbstractAuditingEntity<Long> implements Serializable {
+public class KmDetails implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,31 +21,36 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "shares")
+    @NotNull
+    @Column(name = "shares", nullable = false)
     private Double shares;
 
     @Column(name = "shares_mr")
     private String sharesMr;
 
-    @Column(name = "sugar_shares")
+    @NotNull
+    @Column(name = "sugar_shares", nullable = false)
     private Double sugarShares;
 
     @Column(name = "sugar_shares_mr")
     private String sugarSharesMr;
 
-    @Column(name = "deposite")
+    @NotNull
+    @Column(name = "deposite", nullable = false)
     private Double deposite;
 
     @Column(name = "deposite_mr")
     private String depositeMr;
 
-    @Column(name = "due_loan")
+    @NotNull
+    @Column(name = "due_loan", nullable = false)
     private Double dueLoan;
 
     @Column(name = "due_loan_mr")
     private String dueLoanMr;
 
-    @Column(name = "due_amount")
+    @NotNull
+    @Column(name = "due_amount", nullable = false)
     private Double dueAmount;
 
     @Column(name = "due_amount_mr")
@@ -53,85 +59,102 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "due_date_mr")
     private String dueDateMr;
 
-    @Column(name = "due_date")
+    @NotNull
+    @Column(name = "due_date", nullable = false)
     private Instant dueDate;
 
-    @Column(name = "km_date")
+    @NotNull
+    @Column(name = "km_date", nullable = false)
     private Instant kmDate;
 
     @Column(name = "km_date_mr")
     private String kmDateMr;
 
-    @Column(name = "km_from_date")
+    @NotNull
+    @Column(name = "km_from_date", nullable = false)
     private Instant kmFromDate;
 
     @Column(name = "km_from_date_mr")
     private String kmFromDateMr;
 
-    @Column(name = "km_to_date")
+    @NotNull
+    @Column(name = "km_to_date", nullable = false)
     private Instant kmToDate;
 
     @Column(name = "km_to_date_mr")
     private String kmToDateMr;
 
-    @Column(name = "bagayat_hector")
+    @NotNull
+    @Column(name = "bagayat_hector", nullable = false)
     private Double bagayatHector;
 
     @Column(name = "bagayat_hector_mr")
     private String bagayatHectorMr;
 
-    @Column(name = "bagayat_are")
+    @NotNull
+    @Column(name = "bagayat_are", nullable = false)
     private Double bagayatAre;
 
     @Column(name = "bagayat_are_mr")
     private String bagayatAreMr;
 
-    @Column(name = "jirayat_hector")
+    @NotNull
+    @Column(name = "jirayat_hector", nullable = false)
     private Double jirayatHector;
 
     @Column(name = "jirayat_hector_mr")
     private String jirayatHectorMr;
 
-    @Column(name = "jirayat_are")
+    @NotNull
+    @Column(name = "jirayat_are", nullable = false)
     private Double jirayatAre;
 
     @Column(name = "jirayat_are_mr")
     private String jirayatAreMr;
 
-    @Column(name = "zindagi_amt")
+    @NotNull
+    @Column(name = "zindagi_amt", nullable = false)
     private Double zindagiAmt;
 
-    @Column(name = "zindagi_no")
+    @NotNull
+    @Column(name = "zindagi_no", nullable = false)
     private Long zindagiNo;
 
-    @Column(name = "survey_no")
-    private Long surveyNo;
+    @NotNull
+    @Size(max = 1000)
+    @Column(name = "survey_no", length = 1000, nullable = false)
+    private String surveyNo;
 
-    @Column(name = "land_value")
+    @NotNull
+    @Column(name = "land_value", nullable = false)
     private Double landValue;
 
     @Column(name = "land_value_mr")
     private String landValueMr;
 
-    @Column(name = "e_agreement_amt")
+    @NotNull
+    @Column(name = "e_agreement_amt", nullable = false)
     private Double eAgreementAmt;
 
     @Column(name = "e_agreement_amt_mr")
     private String eAgreementAmtMr;
 
-    @Column(name = "e_agreement_date")
+    @NotNull
+    @Column(name = "e_agreement_date", nullable = false)
     private Instant eAgreementDate;
 
     @Column(name = "e_agreement_date_mr")
     private String eAgreementDateMr;
 
-    @Column(name = "boja_amount")
+    @NotNull
+    @Column(name = "boja_amount", nullable = false)
     private Double bojaAmount;
 
     @Column(name = "boja_amount_mr")
     private String bojaAmountMr;
 
-    @Column(name = "boja_date")
+    @NotNull
+    @Column(name = "boja_date", nullable = false)
     private Instant bojaDate;
 
     @Column(name = "boja_date_mr")
@@ -521,16 +544,16 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         this.zindagiNo = zindagiNo;
     }
 
-    public Long getSurveyNo() {
+    public String getSurveyNo() {
         return this.surveyNo;
     }
 
-    public KmDetails surveyNo(Long surveyNo) {
+    public KmDetails surveyNo(String surveyNo) {
         this.setSurveyNo(surveyNo);
         return this;
     }
 
-    public void setSurveyNo(Long surveyNo) {
+    public void setSurveyNo(String surveyNo) {
         this.surveyNo = surveyNo;
     }
 
@@ -729,7 +752,7 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
             ", jirayatAreMr='" + getJirayatAreMr() + "'" +
             ", zindagiAmt=" + getZindagiAmt() +
             ", zindagiNo=" + getZindagiNo() +
-            ", surveyNo=" + getSurveyNo() +
+            ", surveyNo='" + getSurveyNo() + "'" +
             ", landValue=" + getLandValue() +
             ", landValueMr='" + getLandValueMr() + "'" +
             ", eAgreementAmt=" + geteAgreementAmt() +

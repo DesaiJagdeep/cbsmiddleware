@@ -128,9 +128,8 @@ class KmDetailsResourceIT {
     private static final Long UPDATED_ZINDAGI_NO = 2L;
     private static final Long SMALLER_ZINDAGI_NO = 1L - 1L;
 
-    private static final Long DEFAULT_SURVEY_NO = 1L;
-    private static final Long UPDATED_SURVEY_NO = 2L;
-    private static final Long SMALLER_SURVEY_NO = 1L - 1L;
+    private static final String DEFAULT_SURVEY_NO = "AAAAAAAAAA";
+    private static final String UPDATED_SURVEY_NO = "BBBBBBBBBB";
 
     private static final Double DEFAULT_LAND_VALUE = 1D;
     private static final Double UPDATED_LAND_VALUE = 2D;
@@ -361,6 +360,363 @@ class KmDetailsResourceIT {
 
     @Test
     @Transactional
+    void checkSharesIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setShares(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSugarSharesIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setSugarShares(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDepositeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setDeposite(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDueLoanIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setDueLoan(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDueAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setDueAmount(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDueDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setDueDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkKmDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setKmDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkKmFromDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setKmFromDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkKmToDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setKmToDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBagayatHectorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setBagayatHector(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBagayatAreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setBagayatAre(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkJirayatHectorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setJirayatHector(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkJirayatAreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setJirayatAre(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkZindagiAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setZindagiAmt(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkZindagiNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setZindagiNo(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSurveyNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setSurveyNo(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkLandValueIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setLandValue(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkeAgreementAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.seteAgreementAmt(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkeAgreementDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.seteAgreementDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBojaAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setBojaAmount(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBojaDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmDetailsRepository.findAll().size();
+        // set the field null
+        kmDetails.setBojaDate(null);
+
+        // Create the KmDetails, which fails.
+
+        restKmDetailsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmDetails)))
+            .andExpect(status().isBadRequest());
+
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findAll();
+        assertThat(kmDetailsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllKmDetails() throws Exception {
         // Initialize the database
         kmDetailsRepository.saveAndFlush(kmDetails);
@@ -399,7 +755,7 @@ class KmDetailsResourceIT {
             .andExpect(jsonPath("$.[*].jirayatAreMr").value(hasItem(DEFAULT_JIRAYAT_ARE_MR)))
             .andExpect(jsonPath("$.[*].zindagiAmt").value(hasItem(DEFAULT_ZINDAGI_AMT.doubleValue())))
             .andExpect(jsonPath("$.[*].zindagiNo").value(hasItem(DEFAULT_ZINDAGI_NO.intValue())))
-            .andExpect(jsonPath("$.[*].surveyNo").value(hasItem(DEFAULT_SURVEY_NO.intValue())))
+            .andExpect(jsonPath("$.[*].surveyNo").value(hasItem(DEFAULT_SURVEY_NO)))
             .andExpect(jsonPath("$.[*].landValue").value(hasItem(DEFAULT_LAND_VALUE.doubleValue())))
             .andExpect(jsonPath("$.[*].landValueMr").value(hasItem(DEFAULT_LAND_VALUE_MR)))
             .andExpect(jsonPath("$.[*].eAgreementAmt").value(hasItem(DEFAULT_E_AGREEMENT_AMT.doubleValue())))
@@ -452,7 +808,7 @@ class KmDetailsResourceIT {
             .andExpect(jsonPath("$.jirayatAreMr").value(DEFAULT_JIRAYAT_ARE_MR))
             .andExpect(jsonPath("$.zindagiAmt").value(DEFAULT_ZINDAGI_AMT.doubleValue()))
             .andExpect(jsonPath("$.zindagiNo").value(DEFAULT_ZINDAGI_NO.intValue()))
-            .andExpect(jsonPath("$.surveyNo").value(DEFAULT_SURVEY_NO.intValue()))
+            .andExpect(jsonPath("$.surveyNo").value(DEFAULT_SURVEY_NO))
             .andExpect(jsonPath("$.landValue").value(DEFAULT_LAND_VALUE.doubleValue()))
             .andExpect(jsonPath("$.landValueMr").value(DEFAULT_LAND_VALUE_MR))
             .andExpect(jsonPath("$.eAgreementAmt").value(DEFAULT_E_AGREEMENT_AMT.doubleValue()))
@@ -2526,54 +2882,28 @@ class KmDetailsResourceIT {
 
     @Test
     @Transactional
-    void getAllKmDetailsBySurveyNoIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKmDetailsBySurveyNoContainsSomething() throws Exception {
         // Initialize the database
         kmDetailsRepository.saveAndFlush(kmDetails);
 
-        // Get all the kmDetailsList where surveyNo is greater than or equal to DEFAULT_SURVEY_NO
-        defaultKmDetailsShouldBeFound("surveyNo.greaterThanOrEqual=" + DEFAULT_SURVEY_NO);
+        // Get all the kmDetailsList where surveyNo contains DEFAULT_SURVEY_NO
+        defaultKmDetailsShouldBeFound("surveyNo.contains=" + DEFAULT_SURVEY_NO);
 
-        // Get all the kmDetailsList where surveyNo is greater than or equal to UPDATED_SURVEY_NO
-        defaultKmDetailsShouldNotBeFound("surveyNo.greaterThanOrEqual=" + UPDATED_SURVEY_NO);
+        // Get all the kmDetailsList where surveyNo contains UPDATED_SURVEY_NO
+        defaultKmDetailsShouldNotBeFound("surveyNo.contains=" + UPDATED_SURVEY_NO);
     }
 
     @Test
     @Transactional
-    void getAllKmDetailsBySurveyNoIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKmDetailsBySurveyNoNotContainsSomething() throws Exception {
         // Initialize the database
         kmDetailsRepository.saveAndFlush(kmDetails);
 
-        // Get all the kmDetailsList where surveyNo is less than or equal to DEFAULT_SURVEY_NO
-        defaultKmDetailsShouldBeFound("surveyNo.lessThanOrEqual=" + DEFAULT_SURVEY_NO);
+        // Get all the kmDetailsList where surveyNo does not contain DEFAULT_SURVEY_NO
+        defaultKmDetailsShouldNotBeFound("surveyNo.doesNotContain=" + DEFAULT_SURVEY_NO);
 
-        // Get all the kmDetailsList where surveyNo is less than or equal to SMALLER_SURVEY_NO
-        defaultKmDetailsShouldNotBeFound("surveyNo.lessThanOrEqual=" + SMALLER_SURVEY_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmDetailsBySurveyNoIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kmDetailsRepository.saveAndFlush(kmDetails);
-
-        // Get all the kmDetailsList where surveyNo is less than DEFAULT_SURVEY_NO
-        defaultKmDetailsShouldNotBeFound("surveyNo.lessThan=" + DEFAULT_SURVEY_NO);
-
-        // Get all the kmDetailsList where surveyNo is less than UPDATED_SURVEY_NO
-        defaultKmDetailsShouldBeFound("surveyNo.lessThan=" + UPDATED_SURVEY_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmDetailsBySurveyNoIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kmDetailsRepository.saveAndFlush(kmDetails);
-
-        // Get all the kmDetailsList where surveyNo is greater than DEFAULT_SURVEY_NO
-        defaultKmDetailsShouldNotBeFound("surveyNo.greaterThan=" + DEFAULT_SURVEY_NO);
-
-        // Get all the kmDetailsList where surveyNo is greater than SMALLER_SURVEY_NO
-        defaultKmDetailsShouldBeFound("surveyNo.greaterThan=" + SMALLER_SURVEY_NO);
+        // Get all the kmDetailsList where surveyNo does not contain UPDATED_SURVEY_NO
+        defaultKmDetailsShouldBeFound("surveyNo.doesNotContain=" + UPDATED_SURVEY_NO);
     }
 
     @Test
@@ -3312,7 +3642,7 @@ class KmDetailsResourceIT {
             .andExpect(jsonPath("$.[*].jirayatAreMr").value(hasItem(DEFAULT_JIRAYAT_ARE_MR)))
             .andExpect(jsonPath("$.[*].zindagiAmt").value(hasItem(DEFAULT_ZINDAGI_AMT.doubleValue())))
             .andExpect(jsonPath("$.[*].zindagiNo").value(hasItem(DEFAULT_ZINDAGI_NO.intValue())))
-            .andExpect(jsonPath("$.[*].surveyNo").value(hasItem(DEFAULT_SURVEY_NO.intValue())))
+            .andExpect(jsonPath("$.[*].surveyNo").value(hasItem(DEFAULT_SURVEY_NO)))
             .andExpect(jsonPath("$.[*].landValue").value(hasItem(DEFAULT_LAND_VALUE.doubleValue())))
             .andExpect(jsonPath("$.[*].landValueMr").value(hasItem(DEFAULT_LAND_VALUE_MR)))
             .andExpect(jsonPath("$.[*].eAgreementAmt").value(hasItem(DEFAULT_E_AGREEMENT_AMT.doubleValue())))

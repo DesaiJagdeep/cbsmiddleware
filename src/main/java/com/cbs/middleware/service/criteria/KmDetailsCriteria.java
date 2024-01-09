@@ -79,7 +79,7 @@ public class KmDetailsCriteria implements Serializable, Criteria {
 
     private LongFilter zindagiNo;
 
-    private LongFilter surveyNo;
+    private StringFilter surveyNo;
 
     private DoubleFilter landValue;
 
@@ -592,18 +592,18 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         this.zindagiNo = zindagiNo;
     }
 
-    public LongFilter getSurveyNo() {
+    public StringFilter getSurveyNo() {
         return surveyNo;
     }
 
-    public LongFilter surveyNo() {
+    public StringFilter surveyNo() {
         if (surveyNo == null) {
-            surveyNo = new LongFilter();
+            surveyNo = new StringFilter();
         }
         return surveyNo;
     }
 
-    public void setSurveyNo(LongFilter surveyNo) {
+    public void setSurveyNo(StringFilter surveyNo) {
         this.surveyNo = surveyNo;
     }
 

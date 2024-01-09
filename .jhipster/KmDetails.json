@@ -4,7 +4,8 @@
   "fields": [
     {
       "fieldName": "shares",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "sharesMr",
@@ -12,7 +13,8 @@
     },
     {
       "fieldName": "sugarShares",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "sugarSharesMr",
@@ -20,7 +22,8 @@
     },
     {
       "fieldName": "deposite",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "depositeMr",
@@ -28,7 +31,8 @@
     },
     {
       "fieldName": "dueLoan",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "dueLoanMr",
@@ -36,7 +40,8 @@
     },
     {
       "fieldName": "dueAmount",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "dueAmountMr",
@@ -48,11 +53,13 @@
     },
     {
       "fieldName": "dueDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "kmDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "kmDateMr",
@@ -60,7 +67,8 @@
     },
     {
       "fieldName": "kmFromDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "kmFromDateMr",
@@ -68,7 +76,8 @@
     },
     {
       "fieldName": "kmToDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "kmToDateMr",
@@ -76,7 +85,8 @@
     },
     {
       "fieldName": "bagayatHector",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "bagayatHectorMr",
@@ -84,7 +94,8 @@
     },
     {
       "fieldName": "bagayatAre",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "bagayatAreMr",
@@ -92,7 +103,8 @@
     },
     {
       "fieldName": "jirayatHector",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "jirayatHectorMr",
@@ -100,7 +112,8 @@
     },
     {
       "fieldName": "jirayatAre",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "jirayatAreMr",
@@ -108,19 +121,24 @@
     },
     {
       "fieldName": "zindagiAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "zindagiNo",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "surveyNo",
-      "fieldType": "Long"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
     },
     {
       "fieldName": "landValue",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "landValueMr",
@@ -128,16 +146,17 @@
     },
     {
       "fieldName": "eAgreementAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "eAgreementAmtMr",
-      "fieldType": "String",
-      "fieldValidateRules": []
+      "fieldType": "String"
     },
     {
       "fieldName": "eAgreementDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "eAgreementDateMr",
@@ -145,7 +164,8 @@
     },
     {
       "fieldName": "bojaAmount",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "bojaAmountMr",
@@ -153,7 +173,8 @@
     },
     {
       "fieldName": "bojaDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "bojaDateMr",

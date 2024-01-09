@@ -170,7 +170,7 @@ public class KmDetailsQueryService extends QueryService<KmDetails> {
                 specification = specification.and(buildRangeSpecification(criteria.getZindagiNo(), KmDetails_.zindagiNo));
             }
             if (criteria.getSurveyNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getSurveyNo(), KmDetails_.surveyNo));
+                specification = specification.and(buildStringSpecification(criteria.getSurveyNo(), KmDetails_.surveyNo));
             }
             if (criteria.getLandValue() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLandValue(), KmDetails_.landValue));

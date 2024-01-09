@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +64,7 @@ public class KmDetailsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/km-details")
-    public ResponseEntity<KmDetails> createKmDetails(@RequestBody KmDetails kmDetails) throws URISyntaxException {
+    public ResponseEntity<KmDetails> createKmDetails(@Valid @RequestBody KmDetails kmDetails) throws URISyntaxException {
         log.debug("REST request to save KmDetails : {}", kmDetails);
         if (kmDetails.getId() != null) {
             throw new BadRequestAlertException("A new kmDetails cannot already have an ID", ENTITY_NAME, "idexists");
@@ -87,7 +89,7 @@ public class KmDetailsResource {
     @PutMapping("/km-details/{id}")
     public ResponseEntity<KmDetails> updateKmDetails(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KmDetails kmDetails
+        @Valid @RequestBody KmDetails kmDetails
     ) throws URISyntaxException {
         log.debug("REST request to update KmDetails : {}, {}", id, kmDetails);
         if (kmDetails.getId() == null) {
@@ -122,7 +124,7 @@ public class KmDetailsResource {
     @PatchMapping(value = "/km-details/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<KmDetails> partialUpdateKmDetails(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KmDetails kmDetails
+        @NotNull @RequestBody KmDetails kmDetails
     ) throws URISyntaxException {
         log.debug("REST request to partial update KmDetails partially : {}, {}", id, kmDetails);
         if (kmDetails.getId() == null) {

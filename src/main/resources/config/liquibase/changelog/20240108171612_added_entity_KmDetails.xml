@@ -15,31 +15,31 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="shares" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="shares_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="sugar_shares" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="sugar_shares_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="deposite" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="deposite_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="due_loan" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="due_loan_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="due_amount" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="due_amount_mr" type="varchar(255)">
                 <constraints nullable="true" />
@@ -48,85 +48,85 @@
                 <constraints nullable="true" />
             </column>
             <column name="due_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="km_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="km_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="km_from_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="km_from_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="km_to_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="km_to_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="bagayat_hector" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="bagayat_hector_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="bagayat_are" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="bagayat_are_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="jirayat_hector" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="jirayat_hector_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="jirayat_are" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="jirayat_are_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="zindagi_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="zindagi_no" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
-            <column name="survey_no" type="bigint">
-                <constraints nullable="true" />
+            <column name="survey_no" type="varchar(1000)">
+                <constraints nullable="false" />
             </column>
             <column name="land_value" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="land_value_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="e_agreement_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="e_agreement_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="e_agreement_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="e_agreement_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="boja_amount" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="boja_amount_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="boja_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="boja_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
@@ -189,7 +189,7 @@
             <column name="jirayat_are_mr" type="string"/>
             <column name="zindagi_amt" type="numeric"/>
             <column name="zindagi_no" type="numeric"/>
-            <column name="survey_no" type="numeric"/>
+            <column name="survey_no" type="string"/>
             <column name="land_value" type="numeric"/>
             <column name="land_value_mr" type="string"/>
             <column name="e_agreement_amt" type="numeric"/>

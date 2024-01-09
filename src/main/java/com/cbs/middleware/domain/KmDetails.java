@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "km_details")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmDetails implements Serializable {
+public class KmDetails extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

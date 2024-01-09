@@ -64,22 +64,21 @@ class KmMasterResourceIT {
     private static final String DEFAULT_PACS_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PACS_NUMBER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_AREA_HECTOR = "AAAAAAAAAA";
-    private static final String UPDATED_AREA_HECTOR = "BBBBBBBBBB";
+    private static final Double DEFAULT_AREA_HECTOR = 1D;
+    private static final Double UPDATED_AREA_HECTOR = 2D;
+    private static final Double SMALLER_AREA_HECTOR = 1D - 1D;
 
     private static final String DEFAULT_AREA_HECTOR_MR = "AAAAAAAAAA";
     private static final String UPDATED_AREA_HECTOR_MR = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_AADHAR_NO = 1L;
-    private static final Long UPDATED_AADHAR_NO = 2L;
-    private static final Long SMALLER_AADHAR_NO = 1L - 1L;
+    private static final String DEFAULT_AADHAR_NO = "dddddddddddd";
+    private static final String UPDATED_AADHAR_NO = "ddddddddddddB";
 
     private static final String DEFAULT_AADHAR_NO_MR = "AAAAAAAAAA";
     private static final String UPDATED_AADHAR_NO_MR = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_PAN_NO = 1L;
-    private static final Long UPDATED_PAN_NO = 2L;
-    private static final Long SMALLER_PAN_NO = 1L - 1L;
+    private static final String DEFAULT_PAN_NO = "ZZMDB4295L";
+    private static final String UPDATED_PAN_NO = "FVWHD4470N";
 
     private static final String DEFAULT_PAN_NO_MR = "AAAAAAAAAA";
     private static final String UPDATED_PAN_NO_MR = "BBBBBBBBBB";
@@ -269,6 +268,210 @@ class KmMasterResourceIT {
 
     @Test
     @Transactional
+    void checkBranchCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setBranchCode(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkFarmerNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setFarmerName(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkFarmerAddressIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setFarmerAddress(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkGenderIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setGender(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkCasteIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setCaste(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkAreaHectorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setAreaHector(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkAadharNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setAadharNo(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPanNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setPanNo(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkMobileNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setMobileNo(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkKccNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setKccNo(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSavingAcNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setSavingAcNo(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPacsMemberCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmMasterRepository.findAll().size();
+        // set the field null
+        kmMaster.setPacsMemberCode(null);
+
+        // Create the KmMaster, which fails.
+
+        restKmMasterMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmMaster)))
+            .andExpect(status().isBadRequest());
+
+        List<KmMaster> kmMasterList = kmMasterRepository.findAll();
+        assertThat(kmMasterList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllKmMasters() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
@@ -290,11 +493,11 @@ class KmMasterResourceIT {
             .andExpect(jsonPath("$.[*].caste").value(hasItem(DEFAULT_CASTE)))
             .andExpect(jsonPath("$.[*].casteMr").value(hasItem(DEFAULT_CASTE_MR)))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
-            .andExpect(jsonPath("$.[*].areaHector").value(hasItem(DEFAULT_AREA_HECTOR)))
+            .andExpect(jsonPath("$.[*].areaHector").value(hasItem(DEFAULT_AREA_HECTOR.doubleValue())))
             .andExpect(jsonPath("$.[*].areaHectorMr").value(hasItem(DEFAULT_AREA_HECTOR_MR)))
-            .andExpect(jsonPath("$.[*].aadharNo").value(hasItem(DEFAULT_AADHAR_NO.intValue())))
+            .andExpect(jsonPath("$.[*].aadharNo").value(hasItem(DEFAULT_AADHAR_NO)))
             .andExpect(jsonPath("$.[*].aadharNoMr").value(hasItem(DEFAULT_AADHAR_NO_MR)))
-            .andExpect(jsonPath("$.[*].panNo").value(hasItem(DEFAULT_PAN_NO.intValue())))
+            .andExpect(jsonPath("$.[*].panNo").value(hasItem(DEFAULT_PAN_NO)))
             .andExpect(jsonPath("$.[*].panNoMr").value(hasItem(DEFAULT_PAN_NO_MR)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].mobileNoMr").value(hasItem(DEFAULT_MOBILE_NO_MR)))
@@ -330,11 +533,11 @@ class KmMasterResourceIT {
             .andExpect(jsonPath("$.caste").value(DEFAULT_CASTE))
             .andExpect(jsonPath("$.casteMr").value(DEFAULT_CASTE_MR))
             .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER))
-            .andExpect(jsonPath("$.areaHector").value(DEFAULT_AREA_HECTOR))
+            .andExpect(jsonPath("$.areaHector").value(DEFAULT_AREA_HECTOR.doubleValue()))
             .andExpect(jsonPath("$.areaHectorMr").value(DEFAULT_AREA_HECTOR_MR))
-            .andExpect(jsonPath("$.aadharNo").value(DEFAULT_AADHAR_NO.intValue()))
+            .andExpect(jsonPath("$.aadharNo").value(DEFAULT_AADHAR_NO))
             .andExpect(jsonPath("$.aadharNoMr").value(DEFAULT_AADHAR_NO_MR))
-            .andExpect(jsonPath("$.panNo").value(DEFAULT_PAN_NO.intValue()))
+            .andExpect(jsonPath("$.panNo").value(DEFAULT_PAN_NO))
             .andExpect(jsonPath("$.panNoMr").value(DEFAULT_PAN_NO_MR))
             .andExpect(jsonPath("$.mobileNo").value(DEFAULT_MOBILE_NO))
             .andExpect(jsonPath("$.mobileNoMr").value(DEFAULT_MOBILE_NO_MR))
@@ -1121,28 +1324,54 @@ class KmMasterResourceIT {
 
     @Test
     @Transactional
-    void getAllKmMastersByAreaHectorContainsSomething() throws Exception {
+    void getAllKmMastersByAreaHectorIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where areaHector contains DEFAULT_AREA_HECTOR
-        defaultKmMasterShouldBeFound("areaHector.contains=" + DEFAULT_AREA_HECTOR);
+        // Get all the kmMasterList where areaHector is greater than or equal to DEFAULT_AREA_HECTOR
+        defaultKmMasterShouldBeFound("areaHector.greaterThanOrEqual=" + DEFAULT_AREA_HECTOR);
 
-        // Get all the kmMasterList where areaHector contains UPDATED_AREA_HECTOR
-        defaultKmMasterShouldNotBeFound("areaHector.contains=" + UPDATED_AREA_HECTOR);
+        // Get all the kmMasterList where areaHector is greater than or equal to UPDATED_AREA_HECTOR
+        defaultKmMasterShouldNotBeFound("areaHector.greaterThanOrEqual=" + UPDATED_AREA_HECTOR);
     }
 
     @Test
     @Transactional
-    void getAllKmMastersByAreaHectorNotContainsSomething() throws Exception {
+    void getAllKmMastersByAreaHectorIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where areaHector does not contain DEFAULT_AREA_HECTOR
-        defaultKmMasterShouldNotBeFound("areaHector.doesNotContain=" + DEFAULT_AREA_HECTOR);
+        // Get all the kmMasterList where areaHector is less than or equal to DEFAULT_AREA_HECTOR
+        defaultKmMasterShouldBeFound("areaHector.lessThanOrEqual=" + DEFAULT_AREA_HECTOR);
 
-        // Get all the kmMasterList where areaHector does not contain UPDATED_AREA_HECTOR
-        defaultKmMasterShouldBeFound("areaHector.doesNotContain=" + UPDATED_AREA_HECTOR);
+        // Get all the kmMasterList where areaHector is less than or equal to SMALLER_AREA_HECTOR
+        defaultKmMasterShouldNotBeFound("areaHector.lessThanOrEqual=" + SMALLER_AREA_HECTOR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKmMastersByAreaHectorIsLessThanSomething() throws Exception {
+        // Initialize the database
+        kmMasterRepository.saveAndFlush(kmMaster);
+
+        // Get all the kmMasterList where areaHector is less than DEFAULT_AREA_HECTOR
+        defaultKmMasterShouldNotBeFound("areaHector.lessThan=" + DEFAULT_AREA_HECTOR);
+
+        // Get all the kmMasterList where areaHector is less than UPDATED_AREA_HECTOR
+        defaultKmMasterShouldBeFound("areaHector.lessThan=" + UPDATED_AREA_HECTOR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKmMastersByAreaHectorIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        kmMasterRepository.saveAndFlush(kmMaster);
+
+        // Get all the kmMasterList where areaHector is greater than DEFAULT_AREA_HECTOR
+        defaultKmMasterShouldNotBeFound("areaHector.greaterThan=" + DEFAULT_AREA_HECTOR);
+
+        // Get all the kmMasterList where areaHector is greater than SMALLER_AREA_HECTOR
+        defaultKmMasterShouldBeFound("areaHector.greaterThan=" + SMALLER_AREA_HECTOR);
     }
 
     @Test
@@ -1251,54 +1480,28 @@ class KmMasterResourceIT {
 
     @Test
     @Transactional
-    void getAllKmMastersByAadharNoIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKmMastersByAadharNoContainsSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where aadharNo is greater than or equal to DEFAULT_AADHAR_NO
-        defaultKmMasterShouldBeFound("aadharNo.greaterThanOrEqual=" + DEFAULT_AADHAR_NO);
+        // Get all the kmMasterList where aadharNo contains DEFAULT_AADHAR_NO
+        defaultKmMasterShouldBeFound("aadharNo.contains=" + DEFAULT_AADHAR_NO);
 
-        // Get all the kmMasterList where aadharNo is greater than or equal to UPDATED_AADHAR_NO
-        defaultKmMasterShouldNotBeFound("aadharNo.greaterThanOrEqual=" + UPDATED_AADHAR_NO);
+        // Get all the kmMasterList where aadharNo contains UPDATED_AADHAR_NO
+        defaultKmMasterShouldNotBeFound("aadharNo.contains=" + UPDATED_AADHAR_NO);
     }
 
     @Test
     @Transactional
-    void getAllKmMastersByAadharNoIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKmMastersByAadharNoNotContainsSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where aadharNo is less than or equal to DEFAULT_AADHAR_NO
-        defaultKmMasterShouldBeFound("aadharNo.lessThanOrEqual=" + DEFAULT_AADHAR_NO);
+        // Get all the kmMasterList where aadharNo does not contain DEFAULT_AADHAR_NO
+        defaultKmMasterShouldNotBeFound("aadharNo.doesNotContain=" + DEFAULT_AADHAR_NO);
 
-        // Get all the kmMasterList where aadharNo is less than or equal to SMALLER_AADHAR_NO
-        defaultKmMasterShouldNotBeFound("aadharNo.lessThanOrEqual=" + SMALLER_AADHAR_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmMastersByAadharNoIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kmMasterRepository.saveAndFlush(kmMaster);
-
-        // Get all the kmMasterList where aadharNo is less than DEFAULT_AADHAR_NO
-        defaultKmMasterShouldNotBeFound("aadharNo.lessThan=" + DEFAULT_AADHAR_NO);
-
-        // Get all the kmMasterList where aadharNo is less than UPDATED_AADHAR_NO
-        defaultKmMasterShouldBeFound("aadharNo.lessThan=" + UPDATED_AADHAR_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmMastersByAadharNoIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kmMasterRepository.saveAndFlush(kmMaster);
-
-        // Get all the kmMasterList where aadharNo is greater than DEFAULT_AADHAR_NO
-        defaultKmMasterShouldNotBeFound("aadharNo.greaterThan=" + DEFAULT_AADHAR_NO);
-
-        // Get all the kmMasterList where aadharNo is greater than SMALLER_AADHAR_NO
-        defaultKmMasterShouldBeFound("aadharNo.greaterThan=" + SMALLER_AADHAR_NO);
+        // Get all the kmMasterList where aadharNo does not contain UPDATED_AADHAR_NO
+        defaultKmMasterShouldBeFound("aadharNo.doesNotContain=" + UPDATED_AADHAR_NO);
     }
 
     @Test
@@ -1407,54 +1610,28 @@ class KmMasterResourceIT {
 
     @Test
     @Transactional
-    void getAllKmMastersByPanNoIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKmMastersByPanNoContainsSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where panNo is greater than or equal to DEFAULT_PAN_NO
-        defaultKmMasterShouldBeFound("panNo.greaterThanOrEqual=" + DEFAULT_PAN_NO);
+        // Get all the kmMasterList where panNo contains DEFAULT_PAN_NO
+        defaultKmMasterShouldBeFound("panNo.contains=" + DEFAULT_PAN_NO);
 
-        // Get all the kmMasterList where panNo is greater than or equal to UPDATED_PAN_NO
-        defaultKmMasterShouldNotBeFound("panNo.greaterThanOrEqual=" + UPDATED_PAN_NO);
+        // Get all the kmMasterList where panNo contains UPDATED_PAN_NO
+        defaultKmMasterShouldNotBeFound("panNo.contains=" + UPDATED_PAN_NO);
     }
 
     @Test
     @Transactional
-    void getAllKmMastersByPanNoIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKmMastersByPanNoNotContainsSomething() throws Exception {
         // Initialize the database
         kmMasterRepository.saveAndFlush(kmMaster);
 
-        // Get all the kmMasterList where panNo is less than or equal to DEFAULT_PAN_NO
-        defaultKmMasterShouldBeFound("panNo.lessThanOrEqual=" + DEFAULT_PAN_NO);
+        // Get all the kmMasterList where panNo does not contain DEFAULT_PAN_NO
+        defaultKmMasterShouldNotBeFound("panNo.doesNotContain=" + DEFAULT_PAN_NO);
 
-        // Get all the kmMasterList where panNo is less than or equal to SMALLER_PAN_NO
-        defaultKmMasterShouldNotBeFound("panNo.lessThanOrEqual=" + SMALLER_PAN_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmMastersByPanNoIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kmMasterRepository.saveAndFlush(kmMaster);
-
-        // Get all the kmMasterList where panNo is less than DEFAULT_PAN_NO
-        defaultKmMasterShouldNotBeFound("panNo.lessThan=" + DEFAULT_PAN_NO);
-
-        // Get all the kmMasterList where panNo is less than UPDATED_PAN_NO
-        defaultKmMasterShouldBeFound("panNo.lessThan=" + UPDATED_PAN_NO);
-    }
-
-    @Test
-    @Transactional
-    void getAllKmMastersByPanNoIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kmMasterRepository.saveAndFlush(kmMaster);
-
-        // Get all the kmMasterList where panNo is greater than DEFAULT_PAN_NO
-        defaultKmMasterShouldNotBeFound("panNo.greaterThan=" + DEFAULT_PAN_NO);
-
-        // Get all the kmMasterList where panNo is greater than SMALLER_PAN_NO
-        defaultKmMasterShouldBeFound("panNo.greaterThan=" + SMALLER_PAN_NO);
+        // Get all the kmMasterList where panNo does not contain UPDATED_PAN_NO
+        defaultKmMasterShouldBeFound("panNo.doesNotContain=" + UPDATED_PAN_NO);
     }
 
     @Test
@@ -2176,11 +2353,11 @@ class KmMasterResourceIT {
             .andExpect(jsonPath("$.[*].caste").value(hasItem(DEFAULT_CASTE)))
             .andExpect(jsonPath("$.[*].casteMr").value(hasItem(DEFAULT_CASTE_MR)))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
-            .andExpect(jsonPath("$.[*].areaHector").value(hasItem(DEFAULT_AREA_HECTOR)))
+            .andExpect(jsonPath("$.[*].areaHector").value(hasItem(DEFAULT_AREA_HECTOR.doubleValue())))
             .andExpect(jsonPath("$.[*].areaHectorMr").value(hasItem(DEFAULT_AREA_HECTOR_MR)))
-            .andExpect(jsonPath("$.[*].aadharNo").value(hasItem(DEFAULT_AADHAR_NO.intValue())))
+            .andExpect(jsonPath("$.[*].aadharNo").value(hasItem(DEFAULT_AADHAR_NO)))
             .andExpect(jsonPath("$.[*].aadharNoMr").value(hasItem(DEFAULT_AADHAR_NO_MR)))
-            .andExpect(jsonPath("$.[*].panNo").value(hasItem(DEFAULT_PAN_NO.intValue())))
+            .andExpect(jsonPath("$.[*].panNo").value(hasItem(DEFAULT_PAN_NO)))
             .andExpect(jsonPath("$.[*].panNoMr").value(hasItem(DEFAULT_PAN_NO_MR)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].mobileNoMr").value(hasItem(DEFAULT_MOBILE_NO_MR)))
@@ -2375,16 +2552,20 @@ class KmMasterResourceIT {
         partialUpdatedKmMaster.setId(kmMaster.getId());
 
         partialUpdatedKmMaster
+            .branchCode(UPDATED_BRANCH_CODE)
             .branchCodeMr(UPDATED_BRANCH_CODE_MR)
             .farmerNameMr(UPDATED_FARMER_NAME_MR)
             .farmerAddress(UPDATED_FARMER_ADDRESS)
-            .caste(UPDATED_CASTE)
-            .areaHector(UPDATED_AREA_HECTOR)
+            .gender(UPDATED_GENDER)
+            .genderMr(UPDATED_GENDER_MR)
+            .casteMr(UPDATED_CASTE_MR)
+            .pacsNumber(UPDATED_PACS_NUMBER)
             .areaHectorMr(UPDATED_AREA_HECTOR_MR)
             .aadharNo(UPDATED_AADHAR_NO)
-            .mobileNo(UPDATED_MOBILE_NO)
-            .mobileNoMr(UPDATED_MOBILE_NO_MR)
-            .pacsMemberCodeMr(UPDATED_PACS_MEMBER_CODE_MR);
+            .aadharNoMr(UPDATED_AADHAR_NO_MR)
+            .kccNo(UPDATED_KCC_NO)
+            .kccNoMr(UPDATED_KCC_NO_MR)
+            .pacsMemberCode(UPDATED_PACS_MEMBER_CODE);
 
         restKmMasterMockMvc
             .perform(
@@ -2398,31 +2579,31 @@ class KmMasterResourceIT {
         List<KmMaster> kmMasterList = kmMasterRepository.findAll();
         assertThat(kmMasterList).hasSize(databaseSizeBeforeUpdate);
         KmMaster testKmMaster = kmMasterList.get(kmMasterList.size() - 1);
-        assertThat(testKmMaster.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
+        assertThat(testKmMaster.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
         assertThat(testKmMaster.getBranchCodeMr()).isEqualTo(UPDATED_BRANCH_CODE_MR);
         assertThat(testKmMaster.getFarmerName()).isEqualTo(DEFAULT_FARMER_NAME);
         assertThat(testKmMaster.getFarmerNameMr()).isEqualTo(UPDATED_FARMER_NAME_MR);
         assertThat(testKmMaster.getFarmerAddress()).isEqualTo(UPDATED_FARMER_ADDRESS);
         assertThat(testKmMaster.getFarmerAddressMr()).isEqualTo(DEFAULT_FARMER_ADDRESS_MR);
-        assertThat(testKmMaster.getGender()).isEqualTo(DEFAULT_GENDER);
-        assertThat(testKmMaster.getGenderMr()).isEqualTo(DEFAULT_GENDER_MR);
-        assertThat(testKmMaster.getCaste()).isEqualTo(UPDATED_CASTE);
-        assertThat(testKmMaster.getCasteMr()).isEqualTo(DEFAULT_CASTE_MR);
-        assertThat(testKmMaster.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
-        assertThat(testKmMaster.getAreaHector()).isEqualTo(UPDATED_AREA_HECTOR);
+        assertThat(testKmMaster.getGender()).isEqualTo(UPDATED_GENDER);
+        assertThat(testKmMaster.getGenderMr()).isEqualTo(UPDATED_GENDER_MR);
+        assertThat(testKmMaster.getCaste()).isEqualTo(DEFAULT_CASTE);
+        assertThat(testKmMaster.getCasteMr()).isEqualTo(UPDATED_CASTE_MR);
+        assertThat(testKmMaster.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
+        assertThat(testKmMaster.getAreaHector()).isEqualTo(DEFAULT_AREA_HECTOR);
         assertThat(testKmMaster.getAreaHectorMr()).isEqualTo(UPDATED_AREA_HECTOR_MR);
         assertThat(testKmMaster.getAadharNo()).isEqualTo(UPDATED_AADHAR_NO);
-        assertThat(testKmMaster.getAadharNoMr()).isEqualTo(DEFAULT_AADHAR_NO_MR);
+        assertThat(testKmMaster.getAadharNoMr()).isEqualTo(UPDATED_AADHAR_NO_MR);
         assertThat(testKmMaster.getPanNo()).isEqualTo(DEFAULT_PAN_NO);
         assertThat(testKmMaster.getPanNoMr()).isEqualTo(DEFAULT_PAN_NO_MR);
-        assertThat(testKmMaster.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
-        assertThat(testKmMaster.getMobileNoMr()).isEqualTo(UPDATED_MOBILE_NO_MR);
-        assertThat(testKmMaster.getKccNo()).isEqualTo(DEFAULT_KCC_NO);
-        assertThat(testKmMaster.getKccNoMr()).isEqualTo(DEFAULT_KCC_NO_MR);
+        assertThat(testKmMaster.getMobileNo()).isEqualTo(DEFAULT_MOBILE_NO);
+        assertThat(testKmMaster.getMobileNoMr()).isEqualTo(DEFAULT_MOBILE_NO_MR);
+        assertThat(testKmMaster.getKccNo()).isEqualTo(UPDATED_KCC_NO);
+        assertThat(testKmMaster.getKccNoMr()).isEqualTo(UPDATED_KCC_NO_MR);
         assertThat(testKmMaster.getSavingAcNo()).isEqualTo(DEFAULT_SAVING_AC_NO);
         assertThat(testKmMaster.getSavingAcNoMr()).isEqualTo(DEFAULT_SAVING_AC_NO_MR);
-        assertThat(testKmMaster.getPacsMemberCode()).isEqualTo(DEFAULT_PACS_MEMBER_CODE);
-        assertThat(testKmMaster.getPacsMemberCodeMr()).isEqualTo(UPDATED_PACS_MEMBER_CODE_MR);
+        assertThat(testKmMaster.getPacsMemberCode()).isEqualTo(UPDATED_PACS_MEMBER_CODE);
+        assertThat(testKmMaster.getPacsMemberCodeMr()).isEqualTo(DEFAULT_PACS_MEMBER_CODE_MR);
         assertThat(testKmMaster.getEntryFlag()).isEqualTo(DEFAULT_ENTRY_FLAG);
     }
 

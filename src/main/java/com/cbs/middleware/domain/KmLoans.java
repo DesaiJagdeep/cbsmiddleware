@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A KmLoans.
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_loans")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmLoans extends AbstractAuditingEntity<Long> implements Serializable {
+public class KmLoans implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,49 +21,57 @@ public class KmLoans extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hector")
+    @NotNull
+    @Column(name = "hector", nullable = false)
     private Double hector;
 
     @Column(name = "hector_mr")
     private String hectorMr;
 
-    @Column(name = "are")
+    @NotNull
+    @Column(name = "are", nullable = false)
     private Double are;
 
     @Column(name = "aremr")
     private String aremr;
 
-    @Column(name = "no_of_tree")
+    @NotNull
+    @Column(name = "no_of_tree", nullable = false)
     private Double noOfTree;
 
     @Column(name = "no_of_tree_mr")
     private String noOfTreeMr;
 
-    @Column(name = "sanction_amt")
+    @NotNull
+    @Column(name = "sanction_amt", nullable = false)
     private Double sanctionAmt;
 
     @Column(name = "sanction_amt_mr")
     private String sanctionAmtMr;
 
-    @Column(name = "loan_amt")
+    @NotNull
+    @Column(name = "loan_amt", nullable = false)
     private Double loanAmt;
 
     @Column(name = "loan_amt_mr")
     private String loanAmtMr;
 
-    @Column(name = "receivable_amt")
+    @NotNull
+    @Column(name = "receivable_amt", nullable = false)
     private Double receivableAmt;
 
     @Column(name = "receivable_amt_mr")
     private String receivableAmtMr;
 
-    @Column(name = "due_amt")
+    @NotNull
+    @Column(name = "due_amt", nullable = false)
     private Double dueAmt;
 
     @Column(name = "due_amt_mr")
     private String dueAmtMr;
 
-    @Column(name = "due_date")
+    @NotNull
+    @Column(name = "due_date", nullable = false)
     private Instant dueDate;
 
     @Column(name = "due_date_mr")

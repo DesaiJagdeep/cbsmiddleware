@@ -222,6 +222,142 @@ class KmLoansResourceIT {
 
     @Test
     @Transactional
+    void checkHectorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setHector(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkAreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setAre(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkNoOfTreeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setNoOfTree(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSanctionAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setSanctionAmt(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkLoanAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setLoanAmt(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkReceivableAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setReceivableAmt(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDueAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setDueAmt(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDueDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmLoansRepository.findAll().size();
+        // set the field null
+        kmLoans.setDueDate(null);
+
+        // Create the KmLoans, which fails.
+
+        restKmLoansMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmLoans)))
+            .andExpect(status().isBadRequest());
+
+        List<KmLoans> kmLoansList = kmLoansRepository.findAll();
+        assertThat(kmLoansList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllKmLoans() throws Exception {
         // Initialize the database
         kmLoansRepository.saveAndFlush(kmLoans);

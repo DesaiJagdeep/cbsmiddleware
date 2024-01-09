@@ -69,21 +69,37 @@ export class KmLoansFormService {
           validators: [Validators.required],
         }
       ),
-      hector: new FormControl(kmLoansRawValue.hector),
+      hector: new FormControl(kmLoansRawValue.hector, {
+        validators: [Validators.required],
+      }),
       hectorMr: new FormControl(kmLoansRawValue.hectorMr),
-      are: new FormControl(kmLoansRawValue.are),
+      are: new FormControl(kmLoansRawValue.are, {
+        validators: [Validators.required],
+      }),
       aremr: new FormControl(kmLoansRawValue.aremr),
-      noOfTree: new FormControl(kmLoansRawValue.noOfTree),
+      noOfTree: new FormControl(kmLoansRawValue.noOfTree, {
+        validators: [Validators.required],
+      }),
       noOfTreeMr: new FormControl(kmLoansRawValue.noOfTreeMr),
-      sanctionAmt: new FormControl(kmLoansRawValue.sanctionAmt),
+      sanctionAmt: new FormControl(kmLoansRawValue.sanctionAmt, {
+        validators: [Validators.required],
+      }),
       sanctionAmtMr: new FormControl(kmLoansRawValue.sanctionAmtMr),
-      loanAmt: new FormControl(kmLoansRawValue.loanAmt),
+      loanAmt: new FormControl(kmLoansRawValue.loanAmt, {
+        validators: [Validators.required],
+      }),
       loanAmtMr: new FormControl(kmLoansRawValue.loanAmtMr),
-      receivableAmt: new FormControl(kmLoansRawValue.receivableAmt),
+      receivableAmt: new FormControl(kmLoansRawValue.receivableAmt, {
+        validators: [Validators.required],
+      }),
       receivableAmtMr: new FormControl(kmLoansRawValue.receivableAmtMr),
-      dueAmt: new FormControl(kmLoansRawValue.dueAmt),
+      dueAmt: new FormControl(kmLoansRawValue.dueAmt, {
+        validators: [Validators.required],
+      }),
       dueAmtMr: new FormControl(kmLoansRawValue.dueAmtMr),
-      dueDate: new FormControl(kmLoansRawValue.dueDate),
+      dueDate: new FormControl(kmLoansRawValue.dueDate, {
+        validators: [Validators.required],
+      }),
       dueDateMr: new FormControl(kmLoansRawValue.dueDateMr),
       spare: new FormControl(kmLoansRawValue.spare),
       cropMaster: new FormControl(kmLoansRawValue.cropMaster),

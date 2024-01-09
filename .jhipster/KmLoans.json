@@ -4,7 +4,8 @@
   "fields": [
     {
       "fieldName": "hector",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "hectorMr",
@@ -12,7 +13,8 @@
     },
     {
       "fieldName": "are",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "aremr",
@@ -20,7 +22,8 @@
     },
     {
       "fieldName": "noOfTree",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "noOfTreeMr",
@@ -28,7 +31,8 @@
     },
     {
       "fieldName": "sanctionAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "sanctionAmtMr",
@@ -36,7 +40,8 @@
     },
     {
       "fieldName": "loanAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "loanAmtMr",
@@ -44,7 +49,8 @@
     },
     {
       "fieldName": "receivableAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "receivableAmtMr",
@@ -52,7 +58,8 @@
     },
     {
       "fieldName": "dueAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "dueAmtMr",
@@ -60,7 +67,8 @@
     },
     {
       "fieldName": "dueDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "dueDateMr",

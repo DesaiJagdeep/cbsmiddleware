@@ -15,49 +15,49 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="hector" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="hector_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="are" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="aremr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="no_of_tree" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="no_of_tree_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="sanction_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="sanction_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="loan_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="loan_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="receivable_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="receivable_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="due_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="due_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="due_date" type="${datetimeType}">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="due_date_mr" type="varchar(255)">
                 <constraints nullable="true" />

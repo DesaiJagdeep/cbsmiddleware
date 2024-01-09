@@ -16,6 +16,14 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.hector" for="field_hector">Hector</label>
           <input type="number" class="form-control" name="hector" id="field_hector" data-cy="hector" formControlName="hector" />
+          <div *ngIf="editForm.get('hector')!.invalid && (editForm.get('hector')!.dirty || editForm.get('hector')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('hector')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('hector')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -26,6 +34,14 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.are" for="field_are">Are</label>
           <input type="number" class="form-control" name="are" id="field_are" data-cy="are" formControlName="are" />
+          <div *ngIf="editForm.get('are')!.invalid && (editForm.get('are')!.dirty || editForm.get('are')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('are')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('are')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -36,6 +52,22 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.noOfTree" for="field_noOfTree">No Of Tree</label>
           <input type="number" class="form-control" name="noOfTree" id="field_noOfTree" data-cy="noOfTree" formControlName="noOfTree" />
+          <div *ngIf="editForm.get('noOfTree')!.invalid && (editForm.get('noOfTree')!.dirty || editForm.get('noOfTree')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('noOfTree')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('noOfTree')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -60,6 +92,22 @@
             data-cy="sanctionAmt"
             formControlName="sanctionAmt"
           />
+          <div *ngIf="editForm.get('sanctionAmt')!.invalid && (editForm.get('sanctionAmt')!.dirty || editForm.get('sanctionAmt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('sanctionAmt')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('sanctionAmt')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -77,6 +125,22 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.loanAmt" for="field_loanAmt">Loan Amt</label>
           <input type="number" class="form-control" name="loanAmt" id="field_loanAmt" data-cy="loanAmt" formControlName="loanAmt" />
+          <div *ngIf="editForm.get('loanAmt')!.invalid && (editForm.get('loanAmt')!.dirty || editForm.get('loanAmt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('loanAmt')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('loanAmt')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -94,6 +158,26 @@
             data-cy="receivableAmt"
             formControlName="receivableAmt"
           />
+          <div
+            *ngIf="
+              editForm.get('receivableAmt')!.invalid && (editForm.get('receivableAmt')!.dirty || editForm.get('receivableAmt')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('receivableAmt')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('receivableAmt')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -113,6 +197,14 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmLoans.dueAmt" for="field_dueAmt">Due Amt</label>
           <input type="number" class="form-control" name="dueAmt" id="field_dueAmt" data-cy="dueAmt" formControlName="dueAmt" />
+          <div *ngIf="editForm.get('dueAmt')!.invalid && (editForm.get('dueAmt')!.dirty || editForm.get('dueAmt')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('dueAmt')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('dueAmt')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -132,6 +224,22 @@
               formControlName="dueDate"
               placeholder="YYYY-MM-DD HH:mm"
             />
+          </div>
+          <div *ngIf="editForm.get('dueDate')!.invalid && (editForm.get('dueDate')!.dirty || editForm.get('dueDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dueDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('dueDate')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date and time.
+            </small>
           </div>
         </div>
 

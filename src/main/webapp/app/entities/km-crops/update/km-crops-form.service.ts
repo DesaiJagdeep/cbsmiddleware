@@ -57,23 +57,43 @@ export class KmCropsFormService {
           validators: [Validators.required],
         }
       ),
-      hector: new FormControl(kmCropsRawValue.hector),
+      hector: new FormControl(kmCropsRawValue.hector, {
+        validators: [Validators.required],
+      }),
       hectorMr: new FormControl(kmCropsRawValue.hectorMr),
-      are: new FormControl(kmCropsRawValue.are),
+      are: new FormControl(kmCropsRawValue.are, {
+        validators: [Validators.required],
+      }),
       areMr: new FormControl(kmCropsRawValue.areMr),
-      noOfTree: new FormControl(kmCropsRawValue.noOfTree),
+      noOfTree: new FormControl(kmCropsRawValue.noOfTree, {
+        validators: [Validators.required],
+      }),
       noOfTreeMr: new FormControl(kmCropsRawValue.noOfTreeMr),
-      demand: new FormControl(kmCropsRawValue.demand),
+      demand: new FormControl(kmCropsRawValue.demand, {
+        validators: [Validators.required],
+      }),
       demandMr: new FormControl(kmCropsRawValue.demandMr),
-      society: new FormControl(kmCropsRawValue.society),
+      society: new FormControl(kmCropsRawValue.society, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       societyMr: new FormControl(kmCropsRawValue.societyMr),
-      bankAmt: new FormControl(kmCropsRawValue.bankAmt),
+      bankAmt: new FormControl(kmCropsRawValue.bankAmt, {
+        validators: [Validators.required],
+      }),
       bankAmtMr: new FormControl(kmCropsRawValue.bankAmtMr),
-      vibhagiAdhikari: new FormControl(kmCropsRawValue.vibhagiAdhikari),
-      vibhagiAdhikariMr: new FormControl(kmCropsRawValue.vibhagiAdhikariMr),
-      branch: new FormControl(kmCropsRawValue.branch),
+      vibhagiAdhikari: new FormControl(kmCropsRawValue.vibhagiAdhikari, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
+      vibhagiAdhikariMr: new FormControl(kmCropsRawValue.vibhagiAdhikariMr, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
+      branch: new FormControl(kmCropsRawValue.branch, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       branchMr: new FormControl(kmCropsRawValue.branchMr),
-      inspAmt: new FormControl(kmCropsRawValue.inspAmt),
+      inspAmt: new FormControl(kmCropsRawValue.inspAmt, {
+        validators: [Validators.required],
+      }),
       inspAmtMr: new FormControl(kmCropsRawValue.inspAmtMr),
       cropMaster: new FormControl(kmCropsRawValue.cropMaster),
       kmDetails: new FormControl(kmCropsRawValue.kmDetails),

@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +60,7 @@ public class KmCropsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/km-crops")
-    public ResponseEntity<KmCrops> createKmCrops(@RequestBody KmCrops kmCrops) throws URISyntaxException {
+    public ResponseEntity<KmCrops> createKmCrops(@Valid @RequestBody KmCrops kmCrops) throws URISyntaxException {
         log.debug("REST request to save KmCrops : {}", kmCrops);
         if (kmCrops.getId() != null) {
             throw new BadRequestAlertException("A new kmCrops cannot already have an ID", ENTITY_NAME, "idexists");
@@ -81,8 +83,10 @@ public class KmCropsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/km-crops/{id}")
-    public ResponseEntity<KmCrops> updateKmCrops(@PathVariable(value = "id", required = false) final Long id, @RequestBody KmCrops kmCrops)
-        throws URISyntaxException {
+    public ResponseEntity<KmCrops> updateKmCrops(
+        @PathVariable(value = "id", required = false) final Long id,
+        @Valid @RequestBody KmCrops kmCrops
+    ) throws URISyntaxException {
         log.debug("REST request to update KmCrops : {}, {}", id, kmCrops);
         if (kmCrops.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -116,7 +120,7 @@ public class KmCropsResource {
     @PatchMapping(value = "/km-crops/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<KmCrops> partialUpdateKmCrops(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KmCrops kmCrops
+        @NotNull @RequestBody KmCrops kmCrops
     ) throws URISyntaxException {
         log.debug("REST request to partial update KmCrops partially : {}, {}", id, kmCrops);
         if (kmCrops.getId() == null) {

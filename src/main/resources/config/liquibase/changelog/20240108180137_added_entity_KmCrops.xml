@@ -15,55 +15,55 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="hector" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="hector_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="are" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="are_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="no_of_tree" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="no_of_tree_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="demand" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="demand_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="society" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="society_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="bank_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="bank_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="vibhagi_adhikari" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="vibhagi_adhikari_mr" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="branch" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="branch_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="insp_amt" type="double">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="insp_amt_mr" type="varchar(255)">
                 <constraints nullable="true" />

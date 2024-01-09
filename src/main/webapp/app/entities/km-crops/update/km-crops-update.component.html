@@ -1,0 +1,327 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-km-crops-heading" data-cy="KmCropsCreateUpdateHeading" jhiTranslate="cbsMiddlewareApp.kmCrops.home.createOrEditLabel">
+        Create or edit a Km Crops
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.hector" for="field_hector">Hector</label>
+          <input type="number" class="form-control" name="hector" id="field_hector" data-cy="hector" formControlName="hector" />
+          <div *ngIf="editForm.get('hector')!.invalid && (editForm.get('hector')!.dirty || editForm.get('hector')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('hector')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('hector')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.hectorMr" for="field_hectorMr">Hector Mr</label>
+          <input type="text" class="form-control" name="hectorMr" id="field_hectorMr" data-cy="hectorMr" formControlName="hectorMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.are" for="field_are">Are</label>
+          <input type="number" class="form-control" name="are" id="field_are" data-cy="are" formControlName="are" />
+          <div *ngIf="editForm.get('are')!.invalid && (editForm.get('are')!.dirty || editForm.get('are')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('are')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('are')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.areMr" for="field_areMr">Are Mr</label>
+          <input type="text" class="form-control" name="areMr" id="field_areMr" data-cy="areMr" formControlName="areMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTree" for="field_noOfTree">No Of Tree</label>
+          <input type="number" class="form-control" name="noOfTree" id="field_noOfTree" data-cy="noOfTree" formControlName="noOfTree" />
+          <div *ngIf="editForm.get('noOfTree')!.invalid && (editForm.get('noOfTree')!.dirty || editForm.get('noOfTree')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('noOfTree')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('noOfTree')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.noOfTreeMr" for="field_noOfTreeMr">No Of Tree Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="noOfTreeMr"
+            id="field_noOfTreeMr"
+            data-cy="noOfTreeMr"
+            formControlName="noOfTreeMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.demand" for="field_demand">Demand</label>
+          <input type="number" class="form-control" name="demand" id="field_demand" data-cy="demand" formControlName="demand" />
+          <div *ngIf="editForm.get('demand')!.invalid && (editForm.get('demand')!.dirty || editForm.get('demand')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('demand')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('demand')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.demandMr" for="field_demandMr">Demand Mr</label>
+          <input type="text" class="form-control" name="demandMr" id="field_demandMr" data-cy="demandMr" formControlName="demandMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.society" for="field_society">Society</label>
+          <input type="text" class="form-control" name="society" id="field_society" data-cy="society" formControlName="society" />
+          <div *ngIf="editForm.get('society')!.invalid && (editForm.get('society')!.dirty || editForm.get('society')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('society')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('society')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.societyMr" for="field_societyMr">Society Mr</label>
+          <input type="text" class="form-control" name="societyMr" id="field_societyMr" data-cy="societyMr" formControlName="societyMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmt" for="field_bankAmt">Bank Amt</label>
+          <input type="number" class="form-control" name="bankAmt" id="field_bankAmt" data-cy="bankAmt" formControlName="bankAmt" />
+          <div *ngIf="editForm.get('bankAmt')!.invalid && (editForm.get('bankAmt')!.dirty || editForm.get('bankAmt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('bankAmt')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('bankAmt')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.bankAmtMr" for="field_bankAmtMr">Bank Amt Mr</label>
+          <input type="text" class="form-control" name="bankAmtMr" id="field_bankAmtMr" data-cy="bankAmtMr" formControlName="bankAmtMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikari" for="field_vibhagiAdhikari"
+            >Vibhagi Adhikari</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="vibhagiAdhikari"
+            id="field_vibhagiAdhikari"
+            data-cy="vibhagiAdhikari"
+            formControlName="vibhagiAdhikari"
+          />
+          <div
+            *ngIf="
+              editForm.get('vibhagiAdhikari')!.invalid &&
+              (editForm.get('vibhagiAdhikari')!.dirty || editForm.get('vibhagiAdhikari')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('vibhagiAdhikari')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('vibhagiAdhikari')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.vibhagiAdhikariMr" for="field_vibhagiAdhikariMr"
+            >Vibhagi Adhikari Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="vibhagiAdhikariMr"
+            id="field_vibhagiAdhikariMr"
+            data-cy="vibhagiAdhikariMr"
+            formControlName="vibhagiAdhikariMr"
+          />
+          <div
+            *ngIf="
+              editForm.get('vibhagiAdhikariMr')!.invalid &&
+              (editForm.get('vibhagiAdhikariMr')!.dirty || editForm.get('vibhagiAdhikariMr')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('vibhagiAdhikariMr')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('vibhagiAdhikariMr')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.branch" for="field_branch">Branch</label>
+          <input type="text" class="form-control" name="branch" id="field_branch" data-cy="branch" formControlName="branch" />
+          <div *ngIf="editForm.get('branch')!.invalid && (editForm.get('branch')!.dirty || editForm.get('branch')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('branch')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('branch')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.branchMr" for="field_branchMr">Branch Mr</label>
+          <input type="text" class="form-control" name="branchMr" id="field_branchMr" data-cy="branchMr" formControlName="branchMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmt" for="field_inspAmt">Insp Amt</label>
+          <input type="number" class="form-control" name="inspAmt" id="field_inspAmt" data-cy="inspAmt" formControlName="inspAmt" />
+          <div *ngIf="editForm.get('inspAmt')!.invalid && (editForm.get('inspAmt')!.dirty || editForm.get('inspAmt')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('inspAmt')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('inspAmt')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.inspAmtMr" for="field_inspAmtMr">Insp Amt Mr</label>
+          <input type="text" class="form-control" name="inspAmtMr" id="field_inspAmtMr" data-cy="inspAmtMr" formControlName="inspAmtMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.cropMaster" for="field_cropMaster">Crop Master</label>
+          <select
+            class="form-control"
+            id="field_cropMaster"
+            data-cy="cropMaster"
+            name="cropMaster"
+            formControlName="cropMaster"
+            [compareWith]="compareCropMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="cropMasterOption" *ngFor="let cropMasterOption of cropMastersSharedCollection">
+              {{ cropMasterOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmCrops.kmDetails" for="field_kmDetails">Km Details</label>
+          <select
+            class="form-control"
+            id="field_kmDetails"
+            data-cy="kmDetails"
+            name="kmDetails"
+            formControlName="kmDetails"
+            [compareWith]="compareKmDetails"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kmDetailsOption" *ngFor="let kmDetailsOption of kmDetailsSharedCollection">{{ kmDetailsOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

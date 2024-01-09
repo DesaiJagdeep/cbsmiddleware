@@ -4,7 +4,8 @@
   "fields": [
     {
       "fieldName": "hector",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "hectorMr",
@@ -12,7 +13,8 @@
     },
     {
       "fieldName": "are",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "areMr",
@@ -20,7 +22,8 @@
     },
     {
       "fieldName": "noOfTree",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "noOfTreeMr",
@@ -28,7 +31,8 @@
     },
     {
       "fieldName": "demand",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "demandMr",
@@ -36,7 +40,9 @@
     },
     {
       "fieldName": "society",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "societyMr",
@@ -44,7 +50,8 @@
     },
     {
       "fieldName": "bankAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "bankAmtMr",
@@ -52,15 +59,21 @@
     },
     {
       "fieldName": "vibhagiAdhikari",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "vibhagiAdhikariMr",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "branch",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "branchMr",
@@ -68,7 +81,8 @@
     },
     {
       "fieldName": "inspAmt",
-      "fieldType": "Double"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "inspAmtMr",

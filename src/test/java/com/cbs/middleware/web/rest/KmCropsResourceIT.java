@@ -225,6 +225,176 @@ class KmCropsResourceIT {
 
     @Test
     @Transactional
+    void checkHectorIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setHector(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkAreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setAre(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkNoOfTreeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setNoOfTree(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkDemandIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setDemand(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkSocietyIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setSociety(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBankAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setBankAmt(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkVibhagiAdhikariIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setVibhagiAdhikari(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkVibhagiAdhikariMrIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setVibhagiAdhikariMr(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkBranchIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setBranch(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkInspAmtIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kmCropsRepository.findAll().size();
+        // set the field null
+        kmCrops.setInspAmt(null);
+
+        // Create the KmCrops, which fails.
+
+        restKmCropsMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kmCrops)))
+            .andExpect(status().isBadRequest());
+
+        List<KmCrops> kmCropsList = kmCropsRepository.findAll();
+        assertThat(kmCropsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllKmCrops() throws Exception {
         // Initialize the database
         kmCropsRepository.saveAndFlush(kmCrops);

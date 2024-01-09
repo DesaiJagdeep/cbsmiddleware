@@ -3,6 +3,7 @@ package com.cbs.middleware.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A KmCrops.
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_crops")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmCrops extends AbstractAuditingEntity<Long> implements Serializable {
+public class KmCrops implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,55 +20,69 @@ public class KmCrops extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "hector")
+    @NotNull
+    @Column(name = "hector", nullable = false)
     private Double hector;
 
     @Column(name = "hector_mr")
     private String hectorMr;
 
-    @Column(name = "are")
+    @NotNull
+    @Column(name = "are", nullable = false)
     private Double are;
 
     @Column(name = "are_mr")
     private String areMr;
 
-    @Column(name = "no_of_tree")
+    @NotNull
+    @Column(name = "no_of_tree", nullable = false)
     private Double noOfTree;
 
     @Column(name = "no_of_tree_mr")
     private String noOfTreeMr;
 
-    @Column(name = "demand")
+    @NotNull
+    @Column(name = "demand", nullable = false)
     private Double demand;
 
     @Column(name = "demand_mr")
     private String demandMr;
 
-    @Column(name = "society")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "society", length = 255, nullable = false)
     private String society;
 
     @Column(name = "society_mr")
     private String societyMr;
 
-    @Column(name = "bank_amt")
+    @NotNull
+    @Column(name = "bank_amt", nullable = false)
     private Double bankAmt;
 
     @Column(name = "bank_amt_mr")
     private String bankAmtMr;
 
-    @Column(name = "vibhagi_adhikari")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "vibhagi_adhikari", length = 255, nullable = false)
     private String vibhagiAdhikari;
 
-    @Column(name = "vibhagi_adhikari_mr")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "vibhagi_adhikari_mr", length = 255, nullable = false)
     private String vibhagiAdhikariMr;
 
-    @Column(name = "branch")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "branch", length = 255, nullable = false)
     private String branch;
 
     @Column(name = "branch_mr")
     private String branchMr;
 
-    @Column(name = "insp_amt")
+    @NotNull
+    @Column(name = "insp_amt", nullable = false)
     private Double inspAmt;
 
     @Column(name = "insp_amt_mr")

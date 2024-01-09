@@ -23,6 +23,23 @@
             data-cy="branchCode"
             formControlName="branchCode"
           />
+          <div *ngIf="editForm.get('branchCode')!.invalid && (editForm.get('branchCode')!.dirty || editForm.get('branchCode')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('branchCode')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('branchCode')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -47,6 +64,23 @@
             data-cy="farmerName"
             formControlName="farmerName"
           />
+          <div *ngIf="editForm.get('farmerName')!.invalid && (editForm.get('farmerName')!.dirty || editForm.get('farmerName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('farmerName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('farmerName')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -71,6 +105,27 @@
             data-cy="farmerAddress"
             formControlName="farmerAddress"
           />
+          <div
+            *ngIf="
+              editForm.get('farmerAddress')!.invalid && (editForm.get('farmerAddress')!.dirty || editForm.get('farmerAddress')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('farmerAddress')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('farmerAddress')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -90,6 +145,19 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.gender" for="field_gender">Gender</label>
           <input type="text" class="form-control" name="gender" id="field_gender" data-cy="gender" formControlName="gender" />
+          <div *ngIf="editForm.get('gender')!.invalid && (editForm.get('gender')!.dirty || editForm.get('gender')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('gender')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('gender')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -100,6 +168,19 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.caste" for="field_caste">Caste</label>
           <input type="text" class="form-control" name="caste" id="field_caste" data-cy="caste" formControlName="caste" />
+          <div *ngIf="editForm.get('caste')!.invalid && (editForm.get('caste')!.dirty || editForm.get('caste')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('caste')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('caste')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 255 }"
+            >
+              This field cannot be longer than 255 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -122,13 +203,29 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.areaHector" for="field_areaHector">Area Hector</label>
           <input
-            type="text"
+            type="number"
             class="form-control"
             name="areaHector"
             id="field_areaHector"
             data-cy="areaHector"
             formControlName="areaHector"
           />
+          <div *ngIf="editForm.get('areaHector')!.invalid && (editForm.get('areaHector')!.dirty || editForm.get('areaHector')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('areaHector')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('areaHector')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -145,7 +242,40 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.aadharNo" for="field_aadharNo">Aadhar No</label>
-          <input type="number" class="form-control" name="aadharNo" id="field_aadharNo" data-cy="aadharNo" formControlName="aadharNo" />
+          <input type="text" class="form-control" name="aadharNo" id="field_aadharNo" data-cy="aadharNo" formControlName="aadharNo" />
+          <div *ngIf="editForm.get('aadharNo')!.invalid && (editForm.get('aadharNo')!.dirty || editForm.get('aadharNo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('aadharNo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('aadharNo')?.errors?.minlength"
+              jhiTranslate="entity.validation.minlength"
+              [translateValues]="{ min: 12 }"
+            >
+              This field is required to be at least 12 characters.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('aadharNo')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 12 }"
+            >
+              This field cannot be longer than 12 characters.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('aadharNo')?.errors?.pattern"
+              jhiTranslate="entity.validation.pattern"
+              [translateValues]="{ pattern: 'Aadhar No' }"
+            >
+              This field should follow pattern for Aadhar No.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -162,7 +292,36 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.panNo" for="field_panNo">Pan No</label>
-          <input type="number" class="form-control" name="panNo" id="field_panNo" data-cy="panNo" formControlName="panNo" />
+          <input type="text" class="form-control" name="panNo" id="field_panNo" data-cy="panNo" formControlName="panNo" />
+          <div *ngIf="editForm.get('panNo')!.invalid && (editForm.get('panNo')!.dirty || editForm.get('panNo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('panNo')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('panNo')?.errors?.minlength"
+              jhiTranslate="entity.validation.minlength"
+              [translateValues]="{ min: 10 }"
+            >
+              This field is required to be at least 10 characters.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('panNo')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 10 }"
+            >
+              This field cannot be longer than 10 characters.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('panNo')?.errors?.pattern"
+              jhiTranslate="entity.validation.pattern"
+              [translateValues]="{ pattern: 'Pan No' }"
+            >
+              This field should follow pattern for Pan No.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -173,6 +332,31 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.mobileNo" for="field_mobileNo">Mobile No</label>
           <input type="text" class="form-control" name="mobileNo" id="field_mobileNo" data-cy="mobileNo" formControlName="mobileNo" />
+          <div *ngIf="editForm.get('mobileNo')!.invalid && (editForm.get('mobileNo')!.dirty || editForm.get('mobileNo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('mobileNo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('mobileNo')?.errors?.minlength"
+              jhiTranslate="entity.validation.minlength"
+              [translateValues]="{ min: 10 }"
+            >
+              This field is required to be at least 10 characters.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('mobileNo')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 10 }"
+            >
+              This field cannot be longer than 10 characters.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -190,6 +374,11 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaster.kccNo" for="field_kccNo">Kcc No</label>
           <input type="text" class="form-control" name="kccNo" id="field_kccNo" data-cy="kccNo" formControlName="kccNo" />
+          <div *ngIf="editForm.get('kccNo')!.invalid && (editForm.get('kccNo')!.dirty || editForm.get('kccNo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('kccNo')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -207,6 +396,22 @@
             data-cy="savingAcNo"
             formControlName="savingAcNo"
           />
+          <div *ngIf="editForm.get('savingAcNo')!.invalid && (editForm.get('savingAcNo')!.dirty || editForm.get('savingAcNo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('savingAcNo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('savingAcNo')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -233,6 +438,19 @@
             data-cy="pacsMemberCode"
             formControlName="pacsMemberCode"
           />
+          <div
+            *ngIf="
+              editForm.get('pacsMemberCode')!.invalid && (editForm.get('pacsMemberCode')!.dirty || editForm.get('pacsMemberCode')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('pacsMemberCode')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
         </div>
 
         <div class="row mb-3">

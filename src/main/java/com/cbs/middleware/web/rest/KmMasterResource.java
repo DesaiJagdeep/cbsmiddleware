@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +64,7 @@ public class KmMasterResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/km-masters")
-    public ResponseEntity<KmMaster> createKmMaster(@RequestBody KmMaster kmMaster) throws URISyntaxException {
+    public ResponseEntity<KmMaster> createKmMaster(@Valid @RequestBody KmMaster kmMaster) throws URISyntaxException {
         log.debug("REST request to save KmMaster : {}", kmMaster);
         if (kmMaster.getId() != null) {
             throw new BadRequestAlertException("A new kmMaster cannot already have an ID", ENTITY_NAME, "idexists");
@@ -87,7 +89,7 @@ public class KmMasterResource {
     @PutMapping("/km-masters/{id}")
     public ResponseEntity<KmMaster> updateKmMaster(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KmMaster kmMaster
+        @Valid @RequestBody KmMaster kmMaster
     ) throws URISyntaxException {
         log.debug("REST request to update KmMaster : {}, {}", id, kmMaster);
         if (kmMaster.getId() == null) {
@@ -122,7 +124,7 @@ public class KmMasterResource {
     @PatchMapping(value = "/km-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<KmMaster> partialUpdateKmMaster(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KmMaster kmMaster
+        @NotNull @RequestBody KmMaster kmMaster
     ) throws URISyntaxException {
         log.debug("REST request to partial update KmMaster partially : {}, {}", id, kmMaster);
         if (kmMaster.getId() == null) {

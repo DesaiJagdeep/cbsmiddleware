@@ -13,11 +13,11 @@ export interface IKmMaster {
   caste?: string | null;
   casteMr?: string | null;
   pacsNumber?: string | null;
-  areaHector?: string | null;
+  areaHector?: number | null;
   areaHectorMr?: string | null;
-  aadharNo?: number | null;
+  aadharNo?: string | null;
   aadharNoMr?: string | null;
-  panNo?: number | null;
+  panNo?: string | null;
   panNoMr?: string | null;
   mobileNo?: string | null;
   mobileNoMr?: string | null;

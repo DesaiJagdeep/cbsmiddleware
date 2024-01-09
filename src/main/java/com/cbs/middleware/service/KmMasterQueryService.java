@@ -119,19 +119,19 @@ public class KmMasterQueryService extends QueryService<KmMaster> {
                 specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KmMaster_.pacsNumber));
             }
             if (criteria.getAreaHector() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAreaHector(), KmMaster_.areaHector));
+                specification = specification.and(buildRangeSpecification(criteria.getAreaHector(), KmMaster_.areaHector));
             }
             if (criteria.getAreaHectorMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAreaHectorMr(), KmMaster_.areaHectorMr));
             }
             if (criteria.getAadharNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAadharNo(), KmMaster_.aadharNo));
+                specification = specification.and(buildStringSpecification(criteria.getAadharNo(), KmMaster_.aadharNo));
             }
             if (criteria.getAadharNoMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAadharNoMr(), KmMaster_.aadharNoMr));
             }
             if (criteria.getPanNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPanNo(), KmMaster_.panNo));
+                specification = specification.and(buildStringSpecification(criteria.getPanNo(), KmMaster_.panNo));
             }
             if (criteria.getPanNoMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPanNoMr(), KmMaster_.panNoMr));

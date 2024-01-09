@@ -4,7 +4,9 @@
   "fields": [
     {
       "fieldName": "branchCode",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "branchCodeMr",
@@ -12,7 +14,9 @@
     },
     {
       "fieldName": "farmerName",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "farmerNameMr",
@@ -20,7 +24,9 @@
     },
     {
       "fieldName": "farmerAddress",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "farmerAddressMr",
@@ -28,7 +34,9 @@
     },
     {
       "fieldName": "gender",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "genderMr",
@@ -36,7 +44,9 @@
     },
     {
       "fieldName": "caste",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
     },
     {
       "fieldName": "casteMr",
@@ -48,7 +58,8 @@
     },
     {
       "fieldName": "areaHector",
-      "fieldType": "String"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "areaHectorMr",
@@ -56,7 +67,11 @@
     },
     {
       "fieldName": "aadharNo",
-      "fieldType": "Long"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMaxlength": "12",
+      "fieldValidateRulesMinlength": "12",
+      "fieldValidateRulesPattern": "^d{12}$"
     },
     {
       "fieldName": "aadharNoMr",
@@ -64,7 +79,11 @@
     },
     {
       "fieldName": "panNo",
-      "fieldType": "Long"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10",
+      "fieldValidateRulesPattern": "^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
     },
     {
       "fieldName": "panNoMr",
@@ -72,7 +91,10 @@
     },
     {
       "fieldName": "mobileNo",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10"
     },
     {
       "fieldName": "mobileNoMr",
@@ -80,7 +102,8 @@
     },
     {
       "fieldName": "kccNo",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "kccNoMr",
@@ -88,7 +111,8 @@
     },
     {
       "fieldName": "savingAcNo",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "savingAcNoMr",
@@ -96,7 +120,8 @@
     },
     {
       "fieldName": "pacsMemberCode",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "pacsMemberCodeMr",

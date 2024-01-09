@@ -45,15 +45,15 @@ public class KmMasterCriteria implements Serializable, Criteria {
 
     private StringFilter pacsNumber;
 
-    private StringFilter areaHector;
+    private DoubleFilter areaHector;
 
     private StringFilter areaHectorMr;
 
-    private LongFilter aadharNo;
+    private StringFilter aadharNo;
 
     private StringFilter aadharNoMr;
 
-    private LongFilter panNo;
+    private StringFilter panNo;
 
     private StringFilter panNoMr;
 
@@ -298,18 +298,18 @@ public class KmMasterCriteria implements Serializable, Criteria {
         this.pacsNumber = pacsNumber;
     }
 
-    public StringFilter getAreaHector() {
+    public DoubleFilter getAreaHector() {
         return areaHector;
     }
 
-    public StringFilter areaHector() {
+    public DoubleFilter areaHector() {
         if (areaHector == null) {
-            areaHector = new StringFilter();
+            areaHector = new DoubleFilter();
         }
         return areaHector;
     }
 
-    public void setAreaHector(StringFilter areaHector) {
+    public void setAreaHector(DoubleFilter areaHector) {
         this.areaHector = areaHector;
     }
 
@@ -328,18 +328,18 @@ public class KmMasterCriteria implements Serializable, Criteria {
         this.areaHectorMr = areaHectorMr;
     }
 
-    public LongFilter getAadharNo() {
+    public StringFilter getAadharNo() {
         return aadharNo;
     }
 
-    public LongFilter aadharNo() {
+    public StringFilter aadharNo() {
         if (aadharNo == null) {
-            aadharNo = new LongFilter();
+            aadharNo = new StringFilter();
         }
         return aadharNo;
     }
 
-    public void setAadharNo(LongFilter aadharNo) {
+    public void setAadharNo(StringFilter aadharNo) {
         this.aadharNo = aadharNo;
     }
 
@@ -358,18 +358,18 @@ public class KmMasterCriteria implements Serializable, Criteria {
         this.aadharNoMr = aadharNoMr;
     }
 
-    public LongFilter getPanNo() {
+    public StringFilter getPanNo() {
         return panNo;
     }
 
-    public LongFilter panNo() {
+    public StringFilter panNo() {
         if (panNo == null) {
-            panNo = new LongFilter();
+            panNo = new StringFilter();
         }
         return panNo;
     }
 
-    public void setPanNo(LongFilter panNo) {
+    public void setPanNo(StringFilter panNo) {
         this.panNo = panNo;
     }
 

@@ -15,31 +15,31 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="branch_code" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="branch_code_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="farmer_name" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="farmer_name_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="farmer_address" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="farmer_address_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="gender" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="gender_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="caste" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="caste_mr" type="varchar(255)">
                 <constraints nullable="true" />
@@ -47,44 +47,44 @@
             <column name="pacs_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="area_hector" type="varchar(255)">
-                <constraints nullable="true" />
+            <column name="area_hector" type="double">
+                <constraints nullable="false" />
             </column>
             <column name="area_hector_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="aadhar_no" type="bigint">
-                <constraints nullable="true" />
+            <column name="aadhar_no" type="varchar(12)">
+                <constraints nullable="false" />
             </column>
             <column name="aadhar_no_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="pan_no" type="bigint">
-                <constraints nullable="true" />
+            <column name="pan_no" type="varchar(10)">
+                <constraints nullable="false" />
             </column>
             <column name="pan_no_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="mobile_no" type="varchar(255)">
-                <constraints nullable="true" />
+            <column name="mobile_no" type="varchar(10)">
+                <constraints nullable="false" />
             </column>
             <column name="mobile_no_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="kcc_no" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="kcc_no_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="saving_ac_no" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="saving_ac_no_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="pacs_member_code" type="varchar(255)">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
             <column name="pacs_member_code_mr" type="varchar(255)">
                 <constraints nullable="true" />
@@ -127,11 +127,11 @@
             <column name="caste" type="string"/>
             <column name="caste_mr" type="string"/>
             <column name="pacs_number" type="string"/>
-            <column name="area_hector" type="string"/>
+            <column name="area_hector" type="numeric"/>
             <column name="area_hector_mr" type="string"/>
-            <column name="aadhar_no" type="numeric"/>
+            <column name="aadhar_no" type="string"/>
             <column name="aadhar_no_mr" type="string"/>
-            <column name="pan_no" type="numeric"/>
+            <column name="pan_no" type="string"/>
             <column name="pan_no_mr" type="string"/>
             <column name="mobile_no" type="string"/>
             <column name="mobile_no_mr" type="string"/>

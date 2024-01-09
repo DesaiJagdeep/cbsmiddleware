@@ -2,6 +2,7 @@ package com.cbs.middleware.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A KmMaster.
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmMaster extends AbstractAuditingEntity<Long> implements Serializable {
+public class KmMaster implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,31 +19,41 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "branch_code")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "branch_code", length = 255, nullable = false)
     private String branchCode;
 
     @Column(name = "branch_code_mr")
     private String branchCodeMr;
 
-    @Column(name = "farmer_name")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "farmer_name", length = 255, nullable = false)
     private String farmerName;
 
     @Column(name = "farmer_name_mr")
     private String farmerNameMr;
 
-    @Column(name = "farmer_address")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "farmer_address", length = 255, nullable = false)
     private String farmerAddress;
 
     @Column(name = "farmer_address_mr")
     private String farmerAddressMr;
 
-    @Column(name = "gender")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "gender", length = 255, nullable = false)
     private String gender;
 
     @Column(name = "gender_mr")
     private String genderMr;
 
-    @Column(name = "caste")
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "caste", length = 255, nullable = false)
     private String caste;
 
     @Column(name = "caste_mr")
@@ -51,43 +62,55 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "pacs_number")
     private String pacsNumber;
 
-    @Column(name = "area_hector")
-    private String areaHector;
+    @NotNull
+    @Column(name = "area_hector", nullable = false)
+    private Double areaHector;
 
     @Column(name = "area_hector_mr")
     private String areaHectorMr;
 
-    @Column(name = "aadhar_no")
-    private Long aadharNo;
+    @NotNull
+    @Size(min = 12, max = 12)
+    @Pattern(regexp = "^d{12}$")
+    @Column(name = "aadhar_no", length = 12, nullable = false)
+    private String aadharNo;
 
     @Column(name = "aadhar_no_mr")
     private String aadharNoMr;
 
-    @Column(name = "pan_no")
-    private Long panNo;
+    @NotNull
+    @Size(min = 10, max = 10)
+    @Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$")
+    @Column(name = "pan_no", length = 10, nullable = false)
+    private String panNo;
 
     @Column(name = "pan_no_mr")
     private String panNoMr;
 
-    @Column(name = "mobile_no")
+    @NotNull
+    @Size(min = 10, max = 10)
+    @Column(name = "mobile_no", length = 10, nullable = false)
     private String mobileNo;
 
     @Column(name = "mobile_no_mr")
     private String mobileNoMr;
 
-    @Column(name = "kcc_no")
+    @NotNull
+    @Column(name = "kcc_no", nullable = false)
     private String kccNo;
 
     @Column(name = "kcc_no_mr")
     private String kccNoMr;
 
-    @Column(name = "saving_ac_no")
+    @NotNull
+    @Column(name = "saving_ac_no", nullable = false)
     private Long savingAcNo;
 
     @Column(name = "saving_ac_no_mr")
     private String savingAcNoMr;
 
-    @Column(name = "pacs_member_code")
+    @NotNull
+    @Column(name = "pacs_member_code", nullable = false)
     private String pacsMemberCode;
 
     @Column(name = "pacs_member_code_mr")
@@ -257,16 +280,16 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
         this.pacsNumber = pacsNumber;
     }
 
-    public String getAreaHector() {
+    public Double getAreaHector() {
         return this.areaHector;
     }
 
-    public KmMaster areaHector(String areaHector) {
+    public KmMaster areaHector(Double areaHector) {
         this.setAreaHector(areaHector);
         return this;
     }
 
-    public void setAreaHector(String areaHector) {
+    public void setAreaHector(Double areaHector) {
         this.areaHector = areaHector;
     }
 
@@ -283,16 +306,16 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
         this.areaHectorMr = areaHectorMr;
     }
 
-    public Long getAadharNo() {
+    public String getAadharNo() {
         return this.aadharNo;
     }
 
-    public KmMaster aadharNo(Long aadharNo) {
+    public KmMaster aadharNo(String aadharNo) {
         this.setAadharNo(aadharNo);
         return this;
     }
 
-    public void setAadharNo(Long aadharNo) {
+    public void setAadharNo(String aadharNo) {
         this.aadharNo = aadharNo;
     }
 
@@ -309,16 +332,16 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
         this.aadharNoMr = aadharNoMr;
     }
 
-    public Long getPanNo() {
+    public String getPanNo() {
         return this.panNo;
     }
 
-    public KmMaster panNo(Long panNo) {
+    public KmMaster panNo(String panNo) {
         this.setPanNo(panNo);
         return this;
     }
 
-    public void setPanNo(Long panNo) {
+    public void setPanNo(String panNo) {
         this.panNo = panNo;
     }
 
@@ -500,11 +523,11 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
             ", caste='" + getCaste() + "'" +
             ", casteMr='" + getCasteMr() + "'" +
             ", pacsNumber='" + getPacsNumber() + "'" +
-            ", areaHector='" + getAreaHector() + "'" +
+            ", areaHector=" + getAreaHector() +
             ", areaHectorMr='" + getAreaHectorMr() + "'" +
-            ", aadharNo=" + getAadharNo() +
+            ", aadharNo='" + getAadharNo() + "'" +
             ", aadharNoMr='" + getAadharNoMr() + "'" +
-            ", panNo=" + getPanNo() +
+            ", panNo='" + getPanNo() + "'" +
             ", panNoMr='" + getPanNoMr() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
             ", mobileNoMr='" + getMobileNoMr() + "'" +

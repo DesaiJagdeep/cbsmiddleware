@@ -64,30 +64,59 @@ export class KmMasterFormService {
           validators: [Validators.required],
         }
       ),
-      branchCode: new FormControl(kmMasterRawValue.branchCode),
+      branchCode: new FormControl(kmMasterRawValue.branchCode, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       branchCodeMr: new FormControl(kmMasterRawValue.branchCodeMr),
-      farmerName: new FormControl(kmMasterRawValue.farmerName),
+      farmerName: new FormControl(kmMasterRawValue.farmerName, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       farmerNameMr: new FormControl(kmMasterRawValue.farmerNameMr),
-      farmerAddress: new FormControl(kmMasterRawValue.farmerAddress),
+      farmerAddress: new FormControl(kmMasterRawValue.farmerAddress, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       farmerAddressMr: new FormControl(kmMasterRawValue.farmerAddressMr),
-      gender: new FormControl(kmMasterRawValue.gender),
+      gender: new FormControl(kmMasterRawValue.gender, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       genderMr: new FormControl(kmMasterRawValue.genderMr),
-      caste: new FormControl(kmMasterRawValue.caste),
+      caste: new FormControl(kmMasterRawValue.caste, {
+        validators: [Validators.required, Validators.maxLength(255)],
+      }),
       casteMr: new FormControl(kmMasterRawValue.casteMr),
       pacsNumber: new FormControl(kmMasterRawValue.pacsNumber),
-      areaHector: new FormControl(kmMasterRawValue.areaHector),
+      areaHector: new FormControl(kmMasterRawValue.areaHector, {
+        validators: [Validators.required],
+      }),
       areaHectorMr: new FormControl(kmMasterRawValue.areaHectorMr),
-      aadharNo: new FormControl(kmMasterRawValue.aadharNo),
+      aadharNo: new FormControl(kmMasterRawValue.aadharNo, {
+        validators: [Validators.required, Validators.minLength(12), Validators.maxLength(12), Validators.pattern('^d{12}$')],
+      }),
       aadharNoMr: new FormControl(kmMasterRawValue.aadharNoMr),
-      panNo: new FormControl(kmMasterRawValue.panNo),
+      panNo: new FormControl(kmMasterRawValue.panNo, {
+        validators: [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+          Validators.pattern('^[A-Z]{5}[0-9]{4}[A-Z]{1}$'),
+        ],
+      }),
       panNoMr: new FormControl(kmMasterRawValue.panNoMr),
-      mobileNo: new FormControl(kmMasterRawValue.mobileNo),
+      mobileNo: new FormControl(kmMasterRawValue.mobileNo, {
+        validators: [Validators.required, Validators.minLength(10), Validators.maxLength(10)],
+      }),
       mobileNoMr: new FormControl(kmMasterRawValue.mobileNoMr),
-      kccNo: new FormControl(kmMasterRawValue.kccNo),
+      kccNo: new FormControl(kmMasterRawValue.kccNo, {
+        validators: [Validators.required],
+      }),
       kccNoMr: new FormControl(kmMasterRawValue.kccNoMr),
-      savingAcNo: new FormControl(kmMasterRawValue.savingAcNo),
+      savingAcNo: new FormControl(kmMasterRawValue.savingAcNo, {
+        validators: [Validators.required],
+      }),
       savingAcNoMr: new FormControl(kmMasterRawValue.savingAcNoMr),
-      pacsMemberCode: new FormControl(kmMasterRawValue.pacsMemberCode),
+      pacsMemberCode: new FormControl(kmMasterRawValue.pacsMemberCode, {
+        validators: [Validators.required],
+      }),
       pacsMemberCodeMr: new FormControl(kmMasterRawValue.pacsMemberCodeMr),
       entryFlag: new FormControl(kmMasterRawValue.entryFlag),
       farmerTypeMaster: new FormControl(kmMasterRawValue.farmerTypeMaster),

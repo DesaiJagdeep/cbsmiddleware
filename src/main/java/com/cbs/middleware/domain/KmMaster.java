@@ -1,5 +1,8 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -19,41 +22,41 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "id")
     private Long id;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "branch_code", length = 255, nullable = false)
+    @Column(name = "branch_code", length = 255, nullable = true)
     private String branchCode;
 
     @Column(name = "branch_code_mr")
     private String branchCodeMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "farmer_name", length = 255, nullable = false)
+    @Column(name = "farmer_name", length = 255, nullable = true)
     private String farmerName;
 
     @Column(name = "farmer_name_mr")
     private String farmerNameMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "farmer_address", length = 255, nullable = false)
+    @Column(name = "farmer_address", length = 255, nullable = true)
     private String farmerAddress;
 
     @Column(name = "farmer_address_mr")
     private String farmerAddressMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "gender", length = 255, nullable = false)
+    @Column(name = "gender", length = 255, nullable = true)
     private String gender;
 
     @Column(name = "gender_mr")
     private String genderMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "caste", length = 255, nullable = false)
+    @Column(name = "caste", length = 255, nullable = true)
     private String caste;
 
     @Column(name = "caste_mr")
@@ -62,55 +65,55 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "pacs_number")
     private String pacsNumber;
 
-    @NotNull
-    @Column(name = "area_hector", nullable = false)
+    //
+    @Column(name = "area_hector", nullable = true)
     private Double areaHector;
 
     @Column(name = "area_hector_mr")
     private String areaHectorMr;
 
-    @NotNull
+    //
     @Size(min = 12, max = 12)
-    @Pattern(regexp = "^d{12}$")
-    @Column(name = "aadhar_no", length = 12, nullable = false)
+    //@Pattern(regexp = "^d{12}$")
+    @Column(name = "aadhar_no", length = 12, nullable = true)
     private String aadharNo;
 
     @Column(name = "aadhar_no_mr")
     private String aadharNoMr;
 
-    @NotNull
+    //
     @Size(min = 10, max = 10)
     @Pattern(regexp = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$")
-    @Column(name = "pan_no", length = 10, nullable = false)
+    @Column(name = "pan_no", length = 10, nullable = true)
     private String panNo;
 
     @Column(name = "pan_no_mr")
     private String panNoMr;
 
-    @NotNull
+    //
     @Size(min = 10, max = 10)
-    @Column(name = "mobile_no", length = 10, nullable = false)
+    @Column(name = "mobile_no", length = 10, nullable = true)
     private String mobileNo;
 
     @Column(name = "mobile_no_mr")
     private String mobileNoMr;
 
-    @NotNull
-    @Column(name = "kcc_no", nullable = false)
+    //
+    @Column(name = "kcc_no", nullable = true)
     private String kccNo;
 
     @Column(name = "kcc_no_mr")
     private String kccNoMr;
 
-    @NotNull
-    @Column(name = "saving_ac_no", nullable = false)
+    //
+    @Column(name = "saving_ac_no", nullable = true)
     private Long savingAcNo;
 
     @Column(name = "saving_ac_no_mr")
     private String savingAcNoMr;
 
-    @NotNull
-    @Column(name = "pacs_member_code", nullable = false)
+    //
+    @Column(name = "pacs_member_code", nullable = true)
     private String pacsMemberCode;
 
     @Column(name = "pacs_member_code_mr")
@@ -122,7 +125,20 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @ManyToOne
     private FarmerTypeMaster farmerTypeMaster;
 
+    @OneToOne(mappedBy = "kmMaster", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true)
+    //@JsonIgnore
+    private KmDetails kmDetails;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public KmDetails getKmDetails() {
+        return kmDetails;
+    }
+
+    public void setKmDetails(KmDetails kmDetails) {
+        this.kmDetails = kmDetails;
+    }
 
     public Long getId() {
         return this.id;

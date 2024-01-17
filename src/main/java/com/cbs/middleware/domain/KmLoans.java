@@ -1,5 +1,6 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
@@ -21,57 +22,57 @@ public class KmLoans extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "hector", nullable = false)
+    //
+    @Column(name = "hector", nullable = true)
     private Double hector;
 
     @Column(name = "hector_mr")
     private String hectorMr;
 
-    @NotNull
-    @Column(name = "are", nullable = false)
+    //
+    @Column(name = "are", nullable = true)
     private Double are;
 
     @Column(name = "aremr")
     private String aremr;
 
-    @NotNull
-    @Column(name = "no_of_tree", nullable = false)
+    //
+    @Column(name = "no_of_tree", nullable = true)
     private Double noOfTree;
 
     @Column(name = "no_of_tree_mr")
     private String noOfTreeMr;
 
-    @NotNull
-    @Column(name = "sanction_amt", nullable = false)
+    //
+    @Column(name = "sanction_amt", nullable = true)
     private Double sanctionAmt;
 
     @Column(name = "sanction_amt_mr")
     private String sanctionAmtMr;
 
-    @NotNull
-    @Column(name = "loan_amt", nullable = false)
+    //
+    @Column(name = "loan_amt", nullable = true)
     private Double loanAmt;
 
     @Column(name = "loan_amt_mr")
     private String loanAmtMr;
 
-    @NotNull
-    @Column(name = "receivable_amt", nullable = false)
+    //
+    @Column(name = "receivable_amt", nullable = true)
     private Double receivableAmt;
 
     @Column(name = "receivable_amt_mr")
     private String receivableAmtMr;
 
-    @NotNull
-    @Column(name = "due_amt", nullable = false)
+    //
+    @Column(name = "due_amt", nullable = true)
     private Double dueAmt;
 
     @Column(name = "due_amt_mr")
     private String dueAmtMr;
 
-    @NotNull
-    @Column(name = "due_date", nullable = false)
+    //
+    @Column(name = "due_date", nullable = true)
     private Instant dueDate;
 
     @Column(name = "due_date_mr")
@@ -83,8 +84,9 @@ public class KmLoans extends AbstractAuditingEntity<Long> implements Serializabl
     @ManyToOne
     private CropMaster cropMaster;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "kmMaster"}, allowSetters = true)
+    //@JsonIgnore
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

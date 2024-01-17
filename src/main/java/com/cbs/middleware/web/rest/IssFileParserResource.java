@@ -978,6 +978,7 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(filecount + 1);
+
             String bankCode = getCellValue(row.getCell(2));
             String schemeWiseBranchCode = getCellValue(row.getCell(5));
             String packsCode = getCellValue(row.getCell(32));
@@ -994,6 +995,10 @@ public class IssFileParserResource {
 
             //checking if user is authenticated or not
             rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
+
+            //Add iss_file_parser into iss_file_parser_temp table (by pacs Number)
+            List<IssFileParser> fileParserList = issFileParserRepository.issFileParserByPacsNumber(packsCode);
+
 
             //checking 1st file column data
             String fYear = getCellValue(row.getCell(0));
@@ -3819,4 +3824,1031 @@ public class IssFileParserResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+
+    //Insert Data Into iss_file_parser_temp
+
+    @PostMapping("/fileParserTemp/{financialYear}")
+    @PreAuthorize("@authentication.onDatabaseRecordPermission('FILE_UPLOAD','UPLOAD')")
+    public Object excelReader2(
+        @RequestParam("file") MultipartFile files,
+        @PathVariable String financialYear,
+        RedirectAttributes redirectAttributes
+    ) throws Exception {
+        String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
+        if (!"xlsx".equalsIgnoreCase(fileExtension) && !"xls".equalsIgnoreCase(fileExtension)) {
+            throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
+        }
+
+        if (issPortalFileRepository.existsByFileNameAndFinancialYear(files.getOriginalFilename(), financialYear)) {
+            throw new BadRequestAlertException("File already exist", ENTITY_NAME, "fileExist");
+        }
+        int filecount = 0;
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+
+            Row row = null;
+            for (int i = 0; i < 10; i++) {
+                row = sheet.getRow(i); // Get the current row
+                String financialYearInFile = getCellValue(row.getCell(0));
+                if (StringUtils.isNotBlank(financialYearInFile)) {
+                    financialYearInFile = financialYearInFile.trim().replace("\n", " ").toLowerCase();
+                    if (financialYearInFile.contains("financial") && financialYearInFile.contains("year")) {
+                        filecount = i;
+                        break;
+                    }
+                }
+            }
+
+
+            row = sheet.getRow(filecount); // Get the current row
+            boolean flagForLabel = false;
+
+            String financialYearInFileConf = getCellValue(row.getCell(0));
+            if (StringUtils.isNotBlank(financialYearInFileConf)) {
+                financialYearInFileConf = financialYearInFileConf.trim().replace("\n", " ").toLowerCase();
+                if (!financialYearInFileConf.contains("financial") && !financialYearInFileConf.contains("year")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            // validating excel heading column name
+            String bankName = getCellValue(row.getCell(1));
+            if (StringUtils.isNotBlank(bankName)) {
+                bankName = bankName.trim().replace("\n", " ").toLowerCase();
+                if (!bankName.contains("bank") && !bankName.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String bankCodeColumn = getCellValue(row.getCell(2));
+            if (StringUtils.isNotBlank(bankCodeColumn)) {
+                bankCodeColumn = bankCodeColumn.trim().replace("\n", " ").toLowerCase();
+                if (!bankCodeColumn.contains("bank") && !bankCodeColumn.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String branchNameColumn = getCellValue(row.getCell(3));
+            if (StringUtils.isNotBlank(branchNameColumn)) {
+                branchNameColumn = branchNameColumn.trim().replace("\n", " ").toLowerCase();
+                if (!branchNameColumn.contains("branch") && !branchNameColumn.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String branchCodeColumn = getCellValue(row.getCell(4));
+            if (StringUtils.isNotBlank(branchCodeColumn)) {
+                branchCodeColumn = branchCodeColumn.trim().replace("\n", " ").toLowerCase();
+                if (!branchCodeColumn.contains("branch") && !branchCodeColumn.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String kccBranchCodeColumn = getCellValue(row.getCell(5));
+            if (StringUtils.isNotBlank(kccBranchCodeColumn)) {
+                kccBranchCodeColumn = kccBranchCodeColumn.trim().replace("\n", " ").toLowerCase();
+                if (!kccBranchCodeColumn.contains("kcc") && !kccBranchCodeColumn.contains("branch")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String ifscCodeColumn = getCellValue(row.getCell(6));
+            if (StringUtils.isNotBlank(ifscCodeColumn)) {
+                ifscCodeColumn = ifscCodeColumn.trim().replace("\n", " ").toLowerCase();
+                if (!ifscCodeColumn.contains("ifsc")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String loanAccountNumberKcc = getCellValue(row.getCell(7));
+            if (StringUtils.isNotBlank(loanAccountNumberKcc)) {
+                loanAccountNumberKcc = loanAccountNumberKcc.trim().replace("\n", " ").toLowerCase();
+                if (!loanAccountNumberKcc.contains("loan") && !loanAccountNumberKcc.contains("account")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String farmerName = getCellValue(row.getCell(8));
+            if (StringUtils.isNotBlank(farmerName)) {
+                farmerName = farmerName.trim().replace("\n", " ").toLowerCase();
+                if (!farmerName.contains("farmer") && !farmerName.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String gender = getCellValue(row.getCell(9));
+            if (StringUtils.isNotBlank(gender)) {
+                gender = gender.trim().replace("\n", " ").toLowerCase();
+                if (!gender.contains("gender")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String aadharNumber = getCellValue(row.getCell(10));
+            if (StringUtils.isNotBlank(aadharNumber)) {
+                aadharNumber = aadharNumber.trim().replace("\n", " ").toLowerCase();
+                if (!aadharNumber.contains("aadhar") && !aadharNumber.contains("number")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String dateOfBirth = getCellValue(row.getCell(11));
+            if (StringUtils.isNotBlank(dateOfBirth)) {
+                dateOfBirth = dateOfBirth.trim().replace("\n", " ").toLowerCase();
+                if (!dateOfBirth.contains("date") && !dateOfBirth.contains("birth")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String AGE_AT_THE_TIME_OF_SANCTION = getCellValue(row.getCell(12));
+            if (StringUtils.isNotBlank(AGE_AT_THE_TIME_OF_SANCTION)) {
+                AGE_AT_THE_TIME_OF_SANCTION = AGE_AT_THE_TIME_OF_SANCTION.trim().replace("\n", " ").toLowerCase();
+                if (!AGE_AT_THE_TIME_OF_SANCTION.contains("age") && !AGE_AT_THE_TIME_OF_SANCTION.contains("sanction")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String MOBILE_NUMBER = getCellValue(row.getCell(13));
+            if (StringUtils.isNotBlank(MOBILE_NUMBER)) {
+                MOBILE_NUMBER = MOBILE_NUMBER.trim().replace("\n", " ").toLowerCase();
+                if (!MOBILE_NUMBER.contains("mobile") && !MOBILE_NUMBER.contains("number")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String FARMERS_CATEGORY = getCellValue(row.getCell(14));
+            if (StringUtils.isNotBlank(FARMERS_CATEGORY)) {
+                FARMERS_CATEGORY = FARMERS_CATEGORY.trim().replace("\n", " ").toLowerCase();
+                if (!FARMERS_CATEGORY.contains("farmers") && !FARMERS_CATEGORY.contains("category")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String FARMER_TYPE = getCellValue(row.getCell(15));
+            if (StringUtils.isNotBlank(FARMER_TYPE)) {
+                FARMER_TYPE = FARMER_TYPE.trim().replace("\n", " ").toLowerCase();
+                if (!FARMER_TYPE.contains("farmer") && !FARMER_TYPE.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String SOCIAL_CATEGORY = getCellValue(row.getCell(16));
+            if (StringUtils.isNotBlank(SOCIAL_CATEGORY)) {
+                SOCIAL_CATEGORY = SOCIAL_CATEGORY.trim().replace("\n", " ").toLowerCase();
+                if (!SOCIAL_CATEGORY.contains("social") && !SOCIAL_CATEGORY.contains("category")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String RELATIVE_TYPE = getCellValue(row.getCell(17));
+            if (StringUtils.isNotBlank(RELATIVE_TYPE)) {
+                RELATIVE_TYPE = RELATIVE_TYPE.trim().replace("\n", " ").toLowerCase();
+                if (!RELATIVE_TYPE.contains("relative") && !RELATIVE_TYPE.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String RELATIVE_NAME = getCellValue(row.getCell(18));
+            if (StringUtils.isNotBlank(RELATIVE_NAME)) {
+                RELATIVE_NAME = RELATIVE_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!RELATIVE_NAME.contains("relative") && !RELATIVE_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String STATE_NAME = getCellValue(row.getCell(19));
+            if (StringUtils.isNotBlank(STATE_NAME)) {
+                STATE_NAME = STATE_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!STATE_NAME.contains("state") && !STATE_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String STATE_CODE = getCellValue(row.getCell(20));
+            if (StringUtils.isNotBlank(STATE_CODE)) {
+                STATE_CODE = STATE_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!STATE_CODE.contains("state") && !STATE_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String DISTRICT_NAME = getCellValue(row.getCell(21));
+            if (StringUtils.isNotBlank(DISTRICT_NAME)) {
+                DISTRICT_NAME = DISTRICT_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!DISTRICT_NAME.contains("district") && !DISTRICT_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String DISTRICT_CODE = getCellValue(row.getCell(22));
+            if (StringUtils.isNotBlank(DISTRICT_CODE)) {
+                DISTRICT_CODE = DISTRICT_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!DISTRICT_CODE.contains("district") && !DISTRICT_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String BLOCK_CODE = getCellValue(row.getCell(23));
+            if (StringUtils.isNotBlank(BLOCK_CODE)) {
+                BLOCK_CODE = BLOCK_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!BLOCK_CODE.contains("block") && !BLOCK_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String BLOCK_NAME = getCellValue(row.getCell(24));
+            if (StringUtils.isNotBlank(BLOCK_NAME)) {
+                BLOCK_NAME = BLOCK_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!BLOCK_NAME.contains("block") && !BLOCK_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String VILLAGE_CODE = getCellValue(row.getCell(25));
+            if (StringUtils.isNotBlank(VILLAGE_CODE)) {
+                VILLAGE_CODE = VILLAGE_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!VILLAGE_CODE.contains("village") && !VILLAGE_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String VILLAGE_NAME = getCellValue(row.getCell(26));
+            if (StringUtils.isNotBlank(VILLAGE_NAME)) {
+                VILLAGE_NAME = VILLAGE_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!VILLAGE_NAME.contains("village") && !VILLAGE_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String ADDRESS = getCellValue(row.getCell(27));
+            if (StringUtils.isNotBlank(ADDRESS)) {
+                ADDRESS = ADDRESS.trim().replace("\n", " ").toLowerCase();
+                if (!ADDRESS.contains("address")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String PIN_CODE = getCellValue(row.getCell(28));
+            if (StringUtils.isNotBlank(PIN_CODE)) {
+                PIN_CODE = PIN_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!PIN_CODE.contains("pin") && !PIN_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String Account_TYPE = getCellValue(row.getCell(29));
+            if (StringUtils.isNotBlank(Account_TYPE)) {
+                Account_TYPE = Account_TYPE.trim().replace("\n", " ").toLowerCase();
+                if (!Account_TYPE.contains("account") && !Account_TYPE.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String ACCOUNT_NUMBER = getCellValue(row.getCell(30));
+            if (StringUtils.isNotBlank(ACCOUNT_NUMBER)) {
+                ACCOUNT_NUMBER = ACCOUNT_NUMBER.trim().replace("\n", " ").toLowerCase();
+                if (!ACCOUNT_NUMBER.contains("account") && !ACCOUNT_NUMBER.contains("number")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String PACS_NAME = getCellValue(row.getCell(31));
+            if (StringUtils.isNotBlank(PACS_NAME)) {
+                PACS_NAME = PACS_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!PACS_NAME.contains("pacs") && !PACS_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String PACS_NUMBER = getCellValue(row.getCell(32));
+            if (StringUtils.isNotBlank(PACS_NUMBER)) {
+                PACS_NUMBER = PACS_NUMBER.trim().replace("\n", " ").toLowerCase();
+                if (!PACS_NUMBER.contains("pacs") && !PACS_NUMBER.contains("number")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String ACCOUNT_HOLDER_TYPE = getCellValue(row.getCell(33));
+            if (StringUtils.isNotBlank(ACCOUNT_HOLDER_TYPE)) {
+                ACCOUNT_HOLDER_TYPE = ACCOUNT_HOLDER_TYPE.trim().replace("\n", " ").toLowerCase();
+                if (!ACCOUNT_HOLDER_TYPE.contains("account") && !ACCOUNT_HOLDER_TYPE.contains("holder")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String PRIMARY_OCCUPATION = getCellValue(row.getCell(34));
+            if (StringUtils.isNotBlank(PRIMARY_OCCUPATION)) {
+                PRIMARY_OCCUPATION = PRIMARY_OCCUPATION.trim().replace("\n", " ").toLowerCase();
+                if (!PRIMARY_OCCUPATION.contains("primary") && !PRIMARY_OCCUPATION.contains("occupation")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String LOAN_SANCTION_DATE = getCellValue(row.getCell(35));
+            if (StringUtils.isNotBlank(LOAN_SANCTION_DATE)) {
+                LOAN_SANCTION_DATE = LOAN_SANCTION_DATE.trim().replace("\n", " ").toLowerCase();
+                if (!LOAN_SANCTION_DATE.contains("loan") && !LOAN_SANCTION_DATE.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String LOAN_SANCTION_AMOUNT = getCellValue(row.getCell(36));
+            if (StringUtils.isNotBlank(LOAN_SANCTION_AMOUNT)) {
+                LOAN_SANCTION_AMOUNT = LOAN_SANCTION_AMOUNT.trim().replace("\n", " ").toLowerCase();
+                if (!LOAN_SANCTION_AMOUNT.contains("loan") && !LOAN_SANCTION_AMOUNT.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String TENURE_OF_LOAN = getCellValue(row.getCell(37));
+            if (StringUtils.isNotBlank(TENURE_OF_LOAN)) {
+                TENURE_OF_LOAN = TENURE_OF_LOAN.trim().replace("\n", " ").toLowerCase();
+                if (!TENURE_OF_LOAN.contains("tenure") && !TENURE_OF_LOAN.contains("loan")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String DATE_OF_OVERDUE_PAYMENT = getCellValue(row.getCell(38));
+            if (StringUtils.isNotBlank(DATE_OF_OVERDUE_PAYMENT)) {
+                DATE_OF_OVERDUE_PAYMENT = DATE_OF_OVERDUE_PAYMENT.trim().replace("\n", " ").toLowerCase();
+                if (!DATE_OF_OVERDUE_PAYMENT.contains("date") && !DATE_OF_OVERDUE_PAYMENT.contains("overdue")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String KCCISS_CROP_CODE = getCellValue(row.getCell(39));
+            if (StringUtils.isNotBlank(KCCISS_CROP_CODE)) {
+                KCCISS_CROP_CODE = KCCISS_CROP_CODE.trim().replace("\n", " ").toLowerCase();
+                if (!KCCISS_CROP_CODE.contains("crop") && !KCCISS_CROP_CODE.contains("code")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String KCCISS_CROP_NAME = getCellValue(row.getCell(40));
+            if (StringUtils.isNotBlank(KCCISS_CROP_NAME)) {
+                KCCISS_CROP_NAME = KCCISS_CROP_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!KCCISS_CROP_NAME.contains("crop") && !KCCISS_CROP_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String CROP_NAME = getCellValue(row.getCell(41));
+            if (StringUtils.isNotBlank(CROP_NAME)) {
+                CROP_NAME = CROP_NAME.trim().replace("\n", " ").toLowerCase();
+                if (!CROP_NAME.contains("crop") && !CROP_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String SURVEY_NO = getCellValue(row.getCell(42));
+            if (StringUtils.isNoneBlank(SURVEY_NO)) {
+                SURVEY_NO = SURVEY_NO.trim().replace("\n", " ").toLowerCase();
+
+                if (!SURVEY_NO.contains("survey") && !SURVEY_NO.contains("no")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String SAT_BARA_SUBSURVEY_No = getCellValue(row.getCell(43));
+            if (StringUtils.isNoneBlank(SAT_BARA_SUBSURVEY_No)) {
+                SAT_BARA_SUBSURVEY_No = SAT_BARA_SUBSURVEY_No.trim().replace("\n", " ").toLowerCase();
+
+                if (!SAT_BARA_SUBSURVEY_No.contains("sat") && !SAT_BARA_SUBSURVEY_No.contains("bara")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String SEASON_NAME = getCellValue(row.getCell(44));
+            if (StringUtils.isNoneBlank(SEASON_NAME)) {
+                SEASON_NAME = SEASON_NAME.trim().replace("\n", " ").toLowerCase();
+
+                if (!SEASON_NAME.contains("season") && !SEASON_NAME.contains("name")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String ACTIVITY_TYPE = getCellValue(row.getCell(45));
+            if (StringUtils.isNoneBlank(ACTIVITY_TYPE)) {
+                ACTIVITY_TYPE = ACTIVITY_TYPE.trim().replace("\n", " ").toLowerCase();
+
+                if (!ACTIVITY_TYPE.contains("activity") && !ACTIVITY_TYPE.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String AREA_HECT = getCellValue(row.getCell(46));
+            if (StringUtils.isNoneBlank(AREA_HECT)) {
+                AREA_HECT = AREA_HECT.trim().replace("\n", " ").toLowerCase();
+
+                if (!AREA_HECT.contains("area") && !AREA_HECT.contains("hect")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String LAND_TYPE = getCellValue(row.getCell(47));
+            if (StringUtils.isNoneBlank(LAND_TYPE)) {
+                LAND_TYPE = LAND_TYPE.trim().replace("\n", " ").toLowerCase();
+
+                if (!LAND_TYPE.contains("land") && !LAND_TYPE.contains("type")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String DISBURSEMENT_DATE = getCellValue(row.getCell(48));
+            if (StringUtils.isNoneBlank(DISBURSEMENT_DATE)) {
+                DISBURSEMENT_DATE = DISBURSEMENT_DATE.trim().replace("\n", " ").toLowerCase();
+
+                if (!DISBURSEMENT_DATE.contains("disbursement") && !DISBURSEMENT_DATE.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String DISBURSE_AMOUNT = getCellValue(row.getCell(49));
+            if (StringUtils.isNoneBlank(DISBURSE_AMOUNT)) {
+                DISBURSE_AMOUNT = DISBURSE_AMOUNT.trim().replace("\n", " ").toLowerCase();
+
+                if (!DISBURSE_AMOUNT.contains("disburse") && !DISBURSE_AMOUNT.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String MATURITY_LOAN_DATE = getCellValue(row.getCell(50));
+            if (StringUtils.isNoneBlank(MATURITY_LOAN_DATE)) {
+                MATURITY_LOAN_DATE = MATURITY_LOAN_DATE.trim().replace("\n", " ").toLowerCase();
+
+                if (!MATURITY_LOAN_DATE.contains("maturity") && !MATURITY_LOAN_DATE.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String RECOVERY_AMOUNT_PRINCIPLE = getCellValue(row.getCell(51));
+            if (StringUtils.isNoneBlank(RECOVERY_AMOUNT_PRINCIPLE)) {
+                RECOVERY_AMOUNT_PRINCIPLE = RECOVERY_AMOUNT_PRINCIPLE.trim().replace("\n", " ").toLowerCase();
+
+                if (!RECOVERY_AMOUNT_PRINCIPLE.contains("recovery") && !RECOVERY_AMOUNT_PRINCIPLE.contains("amount")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+            String RECOVERY_AMOUNT_INTEREST = getCellValue(row.getCell(52));
+            if (StringUtils.isNoneBlank(RECOVERY_AMOUNT_INTEREST)) {
+                RECOVERY_AMOUNT_INTEREST = RECOVERY_AMOUNT_INTEREST.trim().replace("\n", " ").toLowerCase();
+
+                if (!RECOVERY_AMOUNT_INTEREST.contains("recovery") && !RECOVERY_AMOUNT_INTEREST.contains("interest")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            String recoveryDate = getCellValue(row.getCell(53));
+            if (StringUtils.isNoneBlank(recoveryDate)) {
+                recoveryDate = recoveryDate.trim().replace("\n", " ").toLowerCase();
+
+                if (!recoveryDate.contains("recovery") && !recoveryDate.contains("date")) {
+                    flagForLabel = true;
+                }
+            } else {
+                flagForLabel = true;
+            }
+
+            if (flagForLabel) {
+                throw new BadRequestAlertException("Invalid file Or File have extra non data column", ENTITY_NAME, "fileInvalid");
+            }
+
+            filecount = filecount + 1;
+
+            //-------To get actual last row of excel (skip blank row in the end if any)------
+
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int i = lastRowIndex; i >= 0; i--) {
+                Row row1 = sheet.getRow(i);
+                if (row1 != null) {
+                    boolean rowHasData = false;
+                    for (int j = 0; j < row1.getPhysicalNumberOfCells(); j++) {
+                        Cell cell = row1.getCell(j);
+                        if (cell != null && cell.getCellType() != CellType.BLANK) {
+                            rowHasData = true;
+                            break;
+                        }
+                    }
+                    if (rowHasData) {
+                        lastRowIndex = i;
+                        break;
+                    }
+                }
+            }
+
+
+            for (int rowIndex = filecount; rowIndex <= lastRowIndex; rowIndex++) {
+                row = sheet.getRow(rowIndex);
+                int rowNumber = row.getRowNum() + 1;
+                if (
+                    StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(4))) &&
+                        StringUtils.isBlank(getCellValue(row.getCell(32)))
+                ) {
+                    throw new BadRequestAlertException("Invalid KCC Bank Code or Branch Code or Pacs Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String branchCode = getCellValue(row.getCell(4));
+                if (!branchCode.matches("\\d+")) {
+                    throw new BadRequestAlertException("Invalid Branch code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String bankCode = getCellValue(row.getCell(2));
+                String schemeWiseBranchCode = getCellValue(row.getCell(5));
+                String packsCode = getCellValue(row.getCell(32));
+                if (!bankCode.matches("\\d+") || !schemeWiseBranchCode.matches("\\d+") || !packsCode.matches("\\d+")) {
+                    throw new BadRequestAlertException("Invalid Bank Code or KCC ISS Branch Code or Pacs Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                rbaControl.authenticateByCode(bankCode, schemeWiseBranchCode, packsCode, ENTITY_NAME);
+                boolean flag = false;
+                String fYear = getCellValue(row.getCell(0));
+
+                if (!fYear.matches("\\d{4}/\\d{4}") && !fYear.matches("\\d{4}-\\d{4}")) {
+                    //flag = true;
+                    throw new BadRequestAlertException("Invalid financial year at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+
+                }
+
+                String ifsc = getCellValue(row.getCell(6));
+                if (!ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+                    // flag = true;
+                    throw new BadRequestAlertException("Invalid IFSC Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String aadharNumberValue = getCellValue(row.getCell(10));
+                if (!validateAadhaarNumber(aadharNumberValue)) {
+                    //flag = true;
+                    throw new BadRequestAlertException("Invalid Aadhar Number at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+                String villageCode = getCellValue(row.getCell(25));
+                if (!villageCode.matches("^[0-9.]+$") && !villageCode.matches("^[0-9]+$")) {
+                    // flag = true;
+                    throw new BadRequestAlertException("Invalid Village Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+                String pinCode = getCellValue(row.getCell(28));
+                if (!pinCode.matches("^[0-9]{6}$")) {
+                    // flag = true;
+                    throw new BadRequestAlertException("Invalid Pincode at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+                String accountNumber = getCellValue(row.getCell(30));
+                if (StringUtils.isBlank(accountNumber)) {
+                    // flag = true;
+                    throw new BadRequestAlertException("Invalid Account Number at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+                String landtype = getCellValue(row.getCell(47));
+                if (
+                    !landtype.equalsIgnoreCase("irrigated") && !landtype.equalsIgnoreCase("non-irrigated")
+                ) {
+                    //flag = true;
+                    throw new BadRequestAlertException("Invalid  Land Type at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                }
+
+            }
+
+        } catch (BadRequestAlertException e) {
+            e.printStackTrace();
+            throw new BadRequestAlertException(e.getTitle(), ENTITY_NAME, "fileInvalid");
+        } catch (ForbiddenAuthRequestAlertException e) {
+            throw new ForbiddenAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (UnAuthRequestAlertException e) {
+            throw new UnAuthRequestAlertException("Access is denied", ENTITY_NAME, "unAuthorized");
+        } catch (EncryptedDocumentException e1) {
+            throw new EncryptedDocumentException("EncryptedDocumentException");
+        } catch (IOException e1) {
+            throw new IOException("IOException");
+        }
+
+        File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
+        if (!originalFileDir.isDirectory()) {
+            originalFileDir.mkdirs();
+        }
+
+        String filePath = originalFileDir.toString();
+
+        Calendar cal = new GregorianCalendar();
+        String uniqueName =
+            "" +
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND);
+
+        Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
+        try {
+            byte[] imgbyte = null;
+            imgbyte = files.getBytes();
+
+            Files.write(path, imgbyte);
+        } catch (IOException e) {
+            log.error("file not saved successfully", e);
+
+            throw new BadRequestAlertException("file not saved successfully", ENTITY_NAME, "fileInvalid");
+        }
+
+        IssPortalFile issPortalFile = new IssPortalFile();
+        issPortalFile.setFileName(files.getOriginalFilename());
+        issPortalFile.setUniqueName(uniqueName + "." + fileExtension);
+        issPortalFile.setFileExtension(fileExtension);
+        issPortalFile.setFromDisbursementDate(null);
+        issPortalFile.setToDisbursementDate(null);
+        issPortalFile.setStatus("Uploaded");
+        issPortalFile.setNotes("");
+
+        boolean isSavePortalObj = false;
+
+        int startRowIndex = filecount; // Starting row index
+        List<IssFileParser> issFileParserList = new ArrayList<>();
+
+        try (Workbook workbook = WorkbookFactory.create(files.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0); // Assuming you want to read the first sheet
+
+//----------------------------------------FY Check------------------------------------------------
+
+            int firstRowOfRecord = filecount;
+            String financialYearToCheck = null;
+            boolean allRowsHaveSameFinancialYear = true;
+            int financialYearMismatchRowNumber = 0;
+
+            Row firstRow = sheet.getRow(firstRowOfRecord);
+            if (firstRow != null) {
+                financialYearToCheck = getCellValue(firstRow.getCell(0));
+                if (financialYearToCheck.matches("\\d{4}/\\d{4}")) {
+                    financialYearToCheck = financialYearToCheck.replace("/", "-");
+                }
+            }
+
+            //-------To get actual last row of excel (skip blank row in the end if any)------
+
+            int lastRowIndex = sheet.getLastRowNum();
+            for (int i = lastRowIndex; i >= 0; i--) {
+                Row row1 = sheet.getRow(i);
+                if (row1 != null) {
+                    boolean rowHasData = false;
+                    for (int j = 0; j < row1.getPhysicalNumberOfCells(); j++) {
+                        Cell cell = row1.getCell(j);
+                        if (cell != null && cell.getCellType() != CellType.BLANK) {
+                            rowHasData = true;
+                            break;
+                        }
+                    }
+                    if (rowHasData) {
+                        lastRowIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            for (int rowIndex = firstRowOfRecord + 1; rowIndex <= lastRowIndex; rowIndex++) {
+                Row currentRow = sheet.getRow(rowIndex);
+
+                if (currentRow != null) {
+                    String currentFinancialYear = getCellValue(currentRow.getCell(0));
+                    if (currentFinancialYear.matches("\\d{4}/\\d{4}")) {
+                        currentFinancialYear = currentFinancialYear.replace("/", "-");
+                    }
+
+                    if (!financialYearToCheck.equals(currentFinancialYear)) {
+                        allRowsHaveSameFinancialYear = false;
+                        financialYearMismatchRowNumber = currentRow.getRowNum();
+                        break;
+                    }
+                    financialYearToCheck = currentFinancialYear;
+                }
+            }
+            if (!allRowsHaveSameFinancialYear) {
+                throw new BadRequestAlertException("financial year Mismatch at ROW: " + financialYearMismatchRowNumber, ENTITY_NAME, "fileInvalid");
+            }
+            if (!financialYearToCheck.equals(financialYear)) {
+                throw new BadRequestAlertException("Selected Financial Year and Financial year in file does not matches", ENTITY_NAME, "fileInvalid");
+            }
+//---------------------------------------------------------------------
+
+            for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
+                Row row = sheet.getRow(rowIndex); // Get the current row
+                IssFileParser issFileParser = new IssFileParser();
+                if (row != null) {
+                    if (
+                        StringUtils.isBlank(getCellValue(row.getCell(0))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(1))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(2))) &&
+                            StringUtils.isBlank(getCellValue(row.getCell(3)))
+                    ) {
+                        break;
+                    }
+
+                    String fYear = getCellValue(row.getCell(0));
+                    if (fYear.matches("\\d{4}/\\d{4}")) {
+                        issFileParser.setFinancialYear(fYear.replace("/", "-"));
+                        fYear = fYear.replace("/", "-");
+                    } else {
+                        issFileParser.setFinancialYear(fYear);
+                    }
+
+                    //skipping records if exists
+
+                    String AccountNumber = getCellValue(row.getCell(30));
+                    String LoanSactionDate = getDateCellValue(row.getCell(35));
+                    String KccIssCropCode = getCellValue(row.getCell(39));
+                    String DisbursementDate = getDateCellValue(row.getCell(48));
+                    String maturityLoanDate = getDateCellValue(row.getCell(50));
+
+                    if (
+                        !issFileParserRepository
+                            .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
+                                fYear,
+                                AccountNumber,
+                                LoanSactionDate,
+                                KccIssCropCode,
+                                DisbursementDate,
+                                maturityLoanDate
+                            )
+                            .isPresent()
+                    ) {
+
+                        issFileParser.setBankName(getCellValue(row.getCell(1)));
+
+                        issFileParser.setBankCode(getCellValue(row.getCell(2)));
+
+                        issFileParser.setBranchName(getCellValue(row.getCell(3)));
+
+                        issFileParser.setBranchCode(getCellValue(row.getCell(4)));
+
+                        issFileParser.setSchemeWiseBranchCode(getCellValue(row.getCell(5)));
+
+                        issFileParser.setIfsc(getCellValue(row.getCell(6)));
+
+                        issFileParser.setLoanAccountNumberkcc(getCellValue(row.getCell(7)));
+
+                        issFileParser.setFarmerName(getCellValue(row.getCell(8)));
+
+                        issFileParser.setGender(getCellValue(row.getCell(9)));
+
+                        issFileParser.setAadharNumber(getCellValue(row.getCell(10)));
+
+                        issFileParser.setDateofBirth(getDateCellValue(row.getCell(11)));
+
+                        issFileParser.setAgeAtTimeOfSanction(getCellValue(row.getCell(12)));
+
+                        issFileParser.setMobileNo(getCellValue(row.getCell(13)));
+
+                        issFileParser.setFarmersCategory(getCellValue(row.getCell(14)));
+
+                        issFileParser.setFarmerType(getCellValue(row.getCell(15)));
+
+                        issFileParser.setSocialCategory(getCellValue(row.getCell(16)));
+
+                        issFileParser.setRelativeType(getCellValue(row.getCell(17)));
+
+                        issFileParser.setRelativeName(getCellValue(row.getCell(18)));
+
+                        issFileParser.setStateName(getCellValue(row.getCell(19)));
+
+                        issFileParser.setStateCode(getCellValue(row.getCell(20)));
+
+                        issFileParser.setDistrictName(getCellValue(row.getCell(21)));
+
+                        issFileParser.setDistrictCode(getCellValue(row.getCell(22)));
+
+                        issFileParser.setBlockCode(getCellValue(row.getCell(23)));
+
+                        issFileParser.setBlockName(getCellValue(row.getCell(24)));
+
+                        issFileParser.setVillageCode(getCellValue(row.getCell(25)));
+
+                        issFileParser.setVillageName(getCellValue(row.getCell(26)));
+
+                        issFileParser.setAddress(getCellValue(row.getCell(27)));
+
+                        issFileParser.setPinCode(getCellValue(row.getCell(28)));
+
+                        issFileParser.setAccountType(getCellValue(row.getCell(29)));
+
+                        issFileParser.setAccountNumber(getCellValue(row.getCell(30)));
+
+                        issFileParser.setPacsName(getCellValue(row.getCell(31)));
+
+                        issFileParser.setPacsNumber(getCellValue(row.getCell(32)));
+
+                        issFileParser.setAccountHolderType(getCellValue(row.getCell(33)));
+
+                        issFileParser.setPrimaryOccupation(getCellValue(row.getCell(34)));
+
+                        issFileParser.setLoanSactionDate(getDateCellValue(row.getCell(35)));
+
+                        issFileParser.setLoanSanctionAmount(getCellValue(row.getCell(36)));
+
+                        issFileParser.setTenureOFLoan(getCellValue(row.getCell(37)));
+
+                        issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
+
+                        issFileParser.setKccIssCropCode(getCellValue(row.getCell(39)));
+
+                        issFileParser.setKccIssCropName(getCellValue(row.getCell(40)));
+
+                        issFileParser.setCropName(getCellValue(row.getCell(41)));
+
+                        issFileParser.setSurveyNo(getCellValue(row.getCell(42)));
+
+                        issFileParser.setSatBaraSubsurveyNo(getCellValue(row.getCell(43)));
+
+                        //seasonName as per DisbursementDate
+                        // 01-03 to 30-09 (KHARIP)
+                        // 01-10 to 31-03 (RABBI)
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Date disbursementDate = dateFormat.parse(getDateCellValue(row.getCell(48)));
+                        String seasonName = seasonNameAsPerDisbursementDate(disbursementDate);
+                        issFileParser.setSeasonName(seasonName);
+
+                        issFileParser.setActivityType(getStringCellValue(row.getCell(45)));
+
+                        issFileParser.setAreaHect(getFloatCellValue(row.getCell(46)));
+
+                        issFileParser.setLandType(getCellValue(row.getCell(47)));
+
+                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(48)));
+
+                        issFileParser.setDisburseAmount(getCellValue(row.getCell(49)));
+
+                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50)));
+
+                        issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
+
+                        issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
+
+                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
+                        //installment recovery details
+                        try {
+                            //second time
+                            issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
+                            issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
+                            issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
+
+                            //third time
+                            issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
+                            issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
+                            issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
+
+                            //fourth time
+                            issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
+                            issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
+                            issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62)));
+                        } catch (Exception e) {
+                        }
+
+                        if (isSavePortalObj) {
+                            issPortalFile = issPortalFileRepository.save(issPortalFile);
+                            isSavePortalObj = true;
+                        }
+
+                        issFileParser.setIssPortalFile(issPortalFile);
+
+                        issFileParserList.add(issFileParser);
+                    }
+                }
+            }
+
+            if (!issFileParserList.isEmpty()) {
+                issPortalFile.setApplicationCount(issFileParserList.size());
+                issPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
+                issPortalFile.setSchemeWiseBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getSchemeWiseBranchCode())));
+                issPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
+                issPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
+                issPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
+
+                //removing same application if present
+
+                //				List<IssFileParser> duplicatesAccountNumber = issFileParserList.stream().filter(
+                //						person -> issFileParserList.stream().filter(p -> p != person).anyMatch(person::isDuplicateApp))
+                //						.collect(Collectors.toList());
+                //
+                //				if (duplicatesAccountNumber.size() > 1) {
+                //
+                //					List<IssFileParser> manageUniqueList = new ArrayList<>();
+                //					for (IssFileParser issFileParser : duplicatesAccountNumber) {
+                //
+                //						if (manageUniqueList.isEmpty()) {
+                //							manageUniqueList.add(issFileParser);
+                //						}
+                //
+                //						else if (!manageUniqueList.stream().anyMatch(
+                //								a -> a.getAccountNumber().equalsIgnoreCase(issFileParser.getAccountNumber()))) {
+                //							manageUniqueList.add(issFileParser);
+                //						}
+                //
+                //					}
+                //
+                //				}
+
+                IssPortalFile issPortalFilesave = issPortalFileRepository.save(issPortalFile);
+
+                issFileParserRepository.saveAll(issFileParserList);
+
+                try {
+                    validateFileFile(issPortalFilesave);
+                } catch (Exception e) {
+                }
+
+                if (issFileParserList.get(0) != null) {
+                    try {
+                        notificationDataUtility.notificationData(
+                            "Application record file uploaded",
+                            "Application record file uploaded : " + files.getOriginalFilename() + " uploaded",
+                            false,
+                            issFileParserList.get(0).getCreatedDate(),
+                            "ApplicationRecordFileUploaded" //type
+                        );
+                    } catch (Exception e) {
+                    }
+                }
+
+                return ResponseEntity.ok().body(issFileParserList);
+            } else {
+                throw new BadRequestAlertException("File is already Exist", ENTITY_NAME, "FileExist");
+            }
+        } catch (IOException e) {
+            throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
+        }
+    }
+
+
 }

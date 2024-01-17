@@ -1,5 +1,6 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -20,69 +21,69 @@ public class KmCrops extends AbstractAuditingEntity<Long> implements Serializabl
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "hector", nullable = false)
+    //
+    @Column(name = "hector", nullable = true)
     private Double hector;
 
     @Column(name = "hector_mr")
     private String hectorMr;
 
-    @NotNull
-    @Column(name = "are", nullable = false)
+    //
+    @Column(name = "are", nullable = true)
     private Double are;
 
     @Column(name = "are_mr")
     private String areMr;
 
-    @NotNull
-    @Column(name = "no_of_tree", nullable = false)
+    //
+    @Column(name = "no_of_tree", nullable = true)
     private Double noOfTree;
 
     @Column(name = "no_of_tree_mr")
     private String noOfTreeMr;
 
-    @NotNull
-    @Column(name = "demand", nullable = false)
+    //
+    @Column(name = "demand", nullable = true)
     private Double demand;
 
     @Column(name = "demand_mr")
     private String demandMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "society", length = 255, nullable = false)
+    @Column(name = "society", length = 255, nullable = true)
     private String society;
 
     @Column(name = "society_mr")
     private String societyMr;
 
-    @NotNull
-    @Column(name = "bank_amt", nullable = false)
+    //
+    @Column(name = "bank_amt", nullable = true)
     private Double bankAmt;
 
     @Column(name = "bank_amt_mr")
     private String bankAmtMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "vibhagi_adhikari", length = 255, nullable = false)
+    @Column(name = "vibhagi_adhikari", length = 255, nullable = true)
     private String vibhagiAdhikari;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "vibhagi_adhikari_mr", length = 255, nullable = false)
+    @Column(name = "vibhagi_adhikari_mr", length = 255, nullable = true)
     private String vibhagiAdhikariMr;
 
-    @NotNull
+    //
     @Size(max = 255)
-    @Column(name = "branch", length = 255, nullable = false)
+    @Column(name = "branch", length = 255, nullable = true)
     private String branch;
 
     @Column(name = "branch_mr")
     private String branchMr;
 
-    @NotNull
-    @Column(name = "insp_amt", nullable = false)
+    //
+    @Column(name = "insp_amt", nullable = true)
     private Double inspAmt;
 
     @Column(name = "insp_amt_mr")
@@ -92,7 +93,8 @@ public class KmCrops extends AbstractAuditingEntity<Long> implements Serializabl
     private CropMaster cropMaster;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true)
+    @JoinColumn(name = "km_details_id")
+    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true,allowGetters = true)
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

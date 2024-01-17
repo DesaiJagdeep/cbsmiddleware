@@ -1,8 +1,11 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -21,36 +24,36 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "shares", nullable = false)
+    //
+    @Column(name = "shares", nullable = true)
     private Double shares;
 
     @Column(name = "shares_mr")
     private String sharesMr;
 
-    @NotNull
-    @Column(name = "sugar_shares", nullable = false)
+    //
+    @Column(name = "sugar_shares", nullable = true)
     private Double sugarShares;
 
     @Column(name = "sugar_shares_mr")
     private String sugarSharesMr;
 
-    @NotNull
-    @Column(name = "deposite", nullable = false)
+    //
+    @Column(name = "deposite", nullable = true)
     private Double deposite;
 
     @Column(name = "deposite_mr")
     private String depositeMr;
 
-    @NotNull
-    @Column(name = "due_loan", nullable = false)
+    //
+    @Column(name = "due_loan", nullable = true)
     private Double dueLoan;
 
     @Column(name = "due_loan_mr")
     private String dueLoanMr;
 
-    @NotNull
-    @Column(name = "due_amount", nullable = false)
+    //
+    @Column(name = "due_amount", nullable = true)
     private Double dueAmount;
 
     @Column(name = "due_amount_mr")
@@ -59,113 +62,138 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "due_date_mr")
     private String dueDateMr;
 
-    @NotNull
-    @Column(name = "due_date", nullable = false)
+    //
+    @Column(name = "due_date", nullable = true)
     private Instant dueDate;
 
-    @NotNull
-    @Column(name = "km_date", nullable = false)
+    //
+    @Column(name = "km_date", nullable = true)
     private Instant kmDate;
 
     @Column(name = "km_date_mr")
     private String kmDateMr;
 
-    @NotNull
-    @Column(name = "km_from_date", nullable = false)
+    //
+    @Column(name = "km_from_date", nullable = true)
     private Instant kmFromDate;
 
     @Column(name = "km_from_date_mr")
     private String kmFromDateMr;
 
-    @NotNull
-    @Column(name = "km_to_date", nullable = false)
+    //
+    @Column(name = "km_to_date", nullable = true)
     private Instant kmToDate;
 
     @Column(name = "km_to_date_mr")
     private String kmToDateMr;
 
-    @NotNull
-    @Column(name = "bagayat_hector", nullable = false)
+    //
+    @Column(name = "bagayat_hector", nullable = true)
     private Double bagayatHector;
 
     @Column(name = "bagayat_hector_mr")
     private String bagayatHectorMr;
 
-    @NotNull
-    @Column(name = "bagayat_are", nullable = false)
+    //
+    @Column(name = "bagayat_are", nullable = true)
     private Double bagayatAre;
 
     @Column(name = "bagayat_are_mr")
     private String bagayatAreMr;
 
-    @NotNull
-    @Column(name = "jirayat_hector", nullable = false)
+    //
+    @Column(name = "jirayat_hector", nullable = true)
     private Double jirayatHector;
 
     @Column(name = "jirayat_hector_mr")
     private String jirayatHectorMr;
 
-    @NotNull
-    @Column(name = "jirayat_are", nullable = false)
+    //
+    @Column(name = "jirayat_are", nullable = true)
     private Double jirayatAre;
 
     @Column(name = "jirayat_are_mr")
     private String jirayatAreMr;
 
-    @NotNull
-    @Column(name = "zindagi_amt", nullable = false)
+    //
+    @Column(name = "zindagi_amt", nullable = true)
     private Double zindagiAmt;
 
-    @NotNull
-    @Column(name = "zindagi_no", nullable = false)
+    //
+    @Column(name = "zindagi_no", nullable = true)
     private Long zindagiNo;
 
-    @NotNull
+    //
     @Size(max = 1000)
-    @Column(name = "survey_no", length = 1000, nullable = false)
+    @Column(name = "survey_no", length = 1000, nullable = true)
     private String surveyNo;
 
-    @NotNull
-    @Column(name = "land_value", nullable = false)
+    //
+    @Column(name = "land_value", nullable = true)
     private Double landValue;
 
     @Column(name = "land_value_mr")
     private String landValueMr;
 
-    @NotNull
-    @Column(name = "e_agreement_amt", nullable = false)
+    //
+    @Column(name = "e_agreement_amt", nullable = true)
     private Double eAgreementAmt;
 
     @Column(name = "e_agreement_amt_mr")
     private String eAgreementAmtMr;
 
-    @NotNull
-    @Column(name = "e_agreement_date", nullable = false)
+    //
+    @Column(name = "e_agreement_date", nullable = true)
     private Instant eAgreementDate;
 
     @Column(name = "e_agreement_date_mr")
     private String eAgreementDateMr;
 
-    @NotNull
-    @Column(name = "boja_amount", nullable = false)
+    //
+    @Column(name = "boja_amount", nullable = true)
     private Double bojaAmount;
 
     @Column(name = "boja_amount_mr")
     private String bojaAmountMr;
 
-    @NotNull
-    @Column(name = "boja_date", nullable = false)
+    //
+    @Column(name = "boja_date", nullable = true)
     private Instant bojaDate;
 
     @Column(name = "boja_date_mr")
     private String bojaDateMr;
 
-    @JsonIgnoreProperties(value = { "farmerTypeMaster" }, allowSetters = true)
-    @OneToOne
+    @JsonIgnoreProperties(value = { "farmerTypeMaster","kmMaster" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
+    //@JsonIgnore
     private KmMaster kmMaster;
 
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade= CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
+    private Set<KmLoans> kmLoans;
+
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
+    private Set<KmCrops> kmCrops;
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public Set<KmLoans> getKmLoans() {
+        return kmLoans;
+    }
+
+    public void setKmLoans(Set<KmLoans> kmLoans) {
+        this.kmLoans = kmLoans;
+    }
+
+    public Set<KmCrops> getKmCrops() {
+        return kmCrops;
+    }
+
+    public void setKmCrops(Set<KmCrops> kmCrops) {
+        this.kmCrops = kmCrops;
+    }
 
     public Long getId() {
         return this.id;

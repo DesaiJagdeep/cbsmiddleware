@@ -7,29 +7,30 @@
   <title>Appendix4</title>
 </head>
 
-<body style="margin: 50px;">
+<body style="margin: 0 40px">
 
 <h2 style="text-align: center;">मागणी नोटीस</h2>
-<p style="text-align: center;">परिशिष्ट ४</p>
-<p style="text-align: center; font-size: medium;">(महाराष्ट्र सहकारी संस्था अधिनियम १५६ व नियम १०७(५) अन्वये)</p>
+<h3 style="text-align: center;">परिशिष्ट ४</h3>
+<h3 style="text-align: center; font-size: medium;">(महाराष्ट्र सहकारी संस्था अधिनियम १५६ व नियम १०७(५) अन्वये)</h3>
 
 <div style="display: flex; justify-content: right; margin-top: 30px;">
   <div>
-    <h3 style="margin: 5px; font-size: medium;">जावक क्रमांक १०१/वा/ जि.म. बँक/ सन</h3>
-    <p style="margin: 5px;">वसुली अधिकारी <strong><u><span th:text="${courtCaseSetting.sachivName}"/></u></strong> यांचे कार्यालय</p>
-    <p style="margin: 5px;">Clo. पुणे जिल्हा मध्यवर्ती सहकारी बैंक मर्यादित, पुणे</p>
-    <p style="margin: 5px; margin-bottom: 10px;"><strong><u></u></strong> तालुका द्वारा <strong><u></u></strong></p>
-    <h3 style="margin: 0; font-size: medium;">दिनांक:  </h3>
+    <h3 style="margin: 0; font-size: medium;">जावक क्रमांक </h3>
+    <p style="margin: 4px;">वसुली अधिकारी <u><span style="font-weight: 900" th:text="${courtCaseSetting.sachivName}"/></u> यांचे कार्यालय</p>
+    <p style="margin: 4px">C/O. पुणे जिल्हा मध्यवर्ती सहकारी बैंक मर्यादित, पुणे</p>
+    <p style="margin: 4px">________ तालुका द्वारा ______ शाखा. </p>
+    <h3 style="margin: 0; font-size: medium;">दिनांक: _________________________ </h3>
   </div>
 </div>
 
 <div>
-  <p style="text-indent : 35px;  line-height: 25px; text-align: justify; margin-top: 50px;">
-    श्री. <strong><u><span th:text="${courtCase.nameOfDefaulter}"/></u></strong> राहणार <strong><u><span th:text="${courtCase.address}"/></u></strong>
-    तालुका <strong><u></u></strong> यांस तुम्ही <strong><u><span th:text="${courtCase.bankName}"/></u></strong>
-    तालुका <strong><u></u></strong> चे थकवाकीदार असून संस्थेने तुमचे विरुद्ध महाराष्ट्र सहकारी संस्था अधिनियम १०१ चे पोटनियम
-    (१) खाली प्रमाणपत्र मिळविले असून तुम्ही अद्याप थकीत रक्कम भरलेली नाही व अद्यापही रुपये <strong><u><span th:text="${courtCase.dueAmount}"/></u></strong> अधिक होणारे
-    व्याज तुमचेकडे येणे आहे.
+  <p style="text-indent : 35px;  line-height: 35px; text-align: justify; margin-top: 30px;">
+    श्री. <span style="font-weight: 900" th:text="${courtCase.nameOfDefaulter}"/>
+    राहणार <span th:text="${courtCase.societyBranchName}"/>
+    यांस तुम्ही <span style="font-weight: 900" th:text="${courtCase.bankName}"/>
+    चे थकवाकीदार असून संस्थेने तुमचे विरुद्ध महाराष्ट्र सहकारी संस्था अधिनियम १०१ चे पोटनियम
+    (१) खाली प्रमाणपत्र मिळविले असून तुम्ही अद्याप थकीत रक्कम भरलेली नाही व अद्यापही
+    &#8377;<span style="font-weight: 900" th:text="${courtCase.dueAmount}"/> अधिक होणारे व्याज तुमचेकडे येणे आहे.
 
     तरी तुम्हास सदर नोटीसी अन्वये कळविण्यात येते की, सदरची नोटीस प्राप्त होताच आपणांकडे येणे असलेल्या रकमेची
     परतफेड करावी. परतफेड न केल्यास तुमची जंगम व स्थावर मालमत्ता जप्त करून वसुली केली जाईल व वसुलीच्या इतर खर्चास

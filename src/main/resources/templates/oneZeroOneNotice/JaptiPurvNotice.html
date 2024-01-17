@@ -6,91 +6,84 @@
     <title>JaptiPurvNotice</title>
 </head>
 
-<body style="line-height: 25px;">
-    <h2 style="text-align: center"><strong>रजि. ए.डी.</strong></h2>
-    <div style="display: flex; justify-content: space-between">
-        <div style="width: 60%;">
-            <p style="margin: 0;">जा.क्र. / वसुली बि.शेती कर्ज /</p>
-            <p style="margin: 0;">दिनांक :<strong><span th:text="${noticeDate}"/></strong></p>
+  <body>
+    <h3 style="text-align: center;"><strong>रजि. ए.डी.</strong></h3>
+    <div class="row" style="display: flex; justify-content: space-between">
+        <div class="col-md-6">
+            <p style="">जा.क्र. / वसुली बि.शेती कर्ज /</p>
+            <p style="margin: 0">दिनांक :<strong><span th:text="${noticeDate}"/></strong></p>
         </div>
+        <div class="col-md-6">
+            <p style=" margin: 4px">श्री. ______</p>
+            <p style=" margin: 4px">वसुली अधिकारी,</p>
+            <p style=" margin: 4px">तालुका _____</p>
+            <p style=" margin: 4px"> द्वारा पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे. </p>
+            <p style=" margin: 4px">मर्या._____ शाखा,</p>
+            <p style=" margin: 4px">पत्ता ______</p>
+        </div>
+    </div>
+
+    <h3 style="text-align: center"><strong>जप्तीपूर्वीची नोटीस</strong></h3>
+    <p style=" margin: 4px">प्रति,</p>
+    <p style=" margin: 4px">श्री. _________, कर्जदार</p>
+    <p style=" margin: 4px">_____________________</p>
+    <p style=" margin: 4px">श्री. _________ जामीनदार,</p>
+    <p style=" margin: 4px">_____________________</p>
+
+    <div class="row mt-3" style="display: flex; justify-content: space-between">
+        <div style="text-align: justify; margin: 4px">संदर्भ :-</div>
         <div>
-            <p style="margin: 0;">श्री. <strong><u></u></strong></p>
-            <p style="margin: 0;">वसुली अधिकारी,</p>
-            <p style="margin: 0;">तालुका <strong><u></u></strong></p>
-            <p style="margin: 0;">
-                द्वारा पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे.
+            <p style="text-align: justify; margin: 4px">
+                १) मे. सहाय्यक निबंधक, सह.संस्था, ________ तालुका यांचेकडुन पुणे जिल्हा मध्य. सह. बँकेने <br> आपल्याविरुष्ट थकबाकी वसुलीसाठी लवाद दावा क्र. ...............ने दि.. .......... रोजी हुकूमनामा मिळविला आहे
             </p>
-            <p style="margin: 0;">मर्या., <strong><u></u></strong> शाखा,</p>
-            <p style="margin: 0;"><strong><u>पत्ता </u></strong> </p>
+            <p style="text-align: justify; margin: 4px">
+              २) महा.सह.संस्था नियम १९६१ चा नियम १०७ (३) अन्वये दि. ______ रोजी पाठविलेली मागणी नोटीस
+            </p>
         </div>
     </div>
 
-    <h3 style="text-align: center">
-        <strong>जप्तीपूर्वीची नोटीस</strong>
-    </h3>
-    <p style="margin: 4px 0;">प्रति,</p>
-    <div style="text-indent: 30px;">
-        <p style="margin: 4px 0;">श्री. <strong><u> <span th:text="${courtCase.nameOfDefaulter}"/></u></strong>, कर्जदार</p>
-        <p style="margin: 4px 0;"><strong><u>पत्ता : <strong><u><span th:text="${courtCase.address}"/></u></strong> </u></strong></p>
-        <p style="margin: 4px 0;">श्री. <strong><u>  </u></strong> जामीनदार,</p>
-        <p style="margin: 4px 0;"><strong><u>पत्ता </u></strong></p>
-    </div>
-
-    <h3 style="margin: 10px 0;">संदर्भ:-</h3>
-    <div style="display: flex; justify-content: space-between">
-        <p style="text-align: justify;">
-            १) मे. सहाय्यक निबंधक, सह.संस्था, <strong><u></u></strong> तालुका यांचेकडुन पुणे जिल्हा मध्य. सह. बँकेने आपल्याविरुष्ट थकबाकी
-            वसुलीसाठी लवाद दावा क्र. ...............ने
-            दि. <strong><u></u></strong> रोजी हुकूमनामा मिळविला आहे
-        </p>
-        <p style="text-align: justify;"> २) महा.सह.संस्था नियम १९६१ चा नियम १०७ (३) अन्वये दि. <strong><u></u></strong> रोजी पाठविलेली मागणी नोटीस</p>
-    </div>
-
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">
+    <p style="text-indent: 45px; text-align: justify; margin: 4px">
         ज्याअर्थी पुणे जिल्हा मध्य. सह. बँकेने आपल्याकडील थकबाकी वसुलीसाठी
         महा सह संस्था अधिनियम १९६० चे कलम १०१ (१) अन्वये लवाद दावा
         क्र......... / .... अन्वये मे. सहाय्यक निबंधक, सह.संस्था, <strong><u></u></strong> तालुका
         यांचेकडुन हुकूमनामा मिळवून सदर हुकूमनामा अंमलबजावणीकरीता आमचेकडे
         पाठविला आहे.
     </p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">
+    <p style="text-indent: 45px; text-align: justify; margin: 4px">
         सदर हुकूमनाम्याप्रमाणे संदर्भ क्र. २ ने मागणी नोटीस देवूनही थकबाकीची
         रक्कम व्याजासह भरलेली नाही.
     </p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">
-        सबब तुम्हास नोटीस देण्यात येते की, वर नमुद केलेल्या दावा क्र. <strong><u> _____ /_____</u></strong> मधील आदेशातील तपशिलाप्रमाणे तुमचेकडुन
+    <p style="text-indent: 45px; text-align: justify; margin: 4px">
+        सबब तुम्हास नोटीस देण्यात येते की, वर नमुद केलेल्या दावा क्र. _____/
+        _____ मधील आदेशातील तपशिलाप्रमाणे तुमचेकडुन
     </p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">१) रू. <strong><u> /-</u></strong> दाव्यातील रक्कम</p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">२) रू. <strong><u> /-</u></strong> दाव्याची फी व खर्च</p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________</p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">&nbsp;&nbsp;एकूण रू. <strong><u> /-</u></strong> येणे निघत आहे.</p>
-    <p style="text-align: justify; margin: 4px 0; page-break-after: always;">
-        १) तसेच दि.<strong><u></u></strong> पासून रक्कम रू.<strong><u> /-</u></strong> द.सा.द.शे. 8%
+    <p style="text-indent: 45px; text-align: justify; margin: 4px 0">१) रू. ______ दाव्यातील रक्कम</p>
+    <p style="text-indent: 45px; text-align: justify; margin: 4px 0">२) रू. ______ दाव्याची फी व खर्च</p>
+<!--    <p style="text-indent: 35px; text-align: justify; margin: 4px 0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________</p>-->
+    <p style="text-indent: 45px; text-align: justify; margin: 4px 0">&nbsp;&nbsp;एकूण रू. ______ येणे निघत आहे.</p>
+    <p style="text-align: justify; margin: 4px">
+        १) तसेच दि.______ पासून रक्कम रू.______ द.सा.द.शे. ____ .%
         व्याजदराने संपूर्ण रक्कम फिटेपर्यंत व्याजासह रक्कम वसुल करण्याचा
         आदेश झालेला आहे.
     </p>
-    <p style="text-align: justify; margin: 4px 0;">
+    <p style="text-align: justify; margin: 4px">
         २) या नोटिसीचे तारखेपासून १५ दिवसांचे आत वर नमुद केलेली रक्कम
         व्याजासह परत करावी. येणेप्रमाणे वरील मुदतीत तुम्ही संपूर्ण रक्कम
         व्याजासह परत न केल्यास सदर कर्ज घेताना तुम्ही तारण दिलेली जंगम /
         स्थावर मालमत्ता जप्त करण्यात येईल.
     </p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">
+    <p style="text-indent: 45px; text-align: justify; margin: 4px">
         जप्त केलेल्या जंगम / स्थावर मालमत्तेची विक्री करण्यात येईल. व
         त्यातुन बँकेस येणे असलेल्या रकमेची वसुली करण्यात येईल.
     </p>
-    <p style="text-indent: 35px; text-align: justify; margin: 4px 0;">
+    <p style="text-indent: 45px; text-align: justify; margin: 4px">
         तुमचेकडुन रक्कम वसुल करण्याकरीता होणाऱ्या खर्चास तुम्ही जबाबदार
         राहाल, व सदर खर्चाची रक्कमही तुमचेकडुन वसुल करण्यात येईल.
     </p>
 
-    <div style="display: flex; justify-content: end;">
-        <div style="margin-top: 20px;">
-            <h3 style="text-align: end; font-size: medium; margin: 0;">वसुली अधिकारी</h3>
-            <p style="text-align: end;"><strong><u>_____</u></strong>.तालुका</p>
-        </div>
-    </div>
+    <h3 style="text-align: end; font-size: medium; margin-top: 40px">वसुली अधिकारी</h3>
+    <p style="text-align: end;">_____.तालुका</p>
 
-</body>
+  </body>
 
 </html>

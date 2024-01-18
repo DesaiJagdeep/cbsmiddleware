@@ -15,7 +15,7 @@
         [routerLink]="['/karkhana-vasuli-records/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.createLabel">Create a new Karkhana Vasuli Records</span>
+        <span jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.home.createLabel"> Create a new Karkhana Vasuli Records </span>
       </button>
     </div>
   </h2>
@@ -140,23 +140,25 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
-              <a
+              <button
+                type="submit"
                 [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </a>
+              </button>
 
-              <a
+              <button
+                type="submit"
                 [routerLink]="['/karkhana-vasuli-records', karkhanaVasuliRecords.id, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </a>
+              </button>
 
               <button type="submit" (click)="delete(karkhanaVasuliRecords)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>

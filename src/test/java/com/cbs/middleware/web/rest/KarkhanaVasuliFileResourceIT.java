@@ -8,14 +8,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.FactoryMaster;
 import com.cbs.middleware.domain.KarkhanaVasuliFile;
-import com.cbs.middleware.domain.KarkhanaVasuliRecords;
 import com.cbs.middleware.repository.KarkhanaVasuliFileRepository;
-import javax.persistence.EntityManager;
+import com.cbs.middleware.service.criteria.KarkhanaVasuliFileCriteria;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ class KarkhanaVasuliFileResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private KarkhanaVasuliFileRepository karkhanaVasuliFileRepository;
@@ -1199,33 +1199,12 @@ class KarkhanaVasuliFileResourceIT {
         karkhanaVasuliFile.setFactoryMaster(factoryMaster);
         karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
         Long factoryMasterId = factoryMaster.getId();
+
         // Get all the karkhanaVasuliFileList where factoryMaster equals to factoryMasterId
         defaultKarkhanaVasuliFileShouldBeFound("factoryMasterId.equals=" + factoryMasterId);
 
         // Get all the karkhanaVasuliFileList where factoryMaster equals to (factoryMasterId + 1)
         defaultKarkhanaVasuliFileShouldNotBeFound("factoryMasterId.equals=" + (factoryMasterId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllKarkhanaVasuliFilesByKarkhanaVasuliRecordsIsEqualToSomething() throws Exception {
-        KarkhanaVasuliRecords karkhanaVasuliRecords;
-        if (TestUtil.findAll(em, KarkhanaVasuliRecords.class).isEmpty()) {
-            karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
-            karkhanaVasuliRecords = KarkhanaVasuliRecordsResourceIT.createEntity(em);
-        } else {
-            karkhanaVasuliRecords = TestUtil.findAll(em, KarkhanaVasuliRecords.class).get(0);
-        }
-        em.persist(karkhanaVasuliRecords);
-        em.flush();
-        karkhanaVasuliFile.addKarkhanaVasuliRecords(karkhanaVasuliRecords);
-        karkhanaVasuliFileRepository.saveAndFlush(karkhanaVasuliFile);
-        Long karkhanaVasuliRecordsId = karkhanaVasuliRecords.getId();
-        // Get all the karkhanaVasuliFileList where karkhanaVasuliRecords equals to karkhanaVasuliRecordsId
-        defaultKarkhanaVasuliFileShouldBeFound("karkhanaVasuliRecordsId.equals=" + karkhanaVasuliRecordsId);
-
-        // Get all the karkhanaVasuliFileList where karkhanaVasuliRecords equals to (karkhanaVasuliRecordsId + 1)
-        defaultKarkhanaVasuliFileShouldNotBeFound("karkhanaVasuliRecordsId.equals=" + (karkhanaVasuliRecordsId + 1));
     }
 
     /**
@@ -1295,7 +1274,7 @@ class KarkhanaVasuliFileResourceIT {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
 
         // Update the karkhanaVasuliFile
-        KarkhanaVasuliFile updatedKarkhanaVasuliFile = karkhanaVasuliFileRepository.findById(karkhanaVasuliFile.getId()).orElseThrow();
+        KarkhanaVasuliFile updatedKarkhanaVasuliFile = karkhanaVasuliFileRepository.findById(karkhanaVasuliFile.getId()).get();
         // Disconnect from session so that the updates on updatedKarkhanaVasuliFile are not directly saved in db
         em.detach(updatedKarkhanaVasuliFile);
         updatedKarkhanaVasuliFile
@@ -1346,7 +1325,7 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void putNonExistingKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc
@@ -1366,12 +1345,12 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void putWithIdMismatchKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(karkhanaVasuliFile))
             )
@@ -1386,7 +1365,7 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void putWithMissingIdPathParamKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc
@@ -1415,13 +1394,13 @@ class KarkhanaVasuliFileResourceIT {
         partialUpdatedKarkhanaVasuliFile
             .fileName(UPDATED_FILE_NAME)
             .uniqueFileName(UPDATED_UNIQUE_FILE_NAME)
-            .hangam(UPDATED_HANGAM)
+            .address(UPDATED_ADDRESS)
             .hangamMr(UPDATED_HANGAM_MR)
             .factoryName(UPDATED_FACTORY_NAME)
-            .factoryNameMr(UPDATED_FACTORY_NAME_MR)
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
-            .branchCode(UPDATED_BRANCH_CODE);
+            .branchCode(UPDATED_BRANCH_CODE)
+            .pacsName(UPDATED_PACS_NAME);
 
         restKarkhanaVasuliFileMockMvc
             .perform(
@@ -1437,18 +1416,18 @@ class KarkhanaVasuliFileResourceIT {
         KarkhanaVasuliFile testKarkhanaVasuliFile = karkhanaVasuliFileList.get(karkhanaVasuliFileList.size() - 1);
         assertThat(testKarkhanaVasuliFile.getFileName()).isEqualTo(UPDATED_FILE_NAME);
         assertThat(testKarkhanaVasuliFile.getUniqueFileName()).isEqualTo(UPDATED_UNIQUE_FILE_NAME);
-        assertThat(testKarkhanaVasuliFile.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testKarkhanaVasuliFile.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testKarkhanaVasuliFile.getAddressMr()).isEqualTo(DEFAULT_ADDRESS_MR);
-        assertThat(testKarkhanaVasuliFile.getHangam()).isEqualTo(UPDATED_HANGAM);
+        assertThat(testKarkhanaVasuliFile.getHangam()).isEqualTo(DEFAULT_HANGAM);
         assertThat(testKarkhanaVasuliFile.getHangamMr()).isEqualTo(UPDATED_HANGAM_MR);
         assertThat(testKarkhanaVasuliFile.getFactoryName()).isEqualTo(UPDATED_FACTORY_NAME);
-        assertThat(testKarkhanaVasuliFile.getFactoryNameMr()).isEqualTo(UPDATED_FACTORY_NAME_MR);
+        assertThat(testKarkhanaVasuliFile.getFactoryNameMr()).isEqualTo(DEFAULT_FACTORY_NAME_MR);
         assertThat(testKarkhanaVasuliFile.getTotalAmount()).isEqualTo(DEFAULT_TOTAL_AMOUNT);
         assertThat(testKarkhanaVasuliFile.getTotalAmountMr()).isEqualTo(DEFAULT_TOTAL_AMOUNT_MR);
         assertThat(testKarkhanaVasuliFile.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testKarkhanaVasuliFile.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testKarkhanaVasuliFile.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
-        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
+        assertThat(testKarkhanaVasuliFile.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
     }
 
     @Test
@@ -1511,7 +1490,7 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void patchNonExistingKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc
@@ -1531,12 +1510,12 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void patchWithIdMismatchKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(karkhanaVasuliFile))
             )
@@ -1551,7 +1530,7 @@ class KarkhanaVasuliFileResourceIT {
     @Transactional
     void patchWithMissingIdPathParamKarkhanaVasuliFile() throws Exception {
         int databaseSizeBeforeUpdate = karkhanaVasuliFileRepository.findAll().size();
-        karkhanaVasuliFile.setId(longCount.incrementAndGet());
+        karkhanaVasuliFile.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restKarkhanaVasuliFileMockMvc

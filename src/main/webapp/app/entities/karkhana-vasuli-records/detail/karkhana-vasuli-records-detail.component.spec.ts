@@ -1,38 +1,36 @@
-import { TestBed } from '@angular/core/testing';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { KarkhanaVasuliRecordsDetailComponent } from './karkhana-vasuli-records-detail.component';
 
 describe('KarkhanaVasuliRecords Management Detail Component', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [KarkhanaVasuliRecordsDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+  let comp: KarkhanaVasuliRecordsDetailComponent;
+  let fixture: ComponentFixture<KarkhanaVasuliRecordsDetailComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [KarkhanaVasuliRecordsDetailComponent],
       providers: [
-        provideRouter(
-          [
-            {
-              path: '**',
-              component: KarkhanaVasuliRecordsDetailComponent,
-              resolve: { karkhanaVasuliRecords: () => of({ id: 123 }) },
-            },
-          ],
-          withComponentInputBinding(),
-        ),
+        {
+          provide: ActivatedRoute,
+          useValue: { data: of({ karkhanaVasuliRecords: { id: 123 } }) },
+        },
       ],
     })
       .overrideTemplate(KarkhanaVasuliRecordsDetailComponent, '')
       .compileComponents();
+    fixture = TestBed.createComponent(KarkhanaVasuliRecordsDetailComponent);
+    comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load karkhanaVasuliRecords on init', async () => {
-      const harness = await RouterTestingHarness.create();
-      const instance = await harness.navigateByUrl('/', KarkhanaVasuliRecordsDetailComponent);
+    it('Should load karkhanaVasuliRecords on init', () => {
+      // WHEN
+      comp.ngOnInit();
 
       // THEN
-      expect(instance.karkhanaVasuliRecords).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.karkhanaVasuliRecords).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

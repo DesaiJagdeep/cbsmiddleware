@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.cbs.middleware.domain.KarkhanaVasuliRecords}.
  */
 @RestController
-@RequestMapping("/api/karkhana-vasuli-records")
+@RequestMapping("/api")
 public class KarkhanaVasuliRecordsResource {
 
     private final Logger log = LoggerFactory.getLogger(KarkhanaVasuliRecordsResource.class);
@@ -61,7 +61,7 @@ public class KarkhanaVasuliRecordsResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new karkhanaVasuliRecords, or with status {@code 400 (Bad Request)} if the karkhanaVasuliRecords has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/karkhana-vasuli-records")
     public ResponseEntity<KarkhanaVasuliRecords> createKarkhanaVasuliRecords(@RequestBody KarkhanaVasuliRecords karkhanaVasuliRecords)
         throws URISyntaxException {
         log.debug("REST request to save KarkhanaVasuliRecords : {}", karkhanaVasuliRecords);
@@ -85,7 +85,7 @@ public class KarkhanaVasuliRecordsResource {
      * or with status {@code 500 (Internal Server Error)} if the karkhanaVasuliRecords couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/karkhana-vasuli-records/{id}")
     public ResponseEntity<KarkhanaVasuliRecords> updateKarkhanaVasuliRecords(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody KarkhanaVasuliRecords karkhanaVasuliRecords
@@ -120,7 +120,7 @@ public class KarkhanaVasuliRecordsResource {
      * or with status {@code 500 (Internal Server Error)} if the karkhanaVasuliRecords couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/karkhana-vasuli-records/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<KarkhanaVasuliRecords> partialUpdateKarkhanaVasuliRecords(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody KarkhanaVasuliRecords karkhanaVasuliRecords
@@ -152,13 +152,12 @@ public class KarkhanaVasuliRecordsResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of karkhanaVasuliRecords in body.
      */
-    @GetMapping("")
+    @GetMapping("/karkhana-vasuli-records")
     public ResponseEntity<List<KarkhanaVasuliRecords>> getAllKarkhanaVasuliRecords(
         KarkhanaVasuliRecordsCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KarkhanaVasuliRecords by criteria: {}", criteria);
-
         Page<KarkhanaVasuliRecords> page = karkhanaVasuliRecordsQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -170,7 +169,7 @@ public class KarkhanaVasuliRecordsResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/karkhana-vasuli-records/count")
     public ResponseEntity<Long> countKarkhanaVasuliRecords(KarkhanaVasuliRecordsCriteria criteria) {
         log.debug("REST request to count KarkhanaVasuliRecords by criteria: {}", criteria);
         return ResponseEntity.ok().body(karkhanaVasuliRecordsQueryService.countByCriteria(criteria));
@@ -182,7 +181,7 @@ public class KarkhanaVasuliRecordsResource {
      * @param id the id of the karkhanaVasuliRecords to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the karkhanaVasuliRecords, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/karkhana-vasuli-records/{id}")
     public ResponseEntity<KarkhanaVasuliRecords> getKarkhanaVasuliRecords(@PathVariable Long id) {
         log.debug("REST request to get KarkhanaVasuliRecords : {}", id);
         Optional<KarkhanaVasuliRecords> karkhanaVasuliRecords = karkhanaVasuliRecordsService.findOne(id);
@@ -195,7 +194,7 @@ public class KarkhanaVasuliRecordsResource {
      * @param id the id of the karkhanaVasuliRecords to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/karkhana-vasuli-records/{id}")
     public ResponseEntity<Void> deleteKarkhanaVasuliRecords(@PathVariable Long id) {
         log.debug("REST request to delete KarkhanaVasuliRecords : {}", id);
         karkhanaVasuliRecordsService.delete(id);

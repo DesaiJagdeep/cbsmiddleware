@@ -2,8 +2,10 @@ package com.cbs.middleware.repository;
 
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -71,7 +73,9 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
         String maturityLoanDate
     );
 
-@Query(value = "select * from iss_file_parser where aadhar_number=:aadhaarNumber and farmer_name=:beneficiaryName and loan_sanction_amount=:loanSanctionedAmount and loan_saction_date =:loanSanctionedDate ",nativeQuery = true)
-    IssFileParser findByRecipientParameters( @Param("aadhaarNumber") String aadhaarNumber, @Param("beneficiaryName") String beneficiaryName,@Param("loanSanctionedAmount") Long loanSanctionedAmount, @Param("loanSanctionedDate") String loanSanctionedDate);
+    @Query(value = "select * from iss_file_parser where aadhar_number=:aadhaarNumber and farmer_name=:beneficiaryName and loan_sanction_amount=:loanSanctionedAmount and loan_saction_date =:loanSanctionedDate ", nativeQuery = true)
+    IssFileParser findByRecipientParameters(@Param("aadhaarNumber") String aadhaarNumber, @Param("beneficiaryName") String beneficiaryName, @Param("loanSanctionedAmount") Long loanSanctionedAmount, @Param("loanSanctionedDate") String loanSanctionedDate);
 
+    @Query(value = "select * from iss_file_parser where pacs_number=:pacsNumber ", nativeQuery = true)
+    List<IssFileParser> issFileParserByPacsNumber(@Param("pacsNumber") String pacsNumber);
 }

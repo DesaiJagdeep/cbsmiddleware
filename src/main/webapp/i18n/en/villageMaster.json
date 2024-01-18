@@ -1,0 +1,28 @@
+{
+  "cbsMiddlewareApp": {
+    "villageMaster": {
+      "home": {
+        "title": "Village Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Village Master",
+        "createOrEditLabel": "Create or edit a Village Master",
+        "notFound": "No Village Masters found"
+      },
+      "created": "A new Village Master is created with identifier {{ param }}",
+      "updated": "A Village Master is updated with identifier {{ param }}",
+      "deleted": "A Village Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Village Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Village Master"
+      },
+      "id": "ID",
+      "villageName": "Village Name",
+      "villageNameMr": "Village Name Mr",
+      "villageCode": "Village Code",
+      "villageCodeMr": "Village Code Mr",
+      "talukaMaster": "Taluka Master"
+    }
+  }
+}

@@ -1,33 +1,31 @@
 import { IKarkhanaVasuliRecords, NewKarkhanaVasuliRecords } from './karkhana-vasuli-records.model';
 
 export const sampleWithRequiredData: IKarkhanaVasuliRecords = {
-  id: 29207,
+  id: 5233,
 };
 
 export const sampleWithPartialData: IKarkhanaVasuliRecords = {
-  id: 20391,
-  karkhanaMemberCodeMr: 'loyally courteous glacier',
-  memberNameMr: 'affront motherly',
-  villageName: 'because nit mmm',
-  villageNameMr: 'recklessly where',
-  amountMr: 'digitalise but travel',
-  savingAccNoMr: 'crisp since',
+  id: 40164,
+  memberName: 'Car',
+  memberNameMr: 'Berkshire',
+  villageName: 'collaborative',
+  amountMr: 'framework Assistant',
   status: true,
 };
 
 export const sampleWithFullData: IKarkhanaVasuliRecords = {
-  id: 1211,
-  factoryMemberCode: 6181,
-  karkhanaMemberCodeMr: 'date solvency unfortunately',
-  memberName: 'than save',
-  memberNameMr: 'purify furthermore',
-  villageName: 'lest harmonize though',
-  villageNameMr: 'until who victorious',
-  amount: 21650.91,
-  amountMr: 'furiously abnormally snitch',
-  savingAccNo: 24922,
-  savingAccNoMr: 'bowed whoever since',
-  status: false,
+  id: 505,
+  factoryMemberCode: 33440,
+  karkhanaMemberCodeMr: 'Ergonomic overriding Madagascar',
+  memberName: 'Corners',
+  memberNameMr: 'Ports',
+  villageName: 'optimal lime infomediaries',
+  villageNameMr: 'extensible Chips',
+  amount: 45627,
+  amountMr: 'indexing',
+  savingAccNo: 37403,
+  savingAccNoMr: 'Tasty Toys',
+  status: true,
 };
 
 export const sampleWithNewData: NewKarkhanaVasuliRecords = {

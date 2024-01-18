@@ -9,23 +9,24 @@ import com.cbs.middleware.security.jwt.TokenProvider;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.cbs.middleware.web.rest.vm.LoginVM;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.net.URI;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Controller to authenticate users.
@@ -49,49 +50,66 @@ public class UserJWTController {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
-    //    @PostMapping("/authenticate")
-    //    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
-    //
-    //
-    //    	try {
-    //			// Captcha Required
-    //			String url = null;
-    //			url = applicationProperties.getGoogleCaptchaUrlForWeb() + loginVM.getRecaptcha();
-    //			HttpHeaders headers = new HttpHeaders();
-    //			HttpEntity<ReCaptcha> requestEntity = new HttpEntity<>(null, headers);
-    //			RestTemplate restTemplate = new RestTemplate();
-    //			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-    //			if (response.getStatusCode().is2xxSuccessful()) {
-    //
-    //				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-    //			            loginVM.getUsername(),
-    //			            loginVM.getPassword()
-    //			        );
-    //
-    //			        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-    //			        SecurityContextHolder.getContext().setAuthentication(authentication);
-    //			        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
-    //			        HttpHeaders httpHeaders = new HttpHeaders();
-    //			        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-    //			        String username = authentication.getName();
-    //			        String authority = authentication.getAuthorities().stream().findFirst().get().getAuthority();
-    //
-    //			        Optional<User> findOneByLogin = repository.findOneByLogin(authentication.getName());
-    //
-    //			        String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
-    //
-    //			        boolean passwordChange = findOneByLogin.get().isPasswordChanged();
-    //			        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName, passwordChange), httpHeaders, HttpStatus.OK);
-    //
-    //			}
-    //    	}catch (Exception e) {
-    //    		throw new BadRequestAlertException("Invalid Captcha", "", "captchainvalid");
-    //		}
-    //
-    //    	return null;
-    //
-    //    }
-    //
+/*        @PostMapping("/authenticate")
+        public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+
+
+        	try {
+    			// Captcha Required
+    		*//*	String url = null;
+    			url = applicationProperties.getGoogleCaptchaUrlForWeb() + loginVM.getRecaptcha();
+    			HttpHeaders headers = new HttpHeaders();
+    			HttpEntity<ReCaptcha> requestEntity = new HttpEntity<>(null, headers);
+    			RestTemplate restTemplate = new RestTemplate();
+    			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);*//*
+                String url = "https://www.google.com/recaptcha/api/siteverify";
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+                // Prepare request parameters
+                MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+                map.add("secret", "6LeqEEQpAAAAAGnUkhufF9Kk-qehqUWcY0Z6N1EL");
+                map.add("response",loginVM.getRecaptcha());
+
+                HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(map,headers);
+
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+
+
+
+                if (responseEntity.getStatusCode().is2xxSuccessful()) {
+
+    				UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+    			            loginVM.getUsername(),
+    			            loginVM.getPassword()
+    			        );
+
+    			        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    			        SecurityContextHolder.getContext().setAuthentication(authentication);
+    			        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
+    			        HttpHeaders httpHeaders = new HttpHeaders();
+    			        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+    			        String username = authentication.getName();
+    			        String authority = authentication.getAuthorities().stream().findFirst().get().getAuthority();
+
+    			        Optional<User> findOneByLogin = repository.findOneByLogin(authentication.getName());
+
+    			        String fullName = findOneByLogin.get().getFirstName() + " " + findOneByLogin.get().getLastName();
+
+    			        boolean passwordChange = findOneByLogin.get().isPasswordChanged();
+    			        return new ResponseEntity<>(new JWTToken(jwt, authority, username, fullName, passwordChange), httpHeaders, HttpStatus.OK);
+
+    			}
+        	}catch (Exception e) {
+        		throw new BadRequestAlertException("Invalid Captcha", "", "captchainvalid");
+    		}
+
+        	return null;
+
+        }*/
+
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {

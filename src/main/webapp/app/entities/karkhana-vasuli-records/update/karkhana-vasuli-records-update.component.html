@@ -12,12 +12,12 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.factoryMemberCode" for="field_factoryMemberCode"
             >Factory Member Code</label
           >
@@ -31,7 +31,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label
             class="form-label"
             jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaMemberCodeMr"
@@ -48,7 +48,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberName" for="field_memberName"
             >Member Name</label
           >
@@ -62,7 +62,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.memberNameMr" for="field_memberNameMr"
             >Member Name Mr</label
           >
@@ -76,7 +76,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageName" for="field_villageName"
             >Village Name</label
           >
@@ -90,7 +90,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.villageNameMr" for="field_villageNameMr"
             >Village Name Mr</label
           >
@@ -104,17 +104,17 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amount" for="field_amount">Amount</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.amountMr" for="field_amountMr">Amount Mr</label>
           <input type="text" class="form-control" name="amountMr" id="field_amountMr" data-cy="amountMr" formControlName="amountMr" />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNo" for="field_savingAccNo"
             >Saving Acc No</label
           >
@@ -128,7 +128,7 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.savingAccNoMr" for="field_savingAccNoMr"
             >Saving Acc No Mr</label
           >
@@ -142,12 +142,12 @@
           />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.status" for="field_status">Status</label>
           <input type="checkbox" class="form-check" name="status" id="field_status" data-cy="status" formControlName="status" />
         </div>
 
-        <div class="mb-3">
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.karkhanaVasuliRecords.karkhanaVasuliFile" for="field_karkhanaVasuliFile"
             >Karkhana Vasuli File</label
           >

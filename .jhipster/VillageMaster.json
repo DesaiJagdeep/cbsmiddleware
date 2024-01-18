@@ -31,11 +31,12 @@
       "otherEntityField": "id",
       "otherEntityName": "talukaMaster",
       "otherEntityRelationshipName": "villageMaster",
+      "ownerSide": true,
       "relationshipName": "talukaMaster",
       "relationshipSide": "left",
       "relationshipType": "one-to-one"
     }
   ],
-  "searchEngine": "no",
+  "searchEngine": false,
   "service": "serviceImpl"
 }

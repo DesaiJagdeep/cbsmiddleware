@@ -62,6 +62,6 @@
       "relationshipType": "many-to-one"
     }
   ],
-  "searchEngine": "no",
+  "searchEngine": false,
   "service": "serviceImpl"
 }

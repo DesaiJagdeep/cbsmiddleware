@@ -42,6 +42,7 @@ describe('KarkhanaVasuliRecords Service', () => {
     });
 
     it('should create a KarkhanaVasuliRecords', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const karkhanaVasuliRecords = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };
@@ -133,7 +134,7 @@ describe('KarkhanaVasuliRecords Service', () => {
         const karkhanaVasuliRecordsCollection: IKarkhanaVasuliRecords[] = [sampleWithRequiredData];
         expectedResult = service.addKarkhanaVasuliRecordsToCollectionIfMissing(
           karkhanaVasuliRecordsCollection,
-          ...karkhanaVasuliRecordsArray,
+          ...karkhanaVasuliRecordsArray
         );
         expect(expectedResult).toHaveLength(3);
       });

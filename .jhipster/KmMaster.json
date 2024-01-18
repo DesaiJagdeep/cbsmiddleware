@@ -1,0 +1,148 @@
+{
+  "changelogDate": "20240108160031",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "branchCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "farmerNameMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerAddress",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "farmerAddressMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "genderMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "caste",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "casteMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaHector",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "areaHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMaxlength": "12",
+      "fieldValidateRulesMinlength": "12",
+      "fieldValidateRulesPattern": "^d{12}$"
+    },
+    {
+      "fieldName": "aadharNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "panNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "pattern"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10",
+      "fieldValidateRulesPattern": "^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+    },
+    {
+      "fieldName": "panNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "10",
+      "fieldValidateRulesMinlength": "10"
+    },
+    {
+      "fieldName": "mobileNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kccNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kccNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "savingAcNo",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "savingAcNoMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsMemberCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "pacsMemberCodeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "entryFlag",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMaster",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "farmerTypeMaster",
+      "relationshipName": "farmerTypeMaster",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

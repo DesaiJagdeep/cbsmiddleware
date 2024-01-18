@@ -9,10 +9,11 @@ import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.TalukaMaster;
 import com.cbs.middleware.domain.VillageMaster;
 import com.cbs.middleware.repository.VillageMasterRepository;
-import javax.persistence.EntityManager;
+import com.cbs.middleware.service.criteria.VillageMasterCriteria;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ class VillageMasterResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private VillageMasterRepository villageMasterRepository;
@@ -504,6 +505,7 @@ class VillageMasterResourceIT {
         villageMaster.setTalukaMaster(talukaMaster);
         villageMasterRepository.saveAndFlush(villageMaster);
         Long talukaMasterId = talukaMaster.getId();
+
         // Get all the villageMasterList where talukaMaster equals to talukaMasterId
         defaultVillageMasterShouldBeFound("talukaMasterId.equals=" + talukaMasterId);
 
@@ -568,7 +570,7 @@ class VillageMasterResourceIT {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
 
         // Update the villageMaster
-        VillageMaster updatedVillageMaster = villageMasterRepository.findById(villageMaster.getId()).orElseThrow();
+        VillageMaster updatedVillageMaster = villageMasterRepository.findById(villageMaster.getId()).get();
         // Disconnect from session so that the updates on updatedVillageMaster are not directly saved in db
         em.detach(updatedVillageMaster);
         updatedVillageMaster
@@ -599,7 +601,7 @@ class VillageMasterResourceIT {
     @Transactional
     void putNonExistingVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc
@@ -619,12 +621,12 @@ class VillageMasterResourceIT {
     @Transactional
     void putWithIdMismatchVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(villageMaster))
             )
@@ -639,7 +641,7 @@ class VillageMasterResourceIT {
     @Transactional
     void putWithMissingIdPathParamVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc
@@ -663,7 +665,7 @@ class VillageMasterResourceIT {
         VillageMaster partialUpdatedVillageMaster = new VillageMaster();
         partialUpdatedVillageMaster.setId(villageMaster.getId());
 
-        partialUpdatedVillageMaster.villageCode(UPDATED_VILLAGE_CODE);
+        partialUpdatedVillageMaster.villageCode(UPDATED_VILLAGE_CODE).villageCodeMr(UPDATED_VILLAGE_CODE_MR);
 
         restVillageMasterMockMvc
             .perform(
@@ -680,7 +682,7 @@ class VillageMasterResourceIT {
         assertThat(testVillageMaster.getVillageName()).isEqualTo(DEFAULT_VILLAGE_NAME);
         assertThat(testVillageMaster.getVillageNameMr()).isEqualTo(DEFAULT_VILLAGE_NAME_MR);
         assertThat(testVillageMaster.getVillageCode()).isEqualTo(UPDATED_VILLAGE_CODE);
-        assertThat(testVillageMaster.getVillageCodeMr()).isEqualTo(DEFAULT_VILLAGE_CODE_MR);
+        assertThat(testVillageMaster.getVillageCodeMr()).isEqualTo(UPDATED_VILLAGE_CODE_MR);
     }
 
     @Test
@@ -723,7 +725,7 @@ class VillageMasterResourceIT {
     @Transactional
     void patchNonExistingVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc
@@ -743,12 +745,12 @@ class VillageMasterResourceIT {
     @Transactional
     void patchWithIdMismatchVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(villageMaster))
             )
@@ -763,7 +765,7 @@ class VillageMasterResourceIT {
     @Transactional
     void patchWithMissingIdPathParamVillageMaster() throws Exception {
         int databaseSizeBeforeUpdate = villageMasterRepository.findAll().size();
-        villageMaster.setId(longCount.incrementAndGet());
+        villageMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restVillageMasterMockMvc

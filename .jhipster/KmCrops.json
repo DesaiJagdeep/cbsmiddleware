@@ -1,0 +1,111 @@
+{
+  "changelogDate": "20240108180137",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "hector",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "are",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "areMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "noOfTree",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "noOfTreeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "demand",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "demandMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "society",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "societyMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "bankAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "vibhagiAdhikari",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "vibhagiAdhikariMr",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "branch",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "branchMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "inspAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inspAmtMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmCrops",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "cropMaster",
+      "relationshipName": "cropMaster",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kmDetails",
+      "relationshipName": "kmDetails",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

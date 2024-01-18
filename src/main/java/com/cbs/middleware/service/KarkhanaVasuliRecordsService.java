@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
- * Service Interface for managing {@link com.cbs.middleware.domain.KarkhanaVasuliRecords}.
+ * Service Interface for managing {@link KarkhanaVasuliRecords}.
  */
 public interface KarkhanaVasuliRecordsService {
     /**

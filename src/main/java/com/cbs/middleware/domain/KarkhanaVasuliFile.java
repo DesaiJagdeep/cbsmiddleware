@@ -1,11 +1,8 @@
 package com.cbs.middleware.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;
 
 /**
  * A KarkhanaVasuliFile.
@@ -65,11 +62,8 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
     private String pacsName;
 
     @OneToOne
+    @JoinColumn(unique = true)
     private FactoryMaster factoryMaster;
-
-    @OneToMany
-    @JsonIgnoreProperties(value = { "karkhanaVasuliFile" }, allowSetters = true)
-    private Set<KarkhanaVasuliRecords> karkhanaVasuliRecords = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -281,37 +275,6 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
         return this;
     }
 
-    public Set<KarkhanaVasuliRecords> getKarkhanaVasuliRecords() {
-        return this.karkhanaVasuliRecords;
-    }
-
-    public void setKarkhanaVasuliRecords(Set<KarkhanaVasuliRecords> karkhanaVasuliRecords) {
-        if (this.karkhanaVasuliRecords != null) {
-            this.karkhanaVasuliRecords.forEach(i -> i.setKarkhanaVasuliFile(null));
-        }
-        if (karkhanaVasuliRecords != null) {
-            karkhanaVasuliRecords.forEach(i -> i.setKarkhanaVasuliFile(this));
-        }
-        this.karkhanaVasuliRecords = karkhanaVasuliRecords;
-    }
-
-    public KarkhanaVasuliFile karkhanaVasuliRecords(Set<KarkhanaVasuliRecords> karkhanaVasuliRecords) {
-        this.setKarkhanaVasuliRecords(karkhanaVasuliRecords);
-        return this;
-    }
-
-    public KarkhanaVasuliFile addKarkhanaVasuliRecords(KarkhanaVasuliRecords karkhanaVasuliRecords) {
-        this.karkhanaVasuliRecords.add(karkhanaVasuliRecords);
-        karkhanaVasuliRecords.setKarkhanaVasuliFile(this);
-        return this;
-    }
-
-    public KarkhanaVasuliFile removeKarkhanaVasuliRecords(KarkhanaVasuliRecords karkhanaVasuliRecords) {
-        this.karkhanaVasuliRecords.remove(karkhanaVasuliRecords);
-        karkhanaVasuliRecords.setKarkhanaVasuliFile(null);
-        return this;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -322,7 +285,7 @@ public class KarkhanaVasuliFile extends AbstractAuditingEntity<Long> implements 
         if (!(o instanceof KarkhanaVasuliFile)) {
             return false;
         }
-        return getId() != null && getId().equals(((KarkhanaVasuliFile) o).getId());
+        return id != null && id.equals(((KarkhanaVasuliFile) o).id);
     }
 
     @Override

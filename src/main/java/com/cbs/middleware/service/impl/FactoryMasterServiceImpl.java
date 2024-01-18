@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service Implementation for managing {@link com.cbs.middleware.domain.FactoryMaster}.
+ * Service Implementation for managing {@link FactoryMaster}.
  */
 @Service
 @Transactional

@@ -8,11 +8,12 @@ import { of } from 'rxjs';
 import { IKarkhanaVasuliRecords } from '../karkhana-vasuli-records.model';
 import { KarkhanaVasuliRecordsService } from '../service/karkhana-vasuli-records.service';
 
-import karkhanaVasuliRecordsResolve from './karkhana-vasuli-records-routing-resolve.service';
+import { KarkhanaVasuliRecordsRoutingResolveService } from './karkhana-vasuli-records-routing-resolve.service';
 
 describe('KarkhanaVasuliRecords routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
+  let routingResolveService: KarkhanaVasuliRecordsRoutingResolveService;
   let service: KarkhanaVasuliRecordsService;
   let resultKarkhanaVasuliRecords: IKarkhanaVasuliRecords | null | undefined;
 
@@ -33,6 +34,7 @@ describe('KarkhanaVasuliRecords routing resolve service', () => {
     mockRouter = TestBed.inject(Router);
     jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
+    routingResolveService = TestBed.inject(KarkhanaVasuliRecordsRoutingResolveService);
     service = TestBed.inject(KarkhanaVasuliRecordsService);
     resultKarkhanaVasuliRecords = undefined;
   });
@@ -44,12 +46,8 @@ describe('KarkhanaVasuliRecords routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliRecordsResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliRecords = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliRecords = result;
       });
 
       // THEN
@@ -63,12 +61,8 @@ describe('KarkhanaVasuliRecords routing resolve service', () => {
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliRecordsResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliRecords = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliRecords = result;
       });
 
       // THEN
@@ -82,12 +76,8 @@ describe('KarkhanaVasuliRecords routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliRecordsResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliRecords = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliRecords = result;
       });
 
       // THEN

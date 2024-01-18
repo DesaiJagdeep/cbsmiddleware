@@ -1,38 +1,36 @@
-import { TestBed } from '@angular/core/testing';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { KarkhanaVasuliFileDetailComponent } from './karkhana-vasuli-file-detail.component';
 
 describe('KarkhanaVasuliFile Management Detail Component', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [KarkhanaVasuliFileDetailComponent, RouterTestingModule.withRoutes([], { bindToComponentInputs: true })],
+  let comp: KarkhanaVasuliFileDetailComponent;
+  let fixture: ComponentFixture<KarkhanaVasuliFileDetailComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [KarkhanaVasuliFileDetailComponent],
       providers: [
-        provideRouter(
-          [
-            {
-              path: '**',
-              component: KarkhanaVasuliFileDetailComponent,
-              resolve: { karkhanaVasuliFile: () => of({ id: 123 }) },
-            },
-          ],
-          withComponentInputBinding(),
-        ),
+        {
+          provide: ActivatedRoute,
+          useValue: { data: of({ karkhanaVasuliFile: { id: 123 } }) },
+        },
       ],
     })
       .overrideTemplate(KarkhanaVasuliFileDetailComponent, '')
       .compileComponents();
+    fixture = TestBed.createComponent(KarkhanaVasuliFileDetailComponent);
+    comp = fixture.componentInstance;
   });
 
   describe('OnInit', () => {
-    it('Should load karkhanaVasuliFile on init', async () => {
-      const harness = await RouterTestingHarness.create();
-      const instance = await harness.navigateByUrl('/', KarkhanaVasuliFileDetailComponent);
+    it('Should load karkhanaVasuliFile on init', () => {
+      // WHEN
+      comp.ngOnInit();
 
       // THEN
-      expect(instance.karkhanaVasuliFile).toEqual(expect.objectContaining({ id: 123 }));
+      expect(comp.karkhanaVasuliFile).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

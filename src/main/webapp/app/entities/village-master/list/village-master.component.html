@@ -15,7 +15,7 @@
         [routerLink]="['/village-master/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="cbsMiddlewareApp.villageMaster.home.createLabel">Create a new Village Master</span>
+        <span jhiTranslate="cbsMiddlewareApp.villageMaster.home.createLabel"> Create a new Village Master </span>
       </button>
     </div>
   </h2>
@@ -89,15 +89,25 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
-              <a [routerLink]="['/village-master', villageMaster.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+              <button
+                type="submit"
+                [routerLink]="['/village-master', villageMaster.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </a>
+              </button>
 
-              <a [routerLink]="['/village-master', villageMaster.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/village-master', villageMaster.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </a>
+              </button>
 
               <button type="submit" (click)="delete(villageMaster)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
                 <fa-icon icon="times"></fa-icon>

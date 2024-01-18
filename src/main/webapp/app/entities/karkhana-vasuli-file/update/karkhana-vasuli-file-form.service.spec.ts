@@ -35,7 +35,7 @@ describe('KarkhanaVasuliFile Form Service', () => {
             branchCode: expect.any(Object),
             pacsName: expect.any(Object),
             factoryMaster: expect.any(Object),
-          }),
+          })
         );
       });
 
@@ -60,13 +60,14 @@ describe('KarkhanaVasuliFile Form Service', () => {
             branchCode: expect.any(Object),
             pacsName: expect.any(Object),
             factoryMaster: expect.any(Object),
-          }),
+          })
         );
       });
     });
 
     describe('getKarkhanaVasuliFile', () => {
       it('should return NewKarkhanaVasuliFile for default KarkhanaVasuliFile initial value', () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createKarkhanaVasuliFileFormGroup(sampleWithNewData);
 
         const karkhanaVasuliFile = service.getKarkhanaVasuliFile(formGroup) as any;

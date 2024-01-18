@@ -28,7 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  * REST controller for managing {@link com.cbs.middleware.domain.FactoryMaster}.
  */
 @RestController
-@RequestMapping("/api/factory-masters")
+@RequestMapping("/api")
 public class FactoryMasterResource {
 
     private final Logger log = LoggerFactory.getLogger(FactoryMasterResource.class);
@@ -61,7 +61,7 @@ public class FactoryMasterResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new factoryMaster, or with status {@code 400 (Bad Request)} if the factoryMaster has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
+    @PostMapping("/factory-masters")
     public ResponseEntity<FactoryMaster> createFactoryMaster(@RequestBody FactoryMaster factoryMaster) throws URISyntaxException {
         log.debug("REST request to save FactoryMaster : {}", factoryMaster);
         if (factoryMaster.getId() != null) {
@@ -84,7 +84,7 @@ public class FactoryMasterResource {
      * or with status {@code 500 (Internal Server Error)} if the factoryMaster couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/{id}")
+    @PutMapping("/factory-masters/{id}")
     public ResponseEntity<FactoryMaster> updateFactoryMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody FactoryMaster factoryMaster
@@ -119,7 +119,7 @@ public class FactoryMasterResource {
      * or with status {@code 500 (Internal Server Error)} if the factoryMaster couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/factory-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<FactoryMaster> partialUpdateFactoryMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody FactoryMaster factoryMaster
@@ -151,13 +151,12 @@ public class FactoryMasterResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of factoryMasters in body.
      */
-    @GetMapping("")
+    @GetMapping("/factory-masters")
     public ResponseEntity<List<FactoryMaster>> getAllFactoryMasters(
         FactoryMasterCriteria criteria,
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get FactoryMasters by criteria: {}", criteria);
-
         Page<FactoryMaster> page = factoryMasterQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -169,7 +168,7 @@ public class FactoryMasterResource {
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
      */
-    @GetMapping("/count")
+    @GetMapping("/factory-masters/count")
     public ResponseEntity<Long> countFactoryMasters(FactoryMasterCriteria criteria) {
         log.debug("REST request to count FactoryMasters by criteria: {}", criteria);
         return ResponseEntity.ok().body(factoryMasterQueryService.countByCriteria(criteria));
@@ -181,7 +180,7 @@ public class FactoryMasterResource {
      * @param id the id of the factoryMaster to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the factoryMaster, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/{id}")
+    @GetMapping("/factory-masters/{id}")
     public ResponseEntity<FactoryMaster> getFactoryMaster(@PathVariable Long id) {
         log.debug("REST request to get FactoryMaster : {}", id);
         Optional<FactoryMaster> factoryMaster = factoryMasterService.findOne(id);
@@ -194,7 +193,7 @@ public class FactoryMasterResource {
      * @param id the id of the factoryMaster to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/factory-masters/{id}")
     public ResponseEntity<Void> deleteFactoryMaster(@PathVariable Long id) {
         log.debug("REST request to delete FactoryMaster : {}", id);
         factoryMasterService.delete(id);

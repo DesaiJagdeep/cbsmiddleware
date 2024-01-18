@@ -25,7 +25,7 @@ describe('VillageMaster Form Service', () => {
             villageCode: expect.any(Object),
             villageCodeMr: expect.any(Object),
             talukaMaster: expect.any(Object),
-          }),
+          })
         );
       });
 
@@ -40,13 +40,14 @@ describe('VillageMaster Form Service', () => {
             villageCode: expect.any(Object),
             villageCodeMr: expect.any(Object),
             talukaMaster: expect.any(Object),
-          }),
+          })
         );
       });
     });
 
     describe('getVillageMaster', () => {
       it('should return NewVillageMaster for default VillageMaster initial value', () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createVillageMasterFormGroup(sampleWithNewData);
 
         const villageMaster = service.getVillageMaster(formGroup) as any;

@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
-import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
-import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
+import { KarkhanaVasuliFileFormService } from './karkhana-vasuli-file-form.service';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
-import { KarkhanaVasuliFileFormService } from './karkhana-vasuli-file-form.service';
+import { IFactoryMaster } from 'app/entities/factory-master/factory-master.model';
+import { FactoryMasterService } from 'app/entities/factory-master/service/factory-master.service';
 
 import { KarkhanaVasuliFileUpdateComponent } from './karkhana-vasuli-file-update.component';
 
@@ -24,7 +24,8 @@ describe('KarkhanaVasuliFile Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), KarkhanaVasuliFileUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      declarations: [KarkhanaVasuliFileUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -48,33 +49,37 @@ describe('KarkhanaVasuliFile Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call factoryMaster query and add missing value', () => {
+    it('Should call FactoryMaster query and add missing value', () => {
       const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 456 };
-      const factoryMaster: IFactoryMaster = { id: 28627 };
+      const factoryMaster: IFactoryMaster = { id: 77921 };
       karkhanaVasuliFile.factoryMaster = factoryMaster;
 
-      const factoryMasterCollection: IFactoryMaster[] = [{ id: 25066 }];
+      const factoryMasterCollection: IFactoryMaster[] = [{ id: 27094 }];
       jest.spyOn(factoryMasterService, 'query').mockReturnValue(of(new HttpResponse({ body: factoryMasterCollection })));
-      const expectedCollection: IFactoryMaster[] = [factoryMaster, ...factoryMasterCollection];
+      const additionalFactoryMasters = [factoryMaster];
+      const expectedCollection: IFactoryMaster[] = [...additionalFactoryMasters, ...factoryMasterCollection];
       jest.spyOn(factoryMasterService, 'addFactoryMasterToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ karkhanaVasuliFile });
       comp.ngOnInit();
 
       expect(factoryMasterService.query).toHaveBeenCalled();
-      expect(factoryMasterService.addFactoryMasterToCollectionIfMissing).toHaveBeenCalledWith(factoryMasterCollection, factoryMaster);
-      expect(comp.factoryMastersCollection).toEqual(expectedCollection);
+      expect(factoryMasterService.addFactoryMasterToCollectionIfMissing).toHaveBeenCalledWith(
+        factoryMasterCollection,
+        ...additionalFactoryMasters.map(expect.objectContaining)
+      );
+      expect(comp.factoryMastersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 456 };
-      const factoryMaster: IFactoryMaster = { id: 22972 };
+      const factoryMaster: IFactoryMaster = { id: 19683 };
       karkhanaVasuliFile.factoryMaster = factoryMaster;
 
       activatedRoute.data = of({ karkhanaVasuliFile });
       comp.ngOnInit();
 
-      expect(comp.factoryMastersCollection).toContain(factoryMaster);
+      expect(comp.factoryMastersSharedCollection).toContain(factoryMaster);
       expect(comp.karkhanaVasuliFile).toEqual(karkhanaVasuliFile);
     });
   });

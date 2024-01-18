@@ -27,6 +27,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.*;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +41,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
@@ -65,24 +67,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
-import com.cbs.middleware.repository.AccountHolderMasterRepository;
-import com.cbs.middleware.repository.ApplicationLogRepository;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.BankBranchMasterRepository;
-import com.cbs.middleware.repository.BatchTransactionRepository;
-import com.cbs.middleware.repository.CastCategoryMasterRepository;
-import com.cbs.middleware.repository.CropMasterRepository;
-import com.cbs.middleware.repository.DesignationMasterRepository;
-import com.cbs.middleware.repository.FarmerCategoryMasterRepository;
-import com.cbs.middleware.repository.FarmerTypeMasterRepository;
-import com.cbs.middleware.repository.IssFileParserRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.repository.LandTypeMasterRepository;
-import com.cbs.middleware.repository.NotificationRepository;
-import com.cbs.middleware.repository.OccupationMasterRepository;
-import com.cbs.middleware.repository.RelativeMasterRepository;
-import com.cbs.middleware.repository.SeasonMasterRepository;
-import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.security.RBAControl;
 import com.cbs.middleware.service.IssFileParserQueryService;
@@ -160,6 +144,8 @@ public class IssFileParserResource {
     MailService mailService;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+    @Autowired
+    private IssFileParserTempRepository issFileParserTempRepository;
 
     public IssFileParserResource(
         IssFileParserService issFileParserService,
@@ -236,7 +222,6 @@ public class IssFileParserResource {
 
     private static String getFloatCellValue(Cell cell) {
         String cellValue = "";
-
         if (cell == null) {
             cellValue = "";
         } else if (cell.getCellType() == CellType.STRING) {
@@ -978,6 +963,7 @@ public class IssFileParserResource {
             }
 
             row = sheet.getRow(filecount + 1);
+
             String bankCode = getCellValue(row.getCell(2));
             String schemeWiseBranchCode = getCellValue(row.getCell(5));
             String packsCode = getCellValue(row.getCell(32));
@@ -1069,6 +1055,17 @@ public class IssFileParserResource {
             fileParseConf.setSchemeWiseBranchCode(schemeWiseBranchCode);
             fileParseConf.setPacsName(getCellValue(row.getCell(31)));
             fileParseConf.setPacsCode(packsCode);
+
+
+            //Add iss_file_parser into iss_file_parser_temp table (by pacs Number)
+            // Retrieve data from iss_file_parser table
+            List<IssFileParser> fileParserList = issFileParserRepository.issFileParserByPacsNumber(packsCode);
+
+            // Convert IssFileParser entities to IssFileParserTemp entities
+            List<IssFileParserTemp> fileParserTempList = convertToIssFileParserTemp(fileParserList);
+            // Save data to iss_file_parser_temp table
+            issFileParserTempRepository.saveAll(fileParserTempList);
+
             return fileParseConf;
         } catch (BadRequestAlertException e) {
             e.printStackTrace();
@@ -1085,6 +1082,21 @@ public class IssFileParserResource {
         }
     }
 
+    private List<IssFileParserTemp> convertToIssFileParserTemp(List<IssFileParser> issFileParserList) {
+        List<IssFileParserTemp> issFileParserTempList = new ArrayList<>();
+
+        for (IssFileParser issFileParser : issFileParserList) {
+            IssFileParserTemp issFileParserTemp = new IssFileParserTemp();
+
+            // Copy properties from IssFileParser to IssFileParserTemp
+            BeanUtils.copyProperties(issFileParser, issFileParserTemp);
+
+            issFileParserTempList.add(issFileParserTemp);
+        }
+
+        return issFileParserTempList;
+    }
+
     @PostMapping("/fileParser/{financialYear}")
     @PreAuthorize("@authentication.onDatabaseRecordPermission('FILE_UPLOAD','UPLOAD')")
     public Object excelReader1(
@@ -1092,6 +1104,7 @@ public class IssFileParserResource {
         @PathVariable String financialYear,
         RedirectAttributes redirectAttributes
     ) throws Exception {
+        String pacsNumber=null;
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
         if (!"xlsx".equalsIgnoreCase(fileExtension) && !"xls".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
@@ -1888,8 +1901,9 @@ public class IssFileParserResource {
                     String KccIssCropCode = getCellValue(row.getCell(39));
                     String DisbursementDate = getDateCellValue(row.getCell(48));
                     String maturityLoanDate = getDateCellValue(row.getCell(50));
+                    pacsNumber=getCellValue(row.getCell(32));
 
-                    if (
+/*                    if (
                         !issFileParserRepository
                             .findOneByFinancialYearAndAccountNumberAndLoanSactionDateAndKccIssCropCodeAndDisbursementDateAndMaturityLoanDate(
                                 fYear,
@@ -1900,7 +1914,19 @@ public class IssFileParserResource {
                                 maturityLoanDate
                             )
                             .isPresent()
-                    ) {
+                    )*/
+                    if(!issFileParserTempRepository
+                        .findByFinancialYearEqualsAndAccountNumberEqualsAndLoanSactionDateEqualsAndKccIssCropCodeEqualsAndDisbursementDateEqualsAndMaturityLoanDateEquals(
+                            fYear,
+                            AccountNumber,
+                            LoanSactionDate,
+                            KccIssCropCode,
+                            DisbursementDate,
+                            maturityLoanDate
+                        ).isPresent()
+                    )
+
+                    {
 
                         issFileParser.setBankName(getCellValue(row.getCell(1)));
 
@@ -2080,6 +2106,12 @@ public class IssFileParserResource {
 
                 issFileParserRepository.saveAll(issFileParserList);
 
+                //delete temp data in iss_file_parser_temp table by pacsNumber and FY
+                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(issFileParserList.get(0).getPacsNumber(), issFileParserList.get(0).getFinancialYear());
+                if (!recordsToDelete.isEmpty()){
+                    issFileParserTempRepository.deleteAll(recordsToDelete);
+                }
+
                 try {
                     validateFileFile(issPortalFilesave);
                 } catch (Exception e) {
@@ -2100,6 +2132,11 @@ public class IssFileParserResource {
 
                 return ResponseEntity.ok().body(issFileParserList);
             } else {
+                //delete temp data in iss_file_parser_temp table by pacsNumber and FY
+                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(pacsNumber,financialYear);
+                if (!recordsToDelete.isEmpty()){
+                    issFileParserTempRepository.deleteAll(recordsToDelete);
+                }
                 throw new BadRequestAlertException("File is already Exist", ENTITY_NAME, "FileExist");
             }
         } catch (IOException e) {
@@ -3819,4 +3856,5 @@ public class IssFileParserResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
 }

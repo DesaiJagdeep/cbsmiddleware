@@ -8,11 +8,12 @@ import { of } from 'rxjs';
 import { IVillageMaster } from '../village-master.model';
 import { VillageMasterService } from '../service/village-master.service';
 
-import villageMasterResolve from './village-master-routing-resolve.service';
+import { VillageMasterRoutingResolveService } from './village-master-routing-resolve.service';
 
 describe('VillageMaster routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
+  let routingResolveService: VillageMasterRoutingResolveService;
   let service: VillageMasterService;
   let resultVillageMaster: IVillageMaster | null | undefined;
 
@@ -33,6 +34,7 @@ describe('VillageMaster routing resolve service', () => {
     mockRouter = TestBed.inject(Router);
     jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
+    routingResolveService = TestBed.inject(VillageMasterRoutingResolveService);
     service = TestBed.inject(VillageMasterService);
     resultVillageMaster = undefined;
   });
@@ -44,12 +46,8 @@ describe('VillageMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        villageMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultVillageMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultVillageMaster = result;
       });
 
       // THEN
@@ -63,12 +61,8 @@ describe('VillageMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        villageMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultVillageMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultVillageMaster = result;
       });
 
       // THEN
@@ -82,12 +76,8 @@ describe('VillageMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        villageMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultVillageMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultVillageMaster = result;
       });
 
       // THEN

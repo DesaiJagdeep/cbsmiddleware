@@ -1,0 +1,101 @@
+{
+  "changelogDate": "20240108173634",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "hector",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "hectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "are",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "aremr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "noOfTree",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "noOfTreeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sanctionAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sanctionAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "loanAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receivableAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "receivableAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dueAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dueDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "spare",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmLoans",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "cropMaster",
+      "relationshipName": "cropMaster",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kmDetails",
+      "relationshipName": "kmDetails",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

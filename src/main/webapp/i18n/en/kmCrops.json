@@ -1,0 +1,43 @@
+{
+  "cbsMiddlewareApp": {
+    "kmCrops": {
+      "home": {
+        "title": "Km Crops",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Km Crops",
+        "createOrEditLabel": "Create or edit a Km Crops",
+        "notFound": "No Km Crops found"
+      },
+      "created": "A new Km Crops is created with identifier {{ param }}",
+      "updated": "A Km Crops is updated with identifier {{ param }}",
+      "deleted": "A Km Crops is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Km Crops {{ id }}?"
+      },
+      "detail": {
+        "title": "Km Crops"
+      },
+      "id": "ID",
+      "hector": "Hector",
+      "hectorMr": "Hector Mr",
+      "are": "Are",
+      "areMr": "Are Mr",
+      "noOfTree": "No Of Tree",
+      "noOfTreeMr": "No Of Tree Mr",
+      "demand": "Demand",
+      "demandMr": "Demand Mr",
+      "society": "Society",
+      "societyMr": "Society Mr",
+      "bankAmt": "Bank Amt",
+      "bankAmtMr": "Bank Amt Mr",
+      "vibhagiAdhikari": "Vibhagi Adhikari",
+      "vibhagiAdhikariMr": "Vibhagi Adhikari Mr",
+      "branch": "Branch",
+      "branchMr": "Branch Mr",
+      "inspAmt": "Insp Amt",
+      "inspAmtMr": "Insp Amt Mr",
+      "cropMaster": "Crop Master",
+      "kmDetails": "Km Details"
+    }
+  }
+}

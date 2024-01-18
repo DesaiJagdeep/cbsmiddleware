@@ -1,8 +1,8 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A KarkhanaVasuliRecords.
@@ -53,6 +53,7 @@ public class KarkhanaVasuliRecords extends AbstractAuditingEntity<Long> implemen
     private Boolean status;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = { "factoryMaster" }, allowSetters = true)
     private KarkhanaVasuliFile karkhanaVasuliFile;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -236,7 +237,7 @@ public class KarkhanaVasuliRecords extends AbstractAuditingEntity<Long> implemen
         if (!(o instanceof KarkhanaVasuliRecords)) {
             return false;
         }
-        return getId() != null && getId().equals(((KarkhanaVasuliRecords) o).getId());
+        return id != null && id.equals(((KarkhanaVasuliRecords) o).id);
     }
 
     @Override

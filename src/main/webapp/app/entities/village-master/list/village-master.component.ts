@@ -1,38 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import SharedModule from 'app/shared/shared.module';
-import { SortDirective, SortByDirective } from 'app/shared/sort';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
-import { ItemCountComponent } from 'app/shared/pagination';
-import { FormsModule } from '@angular/forms';
-import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
-import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { FilterComponent, FilterOptions, IFilterOptions, IFilterOption } from 'app/shared/filter';
 import { IVillageMaster } from '../village-master.model';
 
+import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, VillageMasterService } from '../service/village-master.service';
 import { VillageMasterDeleteDialogComponent } from '../delete/village-master-delete-dialog.component';
+import { FilterOptions, IFilterOptions, IFilterOption } from 'app/shared/filter/filter.model';
 
 @Component({
-  standalone: true,
   selector: 'jhi-village-master',
   templateUrl: './village-master.component.html',
-  imports: [
-    RouterModule,
-    FormsModule,
-    SharedModule,
-    SortDirective,
-    SortByDirective,
-    DurationPipe,
-    FormatMediumDatetimePipe,
-    FormatMediumDatePipe,
-    FilterComponent,
-    ItemCountComponent,
-  ],
 })
 export class VillageMasterComponent implements OnInit {
   villageMasters?: IVillageMaster[];
@@ -50,7 +32,7 @@ export class VillageMasterComponent implements OnInit {
     protected villageMasterService: VillageMasterService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
-    protected modalService: NgbModal,
+    protected modalService: NgbModal
   ) {}
 
   trackId = (_index: number, item: IVillageMaster): number => this.villageMasterService.getVillageMasterIdentifier(item);
@@ -68,7 +50,7 @@ export class VillageMasterComponent implements OnInit {
     modalRef.closed
       .pipe(
         filter(reason => reason === ITEM_DELETED_EVENT),
-        switchMap(() => this.loadFromBackendWithRouteInformations()),
+        switchMap(() => this.loadFromBackendWithRouteInformations())
       )
       .subscribe({
         next: (res: EntityArrayResponseType) => {
@@ -96,7 +78,7 @@ export class VillageMasterComponent implements OnInit {
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending, this.filters.filterOptions)),
+      switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending, this.filters.filterOptions))
     );
   }
 
@@ -127,7 +109,7 @@ export class VillageMasterComponent implements OnInit {
     page?: number,
     predicate?: string,
     ascending?: boolean,
-    filterOptions?: IFilterOption[],
+    filterOptions?: IFilterOption[]
   ): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;

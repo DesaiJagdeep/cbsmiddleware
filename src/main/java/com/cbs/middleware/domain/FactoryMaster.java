@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A FactoryMaster.
@@ -171,7 +171,7 @@ public class FactoryMaster extends AbstractAuditingEntity<Long> implements Seria
         if (!(o instanceof FactoryMaster)) {
             return false;
         }
-        return getId() != null && getId().equals(((FactoryMaster) o).getId());
+        return id != null && id.equals(((FactoryMaster) o).id);
     }
 
     @Override

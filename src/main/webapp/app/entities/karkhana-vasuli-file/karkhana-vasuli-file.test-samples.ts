@@ -3,37 +3,38 @@ import dayjs from 'dayjs/esm';
 import { IKarkhanaVasuliFile, NewKarkhanaVasuliFile } from './karkhana-vasuli-file.model';
 
 export const sampleWithRequiredData: IKarkhanaVasuliFile = {
-  id: 12277,
+  id: 83489,
 };
 
 export const sampleWithPartialData: IKarkhanaVasuliFile = {
-  id: 22863,
-  uniqueFileName: 'chafe',
-  address: 'duh ethical',
-  addressMr: 'tepid book',
-  factoryName: 'like who',
-  factoryNameMr: 'forenenst',
-  totalAmount: 8869.27,
-  totalAmountMr: 'unethically inspector',
-  fromDate: dayjs('2023-12-10T12:41'),
+  id: 76034,
+  uniqueFileName: 'AGP payment Buckinghamshire',
+  hangamMr: 'Arkansas directional compressing',
+  factoryNameMr: 'Coordinator',
+  totalAmount: 50447,
+  totalAmountMr: 'Outdoors Illinois Rustic',
+  fromDate: dayjs('2023-12-09T21:14'),
+  toDate: dayjs('2023-12-09T22:30'),
+  branchCode: 93326,
+  pacsName: 'Bedfordshire',
 };
 
 export const sampleWithFullData: IKarkhanaVasuliFile = {
-  id: 24075,
-  fileName: 'soulful frantically',
-  uniqueFileName: 'vault rudely boo',
-  address: 'charset supposing',
-  addressMr: 'current excepting',
-  hangam: 'mantua',
-  hangamMr: 'graphic',
-  factoryName: 'con as spell',
-  factoryNameMr: 'likewise unfortunately quarrelsomely',
-  totalAmount: 4589.35,
-  totalAmountMr: 'zowie daintily',
-  fromDate: dayjs('2023-12-09T14:44'),
-  toDate: dayjs('2023-12-10T07:54'),
-  branchCode: 28222,
-  pacsName: 'apud',
+  id: 86026,
+  fileName: 'programming',
+  uniqueFileName: 'New',
+  address: 'invoice',
+  addressMr: 'Arab',
+  hangam: 'bypass York Chips',
+  hangamMr: 'intermediate',
+  factoryName: 'Handcrafted target',
+  factoryNameMr: 'compelling hour deposit',
+  totalAmount: 33655,
+  totalAmountMr: 'Sausages navigating',
+  fromDate: dayjs('2023-12-09T22:06'),
+  toDate: dayjs('2023-12-09T15:27'),
+  branchCode: 42028,
+  pacsName: 'Convertible Wooden',
 };
 
 export const sampleWithNewData: NewKarkhanaVasuliFile = {

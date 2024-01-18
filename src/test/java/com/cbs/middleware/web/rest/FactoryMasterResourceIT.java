@@ -8,10 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.cbs.middleware.IntegrationTest;
 import com.cbs.middleware.domain.FactoryMaster;
 import com.cbs.middleware.repository.FactoryMasterRepository;
-import javax.persistence.EntityManager;
+import com.cbs.middleware.service.criteria.FactoryMasterCriteria;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ class FactoryMasterResourceIT {
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
     private static Random random = new Random();
-    private static AtomicLong longCount = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
+    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
 
     @Autowired
     private FactoryMasterRepository factoryMasterRepository;
@@ -798,7 +799,7 @@ class FactoryMasterResourceIT {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
 
         // Update the factoryMaster
-        FactoryMaster updatedFactoryMaster = factoryMasterRepository.findById(factoryMaster.getId()).orElseThrow();
+        FactoryMaster updatedFactoryMaster = factoryMasterRepository.findById(factoryMaster.getId()).get();
         // Disconnect from session so that the updates on updatedFactoryMaster are not directly saved in db
         em.detach(updatedFactoryMaster);
         updatedFactoryMaster
@@ -837,7 +838,7 @@ class FactoryMasterResourceIT {
     @Transactional
     void putNonExistingFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc
@@ -857,12 +858,12 @@ class FactoryMasterResourceIT {
     @Transactional
     void putWithIdMismatchFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                put(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(factoryMaster))
             )
@@ -877,7 +878,7 @@ class FactoryMasterResourceIT {
     @Transactional
     void putWithMissingIdPathParamFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc
@@ -902,9 +903,10 @@ class FactoryMasterResourceIT {
         partialUpdatedFactoryMaster.setId(factoryMaster.getId());
 
         partialUpdatedFactoryMaster
-            .factoryNameMr(UPDATED_FACTORY_NAME_MR)
+            .factoryName(UPDATED_FACTORY_NAME)
             .factoryCode(UPDATED_FACTORY_CODE)
-            .factoryAddressMr(UPDATED_FACTORY_ADDRESS_MR);
+            .factoryAddress(UPDATED_FACTORY_ADDRESS)
+            .status(UPDATED_STATUS);
 
         restFactoryMasterMockMvc
             .perform(
@@ -918,14 +920,14 @@ class FactoryMasterResourceIT {
         List<FactoryMaster> factoryMasterList = factoryMasterRepository.findAll();
         assertThat(factoryMasterList).hasSize(databaseSizeBeforeUpdate);
         FactoryMaster testFactoryMaster = factoryMasterList.get(factoryMasterList.size() - 1);
-        assertThat(testFactoryMaster.getFactoryName()).isEqualTo(DEFAULT_FACTORY_NAME);
-        assertThat(testFactoryMaster.getFactoryNameMr()).isEqualTo(UPDATED_FACTORY_NAME_MR);
+        assertThat(testFactoryMaster.getFactoryName()).isEqualTo(UPDATED_FACTORY_NAME);
+        assertThat(testFactoryMaster.getFactoryNameMr()).isEqualTo(DEFAULT_FACTORY_NAME_MR);
         assertThat(testFactoryMaster.getFactoryCode()).isEqualTo(UPDATED_FACTORY_CODE);
         assertThat(testFactoryMaster.getFactoryCodeMr()).isEqualTo(DEFAULT_FACTORY_CODE_MR);
-        assertThat(testFactoryMaster.getFactoryAddress()).isEqualTo(DEFAULT_FACTORY_ADDRESS);
-        assertThat(testFactoryMaster.getFactoryAddressMr()).isEqualTo(UPDATED_FACTORY_ADDRESS_MR);
+        assertThat(testFactoryMaster.getFactoryAddress()).isEqualTo(UPDATED_FACTORY_ADDRESS);
+        assertThat(testFactoryMaster.getFactoryAddressMr()).isEqualTo(DEFAULT_FACTORY_ADDRESS_MR);
         assertThat(testFactoryMaster.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testFactoryMaster.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testFactoryMaster.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test
@@ -976,7 +978,7 @@ class FactoryMasterResourceIT {
     @Transactional
     void patchNonExistingFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc
@@ -996,12 +998,12 @@ class FactoryMasterResourceIT {
     @Transactional
     void patchWithIdMismatchFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
+                patch(ENTITY_API_URL_ID, count.incrementAndGet())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(factoryMaster))
             )
@@ -1016,7 +1018,7 @@ class FactoryMasterResourceIT {
     @Transactional
     void patchWithMissingIdPathParamFactoryMaster() throws Exception {
         int databaseSizeBeforeUpdate = factoryMasterRepository.findAll().size();
-        factoryMaster.setId(longCount.incrementAndGet());
+        factoryMaster.setId(count.incrementAndGet());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restFactoryMasterMockMvc

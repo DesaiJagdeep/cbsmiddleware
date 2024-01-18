@@ -70,11 +70,12 @@
       "otherEntityField": "id",
       "otherEntityName": "factoryMaster",
       "otherEntityRelationshipName": "karkhanaVasuliFile",
+      "ownerSide": true,
       "relationshipName": "factoryMaster",
       "relationshipSide": "left",
       "relationshipType": "one-to-one"
     }
   ],
-  "searchEngine": "no",
+  "searchEngine": false,
   "service": "serviceImpl"
 }

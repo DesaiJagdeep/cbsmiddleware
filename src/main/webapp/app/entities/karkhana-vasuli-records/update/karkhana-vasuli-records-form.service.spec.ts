@@ -32,7 +32,7 @@ describe('KarkhanaVasuliRecords Form Service', () => {
             savingAccNoMr: expect.any(Object),
             status: expect.any(Object),
             karkhanaVasuliFile: expect.any(Object),
-          }),
+          })
         );
       });
 
@@ -54,13 +54,14 @@ describe('KarkhanaVasuliRecords Form Service', () => {
             savingAccNoMr: expect.any(Object),
             status: expect.any(Object),
             karkhanaVasuliFile: expect.any(Object),
-          }),
+          })
         );
       });
     });
 
     describe('getKarkhanaVasuliRecords', () => {
       it('should return NewKarkhanaVasuliRecords for default KarkhanaVasuliRecords initial value', () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const formGroup = service.createKarkhanaVasuliRecordsFormGroup(sampleWithNewData);
 
         const karkhanaVasuliRecords = service.getKarkhanaVasuliRecords(formGroup) as any;

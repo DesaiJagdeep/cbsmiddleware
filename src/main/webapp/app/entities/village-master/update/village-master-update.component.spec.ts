@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
-import { ITalukaMaster } from 'app/entities/taluka-master/taluka-master.model';
-import { TalukaMasterService } from 'app/entities/taluka-master/service/taluka-master.service';
+import { VillageMasterFormService } from './village-master-form.service';
 import { VillageMasterService } from '../service/village-master.service';
 import { IVillageMaster } from '../village-master.model';
-import { VillageMasterFormService } from './village-master-form.service';
+import { ITalukaMaster } from 'app/entities/taluka-master/taluka-master.model';
+import { TalukaMasterService } from 'app/entities/taluka-master/service/taluka-master.service';
 
 import { VillageMasterUpdateComponent } from './village-master-update.component';
 
@@ -24,7 +24,8 @@ describe('VillageMaster Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), VillageMasterUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      declarations: [VillageMasterUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -48,33 +49,37 @@ describe('VillageMaster Management Update Component', () => {
   });
 
   describe('ngOnInit', () => {
-    it('Should call talukaMaster query and add missing value', () => {
+    it('Should call TalukaMaster query and add missing value', () => {
       const villageMaster: IVillageMaster = { id: 456 };
-      const talukaMaster: ITalukaMaster = { id: 14817 };
+      const talukaMaster: ITalukaMaster = { id: 16095 };
       villageMaster.talukaMaster = talukaMaster;
 
-      const talukaMasterCollection: ITalukaMaster[] = [{ id: 27593 }];
+      const talukaMasterCollection: ITalukaMaster[] = [{ id: 54714 }];
       jest.spyOn(talukaMasterService, 'query').mockReturnValue(of(new HttpResponse({ body: talukaMasterCollection })));
-      const expectedCollection: ITalukaMaster[] = [talukaMaster, ...talukaMasterCollection];
+      const additionalTalukaMasters = [talukaMaster];
+      const expectedCollection: ITalukaMaster[] = [...additionalTalukaMasters, ...talukaMasterCollection];
       jest.spyOn(talukaMasterService, 'addTalukaMasterToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ villageMaster });
       comp.ngOnInit();
 
       expect(talukaMasterService.query).toHaveBeenCalled();
-      expect(talukaMasterService.addTalukaMasterToCollectionIfMissing).toHaveBeenCalledWith(talukaMasterCollection, talukaMaster);
-      expect(comp.talukaMastersCollection).toEqual(expectedCollection);
+      expect(talukaMasterService.addTalukaMasterToCollectionIfMissing).toHaveBeenCalledWith(
+        talukaMasterCollection,
+        ...additionalTalukaMasters.map(expect.objectContaining)
+      );
+      expect(comp.talukaMastersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const villageMaster: IVillageMaster = { id: 456 };
-      const talukaMaster: ITalukaMaster = { id: 25694 };
+      const talukaMaster: ITalukaMaster = { id: 63171 };
       villageMaster.talukaMaster = talukaMaster;
 
       activatedRoute.data = of({ villageMaster });
       comp.ngOnInit();
 
-      expect(comp.talukaMastersCollection).toContain(talukaMaster);
+      expect(comp.talukaMastersSharedCollection).toContain(talukaMaster);
       expect(comp.villageMaster).toEqual(villageMaster);
     });
   });

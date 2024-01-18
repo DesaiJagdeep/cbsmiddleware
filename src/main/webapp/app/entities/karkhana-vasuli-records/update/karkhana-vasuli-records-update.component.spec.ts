@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Subject, from } from 'rxjs';
 
-import { IKarkhanaVasuliFile } from 'app/entities/karkhana-vasuli-file/karkhana-vasuli-file.model';
-import { KarkhanaVasuliFileService } from 'app/entities/karkhana-vasuli-file/service/karkhana-vasuli-file.service';
+import { KarkhanaVasuliRecordsFormService } from './karkhana-vasuli-records-form.service';
 import { KarkhanaVasuliRecordsService } from '../service/karkhana-vasuli-records.service';
 import { IKarkhanaVasuliRecords } from '../karkhana-vasuli-records.model';
-import { KarkhanaVasuliRecordsFormService } from './karkhana-vasuli-records-form.service';
+import { IKarkhanaVasuliFile } from 'app/entities/karkhana-vasuli-file/karkhana-vasuli-file.model';
+import { KarkhanaVasuliFileService } from 'app/entities/karkhana-vasuli-file/service/karkhana-vasuli-file.service';
 
 import { KarkhanaVasuliRecordsUpdateComponent } from './karkhana-vasuli-records-update.component';
 
@@ -24,7 +24,8 @@ describe('KarkhanaVasuliRecords Management Update Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([]), KarkhanaVasuliRecordsUpdateComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      declarations: [KarkhanaVasuliRecordsUpdateComponent],
       providers: [
         FormBuilder,
         {
@@ -50,10 +51,10 @@ describe('KarkhanaVasuliRecords Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call KarkhanaVasuliFile query and add missing value', () => {
       const karkhanaVasuliRecords: IKarkhanaVasuliRecords = { id: 456 };
-      const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 21809 };
+      const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 24384 };
       karkhanaVasuliRecords.karkhanaVasuliFile = karkhanaVasuliFile;
 
-      const karkhanaVasuliFileCollection: IKarkhanaVasuliFile[] = [{ id: 30655 }];
+      const karkhanaVasuliFileCollection: IKarkhanaVasuliFile[] = [{ id: 83601 }];
       jest.spyOn(karkhanaVasuliFileService, 'query').mockReturnValue(of(new HttpResponse({ body: karkhanaVasuliFileCollection })));
       const additionalKarkhanaVasuliFiles = [karkhanaVasuliFile];
       const expectedCollection: IKarkhanaVasuliFile[] = [...additionalKarkhanaVasuliFiles, ...karkhanaVasuliFileCollection];
@@ -65,14 +66,14 @@ describe('KarkhanaVasuliRecords Management Update Component', () => {
       expect(karkhanaVasuliFileService.query).toHaveBeenCalled();
       expect(karkhanaVasuliFileService.addKarkhanaVasuliFileToCollectionIfMissing).toHaveBeenCalledWith(
         karkhanaVasuliFileCollection,
-        ...additionalKarkhanaVasuliFiles.map(expect.objectContaining),
+        ...additionalKarkhanaVasuliFiles.map(expect.objectContaining)
       );
       expect(comp.karkhanaVasuliFilesSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const karkhanaVasuliRecords: IKarkhanaVasuliRecords = { id: 456 };
-      const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 15096 };
+      const karkhanaVasuliFile: IKarkhanaVasuliFile = { id: 37264 };
       karkhanaVasuliRecords.karkhanaVasuliFile = karkhanaVasuliFile;
 
       activatedRoute.data = of({ karkhanaVasuliRecords });

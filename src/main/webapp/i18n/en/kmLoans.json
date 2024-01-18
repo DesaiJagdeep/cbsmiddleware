@@ -1,0 +1,42 @@
+{
+  "cbsMiddlewareApp": {
+    "kmLoans": {
+      "home": {
+        "title": "Km Loans",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Km Loans",
+        "createOrEditLabel": "Create or edit a Km Loans",
+        "notFound": "No Km Loans found"
+      },
+      "created": "A new Km Loans is created with identifier {{ param }}",
+      "updated": "A Km Loans is updated with identifier {{ param }}",
+      "deleted": "A Km Loans is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Km Loans {{ id }}?"
+      },
+      "detail": {
+        "title": "Km Loans"
+      },
+      "id": "ID",
+      "hector": "Hector",
+      "hectorMr": "Hector Mr",
+      "are": "Are",
+      "aremr": "Aremr",
+      "noOfTree": "No Of Tree",
+      "noOfTreeMr": "No Of Tree Mr",
+      "sanctionAmt": "Sanction Amt",
+      "sanctionAmtMr": "Sanction Amt Mr",
+      "loanAmt": "Loan Amt",
+      "loanAmtMr": "Loan Amt Mr",
+      "receivableAmt": "Receivable Amt",
+      "receivableAmtMr": "Receivable Amt Mr",
+      "dueAmt": "Due Amt",
+      "dueAmtMr": "Due Amt Mr",
+      "dueDate": "Due Date",
+      "dueDateMr": "Due Date Mr",
+      "spare": "Spare",
+      "cropMaster": "Crop Master",
+      "kmDetails": "Km Details"
+    }
+  }
+}

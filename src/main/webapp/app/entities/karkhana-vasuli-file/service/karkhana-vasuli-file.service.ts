@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { map } from 'rxjs/operators';
-
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
@@ -31,10 +29,7 @@ export type EntityArrayResponseType = HttpResponse<IKarkhanaVasuliFile[]>;
 export class KarkhanaVasuliFileService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/karkhana-vasuli-files');
 
-  constructor(
-    protected http: HttpClient,
-    protected applicationConfigService: ApplicationConfigService,
-  ) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(karkhanaVasuliFile: NewKarkhanaVasuliFile): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(karkhanaVasuliFile);
@@ -93,7 +88,7 @@ export class KarkhanaVasuliFileService {
     const karkhanaVasuliFiles: Type[] = karkhanaVasuliFilesToCheck.filter(isPresent);
     if (karkhanaVasuliFiles.length > 0) {
       const karkhanaVasuliFileCollectionIdentifiers = karkhanaVasuliFileCollection.map(
-        karkhanaVasuliFileItem => this.getKarkhanaVasuliFileIdentifier(karkhanaVasuliFileItem)!,
+        karkhanaVasuliFileItem => this.getKarkhanaVasuliFileIdentifier(karkhanaVasuliFileItem)!
       );
       const karkhanaVasuliFilesToAdd = karkhanaVasuliFiles.filter(karkhanaVasuliFileItem => {
         const karkhanaVasuliFileIdentifier = this.getKarkhanaVasuliFileIdentifier(karkhanaVasuliFileItem);
@@ -109,7 +104,7 @@ export class KarkhanaVasuliFileService {
   }
 
   protected convertDateFromClient<T extends IKarkhanaVasuliFile | NewKarkhanaVasuliFile | PartialUpdateKarkhanaVasuliFile>(
-    karkhanaVasuliFile: T,
+    karkhanaVasuliFile: T
   ): RestOf<T> {
     return {
       ...karkhanaVasuliFile,

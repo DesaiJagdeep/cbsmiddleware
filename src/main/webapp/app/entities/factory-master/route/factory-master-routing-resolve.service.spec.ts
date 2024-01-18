@@ -8,11 +8,12 @@ import { of } from 'rxjs';
 import { IFactoryMaster } from '../factory-master.model';
 import { FactoryMasterService } from '../service/factory-master.service';
 
-import factoryMasterResolve from './factory-master-routing-resolve.service';
+import { FactoryMasterRoutingResolveService } from './factory-master-routing-resolve.service';
 
 describe('FactoryMaster routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
+  let routingResolveService: FactoryMasterRoutingResolveService;
   let service: FactoryMasterService;
   let resultFactoryMaster: IFactoryMaster | null | undefined;
 
@@ -33,6 +34,7 @@ describe('FactoryMaster routing resolve service', () => {
     mockRouter = TestBed.inject(Router);
     jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
+    routingResolveService = TestBed.inject(FactoryMasterRoutingResolveService);
     service = TestBed.inject(FactoryMasterService);
     resultFactoryMaster = undefined;
   });
@@ -44,12 +46,8 @@ describe('FactoryMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        factoryMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultFactoryMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultFactoryMaster = result;
       });
 
       // THEN
@@ -63,12 +61,8 @@ describe('FactoryMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        factoryMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultFactoryMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultFactoryMaster = result;
       });
 
       // THEN
@@ -82,12 +76,8 @@ describe('FactoryMaster routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        factoryMasterResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultFactoryMaster = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultFactoryMaster = result;
       });
 
       // THEN

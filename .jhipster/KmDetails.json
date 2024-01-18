@@ -1,0 +1,200 @@
+{
+  "changelogDate": "20240108171612",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "shares",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sugarShares",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "sugarSharesMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "deposite",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "depositeMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueLoan",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dueLoanMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueAmount",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dueAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dueDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kmDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmFromDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kmFromDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmToDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kmToDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayatHector",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "bagayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayatAre",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "bagayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatHector",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "jirayatHectorMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayatAre",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "jirayatAreMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zindagiAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "zindagiNo",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "surveyNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
+    },
+    {
+      "fieldName": "landValue",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "landValueMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eAgreementAmt",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eAgreementAmtMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eAgreementDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eAgreementDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bojaAmount",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "bojaAmountMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bojaDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "bojaDateMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmDetails",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": false,
+      "otherEntityField": "id",
+      "otherEntityName": "kmMaster",
+      "otherEntityRelationshipName": "kmDetails",
+      "ownerSide": true,
+      "relationshipName": "kmMaster",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

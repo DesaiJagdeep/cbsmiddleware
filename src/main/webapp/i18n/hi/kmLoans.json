@@ -1,0 +1,42 @@
+{
+  "cbsMiddlewareApp": {
+    "kmLoans": {
+      "home": {
+        "title": "KmLoans",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Km Loans बनाएँ",
+        "createOrEditLabel": "Km Loans बनाएँ या संपादित करें",
+        "notFound": "No Km Loans found"
+      },
+      "created": "एक नया Km Loans [identifier: {{ param }}] तैयार है",
+      "updated": "एक Km Loans [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Km Loans [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Km Loans [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Km Loans"
+      },
+      "id": "ID",
+      "hector": "Hector",
+      "hectorMr": "Hector Mr",
+      "are": "Are",
+      "aremr": "Aremr",
+      "noOfTree": "No Of Tree",
+      "noOfTreeMr": "No Of Tree Mr",
+      "sanctionAmt": "Sanction Amt",
+      "sanctionAmtMr": "Sanction Amt Mr",
+      "loanAmt": "Loan Amt",
+      "loanAmtMr": "Loan Amt Mr",
+      "receivableAmt": "Receivable Amt",
+      "receivableAmtMr": "Receivable Amt Mr",
+      "dueAmt": "Due Amt",
+      "dueAmtMr": "Due Amt Mr",
+      "dueDate": "Due Date",
+      "dueDateMr": "Due Date Mr",
+      "spare": "Spare",
+      "cropMaster": "Crop Master",
+      "kmDetails": "Km Details"
+    }
+  }
+}

@@ -37,6 +37,7 @@ describe('FactoryMaster Service', () => {
     });
 
     it('should create a FactoryMaster', () => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const factoryMaster = { ...sampleWithNewData };
       const returnedFromService = { ...requireRestSample };
       const expected = { ...sampleWithRequiredData };

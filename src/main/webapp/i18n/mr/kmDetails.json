@@ -1,0 +1,63 @@
+{
+  "cbsMiddlewareApp": {
+    "kmDetails": {
+      "home": {
+        "title": "Km Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Km Details तयार करा",
+        "createOrEditLabel": "Km Details तयार किंवा संपादित करा",
+        "notFound": "No Km Details found"
+      },
+      "created": "Km Details [identifier: {{ param }}] तयार आहे",
+      "updated": "Km Details [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Km Details [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Km Details [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Km Details"
+      },
+      "id": "ID",
+      "shares": "Shares",
+      "sharesMr": "Shares Mr",
+      "sugarShares": "Sugar Shares",
+      "sugarSharesMr": "Sugar Shares Mr",
+      "deposite": "Deposite",
+      "depositeMr": "Deposite Mr",
+      "dueLoan": "Due Loan",
+      "dueLoanMr": "Due Loan Mr",
+      "dueAmount": "Due Amount",
+      "dueAmountMr": "Due Amount Mr",
+      "dueDateMr": "Due Date Mr",
+      "dueDate": "Due Date",
+      "kmDate": "Km Date",
+      "kmDateMr": "Km Date Mr",
+      "kmFromDate": "Km From Date",
+      "kmFromDateMr": "Km From Date Mr",
+      "kmToDate": "Km To Date",
+      "kmToDateMr": "Km To Date Mr",
+      "bagayatHector": "Bagayat Hector",
+      "bagayatHectorMr": "Bagayat Hector Mr",
+      "bagayatAre": "Bagayat Are",
+      "bagayatAreMr": "Bagayat Are Mr",
+      "jirayatHector": "Jirayat Hector",
+      "jirayatHectorMr": "Jirayat Hector Mr",
+      "jirayatAre": "Jirayat Are",
+      "jirayatAreMr": "Jirayat Are Mr",
+      "zindagiAmt": "Zindagi Amt",
+      "zindagiNo": "Zindagi No",
+      "surveyNo": "Survey No",
+      "landValue": "Land Value",
+      "landValueMr": "Land Value Mr",
+      "eAgreementAmt": "E Agreement Amt",
+      "eAgreementAmtMr": "E Agreement Amt Mr",
+      "eAgreementDate": "E Agreement Date",
+      "eAgreementDateMr": "E Agreement Date Mr",
+      "bojaAmount": "Boja Amount",
+      "bojaAmountMr": "Boja Amount Mr",
+      "bojaDate": "Boja Date",
+      "bojaDateMr": "Boja Date Mr",
+      "kmMaster": "Km Master"
+    }
+  }
+}

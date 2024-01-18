@@ -8,11 +8,12 @@ import { of } from 'rxjs';
 import { IKarkhanaVasuliFile } from '../karkhana-vasuli-file.model';
 import { KarkhanaVasuliFileService } from '../service/karkhana-vasuli-file.service';
 
-import karkhanaVasuliFileResolve from './karkhana-vasuli-file-routing-resolve.service';
+import { KarkhanaVasuliFileRoutingResolveService } from './karkhana-vasuli-file-routing-resolve.service';
 
 describe('KarkhanaVasuliFile routing resolve service', () => {
   let mockRouter: Router;
   let mockActivatedRouteSnapshot: ActivatedRouteSnapshot;
+  let routingResolveService: KarkhanaVasuliFileRoutingResolveService;
   let service: KarkhanaVasuliFileService;
   let resultKarkhanaVasuliFile: IKarkhanaVasuliFile | null | undefined;
 
@@ -33,6 +34,7 @@ describe('KarkhanaVasuliFile routing resolve service', () => {
     mockRouter = TestBed.inject(Router);
     jest.spyOn(mockRouter, 'navigate').mockImplementation(() => Promise.resolve(true));
     mockActivatedRouteSnapshot = TestBed.inject(ActivatedRoute).snapshot;
+    routingResolveService = TestBed.inject(KarkhanaVasuliFileRoutingResolveService);
     service = TestBed.inject(KarkhanaVasuliFileService);
     resultKarkhanaVasuliFile = undefined;
   });
@@ -44,12 +46,8 @@ describe('KarkhanaVasuliFile routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliFileResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliFile = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliFile = result;
       });
 
       // THEN
@@ -63,12 +61,8 @@ describe('KarkhanaVasuliFile routing resolve service', () => {
       mockActivatedRouteSnapshot.params = {};
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliFileResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliFile = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliFile = result;
       });
 
       // THEN
@@ -82,12 +76,8 @@ describe('KarkhanaVasuliFile routing resolve service', () => {
       mockActivatedRouteSnapshot.params = { id: 123 };
 
       // WHEN
-      TestBed.runInInjectionContext(() => {
-        karkhanaVasuliFileResolve(mockActivatedRouteSnapshot).subscribe({
-          next(result) {
-            resultKarkhanaVasuliFile = result;
-          },
-        });
+      routingResolveService.resolve(mockActivatedRouteSnapshot).subscribe(result => {
+        resultKarkhanaVasuliFile = result;
       });
 
       // THEN

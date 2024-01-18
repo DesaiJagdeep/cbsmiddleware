@@ -21,8 +21,8 @@ describe('KarkhanaVasuliRecords Management Component', () => {
       imports: [
         RouterTestingModule.withRoutes([{ path: 'karkhana-vasuli-records', component: KarkhanaVasuliRecordsComponent }]),
         HttpClientTestingModule,
-        KarkhanaVasuliRecordsComponent,
       ],
+      declarations: [KarkhanaVasuliRecordsComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -36,7 +36,7 @@ describe('KarkhanaVasuliRecords Management Component', () => {
                 size: '1',
                 sort: 'id,desc',
                 'filter[someId.in]': 'dc4279ea-cfb9-11ec-9d64-0242ac120002',
-              }),
+              })
             ),
             snapshot: { queryParams: {} },
           },
@@ -57,8 +57,8 @@ describe('KarkhanaVasuliRecords Management Component', () => {
         new HttpResponse({
           body: [{ id: 123 }],
           headers,
-        }),
-      ),
+        })
+      )
     );
   });
 
@@ -111,7 +111,7 @@ describe('KarkhanaVasuliRecords Management Component', () => {
         queryParams: expect.objectContaining({
           sort: ['name,asc'],
         }),
-      }),
+      })
     );
   });
 

@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "kamal_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalCrop implements Serializable {
+public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

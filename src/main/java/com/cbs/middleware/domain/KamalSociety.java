@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kamal_society")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalSociety implements Serializable {
+public class KamalSociety extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

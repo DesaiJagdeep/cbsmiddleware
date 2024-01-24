@@ -1,27 +1,57 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.KmMaster;
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.KmDetailsRepository;
 import com.cbs.middleware.repository.KmMasterRepository;
 import com.cbs.middleware.service.KmMasterQueryService;
 import com.cbs.middleware.service.KmMasterService;
+import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import com.cbs.middleware.service.criteria.KmMasterCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.font.FontProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -32,7 +62,10 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 public class KmMasterResource {
-
+    @Autowired
+    ResourceLoader resourceLoader;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
     private final Logger log = LoggerFactory.getLogger(KmMasterResource.class);
 
     private static final String ENTITY_NAME = "kmMaster";
@@ -45,6 +78,8 @@ public class KmMasterResource {
     private final KmMasterRepository kmMasterRepository;
 
     private final KmMasterQueryService kmMasterQueryService;
+    @Autowired
+    private KmDetailsRepository kmDetailsRepository;
 
     public KmMasterResource(
         KmMasterService kmMasterService,
@@ -204,4 +239,183 @@ public class KmMasterResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+
+    @GetMapping("/kmReport")
+    public ResponseEntity<byte[]> generatePDFFromHTML() throws Exception {
+
+      /*  Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
+        String pacsOrbranchCode = "";
+
+        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
+            pacsOrbranchCode = branchOrPacksNumber.get(Constants.PACKS_CODE_KEY);
+
+        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
+
+            pacsOrbranchCode = branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY);
+        } else {
+            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+        }*/
+
+
+      List<String> htmlList = new ArrayList<>();
+
+         /* CourtCaseCriteria criteria = new CourtCaseCriteria();
+
+        //creating filter
+        StringFilter pacsOrbranchCodeFilter = new StringFilter();
+        pacsOrbranchCodeFilter.setEquals(pacsOrbranchCode);
+
+        StringFilter bankFilter = new StringFilter();
+        bankFilter.setEquals(one01ReportParam.getBankName());
+
+        StringFilter financialYear = new StringFilter();
+        financialYear.setEquals(one01ReportParam.getFinancialYear());
+
+        //adding initial values
+        criteria.setBranchOrPacsCode(pacsOrbranchCodeFilter);
+        criteria.setBankName(bankFilter);
+        criteria.setFinancialYear(financialYear);
+
+        CourtCase courtCase = null;
+        String noticeDate = "";*/
+        String htmlStringForPdf = null;
+
+        // Parse input string to Instant
+        Instant inputInstant = Instant.parse("2024-03-30T09:39:52Z");
+        // Truncate time to midnight (00:00:00)
+        Instant resultInstant = inputInstant.truncatedTo(ChronoUnit.DAYS);
+
+        List<KmDetails> KmDetailsByKmDateEquals = kmDetailsRepository.findByKmDateEquals(resultInstant);
+
+      /*  List<Long> kmMasterIds = KmDetailsByKmDateEquals.stream()
+            .map(kmDetail -> kmDetail.getKmMaster().getId())
+            .collect(Collectors.toList());
+        List<KmMaster> kmMasterList = kmMasterRepository.findAllById(kmMasterIds);*/
+
+        List<KmMaster> kmMasterList =new ArrayList<>();
+
+        for (KmDetails kmDetails:KmDetailsByKmDateEquals) {
+            Long kmMasterId = kmDetails.getKmMaster().getId();
+            Optional<KmMaster> kmMaster = kmMasterRepository.findById(kmMasterId);
+            kmMasterList.add(kmMaster.get());
+        }
+
+        for (KmMaster kmMaster:kmMasterList) {
+            // generating html from template
+            htmlStringForPdf =  kmTemplate("kmNotice/km.html",kmMaster);
+            htmlList.add(htmlStringForPdf);
+        }
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+    private String kmTemplate(String template, KmMaster kmMaster) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kmMaster", kmMaster);
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
+    String getUniqueNumberString() {
+        Calendar cal = new GregorianCalendar();
+        return
+            "" +
+                cal.get(Calendar.MILLISECOND);
+    }
+
 }

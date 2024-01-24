@@ -78,6 +78,10 @@ public class KmMasterCriteria implements Serializable, Criteria {
     private LongFilter farmerTypeMasterId;
 
     private Boolean distinct;
+    private StringFilter birthDate;
+    private StringFilter birthDateMr;
+    private StringFilter loanAcNo;
+    private StringFilter loanAcNoMr;
 
     public KmMasterCriteria() {}
 
@@ -111,6 +115,11 @@ public class KmMasterCriteria implements Serializable, Criteria {
         this.entryFlag = other.entryFlag == null ? null : other.entryFlag.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
         this.distinct = other.distinct;
+        this.birthDate = other.birthDate == null ? null : other.birthDate.copy();
+        this.birthDateMr = other.birthDateMr == null ? null : other.birthDateMr.copy();
+        this.loanAcNo = other.loanAcNo == null ? null : other.loanAcNo.copy();
+        this.loanAcNoMr = other.loanAcNoMr == null ? null : other.loanAcNoMr.copy();
+
     }
 
     @Override
@@ -546,6 +555,69 @@ public class KmMasterCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public StringFilter getBirthDate() {
+        return birthDate;
+    }
+
+    public StringFilter birthDate() {
+        if (birthDate == null) {
+            birthDate = new StringFilter();
+        }
+        return birthDate;
+    }
+
+    public void setBirthDate(StringFilter birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    // Methods for birthDateMr
+    public StringFilter getBirthDateMr() {
+        return birthDateMr;
+    }
+
+    public StringFilter birthDateMr() {
+        if (birthDateMr == null) {
+            birthDateMr = new StringFilter();
+        }
+        return birthDateMr;
+    }
+
+    public void setBirthDateMr(StringFilter birthDateMr) {
+        this.birthDateMr = birthDateMr;
+    }
+
+    // Methods for loanAcNo
+    public StringFilter getLoanAcNo() {
+        return loanAcNo;
+    }
+
+    public StringFilter loanAcNo() {
+        if (loanAcNo == null) {
+            loanAcNo = new StringFilter();
+        }
+        return loanAcNo;
+    }
+
+    public void setLoanAcNo(StringFilter loanAcNo) {
+        this.loanAcNo = loanAcNo;
+    }
+
+    // Methods for loanAcNoMr
+    public StringFilter getLoanAcNoMr() {
+        return loanAcNoMr;
+    }
+
+    public StringFilter loanAcNoMr() {
+        if (loanAcNoMr == null) {
+            loanAcNoMr = new StringFilter();
+        }
+        return loanAcNoMr;
+    }
+
+    public void setLoanAcNoMr(StringFilter loanAcNoMr) {
+        this.loanAcNoMr = loanAcNoMr;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -584,6 +656,10 @@ public class KmMasterCriteria implements Serializable, Criteria {
             Objects.equals(pacsMemberCodeMr, that.pacsMemberCodeMr) &&
             Objects.equals(entryFlag, that.entryFlag) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
+            Objects.equals(birthDate, that.birthDate) &&
+            Objects.equals(birthDateMr, that.birthDateMr) &&
+            Objects.equals(loanAcNo, that.loanAcNo) &&
+            Objects.equals(loanAcNoMr, that.loanAcNoMr) &&
             Objects.equals(distinct, that.distinct)
         );
     }

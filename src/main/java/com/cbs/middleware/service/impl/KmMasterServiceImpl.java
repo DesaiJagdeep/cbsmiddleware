@@ -1,8 +1,5 @@
 package com.cbs.middleware.service.impl;
 
-import com.cbs.middleware.domain.KmCrops;
-import com.cbs.middleware.domain.KmDetails;
-import com.cbs.middleware.domain.KmLoans;
 import com.cbs.middleware.domain.KmMaster;
 import com.cbs.middleware.repository.KmCropsRepository;
 import com.cbs.middleware.repository.KmDetailsRepository;
@@ -10,13 +7,8 @@ import com.cbs.middleware.repository.KmLoansRepository;
 import com.cbs.middleware.repository.KmMasterRepository;
 import com.cbs.middleware.service.KmMasterService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
-import com.cbs.middleware.web.rest.utility.EntityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +28,6 @@ public class KmMasterServiceImpl implements KmMasterService {
     private final KmCropsRepository kmCropsRepository;
     private final KmLoansRepository kmLoansRepository;
     private final KmDetailsRepository kmDetailsRepository;
-    @Autowired
-    private EntityMapper entityMapper;
 
     public KmMasterServiceImpl(KmMasterRepository kmMasterRepository,
                                KmCropsRepository kmCropsRepository,
@@ -52,110 +42,13 @@ public class KmMasterServiceImpl implements KmMasterService {
     @Override
     public KmMaster save(KmMaster kmMaster) {
         log.debug("Request to save KmMaster : {}", kmMaster);
-
-        KmMaster kmMasterToSave = new KmMaster();
-
-        kmMasterToSave= entityMapper.kmMasterDtoToEntity(kmMaster,kmMasterToSave);
-        kmMasterToSave.setFarmerName(kmMaster.getFarmerName());
-        kmMasterRepository.save(kmMasterToSave);
-
-        KmDetails kmDetails = kmMaster.getKmDetails();
-        kmDetails.setKmMaster(kmMasterToSave);
-        kmDetailsRepository.save(kmMaster.getKmDetails());
-
-        Set<KmCrops> kmCrops = kmMaster.getKmDetails().getKmCrops();
-        List<KmCrops> updatedKmCrops = kmCrops.stream()
-            .map(a -> {
-                a.setKmDetails(kmDetails);
-                return a;
-            })
-            .collect(Collectors.toList());
-
-        kmCropsRepository.saveAll(updatedKmCrops);
-
-
-        Set<KmLoans> kmLoans = kmMaster.getKmDetails().getKmLoans();
-        List<KmLoans> updatedKmLoans = kmLoans.stream()
-            .map(a -> {
-                a.setKmDetails(kmDetails);
-                return a;
-            })
-            .collect(Collectors.toList());
-
-        kmLoansRepository.saveAll(updatedKmLoans);
-
-        return kmMasterToSave;
+        return kmMasterRepository.save(kmMaster);
     }
 
     @Override
     public KmMaster update(KmMaster kmMaster) {
         log.debug("Request to update KmMaster : {}", kmMaster);
-        KmMaster kmMasterSaved = kmMasterRepository.save(kmMaster);
-
-       /* Optional<KmMaster> kmMasterDB = kmMasterRepository.findById(kmMaster.getId());
-
-        Set<KmCrops> kmCropsPayload = kmMaster.getKmDetails().getKmCrops();
-        Set<KmLoans> kmLoansPayload = kmMaster.getKmDetails().getKmLoans();
-        Long id = kmMaster.getKmDetails().getId();
-
-        List<KmCrops> kmCropsDB = kmCropsRepository.findByKmDetailsEquals(kmMaster.getKmDetails());
-
-        // List<KmLoans> kmLoansDB = kmLoansRepository.findByKmDetails_IdEquals(kmMaster.getKmDetails().getId());
-        List<KmLoans> kmLoansDB = kmLoansRepository.findKmLoansByKmDetailsId(kmMaster.getKmDetails().getId());
-
-        //delete entries which are in DB but not in payload for KmCrops
-        List<KmCrops> kmCropsObjectsToDelete = new ArrayList<>(kmCropsDB);
-        kmCropsObjectsToDelete.removeAll(kmCropsPayload);
-
-        for (KmCrops kmCrop : kmCropsObjectsToDelete) {
-            kmCropsRepository.delete(kmCrop);
-        }
-
-        //delete entries which are in DB but not in payload for KmCrops
-        List<KmLoans> kmLoansObjectsToDelete = new ArrayList<>(kmLoansDB);
-        kmLoansObjectsToDelete.removeAll(kmLoansPayload);
-
-        for (KmLoans kmLoan : kmLoansObjectsToDelete) {
-            kmLoansRepository.delete(kmLoan);
-        }
-
-        //set km_master_id in KmDetails
-        Optional<KmDetails> kmDetailsDB = kmDetailsRepository.findById(kmMaster.getKmDetails().getId());
-        kmDetailsDB.get().setKmMaster(kmMasterDB.get());
-        kmDetailsRepository.save(kmDetailsDB.get());
-
-        set km_details_id in km_crops and km_loans
-        for (KmCrops kmCrop : kmCropsPayload) {
-            if (kmCrop.getId() == null) {
-                KmCrops newKmCrop = new KmCrops();
-                newKmCrop = entityMapper.kmCropDtoToEntity(kmCrop, newKmCrop);
-                newKmCrop.setKmDetails(kmMaster.getKmDetails());
-                kmCropsRepository.save(newKmCrop);
-            }
-            else {
-                Optional<KmCrops> kmCropDB = kmCropsRepository.findById(kmCrop.getId());
-                kmCropDB.get().setKmDetails(kmMaster.getKmDetails());
-                kmCropsRepository.save(kmCropDB.get());
-            }
-
-        }
-
-        for (KmLoans kmLoan : kmLoansPayload) {
-            if (kmLoan.getId() == null) {
-                KmLoans newKmLoan = new KmLoans();
-                newKmLoan = entityMapper.kmLoanDtoToEntity(kmLoan, newKmLoan);
-                newKmLoan.setKmDetails(kmMaster.getKmDetails());
-                kmLoansRepository.save(newKmLoan);
-            } else {
-                Optional<KmLoans> kmLoanDB = kmLoansRepository.findById(kmLoan.getId());
-                kmLoanDB.get().setKmDetails(kmMaster.getKmDetails());
-                kmLoansRepository.save(kmLoanDB.get());
-            }
-
-        }
-*/
-
-        return kmMasterSaved;
+        return kmMasterRepository.save(kmMaster);
     }
 
     @Override
@@ -198,6 +91,20 @@ public class KmMasterServiceImpl implements KmMasterService {
                 if (kmMaster.getPacsNumber() != null) {
                     existingKmMaster.setPacsNumber(kmMaster.getPacsNumber());
                 }
+                if (kmMaster.getBirthDate() != null) {
+                    existingKmMaster.setBirthDate(kmMaster.getBirthDate());
+                }
+                if (kmMaster.getBirthDateMr() != null) {
+                    existingKmMaster.setBirthDateMr(kmMaster.getBirthDateMr());
+                }
+                if (kmMaster.getLoanAcNo() != null) {
+                    existingKmMaster.setLoanAcNo(kmMaster.getLoanAcNo());
+                }
+                if (kmMaster.getLoanAcNoMr() != null) {
+                    existingKmMaster.setLoanAcNoMr(kmMaster.getLoanAcNoMr());
+                }
+
+
                 if (kmMaster.getAreaHector() != null) {
                     existingKmMaster.setAreaHector(kmMaster.getAreaHector());
                 }
@@ -260,7 +167,8 @@ public class KmMasterServiceImpl implements KmMasterService {
     @Transactional(readOnly = true)
     public Optional<KmMaster> findOne(Long id) {
         log.debug("Request to get KmMaster : {}", id);
-        return kmMasterRepository.findById(id);
+        Optional<KmMaster> byId = kmMasterRepository.findById(id);
+        return byId;
     }
 
     @Override

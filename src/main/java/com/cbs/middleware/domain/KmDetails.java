@@ -1,7 +1,7 @@
 package com.cbs.middleware.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
@@ -119,6 +119,7 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "zindagi_amt", nullable = true)
     private Double zindagiAmt;
 
+
     //
     @Column(name = "zindagi_no", nullable = true)
     private Long zindagiNo;
@@ -127,6 +128,9 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Size(max = 1000)
     @Column(name = "survey_no", length = 1000, nullable = true)
     private String surveyNo;
+
+    @Column(name = "survey_no_mr")
+    private String surveyNoMr;
 
     //
     @Column(name = "land_value", nullable = true)
@@ -163,21 +167,48 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "boja_date_mr")
     private String bojaDateMr;
 
-    @JsonIgnoreProperties(value = { "farmerTypeMaster","kmMaster" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(unique = true)
-    //@JsonIgnore
+    @Column(name = "gatt_no")
+    private String gattNo;
+    @Column(name = "gatt_no_mr")
+    private String gattNoMr;
+
+    @JsonIgnoreProperties(value = {"branchCode","branchCodeMr","farmerName","farmerNameMr","farmerAddress","farmerAddressMr","gender","genderMr","caste","casteMr","pacsNumber","aadharNo","aadharNoMr","panNo","panNoMr","mobileNo","mobileNoMr","kccNo","kccNoMr","savingAcNo","savingAcNoMr","pacsMemberCode","pacsMemberCodeMr","entryFlag","birthDate","birthDateMr","loanAcNo","loanAcNoMr","farmerTypeMaster","kmDetails"}, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY,cascade= CascadeType.DETACH)
+    @JoinColumn(name="kmMaster_id")
     private KmMaster kmMaster;
 
-    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade= CascadeType.ALL)
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade= CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
     private Set<KmLoans> kmLoans;
 
-    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
     private Set<KmCrops> kmCrops;
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+    public String getSurveyNoMr() {
+        return surveyNoMr;
+    }
+
+    public void setSurveyNoMr(String surveyNoMr) {
+        this.surveyNoMr = surveyNoMr;
+    }
+
+    public String getGattNo() {
+        return gattNo;
+    }
+
+    public void setGattNo(String gattNo) {
+        this.gattNo = gattNo;
+    }
+
+    public String getGattNoMr() {
+        return gattNoMr;
+    }
+
+    public void setGattNoMr(String gattNoMr) {
+        this.gattNoMr = gattNoMr;
+    }
 
     public Set<KmLoans> getKmLoans() {
         return kmLoans;
@@ -719,14 +750,6 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this.kmMaster;
     }
 
-    public void setKmMaster(KmMaster kmMaster) {
-        this.kmMaster = kmMaster;
-    }
-
-    public KmDetails kmMaster(KmMaster kmMaster) {
-        this.setKmMaster(kmMaster);
-        return this;
-    }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -747,50 +770,55 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "KmDetails{" +
-            "id=" + getId() +
-            ", shares=" + getShares() +
-            ", sharesMr='" + getSharesMr() + "'" +
-            ", sugarShares=" + getSugarShares() +
-            ", sugarSharesMr='" + getSugarSharesMr() + "'" +
-            ", deposite=" + getDeposite() +
-            ", depositeMr='" + getDepositeMr() + "'" +
-            ", dueLoan=" + getDueLoan() +
-            ", dueLoanMr='" + getDueLoanMr() + "'" +
-            ", dueAmount=" + getDueAmount() +
-            ", dueAmountMr='" + getDueAmountMr() + "'" +
-            ", dueDateMr='" + getDueDateMr() + "'" +
-            ", dueDate='" + getDueDate() + "'" +
-            ", kmDate='" + getKmDate() + "'" +
-            ", kmDateMr='" + getKmDateMr() + "'" +
-            ", kmFromDate='" + getKmFromDate() + "'" +
-            ", kmFromDateMr='" + getKmFromDateMr() + "'" +
-            ", kmToDate='" + getKmToDate() + "'" +
-            ", kmToDateMr='" + getKmToDateMr() + "'" +
-            ", bagayatHector=" + getBagayatHector() +
-            ", bagayatHectorMr='" + getBagayatHectorMr() + "'" +
-            ", bagayatAre=" + getBagayatAre() +
-            ", bagayatAreMr='" + getBagayatAreMr() + "'" +
-            ", jirayatHector=" + getJirayatHector() +
-            ", jirayatHectorMr='" + getJirayatHectorMr() + "'" +
-            ", jirayatAre=" + getJirayatAre() +
-            ", jirayatAreMr='" + getJirayatAreMr() + "'" +
-            ", zindagiAmt=" + getZindagiAmt() +
-            ", zindagiNo=" + getZindagiNo() +
-            ", surveyNo='" + getSurveyNo() + "'" +
-            ", landValue=" + getLandValue() +
-            ", landValueMr='" + getLandValueMr() + "'" +
-            ", eAgreementAmt=" + geteAgreementAmt() +
-            ", eAgreementAmtMr='" + geteAgreementAmtMr() + "'" +
-            ", eAgreementDate='" + geteAgreementDate() + "'" +
-            ", eAgreementDateMr='" + geteAgreementDateMr() + "'" +
-            ", bojaAmount=" + getBojaAmount() +
-            ", bojaAmountMr='" + getBojaAmountMr() + "'" +
-            ", bojaDate='" + getBojaDate() + "'" +
-            ", bojaDateMr='" + getBojaDateMr() + "'" +
-            "}";
+            "id=" + id +
+            ", shares=" + shares +
+            ", sharesMr='" + sharesMr + '\'' +
+            ", sugarShares=" + sugarShares +
+            ", sugarSharesMr='" + sugarSharesMr + '\'' +
+            ", deposite=" + deposite +
+            ", depositeMr='" + depositeMr + '\'' +
+            ", dueLoan=" + dueLoan +
+            ", dueLoanMr='" + dueLoanMr + '\'' +
+            ", dueAmount=" + dueAmount +
+            ", dueAmountMr='" + dueAmountMr + '\'' +
+            ", dueDateMr='" + dueDateMr + '\'' +
+            ", dueDate=" + dueDate +
+            ", kmDate=" + kmDate +
+            ", kmDateMr='" + kmDateMr + '\'' +
+            ", kmFromDate=" + kmFromDate +
+            ", kmFromDateMr='" + kmFromDateMr + '\'' +
+            ", kmToDate=" + kmToDate +
+            ", kmToDateMr='" + kmToDateMr + '\'' +
+            ", bagayatHector=" + bagayatHector +
+            ", bagayatHectorMr='" + bagayatHectorMr + '\'' +
+            ", bagayatAre=" + bagayatAre +
+            ", bagayatAreMr='" + bagayatAreMr + '\'' +
+            ", jirayatHector=" + jirayatHector +
+            ", jirayatHectorMr='" + jirayatHectorMr + '\'' +
+            ", jirayatAre=" + jirayatAre +
+            ", jirayatAreMr='" + jirayatAreMr + '\'' +
+            ", zindagiAmt=" + zindagiAmt +
+            ", zindagiNo=" + zindagiNo +
+            ", surveyNo='" + surveyNo + '\'' +
+            ", surveyNoMr='" + surveyNoMr + '\'' +
+            ", landValue=" + landValue +
+            ", landValueMr='" + landValueMr + '\'' +
+            ", eAgreementAmt=" + eAgreementAmt +
+            ", eAgreementAmtMr='" + eAgreementAmtMr + '\'' +
+            ", eAgreementDate=" + eAgreementDate +
+            ", eAgreementDateMr='" + eAgreementDateMr + '\'' +
+            ", bojaAmount=" + bojaAmount +
+            ", bojaAmountMr='" + bojaAmountMr + '\'' +
+            ", bojaDate=" + bojaDate +
+            ", bojaDateMr='" + bojaDateMr + '\'' +
+            ", gattNo='" + gattNo + '\'' +
+            ", gattNoMr='" + gattNoMr + '\'' +
+            ", kmMaster=" + kmMaster +
+            ", kmLoans=" + kmLoans +
+            ", kmCrops=" + kmCrops +
+            '}';
     }
 }

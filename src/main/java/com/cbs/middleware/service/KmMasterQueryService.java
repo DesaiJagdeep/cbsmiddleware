@@ -118,6 +118,20 @@ public class KmMasterQueryService extends QueryService<KmMaster> {
             if (criteria.getPacsNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KmMaster_.pacsNumber));
             }
+
+            if (criteria.getBirthDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBirthDate(), KmMaster_.birthDate));
+            }
+            if (criteria.getBirthDateMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBirthDateMr(), KmMaster_.birthDateMr));
+            }
+            if (criteria.getLoanAcNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLoanAcNo(), KmMaster_.loanAcNo));
+            }
+            if (criteria.getLoanAcNoMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLoanAcNoMr(), KmMaster_.loanAcNoMr));
+            }
+
             if (criteria.getAreaHector() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAreaHector(), KmMaster_.areaHector));
             }

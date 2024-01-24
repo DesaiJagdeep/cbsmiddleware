@@ -2,6 +2,7 @@ package com.cbs.middleware.service.criteria;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
@@ -105,7 +106,13 @@ public class KmDetailsCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
-    public KmDetailsCriteria() {}
+    private StringFilter surveyNoMr;
+    private StringFilter gattNo;
+    private StringFilter gattNoMr;
+
+
+    public KmDetailsCriteria() {
+    }
 
     public KmDetailsCriteria(KmDetailsCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
@@ -150,6 +157,9 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         this.bojaDateMr = other.bojaDateMr == null ? null : other.bojaDateMr.copy();
         this.kmMasterId = other.kmMasterId == null ? null : other.kmMasterId.copy();
         this.distinct = other.distinct;
+        this.surveyNoMr = other.surveyNoMr == null ? null : other.surveyNoMr.copy();
+        this.gattNo = other.gattNo == null ? null : other.gattNo.copy();
+        this.gattNoMr = other.gattNoMr == null ? null : other.gattNoMr.copy();
     }
 
     @Override
@@ -161,6 +171,10 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return id;
     }
 
+    public void setId(LongFilter id) {
+        this.id = id;
+    }
+
     public LongFilter id() {
         if (id == null) {
             id = new LongFilter();
@@ -168,12 +182,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return id;
     }
 
-    public void setId(LongFilter id) {
-        this.id = id;
-    }
-
     public DoubleFilter getShares() {
         return shares;
+    }
+
+    public void setShares(DoubleFilter shares) {
+        this.shares = shares;
     }
 
     public DoubleFilter shares() {
@@ -183,12 +197,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return shares;
     }
 
-    public void setShares(DoubleFilter shares) {
-        this.shares = shares;
-    }
-
     public StringFilter getSharesMr() {
         return sharesMr;
+    }
+
+    public void setSharesMr(StringFilter sharesMr) {
+        this.sharesMr = sharesMr;
     }
 
     public StringFilter sharesMr() {
@@ -198,12 +212,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return sharesMr;
     }
 
-    public void setSharesMr(StringFilter sharesMr) {
-        this.sharesMr = sharesMr;
-    }
-
     public DoubleFilter getSugarShares() {
         return sugarShares;
+    }
+
+    public void setSugarShares(DoubleFilter sugarShares) {
+        this.sugarShares = sugarShares;
     }
 
     public DoubleFilter sugarShares() {
@@ -213,12 +227,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return sugarShares;
     }
 
-    public void setSugarShares(DoubleFilter sugarShares) {
-        this.sugarShares = sugarShares;
-    }
-
     public StringFilter getSugarSharesMr() {
         return sugarSharesMr;
+    }
+
+    public void setSugarSharesMr(StringFilter sugarSharesMr) {
+        this.sugarSharesMr = sugarSharesMr;
     }
 
     public StringFilter sugarSharesMr() {
@@ -228,12 +242,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return sugarSharesMr;
     }
 
-    public void setSugarSharesMr(StringFilter sugarSharesMr) {
-        this.sugarSharesMr = sugarSharesMr;
-    }
-
     public DoubleFilter getDeposite() {
         return deposite;
+    }
+
+    public void setDeposite(DoubleFilter deposite) {
+        this.deposite = deposite;
     }
 
     public DoubleFilter deposite() {
@@ -243,12 +257,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return deposite;
     }
 
-    public void setDeposite(DoubleFilter deposite) {
-        this.deposite = deposite;
-    }
-
     public StringFilter getDepositeMr() {
         return depositeMr;
+    }
+
+    public void setDepositeMr(StringFilter depositeMr) {
+        this.depositeMr = depositeMr;
     }
 
     public StringFilter depositeMr() {
@@ -258,12 +272,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return depositeMr;
     }
 
-    public void setDepositeMr(StringFilter depositeMr) {
-        this.depositeMr = depositeMr;
-    }
-
     public DoubleFilter getDueLoan() {
         return dueLoan;
+    }
+
+    public void setDueLoan(DoubleFilter dueLoan) {
+        this.dueLoan = dueLoan;
     }
 
     public DoubleFilter dueLoan() {
@@ -273,12 +287,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueLoan;
     }
 
-    public void setDueLoan(DoubleFilter dueLoan) {
-        this.dueLoan = dueLoan;
-    }
-
     public StringFilter getDueLoanMr() {
         return dueLoanMr;
+    }
+
+    public void setDueLoanMr(StringFilter dueLoanMr) {
+        this.dueLoanMr = dueLoanMr;
     }
 
     public StringFilter dueLoanMr() {
@@ -288,12 +302,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueLoanMr;
     }
 
-    public void setDueLoanMr(StringFilter dueLoanMr) {
-        this.dueLoanMr = dueLoanMr;
-    }
-
     public DoubleFilter getDueAmount() {
         return dueAmount;
+    }
+
+    public void setDueAmount(DoubleFilter dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     public DoubleFilter dueAmount() {
@@ -303,12 +317,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueAmount;
     }
 
-    public void setDueAmount(DoubleFilter dueAmount) {
-        this.dueAmount = dueAmount;
-    }
-
     public StringFilter getDueAmountMr() {
         return dueAmountMr;
+    }
+
+    public void setDueAmountMr(StringFilter dueAmountMr) {
+        this.dueAmountMr = dueAmountMr;
     }
 
     public StringFilter dueAmountMr() {
@@ -318,12 +332,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueAmountMr;
     }
 
-    public void setDueAmountMr(StringFilter dueAmountMr) {
-        this.dueAmountMr = dueAmountMr;
-    }
-
     public StringFilter getDueDateMr() {
         return dueDateMr;
+    }
+
+    public void setDueDateMr(StringFilter dueDateMr) {
+        this.dueDateMr = dueDateMr;
     }
 
     public StringFilter dueDateMr() {
@@ -333,12 +347,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueDateMr;
     }
 
-    public void setDueDateMr(StringFilter dueDateMr) {
-        this.dueDateMr = dueDateMr;
-    }
-
     public InstantFilter getDueDate() {
         return dueDate;
+    }
+
+    public void setDueDate(InstantFilter dueDate) {
+        this.dueDate = dueDate;
     }
 
     public InstantFilter dueDate() {
@@ -348,12 +362,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return dueDate;
     }
 
-    public void setDueDate(InstantFilter dueDate) {
-        this.dueDate = dueDate;
-    }
-
     public InstantFilter getKmDate() {
         return kmDate;
+    }
+
+    public void setKmDate(InstantFilter kmDate) {
+        this.kmDate = kmDate;
     }
 
     public InstantFilter kmDate() {
@@ -363,12 +377,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmDate;
     }
 
-    public void setKmDate(InstantFilter kmDate) {
-        this.kmDate = kmDate;
-    }
-
     public StringFilter getKmDateMr() {
         return kmDateMr;
+    }
+
+    public void setKmDateMr(StringFilter kmDateMr) {
+        this.kmDateMr = kmDateMr;
     }
 
     public StringFilter kmDateMr() {
@@ -378,12 +392,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmDateMr;
     }
 
-    public void setKmDateMr(StringFilter kmDateMr) {
-        this.kmDateMr = kmDateMr;
-    }
-
     public InstantFilter getKmFromDate() {
         return kmFromDate;
+    }
+
+    public void setKmFromDate(InstantFilter kmFromDate) {
+        this.kmFromDate = kmFromDate;
     }
 
     public InstantFilter kmFromDate() {
@@ -393,12 +407,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmFromDate;
     }
 
-    public void setKmFromDate(InstantFilter kmFromDate) {
-        this.kmFromDate = kmFromDate;
-    }
-
     public StringFilter getKmFromDateMr() {
         return kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(StringFilter kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
     }
 
     public StringFilter kmFromDateMr() {
@@ -408,12 +422,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmFromDateMr;
     }
 
-    public void setKmFromDateMr(StringFilter kmFromDateMr) {
-        this.kmFromDateMr = kmFromDateMr;
-    }
-
     public InstantFilter getKmToDate() {
         return kmToDate;
+    }
+
+    public void setKmToDate(InstantFilter kmToDate) {
+        this.kmToDate = kmToDate;
     }
 
     public InstantFilter kmToDate() {
@@ -423,12 +437,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmToDate;
     }
 
-    public void setKmToDate(InstantFilter kmToDate) {
-        this.kmToDate = kmToDate;
-    }
-
     public StringFilter getKmToDateMr() {
         return kmToDateMr;
+    }
+
+    public void setKmToDateMr(StringFilter kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
     }
 
     public StringFilter kmToDateMr() {
@@ -438,12 +452,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmToDateMr;
     }
 
-    public void setKmToDateMr(StringFilter kmToDateMr) {
-        this.kmToDateMr = kmToDateMr;
-    }
-
     public DoubleFilter getBagayatHector() {
         return bagayatHector;
+    }
+
+    public void setBagayatHector(DoubleFilter bagayatHector) {
+        this.bagayatHector = bagayatHector;
     }
 
     public DoubleFilter bagayatHector() {
@@ -453,12 +467,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bagayatHector;
     }
 
-    public void setBagayatHector(DoubleFilter bagayatHector) {
-        this.bagayatHector = bagayatHector;
-    }
-
     public StringFilter getBagayatHectorMr() {
         return bagayatHectorMr;
+    }
+
+    public void setBagayatHectorMr(StringFilter bagayatHectorMr) {
+        this.bagayatHectorMr = bagayatHectorMr;
     }
 
     public StringFilter bagayatHectorMr() {
@@ -468,12 +482,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bagayatHectorMr;
     }
 
-    public void setBagayatHectorMr(StringFilter bagayatHectorMr) {
-        this.bagayatHectorMr = bagayatHectorMr;
-    }
-
     public DoubleFilter getBagayatAre() {
         return bagayatAre;
+    }
+
+    public void setBagayatAre(DoubleFilter bagayatAre) {
+        this.bagayatAre = bagayatAre;
     }
 
     public DoubleFilter bagayatAre() {
@@ -483,12 +497,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bagayatAre;
     }
 
-    public void setBagayatAre(DoubleFilter bagayatAre) {
-        this.bagayatAre = bagayatAre;
-    }
-
     public StringFilter getBagayatAreMr() {
         return bagayatAreMr;
+    }
+
+    public void setBagayatAreMr(StringFilter bagayatAreMr) {
+        this.bagayatAreMr = bagayatAreMr;
     }
 
     public StringFilter bagayatAreMr() {
@@ -498,12 +512,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bagayatAreMr;
     }
 
-    public void setBagayatAreMr(StringFilter bagayatAreMr) {
-        this.bagayatAreMr = bagayatAreMr;
-    }
-
     public DoubleFilter getJirayatHector() {
         return jirayatHector;
+    }
+
+    public void setJirayatHector(DoubleFilter jirayatHector) {
+        this.jirayatHector = jirayatHector;
     }
 
     public DoubleFilter jirayatHector() {
@@ -513,12 +527,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return jirayatHector;
     }
 
-    public void setJirayatHector(DoubleFilter jirayatHector) {
-        this.jirayatHector = jirayatHector;
-    }
-
     public StringFilter getJirayatHectorMr() {
         return jirayatHectorMr;
+    }
+
+    public void setJirayatHectorMr(StringFilter jirayatHectorMr) {
+        this.jirayatHectorMr = jirayatHectorMr;
     }
 
     public StringFilter jirayatHectorMr() {
@@ -528,12 +542,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return jirayatHectorMr;
     }
 
-    public void setJirayatHectorMr(StringFilter jirayatHectorMr) {
-        this.jirayatHectorMr = jirayatHectorMr;
-    }
-
     public DoubleFilter getJirayatAre() {
         return jirayatAre;
+    }
+
+    public void setJirayatAre(DoubleFilter jirayatAre) {
+        this.jirayatAre = jirayatAre;
     }
 
     public DoubleFilter jirayatAre() {
@@ -543,12 +557,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return jirayatAre;
     }
 
-    public void setJirayatAre(DoubleFilter jirayatAre) {
-        this.jirayatAre = jirayatAre;
-    }
-
     public StringFilter getJirayatAreMr() {
         return jirayatAreMr;
+    }
+
+    public void setJirayatAreMr(StringFilter jirayatAreMr) {
+        this.jirayatAreMr = jirayatAreMr;
     }
 
     public StringFilter jirayatAreMr() {
@@ -558,12 +572,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return jirayatAreMr;
     }
 
-    public void setJirayatAreMr(StringFilter jirayatAreMr) {
-        this.jirayatAreMr = jirayatAreMr;
-    }
-
     public DoubleFilter getZindagiAmt() {
         return zindagiAmt;
+    }
+
+    public void setZindagiAmt(DoubleFilter zindagiAmt) {
+        this.zindagiAmt = zindagiAmt;
     }
 
     public DoubleFilter zindagiAmt() {
@@ -573,12 +587,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return zindagiAmt;
     }
 
-    public void setZindagiAmt(DoubleFilter zindagiAmt) {
-        this.zindagiAmt = zindagiAmt;
-    }
-
     public LongFilter getZindagiNo() {
         return zindagiNo;
+    }
+
+    public void setZindagiNo(LongFilter zindagiNo) {
+        this.zindagiNo = zindagiNo;
     }
 
     public LongFilter zindagiNo() {
@@ -588,12 +602,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return zindagiNo;
     }
 
-    public void setZindagiNo(LongFilter zindagiNo) {
-        this.zindagiNo = zindagiNo;
-    }
-
     public StringFilter getSurveyNo() {
         return surveyNo;
+    }
+
+    public void setSurveyNo(StringFilter surveyNo) {
+        this.surveyNo = surveyNo;
     }
 
     public StringFilter surveyNo() {
@@ -603,12 +617,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return surveyNo;
     }
 
-    public void setSurveyNo(StringFilter surveyNo) {
-        this.surveyNo = surveyNo;
-    }
-
     public DoubleFilter getLandValue() {
         return landValue;
+    }
+
+    public void setLandValue(DoubleFilter landValue) {
+        this.landValue = landValue;
     }
 
     public DoubleFilter landValue() {
@@ -618,12 +632,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return landValue;
     }
 
-    public void setLandValue(DoubleFilter landValue) {
-        this.landValue = landValue;
-    }
-
     public StringFilter getLandValueMr() {
         return landValueMr;
+    }
+
+    public void setLandValueMr(StringFilter landValueMr) {
+        this.landValueMr = landValueMr;
     }
 
     public StringFilter landValueMr() {
@@ -633,12 +647,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return landValueMr;
     }
 
-    public void setLandValueMr(StringFilter landValueMr) {
-        this.landValueMr = landValueMr;
-    }
-
     public DoubleFilter geteAgreementAmt() {
         return eAgreementAmt;
+    }
+
+    public void seteAgreementAmt(DoubleFilter eAgreementAmt) {
+        this.eAgreementAmt = eAgreementAmt;
     }
 
     public DoubleFilter eAgreementAmt() {
@@ -648,12 +662,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return eAgreementAmt;
     }
 
-    public void seteAgreementAmt(DoubleFilter eAgreementAmt) {
-        this.eAgreementAmt = eAgreementAmt;
-    }
-
     public StringFilter geteAgreementAmtMr() {
         return eAgreementAmtMr;
+    }
+
+    public void seteAgreementAmtMr(StringFilter eAgreementAmtMr) {
+        this.eAgreementAmtMr = eAgreementAmtMr;
     }
 
     public StringFilter eAgreementAmtMr() {
@@ -663,12 +677,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return eAgreementAmtMr;
     }
 
-    public void seteAgreementAmtMr(StringFilter eAgreementAmtMr) {
-        this.eAgreementAmtMr = eAgreementAmtMr;
-    }
-
     public InstantFilter geteAgreementDate() {
         return eAgreementDate;
+    }
+
+    public void seteAgreementDate(InstantFilter eAgreementDate) {
+        this.eAgreementDate = eAgreementDate;
     }
 
     public InstantFilter eAgreementDate() {
@@ -678,12 +692,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return eAgreementDate;
     }
 
-    public void seteAgreementDate(InstantFilter eAgreementDate) {
-        this.eAgreementDate = eAgreementDate;
-    }
-
     public StringFilter geteAgreementDateMr() {
         return eAgreementDateMr;
+    }
+
+    public void seteAgreementDateMr(StringFilter eAgreementDateMr) {
+        this.eAgreementDateMr = eAgreementDateMr;
     }
 
     public StringFilter eAgreementDateMr() {
@@ -693,12 +707,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return eAgreementDateMr;
     }
 
-    public void seteAgreementDateMr(StringFilter eAgreementDateMr) {
-        this.eAgreementDateMr = eAgreementDateMr;
-    }
-
     public DoubleFilter getBojaAmount() {
         return bojaAmount;
+    }
+
+    public void setBojaAmount(DoubleFilter bojaAmount) {
+        this.bojaAmount = bojaAmount;
     }
 
     public DoubleFilter bojaAmount() {
@@ -708,12 +722,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bojaAmount;
     }
 
-    public void setBojaAmount(DoubleFilter bojaAmount) {
-        this.bojaAmount = bojaAmount;
-    }
-
     public StringFilter getBojaAmountMr() {
         return bojaAmountMr;
+    }
+
+    public void setBojaAmountMr(StringFilter bojaAmountMr) {
+        this.bojaAmountMr = bojaAmountMr;
     }
 
     public StringFilter bojaAmountMr() {
@@ -723,12 +737,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bojaAmountMr;
     }
 
-    public void setBojaAmountMr(StringFilter bojaAmountMr) {
-        this.bojaAmountMr = bojaAmountMr;
-    }
-
     public InstantFilter getBojaDate() {
         return bojaDate;
+    }
+
+    public void setBojaDate(InstantFilter bojaDate) {
+        this.bojaDate = bojaDate;
     }
 
     public InstantFilter bojaDate() {
@@ -738,12 +752,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bojaDate;
     }
 
-    public void setBojaDate(InstantFilter bojaDate) {
-        this.bojaDate = bojaDate;
-    }
-
     public StringFilter getBojaDateMr() {
         return bojaDateMr;
+    }
+
+    public void setBojaDateMr(StringFilter bojaDateMr) {
+        this.bojaDateMr = bojaDateMr;
     }
 
     public StringFilter bojaDateMr() {
@@ -753,12 +767,12 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return bojaDateMr;
     }
 
-    public void setBojaDateMr(StringFilter bojaDateMr) {
-        this.bojaDateMr = bojaDateMr;
-    }
-
     public LongFilter getKmMasterId() {
         return kmMasterId;
+    }
+
+    public void setKmMasterId(LongFilter kmMasterId) {
+        this.kmMasterId = kmMasterId;
     }
 
     public LongFilter kmMasterId() {
@@ -768,16 +782,57 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return kmMasterId;
     }
 
-    public void setKmMasterId(LongFilter kmMasterId) {
-        this.kmMasterId = kmMasterId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
 
     public void setDistinct(Boolean distinct) {
         this.distinct = distinct;
+    }
+
+    public StringFilter getSurveyNoMr() {
+        return surveyNoMr;
+    }
+
+    public void setSurveyNoMr(StringFilter surveyNoMr) {
+        this.surveyNoMr = surveyNoMr;
+    }
+
+    public StringFilter surveyNoMr() {
+        if (surveyNoMr == null) {
+            surveyNoMr = new StringFilter();
+        }
+        return surveyNoMr;
+    }
+
+    public StringFilter getGattNo() {
+        return gattNo;
+    }
+
+    public void setGattNo(StringFilter gattNo) {
+        this.gattNo = gattNo;
+    }
+
+    public StringFilter gattNo() {
+        if (gattNo == null) {
+            gattNo = new StringFilter();
+        }
+        return gattNo;
+    }
+
+    public StringFilter getGattNoMr() {
+        return gattNoMr;
+    }
+
+    public void setGattNoMr(StringFilter gattNoMr) {
+        this.gattNoMr = gattNoMr;
+    }
+
+    public StringFilter gattNoMr() {
+        if (gattNoMr == null) {
+            gattNoMr = new StringFilter();
+        }
+        return gattNoMr;
     }
 
     @Override
@@ -791,47 +846,52 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         final KmDetailsCriteria that = (KmDetailsCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(shares, that.shares) &&
-            Objects.equals(sharesMr, that.sharesMr) &&
-            Objects.equals(sugarShares, that.sugarShares) &&
-            Objects.equals(sugarSharesMr, that.sugarSharesMr) &&
-            Objects.equals(deposite, that.deposite) &&
-            Objects.equals(depositeMr, that.depositeMr) &&
-            Objects.equals(dueLoan, that.dueLoan) &&
-            Objects.equals(dueLoanMr, that.dueLoanMr) &&
-            Objects.equals(dueAmount, that.dueAmount) &&
-            Objects.equals(dueAmountMr, that.dueAmountMr) &&
-            Objects.equals(dueDateMr, that.dueDateMr) &&
-            Objects.equals(dueDate, that.dueDate) &&
-            Objects.equals(kmDate, that.kmDate) &&
-            Objects.equals(kmDateMr, that.kmDateMr) &&
-            Objects.equals(kmFromDate, that.kmFromDate) &&
-            Objects.equals(kmFromDateMr, that.kmFromDateMr) &&
-            Objects.equals(kmToDate, that.kmToDate) &&
-            Objects.equals(kmToDateMr, that.kmToDateMr) &&
-            Objects.equals(bagayatHector, that.bagayatHector) &&
-            Objects.equals(bagayatHectorMr, that.bagayatHectorMr) &&
-            Objects.equals(bagayatAre, that.bagayatAre) &&
-            Objects.equals(bagayatAreMr, that.bagayatAreMr) &&
-            Objects.equals(jirayatHector, that.jirayatHector) &&
-            Objects.equals(jirayatHectorMr, that.jirayatHectorMr) &&
-            Objects.equals(jirayatAre, that.jirayatAre) &&
-            Objects.equals(jirayatAreMr, that.jirayatAreMr) &&
-            Objects.equals(zindagiAmt, that.zindagiAmt) &&
-            Objects.equals(zindagiNo, that.zindagiNo) &&
-            Objects.equals(surveyNo, that.surveyNo) &&
-            Objects.equals(landValue, that.landValue) &&
-            Objects.equals(landValueMr, that.landValueMr) &&
-            Objects.equals(eAgreementAmt, that.eAgreementAmt) &&
-            Objects.equals(eAgreementAmtMr, that.eAgreementAmtMr) &&
-            Objects.equals(eAgreementDate, that.eAgreementDate) &&
-            Objects.equals(eAgreementDateMr, that.eAgreementDateMr) &&
-            Objects.equals(bojaAmount, that.bojaAmount) &&
-            Objects.equals(bojaAmountMr, that.bojaAmountMr) &&
-            Objects.equals(bojaDate, that.bojaDate) &&
-            Objects.equals(bojaDateMr, that.bojaDateMr) &&
-            Objects.equals(kmMasterId, that.kmMasterId) &&
-            Objects.equals(distinct, that.distinct)
+                Objects.equals(shares, that.shares) &&
+                Objects.equals(sharesMr, that.sharesMr) &&
+                Objects.equals(sugarShares, that.sugarShares) &&
+                Objects.equals(sugarSharesMr, that.sugarSharesMr) &&
+                Objects.equals(deposite, that.deposite) &&
+                Objects.equals(depositeMr, that.depositeMr) &&
+                Objects.equals(dueLoan, that.dueLoan) &&
+                Objects.equals(dueLoanMr, that.dueLoanMr) &&
+                Objects.equals(dueAmount, that.dueAmount) &&
+                Objects.equals(dueAmountMr, that.dueAmountMr) &&
+                Objects.equals(dueDateMr, that.dueDateMr) &&
+                Objects.equals(dueDate, that.dueDate) &&
+                Objects.equals(kmDate, that.kmDate) &&
+                Objects.equals(kmDateMr, that.kmDateMr) &&
+                Objects.equals(kmFromDate, that.kmFromDate) &&
+                Objects.equals(kmFromDateMr, that.kmFromDateMr) &&
+                Objects.equals(kmToDate, that.kmToDate) &&
+                Objects.equals(kmToDateMr, that.kmToDateMr) &&
+                Objects.equals(bagayatHector, that.bagayatHector) &&
+                Objects.equals(bagayatHectorMr, that.bagayatHectorMr) &&
+                Objects.equals(bagayatAre, that.bagayatAre) &&
+                Objects.equals(bagayatAreMr, that.bagayatAreMr) &&
+                Objects.equals(jirayatHector, that.jirayatHector) &&
+                Objects.equals(jirayatHectorMr, that.jirayatHectorMr) &&
+                Objects.equals(jirayatAre, that.jirayatAre) &&
+                Objects.equals(jirayatAreMr, that.jirayatAreMr) &&
+                Objects.equals(zindagiAmt, that.zindagiAmt) &&
+                Objects.equals(zindagiNo, that.zindagiNo) &&
+                Objects.equals(surveyNo, that.surveyNo) &&
+                Objects.equals(landValue, that.landValue) &&
+                Objects.equals(landValueMr, that.landValueMr) &&
+                Objects.equals(eAgreementAmt, that.eAgreementAmt) &&
+                Objects.equals(eAgreementAmtMr, that.eAgreementAmtMr) &&
+                Objects.equals(eAgreementDate, that.eAgreementDate) &&
+                Objects.equals(eAgreementDateMr, that.eAgreementDateMr) &&
+                Objects.equals(bojaAmount, that.bojaAmount) &&
+                Objects.equals(bojaAmountMr, that.bojaAmountMr) &&
+                Objects.equals(bojaDate, that.bojaDate) &&
+                Objects.equals(bojaDateMr, that.bojaDateMr) &&
+                Objects.equals(kmMasterId, that.kmMasterId) &&
+                Objects.equals(surveyNoMr, that.surveyNoMr) &&
+                Objects.equals(gattNo, that.gattNo) &&
+                Objects.equals(gattNoMr, that.gattNoMr) &&
+                Objects.equals(distinct, that.distinct)
+
+
         );
     }
 

@@ -172,6 +172,9 @@ public class KmDetailsQueryService extends QueryService<KmDetails> {
             if (criteria.getSurveyNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSurveyNo(), KmDetails_.surveyNo));
             }
+            if (criteria.getSurveyNoMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSurveyNoMr(), KmDetails_.surveyNoMr));
+            }
             if (criteria.getLandValue() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getLandValue(), KmDetails_.landValue));
             }
@@ -202,6 +205,13 @@ public class KmDetailsQueryService extends QueryService<KmDetails> {
             if (criteria.getBojaDateMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBojaDateMr(), KmDetails_.bojaDateMr));
             }
+            if (criteria.getGattNo() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGattNo(), KmDetails_.gattNo));
+            }
+            if (criteria.getGattNoMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGattNoMr(), KmDetails_.gattNoMr));
+            }
+
             if (criteria.getKmMasterId() != null) {
                 specification =
                     specification.and(

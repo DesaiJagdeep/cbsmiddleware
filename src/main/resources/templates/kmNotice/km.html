@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KM</title>
+</head>
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      border: 1px solid #ddd; /* Add a border around the table */
+    }
+
+    th, td {
+      border: 1px solid #ddd; /* Add a border to each table cell */
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2; /* Add a background color to the table header */
+    }
+  </style>
+<body>
+<table>
+  <tr>
+    <td style="border: none;"  colspan="2">संस्थेचे नाव</td>
+    <td style="border: none;"  colspan="16">______________________________________</td>
+  </tr>
+  <tr>
+    <td style="border: none;" colspan="2">पत्ता</td>
+    <td style="border: none;" colspan="16">______________________________________</td>
+  </tr>
+  <tr>
+    <td style="border-left-width:0px; border-right-width:0px;" colspan="3">अ. क्र.</td>
+    <td style="border-left-width:0px; border-right-width:0px;" colspan="10">सभासदाचे नाव</td>
+    <td style="border-left-width:0px; border-right-width:0px;" colspan="5">मो. नं.</td>
+  </tr>
+  <tr>
+    <td colspan="2">पॅक आय.डी.नं. </td>
+    <td colspan="6">मालकीची / खंडाची जमीन (जिंदगी पत्रकाप्रमाणे)</td>
+    <td rowspan="3">मध्यम / दिर्घ मुदत कर्ज येणे तपशील </td>
+    <td rowspan="2" colspan="3">गतवर्षातील पीक लागण क्षेत्र</td>
+    <td colspan="2">गतवर्षातील पीक कर्ज व्यवहार </td>
+    <td colspan="4">लागवड करावयाच्या पिकानुसार सभासदाची पीक कर्ज मागणी </td>
+  </tr>
+  <tr>
+    <td colspan="2" rowspan="2">सेव्हिंग खाते नंबर </td>
+    <td colspan="2">बागायत </td>
+    <td colspan="2">जिरायत </td>
+    <td colspan="2">एकूण </td>
+    <td rowspan="2">मंजूर मर्यादा रु. </td>
+    <td rowspan="2">प्रत्यक्ष उचल रु.</td>
+    <td colspan="2">क्षेत्र</td>
+    <td rowspan="2">कर्ज मागणी रु.</td>
+  </tr>
+  <tr>
+    <td>हे.</td>
+    <td>आर</td>
+    <td>हे.</td>
+    <td>आर</td>
+    <td>हे.</td>
+    <td>आर</td>
+    <td>पिकाचे नाव </td>
+    <td>हे.</td>
+    <td>आर</td>
+    <td>हे.</td>
+    <td>आर</td>
+  </tr>
+  <tr>
+    <td>१</td>
+    <td>गट नं.</td>
+    <td>२</td>
+    <td>३</td>
+    <td>४</td>
+    <td>५</td>
+    <td>६</td>
+    <td>७</td>
+    <td>८</td>
+    <td>९</td>
+    <td>१०</td>
+    <td>११</td>
+    <td>१२</td>
+    <td>१३</td>
+    <td>१४</td>
+    <td>१५</td>
+    <td>१६</td>
+  </tr>
+  <tr>
+    <td style="background-color: rgb(7, 7, 7); color: white;">हंगाम २०२४-२०२५</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>ऊस</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>कर्ज खाते क्र. <span th:text="${kmMaster.savingAcNoMr}"/></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>येणे रक्कम</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>संस्थेचे शेअर्स रु. <span th:text="${kmMaster.kmDetails.sharesMr}"/></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>सा. का. शेअर्स रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>वसुलपात्र</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>खरीप</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगी पत्रक क्र.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगीची रक्कम रु. <span th:text="${kmMaster.kmDetails.zindagiAmt}"/> </td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>परतफेड</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रब्बी</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-करार नोंदणी दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-कराराची रक्कम रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;">एकून</td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+  </tr>
+  <tr>
+    <td style="background-color: rgb(7, 7, 7); color: white;">हंगाम २०२५-२०२६</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>ऊस</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>कर्ज खाते क्र.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>येणे रक्कम</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>संस्थेचे शेअर्स रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>सा. का. शेअर्स रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>वसुलपात्र</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>खरीप</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगी पत्रक क्र.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगीची रक्कम रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>परतफेड</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रब्बी</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-करार नोंदणी दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-कराराची रक्कम रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;">एकून</td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+  </tr>
+  <tr>
+    <td style="background-color: rgb(7, 7, 7); color: white;">हंगाम २०२६-२०२७</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>ऊस</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>कर्ज खाते क्र.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>येणे रक्कम</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>संस्थेचे शेअर्स रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>सा. का. शेअर्स रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>वसुलपात्र</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>खरीप</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगी पत्रक क्र.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>जिंदगीची रक्कम रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>परतफेड</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>रब्बी</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-करार नोंदणी दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>दि.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>इ-कराराची रक्कम रु.</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;">एकून</td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+    <td style="border-top: 2px solid black; border-bottom: 2px solid black;"></td>
+  </tr>
+</table>
+</body>
+</html>

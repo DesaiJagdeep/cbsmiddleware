@@ -122,15 +122,59 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @Column(name = "entry_flag")
     private String entryFlag;
 
+    @Column(name = "birth_date")
+    private String birthDate;
+    @Column(name = "birth_date_mr")
+    private String birthDateMr;
+
+    @Column(name = "loan_ac_no")
+    private String loanAcNo;
+
+    @Column(name = "loan_ac_no_mr")
+    private String loanAcNoMr;
+
+
     @ManyToOne
     private FarmerTypeMaster farmerTypeMaster;
 
     @OneToOne(mappedBy = "kmMaster", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true)
     //@JsonIgnore
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public String getBirthDateMr() {
+        return birthDateMr;
+    }
+
+    public void setBirthDateMr(String birthDateMr) {
+        this.birthDateMr = birthDateMr;
+    }
+
+    public String getLoanAcNo() {
+        return loanAcNo;
+    }
+
+    public void setLoanAcNo(String loanAcNo) {
+        this.loanAcNo = loanAcNo;
+    }
+
+    public String getLoanAcNoMr() {
+        return loanAcNoMr;
+    }
+
+    public void setLoanAcNoMr(String loanAcNoMr) {
+        this.loanAcNoMr = loanAcNoMr;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
+    }
 
     public KmDetails getKmDetails() {
         return kmDetails;
@@ -318,7 +362,7 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
         return this;
     }
 
-    public void setAreaHectorMr(String areaHectorMr) {
+ public void setAreaHectorMr(String areaHectorMr) {
         this.areaHectorMr = areaHectorMr;
     }
 
@@ -523,37 +567,40 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "KmMaster{" +
-            "id=" + getId() +
-            ", branchCode='" + getBranchCode() + "'" +
-            ", branchCodeMr='" + getBranchCodeMr() + "'" +
-            ", farmerName='" + getFarmerName() + "'" +
-            ", farmerNameMr='" + getFarmerNameMr() + "'" +
-            ", farmerAddress='" + getFarmerAddress() + "'" +
-            ", farmerAddressMr='" + getFarmerAddressMr() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", genderMr='" + getGenderMr() + "'" +
-            ", caste='" + getCaste() + "'" +
-            ", casteMr='" + getCasteMr() + "'" +
-            ", pacsNumber='" + getPacsNumber() + "'" +
-            ", areaHector=" + getAreaHector() +
-            ", areaHectorMr='" + getAreaHectorMr() + "'" +
-            ", aadharNo='" + getAadharNo() + "'" +
-            ", aadharNoMr='" + getAadharNoMr() + "'" +
-            ", panNo='" + getPanNo() + "'" +
-            ", panNoMr='" + getPanNoMr() + "'" +
-            ", mobileNo='" + getMobileNo() + "'" +
-            ", mobileNoMr='" + getMobileNoMr() + "'" +
-            ", kccNo='" + getKccNo() + "'" +
-            ", kccNoMr='" + getKccNoMr() + "'" +
-            ", savingAcNo=" + getSavingAcNo() +
-            ", savingAcNoMr='" + getSavingAcNoMr() + "'" +
-            ", pacsMemberCode='" + getPacsMemberCode() + "'" +
-            ", pacsMemberCodeMr='" + getPacsMemberCodeMr() + "'" +
-            ", entryFlag='" + getEntryFlag() + "'" +
-            "}";
+            "id=" + id +
+            ", branchCode='" + branchCode + '\'' +
+            ", branchCodeMr='" + branchCodeMr + '\'' +
+            ", farmerName='" + farmerName + '\'' +
+            ", farmerNameMr='" + farmerNameMr + '\'' +
+            ", farmerAddress='" + farmerAddress + '\'' +
+            ", farmerAddressMr='" + farmerAddressMr + '\'' +
+            ", gender='" + gender + '\'' +
+            ", genderMr='" + genderMr + '\'' +
+            ", caste='" + caste + '\'' +
+            ", casteMr='" + casteMr + '\'' +
+            ", pacsNumber='" + pacsNumber + '\'' +
+            ", aadharNo='" + aadharNo + '\'' +
+            ", aadharNoMr='" + aadharNoMr + '\'' +
+            ", panNo='" + panNo + '\'' +
+            ", panNoMr='" + panNoMr + '\'' +
+            ", mobileNo='" + mobileNo + '\'' +
+            ", mobileNoMr='" + mobileNoMr + '\'' +
+            ", kccNo='" + kccNo + '\'' +
+            ", kccNoMr='" + kccNoMr + '\'' +
+            ", savingAcNo=" + savingAcNo +
+            ", savingAcNoMr='" + savingAcNoMr + '\'' +
+            ", pacsMemberCode='" + pacsMemberCode + '\'' +
+            ", pacsMemberCodeMr='" + pacsMemberCodeMr + '\'' +
+            ", entryFlag='" + entryFlag + '\'' +
+            ", birthDate='" + birthDate + '\'' +
+            ", birthDateMr='" + birthDateMr + '\'' +
+            ", loanAcNo='" + loanAcNo + '\'' +
+            ", loanAcNoMr='" + loanAcNoMr + '\'' +
+            ", farmerTypeMaster=" + farmerTypeMaster +
+            ", kmDetails=" + kmDetails +
+            '}';
     }
 }

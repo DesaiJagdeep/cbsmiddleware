@@ -92,9 +92,9 @@ public class KmCrops extends AbstractAuditingEntity<Long> implements Serializabl
     @ManyToOne
     private CropMaster cropMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade= CascadeType.DETACH)
     @JoinColumn(name = "km_details_id")
-    @JsonIgnoreProperties(value = { "kmMaster" }, allowSetters = true,allowGetters = true)
+    @JsonIgnoreProperties(value = { "shares","sharesMr","sugarShares","sugarSharesMr","deposite","depositeMr","dueLoan","dueLoanMr","dueAmount","dueAmountMr","dueDateMr","dueDate","kmDate","kmDateMr","kmFromDate","kmFromDateMr","kmToDate","kmToDateMr","bagayatHector","bagayatHectorMr","bagayatAre","bagayatAreMr","jirayatHector","jirayatHectorMr","jirayatAre","jirayatAreMr","zindagiAmt","zindagiNo","surveyNo","surveyNoMr","landValue","landValueMr","eAgreementAmt","eAgreementAmtMr","eAgreementDate","eAgreementDateMr","bojaAmount","bojaAmountMr","bojaDate","bojaDateMr","gattNo","gattNoMr","kmMaster","kmLoans","kmCrops"}, allowSetters = true)
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

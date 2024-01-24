@@ -1,0 +1,20 @@
+{
+  "changelogDate": "20240124134753",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "hangam",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "hangamMr",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "CropHangam",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

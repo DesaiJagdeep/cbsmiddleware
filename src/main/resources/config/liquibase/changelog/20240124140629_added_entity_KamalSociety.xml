@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity KamalSociety.
+    -->
+    <changeSet id="20240124140629-1" author="jhipster">
+        <createTable tableName="kamal_society">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="pacs_number" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="zindagi_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="zindagi_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_1" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_1_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_2_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_3" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_3_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_land" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_land_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_mem" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_mem_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_non_mem" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_non_mem_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_g_mem" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_g_mem_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_loan" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_loan_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_due" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_due_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_dueper" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_dueper_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasulpatra" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasulpatra_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasul" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasul_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasul_per" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasul_per_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_loan" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_loan_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_due" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_due_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_dueper" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_dueper_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasulpatra" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasulpatra_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasul" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasul_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasul_per" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasul_per_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="share_capital" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="share_capital_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="share" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="share_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="funds" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="funds_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="deposit" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="deposit_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="payable" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="payable_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="profit" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="profit_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="cash_in_hand" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="cash_in_hand_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="investment" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="investment_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="dead_stock" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="dead_stock_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="other_pay" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="other_pay_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loss" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="loss_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="kamal_society" columnName="zindagi_date" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20240124140629-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/kamal_society.csv"
+                  separator=";"
+                  tableName="kamal_society"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="pacs_number" type="numeric"/>
+            <column name="zindagi_date" type="date"/>
+            <column name="zindagi_date_mr" type="string"/>
+            <column name="village_1" type="string"/>
+            <column name="village_1_mr" type="string"/>
+            <column name="village_2" type="string"/>
+            <column name="village_2_mr" type="string"/>
+            <column name="village_3" type="string"/>
+            <column name="village_3_mr" type="string"/>
+            <column name="total_land" type="numeric"/>
+            <column name="total_land_mr" type="string"/>
+            <column name="total_mem" type="numeric"/>
+            <column name="total_mem_mr" type="string"/>
+            <column name="total_non_mem" type="numeric"/>
+            <column name="total_non_mem_mr" type="string"/>
+            <column name="total_g_mem" type="numeric"/>
+            <column name="total_g_mem_mr" type="string"/>
+            <column name="mem_loan" type="numeric"/>
+            <column name="mem_loan_mr" type="string"/>
+            <column name="mem_due" type="numeric"/>
+            <column name="mem_due_mr" type="string"/>
+            <column name="mem_dueper" type="numeric"/>
+            <column name="mem_dueper_mr" type="string"/>
+            <column name="mem_vasulpatra" type="numeric"/>
+            <column name="mem_vasulpatra_mr" type="string"/>
+            <column name="mem_vasul" type="numeric"/>
+            <column name="mem_vasul_mr" type="string"/>
+            <column name="mem_vasul_per" type="numeric"/>
+            <column name="mem_vasul_per_mr" type="string"/>
+            <column name="bank_loan" type="numeric"/>
+            <column name="bank_loan_mr" type="string"/>
+            <column name="bank_due" type="numeric"/>
+            <column name="bank_due_mr" type="string"/>
+            <column name="bank_dueper" type="numeric"/>
+            <column name="bank_dueper_mr" type="string"/>
+            <column name="bank_vasulpatra" type="numeric"/>
+            <column name="bank_vasulpatra_mr" type="string"/>
+            <column name="bank_vasul" type="numeric"/>
+            <column name="bank_vasul_mr" type="string"/>
+            <column name="bank_vasul_per" type="numeric"/>
+            <column name="bank_vasul_per_mr" type="string"/>
+            <column name="share_capital" type="numeric"/>
+            <column name="share_capital_mr" type="string"/>
+            <column name="share" type="numeric"/>
+            <column name="share_mr" type="string"/>
+            <column name="funds" type="numeric"/>
+            <column name="funds_mr" type="string"/>
+            <column name="deposit" type="numeric"/>
+            <column name="deposit_mr" type="string"/>
+            <column name="payable" type="numeric"/>
+            <column name="payable_mr" type="string"/>
+            <column name="profit" type="numeric"/>
+            <column name="profit_mr" type="string"/>
+            <column name="cash_in_hand" type="numeric"/>
+            <column name="cash_in_hand_mr" type="string"/>
+            <column name="investment" type="numeric"/>
+            <column name="investment_mr" type="string"/>
+            <column name="dead_stock" type="numeric"/>
+            <column name="dead_stock_mr" type="string"/>
+            <column name="other_pay" type="numeric"/>
+            <column name="other_pay_mr" type="string"/>
+            <column name="loss" type="numeric"/>
+            <column name="loss_mr" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "cropHangam": {
+      "home": {
+        "title": "Crop Hangams",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Crop Hangam",
+        "createOrEditLabel": "Create or edit a Crop Hangam",
+        "notFound": "No Crop Hangams found"
+      },
+      "created": "A new Crop Hangam is created with identifier {{ param }}",
+      "updated": "A Crop Hangam is updated with identifier {{ param }}",
+      "deleted": "A Crop Hangam is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Crop Hangam {{ id }}?"
+      },
+      "detail": {
+        "title": "Crop Hangam"
+      },
+      "id": "ID",
+      "hangam": "Hangam",
+      "hangamMr": "Hangam Mr"
+    }
+  }
+}

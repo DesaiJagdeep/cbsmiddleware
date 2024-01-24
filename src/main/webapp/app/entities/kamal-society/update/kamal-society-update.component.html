@@ -1,0 +1,611 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-kamal-society-heading"
+        data-cy="KamalSocietyCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.kamalSociety.home.createOrEditLabel"
+      >
+        Create or edit a Kamal Society
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="number"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.zindagiDate" for="field_zindagiDate">Zindagi Date</label>
+          <div class="d-flex">
+            <input
+              id="field_zindagiDate"
+              data-cy="zindagiDate"
+              type="datetime-local"
+              class="form-control"
+              name="zindagiDate"
+              formControlName="zindagiDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.zindagiDateMr" for="field_zindagiDateMr"
+            >Zindagi Date Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="zindagiDateMr"
+            id="field_zindagiDateMr"
+            data-cy="zindagiDateMr"
+            formControlName="zindagiDateMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village1" for="field_village1">Village 1</label>
+          <input type="text" class="form-control" name="village1" id="field_village1" data-cy="village1" formControlName="village1" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village1Mr" for="field_village1Mr">Village 1 Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="village1Mr"
+            id="field_village1Mr"
+            data-cy="village1Mr"
+            formControlName="village1Mr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village2" for="field_village2">Village 2</label>
+          <input type="text" class="form-control" name="village2" id="field_village2" data-cy="village2" formControlName="village2" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village2Mr" for="field_village2Mr">Village 2 Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="village2Mr"
+            id="field_village2Mr"
+            data-cy="village2Mr"
+            formControlName="village2Mr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village3" for="field_village3">Village 3</label>
+          <input type="text" class="form-control" name="village3" id="field_village3" data-cy="village3" formControlName="village3" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.village3Mr" for="field_village3Mr">Village 3 Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="village3Mr"
+            id="field_village3Mr"
+            data-cy="village3Mr"
+            formControlName="village3Mr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalLand" for="field_totalLand">Total Land</label>
+          <input type="number" class="form-control" name="totalLand" id="field_totalLand" data-cy="totalLand" formControlName="totalLand" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalLandMr" for="field_totalLandMr">Total Land Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="totalLandMr"
+            id="field_totalLandMr"
+            data-cy="totalLandMr"
+            formControlName="totalLandMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalMem" for="field_totalMem">Total Mem</label>
+          <input type="number" class="form-control" name="totalMem" id="field_totalMem" data-cy="totalMem" formControlName="totalMem" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalMemMr" for="field_totalMemMr">Total Mem Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="totalMemMr"
+            id="field_totalMemMr"
+            data-cy="totalMemMr"
+            formControlName="totalMemMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalNonMem" for="field_totalNonMem">Total Non Mem</label>
+          <input
+            type="number"
+            class="form-control"
+            name="totalNonMem"
+            id="field_totalNonMem"
+            data-cy="totalNonMem"
+            formControlName="totalNonMem"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalNonMemMr" for="field_totalNonMemMr"
+            >Total Non Mem Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="totalNonMemMr"
+            id="field_totalNonMemMr"
+            data-cy="totalNonMemMr"
+            formControlName="totalNonMemMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalGMem" for="field_totalGMem">Total G Mem</label>
+          <input type="number" class="form-control" name="totalGMem" id="field_totalGMem" data-cy="totalGMem" formControlName="totalGMem" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.totalGMemMr" for="field_totalGMemMr">Total G Mem Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="totalGMemMr"
+            id="field_totalGMemMr"
+            data-cy="totalGMemMr"
+            formControlName="totalGMemMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memLoan" for="field_memLoan">Mem Loan</label>
+          <input type="number" class="form-control" name="memLoan" id="field_memLoan" data-cy="memLoan" formControlName="memLoan" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memLoanMr" for="field_memLoanMr">Mem Loan Mr</label>
+          <input type="text" class="form-control" name="memLoanMr" id="field_memLoanMr" data-cy="memLoanMr" formControlName="memLoanMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memDue" for="field_memDue">Mem Due</label>
+          <input type="number" class="form-control" name="memDue" id="field_memDue" data-cy="memDue" formControlName="memDue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memDueMr" for="field_memDueMr">Mem Due Mr</label>
+          <input type="text" class="form-control" name="memDueMr" id="field_memDueMr" data-cy="memDueMr" formControlName="memDueMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memDueper" for="field_memDueper">Mem Dueper</label>
+          <input type="number" class="form-control" name="memDueper" id="field_memDueper" data-cy="memDueper" formControlName="memDueper" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memDueperMr" for="field_memDueperMr">Mem Dueper Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="memDueperMr"
+            id="field_memDueperMr"
+            data-cy="memDueperMr"
+            formControlName="memDueperMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasulpatra" for="field_memVasulpatra"
+            >Mem Vasulpatra</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="memVasulpatra"
+            id="field_memVasulpatra"
+            data-cy="memVasulpatra"
+            formControlName="memVasulpatra"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasulpatraMr" for="field_memVasulpatraMr"
+            >Mem Vasulpatra Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="memVasulpatraMr"
+            id="field_memVasulpatraMr"
+            data-cy="memVasulpatraMr"
+            formControlName="memVasulpatraMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasul" for="field_memVasul">Mem Vasul</label>
+          <input type="number" class="form-control" name="memVasul" id="field_memVasul" data-cy="memVasul" formControlName="memVasul" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasulMr" for="field_memVasulMr">Mem Vasul Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="memVasulMr"
+            id="field_memVasulMr"
+            data-cy="memVasulMr"
+            formControlName="memVasulMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasulPer" for="field_memVasulPer">Mem Vasul Per</label>
+          <input
+            type="number"
+            class="form-control"
+            name="memVasulPer"
+            id="field_memVasulPer"
+            data-cy="memVasulPer"
+            formControlName="memVasulPer"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.memVasulPerMr" for="field_memVasulPerMr"
+            >Mem Vasul Per Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="memVasulPerMr"
+            id="field_memVasulPerMr"
+            data-cy="memVasulPerMr"
+            formControlName="memVasulPerMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankLoan" for="field_bankLoan">Bank Loan</label>
+          <input type="number" class="form-control" name="bankLoan" id="field_bankLoan" data-cy="bankLoan" formControlName="bankLoan" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankLoanMr" for="field_bankLoanMr">Bank Loan Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="bankLoanMr"
+            id="field_bankLoanMr"
+            data-cy="bankLoanMr"
+            formControlName="bankLoanMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankDue" for="field_bankDue">Bank Due</label>
+          <input type="number" class="form-control" name="bankDue" id="field_bankDue" data-cy="bankDue" formControlName="bankDue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankDueMr" for="field_bankDueMr">Bank Due Mr</label>
+          <input type="text" class="form-control" name="bankDueMr" id="field_bankDueMr" data-cy="bankDueMr" formControlName="bankDueMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankDueper" for="field_bankDueper">Bank Dueper</label>
+          <input
+            type="number"
+            class="form-control"
+            name="bankDueper"
+            id="field_bankDueper"
+            data-cy="bankDueper"
+            formControlName="bankDueper"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankDueperMr" for="field_bankDueperMr"
+            >Bank Dueper Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="bankDueperMr"
+            id="field_bankDueperMr"
+            data-cy="bankDueperMr"
+            formControlName="bankDueperMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasulpatra" for="field_bankVasulpatra"
+            >Bank Vasulpatra</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="bankVasulpatra"
+            id="field_bankVasulpatra"
+            data-cy="bankVasulpatra"
+            formControlName="bankVasulpatra"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasulpatraMr" for="field_bankVasulpatraMr"
+            >Bank Vasulpatra Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="bankVasulpatraMr"
+            id="field_bankVasulpatraMr"
+            data-cy="bankVasulpatraMr"
+            formControlName="bankVasulpatraMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasul" for="field_bankVasul">Bank Vasul</label>
+          <input type="number" class="form-control" name="bankVasul" id="field_bankVasul" data-cy="bankVasul" formControlName="bankVasul" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasulMr" for="field_bankVasulMr">Bank Vasul Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="bankVasulMr"
+            id="field_bankVasulMr"
+            data-cy="bankVasulMr"
+            formControlName="bankVasulMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasulPer" for="field_bankVasulPer"
+            >Bank Vasul Per</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="bankVasulPer"
+            id="field_bankVasulPer"
+            data-cy="bankVasulPer"
+            formControlName="bankVasulPer"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.bankVasulPerMr" for="field_bankVasulPerMr"
+            >Bank Vasul Per Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="bankVasulPerMr"
+            id="field_bankVasulPerMr"
+            data-cy="bankVasulPerMr"
+            formControlName="bankVasulPerMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.shareCapital" for="field_shareCapital">Share Capital</label>
+          <input
+            type="number"
+            class="form-control"
+            name="shareCapital"
+            id="field_shareCapital"
+            data-cy="shareCapital"
+            formControlName="shareCapital"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.shareCapitalMr" for="field_shareCapitalMr"
+            >Share Capital Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="shareCapitalMr"
+            id="field_shareCapitalMr"
+            data-cy="shareCapitalMr"
+            formControlName="shareCapitalMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.share" for="field_share">Share</label>
+          <input type="number" class="form-control" name="share" id="field_share" data-cy="share" formControlName="share" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.shareMr" for="field_shareMr">Share Mr</label>
+          <input type="text" class="form-control" name="shareMr" id="field_shareMr" data-cy="shareMr" formControlName="shareMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.funds" for="field_funds">Funds</label>
+          <input type="number" class="form-control" name="funds" id="field_funds" data-cy="funds" formControlName="funds" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.fundsMr" for="field_fundsMr">Funds Mr</label>
+          <input type="text" class="form-control" name="fundsMr" id="field_fundsMr" data-cy="fundsMr" formControlName="fundsMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.deposit" for="field_deposit">Deposit</label>
+          <input type="number" class="form-control" name="deposit" id="field_deposit" data-cy="deposit" formControlName="deposit" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.depositMr" for="field_depositMr">Deposit Mr</label>
+          <input type="text" class="form-control" name="depositMr" id="field_depositMr" data-cy="depositMr" formControlName="depositMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.payable" for="field_payable">Payable</label>
+          <input type="number" class="form-control" name="payable" id="field_payable" data-cy="payable" formControlName="payable" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.payableMr" for="field_payableMr">Payable Mr</label>
+          <input type="text" class="form-control" name="payableMr" id="field_payableMr" data-cy="payableMr" formControlName="payableMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.profit" for="field_profit">Profit</label>
+          <input type="number" class="form-control" name="profit" id="field_profit" data-cy="profit" formControlName="profit" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.profitMr" for="field_profitMr">Profit Mr</label>
+          <input type="text" class="form-control" name="profitMr" id="field_profitMr" data-cy="profitMr" formControlName="profitMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.cashInHand" for="field_cashInHand">Cash In Hand</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cashInHand"
+            id="field_cashInHand"
+            data-cy="cashInHand"
+            formControlName="cashInHand"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.cashInHandMr" for="field_cashInHandMr"
+            >Cash In Hand Mr</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="cashInHandMr"
+            id="field_cashInHandMr"
+            data-cy="cashInHandMr"
+            formControlName="cashInHandMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.investment" for="field_investment">Investment</label>
+          <input
+            type="number"
+            class="form-control"
+            name="investment"
+            id="field_investment"
+            data-cy="investment"
+            formControlName="investment"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.investmentMr" for="field_investmentMr">Investment Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="investmentMr"
+            id="field_investmentMr"
+            data-cy="investmentMr"
+            formControlName="investmentMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.deadStock" for="field_deadStock">Dead Stock</label>
+          <input type="number" class="form-control" name="deadStock" id="field_deadStock" data-cy="deadStock" formControlName="deadStock" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.deadStockMr" for="field_deadStockMr">Dead Stock Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="deadStockMr"
+            id="field_deadStockMr"
+            data-cy="deadStockMr"
+            formControlName="deadStockMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.otherPay" for="field_otherPay">Other Pay</label>
+          <input type="number" class="form-control" name="otherPay" id="field_otherPay" data-cy="otherPay" formControlName="otherPay" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.otherPayMr" for="field_otherPayMr">Other Pay Mr</label>
+          <input
+            type="text"
+            class="form-control"
+            name="otherPayMr"
+            id="field_otherPayMr"
+            data-cy="otherPayMr"
+            formControlName="otherPayMr"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.loss" for="field_loss">Loss</label>
+          <input type="number" class="form-control" name="loss" id="field_loss" data-cy="loss" formControlName="loss" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.lossMr" for="field_lossMr">Loss Mr</label>
+          <input type="text" class="form-control" name="lossMr" id="field_lossMr" data-cy="lossMr" formControlName="lossMr" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

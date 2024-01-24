@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity KamalCrop.
+    -->
+    <changeSet id="20240124142724-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="farmer_type_master_id"
+                                 baseTableName="kamal_crop"
+                                 constraintName="fk_kamal_crop__farmer_type_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="farmer_type_master"/>
+
+        <addForeignKeyConstraint baseColumnNames="crop_hangam_id"
+                                 baseTableName="kamal_crop"
+                                 constraintName="fk_kamal_crop__crop_hangam_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crop_hangam"/>
+
+        <addForeignKeyConstraint baseColumnNames="crop_master_id"
+                                 baseTableName="kamal_crop"
+                                 constraintName="fk_kamal_crop__crop_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crop_master"/>
+
+        <addForeignKeyConstraint baseColumnNames="kamal_society_id"
+                                 baseTableName="kamal_crop"
+                                 constraintName="fk_kamal_crop__kamal_society_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="kamal_society"/>
+    </changeSet>
+</databaseChangeLog>

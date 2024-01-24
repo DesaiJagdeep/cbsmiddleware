@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="cropHangam">
+      <h2 data-cy="cropHangamDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.cropHangam.detail.title">Crop Hangam</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ cropHangam.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropHangam.hangam">Hangam</span></dt>
+        <dd>
+          <span>{{ cropHangam.hangam }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.cropHangam.hangamMr">Hangam Mr</span></dt>
+        <dd>
+          <span>{{ cropHangam.hangamMr }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/crop-hangam', cropHangam.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "cropHangam": {
+      "home": {
+        "title": "Crop Hangams",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Crop Hangam तयार करा",
+        "createOrEditLabel": "Crop Hangam तयार किंवा संपादित करा",
+        "notFound": "No Crop Hangams found"
+      },
+      "created": "Crop Hangam [identifier: {{ param }}] तयार आहे",
+      "updated": "Crop Hangam [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Crop Hangam [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Crop Hangam [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Crop Hangam"
+      },
+      "id": "ID",
+      "hangam": "Hangam",
+      "hangamMr": "Hangam Mr"
+    }
+  }
+}

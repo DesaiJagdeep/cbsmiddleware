@@ -1,0 +1,194 @@
+<div>
+  <h2 id="page-heading" data-cy="KamalCropHeading">
+    <span jhiTranslate="cbsMiddlewareApp.kamalCrop.home.title">Kamal Crops</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kamalCrop.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-kamal-crop"
+        [routerLink]="['/kamal-crop/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="cbsMiddlewareApp.kamalCrop.home.createLabel"> Create a new Kamal Crop </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="kamalCrops?.length === 0">
+    <span jhiTranslate="cbsMiddlewareApp.kamalCrop.home.notFound">No Kamal Crops found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="kamalCrops && kamalCrops.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsNumber">Pacs Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memNo">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNo">Mem No</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memHector">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHector">Mem Hector</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memNoMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNoMr">Mem No Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memHectorMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHectorMr">Mem Hector Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memAar">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAar">Mem Aar</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="memAarMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAarMr">Mem Aar Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="farmerTypeMaster.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.farmerTypeMaster">Farmer Type Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropHangam.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropHangam">Crop Hangam</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropMaster.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropMaster">Crop Master</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kamalSociety.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let kamalCrop of kamalCrops; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/kamal-crop', kamalCrop.id, 'view']">{{ kamalCrop.id }}</a>
+          </td>
+          <td>{{ kamalCrop.pacsNumber }}</td>
+          <td>{{ kamalCrop.memNo }}</td>
+          <td>{{ kamalCrop.memHector }}</td>
+          <td>{{ kamalCrop.memNoMr }}</td>
+          <td>{{ kamalCrop.memHectorMr }}</td>
+          <td>{{ kamalCrop.memAar }}</td>
+          <td>{{ kamalCrop.memAarMr }}</td>
+          <td>
+            <div *ngIf="kamalCrop.farmerTypeMaster">
+              <a [routerLink]="['/farmer-type-master', kamalCrop.farmerTypeMaster.id, 'view']">{{ kamalCrop.farmerTypeMaster.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="kamalCrop.cropHangam">
+              <a [routerLink]="['/crop-hangam', kamalCrop.cropHangam.id, 'view']">{{ kamalCrop.cropHangam.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="kamalCrop.cropMaster">
+              <a [routerLink]="['/crop-master', kamalCrop.cropMaster.id, 'view']">{{ kamalCrop.cropMaster.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="kamalCrop.kamalSociety">
+              <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/kamal-crop', kamalCrop.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/kamal-crop', kamalCrop.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(kamalCrop)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="kamalCrops && kamalCrops.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

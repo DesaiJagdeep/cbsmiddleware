@@ -6,11 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cbs.middleware.IntegrationTest;
-import com.cbs.middleware.domain.CropHangam;
 import com.cbs.middleware.domain.CropMaster;
 import com.cbs.middleware.domain.FarmerTypeMaster;
 import com.cbs.middleware.domain.KamalCrop;
 import com.cbs.middleware.domain.KamalSociety;
+import com.cbs.middleware.domain.SeasonMaster;
 import com.cbs.middleware.repository.KamalCropRepository;
 import com.cbs.middleware.service.criteria.KamalCropCriteria;
 import java.util.List;
@@ -852,25 +852,25 @@ class KamalCropResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalCropsByCropHangamIsEqualToSomething() throws Exception {
-        CropHangam cropHangam;
-        if (TestUtil.findAll(em, CropHangam.class).isEmpty()) {
+    void getAllKamalCropsBySeasonMasterIsEqualToSomething() throws Exception {
+        SeasonMaster seasonMaster;
+        if (TestUtil.findAll(em, SeasonMaster.class).isEmpty()) {
             kamalCropRepository.saveAndFlush(kamalCrop);
-            cropHangam = CropHangamResourceIT.createEntity(em);
+            seasonMaster = SeasonMasterResourceIT.createEntity(em);
         } else {
-            cropHangam = TestUtil.findAll(em, CropHangam.class).get(0);
+            seasonMaster = TestUtil.findAll(em, SeasonMaster.class).get(0);
         }
-        em.persist(cropHangam);
+        em.persist(seasonMaster);
         em.flush();
-        kamalCrop.setCropHangam(cropHangam);
+        kamalCrop.setSeasonMaster(seasonMaster);
         kamalCropRepository.saveAndFlush(kamalCrop);
-        Long cropHangamId = cropHangam.getId();
+        Long seasonMasterId = seasonMaster.getId();
 
-        // Get all the kamalCropList where cropHangam equals to cropHangamId
-        defaultKamalCropShouldBeFound("cropHangamId.equals=" + cropHangamId);
+        // Get all the kamalCropList where seasonMaster equals to seasonMasterId
+        defaultKamalCropShouldBeFound("seasonMasterId.equals=" + seasonMasterId);
 
-        // Get all the kamalCropList where cropHangam equals to (cropHangamId + 1)
-        defaultKamalCropShouldNotBeFound("cropHangamId.equals=" + (cropHangamId + 1));
+        // Get all the kamalCropList where seasonMaster equals to (seasonMasterId + 1)
+        defaultKamalCropShouldNotBeFound("seasonMasterId.equals=" + (seasonMasterId + 1));
     }
 
     @Test

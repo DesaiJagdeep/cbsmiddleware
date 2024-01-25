@@ -26,7 +26,7 @@ type KamalCropFormGroupContent = {
   memAar: FormControl<IKamalCrop['memAar']>;
   memAarMr: FormControl<IKamalCrop['memAarMr']>;
   farmerTypeMaster: FormControl<IKamalCrop['farmerTypeMaster']>;
-  cropHangam: FormControl<IKamalCrop['cropHangam']>;
+  seasonMaster: FormControl<IKamalCrop['seasonMaster']>;
   cropMaster: FormControl<IKamalCrop['cropMaster']>;
   kamalSociety: FormControl<IKamalCrop['kamalSociety']>;
 };
@@ -62,7 +62,7 @@ export class KamalCropFormService {
       memAar: new FormControl(kamalCropRawValue.memAar),
       memAarMr: new FormControl(kamalCropRawValue.memAarMr),
       farmerTypeMaster: new FormControl(kamalCropRawValue.farmerTypeMaster),
-      cropHangam: new FormControl(kamalCropRawValue.cropHangam),
+      seasonMaster: new FormControl(kamalCropRawValue.seasonMaster),
       cropMaster: new FormControl(kamalCropRawValue.cropMaster),
       kamalSociety: new FormControl(kamalCropRawValue.kamalSociety),
     });

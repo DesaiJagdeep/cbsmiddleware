@@ -115,12 +115,12 @@ public class KamalCropQueryService extends QueryService<KamalCrop> {
                         )
                     );
             }
-            if (criteria.getCropHangamId() != null) {
+            if (criteria.getSeasonMasterId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getCropHangamId(),
-                            root -> root.join(KamalCrop_.cropHangam, JoinType.LEFT).get(CropHangam_.id)
+                            criteria.getSeasonMasterId(),
+                            root -> root.join(KamalCrop_.seasonMaster, JoinType.LEFT).get(SeasonMaster_.id)
                         )
                     );
             }

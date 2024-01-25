@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "kamal_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializable {
+public class KamalCrop implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     private FarmerTypeMaster farmerTypeMaster;
 
     @ManyToOne
-    private CropHangam cropHangam;
+    private SeasonMaster seasonMaster;
 
     @ManyToOne
     private CropMaster cropMaster;
@@ -176,16 +176,16 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public CropHangam getCropHangam() {
-        return this.cropHangam;
+    public SeasonMaster getSeasonMaster() {
+        return this.seasonMaster;
     }
 
-    public void setCropHangam(CropHangam cropHangam) {
-        this.cropHangam = cropHangam;
+    public void setSeasonMaster(SeasonMaster seasonMaster) {
+        this.seasonMaster = seasonMaster;
     }
 
-    public KamalCrop cropHangam(CropHangam cropHangam) {
-        this.setCropHangam(cropHangam);
+    public KamalCrop seasonMaster(SeasonMaster seasonMaster) {
+        this.setSeasonMaster(seasonMaster);
         return this;
     }
 

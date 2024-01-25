@@ -126,18 +126,18 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.cropHangam" for="field_cropHangam">Crop Hangam</label>
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.seasonMaster" for="field_seasonMaster">Season Master</label>
           <select
             class="form-control"
-            id="field_cropHangam"
-            data-cy="cropHangam"
-            name="cropHangam"
-            formControlName="cropHangam"
-            [compareWith]="compareCropHangam"
+            id="field_seasonMaster"
+            data-cy="seasonMaster"
+            name="seasonMaster"
+            formControlName="seasonMaster"
+            [compareWith]="compareSeasonMaster"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="cropHangamOption" *ngFor="let cropHangamOption of cropHangamsSharedCollection">
-              {{ cropHangamOption.id }}
+            <option [ngValue]="seasonMasterOption" *ngFor="let seasonMasterOption of seasonMastersSharedCollection">
+              {{ seasonMasterOption.id }}
             </option>
           </select>
         </div>

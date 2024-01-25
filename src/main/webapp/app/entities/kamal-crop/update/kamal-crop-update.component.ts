@@ -9,8 +9,8 @@ import { IKamalCrop } from '../kamal-crop.model';
 import { KamalCropService } from '../service/kamal-crop.service';
 import { IFarmerTypeMaster } from 'app/entities/farmer-type-master/farmer-type-master.model';
 import { FarmerTypeMasterService } from 'app/entities/farmer-type-master/service/farmer-type-master.service';
-import { ICropHangam } from 'app/entities/crop-hangam/crop-hangam.model';
-import { CropHangamService } from 'app/entities/crop-hangam/service/crop-hangam.service';
+import { ISeasonMaster } from 'app/entities/season-master/season-master.model';
+import { SeasonMasterService } from 'app/entities/season-master/service/season-master.service';
 import { ICropMaster } from 'app/entities/crop-master/crop-master.model';
 import { CropMasterService } from 'app/entities/crop-master/service/crop-master.service';
 import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
@@ -25,7 +25,7 @@ export class KamalCropUpdateComponent implements OnInit {
   kamalCrop: IKamalCrop | null = null;
 
   farmerTypeMastersSharedCollection: IFarmerTypeMaster[] = [];
-  cropHangamsSharedCollection: ICropHangam[] = [];
+  seasonMastersSharedCollection: ISeasonMaster[] = [];
   cropMastersSharedCollection: ICropMaster[] = [];
   kamalSocietiesSharedCollection: IKamalSociety[] = [];
 
@@ -35,7 +35,7 @@ export class KamalCropUpdateComponent implements OnInit {
     protected kamalCropService: KamalCropService,
     protected kamalCropFormService: KamalCropFormService,
     protected farmerTypeMasterService: FarmerTypeMasterService,
-    protected cropHangamService: CropHangamService,
+    protected seasonMasterService: SeasonMasterService,
     protected cropMasterService: CropMasterService,
     protected kamalSocietyService: KamalSocietyService,
     protected activatedRoute: ActivatedRoute
@@ -44,7 +44,8 @@ export class KamalCropUpdateComponent implements OnInit {
   compareFarmerTypeMaster = (o1: IFarmerTypeMaster | null, o2: IFarmerTypeMaster | null): boolean =>
     this.farmerTypeMasterService.compareFarmerTypeMaster(o1, o2);
 
-  compareCropHangam = (o1: ICropHangam | null, o2: ICropHangam | null): boolean => this.cropHangamService.compareCropHangam(o1, o2);
+  compareSeasonMaster = (o1: ISeasonMaster | null, o2: ISeasonMaster | null): boolean =>
+    this.seasonMasterService.compareSeasonMaster(o1, o2);
 
   compareCropMaster = (o1: ICropMaster | null, o2: ICropMaster | null): boolean => this.cropMasterService.compareCropMaster(o1, o2);
 
@@ -103,9 +104,9 @@ export class KamalCropUpdateComponent implements OnInit {
       this.farmerTypeMastersSharedCollection,
       kamalCrop.farmerTypeMaster
     );
-    this.cropHangamsSharedCollection = this.cropHangamService.addCropHangamToCollectionIfMissing<ICropHangam>(
-      this.cropHangamsSharedCollection,
-      kamalCrop.cropHangam
+    this.seasonMastersSharedCollection = this.seasonMasterService.addSeasonMasterToCollectionIfMissing<ISeasonMaster>(
+      this.seasonMastersSharedCollection,
+      kamalCrop.seasonMaster
     );
     this.cropMastersSharedCollection = this.cropMasterService.addCropMasterToCollectionIfMissing<ICropMaster>(
       this.cropMastersSharedCollection,
@@ -131,15 +132,15 @@ export class KamalCropUpdateComponent implements OnInit {
       )
       .subscribe((farmerTypeMasters: IFarmerTypeMaster[]) => (this.farmerTypeMastersSharedCollection = farmerTypeMasters));
 
-    this.cropHangamService
+    this.seasonMasterService
       .query()
-      .pipe(map((res: HttpResponse<ICropHangam[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<ISeasonMaster[]>) => res.body ?? []))
       .pipe(
-        map((cropHangams: ICropHangam[]) =>
-          this.cropHangamService.addCropHangamToCollectionIfMissing<ICropHangam>(cropHangams, this.kamalCrop?.cropHangam)
+        map((seasonMasters: ISeasonMaster[]) =>
+          this.seasonMasterService.addSeasonMasterToCollectionIfMissing<ISeasonMaster>(seasonMasters, this.kamalCrop?.seasonMaster)
         )
       )
-      .subscribe((cropHangams: ICropHangam[]) => (this.cropHangamsSharedCollection = cropHangams));
+      .subscribe((seasonMasters: ISeasonMaster[]) => (this.seasonMastersSharedCollection = seasonMasters));
 
     this.cropMasterService
       .query()

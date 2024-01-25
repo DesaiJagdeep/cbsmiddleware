@@ -28,7 +28,7 @@ describe('KamalCrop Form Service', () => {
             memAar: expect.any(Object),
             memAarMr: expect.any(Object),
             farmerTypeMaster: expect.any(Object),
-            cropHangam: expect.any(Object),
+            seasonMaster: expect.any(Object),
             cropMaster: expect.any(Object),
             kamalSociety: expect.any(Object),
           })
@@ -49,7 +49,7 @@ describe('KamalCrop Form Service', () => {
             memAar: expect.any(Object),
             memAarMr: expect.any(Object),
             farmerTypeMaster: expect.any(Object),
-            cropHangam: expect.any(Object),
+            seasonMaster: expect.any(Object),
             cropMaster: expect.any(Object),
             kamalSociety: expect.any(Object),
           })

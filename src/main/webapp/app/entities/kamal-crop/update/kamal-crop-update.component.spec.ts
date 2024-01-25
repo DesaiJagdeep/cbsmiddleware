@@ -11,8 +11,8 @@ import { KamalCropService } from '../service/kamal-crop.service';
 import { IKamalCrop } from '../kamal-crop.model';
 import { IFarmerTypeMaster } from 'app/entities/farmer-type-master/farmer-type-master.model';
 import { FarmerTypeMasterService } from 'app/entities/farmer-type-master/service/farmer-type-master.service';
-import { ICropHangam } from 'app/entities/crop-hangam/crop-hangam.model';
-import { CropHangamService } from 'app/entities/crop-hangam/service/crop-hangam.service';
+import { ISeasonMaster } from 'app/entities/season-master/season-master.model';
+import { SeasonMasterService } from 'app/entities/season-master/service/season-master.service';
 import { ICropMaster } from 'app/entities/crop-master/crop-master.model';
 import { CropMasterService } from 'app/entities/crop-master/service/crop-master.service';
 import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
@@ -27,7 +27,7 @@ describe('KamalCrop Management Update Component', () => {
   let kamalCropFormService: KamalCropFormService;
   let kamalCropService: KamalCropService;
   let farmerTypeMasterService: FarmerTypeMasterService;
-  let cropHangamService: CropHangamService;
+  let seasonMasterService: SeasonMasterService;
   let cropMasterService: CropMasterService;
   let kamalSocietyService: KamalSocietyService;
 
@@ -53,7 +53,7 @@ describe('KamalCrop Management Update Component', () => {
     kamalCropFormService = TestBed.inject(KamalCropFormService);
     kamalCropService = TestBed.inject(KamalCropService);
     farmerTypeMasterService = TestBed.inject(FarmerTypeMasterService);
-    cropHangamService = TestBed.inject(CropHangamService);
+    seasonMasterService = TestBed.inject(SeasonMasterService);
     cropMasterService = TestBed.inject(CropMasterService);
     kamalSocietyService = TestBed.inject(KamalSocietyService);
 
@@ -83,26 +83,26 @@ describe('KamalCrop Management Update Component', () => {
       expect(comp.farmerTypeMastersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call CropHangam query and add missing value', () => {
+    it('Should call SeasonMaster query and add missing value', () => {
       const kamalCrop: IKamalCrop = { id: 456 };
-      const cropHangam: ICropHangam = { id: 64036 };
-      kamalCrop.cropHangam = cropHangam;
+      const seasonMaster: ISeasonMaster = { id: 64898 };
+      kamalCrop.seasonMaster = seasonMaster;
 
-      const cropHangamCollection: ICropHangam[] = [{ id: 87029 }];
-      jest.spyOn(cropHangamService, 'query').mockReturnValue(of(new HttpResponse({ body: cropHangamCollection })));
-      const additionalCropHangams = [cropHangam];
-      const expectedCollection: ICropHangam[] = [...additionalCropHangams, ...cropHangamCollection];
-      jest.spyOn(cropHangamService, 'addCropHangamToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const seasonMasterCollection: ISeasonMaster[] = [{ id: 88010 }];
+      jest.spyOn(seasonMasterService, 'query').mockReturnValue(of(new HttpResponse({ body: seasonMasterCollection })));
+      const additionalSeasonMasters = [seasonMaster];
+      const expectedCollection: ISeasonMaster[] = [...additionalSeasonMasters, ...seasonMasterCollection];
+      jest.spyOn(seasonMasterService, 'addSeasonMasterToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ kamalCrop });
       comp.ngOnInit();
 
-      expect(cropHangamService.query).toHaveBeenCalled();
-      expect(cropHangamService.addCropHangamToCollectionIfMissing).toHaveBeenCalledWith(
-        cropHangamCollection,
-        ...additionalCropHangams.map(expect.objectContaining)
+      expect(seasonMasterService.query).toHaveBeenCalled();
+      expect(seasonMasterService.addSeasonMasterToCollectionIfMissing).toHaveBeenCalledWith(
+        seasonMasterCollection,
+        ...additionalSeasonMasters.map(expect.objectContaining)
       );
-      expect(comp.cropHangamsSharedCollection).toEqual(expectedCollection);
+      expect(comp.seasonMastersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call CropMaster query and add missing value', () => {
@@ -153,8 +153,8 @@ describe('KamalCrop Management Update Component', () => {
       const kamalCrop: IKamalCrop = { id: 456 };
       const farmerTypeMaster: IFarmerTypeMaster = { id: 55511 };
       kamalCrop.farmerTypeMaster = farmerTypeMaster;
-      const cropHangam: ICropHangam = { id: 3172 };
-      kamalCrop.cropHangam = cropHangam;
+      const seasonMaster: ISeasonMaster = { id: 25409 };
+      kamalCrop.seasonMaster = seasonMaster;
       const cropMaster: ICropMaster = { id: 95278 };
       kamalCrop.cropMaster = cropMaster;
       const kamalSociety: IKamalSociety = { id: 75093 };
@@ -164,7 +164,7 @@ describe('KamalCrop Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.farmerTypeMastersSharedCollection).toContain(farmerTypeMaster);
-      expect(comp.cropHangamsSharedCollection).toContain(cropHangam);
+      expect(comp.seasonMastersSharedCollection).toContain(seasonMaster);
       expect(comp.cropMastersSharedCollection).toContain(cropMaster);
       expect(comp.kamalSocietiesSharedCollection).toContain(kamalSociety);
       expect(comp.kamalCrop).toEqual(kamalCrop);
@@ -250,13 +250,13 @@ describe('KamalCrop Management Update Component', () => {
       });
     });
 
-    describe('compareCropHangam', () => {
-      it('Should forward to cropHangamService', () => {
+    describe('compareSeasonMaster', () => {
+      it('Should forward to seasonMasterService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(cropHangamService, 'compareCropHangam');
-        comp.compareCropHangam(entity, entity2);
-        expect(cropHangamService.compareCropHangam).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(seasonMasterService, 'compareSeasonMaster');
+        comp.compareSeasonMaster(entity, entity2);
+        expect(seasonMasterService.compareSeasonMaster).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

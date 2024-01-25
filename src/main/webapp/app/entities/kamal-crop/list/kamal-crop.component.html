@@ -88,9 +88,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="cropHangam.id">
+          <th scope="col" jhiSortBy="seasonMaster.id">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropHangam">Crop Hangam</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.seasonMaster">Season Master</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -127,8 +127,8 @@
             </div>
           </td>
           <td>
-            <div *ngIf="kamalCrop.cropHangam">
-              <a [routerLink]="['/crop-hangam', kamalCrop.cropHangam.id, 'view']">{{ kamalCrop.cropHangam.id }}</a>
+            <div *ngIf="kamalCrop.seasonMaster">
+              <a [routerLink]="['/season-master', kamalCrop.seasonMaster.id, 'view']">{{ kamalCrop.seasonMaster.id }}</a>
             </div>
           </td>
           <td>

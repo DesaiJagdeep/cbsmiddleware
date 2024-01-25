@@ -48,10 +48,10 @@
             <a [routerLink]="['/farmer-type-master', kamalCrop.farmerTypeMaster.id, 'view']">{{ kamalCrop.farmerTypeMaster.id }}</a>
           </div>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropHangam">Crop Hangam</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.seasonMaster">Season Master</span></dt>
         <dd>
-          <div *ngIf="kamalCrop.cropHangam">
-            <a [routerLink]="['/crop-hangam', kamalCrop.cropHangam.id, 'view']">{{ kamalCrop.cropHangam.id }}</a>
+          <div *ngIf="kamalCrop.seasonMaster">
+            <a [routerLink]="['/season-master', kamalCrop.seasonMaster.id, 'view']">{{ kamalCrop.seasonMaster.id }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropMaster">Crop Master</span></dt>

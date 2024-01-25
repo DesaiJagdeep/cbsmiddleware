@@ -14,11 +14,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="farmer_type_master"/>
 
-        <addForeignKeyConstraint baseColumnNames="crop_hangam_id"
+        <addForeignKeyConstraint baseColumnNames="season_master_id"
                                  baseTableName="kamal_crop"
-                                 constraintName="fk_kamal_crop__crop_hangam_id"
+                                 constraintName="fk_kamal_crop__season_master_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="crop_hangam"/>
+                                 referencedTableName="season_master"/>
 
         <addForeignKeyConstraint baseColumnNames="crop_master_id"
                                  baseTableName="kamal_crop"

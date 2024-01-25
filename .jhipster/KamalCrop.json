@@ -47,8 +47,8 @@
     },
     {
       "otherEntityField": "id",
-      "otherEntityName": "cropHangam",
-      "relationshipName": "cropHangam",
+      "otherEntityName": "seasonMaster",
+      "relationshipName": "seasonMaster",
       "relationshipType": "many-to-one"
     },
     {

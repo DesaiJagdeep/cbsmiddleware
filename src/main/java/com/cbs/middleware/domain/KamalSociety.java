@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kamal_society")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalSociety extends AbstractAuditingEntity<Long> implements Serializable {
+public class KamalSociety implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -212,7 +212,7 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     private String lossMr;
 
     @OneToMany(mappedBy = "kamalSociety")
-    @JsonIgnoreProperties(value = { "farmerTypeMaster", "cropHangam", "cropMaster", "kamalSociety" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "farmerTypeMaster", "seasonMaster", "cropMaster", "kamalSociety" }, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

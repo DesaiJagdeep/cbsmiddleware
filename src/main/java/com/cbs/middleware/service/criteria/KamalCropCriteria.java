@@ -39,7 +39,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     private LongFilter farmerTypeMasterId;
 
-    private LongFilter cropHangamId;
+    private LongFilter seasonMasterId;
 
     private LongFilter cropMasterId;
 
@@ -59,7 +59,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.memAar = other.memAar == null ? null : other.memAar.copy();
         this.memAarMr = other.memAarMr == null ? null : other.memAarMr.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
-        this.cropHangamId = other.cropHangamId == null ? null : other.cropHangamId.copy();
+        this.seasonMasterId = other.seasonMasterId == null ? null : other.seasonMasterId.copy();
         this.cropMasterId = other.cropMasterId == null ? null : other.cropMasterId.copy();
         this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
         this.distinct = other.distinct;
@@ -205,19 +205,19 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.farmerTypeMasterId = farmerTypeMasterId;
     }
 
-    public LongFilter getCropHangamId() {
-        return cropHangamId;
+    public LongFilter getSeasonMasterId() {
+        return seasonMasterId;
     }
 
-    public LongFilter cropHangamId() {
-        if (cropHangamId == null) {
-            cropHangamId = new LongFilter();
+    public LongFilter seasonMasterId() {
+        if (seasonMasterId == null) {
+            seasonMasterId = new LongFilter();
         }
-        return cropHangamId;
+        return seasonMasterId;
     }
 
-    public void setCropHangamId(LongFilter cropHangamId) {
-        this.cropHangamId = cropHangamId;
+    public void setSeasonMasterId(LongFilter seasonMasterId) {
+        this.seasonMasterId = seasonMasterId;
     }
 
     public LongFilter getCropMasterId() {
@@ -277,7 +277,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             Objects.equals(memAar, that.memAar) &&
             Objects.equals(memAarMr, that.memAarMr) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
-            Objects.equals(cropHangamId, that.cropHangamId) &&
+            Objects.equals(seasonMasterId, that.seasonMasterId) &&
             Objects.equals(cropMasterId, that.cropMasterId) &&
             Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
             Objects.equals(distinct, that.distinct)
@@ -296,7 +296,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             memAar,
             memAarMr,
             farmerTypeMasterId,
-            cropHangamId,
+            seasonMasterId,
             cropMasterId,
             kamalSocietyId,
             distinct
@@ -316,7 +316,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             (memAar != null ? "memAar=" + memAar + ", " : "") +
             (memAarMr != null ? "memAarMr=" + memAarMr + ", " : "") +
             (farmerTypeMasterId != null ? "farmerTypeMasterId=" + farmerTypeMasterId + ", " : "") +
-            (cropHangamId != null ? "cropHangamId=" + cropHangamId + ", " : "") +
+            (seasonMasterId != null ? "seasonMasterId=" + seasonMasterId + ", " : "") +
             (cropMasterId != null ? "cropMasterId=" + cropMasterId + ", " : "") +
             (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +

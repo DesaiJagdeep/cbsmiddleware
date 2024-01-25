@@ -211,6 +211,18 @@ public class KamalSociety implements Serializable {
     @Column(name = "loss_mr")
     private String lossMr;
 
+    @Column(name = "total_bagayat")
+    private Double totalBagayat;
+
+    @Column(name = "total_bagayat_mr")
+    private String totalBagayatMr;
+
+    @Column(name = "total_jirayat")
+    private Double totalJirayat;
+
+    @Column(name = "total_jirayat_mr")
+    private String totalJirayatMr;
+
     @OneToMany(mappedBy = "kamalSociety")
     @JsonIgnoreProperties(value = { "farmerTypeMaster", "seasonMaster", "cropMaster", "kamalSociety" }, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
@@ -1049,6 +1061,58 @@ public class KamalSociety implements Serializable {
         this.lossMr = lossMr;
     }
 
+    public Double getTotalBagayat() {
+        return this.totalBagayat;
+    }
+
+    public KamalSociety totalBagayat(Double totalBagayat) {
+        this.setTotalBagayat(totalBagayat);
+        return this;
+    }
+
+    public void setTotalBagayat(Double totalBagayat) {
+        this.totalBagayat = totalBagayat;
+    }
+
+    public String getTotalBagayatMr() {
+        return this.totalBagayatMr;
+    }
+
+    public KamalSociety totalBagayatMr(String totalBagayatMr) {
+        this.setTotalBagayatMr(totalBagayatMr);
+        return this;
+    }
+
+    public void setTotalBagayatMr(String totalBagayatMr) {
+        this.totalBagayatMr = totalBagayatMr;
+    }
+
+    public Double getTotalJirayat() {
+        return this.totalJirayat;
+    }
+
+    public KamalSociety totalJirayat(Double totalJirayat) {
+        this.setTotalJirayat(totalJirayat);
+        return this;
+    }
+
+    public void setTotalJirayat(Double totalJirayat) {
+        this.totalJirayat = totalJirayat;
+    }
+
+    public String getTotalJirayatMr() {
+        return this.totalJirayatMr;
+    }
+
+    public KamalSociety totalJirayatMr(String totalJirayatMr) {
+        this.setTotalJirayatMr(totalJirayatMr);
+        return this;
+    }
+
+    public void setTotalJirayatMr(String totalJirayatMr) {
+        this.totalJirayatMr = totalJirayatMr;
+    }
+
     public Set<KamalCrop> getKamalCrops() {
         return this.kamalCrops;
     }
@@ -1167,6 +1231,10 @@ public class KamalSociety implements Serializable {
             ", otherPayMr='" + getOtherPayMr() + "'" +
             ", loss=" + getLoss() +
             ", lossMr='" + getLossMr() + "'" +
+            ", totalBagayat=" + getTotalBagayat() +
+            ", totalBagayatMr='" + getTotalBagayatMr() + "'" +
+            ", totalJirayat=" + getTotalJirayat() +
+            ", totalJirayatMr='" + getTotalJirayatMr() + "'" +
             "}";
     }
 }

@@ -234,6 +234,18 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getLossMr() != null) {
                     existingKamalSociety.setLossMr(kamalSociety.getLossMr());
                 }
+                if (kamalSociety.getTotalBagayat() != null) {
+                    existingKamalSociety.setTotalBagayat(kamalSociety.getTotalBagayat());
+                }
+                if (kamalSociety.getTotalBagayatMr() != null) {
+                    existingKamalSociety.setTotalBagayatMr(kamalSociety.getTotalBagayatMr());
+                }
+                if (kamalSociety.getTotalJirayat() != null) {
+                    existingKamalSociety.setTotalJirayat(kamalSociety.getTotalJirayat());
+                }
+                if (kamalSociety.getTotalJirayatMr() != null) {
+                    existingKamalSociety.setTotalJirayatMr(kamalSociety.getTotalJirayatMr());
+                }
 
                 return existingKamalSociety;
             })

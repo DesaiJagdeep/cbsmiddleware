@@ -65,6 +65,10 @@ export interface IKamalSociety {
   otherPayMr?: string | null;
   loss?: number | null;
   lossMr?: string | null;
+  totalBagayat?: number | null;
+  totalBagayatMr?: string | null;
+  totalJirayat?: number | null;
+  totalJirayatMr?: string | null;
 }
 
 export type NewKamalSociety = Omit<IKamalSociety, 'id'> & { id: null };

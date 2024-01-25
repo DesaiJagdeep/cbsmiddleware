@@ -203,6 +203,18 @@
             <column name="loss_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="total_bagayat" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_bagayat_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_jirayat" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_jirayat_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="kamal_society" columnName="zindagi_date" columnDataType="${datetimeType}"/>
@@ -288,6 +300,10 @@
             <column name="other_pay_mr" type="string"/>
             <column name="loss" type="numeric"/>
             <column name="loss_mr" type="string"/>
+            <column name="total_bagayat" type="numeric"/>
+            <column name="total_bagayat_mr" type="string"/>
+            <column name="total_jirayat" type="numeric"/>
+            <column name="total_jirayat_mr" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

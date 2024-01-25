@@ -149,6 +149,14 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private StringFilter lossMr;
 
+    private DoubleFilter totalBagayat;
+
+    private StringFilter totalBagayatMr;
+
+    private DoubleFilter totalJirayat;
+
+    private StringFilter totalJirayatMr;
+
     private LongFilter kamalCropId;
 
     private Boolean distinct;
@@ -220,6 +228,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.otherPayMr = other.otherPayMr == null ? null : other.otherPayMr.copy();
         this.loss = other.loss == null ? null : other.loss.copy();
         this.lossMr = other.lossMr == null ? null : other.lossMr.copy();
+        this.totalBagayat = other.totalBagayat == null ? null : other.totalBagayat.copy();
+        this.totalBagayatMr = other.totalBagayatMr == null ? null : other.totalBagayatMr.copy();
+        this.totalJirayat = other.totalJirayat == null ? null : other.totalJirayat.copy();
+        this.totalJirayatMr = other.totalJirayatMr == null ? null : other.totalJirayatMr.copy();
         this.kamalCropId = other.kamalCropId == null ? null : other.kamalCropId.copy();
         this.distinct = other.distinct;
     }
@@ -1189,6 +1201,66 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.lossMr = lossMr;
     }
 
+    public DoubleFilter getTotalBagayat() {
+        return totalBagayat;
+    }
+
+    public DoubleFilter totalBagayat() {
+        if (totalBagayat == null) {
+            totalBagayat = new DoubleFilter();
+        }
+        return totalBagayat;
+    }
+
+    public void setTotalBagayat(DoubleFilter totalBagayat) {
+        this.totalBagayat = totalBagayat;
+    }
+
+    public StringFilter getTotalBagayatMr() {
+        return totalBagayatMr;
+    }
+
+    public StringFilter totalBagayatMr() {
+        if (totalBagayatMr == null) {
+            totalBagayatMr = new StringFilter();
+        }
+        return totalBagayatMr;
+    }
+
+    public void setTotalBagayatMr(StringFilter totalBagayatMr) {
+        this.totalBagayatMr = totalBagayatMr;
+    }
+
+    public DoubleFilter getTotalJirayat() {
+        return totalJirayat;
+    }
+
+    public DoubleFilter totalJirayat() {
+        if (totalJirayat == null) {
+            totalJirayat = new DoubleFilter();
+        }
+        return totalJirayat;
+    }
+
+    public void setTotalJirayat(DoubleFilter totalJirayat) {
+        this.totalJirayat = totalJirayat;
+    }
+
+    public StringFilter getTotalJirayatMr() {
+        return totalJirayatMr;
+    }
+
+    public StringFilter totalJirayatMr() {
+        if (totalJirayatMr == null) {
+            totalJirayatMr = new StringFilter();
+        }
+        return totalJirayatMr;
+    }
+
+    public void setTotalJirayatMr(StringFilter totalJirayatMr) {
+        this.totalJirayatMr = totalJirayatMr;
+    }
+
     public LongFilter getKamalCropId() {
         return kamalCropId;
     }
@@ -1286,6 +1358,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(otherPayMr, that.otherPayMr) &&
             Objects.equals(loss, that.loss) &&
             Objects.equals(lossMr, that.lossMr) &&
+            Objects.equals(totalBagayat, that.totalBagayat) &&
+            Objects.equals(totalBagayatMr, that.totalBagayatMr) &&
+            Objects.equals(totalJirayat, that.totalJirayat) &&
+            Objects.equals(totalJirayatMr, that.totalJirayatMr) &&
             Objects.equals(kamalCropId, that.kamalCropId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -1358,6 +1434,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             otherPayMr,
             loss,
             lossMr,
+            totalBagayat,
+            totalBagayatMr,
+            totalJirayat,
+            totalJirayatMr,
             kamalCropId,
             distinct
         );
@@ -1431,6 +1511,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (otherPayMr != null ? "otherPayMr=" + otherPayMr + ", " : "") +
             (loss != null ? "loss=" + loss + ", " : "") +
             (lossMr != null ? "lossMr=" + lossMr + ", " : "") +
+            (totalBagayat != null ? "totalBagayat=" + totalBagayat + ", " : "") +
+            (totalBagayatMr != null ? "totalBagayatMr=" + totalBagayatMr + ", " : "") +
+            (totalJirayat != null ? "totalJirayat=" + totalJirayat + ", " : "") +
+            (totalJirayatMr != null ? "totalJirayatMr=" + totalJirayatMr + ", " : "") +
             (kamalCropId != null ? "kamalCropId=" + kamalCropId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

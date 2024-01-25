@@ -253,6 +253,22 @@
     {
       "fieldName": "lossMr",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "totalBagayat",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalBagayatMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalJirayat",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalJirayatMr",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

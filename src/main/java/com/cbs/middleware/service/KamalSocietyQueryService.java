@@ -274,6 +274,18 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getLossMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLossMr(), KamalSociety_.lossMr));
             }
+            if (criteria.getTotalBagayat() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalBagayat(), KamalSociety_.totalBagayat));
+            }
+            if (criteria.getTotalBagayatMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalBagayatMr(), KamalSociety_.totalBagayatMr));
+            }
+            if (criteria.getTotalJirayat() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalJirayat(), KamalSociety_.totalJirayat));
+            }
+            if (criteria.getTotalJirayatMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalJirayatMr(), KamalSociety_.totalJirayatMr));
+            }
             if (criteria.getKamalCropId() != null) {
                 specification =
                     specification.and(

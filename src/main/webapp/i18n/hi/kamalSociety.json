@@ -81,6 +81,10 @@
       "otherPayMr": "Other Pay Mr",
       "loss": "Loss",
       "lossMr": "Loss Mr",
+      "totalBagayat": "Total Bagayat",
+      "totalBagayatMr": "Total Bagayat Mr",
+      "totalJirayat": "Total Jirayat",
+      "totalJirayatMr": "Total Jirayat Mr",
       "kamalCrop": "Kamal Crop"
     }
   }

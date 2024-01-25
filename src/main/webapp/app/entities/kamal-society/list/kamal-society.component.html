@@ -418,6 +418,30 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="totalBagayat">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.totalBagayat">Total Bagayat</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalBagayatMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.totalBagayatMr">Total Bagayat Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalJirayat">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.totalJirayat">Total Jirayat</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="totalJirayatMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.totalJirayatMr">Total Jirayat Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -489,6 +513,10 @@
           <td>{{ kamalSociety.otherPayMr }}</td>
           <td>{{ kamalSociety.loss }}</td>
           <td>{{ kamalSociety.lossMr }}</td>
+          <td>{{ kamalSociety.totalBagayat }}</td>
+          <td>{{ kamalSociety.totalBagayatMr }}</td>
+          <td>{{ kamalSociety.totalJirayat }}</td>
+          <td>{{ kamalSociety.totalJirayatMr }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

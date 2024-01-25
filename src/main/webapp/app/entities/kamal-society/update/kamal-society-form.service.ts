@@ -94,6 +94,10 @@ type KamalSocietyFormGroupContent = {
   otherPayMr: FormControl<KamalSocietyFormRawValue['otherPayMr']>;
   loss: FormControl<KamalSocietyFormRawValue['loss']>;
   lossMr: FormControl<KamalSocietyFormRawValue['lossMr']>;
+  totalBagayat: FormControl<KamalSocietyFormRawValue['totalBagayat']>;
+  totalBagayatMr: FormControl<KamalSocietyFormRawValue['totalBagayatMr']>;
+  totalJirayat: FormControl<KamalSocietyFormRawValue['totalJirayat']>;
+  totalJirayatMr: FormControl<KamalSocietyFormRawValue['totalJirayatMr']>;
 };
 
 export type KamalSocietyFormGroup = FormGroup<KamalSocietyFormGroupContent>;
@@ -176,6 +180,10 @@ export class KamalSocietyFormService {
       otherPayMr: new FormControl(kamalSocietyRawValue.otherPayMr),
       loss: new FormControl(kamalSocietyRawValue.loss),
       lossMr: new FormControl(kamalSocietyRawValue.lossMr),
+      totalBagayat: new FormControl(kamalSocietyRawValue.totalBagayat),
+      totalBagayatMr: new FormControl(kamalSocietyRawValue.totalBagayatMr),
+      totalJirayat: new FormControl(kamalSocietyRawValue.totalJirayat),
+      totalJirayatMr: new FormControl(kamalSocietyRawValue.totalJirayatMr),
     });
   }
 

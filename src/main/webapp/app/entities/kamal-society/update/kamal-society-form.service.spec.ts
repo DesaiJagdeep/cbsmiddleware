@@ -83,6 +83,10 @@ describe('KamalSociety Form Service', () => {
             otherPayMr: expect.any(Object),
             loss: expect.any(Object),
             lossMr: expect.any(Object),
+            totalBagayat: expect.any(Object),
+            totalBagayatMr: expect.any(Object),
+            totalJirayat: expect.any(Object),
+            totalJirayatMr: expect.any(Object),
           })
         );
       });
@@ -156,6 +160,10 @@ describe('KamalSociety Form Service', () => {
             otherPayMr: expect.any(Object),
             loss: expect.any(Object),
             lossMr: expect.any(Object),
+            totalBagayat: expect.any(Object),
+            totalBagayatMr: expect.any(Object),
+            totalJirayat: expect.any(Object),
+            totalJirayatMr: expect.any(Object),
           })
         );
       });

@@ -250,6 +250,20 @@ class KamalSocietyResourceIT {
     private static final String DEFAULT_LOSS_MR = "AAAAAAAAAA";
     private static final String UPDATED_LOSS_MR = "BBBBBBBBBB";
 
+    private static final Double DEFAULT_TOTAL_BAGAYAT = 1D;
+    private static final Double UPDATED_TOTAL_BAGAYAT = 2D;
+    private static final Double SMALLER_TOTAL_BAGAYAT = 1D - 1D;
+
+    private static final String DEFAULT_TOTAL_BAGAYAT_MR = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_BAGAYAT_MR = "BBBBBBBBBB";
+
+    private static final Double DEFAULT_TOTAL_JIRAYAT = 1D;
+    private static final Double UPDATED_TOTAL_JIRAYAT = 2D;
+    private static final Double SMALLER_TOTAL_JIRAYAT = 1D - 1D;
+
+    private static final String DEFAULT_TOTAL_JIRAYAT_MR = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_JIRAYAT_MR = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/kamal-societies";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -337,7 +351,11 @@ class KamalSocietyResourceIT {
             .otherPay(DEFAULT_OTHER_PAY)
             .otherPayMr(DEFAULT_OTHER_PAY_MR)
             .loss(DEFAULT_LOSS)
-            .lossMr(DEFAULT_LOSS_MR);
+            .lossMr(DEFAULT_LOSS_MR)
+            .totalBagayat(DEFAULT_TOTAL_BAGAYAT)
+            .totalBagayatMr(DEFAULT_TOTAL_BAGAYAT_MR)
+            .totalJirayat(DEFAULT_TOTAL_JIRAYAT)
+            .totalJirayatMr(DEFAULT_TOTAL_JIRAYAT_MR);
         return kamalSociety;
     }
 
@@ -411,7 +429,11 @@ class KamalSocietyResourceIT {
             .otherPay(UPDATED_OTHER_PAY)
             .otherPayMr(UPDATED_OTHER_PAY_MR)
             .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR);
+            .lossMr(UPDATED_LOSS_MR)
+            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
+            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
+            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
+            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
         return kamalSociety;
     }
 
@@ -496,6 +518,10 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(DEFAULT_OTHER_PAY_MR);
         assertThat(testKamalSociety.getLoss()).isEqualTo(DEFAULT_LOSS);
         assertThat(testKamalSociety.getLossMr()).isEqualTo(DEFAULT_LOSS_MR);
+        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(DEFAULT_TOTAL_BAGAYAT);
+        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(DEFAULT_TOTAL_BAGAYAT_MR);
+        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(DEFAULT_TOTAL_JIRAYAT);
+        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(DEFAULT_TOTAL_JIRAYAT_MR);
     }
 
     @Test
@@ -590,7 +616,11 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].otherPay").value(hasItem(DEFAULT_OTHER_PAY.doubleValue())))
             .andExpect(jsonPath("$.[*].otherPayMr").value(hasItem(DEFAULT_OTHER_PAY_MR)))
             .andExpect(jsonPath("$.[*].loss").value(hasItem(DEFAULT_LOSS.doubleValue())))
-            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)));
+            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)))
+            .andExpect(jsonPath("$.[*].totalBagayat").value(hasItem(DEFAULT_TOTAL_BAGAYAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalBagayatMr").value(hasItem(DEFAULT_TOTAL_BAGAYAT_MR)))
+            .andExpect(jsonPath("$.[*].totalJirayat").value(hasItem(DEFAULT_TOTAL_JIRAYAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalJirayatMr").value(hasItem(DEFAULT_TOTAL_JIRAYAT_MR)));
     }
 
     @Test
@@ -667,7 +697,11 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.otherPay").value(DEFAULT_OTHER_PAY.doubleValue()))
             .andExpect(jsonPath("$.otherPayMr").value(DEFAULT_OTHER_PAY_MR))
             .andExpect(jsonPath("$.loss").value(DEFAULT_LOSS.doubleValue()))
-            .andExpect(jsonPath("$.lossMr").value(DEFAULT_LOSS_MR));
+            .andExpect(jsonPath("$.lossMr").value(DEFAULT_LOSS_MR))
+            .andExpect(jsonPath("$.totalBagayat").value(DEFAULT_TOTAL_BAGAYAT.doubleValue()))
+            .andExpect(jsonPath("$.totalBagayatMr").value(DEFAULT_TOTAL_BAGAYAT_MR))
+            .andExpect(jsonPath("$.totalJirayat").value(DEFAULT_TOTAL_JIRAYAT.doubleValue()))
+            .andExpect(jsonPath("$.totalJirayatMr").value(DEFAULT_TOTAL_JIRAYAT_MR));
     }
 
     @Test
@@ -5487,6 +5521,318 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat equals to DEFAULT_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.equals=" + DEFAULT_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat equals to UPDATED_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.equals=" + UPDATED_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat in DEFAULT_TOTAL_BAGAYAT or UPDATED_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.in=" + DEFAULT_TOTAL_BAGAYAT + "," + UPDATED_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat equals to UPDATED_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.in=" + UPDATED_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat is not null
+        defaultKamalSocietyShouldBeFound("totalBagayat.specified=true");
+
+        // Get all the kamalSocietyList where totalBagayat is null
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat is greater than or equal to DEFAULT_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.greaterThanOrEqual=" + DEFAULT_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat is greater than or equal to UPDATED_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.greaterThanOrEqual=" + UPDATED_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat is less than or equal to DEFAULT_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.lessThanOrEqual=" + DEFAULT_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat is less than or equal to SMALLER_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.lessThanOrEqual=" + SMALLER_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsLessThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat is less than DEFAULT_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.lessThan=" + DEFAULT_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat is less than UPDATED_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.lessThan=" + UPDATED_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayat is greater than DEFAULT_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("totalBagayat.greaterThan=" + DEFAULT_TOTAL_BAGAYAT);
+
+        // Get all the kamalSocietyList where totalBagayat is greater than SMALLER_TOTAL_BAGAYAT
+        defaultKamalSocietyShouldBeFound("totalBagayat.greaterThan=" + SMALLER_TOTAL_BAGAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayatMr equals to DEFAULT_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalBagayatMr.equals=" + DEFAULT_TOTAL_BAGAYAT_MR);
+
+        // Get all the kamalSocietyList where totalBagayatMr equals to UPDATED_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.equals=" + UPDATED_TOTAL_BAGAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayatMr in DEFAULT_TOTAL_BAGAYAT_MR or UPDATED_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalBagayatMr.in=" + DEFAULT_TOTAL_BAGAYAT_MR + "," + UPDATED_TOTAL_BAGAYAT_MR);
+
+        // Get all the kamalSocietyList where totalBagayatMr equals to UPDATED_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.in=" + UPDATED_TOTAL_BAGAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayatMr is not null
+        defaultKamalSocietyShouldBeFound("totalBagayatMr.specified=true");
+
+        // Get all the kamalSocietyList where totalBagayatMr is null
+        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayatMr contains DEFAULT_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalBagayatMr.contains=" + DEFAULT_TOTAL_BAGAYAT_MR);
+
+        // Get all the kamalSocietyList where totalBagayatMr contains UPDATED_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.contains=" + UPDATED_TOTAL_BAGAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalBagayatMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalBagayatMr does not contain DEFAULT_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.doesNotContain=" + DEFAULT_TOTAL_BAGAYAT_MR);
+
+        // Get all the kamalSocietyList where totalBagayatMr does not contain UPDATED_TOTAL_BAGAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalBagayatMr.doesNotContain=" + UPDATED_TOTAL_BAGAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat equals to DEFAULT_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.equals=" + DEFAULT_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat equals to UPDATED_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.equals=" + UPDATED_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat in DEFAULT_TOTAL_JIRAYAT or UPDATED_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.in=" + DEFAULT_TOTAL_JIRAYAT + "," + UPDATED_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat equals to UPDATED_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.in=" + UPDATED_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat is not null
+        defaultKamalSocietyShouldBeFound("totalJirayat.specified=true");
+
+        // Get all the kamalSocietyList where totalJirayat is null
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat is greater than or equal to DEFAULT_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.greaterThanOrEqual=" + DEFAULT_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat is greater than or equal to UPDATED_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.greaterThanOrEqual=" + UPDATED_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat is less than or equal to DEFAULT_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.lessThanOrEqual=" + DEFAULT_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat is less than or equal to SMALLER_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.lessThanOrEqual=" + SMALLER_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsLessThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat is less than DEFAULT_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.lessThan=" + DEFAULT_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat is less than UPDATED_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.lessThan=" + UPDATED_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayat is greater than DEFAULT_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("totalJirayat.greaterThan=" + DEFAULT_TOTAL_JIRAYAT);
+
+        // Get all the kamalSocietyList where totalJirayat is greater than SMALLER_TOTAL_JIRAYAT
+        defaultKamalSocietyShouldBeFound("totalJirayat.greaterThan=" + SMALLER_TOTAL_JIRAYAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayatMr equals to DEFAULT_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalJirayatMr.equals=" + DEFAULT_TOTAL_JIRAYAT_MR);
+
+        // Get all the kamalSocietyList where totalJirayatMr equals to UPDATED_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.equals=" + UPDATED_TOTAL_JIRAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayatMr in DEFAULT_TOTAL_JIRAYAT_MR or UPDATED_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalJirayatMr.in=" + DEFAULT_TOTAL_JIRAYAT_MR + "," + UPDATED_TOTAL_JIRAYAT_MR);
+
+        // Get all the kamalSocietyList where totalJirayatMr equals to UPDATED_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.in=" + UPDATED_TOTAL_JIRAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayatMr is not null
+        defaultKamalSocietyShouldBeFound("totalJirayatMr.specified=true");
+
+        // Get all the kamalSocietyList where totalJirayatMr is null
+        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayatMr contains DEFAULT_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalJirayatMr.contains=" + DEFAULT_TOTAL_JIRAYAT_MR);
+
+        // Get all the kamalSocietyList where totalJirayatMr contains UPDATED_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.contains=" + UPDATED_TOTAL_JIRAYAT_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTotalJirayatMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where totalJirayatMr does not contain DEFAULT_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.doesNotContain=" + DEFAULT_TOTAL_JIRAYAT_MR);
+
+        // Get all the kamalSocietyList where totalJirayatMr does not contain UPDATED_TOTAL_JIRAYAT_MR
+        defaultKamalSocietyShouldBeFound("totalJirayatMr.doesNotContain=" + UPDATED_TOTAL_JIRAYAT_MR);
+    }
+
+    @Test
+    @Transactional
     void getAllKamalSocietiesByKamalCropIsEqualToSomething() throws Exception {
         KamalCrop kamalCrop;
         if (TestUtil.findAll(em, KamalCrop.class).isEmpty()) {
@@ -5579,7 +5925,11 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].otherPay").value(hasItem(DEFAULT_OTHER_PAY.doubleValue())))
             .andExpect(jsonPath("$.[*].otherPayMr").value(hasItem(DEFAULT_OTHER_PAY_MR)))
             .andExpect(jsonPath("$.[*].loss").value(hasItem(DEFAULT_LOSS.doubleValue())))
-            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)));
+            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)))
+            .andExpect(jsonPath("$.[*].totalBagayat").value(hasItem(DEFAULT_TOTAL_BAGAYAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalBagayatMr").value(hasItem(DEFAULT_TOTAL_BAGAYAT_MR)))
+            .andExpect(jsonPath("$.[*].totalJirayat").value(hasItem(DEFAULT_TOTAL_JIRAYAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].totalJirayatMr").value(hasItem(DEFAULT_TOTAL_JIRAYAT_MR)));
 
         // Check, that the count call also returns 1
         restKamalSocietyMockMvc
@@ -5690,7 +6040,11 @@ class KamalSocietyResourceIT {
             .otherPay(UPDATED_OTHER_PAY)
             .otherPayMr(UPDATED_OTHER_PAY_MR)
             .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR);
+            .lossMr(UPDATED_LOSS_MR)
+            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
+            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
+            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
+            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5767,6 +6121,10 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
         assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
         assertThat(testKamalSociety.getLossMr()).isEqualTo(UPDATED_LOSS_MR);
+        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(UPDATED_TOTAL_BAGAYAT);
+        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(UPDATED_TOTAL_BAGAYAT_MR);
+        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(UPDATED_TOTAL_JIRAYAT);
+        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
     }
 
     @Test
@@ -5868,7 +6226,8 @@ class KamalSocietyResourceIT {
             .deadStockMr(UPDATED_DEAD_STOCK_MR)
             .otherPay(UPDATED_OTHER_PAY)
             .otherPayMr(UPDATED_OTHER_PAY_MR)
-            .loss(UPDATED_LOSS);
+            .loss(UPDATED_LOSS)
+            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5945,6 +6304,10 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
         assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
         assertThat(testKamalSociety.getLossMr()).isEqualTo(DEFAULT_LOSS_MR);
+        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(DEFAULT_TOTAL_BAGAYAT);
+        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(DEFAULT_TOTAL_BAGAYAT_MR);
+        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(DEFAULT_TOTAL_JIRAYAT);
+        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
     }
 
     @Test
@@ -6022,7 +6385,11 @@ class KamalSocietyResourceIT {
             .otherPay(UPDATED_OTHER_PAY)
             .otherPayMr(UPDATED_OTHER_PAY_MR)
             .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR);
+            .lossMr(UPDATED_LOSS_MR)
+            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
+            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
+            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
+            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
 
         restKamalSocietyMockMvc
             .perform(
@@ -6099,6 +6466,10 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
         assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
         assertThat(testKamalSociety.getLossMr()).isEqualTo(UPDATED_LOSS_MR);
+        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(UPDATED_TOTAL_BAGAYAT);
+        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(UPDATED_TOTAL_BAGAYAT_MR);
+        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(UPDATED_TOTAL_JIRAYAT);
+        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
     }
 
     @Test

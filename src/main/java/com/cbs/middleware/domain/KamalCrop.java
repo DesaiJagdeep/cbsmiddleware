@@ -1,5 +1,7 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import javax.persistence.*;
 
@@ -9,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kamal_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalCrop implements Serializable {
+public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,16 +44,20 @@ public class KamalCrop implements Serializable {
     @Column(name = "crop_eligibility_amount")
     private String cropEligibilityAmount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private KamalSociety kamalSociety;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private FarmerTypeMaster farmerTypeMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private CropMaster cropMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

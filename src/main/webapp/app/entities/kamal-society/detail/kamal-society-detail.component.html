@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kamalSociety">
+      <h2 data-cy="kamalSocietyDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kamalSociety.detail.title">Kamal Society</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kamalSociety.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.financialYear">Financial Year</span></dt>
+        <dd>
+          <span>{{ kamalSociety.financialYear }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.kmDate">Km Date</span></dt>
+        <dd>
+          <span>{{ kamalSociety.kmDate | formatMediumDatetime }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/kamal-society', kamalSociety.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

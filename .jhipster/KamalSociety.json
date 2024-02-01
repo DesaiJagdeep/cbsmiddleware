@@ -1,0 +1,21 @@
+{
+  "changelogDate": "20240201123349",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KamalSociety",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

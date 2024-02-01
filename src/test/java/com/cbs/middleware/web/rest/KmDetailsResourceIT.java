@@ -3594,7 +3594,7 @@ class KmDetailsResourceIT {
         }
         em.persist(kmMaster);
         em.flush();
-        kmDetails.setKmMaster(kmMaster);
+        //kmDetails.setKmMaster(kmMaster);
         kmDetailsRepository.saveAndFlush(kmDetails);
         Long kmMasterId = kmMaster.getId();
 

@@ -223,11 +223,22 @@ public class IssFileParserTemp extends AbstractAuditingEntity<Long> implements S
     @Column(name = "fourth_recovery_date")
     private String fourthRecoveryDate;
 
+    @Column(name = "uploading_user")
+    private String uploadingUser;
 
     @ManyToOne
     private IssPortalFile issPortalFile;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public String getUploadingUser() {
+        return uploadingUser;
+    }
+
+    public void setUploadingUser(String uploadingUser) {
+        this.uploadingUser = uploadingUser;
+    }
 
     public Long getId() {
         return this.id;

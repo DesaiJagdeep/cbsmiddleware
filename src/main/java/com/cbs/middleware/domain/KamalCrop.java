@@ -11,7 +11,8 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "kamal_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalCrop implements Serializable {
+@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -44,16 +45,19 @@ public class KamalCrop implements Serializable {
     @Column(name = "mem_aar_mr")
     private String memAarMr;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private FarmerTypeMaster farmerTypeMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private CropMaster cropMaster;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "kamalCrops" }, allowSetters = true)
     private KamalSociety kamalSociety;
 

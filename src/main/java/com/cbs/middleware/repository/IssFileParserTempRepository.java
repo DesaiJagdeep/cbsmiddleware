@@ -32,6 +32,8 @@ public interface IssFileParserTempRepository extends JpaRepository<IssFileParser
     @Query(value = "select * from iss_file_parser_temp where pacs_number=:pacsNumber and financial_year=:fYear ",nativeQuery = true)
     List<IssFileParserTemp> findByPacsNumberAndFinancialYear(@Param("pacsNumber") String pacsNumber, @Param("fYear") String fYear);
 
+    @Query(value = "select * from iss_file_parser_temp where pacs_number=:pacsNumber and uploading_user=:login ",nativeQuery = true)
+    List<IssFileParserTemp> findByPacsNumberAndUploadingUser(@Param("pacsNumber") String pacsNumber, @Param("login") String login);
 
     Optional<IssFileParserTemp> findByFinancialYearEqualsAndAccountNumberEqualsAndLoanSactionDateEqualsAndKccIssCropCodeEqualsAndDisbursementDateEqualsAndMaturityLoanDateEquals(
         String financialYear,

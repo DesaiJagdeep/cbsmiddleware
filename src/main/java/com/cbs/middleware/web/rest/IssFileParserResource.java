@@ -44,12 +44,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.actuate.autoconfigure.metrics.MetricsProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -299,6 +300,11 @@ public class IssFileParserResource {
         @PathVariable String financialYear,
         RedirectAttributes redirectAttributes
     ) throws Exception {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String login = optUser.get().getLogin();
+
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
         FileParseConf fileParseConf = new FileParseConf();
         if (!"xlsx".equalsIgnoreCase(fileExtension) && !"xls".equalsIgnoreCase(fileExtension)) {
@@ -995,14 +1001,14 @@ public class IssFileParserResource {
             }
 
             String bankCodeValue = getCellValue(row.getCell(2));
-            if ( !bankCodeValue.matches("\\d+")) {
+            if (!bankCodeValue.matches("\\d+")) {
                 throw new BadRequestAlertException("Invalid Bank Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
 
             String branchNameValue = getCellValue(row.getCell(3));
             if (StringUtils.isNotBlank(branchNameValue)) {
-                if (bankBranchMasterRepository.findOneByBranchName(branchNameValue)==null) {
+                if (bankBranchMasterRepository.findOneByBranchName(branchNameValue) == null) {
                     throw new BadRequestAlertException("Invalid Branch Name at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
                 }
             }
@@ -1018,7 +1024,7 @@ public class IssFileParserResource {
             }
 
             String ifsc = getCellValue(row.getCell(6));
-            if ( !ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
+            if (!ifsc.matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$")) {
                 throw new BadRequestAlertException("Invalid IFSC Code at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
             }
 
@@ -1062,7 +1068,7 @@ public class IssFileParserResource {
             List<IssFileParser> fileParserList = issFileParserRepository.issFileParserByPacsNumber(packsCode);
 
             // Convert IssFileParser entities to IssFileParserTemp entities
-            List<IssFileParserTemp> fileParserTempList = convertToIssFileParserTemp(fileParserList);
+            List<IssFileParserTemp> fileParserTempList = convertToIssFileParserTemp(fileParserList,login);
             // Save data to iss_file_parser_temp table
             issFileParserTempRepository.saveAll(fileParserTempList);
 
@@ -1082,7 +1088,7 @@ public class IssFileParserResource {
         }
     }
 
-    private List<IssFileParserTemp> convertToIssFileParserTemp(List<IssFileParser> issFileParserList) {
+    private List<IssFileParserTemp> convertToIssFileParserTemp(List<IssFileParser> issFileParserList, String login) {
         List<IssFileParserTemp> issFileParserTempList = new ArrayList<>();
 
         for (IssFileParser issFileParser : issFileParserList) {
@@ -1090,7 +1096,7 @@ public class IssFileParserResource {
 
             // Copy properties from IssFileParser to IssFileParserTemp
             BeanUtils.copyProperties(issFileParser, issFileParserTemp);
-
+            issFileParserTemp.setUploadingUser(login);
             issFileParserTempList.add(issFileParserTemp);
         }
 
@@ -1104,7 +1110,11 @@ public class IssFileParserResource {
         @PathVariable String financialYear,
         RedirectAttributes redirectAttributes
     ) throws Exception {
-        String pacsNumber=null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String login = optUser.get().getLogin();
+
+        String pacsNumber = null;
         String fileExtension = FilenameUtils.getExtension(files.getOriginalFilename());
         if (!"xlsx".equalsIgnoreCase(fileExtension) && !"xls".equalsIgnoreCase(fileExtension)) {
             throw new BadRequestAlertException("Invalid file type", ENTITY_NAME, "fileInvalid");
@@ -1653,7 +1663,7 @@ public class IssFileParserResource {
 
             filecount = filecount + 1;
 
-     //-------To get actual last row of excel (skip blank row in the end if any)------
+            //-------To get actual last row of excel (skip blank row in the end if any)------
 
             int lastRowIndex = sheet.getLastRowNum();
             for (int i = lastRowIndex; i >= 0; i--) {
@@ -1827,7 +1837,7 @@ public class IssFileParserResource {
                 }
             }
 
-     //-------To get actual last row of excel (skip blank row in the end if any)------
+            //-------To get actual last row of excel (skip blank row in the end if any)------
 
             int lastRowIndex = sheet.getLastRowNum();
             for (int i = lastRowIndex; i >= 0; i--) {
@@ -1901,7 +1911,7 @@ public class IssFileParserResource {
                     String KccIssCropCode = getCellValue(row.getCell(39));
                     String DisbursementDate = getDateCellValue(row.getCell(48));
                     String maturityLoanDate = getDateCellValue(row.getCell(50));
-                    pacsNumber=getCellValue(row.getCell(32));
+                    pacsNumber = getCellValue(row.getCell(32));
 
 /*                    if (
                         !issFileParserRepository
@@ -1915,7 +1925,7 @@ public class IssFileParserResource {
                             )
                             .isPresent()
                     )*/
-                    if(!issFileParserTempRepository
+                    if (!issFileParserTempRepository
                         .findByFinancialYearEqualsAndAccountNumberEqualsAndLoanSactionDateEqualsAndKccIssCropCodeEqualsAndDisbursementDateEqualsAndMaturityLoanDateEquals(
                             fYear,
                             AccountNumber,
@@ -1924,9 +1934,7 @@ public class IssFileParserResource {
                             DisbursementDate,
                             maturityLoanDate
                         ).isPresent()
-                    )
-
-                    {
+                    ) {
 
                         issFileParser.setBankName(getCellValue(row.getCell(1)));
 
@@ -2107,8 +2115,10 @@ public class IssFileParserResource {
                 issFileParserRepository.saveAll(issFileParserList);
 
                 //delete temp data in iss_file_parser_temp table by pacsNumber and FY
-                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(issFileParserList.get(0).getPacsNumber(), issFileParserList.get(0).getFinancialYear());
-                if (!recordsToDelete.isEmpty()){
+                //List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(issFileParserList.get(0).getPacsNumber(), issFileParserList.get(0).getFinancialYear());
+                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndUploadingUser(issFileParserList.get(0).getPacsNumber(),login);
+
+                if (!recordsToDelete.isEmpty()) {
                     issFileParserTempRepository.deleteAll(recordsToDelete);
                 }
 
@@ -2133,8 +2143,10 @@ public class IssFileParserResource {
                 return ResponseEntity.ok().body(issFileParserList);
             } else {
                 //delete temp data in iss_file_parser_temp table by pacsNumber and FY
-                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(pacsNumber,financialYear);
-                if (!recordsToDelete.isEmpty()){
+                //List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(pacsNumber, financialYear);
+                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(pacsNumber, login);
+
+                if (!recordsToDelete.isEmpty()) {
                     issFileParserTempRepository.deleteAll(recordsToDelete);
                 }
                 throw new BadRequestAlertException("File is already Exist", ENTITY_NAME, "FileExist");

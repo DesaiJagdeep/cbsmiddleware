@@ -186,6 +186,11 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     private Set<KmCrops> kmCrops;
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+
+    public void setKmMaster(KmMaster kmMaster) {
+        this.kmMaster = kmMaster;
+    }
+
     public String getSurveyNoMr() {
         return surveyNoMr;
     }

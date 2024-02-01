@@ -1,6 +1,8 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kamal_society")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalSociety implements Serializable {
+public class KamalSociety  extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -223,8 +225,8 @@ public class KamalSociety implements Serializable {
     @Column(name = "total_jirayat_mr")
     private String totalJirayatMr;
 
-    @OneToMany(mappedBy = "kamalSociety")
-    @JsonIgnoreProperties(value = { "farmerTypeMaster", "seasonMaster", "cropMaster", "kamalSociety" }, allowSetters = true)
+    @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

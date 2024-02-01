@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "crop_rate_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class CropRateMaster implements Serializable {
+public class CropRateMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

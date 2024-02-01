@@ -9,6 +9,14 @@ import { KamalSocietyService, RestKamalSociety } from './kamal-society.service';
 const requireRestSample: RestKamalSociety = {
   ...sampleWithRequiredData,
   kmDate: sampleWithRequiredData.kmDate?.toJSON(),
+  kmFromDate: sampleWithRequiredData.kmFromDate?.toJSON(),
+  kmToDate: sampleWithRequiredData.kmToDate?.toJSON(),
+  zindagiPatrakDate: sampleWithRequiredData.zindagiPatrakDate?.toJSON(),
+  bankTapasaniDate: sampleWithRequiredData.bankTapasaniDate?.toJSON(),
+  govTapasaniDate: sampleWithRequiredData.govTapasaniDate?.toJSON(),
+  sansthaTapasaniDate: sampleWithRequiredData.sansthaTapasaniDate?.toJSON(),
+  talebandDate: sampleWithRequiredData.talebandDate?.toJSON(),
+  balanceSheetDate: sampleWithRequiredData.balanceSheetDate?.toJSON(),
 };
 
 describe('KamalSociety Service', () => {

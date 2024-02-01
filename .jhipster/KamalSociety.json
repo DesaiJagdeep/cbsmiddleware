@@ -10,6 +10,214 @@
     {
       "fieldName": "kmDate",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmFromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmFromDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmToDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmToDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zindagiPatrakDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "zindagiPatrakDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bankTapasaniDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "govTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "govTapasaniDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sansthaTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "sansthaTapasaniDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalLand",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bagayat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "jirayat",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalFarmer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memberFarmer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nonMemberFarmer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talebandDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "memLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memDue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memVasuli",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memVasuliPer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankDue",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankVasuli",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankVasuliPer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "balanceSheetDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "balanceSheetDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityAdhikrutShareCapital",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityVasulShareCapital",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityFund",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityDeposite",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityBalanceSheetBankLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityOtherPayable",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "liabilityProfit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetCash",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetInvestment",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetImaratFund",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetMemberLoan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetDeadStock",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetOtherReceivable",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "assetLoss",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalLiability",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalAsset",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "branchVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "headOfficeVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isSupplimenteryFlag",
+      "fieldType": "Boolean"
     }
   ],
   "jpaMetamodelFiltering": true,

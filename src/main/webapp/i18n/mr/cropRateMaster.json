@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "cropRateMaster": {
+      "home": {
+        "title": "Crop Rate Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Crop Rate Master तयार करा",
+        "createOrEditLabel": "Crop Rate Master तयार किंवा संपादित करा",
+        "notFound": "No Crop Rate Masters found"
+      },
+      "created": "Crop Rate Master [identifier: {{ param }}] तयार आहे",
+      "updated": "Crop Rate Master [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Crop Rate Master [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Crop Rate Master [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Crop Rate Master"
+      },
+      "id": "ID",
+      "financialYear": "Financial Year",
+      "currentAmount": "Current Amount",
+      "currentAmountMr": "Current Amount Mr",
+      "percentage": "Percentage",
+      "activeFlag": "Active Flag",
+      "cropMaster": "Crop Master"
+    }
+  }
+}

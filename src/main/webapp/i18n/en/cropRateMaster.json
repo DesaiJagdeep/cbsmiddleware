@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "cropRateMaster": {
+      "home": {
+        "title": "Crop Rate Masters",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Crop Rate Master",
+        "createOrEditLabel": "Create or edit a Crop Rate Master",
+        "notFound": "No Crop Rate Masters found"
+      },
+      "created": "A new Crop Rate Master is created with identifier {{ param }}",
+      "updated": "A Crop Rate Master is updated with identifier {{ param }}",
+      "deleted": "A Crop Rate Master is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Crop Rate Master {{ id }}?"
+      },
+      "detail": {
+        "title": "Crop Rate Master"
+      },
+      "id": "ID",
+      "financialYear": "Financial Year",
+      "currentAmount": "Current Amount",
+      "currentAmountMr": "Current Amount Mr",
+      "percentage": "Percentage",
+      "activeFlag": "Active Flag",
+      "cropMaster": "Crop Master"
+    }
+  }
+}

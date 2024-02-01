@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity CropRateMaster.
+    -->
+    <changeSet id="20240201104922-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="crop_master_id"
+                                 baseTableName="crop_rate_master"
+                                 constraintName="fk_crop_rate_master__crop_master_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="crop_master"/>
+    </changeSet>
+</databaseChangeLog>

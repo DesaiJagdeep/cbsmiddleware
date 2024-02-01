@@ -9,6 +9,30 @@
     {
       "fieldName": "financialYear",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "memberCount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "area",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropEligibilityAmount",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

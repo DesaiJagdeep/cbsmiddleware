@@ -91,6 +91,25 @@ public class KamalCropQueryService extends QueryService<KamalCrop> {
             if (criteria.getFinancialYear() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), KamalCrop_.financialYear));
             }
+            if (criteria.getMemberCount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMemberCount(), KamalCrop_.memberCount));
+            }
+            if (criteria.getArea() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArea(), KamalCrop_.area));
+            }
+            if (criteria.getPacsAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsAmount(), KamalCrop_.pacsAmount));
+            }
+            if (criteria.getBranchAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchAmount(), KamalCrop_.branchAmount));
+            }
+            if (criteria.getHeadOfficeAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getHeadOfficeAmount(), KamalCrop_.headOfficeAmount));
+            }
+            if (criteria.getCropEligibilityAmount() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getCropEligibilityAmount(), KamalCrop_.cropEligibilityAmount));
+            }
             if (criteria.getKamalSocietyId() != null) {
                 specification =
                     specification.and(

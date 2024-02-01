@@ -24,6 +24,24 @@ public class KamalCrop implements Serializable {
     @Column(name = "financial_year")
     private String financialYear;
 
+    @Column(name = "member_count")
+    private String memberCount;
+
+    @Column(name = "area")
+    private String area;
+
+    @Column(name = "pacs_amount")
+    private String pacsAmount;
+
+    @Column(name = "branch_amount")
+    private String branchAmount;
+
+    @Column(name = "head_office_amount")
+    private String headOfficeAmount;
+
+    @Column(name = "crop_eligibility_amount")
+    private String cropEligibilityAmount;
+
     @ManyToOne
     private KamalSociety kamalSociety;
 
@@ -75,6 +93,84 @@ public class KamalCrop implements Serializable {
 
     public void setFinancialYear(String financialYear) {
         this.financialYear = financialYear;
+    }
+
+    public String getMemberCount() {
+        return this.memberCount;
+    }
+
+    public KamalCrop memberCount(String memberCount) {
+        this.setMemberCount(memberCount);
+        return this;
+    }
+
+    public void setMemberCount(String memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public String getArea() {
+        return this.area;
+    }
+
+    public KamalCrop area(String area) {
+        this.setArea(area);
+        return this;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getPacsAmount() {
+        return this.pacsAmount;
+    }
+
+    public KamalCrop pacsAmount(String pacsAmount) {
+        this.setPacsAmount(pacsAmount);
+        return this;
+    }
+
+    public void setPacsAmount(String pacsAmount) {
+        this.pacsAmount = pacsAmount;
+    }
+
+    public String getBranchAmount() {
+        return this.branchAmount;
+    }
+
+    public KamalCrop branchAmount(String branchAmount) {
+        this.setBranchAmount(branchAmount);
+        return this;
+    }
+
+    public void setBranchAmount(String branchAmount) {
+        this.branchAmount = branchAmount;
+    }
+
+    public String getHeadOfficeAmount() {
+        return this.headOfficeAmount;
+    }
+
+    public KamalCrop headOfficeAmount(String headOfficeAmount) {
+        this.setHeadOfficeAmount(headOfficeAmount);
+        return this;
+    }
+
+    public void setHeadOfficeAmount(String headOfficeAmount) {
+        this.headOfficeAmount = headOfficeAmount;
+    }
+
+    public String getCropEligibilityAmount() {
+        return this.cropEligibilityAmount;
+    }
+
+    public KamalCrop cropEligibilityAmount(String cropEligibilityAmount) {
+        this.setCropEligibilityAmount(cropEligibilityAmount);
+        return this;
+    }
+
+    public void setCropEligibilityAmount(String cropEligibilityAmount) {
+        this.cropEligibilityAmount = cropEligibilityAmount;
     }
 
     public KamalSociety getKamalSociety() {
@@ -155,6 +251,12 @@ public class KamalCrop implements Serializable {
             "id=" + getId() +
             ", pacsNumber='" + getPacsNumber() + "'" +
             ", financialYear='" + getFinancialYear() + "'" +
+            ", memberCount='" + getMemberCount() + "'" +
+            ", area='" + getArea() + "'" +
+            ", pacsAmount='" + getPacsAmount() + "'" +
+            ", branchAmount='" + getBranchAmount() + "'" +
+            ", headOfficeAmount='" + getHeadOfficeAmount() + "'" +
+            ", cropEligibilityAmount='" + getCropEligibilityAmount() + "'" +
             "}";
     }
 }

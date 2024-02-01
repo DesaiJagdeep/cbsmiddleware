@@ -51,6 +51,24 @@ public class KamalCropServiceImpl implements KamalCropService {
                 if (kamalCrop.getFinancialYear() != null) {
                     existingKamalCrop.setFinancialYear(kamalCrop.getFinancialYear());
                 }
+                if (kamalCrop.getMemberCount() != null) {
+                    existingKamalCrop.setMemberCount(kamalCrop.getMemberCount());
+                }
+                if (kamalCrop.getArea() != null) {
+                    existingKamalCrop.setArea(kamalCrop.getArea());
+                }
+                if (kamalCrop.getPacsAmount() != null) {
+                    existingKamalCrop.setPacsAmount(kamalCrop.getPacsAmount());
+                }
+                if (kamalCrop.getBranchAmount() != null) {
+                    existingKamalCrop.setBranchAmount(kamalCrop.getBranchAmount());
+                }
+                if (kamalCrop.getHeadOfficeAmount() != null) {
+                    existingKamalCrop.setHeadOfficeAmount(kamalCrop.getHeadOfficeAmount());
+                }
+                if (kamalCrop.getCropEligibilityAmount() != null) {
+                    existingKamalCrop.setCropEligibilityAmount(kamalCrop.getCropEligibilityAmount());
+                }
 
                 return existingKamalCrop;
             })

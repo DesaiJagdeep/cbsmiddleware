@@ -20,6 +20,24 @@
             <column name="financial_year" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="member_count" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="area" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_eligibility_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="kamal_society_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -55,6 +73,12 @@
             <column name="id" type="numeric"/>
             <column name="pacs_number" type="string"/>
             <column name="financial_year" type="string"/>
+            <column name="member_count" type="string"/>
+            <column name="area" type="string"/>
+            <column name="pacs_amount" type="string"/>
+            <column name="branch_amount" type="string"/>
+            <column name="head_office_amount" type="string"/>
+            <column name="crop_eligibility_amount" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

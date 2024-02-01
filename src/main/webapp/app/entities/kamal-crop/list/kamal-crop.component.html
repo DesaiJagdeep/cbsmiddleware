@@ -52,6 +52,42 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="memberCount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memberCount">Member Count</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="area">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.area">Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsAmount">Pacs Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.branchAmount">Branch Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.headOfficeAmount">Head Office Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropEligibilityAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropEligibilityAmount">Crop Eligibility Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="kamalSociety.id">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span>
@@ -86,6 +122,12 @@
           </td>
           <td>{{ kamalCrop.pacsNumber }}</td>
           <td>{{ kamalCrop.financialYear }}</td>
+          <td>{{ kamalCrop.memberCount }}</td>
+          <td>{{ kamalCrop.area }}</td>
+          <td>{{ kamalCrop.pacsAmount }}</td>
+          <td>{{ kamalCrop.branchAmount }}</td>
+          <td>{{ kamalCrop.headOfficeAmount }}</td>
+          <td>{{ kamalCrop.cropEligibilityAmount }}</td>
           <td>
             <div *ngIf="kamalCrop.kamalSociety">
               <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>

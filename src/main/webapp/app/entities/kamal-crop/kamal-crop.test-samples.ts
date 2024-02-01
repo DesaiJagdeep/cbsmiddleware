@@ -5,15 +5,24 @@ export const sampleWithRequiredData: IKamalCrop = {
 };
 
 export const sampleWithPartialData: IKamalCrop = {
-  id: 53403,
-  pacsNumber: 'Car Bridge',
-  financialYear: 'standardization Future-proofed experiences',
+  id: 1567,
+  pacsNumber: 'SQL Plastic',
+  financialYear: 'Tasty Bermuda Utah',
+  memberCount: 'withdrawal Plastic',
+  area: 'Manat mindshare',
+  headOfficeAmount: 'hacking Cambridgeshire York',
 };
 
 export const sampleWithFullData: IKamalCrop = {
-  id: 96758,
-  pacsNumber: 'generation',
-  financialYear: 'efficient',
+  id: 67393,
+  pacsNumber: 'multi-byte',
+  financialYear: 'Assistant incentivize Franc',
+  memberCount: 'turquoise Awesome',
+  area: 'De-engineered customer synthesize',
+  pacsAmount: 'magenta Synchronised Road',
+  branchAmount: 'visionary',
+  headOfficeAmount: 'SQL',
+  cropEligibilityAmount: 'grey',
 };
 
 export const sampleWithNewData: NewKamalCrop = {

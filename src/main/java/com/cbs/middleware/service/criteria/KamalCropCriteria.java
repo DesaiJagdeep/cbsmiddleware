@@ -27,6 +27,18 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     private StringFilter financialYear;
 
+    private StringFilter memberCount;
+
+    private StringFilter area;
+
+    private StringFilter pacsAmount;
+
+    private StringFilter branchAmount;
+
+    private StringFilter headOfficeAmount;
+
+    private StringFilter cropEligibilityAmount;
+
     private LongFilter kamalSocietyId;
 
     private LongFilter farmerTypeMasterId;
@@ -43,6 +55,12 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.pacsNumber = other.pacsNumber == null ? null : other.pacsNumber.copy();
         this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
+        this.memberCount = other.memberCount == null ? null : other.memberCount.copy();
+        this.area = other.area == null ? null : other.area.copy();
+        this.pacsAmount = other.pacsAmount == null ? null : other.pacsAmount.copy();
+        this.branchAmount = other.branchAmount == null ? null : other.branchAmount.copy();
+        this.headOfficeAmount = other.headOfficeAmount == null ? null : other.headOfficeAmount.copy();
+        this.cropEligibilityAmount = other.cropEligibilityAmount == null ? null : other.cropEligibilityAmount.copy();
         this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
         this.seasonMasterId = other.seasonMasterId == null ? null : other.seasonMasterId.copy();
@@ -98,6 +116,96 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     public void setFinancialYear(StringFilter financialYear) {
         this.financialYear = financialYear;
+    }
+
+    public StringFilter getMemberCount() {
+        return memberCount;
+    }
+
+    public StringFilter memberCount() {
+        if (memberCount == null) {
+            memberCount = new StringFilter();
+        }
+        return memberCount;
+    }
+
+    public void setMemberCount(StringFilter memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public StringFilter getArea() {
+        return area;
+    }
+
+    public StringFilter area() {
+        if (area == null) {
+            area = new StringFilter();
+        }
+        return area;
+    }
+
+    public void setArea(StringFilter area) {
+        this.area = area;
+    }
+
+    public StringFilter getPacsAmount() {
+        return pacsAmount;
+    }
+
+    public StringFilter pacsAmount() {
+        if (pacsAmount == null) {
+            pacsAmount = new StringFilter();
+        }
+        return pacsAmount;
+    }
+
+    public void setPacsAmount(StringFilter pacsAmount) {
+        this.pacsAmount = pacsAmount;
+    }
+
+    public StringFilter getBranchAmount() {
+        return branchAmount;
+    }
+
+    public StringFilter branchAmount() {
+        if (branchAmount == null) {
+            branchAmount = new StringFilter();
+        }
+        return branchAmount;
+    }
+
+    public void setBranchAmount(StringFilter branchAmount) {
+        this.branchAmount = branchAmount;
+    }
+
+    public StringFilter getHeadOfficeAmount() {
+        return headOfficeAmount;
+    }
+
+    public StringFilter headOfficeAmount() {
+        if (headOfficeAmount == null) {
+            headOfficeAmount = new StringFilter();
+        }
+        return headOfficeAmount;
+    }
+
+    public void setHeadOfficeAmount(StringFilter headOfficeAmount) {
+        this.headOfficeAmount = headOfficeAmount;
+    }
+
+    public StringFilter getCropEligibilityAmount() {
+        return cropEligibilityAmount;
+    }
+
+    public StringFilter cropEligibilityAmount() {
+        if (cropEligibilityAmount == null) {
+            cropEligibilityAmount = new StringFilter();
+        }
+        return cropEligibilityAmount;
+    }
+
+    public void setCropEligibilityAmount(StringFilter cropEligibilityAmount) {
+        this.cropEligibilityAmount = cropEligibilityAmount;
     }
 
     public LongFilter getKamalSocietyId() {
@@ -181,6 +289,12 @@ public class KamalCropCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(pacsNumber, that.pacsNumber) &&
             Objects.equals(financialYear, that.financialYear) &&
+            Objects.equals(memberCount, that.memberCount) &&
+            Objects.equals(area, that.area) &&
+            Objects.equals(pacsAmount, that.pacsAmount) &&
+            Objects.equals(branchAmount, that.branchAmount) &&
+            Objects.equals(headOfficeAmount, that.headOfficeAmount) &&
+            Objects.equals(cropEligibilityAmount, that.cropEligibilityAmount) &&
             Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
             Objects.equals(seasonMasterId, that.seasonMasterId) &&
@@ -191,7 +305,22 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, pacsNumber, financialYear, kamalSocietyId, farmerTypeMasterId, seasonMasterId, cropMasterId, distinct);
+        return Objects.hash(
+            id,
+            pacsNumber,
+            financialYear,
+            memberCount,
+            area,
+            pacsAmount,
+            branchAmount,
+            headOfficeAmount,
+            cropEligibilityAmount,
+            kamalSocietyId,
+            farmerTypeMasterId,
+            seasonMasterId,
+            cropMasterId,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -201,6 +330,12 @@ public class KamalCropCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (pacsNumber != null ? "pacsNumber=" + pacsNumber + ", " : "") +
             (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
+            (memberCount != null ? "memberCount=" + memberCount + ", " : "") +
+            (area != null ? "area=" + area + ", " : "") +
+            (pacsAmount != null ? "pacsAmount=" + pacsAmount + ", " : "") +
+            (branchAmount != null ? "branchAmount=" + branchAmount + ", " : "") +
+            (headOfficeAmount != null ? "headOfficeAmount=" + headOfficeAmount + ", " : "") +
+            (cropEligibilityAmount != null ? "cropEligibilityAmount=" + cropEligibilityAmount + ", " : "") +
             (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (farmerTypeMasterId != null ? "farmerTypeMasterId=" + farmerTypeMasterId + ", " : "") +
             (seasonMasterId != null ? "seasonMasterId=" + seasonMasterId + ", " : "") +

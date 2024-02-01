@@ -1,0 +1,132 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-kamal-crop-heading"
+        data-cy="KamalCropCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.kamalCrop.home.createOrEditLabel"
+      >
+        Create or edit a Kamal Crop
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.financialYear" for="field_financialYear">Financial Year</label>
+          <input
+            type="text"
+            class="form-control"
+            name="financialYear"
+            id="field_financialYear"
+            data-cy="financialYear"
+            formControlName="financialYear"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety" for="field_kamalSociety">Kamal Society</label>
+          <select
+            class="form-control"
+            id="field_kamalSociety"
+            data-cy="kamalSociety"
+            name="kamalSociety"
+            formControlName="kamalSociety"
+            [compareWith]="compareKamalSociety"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kamalSocietyOption" *ngFor="let kamalSocietyOption of kamalSocietiesSharedCollection">
+              {{ kamalSocietyOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.farmerTypeMaster" for="field_farmerTypeMaster"
+            >Farmer Type Master</label
+          >
+          <select
+            class="form-control"
+            id="field_farmerTypeMaster"
+            data-cy="farmerTypeMaster"
+            name="farmerTypeMaster"
+            formControlName="farmerTypeMaster"
+            [compareWith]="compareFarmerTypeMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="farmerTypeMasterOption" *ngFor="let farmerTypeMasterOption of farmerTypeMastersSharedCollection">
+              {{ farmerTypeMasterOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.seasonMaster" for="field_seasonMaster">Season Master</label>
+          <select
+            class="form-control"
+            id="field_seasonMaster"
+            data-cy="seasonMaster"
+            name="seasonMaster"
+            formControlName="seasonMaster"
+            [compareWith]="compareSeasonMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="seasonMasterOption" *ngFor="let seasonMasterOption of seasonMastersSharedCollection">
+              {{ seasonMasterOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.cropMaster" for="field_cropMaster">Crop Master</label>
+          <select
+            class="form-control"
+            id="field_cropMaster"
+            data-cy="cropMaster"
+            name="cropMaster"
+            formControlName="cropMaster"
+            [compareWith]="compareCropMaster"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="cropMasterOption" *ngFor="let cropMasterOption of cropMastersSharedCollection">
+              {{ cropMasterOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

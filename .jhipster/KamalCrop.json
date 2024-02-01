@@ -1,0 +1,45 @@
+{
+  "changelogDate": "20240201131104",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KamalCrop",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kamalSociety",
+      "relationshipName": "kamalSociety",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "farmerTypeMaster",
+      "relationshipName": "farmerTypeMaster",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "seasonMaster",
+      "relationshipName": "seasonMaster",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "cropMaster",
+      "relationshipName": "cropMaster",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

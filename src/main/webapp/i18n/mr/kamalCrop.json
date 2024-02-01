@@ -1,0 +1,29 @@
+{
+  "cbsMiddlewareApp": {
+    "kamalCrop": {
+      "home": {
+        "title": "Kamal Crops",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Kamal Crop तयार करा",
+        "createOrEditLabel": "Kamal Crop तयार किंवा संपादित करा",
+        "notFound": "No Kamal Crops found"
+      },
+      "created": "Kamal Crop [identifier: {{ param }}] तयार आहे",
+      "updated": "Kamal Crop [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Kamal Crop [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Kamal Crop [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Kamal Crop"
+      },
+      "id": "ID",
+      "pacsNumber": "Pacs Number",
+      "financialYear": "Financial Year",
+      "kamalSociety": "Kamal Society",
+      "farmerTypeMaster": "Farmer Type Master",
+      "seasonMaster": "Season Master",
+      "cropMaster": "Crop Master"
+    }
+  }
+}

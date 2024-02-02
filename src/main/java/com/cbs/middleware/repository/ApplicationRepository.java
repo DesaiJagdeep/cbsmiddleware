@@ -4,6 +4,7 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -122,5 +123,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
   List<Long> findDistinctByPortalId();
+
+
+    @Query(value = "SELECT * FROM application_transaction WHERE packs_code =:packs_code and financial_year =:financial_year and application_status =1 ", nativeQuery = true)
+    List<Application> findApplicationsToClaim(@Param("financial_year") String financial_year,@Param("packs_code") Long packs_code);
 
 }

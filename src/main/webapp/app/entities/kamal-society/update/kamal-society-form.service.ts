@@ -74,6 +74,9 @@ type KamalSocietyFormGroupContent = {
   kmToDate: FormControl<KamalSocietyFormRawValue['kmToDate']>;
   kmToDateMr: FormControl<KamalSocietyFormRawValue['kmToDateMr']>;
   pacsNumber: FormControl<KamalSocietyFormRawValue['pacsNumber']>;
+  pacsName: FormControl<KamalSocietyFormRawValue['pacsName']>;
+  branchId: FormControl<KamalSocietyFormRawValue['branchId']>;
+  branchName: FormControl<KamalSocietyFormRawValue['branchName']>;
   zindagiPatrakDate: FormControl<KamalSocietyFormRawValue['zindagiPatrakDate']>;
   zindagiPatrakDateMr: FormControl<KamalSocietyFormRawValue['zindagiPatrakDateMr']>;
   bankTapasaniDate: FormControl<KamalSocietyFormRawValue['bankTapasaniDate']>;
@@ -150,6 +153,9 @@ export class KamalSocietyFormService {
       kmToDate: new FormControl(kamalSocietyRawValue.kmToDate),
       kmToDateMr: new FormControl(kamalSocietyRawValue.kmToDateMr),
       pacsNumber: new FormControl(kamalSocietyRawValue.pacsNumber),
+      pacsName: new FormControl(kamalSocietyRawValue.pacsName),
+      branchId: new FormControl(kamalSocietyRawValue.branchId),
+      branchName: new FormControl(kamalSocietyRawValue.branchName),
       zindagiPatrakDate: new FormControl(kamalSocietyRawValue.zindagiPatrakDate),
       zindagiPatrakDateMr: new FormControl(kamalSocietyRawValue.zindagiPatrakDateMr),
       bankTapasaniDate: new FormControl(kamalSocietyRawValue.bankTapasaniDate),

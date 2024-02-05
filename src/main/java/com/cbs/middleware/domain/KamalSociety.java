@@ -45,6 +45,15 @@ public class KamalSociety implements Serializable {
     @Column(name = "pacs_number")
     private String pacsNumber;
 
+    @Column(name = "pacs_name")
+    private String pacsName;
+
+    @Column(name = "branch_id")
+    private Long branchId;
+
+    @Column(name = "branch_name")
+    private String branchName;
+
     @Column(name = "zindagi_patrak_date")
     private Instant zindagiPatrakDate;
 
@@ -303,6 +312,45 @@ public class KamalSociety implements Serializable {
 
     public void setPacsNumber(String pacsNumber) {
         this.pacsNumber = pacsNumber;
+    }
+
+    public String getPacsName() {
+        return this.pacsName;
+    }
+
+    public KamalSociety pacsName(String pacsName) {
+        this.setPacsName(pacsName);
+        return this;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public Long getBranchId() {
+        return this.branchId;
+    }
+
+    public KamalSociety branchId(Long branchId) {
+        this.setBranchId(branchId);
+        return this;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
+    }
+
+    public String getBranchName() {
+        return this.branchName;
+    }
+
+    public KamalSociety branchName(String branchName) {
+        this.setBranchName(branchName);
+        return this;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
     public Instant getZindagiPatrakDate() {
@@ -948,6 +996,9 @@ public class KamalSociety implements Serializable {
             ", kmToDate='" + getKmToDate() + "'" +
             ", kmToDateMr='" + getKmToDateMr() + "'" +
             ", pacsNumber='" + getPacsNumber() + "'" +
+            ", pacsName='" + getPacsName() + "'" +
+            ", branchId=" + getBranchId() +
+            ", branchName='" + getBranchName() + "'" +
             ", zindagiPatrakDate='" + getZindagiPatrakDate() + "'" +
             ", zindagiPatrakDateMr='" + getZindagiPatrakDateMr() + "'" +
             ", bankTapasaniDate='" + getBankTapasaniDate() + "'" +

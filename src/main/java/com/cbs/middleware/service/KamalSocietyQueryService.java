@@ -109,6 +109,15 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getPacsNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KamalSociety_.pacsNumber));
             }
+            if (criteria.getPacsName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsName(), KamalSociety_.pacsName));
+            }
+            if (criteria.getBranchId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchId(), KamalSociety_.branchId));
+            }
+            if (criteria.getBranchName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchName(), KamalSociety_.branchName));
+            }
             if (criteria.getZindagiPatrakDate() != null) {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getZindagiPatrakDate(), KamalSociety_.zindagiPatrakDate));

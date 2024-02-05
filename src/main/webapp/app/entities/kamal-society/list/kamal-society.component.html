@@ -88,6 +88,24 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="pacsName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.pacsName">Pacs Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchId">Branch Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchName">Branch Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="zindagiPatrakDate">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kamalSociety.zindagiPatrakDate">Zindagi Patrak Date</span>
@@ -386,6 +404,9 @@
           <td>{{ kamalSociety.kmToDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.kmToDateMr }}</td>
           <td>{{ kamalSociety.pacsNumber }}</td>
+          <td>{{ kamalSociety.pacsName }}</td>
+          <td>{{ kamalSociety.branchId }}</td>
+          <td>{{ kamalSociety.branchName }}</td>
           <td>{{ kamalSociety.zindagiPatrakDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.zindagiPatrakDateMr }}</td>
           <td>{{ kamalSociety.bankTapasaniDate | formatMediumDatetime }}</td>

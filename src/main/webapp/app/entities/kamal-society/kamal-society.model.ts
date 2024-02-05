@@ -10,6 +10,9 @@ export interface IKamalSociety {
   kmToDate?: dayjs.Dayjs | null;
   kmToDateMr?: string | null;
   pacsNumber?: string | null;
+  pacsName?: string | null;
+  branchId?: number | null;
+  branchName?: string | null;
   zindagiPatrakDate?: dayjs.Dayjs | null;
   zindagiPatrakDateMr?: string | null;
   bankTapasaniDate?: dayjs.Dayjs | null;

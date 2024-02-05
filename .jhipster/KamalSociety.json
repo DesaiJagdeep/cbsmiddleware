@@ -36,6 +36,18 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "pacsName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "branchName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "zindagiPatrakDate",
       "fieldType": "Instant"
     },

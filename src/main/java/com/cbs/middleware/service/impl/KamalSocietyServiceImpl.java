@@ -69,6 +69,15 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getPacsNumber() != null) {
                     existingKamalSociety.setPacsNumber(kamalSociety.getPacsNumber());
                 }
+                if (kamalSociety.getPacsName() != null) {
+                    existingKamalSociety.setPacsName(kamalSociety.getPacsName());
+                }
+                if (kamalSociety.getBranchId() != null) {
+                    existingKamalSociety.setBranchId(kamalSociety.getBranchId());
+                }
+                if (kamalSociety.getBranchName() != null) {
+                    existingKamalSociety.setBranchName(kamalSociety.getBranchName());
+                }
                 if (kamalSociety.getZindagiPatrakDate() != null) {
                     existingKamalSociety.setZindagiPatrakDate(kamalSociety.getZindagiPatrakDate());
                 }

@@ -39,6 +39,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private StringFilter pacsNumber;
 
+    private StringFilter pacsName;
+
+    private LongFilter branchId;
+
+    private StringFilter branchName;
+
     private InstantFilter zindagiPatrakDate;
 
     private StringFilter zindagiPatrakDateMr;
@@ -147,6 +153,9 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.kmToDate = other.kmToDate == null ? null : other.kmToDate.copy();
         this.kmToDateMr = other.kmToDateMr == null ? null : other.kmToDateMr.copy();
         this.pacsNumber = other.pacsNumber == null ? null : other.pacsNumber.copy();
+        this.pacsName = other.pacsName == null ? null : other.pacsName.copy();
+        this.branchId = other.branchId == null ? null : other.branchId.copy();
+        this.branchName = other.branchName == null ? null : other.branchName.copy();
         this.zindagiPatrakDate = other.zindagiPatrakDate == null ? null : other.zindagiPatrakDate.copy();
         this.zindagiPatrakDateMr = other.zindagiPatrakDateMr == null ? null : other.zindagiPatrakDateMr.copy();
         this.bankTapasaniDate = other.bankTapasaniDate == null ? null : other.bankTapasaniDate.copy();
@@ -337,6 +346,51 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     public void setPacsNumber(StringFilter pacsNumber) {
         this.pacsNumber = pacsNumber;
+    }
+
+    public StringFilter getPacsName() {
+        return pacsName;
+    }
+
+    public StringFilter pacsName() {
+        if (pacsName == null) {
+            pacsName = new StringFilter();
+        }
+        return pacsName;
+    }
+
+    public void setPacsName(StringFilter pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public LongFilter getBranchId() {
+        return branchId;
+    }
+
+    public LongFilter branchId() {
+        if (branchId == null) {
+            branchId = new LongFilter();
+        }
+        return branchId;
+    }
+
+    public void setBranchId(LongFilter branchId) {
+        this.branchId = branchId;
+    }
+
+    public StringFilter getBranchName() {
+        return branchName;
+    }
+
+    public StringFilter branchName() {
+        if (branchName == null) {
+            branchName = new StringFilter();
+        }
+        return branchName;
+    }
+
+    public void setBranchName(StringFilter branchName) {
+        this.branchName = branchName;
     }
 
     public InstantFilter getZindagiPatrakDate() {
@@ -1071,6 +1125,9 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(kmToDate, that.kmToDate) &&
             Objects.equals(kmToDateMr, that.kmToDateMr) &&
             Objects.equals(pacsNumber, that.pacsNumber) &&
+            Objects.equals(pacsName, that.pacsName) &&
+            Objects.equals(branchId, that.branchId) &&
+            Objects.equals(branchName, that.branchName) &&
             Objects.equals(zindagiPatrakDate, that.zindagiPatrakDate) &&
             Objects.equals(zindagiPatrakDateMr, that.zindagiPatrakDateMr) &&
             Objects.equals(bankTapasaniDate, that.bankTapasaniDate) &&
@@ -1134,6 +1191,9 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             kmToDate,
             kmToDateMr,
             pacsNumber,
+            pacsName,
+            branchId,
+            branchName,
             zindagiPatrakDate,
             zindagiPatrakDateMr,
             bankTapasaniDate,
@@ -1198,6 +1258,9 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (kmToDate != null ? "kmToDate=" + kmToDate + ", " : "") +
             (kmToDateMr != null ? "kmToDateMr=" + kmToDateMr + ", " : "") +
             (pacsNumber != null ? "pacsNumber=" + pacsNumber + ", " : "") +
+            (pacsName != null ? "pacsName=" + pacsName + ", " : "") +
+            (branchId != null ? "branchId=" + branchId + ", " : "") +
+            (branchName != null ? "branchName=" + branchName + ", " : "") +
             (zindagiPatrakDate != null ? "zindagiPatrakDate=" + zindagiPatrakDate + ", " : "") +
             (zindagiPatrakDateMr != null ? "zindagiPatrakDateMr=" + zindagiPatrakDateMr + ", " : "") +
             (bankTapasaniDate != null ? "bankTapasaniDate=" + bankTapasaniDate + ", " : "") +

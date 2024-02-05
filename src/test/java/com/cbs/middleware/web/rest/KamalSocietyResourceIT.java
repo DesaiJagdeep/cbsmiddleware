@@ -56,6 +56,16 @@ class KamalSocietyResourceIT {
     private static final String DEFAULT_PACS_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PACS_NUMBER = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PACS_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NAME = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_BRANCH_ID = 1L;
+    private static final Long UPDATED_BRANCH_ID = 2L;
+    private static final Long SMALLER_BRANCH_ID = 1L - 1L;
+
+    private static final String DEFAULT_BRANCH_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_NAME = "BBBBBBBBBB";
+
     private static final Instant DEFAULT_ZINDAGI_PATRAK_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ZINDAGI_PATRAK_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -139,6 +149,9 @@ class KamalSocietyResourceIT {
 
     private static final String DEFAULT_LIABILITY_FUND = "AAAAAAAAAA";
     private static final String UPDATED_LIABILITY_FUND = "BBBBBBBBBB";
+
+    private static final String DEFAULT_LIABILITY_SPARE_FUND = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_SPARE_FUND = "BBBBBBBBBB";
 
     private static final String DEFAULT_LIABILITY_DEPOSITE = "AAAAAAAAAA";
     private static final String UPDATED_LIABILITY_DEPOSITE = "BBBBBBBBBB";
@@ -227,6 +240,9 @@ class KamalSocietyResourceIT {
             .kmToDate(DEFAULT_KM_TO_DATE)
             .kmToDateMr(DEFAULT_KM_TO_DATE_MR)
             .pacsNumber(DEFAULT_PACS_NUMBER)
+            .pacsName(DEFAULT_PACS_NAME)
+            .branchId(DEFAULT_BRANCH_ID)
+            .branchName(DEFAULT_BRANCH_NAME)
             .zindagiPatrakDate(DEFAULT_ZINDAGI_PATRAK_DATE)
             .zindagiPatrakDateMr(DEFAULT_ZINDAGI_PATRAK_DATE_MR)
             .bankTapasaniDate(DEFAULT_BANK_TAPASANI_DATE)
@@ -255,6 +271,7 @@ class KamalSocietyResourceIT {
             .liabilityAdhikrutShareCapital(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
             .liabilityVasulShareCapital(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)
             .liabilityFund(DEFAULT_LIABILITY_FUND)
+            .liabilitySpareFund(DEFAULT_LIABILITY_SPARE_FUND)
             .liabilityDeposite(DEFAULT_LIABILITY_DEPOSITE)
             .liabilityBalanceSheetBankLoan(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)
             .liabilityOtherPayable(DEFAULT_LIABILITY_OTHER_PAYABLE)
@@ -292,6 +309,9 @@ class KamalSocietyResourceIT {
             .kmToDate(UPDATED_KM_TO_DATE)
             .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
             .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
             .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
             .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
@@ -320,6 +340,7 @@ class KamalSocietyResourceIT {
             .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
             .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
             .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
             .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
             .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
             .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
@@ -367,6 +388,9 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getKmToDate()).isEqualTo(DEFAULT_KM_TO_DATE);
         assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(DEFAULT_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(DEFAULT_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
         assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE);
         assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE_MR);
         assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE);
@@ -395,6 +419,7 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(DEFAULT_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(DEFAULT_LIABILITY_SPARE_FUND);
         assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(DEFAULT_LIABILITY_DEPOSITE);
         assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
         assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(DEFAULT_LIABILITY_OTHER_PAYABLE);
@@ -470,6 +495,9 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].kmToDate").value(hasItem(DEFAULT_KM_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].kmToDateMr").value(hasItem(DEFAULT_KM_TO_DATE_MR)))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)))
+            .andExpect(jsonPath("$.[*].branchId").value(hasItem(DEFAULT_BRANCH_ID.intValue())))
+            .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
             .andExpect(jsonPath("$.[*].zindagiPatrakDate").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE.toString())))
             .andExpect(jsonPath("$.[*].zindagiPatrakDateMr").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE_MR)))
             .andExpect(jsonPath("$.[*].bankTapasaniDate").value(hasItem(DEFAULT_BANK_TAPASANI_DATE.toString())))
@@ -498,6 +526,7 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].liabilityAdhikrutShareCapital").value(hasItem(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)))
             .andExpect(jsonPath("$.[*].liabilityVasulShareCapital").value(hasItem(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)))
             .andExpect(jsonPath("$.[*].liabilityFund").value(hasItem(DEFAULT_LIABILITY_FUND)))
+            .andExpect(jsonPath("$.[*].liabilitySpareFund").value(hasItem(DEFAULT_LIABILITY_SPARE_FUND)))
             .andExpect(jsonPath("$.[*].liabilityDeposite").value(hasItem(DEFAULT_LIABILITY_DEPOSITE)))
             .andExpect(jsonPath("$.[*].liabilityBalanceSheetBankLoan").value(hasItem(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)))
             .andExpect(jsonPath("$.[*].liabilityOtherPayable").value(hasItem(DEFAULT_LIABILITY_OTHER_PAYABLE)))
@@ -538,6 +567,9 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.kmToDate").value(DEFAULT_KM_TO_DATE.toString()))
             .andExpect(jsonPath("$.kmToDateMr").value(DEFAULT_KM_TO_DATE_MR))
             .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER))
+            .andExpect(jsonPath("$.pacsName").value(DEFAULT_PACS_NAME))
+            .andExpect(jsonPath("$.branchId").value(DEFAULT_BRANCH_ID.intValue()))
+            .andExpect(jsonPath("$.branchName").value(DEFAULT_BRANCH_NAME))
             .andExpect(jsonPath("$.zindagiPatrakDate").value(DEFAULT_ZINDAGI_PATRAK_DATE.toString()))
             .andExpect(jsonPath("$.zindagiPatrakDateMr").value(DEFAULT_ZINDAGI_PATRAK_DATE_MR))
             .andExpect(jsonPath("$.bankTapasaniDate").value(DEFAULT_BANK_TAPASANI_DATE.toString()))
@@ -566,6 +598,7 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.liabilityAdhikrutShareCapital").value(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL))
             .andExpect(jsonPath("$.liabilityVasulShareCapital").value(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL))
             .andExpect(jsonPath("$.liabilityFund").value(DEFAULT_LIABILITY_FUND))
+            .andExpect(jsonPath("$.liabilitySpareFund").value(DEFAULT_LIABILITY_SPARE_FUND))
             .andExpect(jsonPath("$.liabilityDeposite").value(DEFAULT_LIABILITY_DEPOSITE))
             .andExpect(jsonPath("$.liabilityBalanceSheetBankLoan").value(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN))
             .andExpect(jsonPath("$.liabilityOtherPayable").value(DEFAULT_LIABILITY_OTHER_PAYABLE))
@@ -1044,6 +1077,227 @@ class KamalSocietyResourceIT {
 
         // Get all the kamalSocietyList where pacsNumber does not contain UPDATED_PACS_NUMBER
         defaultKamalSocietyShouldBeFound("pacsNumber.doesNotContain=" + UPDATED_PACS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByPacsNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where pacsName equals to DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.equals=" + DEFAULT_PACS_NAME);
+
+        // Get all the kamalSocietyList where pacsName equals to UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.equals=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByPacsNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where pacsName in DEFAULT_PACS_NAME or UPDATED_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.in=" + DEFAULT_PACS_NAME + "," + UPDATED_PACS_NAME);
+
+        // Get all the kamalSocietyList where pacsName equals to UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.in=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByPacsNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where pacsName is not null
+        defaultKamalSocietyShouldBeFound("pacsName.specified=true");
+
+        // Get all the kamalSocietyList where pacsName is null
+        defaultKamalSocietyShouldNotBeFound("pacsName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByPacsNameContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where pacsName contains DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.contains=" + DEFAULT_PACS_NAME);
+
+        // Get all the kamalSocietyList where pacsName contains UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.contains=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByPacsNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where pacsName does not contain DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.doesNotContain=" + DEFAULT_PACS_NAME);
+
+        // Get all the kamalSocietyList where pacsName does not contain UPDATED_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.doesNotContain=" + UPDATED_PACS_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId equals to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.equals=" + DEFAULT_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId equals to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.equals=" + UPDATED_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId in DEFAULT_BRANCH_ID or UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.in=" + DEFAULT_BRANCH_ID + "," + UPDATED_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId equals to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.in=" + UPDATED_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId is not null
+        defaultKamalSocietyShouldBeFound("branchId.specified=true");
+
+        // Get all the kamalSocietyList where branchId is null
+        defaultKamalSocietyShouldNotBeFound("branchId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId is greater than or equal to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.greaterThanOrEqual=" + DEFAULT_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId is greater than or equal to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.greaterThanOrEqual=" + UPDATED_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId is less than or equal to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.lessThanOrEqual=" + DEFAULT_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId is less than or equal to SMALLER_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.lessThanOrEqual=" + SMALLER_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId is less than DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.lessThan=" + DEFAULT_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId is less than UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.lessThan=" + UPDATED_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchId is greater than DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.greaterThan=" + DEFAULT_BRANCH_ID);
+
+        // Get all the kamalSocietyList where branchId is greater than SMALLER_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.greaterThan=" + SMALLER_BRANCH_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchName equals to DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.equals=" + DEFAULT_BRANCH_NAME);
+
+        // Get all the kamalSocietyList where branchName equals to UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.equals=" + UPDATED_BRANCH_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchName in DEFAULT_BRANCH_NAME or UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.in=" + DEFAULT_BRANCH_NAME + "," + UPDATED_BRANCH_NAME);
+
+        // Get all the kamalSocietyList where branchName equals to UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.in=" + UPDATED_BRANCH_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchName is not null
+        defaultKamalSocietyShouldBeFound("branchName.specified=true");
+
+        // Get all the kamalSocietyList where branchName is null
+        defaultKamalSocietyShouldNotBeFound("branchName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchNameContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchName contains DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.contains=" + DEFAULT_BRANCH_NAME);
+
+        // Get all the kamalSocietyList where branchName contains UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.contains=" + UPDATED_BRANCH_NAME);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchName does not contain DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.doesNotContain=" + DEFAULT_BRANCH_NAME);
+
+        // Get all the kamalSocietyList where branchName does not contain UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.doesNotContain=" + UPDATED_BRANCH_NAME);
     }
 
     @Test
@@ -2718,6 +2972,71 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
+    void getAllKamalSocietiesByLiabilitySpareFundIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where liabilitySpareFund equals to DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.equals=" + DEFAULT_LIABILITY_SPARE_FUND);
+
+        // Get all the kamalSocietyList where liabilitySpareFund equals to UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.equals=" + UPDATED_LIABILITY_SPARE_FUND);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByLiabilitySpareFundIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where liabilitySpareFund in DEFAULT_LIABILITY_SPARE_FUND or UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.in=" + DEFAULT_LIABILITY_SPARE_FUND + "," + UPDATED_LIABILITY_SPARE_FUND);
+
+        // Get all the kamalSocietyList where liabilitySpareFund equals to UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.in=" + UPDATED_LIABILITY_SPARE_FUND);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByLiabilitySpareFundIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where liabilitySpareFund is not null
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.specified=true");
+
+        // Get all the kamalSocietyList where liabilitySpareFund is null
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByLiabilitySpareFundContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where liabilitySpareFund contains DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.contains=" + DEFAULT_LIABILITY_SPARE_FUND);
+
+        // Get all the kamalSocietyList where liabilitySpareFund contains UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.contains=" + UPDATED_LIABILITY_SPARE_FUND);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByLiabilitySpareFundNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where liabilitySpareFund does not contain DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.doesNotContain=" + DEFAULT_LIABILITY_SPARE_FUND);
+
+        // Get all the kamalSocietyList where liabilitySpareFund does not contain UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.doesNotContain=" + UPDATED_LIABILITY_SPARE_FUND);
+    }
+
+    @Test
+    @Transactional
     void getAllKamalSocietiesByLiabilityDepositeIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
@@ -3810,6 +4129,9 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].kmToDate").value(hasItem(DEFAULT_KM_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].kmToDateMr").value(hasItem(DEFAULT_KM_TO_DATE_MR)))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)))
+            .andExpect(jsonPath("$.[*].branchId").value(hasItem(DEFAULT_BRANCH_ID.intValue())))
+            .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
             .andExpect(jsonPath("$.[*].zindagiPatrakDate").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE.toString())))
             .andExpect(jsonPath("$.[*].zindagiPatrakDateMr").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE_MR)))
             .andExpect(jsonPath("$.[*].bankTapasaniDate").value(hasItem(DEFAULT_BANK_TAPASANI_DATE.toString())))
@@ -3838,6 +4160,7 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].liabilityAdhikrutShareCapital").value(hasItem(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)))
             .andExpect(jsonPath("$.[*].liabilityVasulShareCapital").value(hasItem(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)))
             .andExpect(jsonPath("$.[*].liabilityFund").value(hasItem(DEFAULT_LIABILITY_FUND)))
+            .andExpect(jsonPath("$.[*].liabilitySpareFund").value(hasItem(DEFAULT_LIABILITY_SPARE_FUND)))
             .andExpect(jsonPath("$.[*].liabilityDeposite").value(hasItem(DEFAULT_LIABILITY_DEPOSITE)))
             .andExpect(jsonPath("$.[*].liabilityBalanceSheetBankLoan").value(hasItem(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)))
             .andExpect(jsonPath("$.[*].liabilityOtherPayable").value(hasItem(DEFAULT_LIABILITY_OTHER_PAYABLE)))
@@ -3912,6 +4235,9 @@ class KamalSocietyResourceIT {
             .kmToDate(UPDATED_KM_TO_DATE)
             .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
             .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
             .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
             .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
@@ -3940,6 +4266,7 @@ class KamalSocietyResourceIT {
             .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
             .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
             .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
             .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
             .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
             .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
@@ -3979,6 +4306,9 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getKmToDate()).isEqualTo(UPDATED_KM_TO_DATE);
         assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(UPDATED_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE);
         assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE_MR);
         assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
@@ -4007,6 +4337,7 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(UPDATED_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(UPDATED_LIABILITY_SPARE_FUND);
         assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
         assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
         assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);
@@ -4099,26 +4430,28 @@ class KamalSocietyResourceIT {
             .kmDate(UPDATED_KM_DATE)
             .kmFromDate(UPDATED_KM_FROM_DATE)
             .kmToDateMr(UPDATED_KM_TO_DATE_MR)
-            .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
+            .branchName(UPDATED_BRANCH_NAME)
+            .govTapasaniDate(UPDATED_GOV_TAPASANI_DATE)
             .sansthaTapasaniDateMr(UPDATED_SANSTHA_TAPASANI_DATE_MR)
+            .totalLand(UPDATED_TOTAL_LAND)
+            .bagayat(UPDATED_BAGAYAT)
             .jirayat(UPDATED_JIRAYAT)
-            .totalFarmer(UPDATED_TOTAL_FARMER)
-            .memberFarmer(UPDATED_MEMBER_FARMER)
-            .nonMemberFarmer(UPDATED_NON_MEMBER_FARMER)
-            .bankLoan(UPDATED_BANK_LOAN)
+            .memDue(UPDATED_MEM_DUE)
+            .memVasuli(UPDATED_MEM_VASULI)
             .bankDue(UPDATED_BANK_DUE)
+            .bankVasuliPer(UPDATED_BANK_VASULI_PER)
             .balanceSheetDate(UPDATED_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(UPDATED_BALANCE_SHEET_DATE_MR)
             .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
             .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
-            .liabilityFund(UPDATED_LIABILITY_FUND)
-            .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
-            .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
-            .assetImaratFund(UPDATED_ASSET_IMARAT_FUND)
-            .assetMemberLoan(UPDATED_ASSET_MEMBER_LOAN)
+            .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
+            .liabilityProfit(UPDATED_LIABILITY_PROFIT)
+            .assetCash(UPDATED_ASSET_CASH)
             .assetDeadStock(UPDATED_ASSET_DEAD_STOCK)
-            .totalAsset(UPDATED_TOTAL_ASSET)
+            .assetOtherReceivable(UPDATED_ASSET_OTHER_RECEIVABLE)
+            .assetLoss(UPDATED_ASSET_LOSS)
+            .totalLiability(UPDATED_TOTAL_LIABILITY)
             .villageCode(UPDATED_VILLAGE_CODE)
-            .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
             .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG);
 
@@ -4142,49 +4475,53 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getKmToDate()).isEqualTo(DEFAULT_KM_TO_DATE);
         assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(DEFAULT_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE);
         assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE_MR);
-        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
+        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE);
         assertThat(testKamalSociety.getBankTapasaniDateMr()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE_MR);
-        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(DEFAULT_GOV_TAPASANI_DATE);
+        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(UPDATED_GOV_TAPASANI_DATE);
         assertThat(testKamalSociety.getGovTapasaniDateMr()).isEqualTo(DEFAULT_GOV_TAPASANI_DATE_MR);
         assertThat(testKamalSociety.getSansthaTapasaniDate()).isEqualTo(DEFAULT_SANSTHA_TAPASANI_DATE);
         assertThat(testKamalSociety.getSansthaTapasaniDateMr()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE_MR);
-        assertThat(testKamalSociety.getTotalLand()).isEqualTo(DEFAULT_TOTAL_LAND);
-        assertThat(testKamalSociety.getBagayat()).isEqualTo(DEFAULT_BAGAYAT);
+        assertThat(testKamalSociety.getTotalLand()).isEqualTo(UPDATED_TOTAL_LAND);
+        assertThat(testKamalSociety.getBagayat()).isEqualTo(UPDATED_BAGAYAT);
         assertThat(testKamalSociety.getJirayat()).isEqualTo(UPDATED_JIRAYAT);
-        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(UPDATED_TOTAL_FARMER);
-        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(UPDATED_MEMBER_FARMER);
-        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(UPDATED_NON_MEMBER_FARMER);
+        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(DEFAULT_TOTAL_FARMER);
+        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(DEFAULT_MEMBER_FARMER);
+        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(DEFAULT_NON_MEMBER_FARMER);
         assertThat(testKamalSociety.getTalebandDate()).isEqualTo(DEFAULT_TALEBAND_DATE);
         assertThat(testKamalSociety.getMemLoan()).isEqualTo(DEFAULT_MEM_LOAN);
-        assertThat(testKamalSociety.getMemDue()).isEqualTo(DEFAULT_MEM_DUE);
-        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(DEFAULT_MEM_VASULI);
+        assertThat(testKamalSociety.getMemDue()).isEqualTo(UPDATED_MEM_DUE);
+        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(UPDATED_MEM_VASULI);
         assertThat(testKamalSociety.getMemVasuliPer()).isEqualTo(DEFAULT_MEM_VASULI_PER);
-        assertThat(testKamalSociety.getBankLoan()).isEqualTo(UPDATED_BANK_LOAN);
+        assertThat(testKamalSociety.getBankLoan()).isEqualTo(DEFAULT_BANK_LOAN);
         assertThat(testKamalSociety.getBankDue()).isEqualTo(UPDATED_BANK_DUE);
         assertThat(testKamalSociety.getBankVasuli()).isEqualTo(DEFAULT_BANK_VASULI);
-        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(DEFAULT_BANK_VASULI_PER);
+        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(UPDATED_BANK_VASULI_PER);
         assertThat(testKamalSociety.getBalanceSheetDate()).isEqualTo(UPDATED_BALANCE_SHEET_DATE);
-        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(DEFAULT_BALANCE_SHEET_DATE_MR);
+        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(UPDATED_BALANCE_SHEET_DATE_MR);
         assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
-        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(UPDATED_LIABILITY_FUND);
-        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
-        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
-        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(DEFAULT_LIABILITY_OTHER_PAYABLE);
-        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(DEFAULT_LIABILITY_PROFIT);
-        assertThat(testKamalSociety.getAssetCash()).isEqualTo(DEFAULT_ASSET_CASH);
+        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(DEFAULT_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(DEFAULT_LIABILITY_SPARE_FUND);
+        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(DEFAULT_LIABILITY_DEPOSITE);
+        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
+        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);
+        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(UPDATED_LIABILITY_PROFIT);
+        assertThat(testKamalSociety.getAssetCash()).isEqualTo(UPDATED_ASSET_CASH);
         assertThat(testKamalSociety.getAssetInvestment()).isEqualTo(DEFAULT_ASSET_INVESTMENT);
-        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(UPDATED_ASSET_IMARAT_FUND);
-        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(UPDATED_ASSET_MEMBER_LOAN);
+        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(DEFAULT_ASSET_IMARAT_FUND);
+        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(DEFAULT_ASSET_MEMBER_LOAN);
         assertThat(testKamalSociety.getAssetDeadStock()).isEqualTo(UPDATED_ASSET_DEAD_STOCK);
-        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(DEFAULT_ASSET_OTHER_RECEIVABLE);
-        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(DEFAULT_ASSET_LOSS);
-        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(DEFAULT_TOTAL_LIABILITY);
-        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(UPDATED_TOTAL_ASSET);
+        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(UPDATED_ASSET_OTHER_RECEIVABLE);
+        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(UPDATED_ASSET_LOSS);
+        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(UPDATED_TOTAL_LIABILITY);
+        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(DEFAULT_TOTAL_ASSET);
         assertThat(testKamalSociety.getVillageCode()).isEqualTo(UPDATED_VILLAGE_CODE);
-        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(UPDATED_PACS_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(DEFAULT_PACS_VERIFIED_FLAG);
         assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
         assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG);
         assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
@@ -4211,6 +4548,9 @@ class KamalSocietyResourceIT {
             .kmToDate(UPDATED_KM_TO_DATE)
             .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
             .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
             .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
             .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
@@ -4239,6 +4579,7 @@ class KamalSocietyResourceIT {
             .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
             .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
             .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
             .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
             .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
             .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
@@ -4278,6 +4619,9 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getKmToDate()).isEqualTo(UPDATED_KM_TO_DATE);
         assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(UPDATED_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
         assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE);
         assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE_MR);
         assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
@@ -4306,6 +4650,7 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
         assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(UPDATED_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(UPDATED_LIABILITY_SPARE_FUND);
         assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
         assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
         assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);

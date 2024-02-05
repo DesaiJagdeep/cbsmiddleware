@@ -206,6 +206,10 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getLiabilityFund() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLiabilityFund(), KamalSociety_.liabilityFund));
             }
+            if (criteria.getLiabilitySpareFund() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getLiabilitySpareFund(), KamalSociety_.liabilitySpareFund));
+            }
             if (criteria.getLiabilityDeposite() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getLiabilityDeposite(), KamalSociety_.liabilityDeposite));

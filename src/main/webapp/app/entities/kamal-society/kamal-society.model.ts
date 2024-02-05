@@ -38,6 +38,7 @@ export interface IKamalSociety {
   liabilityAdhikrutShareCapital?: string | null;
   liabilityVasulShareCapital?: string | null;
   liabilityFund?: string | null;
+  liabilitySpareFund?: string | null;
   liabilityDeposite?: string | null;
   liabilityBalanceSheetBankLoan?: string | null;
   liabilityOtherPayable?: string | null;

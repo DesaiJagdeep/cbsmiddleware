@@ -153,6 +153,9 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getLiabilityFund() != null) {
                     existingKamalSociety.setLiabilityFund(kamalSociety.getLiabilityFund());
                 }
+                if (kamalSociety.getLiabilitySpareFund() != null) {
+                    existingKamalSociety.setLiabilitySpareFund(kamalSociety.getLiabilitySpareFund());
+                }
                 if (kamalSociety.getLiabilityDeposite() != null) {
                     existingKamalSociety.setLiabilityDeposite(kamalSociety.getLiabilityDeposite());
                 }

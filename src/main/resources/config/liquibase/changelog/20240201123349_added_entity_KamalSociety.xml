@@ -122,6 +122,9 @@
             <column name="liability_fund" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="liability_spare_fund" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="liability_deposite" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -242,6 +245,7 @@
             <column name="liability_adhikrut_share_capital" type="string"/>
             <column name="liability_vasul_share_capital" type="string"/>
             <column name="liability_fund" type="string"/>
+            <column name="liability_spare_fund" type="string"/>
             <column name="liability_deposite" type="string"/>
             <column name="liability_balance_sheet_bank_loan" type="string"/>
             <column name="liability_other_payable" type="string"/>

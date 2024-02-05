@@ -148,6 +148,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "liabilitySpareFund",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "liabilityDeposite",
       "fieldType": "String"
     },

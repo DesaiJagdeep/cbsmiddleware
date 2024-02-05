@@ -1,11 +1,7 @@
 package com.cbs.middleware.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -15,7 +11,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "kamal_society")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalSociety extends AbstractAuditingEntity<Long> implements Serializable {
+public class KamalSociety implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -133,6 +129,9 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "liability_fund")
     private String liabilityFund;
 
+    @Column(name = "liability_spare_fund")
+    private String liabilitySpareFund;
+
     @Column(name = "liability_deposite")
     private String liabilityDeposite;
 
@@ -187,43 +186,7 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "is_supplimentery_flag")
     private Boolean isSupplimenteryFlag;
 
-    @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
-    private Set<KamalCrop> kamalCrops = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Set<KamalCrop> getKamalCrops() {
-        return this.kamalCrops;
-    }
-
-    public void setKamalCrops(Set<KamalCrop> kamalCrops) {
-        if (this.kamalCrops != null) {
-            this.kamalCrops.forEach(i -> i.setKamalSociety(null));
-        }
-        if (kamalCrops != null) {
-            kamalCrops.forEach(i -> i.setKamalSociety(this));
-        }
-        this.kamalCrops = kamalCrops;
-    }
-
-    public KamalSociety kamalCrops(Set<KamalCrop> kamalCrops) {
-        this.setKamalCrops(kamalCrops);
-        return this;
-    }
-
-    public KamalSociety addKamalCrop(KamalCrop kamalCrop) {
-        this.kamalCrops.add(kamalCrop);
-        kamalCrop.setKamalSociety(this);
-        return this;
-    }
-
-    public KamalSociety removeKamalCrop(KamalCrop kamalCrop) {
-        this.kamalCrops.remove(kamalCrop);
-        kamalCrop.setKamalSociety(null);
-        return this;
-    }
-
-
-
 
     public Long getId() {
         return this.id;
@@ -706,6 +669,19 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         this.liabilityFund = liabilityFund;
     }
 
+    public String getLiabilitySpareFund() {
+        return this.liabilitySpareFund;
+    }
+
+    public KamalSociety liabilitySpareFund(String liabilitySpareFund) {
+        this.setLiabilitySpareFund(liabilitySpareFund);
+        return this;
+    }
+
+    public void setLiabilitySpareFund(String liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
+    }
+
     public String getLiabilityDeposite() {
         return this.liabilityDeposite;
     }
@@ -1000,6 +976,7 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
             ", liabilityAdhikrutShareCapital='" + getLiabilityAdhikrutShareCapital() + "'" +
             ", liabilityVasulShareCapital='" + getLiabilityVasulShareCapital() + "'" +
             ", liabilityFund='" + getLiabilityFund() + "'" +
+            ", liabilitySpareFund='" + getLiabilitySpareFund() + "'" +
             ", liabilityDeposite='" + getLiabilityDeposite() + "'" +
             ", liabilityBalanceSheetBankLoan='" + getLiabilityBalanceSheetBankLoan() + "'" +
             ", liabilityOtherPayable='" + getLiabilityOtherPayable() + "'" +

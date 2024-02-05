@@ -102,6 +102,7 @@ type KamalSocietyFormGroupContent = {
   liabilityAdhikrutShareCapital: FormControl<KamalSocietyFormRawValue['liabilityAdhikrutShareCapital']>;
   liabilityVasulShareCapital: FormControl<KamalSocietyFormRawValue['liabilityVasulShareCapital']>;
   liabilityFund: FormControl<KamalSocietyFormRawValue['liabilityFund']>;
+  liabilitySpareFund: FormControl<KamalSocietyFormRawValue['liabilitySpareFund']>;
   liabilityDeposite: FormControl<KamalSocietyFormRawValue['liabilityDeposite']>;
   liabilityBalanceSheetBankLoan: FormControl<KamalSocietyFormRawValue['liabilityBalanceSheetBankLoan']>;
   liabilityOtherPayable: FormControl<KamalSocietyFormRawValue['liabilityOtherPayable']>;
@@ -177,6 +178,7 @@ export class KamalSocietyFormService {
       liabilityAdhikrutShareCapital: new FormControl(kamalSocietyRawValue.liabilityAdhikrutShareCapital),
       liabilityVasulShareCapital: new FormControl(kamalSocietyRawValue.liabilityVasulShareCapital),
       liabilityFund: new FormControl(kamalSocietyRawValue.liabilityFund),
+      liabilitySpareFund: new FormControl(kamalSocietyRawValue.liabilitySpareFund),
       liabilityDeposite: new FormControl(kamalSocietyRawValue.liabilityDeposite),
       liabilityBalanceSheetBankLoan: new FormControl(kamalSocietyRawValue.liabilityBalanceSheetBankLoan),
       liabilityOtherPayable: new FormControl(kamalSocietyRawValue.liabilityOtherPayable),

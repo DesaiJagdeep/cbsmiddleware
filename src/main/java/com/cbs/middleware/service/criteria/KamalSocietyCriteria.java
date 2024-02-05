@@ -95,6 +95,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private StringFilter liabilityFund;
 
+    private StringFilter liabilitySpareFund;
+
     private StringFilter liabilityDeposite;
 
     private StringFilter liabilityBalanceSheetBankLoan;
@@ -174,6 +176,7 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             other.liabilityAdhikrutShareCapital == null ? null : other.liabilityAdhikrutShareCapital.copy();
         this.liabilityVasulShareCapital = other.liabilityVasulShareCapital == null ? null : other.liabilityVasulShareCapital.copy();
         this.liabilityFund = other.liabilityFund == null ? null : other.liabilityFund.copy();
+        this.liabilitySpareFund = other.liabilitySpareFund == null ? null : other.liabilitySpareFund.copy();
         this.liabilityDeposite = other.liabilityDeposite == null ? null : other.liabilityDeposite.copy();
         this.liabilityBalanceSheetBankLoan =
             other.liabilityBalanceSheetBankLoan == null ? null : other.liabilityBalanceSheetBankLoan.copy();
@@ -756,6 +759,21 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.liabilityFund = liabilityFund;
     }
 
+    public StringFilter getLiabilitySpareFund() {
+        return liabilitySpareFund;
+    }
+
+    public StringFilter liabilitySpareFund() {
+        if (liabilitySpareFund == null) {
+            liabilitySpareFund = new StringFilter();
+        }
+        return liabilitySpareFund;
+    }
+
+    public void setLiabilitySpareFund(StringFilter liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
+    }
+
     public StringFilter getLiabilityDeposite() {
         return liabilityDeposite;
     }
@@ -1081,6 +1099,7 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(liabilityAdhikrutShareCapital, that.liabilityAdhikrutShareCapital) &&
             Objects.equals(liabilityVasulShareCapital, that.liabilityVasulShareCapital) &&
             Objects.equals(liabilityFund, that.liabilityFund) &&
+            Objects.equals(liabilitySpareFund, that.liabilitySpareFund) &&
             Objects.equals(liabilityDeposite, that.liabilityDeposite) &&
             Objects.equals(liabilityBalanceSheetBankLoan, that.liabilityBalanceSheetBankLoan) &&
             Objects.equals(liabilityOtherPayable, that.liabilityOtherPayable) &&
@@ -1143,6 +1162,7 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             liabilityAdhikrutShareCapital,
             liabilityVasulShareCapital,
             liabilityFund,
+            liabilitySpareFund,
             liabilityDeposite,
             liabilityBalanceSheetBankLoan,
             liabilityOtherPayable,
@@ -1206,6 +1226,7 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (liabilityAdhikrutShareCapital != null ? "liabilityAdhikrutShareCapital=" + liabilityAdhikrutShareCapital + ", " : "") +
             (liabilityVasulShareCapital != null ? "liabilityVasulShareCapital=" + liabilityVasulShareCapital + ", " : "") +
             (liabilityFund != null ? "liabilityFund=" + liabilityFund + ", " : "") +
+            (liabilitySpareFund != null ? "liabilitySpareFund=" + liabilitySpareFund + ", " : "") +
             (liabilityDeposite != null ? "liabilityDeposite=" + liabilityDeposite + ", " : "") +
             (liabilityBalanceSheetBankLoan != null ? "liabilityBalanceSheetBankLoan=" + liabilityBalanceSheetBankLoan + ", " : "") +
             (liabilityOtherPayable != null ? "liabilityOtherPayable=" + liabilityOtherPayable + ", " : "") +

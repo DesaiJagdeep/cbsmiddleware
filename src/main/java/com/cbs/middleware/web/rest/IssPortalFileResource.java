@@ -997,4 +997,132 @@ public class IssPortalFileResource {
 
         } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
     }
+
+    @GetMapping("/pacs-not-yet-started-excel")
+    public ResponseEntity<byte[]> pacsNotYetStartedExcel(@RequestParam String financialYear) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        List<NotYetStartedDTO> notYetStartedDTOList = new ArrayList<>();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+
+            notYetStartedDTOList = issPortalFileService.findAllRecordsWhoNotStarted(financialYear);
+
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = workbook.createSheet("PacsNotYetStarted");
+                int rowNum = 0;
+                Row row = sheet.createRow(rowNum++);
+                int colNum = 0;
+                row.createCell(colNum++).setCellValue("Financial Year");
+                row.createCell(colNum++).setCellValue("PACS Number");
+                row.createCell(colNum++).setCellValue("PACS Name");
+                row.createCell(colNum++).setCellValue("Branch Name");
+                row.createCell(colNum++).setCellValue("Taluka Name");
+
+                for (NotYetStartedDTO notYetStartedDTO : notYetStartedDTOList) {
+                    colNum = 0;
+                    row = sheet.createRow(rowNum++);
+                    row.createCell(colNum++).setCellValue(financialYear);
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getPacsNumber());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getPacsName());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getBranchName());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getTalukaName());
+                }
+
+                // Write Excel to ByteArrayOutputStream
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                workbook.write(outputStream);
+                outputStream.close();
+                byte[] excelContent = outputStream.toByteArray();
+
+                // Set up the HTTP headers for the response
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+                headers.setContentDispositionFormData("filename", "PacsWhoNotStarted" + "-" +  financialYear + "-" +getUniqueName() + ".xlsx");
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
+                return new ResponseEntity<>(excelContent, headers, 200);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body(null);
+            }
+
+
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+    @GetMapping("/pending-verification")
+    public ResponseEntity<byte[]> pendingFromBranchAdminExcel(@RequestParam String user) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        List<VerifyPendingDTO> verifyPendingDTOList = new ArrayList<>();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+
+            if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                verifyPendingDTOList = issPortalFileService.findAllpendingFromBranchAdmin();
+            }else if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)){
+                verifyPendingDTOList = issPortalFileService.findAllpendingFromBranchUser();
+            }
+
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = null;
+                if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                     sheet = workbook.createSheet("PendingFromBranchAdmin");
+                }
+                else if (user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+                    sheet = workbook.createSheet("PendingFromBranchUser");
+                }
+
+                int rowNum = 0;
+                Row row = sheet.createRow(rowNum++);
+                int colNum = 0;
+                row.createCell(colNum++).setCellValue("Financial Year");
+                row.createCell(colNum++).setCellValue("Branch Name");
+                row.createCell(colNum++).setCellValue("PACS Number");
+                row.createCell(colNum++).setCellValue("PACS Name");
+
+                for (VerifyPendingDTO verifyPendingDTO : verifyPendingDTOList) {
+                    colNum = 0;
+                    row = sheet.createRow(rowNum++);
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getFinancialYear());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getBranchName());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getPacsNumber());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getPacsName());
+
+                }
+
+                // Write Excel to ByteArrayOutputStream
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                workbook.write(outputStream);
+                outputStream.close();
+                byte[] excelContent = outputStream.toByteArray();
+
+                // Set up the HTTP headers for the response
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+                if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchAdmin" + "-" + getUniqueName() + ".xlsx");
+                }else if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)){
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchUser" + "-" + getUniqueName() + ".xlsx");
+                }
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
+                return new ResponseEntity<>(excelContent, headers, 200);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body(null);
+            }
+
+
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+
 }

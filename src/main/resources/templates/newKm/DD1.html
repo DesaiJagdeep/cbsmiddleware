@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KM</title>
+</head>
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      border: 1px solid #ddd; /* Add a border around the table */
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd; /* Add a border to each table cell */
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2; /* Add a background color to the table header */
+    }
+  </style>
+<body>
+<table>
+  <tr>
+    <td>अ.क्र.</td>
+    <td>वी.का. संस्थेचे नाव</td>
+    <td></td>
+    <td>गावाचे एकून क्षेत्र</td>
+    <td>पैकी बागायत क्षेत्र</td>
+    <td>पैकी जिरायत क्षेत्र</td>
+    <td>एकून जमीनधारक शेतकऱ्यांची संख्या</td>
+    <td>त्यापैकी संस्थेचे सभासद</td>
+    <td>संस्थेचे सभासद नसलेले शेतकरी संख्या</td>
+  </tr>
+  <tr>
+    <td>१</td>
+    <td>२</td>
+    <td></td>
+    <td>3</td>
+    <td>४</td>
+    <td>५</td>
+    <td>६</td>
+    <td>७</td>
+    <td>८</td>
+  </tr>
+  <tr th:each="branchesAndPacs : ${reportDD}">
+    <td></td>
+    <td> <strong><u><span th:text="${branchesAndPacs.pacsName}"/></u></strong></td>
+    <td><span th:text="${branchesAndPacs.id}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.totalLand)}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.bagayat)}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.jirayat)}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.totalFarmer)}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.memberFarmer)}"/></td>
+    <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.nonMemberFarmer)}"/></td>
+
+ </tr>
+</tr>
+
+</table>
+
+<table style="page-break-before: always;">
+  <tr>
+    <td colspan="12" style="text-align: center;">ऊस कर्ज</td>
+  </tr>
+  <tr>
+    <td colspan="4" style="text-align: center;">सभासद</td>
+    <td colspan="4" style="text-align: center;">क्षेत्र</td>
+    <td colspan="4" style="text-align: center;">रक्कम</td>
+  </tr>
+  <tr>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td>सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+  </tr>
+  <tr>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>हे. आर</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+  </tr>
+  <tr>
+    <td>९</td>
+    <td>१०</td>
+    <td>११</td>
+    <td>१२</td>
+    <td>१३</td>
+    <td>१४</td>
+    <td>१५</td>
+    <td>१६</td>
+    <td>१७</td>
+    <td>१८</td>
+    <td>१९</td>
+    <td>२०</td>
+  </tr>
+</table>
+
+<table style="page-break-before: always;">
+  <tr>
+    <td colspan="12" style="text-align: center;">खरीप कर्ज</td>
+  </tr>
+  <tr>
+    <td colspan="4" style="text-align: center;">सभासद</td>
+    <td colspan="4" style="text-align: center;">क्षेत्र</td>
+    <td colspan="4" style="text-align: center;">रक्कम</td>
+  </tr>
+  <tr>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td>सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+  </tr>
+  <tr>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>हे. आर</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+  </tr>
+  <tr>
+    <td>२१</td>
+    <td>२२</td>
+    <td>२३</td>
+    <td>२४</td>
+    <td>२५</td>
+    <td>२६</td>
+    <td>२७</td>
+    <td>२८</td>
+    <td>२९</td>
+    <td>३०</td>
+    <td>३१</td>
+    <td>३२</td>
+  </tr>
+</table>
+
+<table style="page-break-before: always;">
+  <tr>
+    <td colspan="12" style="text-align: center;">रब्बी कर्ज</td>
+    <td rowspan="2" colspan="4" style="text-align: center;">एकून</td>
+  </tr>
+  <tr>
+    <td colspan="4" style="text-align: center;">सभासद</td>
+    <td colspan="4" style="text-align: center;">क्षेत्र</td>
+    <td colspan="4" style="text-align: center;">रक्कम</td>
+
+  </tr>
+  <tr>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td>सबल</td>
+    <td rowspan="2">एकून</td>
+    <td colspan="2">दुर्बल</td>
+    <td rowspan="2">सबल</td>
+    <td rowspan="2">एकून</td>
+    <td>सभासद</td>
+    <td>क्षेत्र</td>
+    <td>रक्कम</td>
+    <td>कमाल कर्ज मर्यादा</td>
+  </tr>
+  <tr>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td>हे. आर</td>
+    <td>अत्यल्प</td>
+    <td>अल्प</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>३३</td>
+    <td>३४</td>
+    <td>३५</td>
+    <td>३६</td>
+    <td>३७</td>
+    <td>३८</td>
+    <td>३९</td>
+    <td>४०</td>
+    <td>४१</td>
+    <td>४२</td>
+    <td>४३</td>
+    <td>४४</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -16,10 +16,13 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -28,6 +31,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.*;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.font.FontProvider;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,12 +55,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,6 +97,8 @@ import com.cbs.middleware.web.rest.errors.UnAuthRequestAlertException;
 import com.cbs.middleware.web.rest.utility.BankBranchPacksCodeGet;
 import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -143,6 +161,10 @@ public class IssFileParserResource {
     BankBranchMasterRepository bankBranchMasterRepository;
     @Autowired
     MailService mailService;
+    @Autowired
+    ResourceLoader resourceLoader;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
     @Autowired
@@ -254,6 +276,7 @@ public class IssFileParserResource {
             Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
             Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
             Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+            Pattern patternDDMMYYY_dotSeperated = Pattern.compile("^\\d{2}.\\d{2}.\\d{4}$");
 
             if (patternYYYY_MM_DD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
                 LocalDate date = LocalDate.parse(cell.getStringCellValue());
@@ -268,6 +291,10 @@ public class IssFileParserResource {
                 cellValue = date.format(formatter).trim();
             } else if (patternDD_MM_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
                 DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                cellValue = date.format(formatter).trim();
+            } else if (patternDDMMYYY_dotSeperated.matcher(cell.getStringCellValue()).matches()) { // dd.mm.yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                 LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
                 cellValue = date.format(formatter).trim();
             } else {
@@ -1062,13 +1089,18 @@ public class IssFileParserResource {
             fileParseConf.setPacsName(getCellValue(row.getCell(31)));
             fileParseConf.setPacsCode(packsCode);
 
+            //delete the applications from iss_file_parser_temp uploaded by user if exist
+            List<IssFileParserTemp> issFileParserTempList = issFileParserTempRepository.findByPacsNumberAndUploadingUser(packsCode, login);
+            if (!issFileParserTempList.isEmpty()) {
+                issFileParserTempRepository.deleteByUploadingUser(login);
+            }
 
             //Add iss_file_parser into iss_file_parser_temp table (by pacs Number)
             // Retrieve data from iss_file_parser table
             List<IssFileParser> fileParserList = issFileParserRepository.issFileParserByPacsNumber(packsCode);
 
             // Convert IssFileParser entities to IssFileParserTemp entities
-            List<IssFileParserTemp> fileParserTempList = convertToIssFileParserTemp(fileParserList,login);
+            List<IssFileParserTemp> fileParserTempList = convertToIssFileParserTemp(fileParserList, login);
             // Save data to iss_file_parser_temp table
             issFileParserTempRepository.saveAll(fileParserTempList);
 
@@ -1752,7 +1784,6 @@ public class IssFileParserResource {
                     //flag = true;
                     throw new BadRequestAlertException("Invalid  Land Type at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
                 }
-
             }
 
         } catch (BadRequestAlertException e) {
@@ -1767,7 +1798,6 @@ public class IssFileParserResource {
         } catch (IOException e1) {
             throw new IOException("IOException");
         }
-
         File originalFileDir = new File(Constants.ORIGINAL_FILE_PATH);
         if (!originalFileDir.isDirectory()) {
             originalFileDir.mkdirs();
@@ -2116,7 +2146,7 @@ public class IssFileParserResource {
 
                 //delete temp data in iss_file_parser_temp table by pacsNumber and FY
                 //List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndFinancialYear(issFileParserList.get(0).getPacsNumber(), issFileParserList.get(0).getFinancialYear());
-                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndUploadingUser(issFileParserList.get(0).getPacsNumber(),login);
+                List<IssFileParserTemp> recordsToDelete = issFileParserTempRepository.findByPacsNumberAndUploadingUser(issFileParserList.get(0).getPacsNumber(), login);
 
                 if (!recordsToDelete.isEmpty()) {
                     issFileParserTempRepository.deleteAll(recordsToDelete);
@@ -3697,11 +3727,22 @@ public class IssFileParserResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/iss-file-parserss/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+    //@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<IssFileParser> updateIssFileParser(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody IssFileParser issFileParser
     ) throws URISyntaxException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)  &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)
+        ){
+            throw new BadRequestAlertException("Unauthorized operation", ENTITY_NAME, "idnull");
+        }
+
         log.debug("REST request to update IssFileParser : {}, {}", id, issFileParser);
         if (issFileParser.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -3713,6 +3754,18 @@ public class IssFileParserResource {
         if (!issFileParserRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+
+        Optional<IssFileParser> optionalIssFileParser = issFileParserRepository.findById(id);
+
+        Optional<Application> applicationTransaction = applicationRepository.findOneByIssFileParser(optionalIssFileParser.get());
+
+        if (applicationTransaction.isPresent()) {
+            if (applicationTransaction.get().getApplicationStatus().equals(1) ||
+                (applicationTransaction.get().getBatchId() != null && applicationTransaction.get().getApplicationStatus().equals(2))) {
+
+                throw new BadRequestAlertException("Application submitted to KCC ,cannot be edited", ENTITY_NAME, "idnotfound");
+            }
+        } else throw new BadRequestAlertException("Application not found in transaction", ENTITY_NAME, "idnotfound");
 
         IssFileParser result = issFileParserService.update(issFileParser);
         return ResponseEntity
@@ -3867,6 +3920,134 @@ public class IssFileParserResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping("/claimDownload")
+    public ResponseEntity<byte[]> generateClaimPDFFromHTML(@RequestParam String financialYear) throws Exception {
+        String htmlStringForPdf = null;
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+        String pacsName = optUser.get().getPacsName();
+
+        String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
+
+
+        List<IssFileParser> issFileParserList = issFileParserRepository.findByPacsNumberAndFinancialYear(pacsNumber, financialYear);
+
+        List<String> htmlList = new ArrayList<>();
+
+        htmlStringForPdf = claimTemplate("claim/claimApplication.html", issFileParserList, downloadedDate);
+
+        htmlList.add(htmlStringForPdf);
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream = new com.itextpdf.io.source.ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + pacsNumber + financialYear + "claim.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream = new com.itextpdf.io.source.ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream1 = new com.itextpdf.io.source.ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + pacsName + financialYear + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + pacsName + financialYear + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+    private String claimTemplate(String template, List<IssFileParser> issFileParserList, String downloadedDate) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("issFileParserList", issFileParserList);
+        context.setVariable("downloadedDate", downloadedDate);
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
+    String getUniqueNumberString() {
+        Calendar cal = new GregorianCalendar();
+        return
+            "" +
+                cal.get(Calendar.MILLISECOND);
     }
 
 }

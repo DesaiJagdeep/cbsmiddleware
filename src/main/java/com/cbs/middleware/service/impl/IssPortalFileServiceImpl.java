@@ -15,10 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
-import com.cbs.middleware.service.dto.IssPortalFileDTO;
-import com.cbs.middleware.service.dto.PacsApplicationDTO;
-import com.cbs.middleware.service.dto.TalukaApplicationDTO;
+import com.cbs.middleware.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -234,6 +231,55 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
             }
         }
         return issPortalFileDTOList;
+    }
+
+    @Override
+    public List<NotYetStartedDTO> findAllRecordsWhoNotStarted(String financialYear) {
+        List<NotYetStartedDTO> notYetStartedDTOList = new ArrayList<>();
+
+        List<Object[]> pacsNotStarted = issPortalFileRepository.findRecordsWhoNotStarted(financialYear);
+
+        for (Object[] notStarted:pacsNotStarted) {
+            NotYetStartedDTO notYetStartedDTO=new NotYetStartedDTO();
+            notYetStartedDTO.setPacsNumber((String)notStarted[0]);
+            notYetStartedDTO.setPacsName((String)notStarted[1]);
+            notYetStartedDTO.setBranchName((String)notStarted[2]);
+            notYetStartedDTO.setTalukaName((String)notStarted[3]);
+            notYetStartedDTOList.add(notYetStartedDTO);
+        }
+
+        return notYetStartedDTOList;
+    }
+
+    @Override
+    public List<VerifyPendingDTO> findAllpendingFromBranchAdmin() {
+        List<VerifyPendingDTO> verifyPendingDTOList=new ArrayList<>();
+        List<Object[]> pendingFromBranchAdmin =issPortalFileRepository.findRecordsPendingFromBranchAdmin();
+        for (Object[] branchAdminPending:pendingFromBranchAdmin) {
+            VerifyPendingDTO verifyPendingDTO=new VerifyPendingDTO();
+            verifyPendingDTO.setPacsNumber(String.valueOf(branchAdminPending[0]));
+            verifyPendingDTO.setPacsName((String)branchAdminPending[1]);
+            verifyPendingDTO.setBranchName((String)branchAdminPending[2]);
+            verifyPendingDTO.setFinancialYear((String)branchAdminPending[3]);
+            verifyPendingDTOList.add(verifyPendingDTO);
+        }
+        return verifyPendingDTOList;
+    }
+
+    @Override
+    public List<VerifyPendingDTO> findAllpendingFromBranchUser() {
+        List<VerifyPendingDTO> verifyPendingDTOList=new ArrayList<>();
+        List<Object[]> pendingFromBranchUser =issPortalFileRepository.findRecordsPendingFromBranchUser();
+        for (Object[] branchUserPending:pendingFromBranchUser) {
+            VerifyPendingDTO verifyPendingDTO=new VerifyPendingDTO();
+            verifyPendingDTO.setPacsNumber(String.valueOf(branchUserPending[0]));
+            verifyPendingDTO.setPacsName((String)branchUserPending[1]);
+            verifyPendingDTO.setBranchName((String)branchUserPending[2]);
+            verifyPendingDTO.setFinancialYear((String)branchUserPending[3]);
+            verifyPendingDTOList.add(verifyPendingDTO);
+        }
+        return verifyPendingDTOList;
+
     }
 
 }

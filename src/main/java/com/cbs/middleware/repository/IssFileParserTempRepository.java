@@ -43,5 +43,7 @@ public interface IssFileParserTempRepository extends JpaRepository<IssFileParser
         String disbursementDate,
         String maturityLoanDate);
 
+    @Query(value = "delete * from iss_file_parser_temp where uploading_user=:login ",nativeQuery = true)
+    void deleteByUploadingUser(@Param("login") String login);
 
 }

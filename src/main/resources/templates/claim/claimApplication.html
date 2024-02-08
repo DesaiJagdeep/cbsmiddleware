@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>claim Application</title>
+  <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          border: 1px solid #ddd; /* Add a border around the table */
+        }
+
+        th,
+        td {
+          border: 1px solid #ddd; /* Add a border to each table cell */
+          padding: 8px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f2f2f2; /* Add a background color to the table header */
+        }
+      </style>
+</head>
+<body>
+<h3 style="text-align: center;">Claim Applications</h3>
+<p style="text-align: end;">Date : ____________</p>
+<table>
+  <tr>
+    <td>Id</td>
+    <td>Financial Year</td>
+    <td>Name</td>
+    <td>Loan Date</td>
+    <td>Loan Amount</td>
+    <td>First Recieve Date</td>
+    <td>First Recieve Amount</td>
+    <td>Second Recieve Date</td>
+    <td>Second Recieve Amount</td>
+    <td>Third Recieve Date</td>
+    <td>Third Recieve Amount</td>
+    <td>Forth Recieve Date</td>
+    <td>Forth Recieve Amount</td>
+  </tr>
+  <tr th:each="issFileParser: ${issFileParserList}">
+    <td></td>
+    <td><span th:text="${issFileParser.financialYear}"/></td>
+    <td><span th:text="${issFileParser.farmerName}"/></td>
+    <td><span th:text="${issFileParser.loanSactionDate}"/></td>
+    <td ><span th:text="${issFileParser.loanSanctionAmount}"/></td>
+    <td><span th:text="${issFileParser.recoveryDate}"/></td>
+    <td><span th:text="${issFileParser.recoveryAmountPrinciple}"/></td>
+    <td><span th:text="${issFileParser.secondRecoveryDate}"/></td>
+    <td><span th:text="${issFileParser.secondRecoveryAmountPrinciple}"/></td>
+    <td><span th:text="${issFileParser.thirdRecoveryDate}"/></td>
+    <td><span th:text="${issFileParser.thirdRecoveryAmountPrinciple}"/></td>
+    <td><span th:text="${issFileParser.fourthRecoveryDate}"/></td>
+    <td><span th:text="${issFileParser.fourthRecoveryAmountPrinciple}"/></td>
+  </tr>
+</table>
+
+<p style="text-indent: 35px;">वरील सभासदांची वाटप व वसुलीची माहिती छाननी सूचनाबरहुकुम मी केली असून, ती बरोबर आहे.</p>
+
+<table style="border: none;">
+  <tr style="border: none;">
+    <td style="border: none; width: 50%;"><span>Sign <br> Pacs</span></td>
+    <td style="border: none; width: 50%; text-align: end;"><span>Sign<br>Branch User</span></td>
+  </tr>
+</table>
+</body>
+</html>

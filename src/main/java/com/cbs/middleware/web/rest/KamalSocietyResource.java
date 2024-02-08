@@ -1,27 +1,56 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.KamalSociety;
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.KamalCropRepository;
 import com.cbs.middleware.repository.KamalSocietyRepository;
+import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.service.KamalSocietyQueryService;
 import com.cbs.middleware.service.KamalSocietyService;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
+import com.cbs.middleware.service.dto.ReportDD;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.font.FontProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -32,19 +61,23 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 public class KamalSocietyResource {
-
-    private final Logger log = LoggerFactory.getLogger(KamalSocietyResource.class);
-
     private static final String ENTITY_NAME = "kamalSociety";
-
+    private final Logger log = LoggerFactory.getLogger(KamalSocietyResource.class);
+    private final KamalSocietyService kamalSocietyService;
+    private final KamalSocietyRepository kamalSocietyRepository;
+    private final KamalSocietyQueryService kamalSocietyQueryService;
+    @Autowired
+    UserRepository userRepository;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final KamalSocietyService kamalSocietyService;
-
-    private final KamalSocietyRepository kamalSocietyRepository;
-
-    private final KamalSocietyQueryService kamalSocietyQueryService;
+    @Autowired
+    private PacsMasterRepository pacsMasterRepository;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
+    @Autowired
+    ResourceLoader resourceLoader;
+    @Autowired
+    KamalCropRepository kamalCropRepository;
 
     public KamalSocietyResource(
         KamalSocietyService kamalSocietyService,
@@ -69,17 +102,33 @@ public class KamalSocietyResource {
         if (kamalSociety.getId() != null) {
             throw new BadRequestAlertException("A new kamalSociety cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+        kamalSociety.setPacsNumber(pacsNumber);
+        kamalSociety.setPacsName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getPacsName());
+        kamalSociety.setBranchId(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId());
+        kamalSociety.setBranchName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getBranchName());
+
+        //set pacs number to every kamalaCrop Object
+        Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
+        kamalCrops.forEach(kamalCrop -> kamalCrop.setPacsNumber(pacsNumber));
+
+        kamalSociety.setKamalCrops(kamalCrops);
+
         KamalSociety result = kamalSocietyService.save(kamalSociety);
+
         return ResponseEntity
             .created(new URI("/api/kamal-societies/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
+
     /**
      * {@code PUT  /kamal-societies/:id} : Updates an existing kamalSociety.
      *
-     * @param id the id of the kamalSociety to save.
+     * @param id           the id of the kamalSociety to save.
      * @param kamalSociety the kamalSociety to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kamalSociety,
      * or with status {@code 400 (Bad Request)} if the kamalSociety is not valid,
@@ -113,7 +162,7 @@ public class KamalSocietyResource {
     /**
      * {@code PATCH  /kamal-societies/:id} : Partial updates given fields of an existing kamalSociety, field will ignore if it is null
      *
-     * @param id the id of the kamalSociety to save.
+     * @param id           the id of the kamalSociety to save.
      * @param kamalSociety the kamalSociety to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kamalSociety,
      * or with status {@code 400 (Bad Request)} if the kamalSociety is not valid,
@@ -121,7 +170,7 @@ public class KamalSocietyResource {
      * or with status {@code 500 (Internal Server Error)} if the kamalSociety couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/kamal-societies/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/kamal-societies/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<KamalSociety> partialUpdateKamalSociety(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody KamalSociety kamalSociety
@@ -204,4 +253,331 @@ public class KamalSocietyResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+
+    @GetMapping("/DD1Report")
+    public ResponseEntity<byte[]> generatePDFFromHTML() throws Exception {
+
+        List<String> htmlList = new ArrayList<>();
+
+        String htmlStringForPdf = null;
+
+        // Parse input string to Instant
+        Instant inputInstant = Instant.parse("2024-03-30T09:39:52Z");
+        // Truncate time to midnight (00:00:00)
+        Instant resultInstant = inputInstant.truncatedTo(ChronoUnit.DAYS);
+
+        Optional<KamalSociety> kamalSociety = kamalSocietyRepository.findById(1L);
+        //List<KamalSociety> all = kamalSocietyRepository.findAll();
+        int sumOfMemberFarmer=kamalSocietyRepository.sumOfMemberFarmer(kamalSociety.get().getPacsNumber(),kamalSociety.get().getFinancialYear());
+
+        String sumOfMemberFarmerMr = TranslationServiceUtility.numberTOMarathiNumber(String.valueOf(sumOfMemberFarmer));
+        List<ReportDD> reportData = new ArrayList<>();
+
+        String fy="2023-2024";
+        String kmDate="2023-01-01T00:00:00.000Z";
+        String kmFromDate="2024-04-01T00:00:00.000Z";
+        String KmToDate="2024-03-31T00:00:00.000Z";
+
+        Instant kmDateInstant = Instant.parse(kmDate);
+        Instant kmFromDateInstant = Instant.parse(kmFromDate);
+        Instant KmToDateInstant = Instant.parse(KmToDate);
+
+       // List<KamalSociety> all=kamalSocietyRepository.findByFyAndKmDateAndKmFromToKmToDate(fy,kmDateInstant,kmFromDateInstant,KmToDateInstant);
+
+        List<KamalSociety> all = kamalSocietyRepository.findAll();
+        // Grouping KamalSociety by branchName
+        Map<String, List<KamalSociety>> groupedByBranchName = all.stream()
+            .collect(Collectors.groupingBy(KamalSociety::getBranchName));
+
+        // Iterating through the groupedByBranchName map
+        for (Map.Entry<String, List<KamalSociety>> entry : groupedByBranchName.entrySet()) {
+            String branchName = entry.getKey();
+            List<KamalSociety> kamalSocieties = entry.getValue();
+
+            // Creating ReportDD and adding it to the reportData list
+            ReportDD reportDD = new ReportDD(branchName, kamalSocieties);
+            reportData.add(reportDD);
+        }
+
+        List<KamalSociety> toPrint = new ArrayList<KamalSociety>();
+
+        for (int i =0; i < reportData.size();i++){
+            ReportDD data = reportData.get(i);
+            KamalSociety KamalSocietyForBranchName = new KamalSociety();
+            KamalSocietyForBranchName.setPacsName(data.getBranchName());
+            toPrint.add(KamalSocietyForBranchName);
+            int sumTotalLand = 0;
+            int sumBagayat = 0;
+            int sumJirayat = 0;
+            int sumTotalFarmer = 0;
+            int sumMemberFarmer = 0;
+            int sumNonMemberFarmer = 0;
+
+            for (int j =0; j < data.getKamalSocieties().size();j++) {
+                KamalSociety temp = data.getKamalSocieties().get(j);
+                    temp.setId(0L);
+                sumTotalLand = sumTotalLand + Integer.parseInt(temp.getTotalLand());
+                sumBagayat = sumBagayat + Integer.parseInt(temp.getBagayat());
+                sumJirayat = sumJirayat + Integer.parseInt(temp.getJirayat());
+                sumTotalFarmer = sumTotalFarmer + Integer.parseInt(temp.getTotalFarmer());
+                sumMemberFarmer = sumMemberFarmer + Integer.parseInt(temp.getMemberFarmer());
+                sumNonMemberFarmer = sumNonMemberFarmer + Integer.parseInt(temp.getNonMemberFarmer());
+
+                toPrint.add(temp);
+            }
+
+            KamalSociety total = new KamalSociety();
+            total.setPacsName("एकुण");
+            total.setId(Long.valueOf(data.getKamalSocieties().size()));
+            total.setTotalLand(""+sumTotalLand);
+            total.setBagayat(""+sumBagayat);
+            total.setJirayat(""+sumJirayat);
+            total.setTotalFarmer(""+sumTotalFarmer);
+            total.setMemberFarmer(""+sumMemberFarmer);
+            total.setNonMemberFarmer(""+sumNonMemberFarmer);
+            toPrint.add(total);
+
+        }
+
+        htmlStringForPdf = DD1Template("newKm/DD1.html", toPrint,sumOfMemberFarmerMr,TranslationServiceUtility.getInstance());
+
+        htmlList.add(htmlStringForPdf);
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+    private String DD1Template(String template, List<KamalSociety> reportDD, String sumOfMemberFarmerMr, TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("reportDD", reportDD);
+        context.setVariable("sumOfMemberFarmerMr",sumOfMemberFarmerMr);
+        context.setVariable("translationServiceUtility",translationServiceUtility);
+
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
+    String getUniqueNumberString() {
+        Calendar cal = new GregorianCalendar();
+        return
+            "" +
+                cal.get(Calendar.MILLISECOND);
+    }
+
+
+    //Manjuri Crop Detail
+
+    @GetMapping("/manjuri-crop-detail")
+    public ResponseEntity<byte[]> generateManjuriPDFFromHTML() throws Exception {
+
+        List<String> htmlList = new ArrayList<>();
+
+        String htmlStringForPdf = null;
+
+        List<KamalCrop> all = kamalCropRepository.findAll();
+
+        htmlStringForPdf = manjuriTemplate("newKm/loanManjuri.html", all,TranslationServiceUtility.getInstance());
+
+        htmlList.add(htmlStringForPdf);
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+    private String manjuriTemplate(String template, List<KamalCrop> all, TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("all", all);
+        context.setVariable("translationServiceUtility",translationServiceUtility);
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
+
 }

@@ -78,4 +78,6 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
 
     @Query(value = "select * from iss_file_parser where pacs_number=:pacsNumber ", nativeQuery = true)
     List<IssFileParser> issFileParserByPacsNumber(@Param("pacsNumber") String pacsNumber);
+    @Query(value = "select * from iss_file_parser where pacs_number=:pacsNumber and financial_year=:financialYear ", nativeQuery = true)
+    List<IssFileParser> findByPacsNumberAndFinancialYear(@Param("pacsNumber") String pacsNumber, @Param("financialYear") String financialYear);
 }

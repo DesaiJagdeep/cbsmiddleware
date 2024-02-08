@@ -16,18 +16,20 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class TranslationServiceUtility {
-	
-	
+
+
 //	public String convertNumberToWords(int number) {
 //        return NumberToWords.toWords(number);
 //    }
-//	
-	
-	
-	
+//
+	private static TranslationServiceUtility translationServiceUtility;
+public static TranslationServiceUtility getInstance(){
+    return translationServiceUtility != null ? translationServiceUtility: new TranslationServiceUtility();
+}
+
 	public static String numberTOMarathiNumber( String str)
 	{
-		 
+            if (str == null || "".equals(str.trim())) return "";
 			    String answer = str;
 			    answer = answer.replace("1","१");
 			    answer = answer.replace("2","२");
@@ -39,14 +41,14 @@ public class TranslationServiceUtility {
 			    answer = answer.replace("8","८");
 			    answer = answer.replace("9","९");
 			    answer = answer.replace("0","०");
-			    
+
 			    return answer;
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 
     public String translationText(String text) {
         String returnText = "";
@@ -121,23 +123,23 @@ public class TranslationServiceUtility {
 
         return returnText;
     }
-    
-    
-    
+
+
+
     public static String oneZeroOneDateMr(LocalDate loanDate) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDate = loanDate.format(formatter);
 
-            
+
             return numberTOMarathiNumber(formattedDate);
         } catch (Exception e) {
             return "Error in translation";
         }
     }
-    
-    
-    
-    
-   
+
+
+
+
+
 }

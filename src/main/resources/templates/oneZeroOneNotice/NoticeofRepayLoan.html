@@ -22,8 +22,8 @@
 <h3 style="text-align: center;"><strong>कर्ज मागणी नोटीस</strong></h3>
 
 <p style="line-height: 25px; margin-bottom: 12px;">प्रति,</p>
-<h4 style="margin: 0">कर्जदाराचे नाव : <u><span th:text="${courtCase.nameOfDefaulter}"/></u></h4>
-<h4 style="margin: 0">राहणार : <u><span th:text="${courtCase.address}"/></u></h4>
+<h4 style="margin: 0">कर्जदाराचे नाव : <span th:text="${courtCase.nameOfDefaulter}"/></h4>
+<h4 style="margin: 0">राहणार : <span th:text="${courtCase.address}"/></h4>
 
 <h3 style="text-align: center;"><strong>विषय: थेट शेती कर्जाचा थकीत हप्ता भरणेबाबत.</strong></h3>
 <table style="width: 80%; margin: auto;">
@@ -33,7 +33,7 @@
   </tr>
   <tr>
     <td></td>
-    <td>२) शाखा जा. क्र. / _________ दिनांक: <strong><u></u></strong></td>
+    <td>२) शाखा <strong><span th:text="${branchName}"/></strong> जा. क्र. / _________ दिनांक: <strong><u></u></strong></td>
   </tr>
 </table>
 <p>महाशय,</p>

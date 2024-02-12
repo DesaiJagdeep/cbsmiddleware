@@ -44,6 +44,7 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "crop_eligibility_amount")
     private String cropEligibilityAmount;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private KamalSociety kamalSociety;
@@ -264,5 +265,23 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
             ", headOfficeAmount='" + getHeadOfficeAmount() + "'" +
             ", cropEligibilityAmount='" + getCropEligibilityAmount() + "'" +
             "}";
+    }
+
+    public  String getIntegerPartOfNumber(String str){
+        if (str==null){
+            return "";
+        }
+        String[] parts = str.split("\\.");
+        String integerPart = parts[0];
+        return integerPart;
+    }
+
+    public  String getDecimalPartOfNumber(String str){
+        if (str==null || !str.contains(".")){
+            return "0";
+        }
+        String[] parts = str.split("\\.");
+        String decimalPart = parts[1];
+        return decimalPart;
     }
 }

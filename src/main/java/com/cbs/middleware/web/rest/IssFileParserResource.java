@@ -3737,6 +3737,7 @@ public class IssFileParserResource {
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         GrantedAuthority authority = authorities.stream().findFirst().get();
         if (!authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ADMIN) &&
             !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)  &&
             !authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)
         ){

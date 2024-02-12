@@ -2,10 +2,8 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.*;
-import com.cbs.middleware.repository.KamalCropRepository;
-import com.cbs.middleware.repository.KamalSocietyRepository;
-import com.cbs.middleware.repository.PacsMasterRepository;
-import com.cbs.middleware.repository.UserRepository;
+import com.cbs.middleware.repository.*;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyQueryService;
 import com.cbs.middleware.service.KamalSocietyService;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
@@ -46,11 +44,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -68,16 +69,19 @@ public class KamalSocietyResource {
     private final KamalSocietyQueryService kamalSocietyQueryService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ResourceLoader resourceLoader;
+    @Autowired
+    KamalCropRepository kamalCropRepository;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
     @Autowired
     private PacsMasterRepository pacsMasterRepository;
     @Autowired
     private SpringTemplateEngine templateEngine;
+
     @Autowired
-    ResourceLoader resourceLoader;
-    @Autowired
-    KamalCropRepository kamalCropRepository;
+    private CropRateMasterRepository cropRateMasterRepository;
 
     public KamalSocietyResource(
         KamalSocietyService kamalSocietyService,
@@ -110,9 +114,13 @@ public class KamalSocietyResource {
         kamalSociety.setBranchId(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId());
         kamalSociety.setBranchName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getBranchName());
 
-        //set pacs number to every kamalaCrop Object
+        //set pacs number and FinancialYear to every kamalaCrop Object
         Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
-        kamalCrops.forEach(kamalCrop -> kamalCrop.setPacsNumber(pacsNumber));
+        kamalCrops.forEach(kamalCrop -> {
+                kamalCrop.setPacsNumber(pacsNumber);
+                kamalCrop.setFinancialYear(kamalSociety.getFinancialYear());
+            }
+        );
 
         kamalSociety.setKamalCrops(kamalCrops);
 
@@ -208,6 +216,25 @@ public class KamalSocietyResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KamalSocieties by criteria: {}", criteria);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+        Long branchId = pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId();
+
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) || authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+            LongFilter branchIdFilter = new LongFilter();
+            branchIdFilter.setEquals(branchId);
+            criteria.setBranchId(branchIdFilter);
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            StringFilter pacsNumberFilter = new StringFilter();
+            pacsNumberFilter.setEquals(pacsNumber);
+            criteria.setPacsNumber(pacsNumberFilter);
+        }
+
+
         Page<KamalSociety> page = kamalSocietyQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -269,21 +296,21 @@ public class KamalSocietyResource {
 
         Optional<KamalSociety> kamalSociety = kamalSocietyRepository.findById(1L);
         //List<KamalSociety> all = kamalSocietyRepository.findAll();
-        int sumOfMemberFarmer=kamalSocietyRepository.sumOfMemberFarmer(kamalSociety.get().getPacsNumber(),kamalSociety.get().getFinancialYear());
+        int sumOfMemberFarmer = kamalSocietyRepository.sumOfMemberFarmer(kamalSociety.get().getPacsNumber(), kamalSociety.get().getFinancialYear());
 
         String sumOfMemberFarmerMr = TranslationServiceUtility.numberTOMarathiNumber(String.valueOf(sumOfMemberFarmer));
         List<ReportDD> reportData = new ArrayList<>();
 
-        String fy="2023-2024";
-        String kmDate="2023-01-01T00:00:00.000Z";
-        String kmFromDate="2024-04-01T00:00:00.000Z";
-        String KmToDate="2024-03-31T00:00:00.000Z";
+        String fy = "2023-2024";
+        String kmDate = "2023-01-01T00:00:00.000Z";
+        String kmFromDate = "2024-04-01T00:00:00.000Z";
+        String KmToDate = "2024-03-31T00:00:00.000Z";
 
         Instant kmDateInstant = Instant.parse(kmDate);
         Instant kmFromDateInstant = Instant.parse(kmFromDate);
         Instant KmToDateInstant = Instant.parse(KmToDate);
 
-       // List<KamalSociety> all=kamalSocietyRepository.findByFyAndKmDateAndKmFromToKmToDate(fy,kmDateInstant,kmFromDateInstant,KmToDateInstant);
+        // List<KamalSociety> all=kamalSocietyRepository.findByFyAndKmDateAndKmFromToKmToDate(fy,kmDateInstant,kmFromDateInstant,KmToDateInstant);
 
         List<KamalSociety> all = kamalSocietyRepository.findAll();
         // Grouping KamalSociety by branchName
@@ -302,7 +329,7 @@ public class KamalSocietyResource {
 
         List<KamalSociety> toPrint = new ArrayList<KamalSociety>();
 
-        for (int i =0; i < reportData.size();i++){
+        for (int i = 0; i < reportData.size(); i++) {
             ReportDD data = reportData.get(i);
             KamalSociety KamalSocietyForBranchName = new KamalSociety();
             KamalSocietyForBranchName.setPacsName(data.getBranchName());
@@ -314,9 +341,9 @@ public class KamalSocietyResource {
             int sumMemberFarmer = 0;
             int sumNonMemberFarmer = 0;
 
-            for (int j =0; j < data.getKamalSocieties().size();j++) {
+            for (int j = 0; j < data.getKamalSocieties().size(); j++) {
                 KamalSociety temp = data.getKamalSocieties().get(j);
-                    temp.setId(0L);
+                temp.setId(0L);
                 sumTotalLand = sumTotalLand + Integer.parseInt(temp.getTotalLand());
                 sumBagayat = sumBagayat + Integer.parseInt(temp.getBagayat());
                 sumJirayat = sumJirayat + Integer.parseInt(temp.getJirayat());
@@ -330,17 +357,17 @@ public class KamalSocietyResource {
             KamalSociety total = new KamalSociety();
             total.setPacsName("एकुण");
             total.setId(Long.valueOf(data.getKamalSocieties().size()));
-            total.setTotalLand(""+sumTotalLand);
-            total.setBagayat(""+sumBagayat);
-            total.setJirayat(""+sumJirayat);
-            total.setTotalFarmer(""+sumTotalFarmer);
-            total.setMemberFarmer(""+sumMemberFarmer);
-            total.setNonMemberFarmer(""+sumNonMemberFarmer);
+            total.setTotalLand("" + sumTotalLand);
+            total.setBagayat("" + sumBagayat);
+            total.setJirayat("" + sumJirayat);
+            total.setTotalFarmer("" + sumTotalFarmer);
+            total.setMemberFarmer("" + sumMemberFarmer);
+            total.setNonMemberFarmer("" + sumNonMemberFarmer);
             toPrint.add(total);
 
         }
 
-        htmlStringForPdf = DD1Template("newKm/DD1.html", toPrint,sumOfMemberFarmerMr,TranslationServiceUtility.getInstance());
+        htmlStringForPdf = DD1Template("newKm/DD1.html", toPrint, sumOfMemberFarmerMr, TranslationServiceUtility.getInstance());
 
         htmlList.add(htmlStringForPdf);
 
@@ -444,8 +471,8 @@ public class KamalSocietyResource {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("reportDD", reportDD);
-        context.setVariable("sumOfMemberFarmerMr",sumOfMemberFarmerMr);
-        context.setVariable("translationServiceUtility",translationServiceUtility);
+        context.setVariable("sumOfMemberFarmerMr", sumOfMemberFarmerMr);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
 
         String content = templateEngine.process(template, context);
         return content;
@@ -462,15 +489,130 @@ public class KamalSocietyResource {
     //Manjuri Crop Detail
 
     @GetMapping("/manjuri-crop-detail")
-    public ResponseEntity<byte[]> generateManjuriPDFFromHTML() throws Exception {
+    public ResponseEntity<byte[]> generateManjuriPDFFromHTML(@RequestParam String financialYear) throws Exception {
 
         List<String> htmlList = new ArrayList<>();
 
         String htmlStringForPdf = null;
 
-        List<KamalCrop> all = kamalCropRepository.findAll();
 
-        htmlStringForPdf = manjuriTemplate("newKm/loanManjuri.html", all,TranslationServiceUtility.getInstance());
+        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal();
+        List<KamalCrop> sugarcaneMarginalListToPrint = new ArrayList<>();
+        if (!sugarcaneMarginalListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneMarginalList = getCropListWithAmountAsPerCropRate(sugarcaneMarginalListDB, financialYear);
+            sugarcaneMarginalListToPrint.addAll(sugarcaneMarginalList);
+        }
+
+        List<KamalCrop> sugarcaneSmallListDB = kamalCropRepository.findBySugarcaneSmall();
+        List<KamalCrop> sugarcaneSmallListToPrint = new ArrayList<>();
+        if (!sugarcaneSmallListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneSmallList = getCropListWithAmountAsPerCropRate(sugarcaneSmallListDB, financialYear);
+            sugarcaneSmallListToPrint.addAll(sugarcaneSmallList);
+        }
+
+        //to get the sugarcane एकूण (अ)
+        KamalCrop totalSugarcaneA = getObjectOfTotal(sugarcaneMarginalListToPrint, sugarcaneSmallListToPrint);
+
+
+        List<KamalCrop> sugarcaneOtherListDB = kamalCropRepository.findBySugarcaneOther();
+        List<KamalCrop> sugarcaneOtherListToPrint = new ArrayList<>();
+        if (!sugarcaneOtherListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneOtherList = getCropListWithAmountAsPerCropRate(sugarcaneOtherListDB, financialYear);
+            sugarcaneOtherListToPrint.addAll(sugarcaneOtherList);
+        }
+       //to get the sugarcane एकूण (ब)
+        KamalCrop totalSugarcaneB = getObjectOfTotal(sugarcaneOtherListToPrint);
+
+        //to get the sugarcane एकूण (अ+ब)
+        KamalCrop totalSugarcaneAplusB = getObjectOfTotal(Collections.singletonList(totalSugarcaneA), Collections.singletonList(totalSugarcaneB));
+
+        List<KamalCrop> kharipMarginalListDB = kamalCropRepository.findByKharipMarginal();
+        List<KamalCrop> kharipMarginalListToPrint = new ArrayList<>();
+        if (!kharipMarginalListDB.isEmpty()) {
+            List<KamalCrop> kharipMarginalList = getCropListWithAmountAsPerCropRate(kharipMarginalListDB, financialYear);
+            kharipMarginalListToPrint.addAll(kharipMarginalList);
+        }
+
+
+        List<KamalCrop> kharipSmallListDB = kamalCropRepository.findByKharipSmall();
+        List<KamalCrop> kharipSmallListToPrint = new ArrayList<>();
+        if (!kharipSmallListDB.isEmpty()) {
+            List<KamalCrop> kharipSmallList = getCropListWithAmountAsPerCropRate(kharipSmallListDB, financialYear);
+            kharipSmallListToPrint.addAll(kharipSmallList);
+        }
+        //to get the kharip एकूण (अ)
+        KamalCrop totalKharipA = getObjectOfTotal(kharipMarginalListToPrint,kharipSmallListToPrint);
+
+        List<KamalCrop> kharipOtherListDB = kamalCropRepository.findByKharipOther();
+        List<KamalCrop> kharipOtherListToPrint = new ArrayList<>();
+        if (!kharipOtherListDB.isEmpty()) {
+            List<KamalCrop> kharipOtherList = getCropListWithAmountAsPerCropRate(kharipOtherListDB, financialYear);
+            kharipOtherListToPrint.addAll(kharipOtherList);
+        }
+        //to get the kharip एकूण (ब)
+        KamalCrop totalKharipB = getObjectOfTotal(kharipOtherListToPrint);
+
+        //to get the kharip एकूण (अ+ब)
+        KamalCrop totalKharipAplusB = getObjectOfTotal(Collections.singletonList(totalKharipA), Collections.singletonList(totalKharipB));
+
+
+        List<KamalCrop> rabbiMarginalListDB = kamalCropRepository.findByRabbiMarginal();
+        List<KamalCrop> rabbiMarginalListToPrint = new ArrayList<>();
+        if (!rabbiMarginalListDB.isEmpty()) {
+            List<KamalCrop> rabbiMarginalList = getCropListWithAmountAsPerCropRate(rabbiMarginalListDB, financialYear);
+            rabbiMarginalListToPrint.addAll(rabbiMarginalList);
+        }
+
+        List<KamalCrop> rabbiSmallListDB = kamalCropRepository.findByRabbiSmall();
+        List<KamalCrop> rabbiSmallListToPrint = new ArrayList<>();
+        if (!rabbiSmallListDB.isEmpty()) {
+            List<KamalCrop> rabbiSmallList = getCropListWithAmountAsPerCropRate(rabbiSmallListDB, financialYear);
+            rabbiSmallListToPrint.addAll(rabbiSmallList);
+        }
+        //to get the rabbi एकूण (अ)
+        KamalCrop totalRabbiA = getObjectOfTotal(rabbiMarginalListToPrint,rabbiSmallListToPrint);
+
+        List<KamalCrop> rabbiOtherListDB = kamalCropRepository.findByRabbiOther();
+        List<KamalCrop> rabbiOtherListToPrint = new ArrayList<>();
+        if (!rabbiOtherListDB.isEmpty()) {
+            List<KamalCrop> rabbiOtherList = getCropListWithAmountAsPerCropRate(rabbiOtherListDB, financialYear);
+            rabbiOtherListToPrint.addAll(rabbiOtherList);
+        }
+        //to get the Rabbi एकूण (ब)
+        KamalCrop totalRabbiB = getObjectOfTotal(kharipOtherListToPrint);
+
+        //to get the Rabbi एकूण (अ+ब)
+        KamalCrop totalRabbiAplusB = getObjectOfTotal(Collections.singletonList(totalRabbiA), Collections.singletonList(totalRabbiB));
+
+        //to get total एकूण (१+२+३)
+        List<KamalCrop> grandTotalList=new ArrayList<>();
+        grandTotalList.add(totalSugarcaneAplusB);
+        grandTotalList.add(totalKharipAplusB);
+        grandTotalList.add(totalRabbiAplusB);
+        KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
+
+
+        htmlStringForPdf = manjuriTemplate("newKm/manjuriCropDetail.html",
+            sugarcaneMarginalListToPrint,
+            sugarcaneSmallListToPrint,
+            totalSugarcaneA,
+            sugarcaneOtherListToPrint,
+            totalSugarcaneB,
+            totalSugarcaneAplusB,
+            kharipMarginalListToPrint,
+            kharipSmallListToPrint,
+            totalKharipA,
+            kharipOtherListToPrint,
+            totalKharipB,
+            totalKharipAplusB,
+            rabbiMarginalListToPrint,
+            rabbiSmallListToPrint,
+            totalRabbiA,
+            rabbiOtherListToPrint,
+            totalRabbiB,
+            totalRabbiAplusB,
+            grandTotal,
+            TranslationServiceUtility.getInstance());
 
         htmlList.add(htmlStringForPdf);
 
@@ -482,7 +624,6 @@ public class KamalSocietyResource {
 
             PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
             PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
 
             // Create ConverterProperties and set the font provider
             ConverterProperties converterProperties = new ConverterProperties();
@@ -570,11 +711,123 @@ public class KamalSocietyResource {
         return response;
     }
 
-    private String manjuriTemplate(String template, List<KamalCrop> all, TranslationServiceUtility translationServiceUtility) {
+    private KamalCrop getObjectOfTotal(List<KamalCrop> kamalCropList) {
+        double totalCropEligibilityAmount = 0.0;
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double totalPacsAmount = 0.0;
+
+        for (KamalCrop kamalCrop : kamalCropList) {
+            totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            totalArea += Double.parseDouble(kamalCrop.getArea());
+            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+        }
+        KamalCrop kamalCropTotal = new KamalCrop();
+        kamalCropTotal.setCropEligibilityAmount(String.valueOf(totalCropEligibilityAmount));
+        kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
+        kamalCropTotal.setArea(String.valueOf(totalArea));
+        kamalCropTotal.setPacsAmount(String.valueOf(totalPacsAmount));
+
+        return kamalCropTotal;
+    }
+
+    private KamalCrop getObjectOfTotal(List<KamalCrop> kamalCropList1, List<KamalCrop> kamalCropList2) {
+        double totalCropEligibilityAmount = 0.0;
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double totalPacsAmount = 0.0;
+
+        for (KamalCrop kamalCrop : kamalCropList1) {
+            totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            totalArea += Double.parseDouble(kamalCrop.getArea());
+            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+        }
+
+        for (KamalCrop kamalCrop : kamalCropList2) {
+            totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            totalArea += Double.parseDouble(kamalCrop.getArea());
+            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+        }
+
+
+        KamalCrop kamalCropTotal = new KamalCrop();
+        kamalCropTotal.setCropEligibilityAmount(String.valueOf(totalCropEligibilityAmount));
+        kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
+        kamalCropTotal.setArea(String.valueOf(totalArea));
+        kamalCropTotal.setPacsAmount(String.valueOf(totalPacsAmount));
+
+        return kamalCropTotal;
+
+    }
+
+
+    private List<KamalCrop> getCropListWithAmountAsPerCropRate(List<KamalCrop> kamalCropListDB, String financialYear) {
+        List<KamalCrop> kamalCropsWithAmount = new ArrayList<>();
+
+        for (KamalCrop kamalCrop : kamalCropListDB) {
+            Optional<CropRateMaster> cropRateMasterDB = cropRateMasterRepository.findCropRateByCropAndFinancialYear(kamalCrop.getCropMaster().getId(), financialYear);
+            if (cropRateMasterDB.isPresent()) {
+                Double area = Double.parseDouble(kamalCrop.getArea());
+                Double perHectorCropAmount = cropRateMasterDB.get().getCurrentAmount();
+
+                double pacsAmount = area * perHectorCropAmount;
+                kamalCrop.setPacsAmount((pacsAmount) + "0");
+                kamalCrop.setCropEligibilityAmount(String.valueOf(perHectorCropAmount));
+                KamalCrop savedInDbWithAmount = kamalCropRepository.save(kamalCrop);
+                kamalCropsWithAmount.add(savedInDbWithAmount);
+            } else {
+                kamalCropsWithAmount.add(kamalCrop);
+            }
+        }
+        return kamalCropsWithAmount;
+    }
+
+    private String manjuriTemplate(String template,
+                                   List<KamalCrop> sugarcaneMarginal,
+                                   List<KamalCrop> sugarcaneSmall,
+                                   KamalCrop totalSugarcaneA,
+                                   List<KamalCrop> sugarcaneOther,
+                                   KamalCrop totalSugarcaneB,
+                                   KamalCrop totalSugarcaneAplusB,
+                                   List<KamalCrop> kharipMarginal,
+                                   List<KamalCrop> kharipSmall,
+                                   KamalCrop totalKharipA,
+                                   List<KamalCrop> kharipOther,
+                                   KamalCrop totalKharipB,
+                                   KamalCrop totalKharipAplusB,
+                                   List<KamalCrop> rabbiMarginal,
+                                   List<KamalCrop> rabbiSmall,
+                                   KamalCrop totalRabbiA,
+                                   List<KamalCrop> rabbiOther,
+                                   KamalCrop totalRabbiB,
+                                   KamalCrop totalRabbiAplusB,
+                                   KamalCrop grandTotal,
+                                   TranslationServiceUtility translationServiceUtility) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
-        context.setVariable("all", all);
-        context.setVariable("translationServiceUtility",translationServiceUtility);
+        context.setVariable("sugarcaneMarginal", sugarcaneMarginal);
+        context.setVariable("sugarcaneSmall", sugarcaneSmall);
+        context.setVariable("totalSugarcaneA", totalSugarcaneA);
+        context.setVariable("sugarcaneOther", sugarcaneOther);
+        context.setVariable("totalSugarcaneB", totalSugarcaneB);
+        context.setVariable("totalSugarcaneAplusB", totalSugarcaneAplusB);
+        context.setVariable("kharipMarginal", kharipMarginal);
+        context.setVariable("kharipSmall", kharipSmall);
+        context.setVariable("totalKharipA", totalKharipA);
+        context.setVariable("kharipOther", kharipOther);
+        context.setVariable("totalKharipB", totalKharipB);
+        context.setVariable("totalKharipAplusB", totalKharipAplusB);
+        context.setVariable("rabbiMarginal", rabbiMarginal);
+        context.setVariable("rabbiSmall", rabbiSmall);
+        context.setVariable("totalRabbiA", totalRabbiA);
+        context.setVariable("rabbiOther", rabbiOther);
+        context.setVariable("totalRabbiB", totalRabbiB);
+        context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
+        context.setVariable("grandTotal", grandTotal);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
         String content = templateEngine.process(template, context);
         return content;
     }

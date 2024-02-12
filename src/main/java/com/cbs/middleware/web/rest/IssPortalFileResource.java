@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -1039,7 +1041,7 @@ public class IssPortalFileResource {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
-                headers.setContentDispositionFormData("filename", "PacsWhoNotStarted" + "-" +  financialYear + "-" +getUniqueName() + ".xlsx");
+                headers.setContentDispositionFormData("filename", "PacsWhoNotStarted" + "-("+financialYear+")_" +getTodaysDate()+ ".xlsx");
 
                 List<String> contentDispositionList = new ArrayList<>();
                 contentDispositionList.add("Content-Disposition");
@@ -1052,6 +1054,13 @@ public class IssPortalFileResource {
 
 
         } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+    private String getTodaysDate() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = today.format(formatter);
+        return formattedDate;
     }
 
     @GetMapping("/pending-verification")
@@ -1106,9 +1115,9 @@ public class IssPortalFileResource {
                 headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
                 if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
-                    headers.setContentDispositionFormData("filename", "PendingFromBranchAdmin" + "-" + getUniqueName() + ".xlsx");
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchAdmin" + "-" + getTodaysDate() + ".xlsx");
                 }else if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)){
-                    headers.setContentDispositionFormData("filename", "PendingFromBranchUser" + "-" + getUniqueName() + ".xlsx");
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchUser" + "-" + getTodaysDate() + ".xlsx");
                 }
 
                 List<String> contentDispositionList = new ArrayList<>();

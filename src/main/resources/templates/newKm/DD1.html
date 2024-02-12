@@ -50,7 +50,7 @@
   <tr th:each="branchesAndPacs : ${reportDD}">
     <td></td>
     <td> <strong><u><span th:text="${branchesAndPacs.pacsName}"/></u></strong></td>
-    <td><span th:text="${branchesAndPacs.id}"/></td>
+    <td th:if="${branchesAndPacs.id != 0}"><span th:text="${branchesAndPacs.id}"/></td>
     <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.totalLand)}"/></td>
     <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.bagayat)}"/></td>
     <td> <span th:text="${translationServiceUtility.numberTOMarathiNumber(branchesAndPacs.jirayat)}"/></td>

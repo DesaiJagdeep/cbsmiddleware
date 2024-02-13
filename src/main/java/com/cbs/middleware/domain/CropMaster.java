@@ -1,6 +1,9 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
 
 /**
@@ -30,7 +33,67 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "category_name")
     private String categoryName;
 
+    @Column(name = "from_date")
+    private Instant fromDate;
+
+    @Column(name = "to_date")
+    private Instant toDate;
+
+    @Column(name = "due_date")
+    private Instant dueDate;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    private SeasonMaster seasonMaster;
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public Instant getFromDate() {
+        return fromDate;
+    }
+
+    public CropMaster fromDate(Instant fromDate){
+        this.setFromDate(fromDate);
+        return this;
+    }
+
+    public void setFromDate(Instant fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Instant getToDate() {
+        return toDate;
+    }
+    public CropMaster toDate(Instant toDate){
+        this.setToDate(toDate);
+        return this;
+    }
+
+    public void setToDate(Instant toDate) {
+        this.toDate = toDate;
+    }
+
+    public Instant getDueDate() {
+        return dueDate;
+    }
+    public CropMaster dueDate(Instant dueDate){
+        this.setDueDate(dueDate);
+        return this;
+    }
+    public void setDueDate(Instant dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public SeasonMaster getSeasonMaster() {
+        return seasonMaster;
+    }
+    public CropMaster seasonMaster(SeasonMaster seasonMaster) {
+        this.setSeasonMaster(seasonMaster);
+        return this;
+    }
+    public void setSeasonMaster(SeasonMaster seasonMaster) {
+        this.seasonMaster = seasonMaster;
+    }
 
     public Long getId() {
         return this.id;

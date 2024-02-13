@@ -4,6 +4,7 @@ import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssFileParserTemp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,7 @@ public interface IssFileParserTempRepository extends JpaRepository<IssFileParser
     @Query(value = "select * from iss_file_parser_temp where pacs_number=:pacsNumber and uploading_user=:login ",nativeQuery = true)
     List<IssFileParserTemp> findByPacsNumberAndUploadingUser(@Param("pacsNumber") String pacsNumber, @Param("login") String login);
 
+
     Optional<IssFileParserTemp> findByFinancialYearEqualsAndAccountNumberEqualsAndLoanSactionDateEqualsAndKccIssCropCodeEqualsAndDisbursementDateEqualsAndMaturityLoanDateEquals(
         String financialYear,
         String accountNumber,
@@ -43,7 +45,10 @@ public interface IssFileParserTempRepository extends JpaRepository<IssFileParser
         String disbursementDate,
         String maturityLoanDate);
 
-    @Query(value = "delete * from iss_file_parser_temp where uploading_user=:login ",nativeQuery = true)
-    void deleteByUploadingUser(@Param("login") String login);
+   /* @Modifying
+    @Query(value = "delete from IssFileParserTemp ifpt where ifpt.uploadingUser=:login")
+    void deleteTempData(@Param("login") String login);
+*/
+
 
 }

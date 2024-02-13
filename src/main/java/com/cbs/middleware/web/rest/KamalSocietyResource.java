@@ -82,6 +82,8 @@ public class KamalSocietyResource {
 
     @Autowired
     private CropRateMasterRepository cropRateMasterRepository;
+    @Autowired
+    private BankBranchMasterRepository bankBranchMasterRepository;
 
     public KamalSocietyResource(
         KamalSocietyService kamalSocietyService,
@@ -221,14 +223,14 @@ public class KamalSocietyResource {
         GrantedAuthority authority = authorities.stream().findFirst().get();
 
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
-        String pacsNumber = optUser.get().getPacsNumber();
-        Long branchId = pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId();
 
         if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) || authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+            Long branchId =bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
             LongFilter branchIdFilter = new LongFilter();
             branchIdFilter.setEquals(branchId);
             criteria.setBranchId(branchIdFilter);
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            String pacsNumber = optUser.get().getPacsNumber();
             StringFilter pacsNumberFilter = new StringFilter();
             pacsNumberFilter.setEquals(pacsNumber);
             criteria.setPacsNumber(pacsNumberFilter);

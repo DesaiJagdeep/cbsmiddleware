@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -1092,7 +1093,7 @@ public class IssFileParserResource {
             //delete the applications from iss_file_parser_temp uploaded by user if exist
             List<IssFileParserTemp> issFileParserTempList = issFileParserTempRepository.findByPacsNumberAndUploadingUser(packsCode, login);
             if (!issFileParserTempList.isEmpty()) {
-                issFileParserTempRepository.deleteByUploadingUser(login);
+                issFileParserTempRepository.deleteAll(issFileParserTempList);
             }
 
             //Add iss_file_parser into iss_file_parser_temp table (by pacs Number)
@@ -3577,7 +3578,7 @@ public class IssFileParserResource {
             return false;
         }
 
-        String regex = "^(\\+\\d{1,3})?\\d{10}$";
+        String regex = "^(\\+\\d{1,2})?\\d{10}$";
         String regex1 = "^\\d{10}$";
         if (mobileNo.matches(regex)) {
             flag = true;

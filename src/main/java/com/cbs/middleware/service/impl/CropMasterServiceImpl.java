@@ -54,6 +54,20 @@ public class CropMasterServiceImpl implements CropMasterService {
                 if (cropMaster.getCategoryCode() != null) {
                     existingCropMaster.setCategoryCode(cropMaster.getCategoryCode());
                 }
+                if (cropMaster.getSeasonMaster() != null) {
+                    existingCropMaster.setSeasonMaster(cropMaster.getSeasonMaster());
+                }
+                if (cropMaster.getFromDate() != null) {
+                    existingCropMaster.setFromDate(cropMaster.getFromDate());
+                }
+                if (cropMaster.getToDate() != null) {
+                    existingCropMaster.setToDate(cropMaster.getToDate());
+                }
+                if (cropMaster.getDueDate() != null) {
+                    existingCropMaster.setDueDate(cropMaster.getDueDate());
+                }
+
+
 
                 return existingCropMaster;
             })

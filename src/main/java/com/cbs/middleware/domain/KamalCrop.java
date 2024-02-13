@@ -44,6 +44,8 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "crop_eligibility_amount")
     private String cropEligibilityAmount;
 
+    @Column(name = "divisional_office_amount")
+    private String divisionalOfficeAmount;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
@@ -232,6 +234,19 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
+
+    public String getDivisionalOfficeAmount() {
+        return this.divisionalOfficeAmount;
+    }
+
+    public KamalCrop divisionalOfficeAmount(String divisionalOfficeAmount) {
+        this.setDivisionalOfficeAmount(divisionalOfficeAmount);
+        return this;
+    }
+
+    public void setDivisionalOfficeAmount(String divisionalOfficeAmount) {
+        this.divisionalOfficeAmount = divisionalOfficeAmount;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -263,6 +278,7 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
             ", pacsAmount='" + getPacsAmount() + "'" +
             ", branchAmount='" + getBranchAmount() + "'" +
             ", headOfficeAmount='" + getHeadOfficeAmount() + "'" +
+            ", getDivisionalOfficeAmount='" + getDivisionalOfficeAmount() + "'" +
             ", cropEligibilityAmount='" + getCropEligibilityAmount() + "'" +
             "}";
     }

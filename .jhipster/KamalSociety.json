@@ -234,6 +234,26 @@
     {
       "fieldName": "isSupplimenteryFlag",
       "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "sansthaTapasaniVarg",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchVerifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeVerifiedDate",
+      "fieldType": "Instant"
     }
   ],
   "jpaMetamodelFiltering": true,

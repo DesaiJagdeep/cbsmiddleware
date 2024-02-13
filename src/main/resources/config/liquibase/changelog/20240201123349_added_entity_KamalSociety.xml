@@ -188,6 +188,21 @@
             <column name="is_supplimentery_flag" type="boolean">
                 <constraints nullable="true" />
             </column>
+            <column name="sanstha_tapasani_varg" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_verified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_verified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_verified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_verified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
         <dropDefaultValue tableName="kamal_society" columnName="km_date" columnDataType="${datetimeType}"/>
@@ -199,6 +214,8 @@
         <dropDefaultValue tableName="kamal_society" columnName="sanstha_tapasani_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="kamal_society" columnName="taleband_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="kamal_society" columnName="balance_sheet_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="branch_verified_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="head_office_verified_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -276,6 +293,11 @@
             <column name="branch_verified_flag" type="boolean"/>
             <column name="head_office_verified_flag" type="boolean"/>
             <column name="is_supplimentery_flag" type="boolean"/>
+            <column name="sanstha_tapasani_varg" type="string"/>
+            <column name="branch_verified_by" type="string"/>
+            <column name="branch_verified_date" type="date"/>
+            <column name="head_office_verified_by" type="string"/>
+            <column name="head_office_verified_date" type="date"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -139,6 +139,16 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private BooleanFilter isSupplimenteryFlag;
 
+    private StringFilter sansthaTapasaniVarg;
+
+    private StringFilter branchVerifiedBy;
+
+    private InstantFilter branchVerifiedDate;
+
+    private StringFilter headOfficeVerifiedBy;
+
+    private InstantFilter headOfficeVerifiedDate;
+
     private Boolean distinct;
 
     public KamalSocietyCriteria() {}
@@ -205,6 +215,11 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.branchVerifiedFlag = other.branchVerifiedFlag == null ? null : other.branchVerifiedFlag.copy();
         this.headOfficeVerifiedFlag = other.headOfficeVerifiedFlag == null ? null : other.headOfficeVerifiedFlag.copy();
         this.isSupplimenteryFlag = other.isSupplimenteryFlag == null ? null : other.isSupplimenteryFlag.copy();
+        this.sansthaTapasaniVarg = other.sansthaTapasaniVarg == null ? null : other.sansthaTapasaniVarg.copy();
+        this.branchVerifiedBy = other.branchVerifiedBy == null ? null : other.branchVerifiedBy.copy();
+        this.branchVerifiedDate = other.branchVerifiedDate == null ? null : other.branchVerifiedDate.copy();
+        this.headOfficeVerifiedBy = other.headOfficeVerifiedBy == null ? null : other.headOfficeVerifiedBy.copy();
+        this.headOfficeVerifiedDate = other.headOfficeVerifiedDate == null ? null : other.headOfficeVerifiedDate.copy();
         this.distinct = other.distinct;
     }
 
@@ -1098,6 +1113,81 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.isSupplimenteryFlag = isSupplimenteryFlag;
     }
 
+    public StringFilter getSansthaTapasaniVarg() {
+        return sansthaTapasaniVarg;
+    }
+
+    public StringFilter sansthaTapasaniVarg() {
+        if (sansthaTapasaniVarg == null) {
+            sansthaTapasaniVarg = new StringFilter();
+        }
+        return sansthaTapasaniVarg;
+    }
+
+    public void setSansthaTapasaniVarg(StringFilter sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
+    }
+
+    public StringFilter getBranchVerifiedBy() {
+        return branchVerifiedBy;
+    }
+
+    public StringFilter branchVerifiedBy() {
+        if (branchVerifiedBy == null) {
+            branchVerifiedBy = new StringFilter();
+        }
+        return branchVerifiedBy;
+    }
+
+    public void setBranchVerifiedBy(StringFilter branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
+    }
+
+    public InstantFilter getBranchVerifiedDate() {
+        return branchVerifiedDate;
+    }
+
+    public InstantFilter branchVerifiedDate() {
+        if (branchVerifiedDate == null) {
+            branchVerifiedDate = new InstantFilter();
+        }
+        return branchVerifiedDate;
+    }
+
+    public void setBranchVerifiedDate(InstantFilter branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
+    }
+
+    public StringFilter getHeadOfficeVerifiedBy() {
+        return headOfficeVerifiedBy;
+    }
+
+    public StringFilter headOfficeVerifiedBy() {
+        if (headOfficeVerifiedBy == null) {
+            headOfficeVerifiedBy = new StringFilter();
+        }
+        return headOfficeVerifiedBy;
+    }
+
+    public void setHeadOfficeVerifiedBy(StringFilter headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
+    }
+
+    public InstantFilter getHeadOfficeVerifiedDate() {
+        return headOfficeVerifiedDate;
+    }
+
+    public InstantFilter headOfficeVerifiedDate() {
+        if (headOfficeVerifiedDate == null) {
+            headOfficeVerifiedDate = new InstantFilter();
+        }
+        return headOfficeVerifiedDate;
+    }
+
+    public void setHeadOfficeVerifiedDate(InstantFilter headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -1175,6 +1265,11 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(branchVerifiedFlag, that.branchVerifiedFlag) &&
             Objects.equals(headOfficeVerifiedFlag, that.headOfficeVerifiedFlag) &&
             Objects.equals(isSupplimenteryFlag, that.isSupplimenteryFlag) &&
+            Objects.equals(sansthaTapasaniVarg, that.sansthaTapasaniVarg) &&
+            Objects.equals(branchVerifiedBy, that.branchVerifiedBy) &&
+            Objects.equals(branchVerifiedDate, that.branchVerifiedDate) &&
+            Objects.equals(headOfficeVerifiedBy, that.headOfficeVerifiedBy) &&
+            Objects.equals(headOfficeVerifiedDate, that.headOfficeVerifiedDate) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -1241,6 +1336,11 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             branchVerifiedFlag,
             headOfficeVerifiedFlag,
             isSupplimenteryFlag,
+            sansthaTapasaniVarg,
+            branchVerifiedBy,
+            branchVerifiedDate,
+            headOfficeVerifiedBy,
+            headOfficeVerifiedDate,
             distinct
         );
     }
@@ -1308,6 +1408,11 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (branchVerifiedFlag != null ? "branchVerifiedFlag=" + branchVerifiedFlag + ", " : "") +
             (headOfficeVerifiedFlag != null ? "headOfficeVerifiedFlag=" + headOfficeVerifiedFlag + ", " : "") +
             (isSupplimenteryFlag != null ? "isSupplimenteryFlag=" + isSupplimenteryFlag + ", " : "") +
+            (sansthaTapasaniVarg != null ? "sansthaTapasaniVarg=" + sansthaTapasaniVarg + ", " : "") +
+            (branchVerifiedBy != null ? "branchVerifiedBy=" + branchVerifiedBy + ", " : "") +
+            (branchVerifiedDate != null ? "branchVerifiedDate=" + branchVerifiedDate + ", " : "") +
+            (headOfficeVerifiedBy != null ? "headOfficeVerifiedBy=" + headOfficeVerifiedBy + ", " : "") +
+            (headOfficeVerifiedDate != null ? "headOfficeVerifiedDate=" + headOfficeVerifiedDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

@@ -246,6 +246,26 @@
         <dd>
           <span>{{ kamalSociety.isSupplimenteryFlag }}</span>
         </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.sansthaTapasaniVarg">Sanstha Tapasani Varg</span></dt>
+        <dd>
+          <span>{{ kamalSociety.sansthaTapasaniVarg }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchVerifiedBy">Branch Verified By</span></dt>
+        <dd>
+          <span>{{ kamalSociety.branchVerifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchVerifiedDate">Branch Verified Date</span></dt>
+        <dd>
+          <span>{{ kamalSociety.branchVerifiedDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeVerifiedBy">Head Office Verified By</span></dt>
+        <dd>
+          <span>{{ kamalSociety.headOfficeVerifiedBy }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeVerifiedDate">Head Office Verified Date</span></dt>
+        <dd>
+          <span>{{ kamalSociety.headOfficeVerifiedDate | formatMediumDatetime }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

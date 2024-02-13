@@ -388,6 +388,36 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="sansthaTapasaniVarg">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.sansthaTapasaniVarg">Sanstha Tapasani Varg</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchVerifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchVerifiedBy">Branch Verified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchVerifiedDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchVerifiedDate">Branch Verified Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeVerifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeVerifiedBy">Head Office Verified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeVerifiedDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeVerifiedDate">Head Office Verified Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -454,6 +484,11 @@
           <td>{{ kamalSociety.branchVerifiedFlag }}</td>
           <td>{{ kamalSociety.headOfficeVerifiedFlag }}</td>
           <td>{{ kamalSociety.isSupplimenteryFlag }}</td>
+          <td>{{ kamalSociety.sansthaTapasaniVarg }}</td>
+          <td>{{ kamalSociety.branchVerifiedBy }}</td>
+          <td>{{ kamalSociety.branchVerifiedDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.headOfficeVerifiedBy }}</td>
+          <td>{{ kamalSociety.headOfficeVerifiedDate | formatMediumDatetime }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

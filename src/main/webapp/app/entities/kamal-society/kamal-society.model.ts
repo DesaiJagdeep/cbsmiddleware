@@ -60,6 +60,11 @@ export interface IKamalSociety {
   branchVerifiedFlag?: boolean | null;
   headOfficeVerifiedFlag?: boolean | null;
   isSupplimenteryFlag?: boolean | null;
+  sansthaTapasaniVarg?: string | null;
+  branchVerifiedBy?: string | null;
+  branchVerifiedDate?: dayjs.Dayjs | null;
+  headOfficeVerifiedBy?: string | null;
+  headOfficeVerifiedDate?: dayjs.Dayjs | null;
 }
 
 export type NewKamalSociety = Omit<IKamalSociety, 'id'> & { id: null };

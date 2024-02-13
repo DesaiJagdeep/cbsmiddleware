@@ -31,6 +31,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "divisionalOfficeAmount",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "cropEligibilityAmount",
       "fieldType": "String"
     }

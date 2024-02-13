@@ -5,9 +5,9 @@ export const sampleWithRequiredData: IKamalCrop = {
 };
 
 export const sampleWithPartialData: IKamalCrop = {
-  id: 1567,
-  pacsNumber: 'SQL Plastic',
-  financialYear: 'Tasty Bermuda Utah',
+  id: 47935,
+  pacsNumber: 'standardization Future-proofed experiences',
+  financialYear: 'directional Bermuda Utah',
   memberCount: 'withdrawal Plastic',
   area: 'Manat mindshare',
   headOfficeAmount: 'hacking Cambridgeshire York',
@@ -22,7 +22,8 @@ export const sampleWithFullData: IKamalCrop = {
   pacsAmount: 'magenta Synchronised Road',
   branchAmount: 'visionary',
   headOfficeAmount: 'SQL',
-  cropEligibilityAmount: 'grey',
+  divisionalOfficeAmount: 'grey',
+  cropEligibilityAmount: 'transmit CSS',
 };
 
 export const sampleWithNewData: NewKamalCrop = {

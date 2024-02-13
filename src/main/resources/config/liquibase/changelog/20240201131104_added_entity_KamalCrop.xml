@@ -35,6 +35,9 @@
             <column name="head_office_amount" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="divisional_office_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="crop_eligibility_amount" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -78,6 +81,7 @@
             <column name="pacs_amount" type="string"/>
             <column name="branch_amount" type="string"/>
             <column name="head_office_amount" type="string"/>
+            <column name="divisional_office_amount" type="string"/>
             <column name="crop_eligibility_amount" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

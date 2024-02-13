@@ -12,6 +12,7 @@ export interface IKamalCrop {
   pacsAmount?: string | null;
   branchAmount?: string | null;
   headOfficeAmount?: string | null;
+  divisionalOfficeAmount?: string | null;
   cropEligibilityAmount?: string | null;
   kamalSociety?: Pick<IKamalSociety, 'id'> | null;
   farmerTypeMaster?: Pick<IFarmerTypeMaster, 'id'> | null;

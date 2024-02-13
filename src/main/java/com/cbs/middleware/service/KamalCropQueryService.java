@@ -106,6 +106,10 @@ public class KamalCropQueryService extends QueryService<KamalCrop> {
             if (criteria.getHeadOfficeAmount() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getHeadOfficeAmount(), KamalCrop_.headOfficeAmount));
             }
+            if (criteria.getDivisionalOfficeAmount() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getDivisionalOfficeAmount(), KamalCrop_.divisionalOfficeAmount));
+            }
             if (criteria.getCropEligibilityAmount() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getCropEligibilityAmount(), KamalCrop_.cropEligibilityAmount));

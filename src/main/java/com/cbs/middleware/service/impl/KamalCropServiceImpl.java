@@ -66,6 +66,9 @@ public class KamalCropServiceImpl implements KamalCropService {
                 if (kamalCrop.getHeadOfficeAmount() != null) {
                     existingKamalCrop.setHeadOfficeAmount(kamalCrop.getHeadOfficeAmount());
                 }
+                if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                    existingKamalCrop.setDivisionalOfficeAmount(kamalCrop.getDivisionalOfficeAmount());
+                }
                 if (kamalCrop.getCropEligibilityAmount() != null) {
                     existingKamalCrop.setCropEligibilityAmount(kamalCrop.getCropEligibilityAmount());
                 }

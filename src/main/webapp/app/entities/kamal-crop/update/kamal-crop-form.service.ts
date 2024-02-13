@@ -25,6 +25,7 @@ type KamalCropFormGroupContent = {
   pacsAmount: FormControl<IKamalCrop['pacsAmount']>;
   branchAmount: FormControl<IKamalCrop['branchAmount']>;
   headOfficeAmount: FormControl<IKamalCrop['headOfficeAmount']>;
+  divisionalOfficeAmount: FormControl<IKamalCrop['divisionalOfficeAmount']>;
   cropEligibilityAmount: FormControl<IKamalCrop['cropEligibilityAmount']>;
   kamalSociety: FormControl<IKamalCrop['kamalSociety']>;
   farmerTypeMaster: FormControl<IKamalCrop['farmerTypeMaster']>;
@@ -56,6 +57,7 @@ export class KamalCropFormService {
       pacsAmount: new FormControl(kamalCropRawValue.pacsAmount),
       branchAmount: new FormControl(kamalCropRawValue.branchAmount),
       headOfficeAmount: new FormControl(kamalCropRawValue.headOfficeAmount),
+      divisionalOfficeAmount: new FormControl(kamalCropRawValue.divisionalOfficeAmount),
       cropEligibilityAmount: new FormControl(kamalCropRawValue.cropEligibilityAmount),
       kamalSociety: new FormControl(kamalCropRawValue.kamalSociety),
       farmerTypeMaster: new FormControl(kamalCropRawValue.farmerTypeMaster),

@@ -25,6 +25,7 @@
       "pacsAmount": "Pacs Amount",
       "branchAmount": "Branch Amount",
       "headOfficeAmount": "Head Office Amount",
+      "divisionalOfficeAmount": "Divisional Office Amount",
       "cropEligibilityAmount": "Crop Eligibility Amount",
       "kamalSociety": "Kamal Society",
       "farmerTypeMaster": "Farmer Type Master",

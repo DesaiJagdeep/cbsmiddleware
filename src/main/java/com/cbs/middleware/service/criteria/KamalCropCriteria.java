@@ -37,6 +37,8 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     private StringFilter headOfficeAmount;
 
+    private StringFilter divisionalOfficeAmount;
+
     private StringFilter cropEligibilityAmount;
 
     private LongFilter kamalSocietyId;
@@ -60,6 +62,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.pacsAmount = other.pacsAmount == null ? null : other.pacsAmount.copy();
         this.branchAmount = other.branchAmount == null ? null : other.branchAmount.copy();
         this.headOfficeAmount = other.headOfficeAmount == null ? null : other.headOfficeAmount.copy();
+        this.divisionalOfficeAmount = other.divisionalOfficeAmount == null ? null : other.divisionalOfficeAmount.copy();
         this.cropEligibilityAmount = other.cropEligibilityAmount == null ? null : other.cropEligibilityAmount.copy();
         this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
@@ -193,6 +196,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.headOfficeAmount = headOfficeAmount;
     }
 
+    public StringFilter getDivisionalOfficeAmount() {
+        return divisionalOfficeAmount;
+    }
+
+    public StringFilter divisionalOfficeAmount() {
+        if (divisionalOfficeAmount == null) {
+            divisionalOfficeAmount = new StringFilter();
+        }
+        return divisionalOfficeAmount;
+    }
+
+    public void setDivisionalOfficeAmount(StringFilter divisionalOfficeAmount) {
+        this.divisionalOfficeAmount = divisionalOfficeAmount;
+    }
+
     public StringFilter getCropEligibilityAmount() {
         return cropEligibilityAmount;
     }
@@ -294,6 +312,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             Objects.equals(pacsAmount, that.pacsAmount) &&
             Objects.equals(branchAmount, that.branchAmount) &&
             Objects.equals(headOfficeAmount, that.headOfficeAmount) &&
+            Objects.equals(divisionalOfficeAmount, that.divisionalOfficeAmount) &&
             Objects.equals(cropEligibilityAmount, that.cropEligibilityAmount) &&
             Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
@@ -314,6 +333,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             pacsAmount,
             branchAmount,
             headOfficeAmount,
+            divisionalOfficeAmount,
             cropEligibilityAmount,
             kamalSocietyId,
             farmerTypeMasterId,
@@ -335,6 +355,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             (pacsAmount != null ? "pacsAmount=" + pacsAmount + ", " : "") +
             (branchAmount != null ? "branchAmount=" + branchAmount + ", " : "") +
             (headOfficeAmount != null ? "headOfficeAmount=" + headOfficeAmount + ", " : "") +
+            (divisionalOfficeAmount != null ? "divisionalOfficeAmount=" + divisionalOfficeAmount + ", " : "") +
             (cropEligibilityAmount != null ? "cropEligibilityAmount=" + cropEligibilityAmount + ", " : "") +
             (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (farmerTypeMasterId != null ? "farmerTypeMasterId=" + farmerTypeMasterId + ", " : "") +

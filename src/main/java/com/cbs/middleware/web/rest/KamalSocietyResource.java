@@ -50,6 +50,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
+import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
@@ -228,12 +229,21 @@ public class KamalSocietyResource {
             Long branchId =bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
             LongFilter branchIdFilter = new LongFilter();
             branchIdFilter.setEquals(branchId);
+
+            BooleanFilter pacsVerifiedFilter=new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
             criteria.setBranchId(branchIdFilter);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
             String pacsNumber = optUser.get().getPacsNumber();
             StringFilter pacsNumberFilter = new StringFilter();
             pacsNumberFilter.setEquals(pacsNumber);
             criteria.setPacsNumber(pacsNumberFilter);
+        } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+            BooleanFilter pacsVerifiedFilter=new BooleanFilter();
+            BooleanFilter branchVerifiedFilter=new BooleanFilter();
+            BooleanFilter headOfficeVerifiedFilter=new BooleanFilter();
+
         }
 
 
@@ -497,15 +507,14 @@ public class KamalSocietyResource {
 
         String htmlStringForPdf = null;
 
-
-        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal();
+        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal(financialYear);
         List<KamalCrop> sugarcaneMarginalListToPrint = new ArrayList<>();
         if (!sugarcaneMarginalListDB.isEmpty()) {
             List<KamalCrop> sugarcaneMarginalList = getCropListWithAmountAsPerCropRate(sugarcaneMarginalListDB, financialYear);
             sugarcaneMarginalListToPrint.addAll(sugarcaneMarginalList);
         }
 
-        List<KamalCrop> sugarcaneSmallListDB = kamalCropRepository.findBySugarcaneSmall();
+        List<KamalCrop> sugarcaneSmallListDB = kamalCropRepository.findBySugarcaneSmall(financialYear);
         List<KamalCrop> sugarcaneSmallListToPrint = new ArrayList<>();
         if (!sugarcaneSmallListDB.isEmpty()) {
             List<KamalCrop> sugarcaneSmallList = getCropListWithAmountAsPerCropRate(sugarcaneSmallListDB, financialYear);
@@ -516,7 +525,7 @@ public class KamalSocietyResource {
         KamalCrop totalSugarcaneA = getObjectOfTotal(sugarcaneMarginalListToPrint, sugarcaneSmallListToPrint);
 
 
-        List<KamalCrop> sugarcaneOtherListDB = kamalCropRepository.findBySugarcaneOther();
+        List<KamalCrop> sugarcaneOtherListDB = kamalCropRepository.findBySugarcaneOther(financialYear);
         List<KamalCrop> sugarcaneOtherListToPrint = new ArrayList<>();
         if (!sugarcaneOtherListDB.isEmpty()) {
             List<KamalCrop> sugarcaneOtherList = getCropListWithAmountAsPerCropRate(sugarcaneOtherListDB, financialYear);
@@ -528,15 +537,14 @@ public class KamalSocietyResource {
         //to get the sugarcane एकूण (अ+ब)
         KamalCrop totalSugarcaneAplusB = getObjectOfTotal(Collections.singletonList(totalSugarcaneA), Collections.singletonList(totalSugarcaneB));
 
-        List<KamalCrop> kharipMarginalListDB = kamalCropRepository.findByKharipMarginal();
+        List<KamalCrop> kharipMarginalListDB = kamalCropRepository.findByKharipMarginal(financialYear);
         List<KamalCrop> kharipMarginalListToPrint = new ArrayList<>();
         if (!kharipMarginalListDB.isEmpty()) {
             List<KamalCrop> kharipMarginalList = getCropListWithAmountAsPerCropRate(kharipMarginalListDB, financialYear);
             kharipMarginalListToPrint.addAll(kharipMarginalList);
         }
 
-
-        List<KamalCrop> kharipSmallListDB = kamalCropRepository.findByKharipSmall();
+        List<KamalCrop> kharipSmallListDB = kamalCropRepository.findByKharipSmall(financialYear);
         List<KamalCrop> kharipSmallListToPrint = new ArrayList<>();
         if (!kharipSmallListDB.isEmpty()) {
             List<KamalCrop> kharipSmallList = getCropListWithAmountAsPerCropRate(kharipSmallListDB, financialYear);
@@ -545,7 +553,7 @@ public class KamalSocietyResource {
         //to get the kharip एकूण (अ)
         KamalCrop totalKharipA = getObjectOfTotal(kharipMarginalListToPrint,kharipSmallListToPrint);
 
-        List<KamalCrop> kharipOtherListDB = kamalCropRepository.findByKharipOther();
+        List<KamalCrop> kharipOtherListDB = kamalCropRepository.findByKharipOther(financialYear);
         List<KamalCrop> kharipOtherListToPrint = new ArrayList<>();
         if (!kharipOtherListDB.isEmpty()) {
             List<KamalCrop> kharipOtherList = getCropListWithAmountAsPerCropRate(kharipOtherListDB, financialYear);
@@ -558,14 +566,14 @@ public class KamalSocietyResource {
         KamalCrop totalKharipAplusB = getObjectOfTotal(Collections.singletonList(totalKharipA), Collections.singletonList(totalKharipB));
 
 
-        List<KamalCrop> rabbiMarginalListDB = kamalCropRepository.findByRabbiMarginal();
+        List<KamalCrop> rabbiMarginalListDB = kamalCropRepository.findByRabbiMarginal(financialYear);
         List<KamalCrop> rabbiMarginalListToPrint = new ArrayList<>();
         if (!rabbiMarginalListDB.isEmpty()) {
             List<KamalCrop> rabbiMarginalList = getCropListWithAmountAsPerCropRate(rabbiMarginalListDB, financialYear);
             rabbiMarginalListToPrint.addAll(rabbiMarginalList);
         }
 
-        List<KamalCrop> rabbiSmallListDB = kamalCropRepository.findByRabbiSmall();
+        List<KamalCrop> rabbiSmallListDB = kamalCropRepository.findByRabbiSmall(financialYear);
         List<KamalCrop> rabbiSmallListToPrint = new ArrayList<>();
         if (!rabbiSmallListDB.isEmpty()) {
             List<KamalCrop> rabbiSmallList = getCropListWithAmountAsPerCropRate(rabbiSmallListDB, financialYear);
@@ -574,7 +582,7 @@ public class KamalSocietyResource {
         //to get the rabbi एकूण (अ)
         KamalCrop totalRabbiA = getObjectOfTotal(rabbiMarginalListToPrint,rabbiSmallListToPrint);
 
-        List<KamalCrop> rabbiOtherListDB = kamalCropRepository.findByRabbiOther();
+        List<KamalCrop> rabbiOtherListDB = kamalCropRepository.findByRabbiOther(financialYear);
         List<KamalCrop> rabbiOtherListToPrint = new ArrayList<>();
         if (!rabbiOtherListDB.isEmpty()) {
             List<KamalCrop> rabbiOtherList = getCropListWithAmountAsPerCropRate(rabbiOtherListDB, financialYear);
@@ -592,6 +600,11 @@ public class KamalSocietyResource {
         grandTotalList.add(totalKharipAplusB);
         grandTotalList.add(totalRabbiAplusB);
         KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
+
+//for Summary Report
+        List<KamalCrop> marginalSummary=new ArrayList<>();
+
+
 
 
         htmlStringForPdf = manjuriTemplate("newKm/manjuriCropDetail.html",

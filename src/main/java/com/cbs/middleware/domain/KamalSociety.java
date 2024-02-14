@@ -199,6 +199,25 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "is_supplimentery_flag")
     private Boolean isSupplimenteryFlag;
 
+    @Column(name = "sanstha_tapasani_varg")
+    private String sansthaTapasaniVarg;
+
+
+    @Column(name = "branch_verified_by")
+    private String branchVerifiedBy;
+
+
+    @Column(name = "branch_verified_date")
+    private Instant branchVerifiedDate;
+
+    @Column(name = "head_office_verified_by")
+    private String headOfficeVerifiedBy;
+
+
+    @Column(name = "head_office_verified_date")
+    private Instant headOfficeVerifiedDate;
+
+
     @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
@@ -1001,6 +1020,70 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
 
     public void setIsSupplimenteryFlag(Boolean isSupplimenteryFlag) {
         this.isSupplimenteryFlag = isSupplimenteryFlag;
+    }
+    public String getSansthaTapasaniVarg() {
+        return this.sansthaTapasaniVarg;
+    }
+
+    public KamalSociety sansthaTapasaniVarg(String sansthaTapasaniVarg) {
+        this.setSansthaTapasaniVarg(sansthaTapasaniVarg);
+        return this;
+    }
+
+    public void setSansthaTapasaniVarg(String sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
+    }
+
+    public String getBranchVerifiedBy() {
+        return this.branchVerifiedBy;
+    }
+
+    public KamalSociety branchVerifiedBy(String branchVerifiedBy) {
+        this.setBranchVerifiedBy(branchVerifiedBy);
+        return this;
+    }
+
+    public void setBranchVerifiedBy(String branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
+    }
+
+    public Instant getBranchVerifiedDate() {
+        return this.branchVerifiedDate;
+    }
+
+    public KamalSociety branchVerifiedDate(Instant branchVerifiedDate) {
+        this.setBranchVerifiedDate(branchVerifiedDate);
+        return this;
+    }
+
+    public void setBranchVerifiedDate(Instant branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
+    }
+
+    public String getHeadOfficeVerifiedBy() {
+        return this.headOfficeVerifiedBy;
+    }
+
+    public KamalSociety headOfficeVerifiedBy(String headOfficeVerifiedBy) {
+        this.setHeadOfficeVerifiedBy(headOfficeVerifiedBy);
+        return this;
+    }
+
+    public void setHeadOfficeVerifiedBy(String headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
+    }
+
+    public Instant getHeadOfficeVerifiedDate() {
+        return this.headOfficeVerifiedDate;
+    }
+
+    public KamalSociety headOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
+        this.setHeadOfficeVerifiedDate(headOfficeVerifiedDate);
+        return this;
+    }
+
+    public void setHeadOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

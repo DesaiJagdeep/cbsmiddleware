@@ -19,6 +19,8 @@ const requireRestSample: RestKamalSociety = {
   balanceSheetDate: sampleWithRequiredData.balanceSheetDate?.toJSON(),
   branchVerifiedDate: sampleWithRequiredData.branchVerifiedDate?.toJSON(),
   headOfficeVerifiedDate: sampleWithRequiredData.headOfficeVerifiedDate?.toJSON(),
+  divisionalOfficeVerifiedDate: sampleWithRequiredData.divisionalOfficeVerifiedDate?.toJSON(),
+  doshPurtataDate: sampleWithRequiredData.doshPurtataDate?.toJSON(),
 };
 
 describe('KamalSociety Service', () => {

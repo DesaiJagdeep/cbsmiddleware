@@ -32,6 +32,8 @@ type FormValueOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   | 'balanceSheetDate'
   | 'branchVerifiedDate'
   | 'headOfficeVerifiedDate'
+  | 'divisionalOfficeVerifiedDate'
+  | 'doshPurtataDate'
 > & {
   kmDate?: string | null;
   kmFromDate?: string | null;
@@ -44,6 +46,8 @@ type FormValueOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   balanceSheetDate?: string | null;
   branchVerifiedDate?: string | null;
   headOfficeVerifiedDate?: string | null;
+  divisionalOfficeVerifiedDate?: string | null;
+  doshPurtataDate?: string | null;
 };
 
 type KamalSocietyFormRawValue = FormValueOf<IKamalSociety>;
@@ -65,9 +69,12 @@ type KamalSocietyFormDefaults = Pick<
   | 'pacsVerifiedFlag'
   | 'branchVerifiedFlag'
   | 'headOfficeVerifiedFlag'
+  | 'divisionalOfficeVerifiedFlag'
   | 'isSupplimenteryFlag'
   | 'branchVerifiedDate'
   | 'headOfficeVerifiedDate'
+  | 'divisionalOfficeVerifiedDate'
+  | 'doshPurtataDate'
 >;
 
 type KamalSocietyFormGroupContent = {
@@ -129,12 +136,17 @@ type KamalSocietyFormGroupContent = {
   pacsVerifiedFlag: FormControl<KamalSocietyFormRawValue['pacsVerifiedFlag']>;
   branchVerifiedFlag: FormControl<KamalSocietyFormRawValue['branchVerifiedFlag']>;
   headOfficeVerifiedFlag: FormControl<KamalSocietyFormRawValue['headOfficeVerifiedFlag']>;
+  divisionalOfficeVerifiedFlag: FormControl<KamalSocietyFormRawValue['divisionalOfficeVerifiedFlag']>;
   isSupplimenteryFlag: FormControl<KamalSocietyFormRawValue['isSupplimenteryFlag']>;
   sansthaTapasaniVarg: FormControl<KamalSocietyFormRawValue['sansthaTapasaniVarg']>;
   branchVerifiedBy: FormControl<KamalSocietyFormRawValue['branchVerifiedBy']>;
   branchVerifiedDate: FormControl<KamalSocietyFormRawValue['branchVerifiedDate']>;
   headOfficeVerifiedBy: FormControl<KamalSocietyFormRawValue['headOfficeVerifiedBy']>;
   headOfficeVerifiedDate: FormControl<KamalSocietyFormRawValue['headOfficeVerifiedDate']>;
+  divisionalOfficeVerifiedBy: FormControl<KamalSocietyFormRawValue['divisionalOfficeVerifiedBy']>;
+  divisionalOfficeVerifiedDate: FormControl<KamalSocietyFormRawValue['divisionalOfficeVerifiedDate']>;
+  doshPurtataDate: FormControl<KamalSocietyFormRawValue['doshPurtataDate']>;
+  gambhirDosh: FormControl<KamalSocietyFormRawValue['gambhirDosh']>;
 };
 
 export type KamalSocietyFormGroup = FormGroup<KamalSocietyFormGroupContent>;
@@ -213,12 +225,17 @@ export class KamalSocietyFormService {
       pacsVerifiedFlag: new FormControl(kamalSocietyRawValue.pacsVerifiedFlag),
       branchVerifiedFlag: new FormControl(kamalSocietyRawValue.branchVerifiedFlag),
       headOfficeVerifiedFlag: new FormControl(kamalSocietyRawValue.headOfficeVerifiedFlag),
+      divisionalOfficeVerifiedFlag: new FormControl(kamalSocietyRawValue.divisionalOfficeVerifiedFlag),
       isSupplimenteryFlag: new FormControl(kamalSocietyRawValue.isSupplimenteryFlag),
       sansthaTapasaniVarg: new FormControl(kamalSocietyRawValue.sansthaTapasaniVarg),
       branchVerifiedBy: new FormControl(kamalSocietyRawValue.branchVerifiedBy),
       branchVerifiedDate: new FormControl(kamalSocietyRawValue.branchVerifiedDate),
       headOfficeVerifiedBy: new FormControl(kamalSocietyRawValue.headOfficeVerifiedBy),
       headOfficeVerifiedDate: new FormControl(kamalSocietyRawValue.headOfficeVerifiedDate),
+      divisionalOfficeVerifiedBy: new FormControl(kamalSocietyRawValue.divisionalOfficeVerifiedBy),
+      divisionalOfficeVerifiedDate: new FormControl(kamalSocietyRawValue.divisionalOfficeVerifiedDate),
+      doshPurtataDate: new FormControl(kamalSocietyRawValue.doshPurtataDate),
+      gambhirDosh: new FormControl(kamalSocietyRawValue.gambhirDosh),
     });
   }
 
@@ -253,9 +270,12 @@ export class KamalSocietyFormService {
       pacsVerifiedFlag: false,
       branchVerifiedFlag: false,
       headOfficeVerifiedFlag: false,
+      divisionalOfficeVerifiedFlag: false,
       isSupplimenteryFlag: false,
       branchVerifiedDate: currentTime,
       headOfficeVerifiedDate: currentTime,
+      divisionalOfficeVerifiedDate: currentTime,
+      doshPurtataDate: currentTime,
     };
   }
 
@@ -275,6 +295,8 @@ export class KamalSocietyFormService {
       balanceSheetDate: dayjs(rawKamalSociety.balanceSheetDate, DATE_TIME_FORMAT),
       branchVerifiedDate: dayjs(rawKamalSociety.branchVerifiedDate, DATE_TIME_FORMAT),
       headOfficeVerifiedDate: dayjs(rawKamalSociety.headOfficeVerifiedDate, DATE_TIME_FORMAT),
+      divisionalOfficeVerifiedDate: dayjs(rawKamalSociety.divisionalOfficeVerifiedDate, DATE_TIME_FORMAT),
+      doshPurtataDate: dayjs(rawKamalSociety.doshPurtataDate, DATE_TIME_FORMAT),
     };
   }
 
@@ -296,6 +318,10 @@ export class KamalSocietyFormService {
       headOfficeVerifiedDate: kamalSociety.headOfficeVerifiedDate
         ? kamalSociety.headOfficeVerifiedDate.format(DATE_TIME_FORMAT)
         : undefined,
+      divisionalOfficeVerifiedDate: kamalSociety.divisionalOfficeVerifiedDate
+        ? kamalSociety.divisionalOfficeVerifiedDate.format(DATE_TIME_FORMAT)
+        : undefined,
+      doshPurtataDate: kamalSociety.doshPurtataDate ? kamalSociety.doshPurtataDate.format(DATE_TIME_FORMAT) : undefined,
     };
   }
 }

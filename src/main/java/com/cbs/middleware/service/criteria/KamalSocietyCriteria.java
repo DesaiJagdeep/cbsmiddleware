@@ -137,6 +137,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private BooleanFilter headOfficeVerifiedFlag;
 
+    private BooleanFilter divisionalOfficeVerifiedFlag;
+
     private BooleanFilter isSupplimenteryFlag;
 
     private StringFilter sansthaTapasaniVarg;
@@ -148,6 +150,14 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
     private StringFilter headOfficeVerifiedBy;
 
     private InstantFilter headOfficeVerifiedDate;
+
+    private StringFilter divisionalOfficeVerifiedBy;
+
+    private InstantFilter divisionalOfficeVerifiedDate;
+
+    private InstantFilter doshPurtataDate;
+
+    private StringFilter gambhirDosh;
 
     private Boolean distinct;
 
@@ -214,12 +224,17 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.pacsVerifiedFlag = other.pacsVerifiedFlag == null ? null : other.pacsVerifiedFlag.copy();
         this.branchVerifiedFlag = other.branchVerifiedFlag == null ? null : other.branchVerifiedFlag.copy();
         this.headOfficeVerifiedFlag = other.headOfficeVerifiedFlag == null ? null : other.headOfficeVerifiedFlag.copy();
+        this.divisionalOfficeVerifiedFlag = other.divisionalOfficeVerifiedFlag == null ? null : other.divisionalOfficeVerifiedFlag.copy();
         this.isSupplimenteryFlag = other.isSupplimenteryFlag == null ? null : other.isSupplimenteryFlag.copy();
         this.sansthaTapasaniVarg = other.sansthaTapasaniVarg == null ? null : other.sansthaTapasaniVarg.copy();
         this.branchVerifiedBy = other.branchVerifiedBy == null ? null : other.branchVerifiedBy.copy();
         this.branchVerifiedDate = other.branchVerifiedDate == null ? null : other.branchVerifiedDate.copy();
         this.headOfficeVerifiedBy = other.headOfficeVerifiedBy == null ? null : other.headOfficeVerifiedBy.copy();
         this.headOfficeVerifiedDate = other.headOfficeVerifiedDate == null ? null : other.headOfficeVerifiedDate.copy();
+        this.divisionalOfficeVerifiedBy = other.divisionalOfficeVerifiedBy == null ? null : other.divisionalOfficeVerifiedBy.copy();
+        this.divisionalOfficeVerifiedDate = other.divisionalOfficeVerifiedDate == null ? null : other.divisionalOfficeVerifiedDate.copy();
+        this.doshPurtataDate = other.doshPurtataDate == null ? null : other.doshPurtataDate.copy();
+        this.gambhirDosh = other.gambhirDosh == null ? null : other.gambhirDosh.copy();
         this.distinct = other.distinct;
     }
 
@@ -1098,6 +1113,21 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
     }
 
+    public BooleanFilter getDivisionalOfficeVerifiedFlag() {
+        return divisionalOfficeVerifiedFlag;
+    }
+
+    public BooleanFilter divisionalOfficeVerifiedFlag() {
+        if (divisionalOfficeVerifiedFlag == null) {
+            divisionalOfficeVerifiedFlag = new BooleanFilter();
+        }
+        return divisionalOfficeVerifiedFlag;
+    }
+
+    public void setDivisionalOfficeVerifiedFlag(BooleanFilter divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
+    }
+
     public BooleanFilter getIsSupplimenteryFlag() {
         return isSupplimenteryFlag;
     }
@@ -1188,6 +1218,66 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
+    public StringFilter getDivisionalOfficeVerifiedBy() {
+        return divisionalOfficeVerifiedBy;
+    }
+
+    public StringFilter divisionalOfficeVerifiedBy() {
+        if (divisionalOfficeVerifiedBy == null) {
+            divisionalOfficeVerifiedBy = new StringFilter();
+        }
+        return divisionalOfficeVerifiedBy;
+    }
+
+    public void setDivisionalOfficeVerifiedBy(StringFilter divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
+    }
+
+    public InstantFilter getDivisionalOfficeVerifiedDate() {
+        return divisionalOfficeVerifiedDate;
+    }
+
+    public InstantFilter divisionalOfficeVerifiedDate() {
+        if (divisionalOfficeVerifiedDate == null) {
+            divisionalOfficeVerifiedDate = new InstantFilter();
+        }
+        return divisionalOfficeVerifiedDate;
+    }
+
+    public void setDivisionalOfficeVerifiedDate(InstantFilter divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
+    }
+
+    public InstantFilter getDoshPurtataDate() {
+        return doshPurtataDate;
+    }
+
+    public InstantFilter doshPurtataDate() {
+        if (doshPurtataDate == null) {
+            doshPurtataDate = new InstantFilter();
+        }
+        return doshPurtataDate;
+    }
+
+    public void setDoshPurtataDate(InstantFilter doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
+    }
+
+    public StringFilter getGambhirDosh() {
+        return gambhirDosh;
+    }
+
+    public StringFilter gambhirDosh() {
+        if (gambhirDosh == null) {
+            gambhirDosh = new StringFilter();
+        }
+        return gambhirDosh;
+    }
+
+    public void setGambhirDosh(StringFilter gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -1264,12 +1354,17 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(pacsVerifiedFlag, that.pacsVerifiedFlag) &&
             Objects.equals(branchVerifiedFlag, that.branchVerifiedFlag) &&
             Objects.equals(headOfficeVerifiedFlag, that.headOfficeVerifiedFlag) &&
+            Objects.equals(divisionalOfficeVerifiedFlag, that.divisionalOfficeVerifiedFlag) &&
             Objects.equals(isSupplimenteryFlag, that.isSupplimenteryFlag) &&
             Objects.equals(sansthaTapasaniVarg, that.sansthaTapasaniVarg) &&
             Objects.equals(branchVerifiedBy, that.branchVerifiedBy) &&
             Objects.equals(branchVerifiedDate, that.branchVerifiedDate) &&
             Objects.equals(headOfficeVerifiedBy, that.headOfficeVerifiedBy) &&
             Objects.equals(headOfficeVerifiedDate, that.headOfficeVerifiedDate) &&
+            Objects.equals(divisionalOfficeVerifiedBy, that.divisionalOfficeVerifiedBy) &&
+            Objects.equals(divisionalOfficeVerifiedDate, that.divisionalOfficeVerifiedDate) &&
+            Objects.equals(doshPurtataDate, that.doshPurtataDate) &&
+            Objects.equals(gambhirDosh, that.gambhirDosh) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -1335,12 +1430,17 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             pacsVerifiedFlag,
             branchVerifiedFlag,
             headOfficeVerifiedFlag,
+            divisionalOfficeVerifiedFlag,
             isSupplimenteryFlag,
             sansthaTapasaniVarg,
             branchVerifiedBy,
             branchVerifiedDate,
             headOfficeVerifiedBy,
             headOfficeVerifiedDate,
+            divisionalOfficeVerifiedBy,
+            divisionalOfficeVerifiedDate,
+            doshPurtataDate,
+            gambhirDosh,
             distinct
         );
     }
@@ -1407,12 +1507,17 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (pacsVerifiedFlag != null ? "pacsVerifiedFlag=" + pacsVerifiedFlag + ", " : "") +
             (branchVerifiedFlag != null ? "branchVerifiedFlag=" + branchVerifiedFlag + ", " : "") +
             (headOfficeVerifiedFlag != null ? "headOfficeVerifiedFlag=" + headOfficeVerifiedFlag + ", " : "") +
+            (divisionalOfficeVerifiedFlag != null ? "divisionalOfficeVerifiedFlag=" + divisionalOfficeVerifiedFlag + ", " : "") +
             (isSupplimenteryFlag != null ? "isSupplimenteryFlag=" + isSupplimenteryFlag + ", " : "") +
             (sansthaTapasaniVarg != null ? "sansthaTapasaniVarg=" + sansthaTapasaniVarg + ", " : "") +
             (branchVerifiedBy != null ? "branchVerifiedBy=" + branchVerifiedBy + ", " : "") +
             (branchVerifiedDate != null ? "branchVerifiedDate=" + branchVerifiedDate + ", " : "") +
             (headOfficeVerifiedBy != null ? "headOfficeVerifiedBy=" + headOfficeVerifiedBy + ", " : "") +
             (headOfficeVerifiedDate != null ? "headOfficeVerifiedDate=" + headOfficeVerifiedDate + ", " : "") +
+            (divisionalOfficeVerifiedBy != null ? "divisionalOfficeVerifiedBy=" + divisionalOfficeVerifiedBy + ", " : "") +
+            (divisionalOfficeVerifiedDate != null ? "divisionalOfficeVerifiedDate=" + divisionalOfficeVerifiedDate + ", " : "") +
+            (doshPurtataDate != null ? "doshPurtataDate=" + doshPurtataDate + ", " : "") +
+            (gambhirDosh != null ? "gambhirDosh=" + gambhirDosh + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

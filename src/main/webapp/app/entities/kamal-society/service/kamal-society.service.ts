@@ -24,6 +24,8 @@ type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   | 'balanceSheetDate'
   | 'branchVerifiedDate'
   | 'headOfficeVerifiedDate'
+  | 'divisionalOfficeVerifiedDate'
+  | 'doshPurtataDate'
 > & {
   kmDate?: string | null;
   kmFromDate?: string | null;
@@ -36,6 +38,8 @@ type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   balanceSheetDate?: string | null;
   branchVerifiedDate?: string | null;
   headOfficeVerifiedDate?: string | null;
+  divisionalOfficeVerifiedDate?: string | null;
+  doshPurtataDate?: string | null;
 };
 
 export type RestKamalSociety = RestOf<IKamalSociety>;
@@ -135,6 +139,8 @@ export class KamalSocietyService {
       balanceSheetDate: kamalSociety.balanceSheetDate?.toJSON() ?? null,
       branchVerifiedDate: kamalSociety.branchVerifiedDate?.toJSON() ?? null,
       headOfficeVerifiedDate: kamalSociety.headOfficeVerifiedDate?.toJSON() ?? null,
+      divisionalOfficeVerifiedDate: kamalSociety.divisionalOfficeVerifiedDate?.toJSON() ?? null,
+      doshPurtataDate: kamalSociety.doshPurtataDate?.toJSON() ?? null,
     };
   }
 
@@ -152,6 +158,10 @@ export class KamalSocietyService {
       balanceSheetDate: restKamalSociety.balanceSheetDate ? dayjs(restKamalSociety.balanceSheetDate) : undefined,
       branchVerifiedDate: restKamalSociety.branchVerifiedDate ? dayjs(restKamalSociety.branchVerifiedDate) : undefined,
       headOfficeVerifiedDate: restKamalSociety.headOfficeVerifiedDate ? dayjs(restKamalSociety.headOfficeVerifiedDate) : undefined,
+      divisionalOfficeVerifiedDate: restKamalSociety.divisionalOfficeVerifiedDate
+        ? dayjs(restKamalSociety.divisionalOfficeVerifiedDate)
+        : undefined,
+      doshPurtataDate: restKamalSociety.doshPurtataDate ? dayjs(restKamalSociety.doshPurtataDate) : undefined,
     };
   }
 

@@ -59,12 +59,17 @@ export interface IKamalSociety {
   pacsVerifiedFlag?: boolean | null;
   branchVerifiedFlag?: boolean | null;
   headOfficeVerifiedFlag?: boolean | null;
+  divisionalOfficeVerifiedFlag?: boolean | null;
   isSupplimenteryFlag?: boolean | null;
   sansthaTapasaniVarg?: string | null;
   branchVerifiedBy?: string | null;
   branchVerifiedDate?: dayjs.Dayjs | null;
   headOfficeVerifiedBy?: string | null;
   headOfficeVerifiedDate?: dayjs.Dayjs | null;
+  divisionalOfficeVerifiedBy?: string | null;
+  divisionalOfficeVerifiedDate?: dayjs.Dayjs | null;
+  doshPurtataDate?: dayjs.Dayjs | null;
+  gambhirDosh?: string | null;
 }
 
 export type NewKamalSociety = Omit<IKamalSociety, 'id'> & { id: null };

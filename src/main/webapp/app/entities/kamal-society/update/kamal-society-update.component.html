@@ -724,6 +724,23 @@
         </div>
 
         <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedFlag"
+            for="field_divisionalOfficeVerifiedFlag"
+            >Divisional Office Verified Flag</label
+          >
+          <input
+            type="checkbox"
+            class="form-check"
+            name="divisionalOfficeVerifiedFlag"
+            id="field_divisionalOfficeVerifiedFlag"
+            data-cy="divisionalOfficeVerifiedFlag"
+            formControlName="divisionalOfficeVerifiedFlag"
+          />
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.isSupplimenteryFlag" for="field_isSupplimenteryFlag"
             >Is Supplimentery Flag</label
           >
@@ -811,6 +828,72 @@
               placeholder="YYYY-MM-DD HH:mm"
             />
           </div>
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedBy"
+            for="field_divisionalOfficeVerifiedBy"
+            >Divisional Office Verified By</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="divisionalOfficeVerifiedBy"
+            id="field_divisionalOfficeVerifiedBy"
+            data-cy="divisionalOfficeVerifiedBy"
+            formControlName="divisionalOfficeVerifiedBy"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label
+            class="form-label"
+            jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedDate"
+            for="field_divisionalOfficeVerifiedDate"
+            >Divisional Office Verified Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_divisionalOfficeVerifiedDate"
+              data-cy="divisionalOfficeVerifiedDate"
+              type="datetime-local"
+              class="form-control"
+              name="divisionalOfficeVerifiedDate"
+              formControlName="divisionalOfficeVerifiedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.doshPurtataDate" for="field_doshPurtataDate"
+            >Dosh Purtata Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_doshPurtataDate"
+              data-cy="doshPurtataDate"
+              type="datetime-local"
+              class="form-control"
+              name="doshPurtataDate"
+              formControlName="doshPurtataDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalSociety.gambhirDosh" for="field_gambhirDosh">Gambhir Dosh</label>
+          <input
+            type="text"
+            class="form-control"
+            name="gambhirDosh"
+            id="field_gambhirDosh"
+            data-cy="gambhirDosh"
+            formControlName="gambhirDosh"
+          />
         </div>
       </div>
 

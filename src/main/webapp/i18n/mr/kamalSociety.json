@@ -75,12 +75,17 @@
       "pacsVerifiedFlag": "Pacs Verified Flag",
       "branchVerifiedFlag": "Branch Verified Flag",
       "headOfficeVerifiedFlag": "Head Office Verified Flag",
+      "divisionalOfficeVerifiedFlag": "Divisional Office Verified Flag",
       "isSupplimenteryFlag": "Is Supplimentery Flag",
       "sansthaTapasaniVarg": "Sanstha Tapasani Varg",
       "branchVerifiedBy": "Branch Verified By",
       "branchVerifiedDate": "Branch Verified Date",
       "headOfficeVerifiedBy": "Head Office Verified By",
-      "headOfficeVerifiedDate": "Head Office Verified Date"
+      "headOfficeVerifiedDate": "Head Office Verified Date",
+      "divisionalOfficeVerifiedBy": "Divisional Office Verified By",
+      "divisionalOfficeVerifiedDate": "Divisional Office Verified Date",
+      "doshPurtataDate": "Dosh Purtata Date",
+      "gambhirDosh": "Gambhir Dosh"
     }
   }
 }

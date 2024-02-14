@@ -382,6 +382,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="divisionalOfficeVerifiedFlag">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedFlag">Divisional Office Verified Flag</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="isSupplimenteryFlag">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kamalSociety.isSupplimenteryFlag">Is Supplimentery Flag</span>
@@ -415,6 +421,30 @@
           <th scope="col" jhiSortBy="headOfficeVerifiedDate">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeVerifiedDate">Head Office Verified Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="divisionalOfficeVerifiedBy">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedBy">Divisional Office Verified By</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="divisionalOfficeVerifiedDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.divisionalOfficeVerifiedDate">Divisional Office Verified Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="doshPurtataDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.doshPurtataDate">Dosh Purtata Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="gambhirDosh">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.gambhirDosh">Gambhir Dosh</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -483,12 +513,17 @@
           <td>{{ kamalSociety.pacsVerifiedFlag }}</td>
           <td>{{ kamalSociety.branchVerifiedFlag }}</td>
           <td>{{ kamalSociety.headOfficeVerifiedFlag }}</td>
+          <td>{{ kamalSociety.divisionalOfficeVerifiedFlag }}</td>
           <td>{{ kamalSociety.isSupplimenteryFlag }}</td>
           <td>{{ kamalSociety.sansthaTapasaniVarg }}</td>
           <td>{{ kamalSociety.branchVerifiedBy }}</td>
           <td>{{ kamalSociety.branchVerifiedDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.headOfficeVerifiedBy }}</td>
           <td>{{ kamalSociety.headOfficeVerifiedDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.divisionalOfficeVerifiedBy }}</td>
+          <td>{{ kamalSociety.divisionalOfficeVerifiedDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.doshPurtataDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.gambhirDosh }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

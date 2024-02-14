@@ -216,6 +216,9 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getHeadOfficeVerifiedFlag() != null) {
                     existingKamalSociety.setHeadOfficeVerifiedFlag(kamalSociety.getHeadOfficeVerifiedFlag());
                 }
+                if (kamalSociety.getDivisionalOfficeVerifiedFlag() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedFlag(kamalSociety.getDivisionalOfficeVerifiedFlag());
+                }
                 if (kamalSociety.getIsSupplimenteryFlag() != null) {
                     existingKamalSociety.setIsSupplimenteryFlag(kamalSociety.getIsSupplimenteryFlag());
                 }
@@ -233,6 +236,18 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 }
                 if (kamalSociety.getHeadOfficeVerifiedDate() != null) {
                     existingKamalSociety.setHeadOfficeVerifiedDate(kamalSociety.getHeadOfficeVerifiedDate());
+                }
+                if (kamalSociety.getDivisionalOfficeVerifiedBy() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedBy(kamalSociety.getDivisionalOfficeVerifiedBy());
+                }
+                if (kamalSociety.getDivisionalOfficeVerifiedDate() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedDate(kamalSociety.getDivisionalOfficeVerifiedDate());
+                }
+                if (kamalSociety.getDoshPurtataDate() != null) {
+                    existingKamalSociety.setDoshPurtataDate(kamalSociety.getDoshPurtataDate());
+                }
+                if (kamalSociety.getGambhirDosh() != null) {
+                    existingKamalSociety.setGambhirDosh(kamalSociety.getGambhirDosh());
                 }
 
                 return existingKamalSociety;

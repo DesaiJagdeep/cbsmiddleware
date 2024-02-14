@@ -204,6 +204,9 @@ class KamalSocietyResourceIT {
     private static final Boolean DEFAULT_HEAD_OFFICE_VERIFIED_FLAG = false;
     private static final Boolean UPDATED_HEAD_OFFICE_VERIFIED_FLAG = true;
 
+    private static final Boolean DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG = false;
+    private static final Boolean UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG = true;
+
     private static final Boolean DEFAULT_IS_SUPPLIMENTERY_FLAG = false;
     private static final Boolean UPDATED_IS_SUPPLIMENTERY_FLAG = true;
 
@@ -221,6 +224,18 @@ class KamalSocietyResourceIT {
 
     private static final Instant DEFAULT_HEAD_OFFICE_VERIFIED_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_HEAD_OFFICE_VERIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DOSH_PURTATA_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DOSH_PURTATA_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_GAMBHIR_DOSH = "AAAAAAAAAA";
+    private static final String UPDATED_GAMBHIR_DOSH = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/kamal-societies";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -304,12 +319,17 @@ class KamalSocietyResourceIT {
             .pacsVerifiedFlag(DEFAULT_PACS_VERIFIED_FLAG)
             .branchVerifiedFlag(DEFAULT_BRANCH_VERIFIED_FLAG)
             .headOfficeVerifiedFlag(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(DEFAULT_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(DEFAULT_SANSTHA_TAPASANI_VARG)
             .branchVerifiedBy(DEFAULT_BRANCH_VERIFIED_BY)
             .branchVerifiedDate(DEFAULT_BRANCH_VERIFIED_DATE)
             .headOfficeVerifiedBy(DEFAULT_HEAD_OFFICE_VERIFIED_BY)
-            .headOfficeVerifiedDate(DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
+            .headOfficeVerifiedDate(DEFAULT_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(DEFAULT_DOSH_PURTATA_DATE)
+            .gambhirDosh(DEFAULT_GAMBHIR_DOSH);
         return kamalSociety;
     }
 
@@ -378,12 +398,17 @@ class KamalSocietyResourceIT {
             .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
             .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
             .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
             .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
             .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
             .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
-            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
         return kamalSociety;
     }
 
@@ -462,12 +487,17 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(DEFAULT_PACS_VERIFIED_FLAG);
         assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(DEFAULT_BRANCH_VERIFIED_FLAG);
         assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG);
         assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(DEFAULT_IS_SUPPLIMENTERY_FLAG);
         assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(DEFAULT_SANSTHA_TAPASANI_VARG);
         assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(DEFAULT_BRANCH_VERIFIED_BY);
         assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(DEFAULT_BRANCH_VERIFIED_DATE);
         assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_BY);
         assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(DEFAULT_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
     }
 
     @Test
@@ -574,12 +604,19 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].pacsVerifiedFlag").value(hasItem(DEFAULT_PACS_VERIFIED_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].branchVerifiedFlag").value(hasItem(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].headOfficeVerifiedFlag").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue())))
+            .andExpect(
+                jsonPath("$.[*].divisionalOfficeVerifiedFlag").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
+            )
             .andExpect(jsonPath("$.[*].isSupplimenteryFlag").value(hasItem(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].sansthaTapasaniVarg").value(hasItem(DEFAULT_SANSTHA_TAPASANI_VARG)))
             .andExpect(jsonPath("$.[*].branchVerifiedBy").value(hasItem(DEFAULT_BRANCH_VERIFIED_BY)))
             .andExpect(jsonPath("$.[*].branchVerifiedDate").value(hasItem(DEFAULT_BRANCH_VERIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].headOfficeVerifiedBy").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_BY)))
-            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)));
     }
 
     @Test
@@ -651,12 +688,17 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.pacsVerifiedFlag").value(DEFAULT_PACS_VERIFIED_FLAG.booleanValue()))
             .andExpect(jsonPath("$.branchVerifiedFlag").value(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue()))
             .andExpect(jsonPath("$.headOfficeVerifiedFlag").value(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedFlag").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
             .andExpect(jsonPath("$.isSupplimenteryFlag").value(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue()))
             .andExpect(jsonPath("$.sansthaTapasaniVarg").value(DEFAULT_SANSTHA_TAPASANI_VARG))
             .andExpect(jsonPath("$.branchVerifiedBy").value(DEFAULT_BRANCH_VERIFIED_BY))
             .andExpect(jsonPath("$.branchVerifiedDate").value(DEFAULT_BRANCH_VERIFIED_DATE.toString()))
             .andExpect(jsonPath("$.headOfficeVerifiedBy").value(DEFAULT_HEAD_OFFICE_VERIFIED_BY))
-            .andExpect(jsonPath("$.headOfficeVerifiedDate").value(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString()));
+            .andExpect(jsonPath("$.headOfficeVerifiedDate").value(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedBy").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedDate").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.doshPurtataDate").value(DEFAULT_DOSH_PURTATA_DATE.toString()))
+            .andExpect(jsonPath("$.gambhirDosh").value(DEFAULT_GAMBHIR_DOSH));
     }
 
     @Test
@@ -4115,6 +4157,47 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedFlag.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG or UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedFlag.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        );
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedFlag.specified=true");
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.specified=false");
+    }
+
+    @Test
+    @Transactional
     void getAllKamalSocietiesByIsSupplimenteryFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
@@ -4429,6 +4512,218 @@ class KamalSocietyResourceIT {
         defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedDate.specified=false");
     }
 
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY or UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedBy.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        );
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.specified=true");
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy contains DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.contains=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy contains UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.contains=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy does not contain DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.doesNotContain=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy does not contain UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.doesNotContain=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedDate.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE or UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedDate.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        );
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedDate.specified=true");
+
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDoshPurtataDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where doshPurtataDate equals to DEFAULT_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.equals=" + DEFAULT_DOSH_PURTATA_DATE);
+
+        // Get all the kamalSocietyList where doshPurtataDate equals to UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.equals=" + UPDATED_DOSH_PURTATA_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDoshPurtataDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where doshPurtataDate in DEFAULT_DOSH_PURTATA_DATE or UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.in=" + DEFAULT_DOSH_PURTATA_DATE + "," + UPDATED_DOSH_PURTATA_DATE);
+
+        // Get all the kamalSocietyList where doshPurtataDate equals to UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.in=" + UPDATED_DOSH_PURTATA_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByDoshPurtataDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where doshPurtataDate is not null
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.specified=true");
+
+        // Get all the kamalSocietyList where doshPurtataDate is null
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGambhirDoshIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where gambhirDosh equals to DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.equals=" + DEFAULT_GAMBHIR_DOSH);
+
+        // Get all the kamalSocietyList where gambhirDosh equals to UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.equals=" + UPDATED_GAMBHIR_DOSH);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGambhirDoshIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where gambhirDosh in DEFAULT_GAMBHIR_DOSH or UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.in=" + DEFAULT_GAMBHIR_DOSH + "," + UPDATED_GAMBHIR_DOSH);
+
+        // Get all the kamalSocietyList where gambhirDosh equals to UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.in=" + UPDATED_GAMBHIR_DOSH);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGambhirDoshIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where gambhirDosh is not null
+        defaultKamalSocietyShouldBeFound("gambhirDosh.specified=true");
+
+        // Get all the kamalSocietyList where gambhirDosh is null
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGambhirDoshContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where gambhirDosh contains DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.contains=" + DEFAULT_GAMBHIR_DOSH);
+
+        // Get all the kamalSocietyList where gambhirDosh contains UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.contains=" + UPDATED_GAMBHIR_DOSH);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGambhirDoshNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where gambhirDosh does not contain DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.doesNotContain=" + DEFAULT_GAMBHIR_DOSH);
+
+        // Get all the kamalSocietyList where gambhirDosh does not contain UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.doesNotContain=" + UPDATED_GAMBHIR_DOSH);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -4495,12 +4790,19 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].pacsVerifiedFlag").value(hasItem(DEFAULT_PACS_VERIFIED_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].branchVerifiedFlag").value(hasItem(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].headOfficeVerifiedFlag").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue())))
+            .andExpect(
+                jsonPath("$.[*].divisionalOfficeVerifiedFlag").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
+            )
             .andExpect(jsonPath("$.[*].isSupplimenteryFlag").value(hasItem(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue())))
             .andExpect(jsonPath("$.[*].sansthaTapasaniVarg").value(hasItem(DEFAULT_SANSTHA_TAPASANI_VARG)))
             .andExpect(jsonPath("$.[*].branchVerifiedBy").value(hasItem(DEFAULT_BRANCH_VERIFIED_BY)))
             .andExpect(jsonPath("$.[*].branchVerifiedDate").value(hasItem(DEFAULT_BRANCH_VERIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].headOfficeVerifiedBy").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_BY)))
-            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())));
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)));
 
         // Check, that the count call also returns 1
         restKamalSocietyMockMvc
@@ -4606,12 +4908,17 @@ class KamalSocietyResourceIT {
             .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
             .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
             .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
             .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
             .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
             .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
-            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
 
         restKamalSocietyMockMvc
             .perform(
@@ -4682,12 +4989,17 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(UPDATED_PACS_VERIFIED_FLAG);
         assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
         assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
         assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
         assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
         assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(UPDATED_BRANCH_VERIFIED_BY);
         assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(UPDATED_BRANCH_VERIFIED_DATE);
         assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_BY);
         assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
     }
 
     @Test
@@ -4785,11 +5097,12 @@ class KamalSocietyResourceIT {
             .totalLiability(UPDATED_TOTAL_LIABILITY)
             .villageCode(UPDATED_VILLAGE_CODE)
             .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
             .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
             .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
-            .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY);
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE);
 
         restKamalSocietyMockMvc
             .perform(
@@ -4860,12 +5173,17 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(DEFAULT_PACS_VERIFIED_FLAG);
         assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
         assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
         assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
         assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
         assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(UPDATED_BRANCH_VERIFIED_BY);
         assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(UPDATED_BRANCH_VERIFIED_DATE);
-        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_BY);
         assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
     }
 
     @Test
@@ -4938,12 +5256,17 @@ class KamalSocietyResourceIT {
             .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
             .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
             .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
             .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
             .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
             .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
-            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5014,12 +5337,17 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(UPDATED_PACS_VERIFIED_FLAG);
         assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
         assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
         assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
         assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
         assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(UPDATED_BRANCH_VERIFIED_BY);
         assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(UPDATED_BRANCH_VERIFIED_DATE);
         assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_BY);
         assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
     }
 
     @Test

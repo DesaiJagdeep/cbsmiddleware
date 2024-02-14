@@ -232,6 +232,10 @@
       "fieldType": "Boolean"
     },
     {
+      "fieldName": "divisionalOfficeVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
       "fieldName": "isSupplimenteryFlag",
       "fieldType": "Boolean"
     },
@@ -254,6 +258,22 @@
     {
       "fieldName": "headOfficeVerifiedDate",
       "fieldType": "Instant"
+    },
+    {
+      "fieldName": "divisionalOfficeVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "divisionalOfficeVerifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "doshPurtataDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "gambhirDosh",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

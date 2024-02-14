@@ -77,12 +77,17 @@ describe('KamalSociety Form Service', () => {
             pacsVerifiedFlag: expect.any(Object),
             branchVerifiedFlag: expect.any(Object),
             headOfficeVerifiedFlag: expect.any(Object),
+            divisionalOfficeVerifiedFlag: expect.any(Object),
             isSupplimenteryFlag: expect.any(Object),
             sansthaTapasaniVarg: expect.any(Object),
             branchVerifiedBy: expect.any(Object),
             branchVerifiedDate: expect.any(Object),
             headOfficeVerifiedBy: expect.any(Object),
             headOfficeVerifiedDate: expect.any(Object),
+            divisionalOfficeVerifiedBy: expect.any(Object),
+            divisionalOfficeVerifiedDate: expect.any(Object),
+            doshPurtataDate: expect.any(Object),
+            gambhirDosh: expect.any(Object),
           })
         );
       });
@@ -150,12 +155,17 @@ describe('KamalSociety Form Service', () => {
             pacsVerifiedFlag: expect.any(Object),
             branchVerifiedFlag: expect.any(Object),
             headOfficeVerifiedFlag: expect.any(Object),
+            divisionalOfficeVerifiedFlag: expect.any(Object),
             isSupplimenteryFlag: expect.any(Object),
             sansthaTapasaniVarg: expect.any(Object),
             branchVerifiedBy: expect.any(Object),
             branchVerifiedDate: expect.any(Object),
             headOfficeVerifiedBy: expect.any(Object),
             headOfficeVerifiedDate: expect.any(Object),
+            divisionalOfficeVerifiedBy: expect.any(Object),
+            divisionalOfficeVerifiedDate: expect.any(Object),
+            doshPurtataDate: expect.any(Object),
+            gambhirDosh: expect.any(Object),
           })
         );
       });

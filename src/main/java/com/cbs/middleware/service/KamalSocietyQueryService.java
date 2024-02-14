@@ -277,6 +277,12 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
                 specification =
                     specification.and(buildSpecification(criteria.getHeadOfficeVerifiedFlag(), KamalSociety_.headOfficeVerifiedFlag));
             }
+            if (criteria.getDivisionalOfficeVerifiedFlag() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getDivisionalOfficeVerifiedFlag(), KamalSociety_.divisionalOfficeVerifiedFlag)
+                    );
+            }
             if (criteria.getIsSupplimenteryFlag() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsSupplimenteryFlag(), KamalSociety_.isSupplimenteryFlag));
             }
@@ -298,6 +304,24 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getHeadOfficeVerifiedDate() != null) {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getHeadOfficeVerifiedDate(), KamalSociety_.headOfficeVerifiedDate));
+            }
+            if (criteria.getDivisionalOfficeVerifiedBy() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getDivisionalOfficeVerifiedBy(), KamalSociety_.divisionalOfficeVerifiedBy)
+                    );
+            }
+            if (criteria.getDivisionalOfficeVerifiedDate() != null) {
+                specification =
+                    specification.and(
+                        buildRangeSpecification(criteria.getDivisionalOfficeVerifiedDate(), KamalSociety_.divisionalOfficeVerifiedDate)
+                    );
+            }
+            if (criteria.getDoshPurtataDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDoshPurtataDate(), KamalSociety_.doshPurtataDate));
+            }
+            if (criteria.getGambhirDosh() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGambhirDosh(), KamalSociety_.gambhirDosh));
             }
         }
         return specification;

@@ -7,6 +7,7 @@ import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyQueryService;
 import com.cbs.middleware.service.KamalSocietyService;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
+import com.cbs.middleware.service.dto.NewKmReportPayload;
 import com.cbs.middleware.service.dto.ReportDD;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 
@@ -225,25 +226,46 @@ public class KamalSocietyResource {
 
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
 
-        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) || authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
             Long branchId =bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
             LongFilter branchIdFilter = new LongFilter();
             branchIdFilter.setEquals(branchId);
 
             BooleanFilter pacsVerifiedFilter=new BooleanFilter();
             pacsVerifiedFilter.setEquals(true);
+
+            BooleanFilter branchVerifiedFlag=new BooleanFilter();
+            branchVerifiedFlag.setEquals(true);
+
             criteria.setBranchId(branchIdFilter);
             criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchVerifiedFlag(branchVerifiedFlag);
+
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+            Long branchId =bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
+            LongFilter branchIdFilter = new LongFilter();
+            branchIdFilter.setEquals(branchId);
+
+            BooleanFilter pacsVerifiedFilter=new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
             String pacsNumber = optUser.get().getPacsNumber();
             StringFilter pacsNumberFilter = new StringFilter();
             pacsNumberFilter.setEquals(pacsNumber);
             criteria.setPacsNumber(pacsNumberFilter);
+
         } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
             BooleanFilter pacsVerifiedFilter=new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
             BooleanFilter branchVerifiedFilter=new BooleanFilter();
+            branchVerifiedFilter.setEquals(true);
             BooleanFilter headOfficeVerifiedFilter=new BooleanFilter();
-
+            headOfficeVerifiedFilter.setEquals(true);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchVerifiedFlag(branchVerifiedFilter);
+            criteria.setHeadOfficeVerifiedFlag(headOfficeVerifiedFilter);
         }
 
 
@@ -501,13 +523,17 @@ public class KamalSocietyResource {
     //Manjuri Crop Detail
 
     @GetMapping("/manjuri-crop-detail")
-    public ResponseEntity<byte[]> generateManjuriPDFFromHTML(@RequestParam String financialYear) throws Exception {
+    public ResponseEntity<byte[]> generateManjuriPDFFromHTML(@RequestBody NewKmReportPayload newKmReportPayload) throws Exception {
+        String financialYear=newKmReportPayload.getFinancialYear();
+        String pacsNumber = newKmReportPayload.getPacsNumber();
+        Instant kmDate = newKmReportPayload.getKmDate();
 
         List<String> htmlList = new ArrayList<>();
 
         String htmlStringForPdf = null;
 
-        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal(financialYear);
+        
+        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal(financialYear,pacsNumber,kmDate);
         List<KamalCrop> sugarcaneMarginalListToPrint = new ArrayList<>();
         if (!sugarcaneMarginalListDB.isEmpty()) {
             List<KamalCrop> sugarcaneMarginalList = getCropListWithAmountAsPerCropRate(sugarcaneMarginalListDB, financialYear);
@@ -600,6 +626,8 @@ public class KamalSocietyResource {
         grandTotalList.add(totalKharipAplusB);
         grandTotalList.add(totalRabbiAplusB);
         KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
+
+
 
 //for Summary Report
         List<KamalCrop> marginalSummary=new ArrayList<>();
@@ -730,19 +758,19 @@ public class KamalSocietyResource {
         double totalCropEligibilityAmount = 0.0;
         int totalMemberCount = 0;
         double totalArea = 0.0;
-        double totalPacsAmount = 0.0;
+        double totalAmount = 0.0;
 
         for (KamalCrop kamalCrop : kamalCropList) {
             totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
             totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             totalArea += Double.parseDouble(kamalCrop.getArea());
-            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
         }
         KamalCrop kamalCropTotal = new KamalCrop();
         kamalCropTotal.setCropEligibilityAmount(String.valueOf(totalCropEligibilityAmount));
         kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
         kamalCropTotal.setArea(String.valueOf(totalArea));
-        kamalCropTotal.setPacsAmount(String.valueOf(totalPacsAmount));
+        kamalCropTotal.setPacsAmount(String.valueOf(totalAmount));
 
         return kamalCropTotal;
     }
@@ -751,20 +779,20 @@ public class KamalSocietyResource {
         double totalCropEligibilityAmount = 0.0;
         int totalMemberCount = 0;
         double totalArea = 0.0;
-        double totalPacsAmount = 0.0;
+        double totalAmount = 0.0;
 
         for (KamalCrop kamalCrop : kamalCropList1) {
             totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
             totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             totalArea += Double.parseDouble(kamalCrop.getArea());
-            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
         }
 
         for (KamalCrop kamalCrop : kamalCropList2) {
             totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
             totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             totalArea += Double.parseDouble(kamalCrop.getArea());
-            totalPacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
         }
 
 
@@ -772,7 +800,7 @@ public class KamalSocietyResource {
         kamalCropTotal.setCropEligibilityAmount(String.valueOf(totalCropEligibilityAmount));
         kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
         kamalCropTotal.setArea(String.valueOf(totalArea));
-        kamalCropTotal.setPacsAmount(String.valueOf(totalPacsAmount));
+        kamalCropTotal.setPacsAmount(String.valueOf(totalAmount));
 
         return kamalCropTotal;
 
@@ -797,7 +825,8 @@ public class KamalSocietyResource {
                 kamalCropsWithAmount.add(kamalCrop);
             }
         }
-        return kamalCropsWithAmount;
+        //return kamalCropsWithAmount;
+        return kamalCropListDB;
     }
 
     private String manjuriTemplate(String template,

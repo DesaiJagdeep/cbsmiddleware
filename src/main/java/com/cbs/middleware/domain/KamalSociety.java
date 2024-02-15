@@ -217,6 +217,21 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "head_office_verified_date")
     private Instant headOfficeVerifiedDate;
 
+    @Column(name = "divisional_office_verified_flag")
+    private Boolean divisionalOfficeVerifiedFlag;
+
+    @Column(name = "divisional_office_verified_by")
+    private String divisionalOfficeVerifiedBy;
+
+    @Column(name = "divisional_office_verified_date")
+    private Instant divisionalOfficeVerifiedDate;
+
+    @Column(name = "dosh_purtata_date")
+    private Instant doshPurtataDate;
+
+    @Column(name = "gambhir_dosh")
+    private String gambhirDosh;
+
 
     @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
@@ -1099,6 +1114,71 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return id != null && id.equals(((KamalSociety) o).id);
     }
 
+
+    public Boolean getDivisionalOfficeVerifiedFlag() {
+        return this.divisionalOfficeVerifiedFlag;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
+        this.setDivisionalOfficeVerifiedFlag(divisionalOfficeVerifiedFlag);
+        return this;
+    }
+
+    public void setDivisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
+    }
+
+    public String getDivisionalOfficeVerifiedBy() {
+        return this.divisionalOfficeVerifiedBy;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
+        this.setDivisionalOfficeVerifiedBy(divisionalOfficeVerifiedBy);
+        return this;
+    }
+
+    public void setDivisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
+    }
+
+    public Instant getDivisionalOfficeVerifiedDate() {
+        return this.divisionalOfficeVerifiedDate;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
+        this.setDivisionalOfficeVerifiedDate(divisionalOfficeVerifiedDate);
+        return this;
+    }
+
+    public void setDivisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
+    }
+
+    public Instant getDoshPurtataDate() {
+        return this.doshPurtataDate;
+    }
+
+    public KamalSociety doshPurtataDate(Instant doshPurtataDate) {
+        this.setDoshPurtataDate(doshPurtataDate);
+        return this;
+    }
+
+    public void setDoshPurtataDate(Instant doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
+    }
+
+    public String getGambhirDosh() {
+        return this.gambhirDosh;
+    }
+
+    public KamalSociety gambhirDosh(String gambhirDosh) {
+        this.setGambhirDosh(gambhirDosh);
+        return this;
+    }
+
+    public void setGambhirDosh(String gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
+    }
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
@@ -1168,6 +1248,16 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
             ", branchVerifiedFlag='" + getBranchVerifiedFlag() + "'" +
             ", headOfficeVerifiedFlag='" + getHeadOfficeVerifiedFlag() + "'" +
             ", isSupplimenteryFlag='" + getIsSupplimenteryFlag() + "'" +
+            ", sansthaTapasaniVarg='" + getSansthaTapasaniVarg() + "'" +
+            ", branchVerifiedBy='" + getBranchVerifiedBy() + "'" +
+            ", branchVerifiedDate='" + getBranchVerifiedDate() + "'" +
+            ", headOfficeVerifiedBy='" + getHeadOfficeVerifiedBy() + "'" +
+            ", headOfficeVerifiedDate='" + getHeadOfficeVerifiedDate() + "'" +
+            ", divisionalOfficeVerifiedBy='" + getDivisionalOfficeVerifiedBy() + "'" +
+            ", divisionalOfficeVerifiedDate='" + getDivisionalOfficeVerifiedDate() + "'" +
+            ", doshPurtataDate='" + getDoshPurtataDate() + "'" +
+            ", gambhirDosh='" + getGambhirDosh() + "'" +
+            ", divisionalOfficeVerifiedFlag='" + getDivisionalOfficeVerifiedFlag() + "'" +
             "}";
     }
 }

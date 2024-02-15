@@ -3,6 +3,7 @@ package com.cbs.middleware.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
 
 /**
@@ -46,6 +47,13 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
 
     @Column(name = "divisional_office_amount")
     private String divisionalOfficeAmount;
+
+    @Column(name = "km_date")
+    private Instant kmDate;
+
+    @Column(name = "km_date_mr")
+    private String kmDateMr;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
@@ -247,6 +255,33 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     public void setDivisionalOfficeAmount(String divisionalOfficeAmount) {
         this.divisionalOfficeAmount = divisionalOfficeAmount;
     }
+
+    public Instant getKmDate() {
+        return this.kmDate;
+    }
+
+    public KamalCrop kmDate(Instant kmDate) {
+        this.setKmDate(kmDate);
+        return this;
+    }
+
+    public void setKmDate(Instant kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public String getKmDateMr() {
+        return this.kmDateMr;
+    }
+
+    public KamalCrop kmDateMr(String kmDateMr) {
+        this.setKmDateMr(kmDateMr);
+        return this;
+    }
+
+    public void setKmDateMr(String kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -280,6 +315,8 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
             ", headOfficeAmount='" + getHeadOfficeAmount() + "'" +
             ", getDivisionalOfficeAmount='" + getDivisionalOfficeAmount() + "'" +
             ", cropEligibilityAmount='" + getCropEligibilityAmount() + "'" +
+            ", kmDate='" + getKmDate() + "'" +
+            ", kmDateMr='" + getKmDateMr() + "'" +
             "}";
     }
 

@@ -14,22 +14,22 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface KamalCropRepository extends JpaRepository<KamalCrop, Long>, JpaSpecificationExecutor<KamalCrop> {
-   @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=5 and financialYear=:financialYear and pacsNumber=:pacsNumber and ",nativeQuery = true)
+   @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=5 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
     List<KamalCrop> findBySugarcaneMarginal(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=5 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findBySugarcaneSmall(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=5 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findBySugarcaneOther(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=1 or season_master_id=7 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByKharipMarginal(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=1 or season_master_id=7 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByKharipSmall(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=1 or season_master_id=7 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByKharipOther(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=2 or season_master_id=6 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByRabbiMarginal(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=2 or season_master_id=6 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByRabbiSmall(@Param("financialYear") String financialYear);
-    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=2 or season_master_id=6 and financialYear=:financialYear ",nativeQuery = true)
-    List<KamalCrop> findByRabbiOther(@Param("financialYear") String financialYear);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=5 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findBySugarcaneSmall(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=5 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findBySugarcaneOther(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=1 or season_master_id=7 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByKharipMarginal(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=1 or season_master_id=7 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByKharipSmall(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=1 or season_master_id=7 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByKharipOther(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=3 and season_master_id=2 or season_master_id=6 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByRabbiMarginal(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=1 and season_master_id=2 or season_master_id=6 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByRabbiSmall(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
+    @Query(value = " select * from kamal_crop where farmer_type_master_id=2 and season_master_id=2 or season_master_id=6 and financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    List<KamalCrop> findByRabbiOther(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber,@Param("kmDate") Instant kmDate);
 }

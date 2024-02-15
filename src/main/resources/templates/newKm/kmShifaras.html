@@ -6,23 +6,25 @@
   <style>
       table, th {
         border: 1px solid;
-        padding: 4px;
+        padding: 2px 4px;
+        font-size: 14px;
       }
 
       table, td {
         border: 1px solid;
-        padding: 4px;
-        text-align: center;
+        padding: 2px 4px;
+        font-size: 14px;
+        text-align: right;
       }
     </style>
 </head>
-<body>
+<body style="font-size: 14px; ">
 <div>
   <p style="text-align: justify; margin: 5px 0;">
     संस्थेची बँक तपासणी दि. ______________ अखेर झालेली असून सरकारी तपासणी दि. _______________ अखेर झालेली आहे. तपासणी वर्ग _________ मिळाला आहे.
-    तपासणीचा दोष पुर्तता अहवाल दि. _____________ रोजी पाठविलेला आहे.
+    तपासणीचा दोष पुर्तता अहवाल दि. _____________ रोजी पाठविलेला आहे. <br>सरकारी/बँक तपासणीमधील गंभीर दोष : __________________________________________
   </p>
-  <p>सरकारी/बँक तपासणीमधील गंभीर दोष : __________________________________________</p>
+
 
   <h3 style="margin: 8px 0; font-size: medium;">पीककर्ज मंजुरीसाठी शिफारस हंगाम २०२३-२०२४ (रक्कम रुपयात)</h3>
   <table style="width: 100%; border-collapse: collapse; ">
@@ -41,7 +43,7 @@
     </tr>
 <!----------------------------------------------------१--------------------------------------------------------------->
     <tr th:if="${#lists.isEmpty(sugarcaneMarginal)}">
-      <td> १) ऊस <br> अत्यल्पभूधारक  सभासद</td>
+      <td style="text-align: left;"> १) ऊस <br> अत्यल्पभूधारक  सभासद</td>
       <td></td>
       <td></td>
       <td></td>
@@ -49,19 +51,19 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="scMarginalCrop,iterStat : ${sugarcaneMarginal}">
-      <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> १) ऊस <br> अत्यल्पभूधारक  सभासद</td>
-      <td th:text="${scMarginalCrop.cropMaster.cropName}"></td>
+    <tr th:if="${not #lists.isEmpty(sugarcaneMarginal)}" th:each="scMarginalCrop,iterStat : ${sugarcaneMarginal}">
+      <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> १) ऊस <br> अत्यल्पभूधारक  सभासद</td>
+      <td style="text-align: left;" th:text="${scMarginalCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.getIntegerPartOfNumber(scMarginalCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.getDecimalPartOfNumber(scMarginalCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scMarginalCrop.divisionalOfficeAmount)}" ></td>
     </tr>
 
 
     <tr th:if="${#lists.isEmpty(sugarcaneSmall)}">
-      <td> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
+      <td style="text-align: left; "> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
       <td></td>
       <td></td>
       <td></td>
@@ -69,14 +71,15 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="scSmallCrop,iterStat : ${sugarcaneSmall}">
-      <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
-      <td th:text="${scSmallCrop.cropMaster.cropName}"></td>
+
+    <tr th:if="${not #lists.isEmpty(sugarcaneSmall)}" th:each="scSmallCrop,iterStat : ${sugarcaneSmall}">
+      <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
+      <td style="text-align: left;" th:text="${scSmallCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.getIntegerPartOfNumber(scSmallCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.getDecimalPartOfNumber(scSmallCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scSmallCrop.divisionalOfficeAmount)}" ></td>
     </tr>
 
     <tr>
@@ -86,7 +89,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneA.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneA.getIntegerPartOfNumber(totalSugarcaneA.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneA.getDecimalPartOfNumber(totalSugarcaneA.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneA.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneA.divisionalOfficeAmount)}" ></td>
     </tr>
 
     <tr th:if="${#lists.isEmpty(sugarcaneOther)}">
@@ -98,14 +101,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="scOtherCrop,iterStat : ${sugarcaneOther}">
+    <tr th:if="${not #lists.isEmpty(sugarcaneOther)}" th:each="scOtherCrop,iterStat : ${sugarcaneOther}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> इतर सभासद </td>
       <td th:text="${scOtherCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.getIntegerPartOfNumber(scOtherCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.getDecimalPartOfNumber(scOtherCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(scOtherCrop.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -114,7 +117,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneB.getIntegerPartOfNumber(totalSugarcaneB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneB.getDecimalPartOfNumber(totalSugarcaneB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneB.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -123,7 +126,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getIntegerPartOfNumber(totalSugarcaneAplusB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getDecimalPartOfNumber(totalSugarcaneAplusB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.divisionalOfficeAmount)}" ></td>
     </tr>
 
 <!----------------------------------------------------२--------------------------------------------------------------->
@@ -137,14 +140,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="kharipMarginalCrop,iterStat : ${kharipMarginal}">
+    <tr th:if="${not #lists.isEmpty(kharipMarginal)}" th:each="kharipMarginalCrop,iterStat : ${kharipMarginal}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> २) खरीप हंगाम <br> अत्यल्पभूधारक  सभासद </td>
       <td th:text="${kharipMarginalCrop.cropMaster.cropName}"></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.cropEligibilityAmount)}"></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.memberCount)}"></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.getIntegerPartOfNumber(kharipOtherCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.getDecimalPartOfNumber(kharipOtherCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginalCrop.cropEligibilityAmount)}"></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginalCrop.memberCount)}"></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginalCrop.getIntegerPartOfNumber(kharipMarginalCrop.area))}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginalCrop.getDecimalPartOfNumber(kharipMarginalCrop.area))}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginalCrop.divisionalOfficeAmount)}" ></td>
     </tr>
 
     <tr th:if="${#lists.isEmpty(kharipSmall)}">
@@ -156,14 +159,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="kharipSmallCrop,iterStat : ${kharipSmall}">
+    <tr th:if="${not #lists.isEmpty(kharipSmall)}" th:each="kharipSmallCrop,iterStat : ${kharipSmall}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
       <td th:text="${kharipSmallCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.getIntegerPartOfNumber(kharipSmallCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.getDecimalPartOfNumber(kharipSmallCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmallCrop.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -172,7 +175,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipA.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipA.getIntegerPartOfNumber(totalKharipA.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipA.getDecimalPartOfNumber(totalKharipA.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipA.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipA.divisionalOfficeAmount)}" ></td>
     </tr>
 
 
@@ -185,14 +188,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="kharipOtherCrop,iterStat : ${kharipOther}">
+    <tr th:if="${not #lists.isEmpty(kharipOther)}" th:each="kharipOtherCrop,iterStat : ${kharipOther}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} ">इतर सभासद </td>
       <td th:text="${kharipOtherCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.getIntegerPartOfNumber(kharipOtherCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.getDecimalPartOfNumber(kharipOtherCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOtherCrop.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -201,7 +204,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipB.getIntegerPartOfNumber(totalKharipB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipB.getDecimalPartOfNumber(totalKharipB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipB.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -210,7 +213,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getIntegerPartOfNumber(totalKharipAplusB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getDecimalPartOfNumber(totalKharipAplusB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.divisionalOfficeAmount)}" ></td>
     </tr>
 <!----------------------------------------------------३--------------------------------------------------------------->
 
@@ -223,14 +226,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="rabbiMarginalCrop,iterStat : ${rabbiMarginal}">
+    <tr th:if="${not #lists.isEmpty(rabbiMarginal)}" th:each="rabbiMarginalCrop,iterStat : ${rabbiMarginal}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> ३) रब्बी हंगाम <br> अत्यल्पभूधारक  सभासद </td>
       <td th:text="${rabbiMarginalCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.getIntegerPartOfNumber(rabbiMarginalCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.getDecimalPartOfNumber(rabbiMarginalCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginalCrop.divisionalOfficeAmount)}" ></td>
     </tr>
 
 
@@ -243,14 +246,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="rabbiSmallCrop,iterStat : ${rabbiSmall}">
+    <tr th:if="${not #lists.isEmpty(rabbiSmall)}" th:each="rabbiSmallCrop,iterStat : ${rabbiSmall}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक  सभासद <br> (दुर्बल सभासद)</td>
       <td th:text="${rabbiSmallCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.getIntegerPartOfNumber(rabbiSmallCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.getDecimalPartOfNumber(rabbiSmallCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmallCrop.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -259,7 +262,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiA.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiA.getIntegerPartOfNumber(totalRabbiA.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiA.getDecimalPartOfNumber(totalRabbiA.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiA.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiA.divisionalOfficeAmount)}" ></td>
     </tr>
 
 
@@ -272,14 +275,14 @@
       <td></td>
       <td></td>
     </tr>
-    <tr th:each="rabbiOtherCrop,iterStat : ${rabbiOther}">
+    <tr th:if="${not #lists.isEmpty(rabbiOther)}" th:each="rabbiOtherCrop,iterStat : ${rabbiOther}">
       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> इतर सभासद </td>
       <td th:text="${rabbiOtherCrop.cropMaster.cropName}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.cropEligibilityAmount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.getIntegerPartOfNumber(rabbiOtherCrop.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.getDecimalPartOfNumber(rabbiOtherCrop.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOtherCrop.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -288,7 +291,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiB.getIntegerPartOfNumber(totalRabbiB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiB.getDecimalPartOfNumber(totalRabbiB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiB.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -297,7 +300,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getIntegerPartOfNumber(totalRabbiAplusB.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getDecimalPartOfNumber(totalRabbiAplusB.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.divisionalOfficeAmount)}" ></td>
     </tr>
     <tr>
       <td></td>
@@ -306,7 +309,7 @@
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.memberCount)}"></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(grandTotal.area))}" ></td>
       <td th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(grandTotal.area))}" ></td>
-      <td th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.pacsAmount)}" ></td>
+      <td th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.divisionalOfficeAmount)}" ></td>
     </tr>
 
     </tbody>
@@ -314,9 +317,10 @@
   <p style="margin: 10px 0 5px 0;">अक्षरी रक्कम रु. _________________________________________________________</p>
   <p style="margin: 5px 0;">संस्थेच्या पोटनियमानुसार कर्ज शक्ती रक्कम रु. (लाख) ____________________________________</p>
   <p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु. ____________________________________ (लाख)</p>
+
 </div>
 
-<div>
+<div style="page-break-before: always;">
   <h3 style="margin: 12px 0; font-size: medium;">जादा अटी :</h3>
   <p style="margin: 5px 0;">१) रु.५०/- मुल्यांकन की प्रथम भरुन घेऊन नंतरच कर्ज वितरण करावे.</p>
   <p style="margin: 5px 0;">२) बँक नमुन्यातील संस्था शिफारस प्रथम शाखा दप्तरी दाखल करून घेऊनच कर्ज वितरण करावे.</p>

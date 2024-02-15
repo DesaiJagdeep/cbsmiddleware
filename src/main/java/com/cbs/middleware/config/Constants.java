@@ -74,6 +74,7 @@ public final class Constants {
     public static final String addloandetails = "/addloandetails";
 
 	public static final String databyrecipientuniqueids = "/databyrecipientuniqueids";
+    public static final String getpreuniqueids = "/preuniqueidbyaccountnumbers";
 
 	public static final String MALE = "male";
 	public static final String FEMAIL = "female";

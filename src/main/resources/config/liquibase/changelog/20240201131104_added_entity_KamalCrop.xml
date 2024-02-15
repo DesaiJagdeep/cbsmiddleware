@@ -41,6 +41,12 @@
             <column name="crop_eligibility_amount" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="km_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="kamal_society_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -55,6 +61,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="kamal_crop" columnName="km_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -83,6 +90,8 @@
             <column name="head_office_amount" type="string"/>
             <column name="divisional_office_amount" type="string"/>
             <column name="crop_eligibility_amount" type="string"/>
+            <column name="km_date" type="date"/>
+            <column name="km_date_mr" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -27,6 +27,8 @@
       "headOfficeAmount": "Head Office Amount",
       "divisionalOfficeAmount": "Divisional Office Amount",
       "cropEligibilityAmount": "Crop Eligibility Amount",
+      "kmDate": "Km Date",
+      "kmDateMr": "Km Date Mr",
       "kamalSociety": "Kamal Society",
       "farmerTypeMaster": "Farmer Type Master",
       "seasonMaster": "Season Master",

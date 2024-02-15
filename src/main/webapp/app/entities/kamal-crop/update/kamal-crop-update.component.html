@@ -125,6 +125,26 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDate" for="field_kmDate">Km Date</label>
+          <div class="d-flex">
+            <input
+              id="field_kmDate"
+              data-cy="kmDate"
+              type="datetime-local"
+              class="form-control"
+              name="kmDate"
+              formControlName="kmDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDateMr" for="field_kmDateMr">Km Date Mr</label>
+          <input type="text" class="form-control" name="kmDateMr" id="field_kmDateMr" data-cy="kmDateMr" formControlName="kmDateMr" />
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety" for="field_kamalSociety">Kamal Society</label>
           <select
             class="form-control"

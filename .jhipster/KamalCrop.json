@@ -37,6 +37,14 @@
     {
       "fieldName": "cropEligibilityAmount",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDateMr",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

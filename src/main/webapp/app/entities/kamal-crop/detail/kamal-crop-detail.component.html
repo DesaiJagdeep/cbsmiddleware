@@ -50,6 +50,14 @@
         <dd>
           <span>{{ kamalCrop.cropEligibilityAmount }}</span>
         </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDate">Km Date</span></dt>
+        <dd>
+          <span>{{ kamalCrop.kmDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDateMr">Km Date Mr</span></dt>
+        <dd>
+          <span>{{ kamalCrop.kmDateMr }}</span>
+        </dd>
         <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span></dt>
         <dd>
           <div *ngIf="kamalCrop.kamalSociety">

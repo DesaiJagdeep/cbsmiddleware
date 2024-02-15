@@ -1,3 +1,4 @@
+import dayjs from 'dayjs/esm';
 import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
 import { IFarmerTypeMaster } from 'app/entities/farmer-type-master/farmer-type-master.model';
 import { ISeasonMaster } from 'app/entities/season-master/season-master.model';
@@ -14,6 +15,8 @@ export interface IKamalCrop {
   headOfficeAmount?: string | null;
   divisionalOfficeAmount?: string | null;
   cropEligibilityAmount?: string | null;
+  kmDate?: dayjs.Dayjs | null;
+  kmDateMr?: string | null;
   kamalSociety?: Pick<IKamalSociety, 'id'> | null;
   farmerTypeMaster?: Pick<IFarmerTypeMaster, 'id'> | null;
   seasonMaster?: Pick<ISeasonMaster, 'id'> | null;

@@ -41,6 +41,10 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     private StringFilter cropEligibilityAmount;
 
+    private InstantFilter kmDate;
+
+    private StringFilter kmDateMr;
+
     private LongFilter kamalSocietyId;
 
     private LongFilter farmerTypeMasterId;
@@ -64,6 +68,8 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.headOfficeAmount = other.headOfficeAmount == null ? null : other.headOfficeAmount.copy();
         this.divisionalOfficeAmount = other.divisionalOfficeAmount == null ? null : other.divisionalOfficeAmount.copy();
         this.cropEligibilityAmount = other.cropEligibilityAmount == null ? null : other.cropEligibilityAmount.copy();
+        this.kmDate = other.kmDate == null ? null : other.kmDate.copy();
+        this.kmDateMr = other.kmDateMr == null ? null : other.kmDateMr.copy();
         this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
         this.seasonMasterId = other.seasonMasterId == null ? null : other.seasonMasterId.copy();
@@ -226,6 +232,36 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.cropEligibilityAmount = cropEligibilityAmount;
     }
 
+    public InstantFilter getKmDate() {
+        return kmDate;
+    }
+
+    public InstantFilter kmDate() {
+        if (kmDate == null) {
+            kmDate = new InstantFilter();
+        }
+        return kmDate;
+    }
+
+    public void setKmDate(InstantFilter kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public StringFilter getKmDateMr() {
+        return kmDateMr;
+    }
+
+    public StringFilter kmDateMr() {
+        if (kmDateMr == null) {
+            kmDateMr = new StringFilter();
+        }
+        return kmDateMr;
+    }
+
+    public void setKmDateMr(StringFilter kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
     public LongFilter getKamalSocietyId() {
         return kamalSocietyId;
     }
@@ -314,6 +350,8 @@ public class KamalCropCriteria implements Serializable, Criteria {
             Objects.equals(headOfficeAmount, that.headOfficeAmount) &&
             Objects.equals(divisionalOfficeAmount, that.divisionalOfficeAmount) &&
             Objects.equals(cropEligibilityAmount, that.cropEligibilityAmount) &&
+            Objects.equals(kmDate, that.kmDate) &&
+            Objects.equals(kmDateMr, that.kmDateMr) &&
             Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
             Objects.equals(seasonMasterId, that.seasonMasterId) &&
@@ -335,6 +373,8 @@ public class KamalCropCriteria implements Serializable, Criteria {
             headOfficeAmount,
             divisionalOfficeAmount,
             cropEligibilityAmount,
+            kmDate,
+            kmDateMr,
             kamalSocietyId,
             farmerTypeMasterId,
             seasonMasterId,
@@ -357,6 +397,8 @@ public class KamalCropCriteria implements Serializable, Criteria {
             (headOfficeAmount != null ? "headOfficeAmount=" + headOfficeAmount + ", " : "") +
             (divisionalOfficeAmount != null ? "divisionalOfficeAmount=" + divisionalOfficeAmount + ", " : "") +
             (cropEligibilityAmount != null ? "cropEligibilityAmount=" + cropEligibilityAmount + ", " : "") +
+            (kmDate != null ? "kmDate=" + kmDate + ", " : "") +
+            (kmDateMr != null ? "kmDateMr=" + kmDateMr + ", " : "") +
             (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (farmerTypeMasterId != null ? "farmerTypeMasterId=" + farmerTypeMasterId + ", " : "") +
             (seasonMasterId != null ? "seasonMasterId=" + seasonMasterId + ", " : "") +

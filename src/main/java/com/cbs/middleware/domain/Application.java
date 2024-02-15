@@ -34,8 +34,12 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
     @Column(name = "packs_code")
     private Long packsCode;
 
+
     @Column(name = "unique_id")
     private String uniqueId;
+
+    @Column(name = "preunique_id")
+    private String preuniqueId;
 
     @Column(name = "record_status")
     private Integer recordStatus;
@@ -149,6 +153,14 @@ public class Application extends AbstractAuditingEntity<Long> implements Seriali
         this.uniqueId = uniqueId;
     }
 
+
+    public String getPreuniqueId() {
+        return preuniqueId;
+    }
+
+    public void setPreuniqueId(String preuniqueId) {
+        this.preuniqueId = preuniqueId;
+    }
     public Integer getRecordStatus() {
         return this.recordStatus;
     }

@@ -106,7 +106,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     Page<Application> findAllBySchemeWiseBranchCode(Long schemeWiseBranchCode, Pageable pageable);
 
     @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:IssFileParserId", nativeQuery = true)
-    Application findRejectedApplicatonsByParserId(@Param("IssFileParserId") Long IssFileParserId) ;
+    List<Application> findRejectedApplicatonsByParserId(@Param("IssFileParserId") Long IssFileParserId) ;
 
     @Transactional
 
@@ -120,7 +120,20 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     List<Application> findByFianacialYearNull();
 
 
-    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
-  List<Long> findDistinctByPortalId();
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 1) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
+    List<Long> findDistinctByPortalId();
+
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 and application_errors LIKE 'Invalid preUniqueid;%' and preunique_id is null", nativeQuery = true)
+    List<Long> findDistinctPortalIdToUpdatePreuniqueId();
+
+    @Query(value = "SELECT * FROM application_transaction WHERE kcc_status = 0 and application_errors LIKE 'Invalid preUniqueid;%' and iss_file_portal_id=:iss_portal_id and preunique_id is null", nativeQuery = true)
+    List<Application> findApplicationsToUpdatePreuniqueId(@Param("iss_portal_id") Long iss_portal_id);
+
+
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 and application_errors LIKE 'Invalid preUniqueid;%' and preunique_id is not null AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 2)", nativeQuery = true)
+    List<Long> findDistinctPortalIdToSubmitBatch();
+
+    @Query(value = "SELECT * FROM application_transaction WHERE kcc_status = 0 and application_errors LIKE 'Invalid preUniqueid;%' and iss_file_portal_id=:iss_portal_id and preunique_id is not null AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 2)", nativeQuery = true)
+    List<Application> findApplicationsToSubmitBatchOfInvalidPreuniqueIdErroApp(@Param("iss_portal_id") Long iss_portal_id);
 
 }

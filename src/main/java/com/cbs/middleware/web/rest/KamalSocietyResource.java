@@ -114,9 +114,9 @@ public class KamalSocietyResource {
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         String pacsNumber = optUser.get().getPacsNumber();
         kamalSociety.setPacsNumber(pacsNumber);
-        kamalSociety.setPacsName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getPacsName());
+        kamalSociety.setPacsName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getPacsNameMr());
         kamalSociety.setBranchId(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId());
-        kamalSociety.setBranchName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getBranchName());
+        kamalSociety.setBranchName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getBranchNameMr());
 
         //set pacs number and FinancialYear to every kamalaCrop Object
         Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
@@ -530,7 +530,7 @@ public class KamalSocietyResource {
         //Instant kmDate = newKmReportPayload.getKmDate();
 
         String kmDateString = "2023-01-01T00:00:00.000Z";
-       Instant kmDate=Instant.parse(kmDateString);
+        Instant kmDate = Instant.parse(kmDateString);
 
         List<String> htmlList = new ArrayList<>();
 
@@ -632,14 +632,14 @@ public class KamalSocietyResource {
         KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
 
 
-//for Summary Report
-        Optional <KamalSociety> kamalSociety= kamalSocietyRepository.findByFyPacsNumberKmDate(financialYear,pacsNumber,kmDate);
+        //for 1) karyalayeenNivedan Report
+        Optional<KamalSociety> kamalSocietyOptional = kamalSocietyRepository.findByFyPacsNumberKmDate(financialYear, pacsNumber, kmDate);
 
+        KamalSociety kamalSociety = kamalSocietyOptional.get();
         List<KamalCrop> marginalSummary = new ArrayList<>();
         marginalSummary.addAll(sugarcaneMarginalListToPrint);
         marginalSummary.addAll(kharipMarginalListToPrint);
         marginalSummary.addAll(rabbiMarginalListToPrint);
-
 
         List<KamalCrop> smallSummary = new ArrayList<>();
         smallSummary.addAll(sugarcaneSmallListToPrint);
@@ -651,17 +651,36 @@ public class KamalSocietyResource {
         otherSummary.addAll(kharipOtherListToPrint);
         otherSummary.addAll(rabbiOtherListToPrint);
 
+        List<KamalCrop> marginalSummaryToPrint = new ArrayList<>();
+        List<KamalCrop> smallSummaryToPrint = new ArrayList<>();
+        List<KamalCrop> otherSummaryToPrint = new ArrayList<>();
+        //addition of memberCount,area,pacsAmount,branchAmount,headOfficeAmount in 1st element of printList
 
-
-
-
-
-
+        marginalSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(marginalSummary);
+        smallSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(smallSummary);
+        otherSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(otherSummary);
 
 
         switch (newKmReportPayload.getTemplateName()) {
-            case "kmShifaras":
-                htmlStringForPdf = manjuriTemplate("newKm/kmShifaras.html",
+
+            //page 1
+            case "karyalayeenNivedan":
+                htmlStringForPdf = karyalayeenNivedanTemplate("newKm/karyalayeenNivedan.html",
+                    kamalSociety,
+                    marginalSummaryToPrint,
+                    smallSummaryToPrint,
+                    otherSummaryToPrint,
+                    TranslationServiceUtility.getInstance()
+                );
+                htmlList.add(htmlStringForPdf);
+                break;
+
+            //page 2
+            //  case "mukhyaKacheriShifaras":
+
+            //page3
+            case "karjManjuriShifaras":
+                htmlStringForPdf = manjuriTemplate("newKm/karjManjuriShifaras.html",
                     sugarcaneMarginalListToPrint,
                     sugarcaneSmallListToPrint,
                     totalSugarcaneA,
@@ -685,7 +704,22 @@ public class KamalSocietyResource {
 
                 htmlList.add(htmlStringForPdf);
                 break;
-          //  case "kmNivedan":
+
+            //page 4
+            //  case "pikKarjMagni":
+
+            //page 5
+            //  case "sanchalakShifaras":
+
+            //page 6
+            //  case "bankGahanKhat":
+
+            //page 7
+            //  case "karjVatapSlip":
+
+            //page 8
+            //  case "vachanPatrika":
+
 
         }
 
@@ -785,6 +819,61 @@ public class KamalSocietyResource {
         return response;
     }
 
+    private List<KamalCrop> getListWithSumForKarayalayeenNivedanReport(List<KamalCrop> summaryList) {
+        //addition of memberCount,area,pacsAmount,branchAmount,headOfficeAmount in 1st element of printList
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double pacsAmount = 0.0;
+        double branchAmount = 0.0;
+        double headOfficeAmount = 0.0;
+
+        for (KamalCrop kamalCrop : summaryList) {
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            }
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
+            }
+            if (kamalCrop.getPacsAmount() != null) {
+                pacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            }
+            if (kamalCrop.getBranchAmount() != null) {
+                branchAmount += Double.parseDouble(kamalCrop.getBranchAmount());
+            }
+            if (kamalCrop.getHeadOfficeAmount() != null) {
+                headOfficeAmount += Double.parseDouble(kamalCrop.getHeadOfficeAmount());
+            }
+        }
+        summaryList.get(0).setMemberCount(String.valueOf(totalMemberCount));
+        summaryList.get(0).setArea(String.valueOf(totalArea));
+        summaryList.get(0).setPacsAmount(String.valueOf(pacsAmount));
+        summaryList.get(0).setBranchAmount(String.valueOf(branchAmount));
+        summaryList.get(0).setHeadOfficeAmount(String.valueOf(headOfficeAmount));
+
+        //if  same crop has different farmerTypes is available then to avoid duplicate cropName printing in report
+        if(summaryList.size()>1){
+            List<KamalCrop> kamalCropListWithDistinctCrop=new ArrayList<>();
+            for (int i=0; i<=summaryList.size()-2;i++) {
+                for(int j=i+1;j<=summaryList.size()-1;j++){
+                    if(summaryList.get(i).getCropMaster().getId().equals(summaryList.get(j).getCropMaster().getId())){
+                        KamalCrop kamalDistinctCrop=new KamalCrop();
+                        kamalDistinctCrop.setCropMaster(summaryList.get(i).getCropMaster());
+                        kamalCropListWithDistinctCrop.add(kamalDistinctCrop);
+                    }
+                }
+            }
+            kamalCropListWithDistinctCrop.get(0).setMemberCount(String.valueOf(totalMemberCount));
+            kamalCropListWithDistinctCrop.get(0).setArea(String.valueOf(totalArea));
+            kamalCropListWithDistinctCrop.get(0).setPacsAmount(String.valueOf(pacsAmount));
+            kamalCropListWithDistinctCrop.get(0).setBranchAmount(String.valueOf(branchAmount));
+            kamalCropListWithDistinctCrop.get(0).setHeadOfficeAmount(String.valueOf(headOfficeAmount));
+
+            return kamalCropListWithDistinctCrop;
+            }
+        return summaryList;
+    }
+
+
     private KamalCrop getObjectOfTotal(List<KamalCrop> kamalCropList) {
         double totalCropEligibilityAmount = 0.0;
         int totalMemberCount = 0;
@@ -792,14 +881,14 @@ public class KamalSocietyResource {
         double totalAmount = 0.0;
 
         for (KamalCrop kamalCrop : kamalCropList) {
-           // totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
-            if (kamalCrop.getMemberCount()!=null){
+            // totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            if (kamalCrop.getMemberCount() != null) {
                 totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             }
-            if(kamalCrop.getArea()!=null){
+            if (kamalCrop.getArea() != null) {
                 totalArea += Double.parseDouble(kamalCrop.getArea());
             }
-            if(kamalCrop.getDivisionalOfficeAmount()!=null){
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
                 totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
             }
         }
@@ -820,27 +909,27 @@ public class KamalSocietyResource {
 
         for (KamalCrop kamalCrop : kamalCropList1) {
             //totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
-            if (kamalCrop.getMemberCount()!=null){
-            totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             }
-            if(kamalCrop.getArea()!=null){
-            totalArea += Double.parseDouble(kamalCrop.getArea());
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
             }
-            if(kamalCrop.getDivisionalOfficeAmount()!=null){
-            totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
             }
         }
 
         for (KamalCrop kamalCrop : kamalCropList2) {
             //totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
-            if (kamalCrop.getMemberCount()!=null){
-            totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
             }
-            if(kamalCrop.getArea()!=null){
-            totalArea += Double.parseDouble(kamalCrop.getArea());
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
             }
-            if(kamalCrop.getDivisionalOfficeAmount()!=null){
-            totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
             }
         }
 
@@ -920,9 +1009,24 @@ public class KamalSocietyResource {
         context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
         context.setVariable("grandTotal", grandTotal);
         context.setVariable("translationServiceUtility", translationServiceUtility);
-        String content = templateEngine.process(template, context);
-        return content;
+        return templateEngine.process(template, context);
+
     }
 
+    private String karyalayeenNivedanTemplate(String template,
+                                              KamalSociety kamalSociety,
+                                              List<KamalCrop> marginalSummary,
+                                              List<KamalCrop> smallSummary,
+                                              List<KamalCrop> otherSummary,
+                                              TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kamalSociety", kamalSociety);
+        context.setVariable("marginalSummary", marginalSummary);
+        context.setVariable("smallSummary", smallSummary);
+        context.setVariable("otherSummary", otherSummary);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+        return templateEngine.process(template, context);
+    }
 
 }

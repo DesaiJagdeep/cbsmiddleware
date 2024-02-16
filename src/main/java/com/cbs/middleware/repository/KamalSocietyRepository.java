@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data JPA repository for the KamalSociety entity.
@@ -19,6 +20,9 @@ public interface KamalSocietyRepository extends JpaRepository<KamalSociety, Long
     @Query(value = "select * from kamal_society where financial_year=:fy and km_date=:kmDateInstant and  km_from_date=:kmFromDateInstant and km_to_date=:kmToDateInstant  order by branch_id",nativeQuery = true)
     List<KamalSociety> findByFyAndKmDateAndKmFromToKmToDate(@Param("fy") String fy, @Param("kmDateInstant") Instant kmDateInstant, @Param("kmFromDateInstant")Instant kmFromDateInstant, @Param("kmToDateInstant")Instant kmToDateInstant);
 
-    //List<KamalSociety> findByFinancialYearEqualsAndKmDateEqualsAndKmFromDateEqualsAndKmToDateEquals(String financialYear, Instant kmDate, Instant kmFromDate, Instant kmToDate);
+    @Query(value = "select * from kamal_society where financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
+    Optional<KamalSociety> findByFyPacsNumberKmDate(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber, @Param("kmDate")Instant kmDate);
+
+
 
 }

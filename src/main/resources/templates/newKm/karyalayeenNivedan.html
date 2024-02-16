@@ -21,12 +21,12 @@
 <div>
   <div style="text-align: center; margin-bottom: 12px;">
     <h2 style="margin: 0px;"><strong>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे</strong></h2>
-    <h3 style="margin: 10px;"><strong>कार्यालयीन निवेदन २०२३-२०२४</strong></h3>
+    <h3 style="margin: 10px; "><strong>कार्यालयीन निवेदन २०२३-२०२४</strong></h3>
   </div>
   <div>
-    <p style="text-align: end;">दिनांक: ____ / ____ /२०२__ </p>
-    <p>________________________ वि. का. से. सह. सोसा. लि. _______________ तालुका _______________ </p>
-    <p>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे ________________________ शाखा.</p>
+    <p style="text-align: right;">दिनांक: ____ / ____ /२०२__ </p>
+    <p><span th:text="${kamalSociety.pacsName}"></span> _______________ तालुका _______________ </p>
+    <p>पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे <span th:text="${kamalSociety.branchName}"></span> शाखा.</p>
     <p>संस्थेची जिंदगी पत्रक तपासणी दिनांक: ____ / ____ /२०२__ रोजी केलेली आहे.</p>
   </div>
   <h3 style="margin: 8px 0; font-size: medium;">संस्थेच्या कार्यक्षेत्रात येणारी गावे :</h3>
@@ -58,8 +58,9 @@
         <td style="text-align: center;">हेक्टर</td>
         <td style="text-align: center;">आर</td>
       </tr>
-      <tr>
-        <td>अल्पभूधारक (दुर्बल सभासद)</td>
+
+      <tr th:if="${#lists.isEmpty(marginalSummary)}">
+        <td style="text-align: left;"> अत्यल्पभूधारक (दुर्बल सभासद)</td>
         <td></td>
         <td></td>
         <td></td>
@@ -68,8 +69,20 @@
         <td></td>
         <td></td>
       </tr>
-      <tr>
-        <td>अत्यल्पभूधारक सभासद</td>
+      <tr th:if="${not #lists.isEmpty(marginalSummary)}" th:each="marginal,iterStat : ${marginalSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अत्यल्पभूधारक (दुर्बल सभासद)</td>
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.memberCount)}"></td>
+        <td style="text-align: left;" th:text="${marginal.cropMaster.cropName}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.getIntegerPartOfNumber(marginal.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.getDecimalPartOfNumber(marginal.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.pacsAmount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.branchAmount)}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.headOfficeAmount)}" ></td>
+      </tr>
+
+
+      <tr th:if="${#lists.isEmpty(smallSummary)}">
+        <td style="text-align: left;"> अल्पभूधारक सभासद</td>
         <td></td>
         <td></td>
         <td></td>
@@ -78,23 +91,20 @@
         <td></td>
         <td></td>
       </tr>
-      <tr>
-        <td>इतर सभासद</td>
-        <td></td>
-        <td>
-          <div style="text-align: left;">१)</div>
-          <div style="text-align: left;">२)</div>
-          <div style="text-align: left;">३)</div>
-          <div style="text-align: left;">४)</div>
-        </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr th:if="${not #lists.isEmpty(smallSummary)}" th:each="small,iterStat : ${smallSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक सभासद </td>
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.memberCount)}"></td>
+        <td style="text-align: left;" th:text="${small.cropMaster.cropName}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.getIntegerPartOfNumber(small.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.getDecimalPartOfNumber(small.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.pacsAmount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.branchAmount)}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.headOfficeAmount)}" ></td>
       </tr>
-      <tr>
-        <td>एकूण</td>
+
+
+      <tr th:if="${#lists.isEmpty(otherSummary)}">
+        <td style="text-align: left;"> इतर सभासद</td>
         <td></td>
         <td></td>
         <td></td>
@@ -103,10 +113,22 @@
         <td></td>
         <td></td>
       </tr>
+      <tr th:if="${not #lists.isEmpty(otherSummary)}" th:each="other,iterStat : ${otherSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> इतर सभासद </td>
+        <td style="text-align: left;" th:rowspan="${iterStat.size}"  th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.memberCount)}"></td>
+        <td style="text-align: left;" th:text="${other.cropMaster.cropName}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.getIntegerPartOfNumber(other.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.getDecimalPartOfNumber(other.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.pacsAmount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.branchAmount)}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.headOfficeAmount)}" ></td>
+      </tr>
+
+
       </tbody>
     </table>
 
-    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. ___________________ अखेर कर्जे व वसुलीची माहिती (रु. लाखात)</p>
+    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. <span ></span> अखेर कर्जे व वसुलीची माहिती (रु. लाखात)</p>
     <table style="width: 100%; border-collapse: collapse; ">
       <tbody>
       <tr>
@@ -119,27 +141,27 @@
 
       <tr>
         <td>सभासद कर्ज</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.memLoan)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.memDue)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.memVasuli)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.memVasuliPer)}"></td>
       </tr>
       <tr>
         <td>बँक कर्ज</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.bankLoan)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.bankDue)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.bankVasuli)}"></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.bankVasuliPer)}"></td>
       </tr>
       </tbody>
     </table>
 
-    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. ___________________ अखेरील ताळेबंदावरुन सांपत्तिक स्थिती (रु. लाखात)</p>
+    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. <span ></span> अखेरील ताळेबंदावरुन सांपत्तिक स्थिती (रु. लाखात)</p>
     <table style="width: 100%; border-collapse: collapse; ">
       <tbody>
       <tr>
         <td style="width: 30%;">संस्थेचे अधिकृत भाग भांडवल</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityAdhikrutShareCapital)}"></td>
         <td></td>
         <td style="width: 30%;"></td>
         <td></td>
@@ -147,58 +169,58 @@
       </tr>
       <tr>
         <td>वसुल भाग भांडवल</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityVasulShareCapital)}"></td>
         <td></td>
         <td>रोख शिल्लक</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetCash)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>सर्व निधी</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityFund)}"></td>
         <td></td>
         <td>गुंतवणूक</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetInvestment)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>सर्व ठेवी</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityDeposite)}"></td>
         <td></td>
         <td>सभासद कर्जे</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetMemberLoan)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>बँक कर्ज</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityBalanceSheetBankLoan)}"></td>
         <td></td>
         <td>डेडस्टॉक</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetDeadStock)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>इतर देणी</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityOtherPayable)}"></td>
         <td></td>
         <td>इतर येणी</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetOtherReceivable)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>नफा</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.liabilityProfit)}"></td>
         <td></td>
         <td>तोटा</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetLoss)}"></td>
         <td></td>
       </tr>
       <tr>
         <td>एकूण</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.totalLiability)}"></td>
         <td></td>
         <td>एकूण</td>
-        <td></td>
+        <td th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.totalAsset)}"></td>
         <td></td>
       </tr>
       </tbody>

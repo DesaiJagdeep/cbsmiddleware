@@ -21,7 +21,6 @@ public class RetryBatchTransactionDetails extends AbstractAuditingEntity<Long> i
     @Column(name = "status")
     private String status;
 
-
     public Integer getApiType() {
         return ApiType;
     }

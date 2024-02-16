@@ -406,10 +406,10 @@ public class ApplicationLogResource {
     //Ashvini
 
 
-     @PostMapping("/addloandetails")
+     //@PostMapping("/addloandetails")
     // @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     //0 30 16 * * *   (04:30 pm UTC i.e  10:00 pm IST)
-    //@Scheduled(cron = "0 30 16 * * *")
+    @Scheduled(cron = "0 30 16 * * *")
     public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
 
 //      System.out.println("Get Applications with KCC Error Duplicate Number");
@@ -838,10 +838,10 @@ public class ApplicationLogResource {
 
         }
     }
-
-
+    //0 30 15 * * *   (03:30 pm UTC i.e  09:00 pm IST)
+    @Scheduled(cron = "0 30 15 * * *")
     //Get Invalid PreuniqueId by account numbers
-    @GetMapping("/preuniqueidbyaccountnumbers")
+   // @GetMapping("/preuniqueidbyaccountnumbers")
     public void GetPreUniqueIds() {
 
         //get distinct iss_portal_id from application_transaction with kcc_status = 0 & application_errors is Invalid PreUniqueId

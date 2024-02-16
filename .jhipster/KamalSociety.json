@@ -48,6 +48,14 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "talukaId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "talukaName",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "zindagiPatrakDate",
       "fieldType": "Instant"
     },

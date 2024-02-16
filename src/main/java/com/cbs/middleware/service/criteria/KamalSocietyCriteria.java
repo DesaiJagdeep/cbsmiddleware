@@ -45,6 +45,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private StringFilter branchName;
 
+    private LongFilter talukaId;
+
+    private StringFilter talukaName;
+
     private InstantFilter zindagiPatrakDate;
 
     private StringFilter zindagiPatrakDateMr;
@@ -176,6 +180,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.pacsName = other.pacsName == null ? null : other.pacsName.copy();
         this.branchId = other.branchId == null ? null : other.branchId.copy();
         this.branchName = other.branchName == null ? null : other.branchName.copy();
+        this.talukaId = other.talukaId == null ? null : other.talukaId.copy();
+        this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
         this.zindagiPatrakDate = other.zindagiPatrakDate == null ? null : other.zindagiPatrakDate.copy();
         this.zindagiPatrakDateMr = other.zindagiPatrakDateMr == null ? null : other.zindagiPatrakDateMr.copy();
         this.bankTapasaniDate = other.bankTapasaniDate == null ? null : other.bankTapasaniDate.copy();
@@ -421,6 +427,36 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     public void setBranchName(StringFilter branchName) {
         this.branchName = branchName;
+    }
+
+    public LongFilter getTalukaId() {
+        return talukaId;
+    }
+
+    public LongFilter talukaId() {
+        if (talukaId == null) {
+            talukaId = new LongFilter();
+        }
+        return talukaId;
+    }
+
+    public void setTalukaId(LongFilter talukaId) {
+        this.talukaId = talukaId;
+    }
+
+    public StringFilter getTalukaName() {
+        return talukaName;
+    }
+
+    public StringFilter talukaName() {
+        if (talukaName == null) {
+            talukaName = new StringFilter();
+        }
+        return talukaName;
+    }
+
+    public void setTalukaName(StringFilter talukaName) {
+        this.talukaName = talukaName;
     }
 
     public InstantFilter getZindagiPatrakDate() {
@@ -1308,6 +1344,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(pacsName, that.pacsName) &&
             Objects.equals(branchId, that.branchId) &&
             Objects.equals(branchName, that.branchName) &&
+            Objects.equals(talukaId, that.talukaId) &&
+            Objects.equals(talukaName, that.talukaName) &&
             Objects.equals(zindagiPatrakDate, that.zindagiPatrakDate) &&
             Objects.equals(zindagiPatrakDateMr, that.zindagiPatrakDateMr) &&
             Objects.equals(bankTapasaniDate, that.bankTapasaniDate) &&
@@ -1384,6 +1422,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             pacsName,
             branchId,
             branchName,
+            talukaId,
+            talukaName,
             zindagiPatrakDate,
             zindagiPatrakDateMr,
             bankTapasaniDate,
@@ -1461,6 +1501,8 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (pacsName != null ? "pacsName=" + pacsName + ", " : "") +
             (branchId != null ? "branchId=" + branchId + ", " : "") +
             (branchName != null ? "branchName=" + branchName + ", " : "") +
+            (talukaId != null ? "talukaId=" + talukaId + ", " : "") +
+            (talukaName != null ? "talukaName=" + talukaName + ", " : "") +
             (zindagiPatrakDate != null ? "zindagiPatrakDate=" + zindagiPatrakDate + ", " : "") +
             (zindagiPatrakDateMr != null ? "zindagiPatrakDateMr=" + zindagiPatrakDateMr + ", " : "") +
             (bankTapasaniDate != null ? "bankTapasaniDate=" + bankTapasaniDate + ", " : "") +

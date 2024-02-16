@@ -29,6 +29,8 @@
       "pacsName": "Pacs Name",
       "branchId": "Branch Id",
       "branchName": "Branch Name",
+      "talukaId": "Taluka Id",
+      "talukaName": "Taluka Name",
       "zindagiPatrakDate": "Zindagi Patrak Date",
       "zindagiPatrakDateMr": "Zindagi Patrak Date Mr",
       "bankTapasaniDate": "Bank Tapasani Date",

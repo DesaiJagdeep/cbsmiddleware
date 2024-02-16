@@ -13,6 +13,8 @@ export interface IKamalSociety {
   pacsName?: string | null;
   branchId?: number | null;
   branchName?: string | null;
+  talukaId?: number | null;
+  talukaName?: string | null;
   zindagiPatrakDate?: dayjs.Dayjs | null;
   zindagiPatrakDateMr?: string | null;
   bankTapasaniDate?: dayjs.Dayjs | null;

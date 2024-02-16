@@ -106,6 +106,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="talukaId">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.talukaId">Taluka Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="talukaName">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.talukaName">Taluka Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="zindagiPatrakDate">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kamalSociety.zindagiPatrakDate">Zindagi Patrak Date</span>
@@ -467,6 +479,8 @@
           <td>{{ kamalSociety.pacsName }}</td>
           <td>{{ kamalSociety.branchId }}</td>
           <td>{{ kamalSociety.branchName }}</td>
+          <td>{{ kamalSociety.talukaId }}</td>
+          <td>{{ kamalSociety.talukaName }}</td>
           <td>{{ kamalSociety.zindagiPatrakDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.zindagiPatrakDateMr }}</td>
           <td>{{ kamalSociety.bankTapasaniDate | formatMediumDatetime }}</td>

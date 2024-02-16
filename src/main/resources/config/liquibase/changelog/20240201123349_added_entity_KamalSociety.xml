@@ -47,6 +47,12 @@
             <column name="branch_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="taluka_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="zindagi_patrak_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
@@ -263,6 +269,8 @@
             <column name="pacs_name" type="string"/>
             <column name="branch_id" type="numeric"/>
             <column name="branch_name" type="string"/>
+            <column name="taluka_id" type="numeric"/>
+            <column name="taluka_name" type="string"/>
             <column name="zindagi_patrak_date" type="date"/>
             <column name="zindagi_patrak_date_mr" type="string"/>
             <column name="bank_tapasani_date" type="date"/>

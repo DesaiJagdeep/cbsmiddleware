@@ -509,6 +509,14 @@ public class CronJobResource {
 
     private void updateRecordsInRetryBatchTran(String batchId) {
 
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(timeZone);
+        String indianTime = dateFormat.format(new Date());
+
+        log.debug("cron Job started at" + indianTime);
+        log.info("cron Job started at" + indianTime);
+
         List<RetryBatchTransaction> retryBatchTransactionList = new ArrayList<>();
         if(batchId.equals("0000"))
         {
@@ -524,17 +532,14 @@ public class CronJobResource {
         System.out.println("RetryTransactionList batchId: " + retryBatchTransactionList.get(0).getBatchId());
         System.out.println("RetryTransactionList size: " + retryBatchTransactionList.size());
 
-        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.setTimeZone(timeZone);
-        String indianTime = dateFormat.format(new Date());
+
 
         if (!retryBatchTransactionList.isEmpty()) {
             log.info("Retry Batch transaction list not empty");
             System.out.println("Retry Batch transaction list not empty");
             for (RetryBatchTransaction retryBatchTransaction : retryBatchTransactionList) {
 
-                System.out.println("Retry Batch transaction id"+retryBatchTransaction.getId());
+                System.out.println("Retry Batch transaction id "+retryBatchTransaction.getId());
 
     List<Application> applicationListSave = new ArrayList<>();
     List<RetryBatchTransactionDetails> retryBatchTransactionapplicationListSave = new ArrayList<>();
@@ -589,12 +594,13 @@ public class CronJobResource {
                 if (!dataByBatchAckId.getApplications().isEmpty()) {
                     for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
 
-                        System.out.println("Application from batch ack result: " +applicationsByBatchAckId);
+                        System.out.println("application uniqueId: " +applicationsByBatchAckId.getUniqueId());
 
                         //application_transaction
                         Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                             applicationsByBatchAckId.getUniqueId()
                         );
+
 
                         //application_log
                         Optional<ApplicationLog> applicationLog = applicationLogRepository.findOneByIssFileParser(

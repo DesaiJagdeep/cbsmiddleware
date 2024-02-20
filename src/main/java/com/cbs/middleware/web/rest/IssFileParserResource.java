@@ -3935,7 +3935,6 @@ public class IssFileParserResource {
 
         String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
 
-
         List<IssFileParser> issFileParserList = issFileParserRepository.findByPacsNumberAndFinancialYear(pacsNumber, financialYear);
 
         List<String> htmlList = new ArrayList<>();

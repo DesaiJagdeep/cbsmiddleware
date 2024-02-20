@@ -49,7 +49,19 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         GrantedAuthority authority = authorities.stream().findFirst().get();
 
-       if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+        Optional<KamalSociety> kamalSocietyDB = kamalSocietyRepository.findById(kamalSociety.getId());
+        if(kamalSocietyDB.isPresent()){
+            kamalSociety.setPacsNumber(kamalSocietyDB.get().getPacsNumber());
+            kamalSociety.setPacsName(kamalSocietyDB.get().getPacsName());
+            kamalSociety.setBranchId(kamalSocietyDB.get().getBranchId());
+            kamalSociety.setBranchName(kamalSocietyDB.get().getBranchName());
+            kamalSociety.setTalukaId(kamalSocietyDB.get().getTalukaId());
+            kamalSociety.setTalukaName(kamalSocietyDB.get().getTalukaName());
+        }
+
+
+
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
            kamalSociety.setBranchVerifiedBy(auth.getName());
            kamalSociety.setBranchVerifiedDate(Instant.now());
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
@@ -273,7 +285,12 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                     if (kamalSociety.getGambhirDosh() != null) {
                         existingKamalSociety.setGambhirDosh(kamalSociety.getGambhirDosh());
                     }
-
+                    if (kamalSociety.getTalukaId() != null) {
+                        existingKamalSociety.setTalukaId(kamalSociety.getTalukaId());
+                    }
+                    if (kamalSociety.getTalukaName() != null) {
+                        existingKamalSociety.setTalukaName(kamalSociety.getTalukaName());
+                    }
                     return existingKamalSociety;
                 })
                 .map(kamalSocietyRepository::save);

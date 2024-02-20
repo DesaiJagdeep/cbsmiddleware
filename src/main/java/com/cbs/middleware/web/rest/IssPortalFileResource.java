@@ -444,10 +444,10 @@ public class IssPortalFileResource {
                         countOfSocietiesByTalukaName = 59;
                         break;
                     case "BARAMATI":
-                        countOfSocietiesByTalukaName = 191;
+                        countOfSocietiesByTalukaName = 192;
                         break;
                     case "DAUND":
-                        countOfSocietiesByTalukaName = 124;
+                        countOfSocietiesByTalukaName = 125;
                         break;
                     case "HAVELI":
                         countOfSocietiesByTalukaName = 140;

@@ -57,6 +57,11 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
 
     @Column(name = "branch_name")
     private String branchName;
+    @Column(name = "taluka_id")
+    private Long talukaId;
+
+    @Column(name = "taluka_name")
+    private String talukaName;
 
     @Column(name = "zindagi_patrak_date")
     private Instant zindagiPatrakDate;
@@ -1101,6 +1106,31 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
+    public Long getTalukaId() {
+        return this.talukaId;
+    }
+
+    public KamalSociety talukaId(Long talukaId) {
+        this.setTalukaId(talukaId);
+        return this;
+    }
+
+    public void setTalukaId(Long talukaId) {
+        this.talukaId = talukaId;
+    }
+
+    public String getTalukaName() {
+        return this.talukaName;
+    }
+
+    public KamalSociety talukaName(String talukaName) {
+        this.setTalukaName(talukaName);
+        return this;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -1258,6 +1288,8 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
             ", doshPurtataDate='" + getDoshPurtataDate() + "'" +
             ", gambhirDosh='" + getGambhirDosh() + "'" +
             ", divisionalOfficeVerifiedFlag='" + getDivisionalOfficeVerifiedFlag() + "'" +
+            ", talukaId=" + getTalukaId() +
+            ", talukaName='" + getTalukaName() + "'" +
             "}";
     }
 }

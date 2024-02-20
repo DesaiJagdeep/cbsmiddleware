@@ -2,7 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Mukhya Kacheri Shifaras</title>
+  <style>
+      table, th {
+        border: 1px solid;
+        padding: 4px;
+      }
+
+      table, td {
+        border: 1px solid;
+        padding: 4px;
+        text-align: center;
+      }
+    </style>
 </head>
 <body>
 <div>
@@ -14,11 +26,11 @@
   <hr style="margin: 5px 0; border: 1px solid black;">
   <div>
     <h3 style="margin: 8px 0 5px 0; text-align: center;">मुख्य कचेरी शिफारस</h3>
-    <h4 style="margin: 5px 0; text-align: center;">सन २०२__ -२०२__</h4>
+    <h4 style="margin: 5px 0; text-align: center;">सन <span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)}"></span></h4>
   </div>
   <div>
-    <p style="margin: 5px 0;">संस्थेचे नाव _________________________ वि. का. सह. से. सोसायटी लि., _______________</p>
-    <p style="margin: 5px 0;">शाखा _________________________ </p>
+    <p style="margin: 5px 0;">संस्थेचे नाव : <span th:text="${kamalSociety.pacsName}"></span> </p>
+    <p style="margin: 5px 0;">शाखा :<span th:text="${kamalSociety.branchName}"></span> </p>
   </div>
   <div>
     <table style="width: 100%; border-collapse: collapse; ">
@@ -33,34 +45,63 @@
         <td style="text-align: center;">हेक्टर</td>
         <td style="text-align: center;">आर</td>
       </tr>
-      <tr>
-        <td>अत्यल्प दुर्बल सभासद</td>
+
+      <tr th:if="${#lists.isEmpty(marginalSummary)}">
+        <td style="text-align: left;"> अत्यल्पभूधारक दुर्बल सभासद</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
-      <tr>
-        <td>अल्प दुर्बल सभासद</td>
+      <tr th:if="${not #lists.isEmpty(marginalSummary)}" th:each="marginal,iterStat : ${marginalSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अत्यल्पभूधारक (दुर्बल सभासद)</td>
+        <td  th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.memberCount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.getIntegerPartOfNumber(marginal.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.getDecimalPartOfNumber(marginal.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(marginal.headOfficeAmount)}" ></td>
+      </tr>
+
+
+      <tr th:if="${#lists.isEmpty(smallSummary)}">
+        <td style="text-align: left;"> अल्प दुर्बल सभासद</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+
+      </tr>
+      <tr th:if="${not #lists.isEmpty(smallSummary)}" th:each="small,iterStat : ${smallSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> अल्पभूधारक सभासद </td>
+        <td  th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.memberCount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.getIntegerPartOfNumber(small.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.getDecimalPartOfNumber(small.area))}" ></td>
+       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(small.headOfficeAmount)}" ></td>
+      </tr>
+
+
+      <tr th:if="${#lists.isEmpty(otherSummary)}">
+        <td style="text-align: left;"> सबल</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
-      <tr>
-        <td>सबल</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+      <tr th:if="${not #lists.isEmpty(otherSummary)}" th:each="other,iterStat : ${otherSummary}">
+        <td style="text-align: left;" th:rowspan="${iterStat.size}" th:if="${iterStat.first} "> इतर सभासद </td>
+        <td  th:rowspan="${iterStat.size}"  th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.memberCount)}"></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.getIntegerPartOfNumber(other.area))}" ></td>
+        <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.getDecimalPartOfNumber(other.area))}" ></td>
+       <td th:rowspan="${iterStat.size}" th:if="${iterStat.first} " th:text="${translationServiceUtility.numberTOMarathiNumber(other.headOfficeAmount)}" ></td>
       </tr>
+
       <tr>
-        <td>एकूण</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td style="text-align: left;" > एकूण</td>
+        <td  th:text="${translationServiceUtility.numberTOMarathiNumber(totalSummaryToPrint.memberCount)}" ></td>
+        <td  th:text="${translationServiceUtility.numberTOMarathiNumber(totalSummaryToPrint.getIntegerPartOfNumber(totalSummaryToPrint.area))}" ></td>
+        <td  th:text="${translationServiceUtility.numberTOMarathiNumber(totalSummaryToPrint.getDecimalPartOfNumber(totalSummaryToPrint.area))}" ></td>
+        <td  th:text="${translationServiceUtility.numberTOMarathiNumber(totalSummaryToPrint.headOfficeAmount)}"></td>
       </tr>
+
       </tbody>
     </table>
     <p style="margin: 8px 0;">अक्षरी रु. ____________________________________________</p>

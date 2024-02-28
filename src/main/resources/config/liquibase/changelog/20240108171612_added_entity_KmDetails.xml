@@ -68,6 +68,12 @@
             <column name="km_to_date_mr" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="dob" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="financial_year" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="bagayat_hector" type="double">
                 <constraints nullable="false" />
             </column>
@@ -140,6 +146,7 @@
         <dropDefaultValue tableName="km_details" columnName="km_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="km_details" columnName="km_from_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="km_details" columnName="km_to_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="km_details" columnName="dob" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="km_details" columnName="e_agreement_date" columnDataType="${datetimeType}"/>
         <dropDefaultValue tableName="km_details" columnName="boja_date" columnDataType="${datetimeType}"/>
     </changeSet>
@@ -179,6 +186,8 @@
             <column name="km_from_date_mr" type="string"/>
             <column name="km_to_date" type="date"/>
             <column name="km_to_date_mr" type="string"/>
+            <column name="dob" type="date"/>
+            <column name="financial_year" type="string"/>
             <column name="bagayat_hector" type="numeric"/>
             <column name="bagayat_hector_mr" type="string"/>
             <column name="bagayat_are" type="numeric"/>

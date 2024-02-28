@@ -4,6 +4,8 @@ import com.cbs.middleware.domain.BatchTransaction;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,5 +15,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BatchTransactionRepository extends JpaRepository<BatchTransaction, Long>, JpaSpecificationExecutor<BatchTransaction> {
     List<BatchTransaction> findAllByStatus(String string);
+
+    @Query(value = "select * from batch_transaction where batch_id=:batchId ",nativeQuery = true)
+    BatchTransaction findByBatchId(@Param("batchId") String batchId);
 
 }

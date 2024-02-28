@@ -7,11 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
@@ -19,6 +15,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.cbs.middleware.security.AuthoritiesConstants;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -33,6 +30,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -165,7 +165,36 @@ public class SubmitBatchResource {
      *
      * @throws Exception
      */
+//----------------------------------------------------------------------------------------------------------------------
 
+    @PostMapping("/submit-batch-manual")
+    public Void submitBatchManual(@RequestBody List<Long> issPortalFileIds) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+
+        if(!authority.toString().equals(AuthoritiesConstants.ADMIN) && !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+            throw new BadRequestAlertException("unauthorized operation", "SubmitBatch", "");
+        }
+        for (Long issPortalFileId : issPortalFileIds) {
+            IssPortalFile issPortalFile = new IssPortalFile();
+            issPortalFile.setId(issPortalFileId);
+
+            List<CBSResponce> cbsResponces = submitBatch(issPortalFile);
+            if(!cbsResponces.isEmpty()){
+                CBSResponce cbsResponce = cbsResponces.get(0);
+                if (!cbsResponce.isStatus()) {
+                    break;
+                }
+                System.out.println("IssPortalFileId : "+issPortalFileId +" , batchId : "+cbsResponce.getBatchId());
+
+            }else {
+                System.out.println("Empty Response for IssPortalFileId : "+issPortalFileId );
+            }
+        }
+        return null;
+    }
+//------------------------------------------------------------------------------------------------------------------------------
     @PostMapping("/submit-batch")
     @PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','SUBMIT_BATCH','SUBMIT')")
     public List<CBSResponce> submitBatch(@RequestBody IssPortalFile issPortalFile) {

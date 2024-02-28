@@ -502,7 +502,9 @@ public class CronJobResource {
         updateRecordsInRetryBatchTran(batchId);
     }
     //0 30 0 * * *   (12:30 am UTC i.e  06:00 am IST)
+    //0 0 13 * * *   (07:30 am UTC i.e 01:00 pm IST)
     @Scheduled(cron = "0 30 0 * * *")
+    @Scheduled(cron = "0 0 13 * * *")
     public void updateRecordsInRetryBatchTranScheduler() {
         updateRecordsInRetryBatchTran("0000");
     }

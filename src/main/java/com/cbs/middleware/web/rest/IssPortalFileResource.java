@@ -450,10 +450,10 @@ public class IssPortalFileResource {
                         countOfSocietiesByTalukaName = 125;
                         break;
                     case "HAVELI":
-                        countOfSocietiesByTalukaName = 140;
+                        countOfSocietiesByTalukaName = 139;
                         break;
                     case "INDAPUR":
-                        countOfSocietiesByTalukaName = 222;
+                        countOfSocietiesByTalukaName = 213;
                         break;
                     case "JUNNAR":
                         countOfSocietiesByTalukaName = 76;
@@ -465,13 +465,13 @@ public class IssPortalFileResource {
                         countOfSocietiesByTalukaName = 55;
                         break;
                     case "MULSHI":
-                        countOfSocietiesByTalukaName = 46;
+                        countOfSocietiesByTalukaName = 51;
                         break;
                     case "PURANDAR":
                         countOfSocietiesByTalukaName = 97;
                         break;
                     case "SHIRUR":
-                        countOfSocietiesByTalukaName = 128;
+                        countOfSocietiesByTalukaName = 127;
                         break;
                     case "VELHA":
                         countOfSocietiesByTalukaName = 26;
@@ -501,15 +501,26 @@ public class IssPortalFileResource {
 //                       pendingForApprovalCount = pendingForApprovalCount + issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
 //
 //                    }
+
                 Integer totalIssPortalFile = issPortalFileRepository.findTotalIssPortalFileByTalukaId(talukaMaster.getId(), financialYear);
                 Integer notNullIssPortalFile = issPortalFileRepository.findNotNullIssPortalFile(talukaMaster.getId(), financialYear);
-                pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
+               // pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
 
-                completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
+                //completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
                 inProgressCount = issPortalFileRepository.findInProgressCountByTalukaId(talukaMaster.getId(), financialYear);
-                // pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
-                pendingApprovalFromBranchAdminCount = issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
-                yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
+                 //pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;   //this is for testing only, do not uncomment
+                //pendingApprovalFromBranchAdminCount = issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
+                //yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
+
+
+                //updated counts
+                yetToStartCount=issPortalFileRepository.findYetToStart(talukaMaster.getId(), financialYear);
+                completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchAdminCount=countOfSocietiesByTalukaName-yetToStartCount-inProgressCount-pendingApprovalFromBranchUserCount-completedCount;
+                if(pendingApprovalFromBranchAdminCount<0){
+                    pendingApprovalFromBranchAdminCount=0;
+                }
 
                 talukaWiseDataReport.setCompleted(completedCount);
                 talukaWiseDataReport.setInProgress(inProgressCount);
@@ -958,7 +969,9 @@ public class IssPortalFileResource {
                 row.createCell(colNum++).setCellValue("Validation Error");
                 row.createCell(colNum++).setCellValue("KCC Accepted");
                 row.createCell(colNum++).setCellValue("KCC Rejected");
-                row.createCell(colNum++).setCellValue("KCC Pending");
+                row.createCell(colNum++).setCellValue("Submission Pending");
+                row.createCell(colNum++).setCellValue("Submitted (In Process)");
+                row.createCell(colNum++).setCellValue("Pending From KCC");
 
                 for (IssPortalFileDTO issPortalFile : issPortalFileDTOList) {
                     colNum = 0;
@@ -971,7 +984,9 @@ public class IssPortalFileResource {
                     row.createCell(colNum++).setCellValue(issPortalFile.getValidationErrors());
                     row.createCell(colNum++).setCellValue(issPortalFile.getkCCAccepted());
                     row.createCell(colNum++).setCellValue(issPortalFile.getkCCRejected());
-                    row.createCell(colNum++).setCellValue(issPortalFile.getkCCPending());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getReadyToSubmitPendingFromPdcc());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getSubmittedToKcc());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getPendingFromKcc());
 
                 }
 

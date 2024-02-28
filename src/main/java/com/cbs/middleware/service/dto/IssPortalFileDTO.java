@@ -9,12 +9,24 @@ public class IssPortalFileDTO {
     private int  validationErrors;
     private int  kCCRejected;
     private int  kCCAccepted;
-    private int  kCCPending;
+    //private int  kCCPending;
+    private int readyToSubmitPendingFromPdcc;
+    private int submittedToKcc;
+    private int pendingFromKcc;
 
     public IssPortalFileDTO() {
     }
 
-    public IssPortalFileDTO(String taluka, String branch, String pacs, int totalApplications, int validationErrors, int kCCRejected, int kCCAccepted, int kCCPending) {
+    public IssPortalFileDTO(String taluka,
+                            String branch,
+                            String pacs,
+                            int totalApplications,
+                            int validationErrors,
+                            int kCCRejected,
+                            int kCCAccepted,
+                            int readyToSubmitPendingFromPdcc,
+                            int submittedToKcc,
+                            int pendingFromKcc) {
         this.taluka = taluka;
         this.branch = branch;
         this.pacs = pacs;
@@ -22,7 +34,10 @@ public class IssPortalFileDTO {
         this.validationErrors = validationErrors;
         this.kCCRejected = kCCRejected;
         this.kCCAccepted = kCCAccepted;
-        this.kCCPending = kCCPending;
+        this.readyToSubmitPendingFromPdcc = readyToSubmitPendingFromPdcc;
+        this.submittedToKcc = submittedToKcc;
+        this.pendingFromKcc = pendingFromKcc;
+        //this.kCCPending = kCCPending;
     }
 
     public String getTaluka() {
@@ -81,11 +96,36 @@ public class IssPortalFileDTO {
         this.kCCAccepted = kCCAccepted;
     }
 
-    public int getkCCPending() {
-        return kCCPending;
+//    public int getkCCPending() {
+//        return kCCPending;
+//    }
+//
+//    public void setkCCPending(int kCCPending) {
+//        this.kCCPending = kCCPending;
+//    }
+
+
+    public int getReadyToSubmitPendingFromPdcc() {
+        return readyToSubmitPendingFromPdcc;
     }
 
-    public void setkCCPending(int kCCPending) {
-        this.kCCPending = kCCPending;
+    public void setReadyToSubmitPendingFromPdcc(int readyToSubmitPendingFromPdcc) {
+        this.readyToSubmitPendingFromPdcc = readyToSubmitPendingFromPdcc;
+    }
+
+    public int getSubmittedToKcc() {
+        return submittedToKcc;
+    }
+
+    public void setSubmittedToKcc(int submittedToKcc) {
+        this.submittedToKcc = submittedToKcc;
+    }
+
+    public int getPendingFromKcc() {
+        return pendingFromKcc;
+    }
+
+    public void setPendingFromKcc(int pendingFromKcc) {
+        this.pendingFromKcc = pendingFromKcc;
     }
 }

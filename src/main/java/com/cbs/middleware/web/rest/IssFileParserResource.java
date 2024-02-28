@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -32,6 +31,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.*;
+import com.cbs.middleware.service.dto.ClaimReportsDTO;
 import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
@@ -263,56 +263,6 @@ public class IssFileParserResource {
         return cellValue;
     }
 
-    private static String getDateCellValue(Cell cell) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String cellValue = "";
-
-        if (cell == null) {
-            cellValue = "";
-        } else if (cell.getCellType() == CellType.STRING) {
-
-
-            Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
-            Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
-            Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
-            Pattern patternDDMMYYY_dotSeperated = Pattern.compile("^\\d{2}.\\d{2}.\\d{4}$");
-
-            if (patternYYYY_MM_DD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
-                LocalDate date = LocalDate.parse(cell.getStringCellValue());
-                cellValue = date.format(formatter).trim();
-            } else if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM");
-                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter).trim();
-            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter).trim();
-            } else if (patternDD_MM_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter).trim();
-            } else if (patternDDMMYYY_dotSeperated.matcher(cell.getStringCellValue()).matches()) { // dd.mm.yyyy
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter).trim();
-            } else {
-                cellValue = cell.getStringCellValue();
-            }
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
-            cellValue = date.format(formatter);
-        } else if (cell.getCellType() == CellType.FORMULA) {
-            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
-            cellValue = date.format(formatter);
-        } else if (cell.getCellType() == CellType.BLANK) {
-            cellValue = "";
-        }
-
-        return cellValue;
-    }
 
     /**
      * Customize code
@@ -1785,6 +1735,115 @@ public class IssFileParserResource {
                     //flag = true;
                     throw new BadRequestAlertException("Invalid  Land Type at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
                 }
+//New Validation added--------------------------------------------
+                String disburseAmount = getCellValue(row.getCell(49));
+                if (StringUtils.isNotBlank(disburseAmount)) {
+                    if (!disburseAmount.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Disburse Amount at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String disbursementDate = getDateCellValue(row.getCell(48),rowNumber,"Disbursement Date");
+                if (StringUtils.isNotBlank(disbursementDate)) {
+                    if (!disbursementDate.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Disbursement Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String maturityLoanDate = getDateCellValue(row.getCell(50),rowNumber,"Maturity Loan Date");
+                if (StringUtils.isNotBlank(maturityLoanDate)) {
+                    if (!maturityLoanDate.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Maturity Loan Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String dateOfOverDuePayment = getDateCellValue(row.getCell(38),rowNumber,"Date Of Over due Payment");
+                if (StringUtils.isNotBlank(dateOfOverDuePayment)) {
+                    if (!dateOfOverDuePayment.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Date Of Over due Payment  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                //To validate Recovery columns 51 to 62
+                String recoveryAmountPrinciple = getCellValue(row.getCell(51));
+                if (StringUtils.isNotBlank(recoveryAmountPrinciple)) {
+                    if (!recoveryAmountPrinciple.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Recovery Amount Principle at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String recoveryAmountInterest = getCellValue(row.getCell(52));
+                if (StringUtils.isNotBlank(recoveryAmountInterest)) {
+                    if (!recoveryAmountInterest.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Recovery Amount Interest at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String recoveryDateValue = getDateCellValue(row.getCell(53),rowNumber,"Recovery Date");
+                if (StringUtils.isNotBlank(recoveryDateValue)) {
+                    if (!recoveryDateValue.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Recovery Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String secondRecoveryAmountPrinciple = getCellValue(row.getCell(54));
+                if (StringUtils.isNotBlank(secondRecoveryAmountPrinciple)) {
+                    if (!secondRecoveryAmountPrinciple.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Second Recovery Amount Principle at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+
+                String secondRecoveryAmountInterest = getCellValue(row.getCell(55));
+                if (StringUtils.isNotBlank(secondRecoveryAmountInterest)) {
+                    if (!secondRecoveryAmountInterest.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Second Recovery Amount Interest at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String secondRecoveryDateValue = getDateCellValue(row.getCell(56),rowNumber,"Second Recovery Date");
+                if (StringUtils.isNotBlank(secondRecoveryDateValue)) {
+                    if (!secondRecoveryDateValue.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Second Recovery Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String thirdRecoveryAmountPrinciple = getCellValue(row.getCell(57));
+                if (StringUtils.isNotBlank(thirdRecoveryAmountPrinciple)) {
+                    if (!thirdRecoveryAmountPrinciple.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Third Recovery Amount Principle at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String thirdRecoveryAmountInterest = getCellValue(row.getCell(58));
+                if (StringUtils.isNotBlank(thirdRecoveryAmountInterest)) {
+                    if (!thirdRecoveryAmountInterest.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Third  Recovery Amount Interest at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String thirdRecoveryDateValue = getDateCellValue(row.getCell(59),rowNumber,"Third Recovery Date");
+                if (StringUtils.isNotBlank(thirdRecoveryDateValue)) {
+                    if (!thirdRecoveryDateValue.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Third Recovery Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String fourthRecoveryAmountPrinciple = getCellValue(row.getCell(60));
+                if (StringUtils.isNotBlank(fourthRecoveryAmountPrinciple)) {
+                    if (!fourthRecoveryAmountPrinciple.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Fourth Recovery Amount Principle at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
+                String fourthRecoveryAmountInterest = getCellValue(row.getCell(61));
+                if (StringUtils.isNotBlank(fourthRecoveryAmountInterest)) {
+                    if (!fourthRecoveryAmountInterest.trim().matches("^\\d+(?:\\.\\d+)?$")) {
+                        throw new BadRequestAlertException("Invalid Fourth Recovery Amount Interest at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+                String fourthRecoveryDateValue = getDateCellValue(row.getCell(62),rowNumber,"Fourth Recovery Date");
+                if (StringUtils.isNotBlank(fourthRecoveryDateValue)) {
+                    if (!fourthRecoveryDateValue.trim().matches("^(?:19|20)\\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$")) {
+                        throw new BadRequestAlertException("Invalid Fourth Recovery Date  at ROW: " + rowNumber, ENTITY_NAME, "fileInvalid");
+                    }
+                }
+
             }
 
         } catch (BadRequestAlertException e) {
@@ -1916,6 +1975,9 @@ public class IssFileParserResource {
 
             for (int rowIndex = startRowIndex; rowIndex <= lastRowIndex; rowIndex++) {
                 Row row = sheet.getRow(rowIndex); // Get the current row
+                row = sheet.getRow(rowIndex);
+                int rowNumber = row.getRowNum() + 1;
+
                 IssFileParser issFileParser = new IssFileParser();
                 if (row != null) {
                     if (
@@ -1938,10 +2000,10 @@ public class IssFileParserResource {
                     //skipping records if exists
 
                     String AccountNumber = getCellValue(row.getCell(30));
-                    String LoanSactionDate = getDateCellValue(row.getCell(35));
+                    String LoanSactionDate = getDateCellValue(row.getCell(35),rowNumber,"Loan Sanction Date");
                     String KccIssCropCode = getCellValue(row.getCell(39));
-                    String DisbursementDate = getDateCellValue(row.getCell(48));
-                    String maturityLoanDate = getDateCellValue(row.getCell(50));
+                    String DisbursementDate = getDateCellValue(row.getCell(48),rowNumber,"Disbursement Date");
+                    String maturityLoanDate = getDateCellValue(row.getCell(50),rowNumber,"Maturity Loan Date");
                     pacsNumber = getCellValue(row.getCell(32));
 
 /*                    if (
@@ -1987,7 +2049,7 @@ public class IssFileParserResource {
 
                         issFileParser.setAadharNumber(getCellValue(row.getCell(10)));
 
-                        issFileParser.setDateofBirth(getDateCellValue(row.getCell(11)));
+                        issFileParser.setDateofBirth(getDateCellValue(row.getCell(11),rowNumber,"Invalid Date of Birth"));
 
                         issFileParser.setAgeAtTimeOfSanction(getCellValue(row.getCell(12)));
 
@@ -2035,13 +2097,13 @@ public class IssFileParserResource {
 
                         issFileParser.setPrimaryOccupation(getCellValue(row.getCell(34)));
 
-                        issFileParser.setLoanSactionDate(getDateCellValue(row.getCell(35)));
+                        issFileParser.setLoanSactionDate(getDateCellValue(row.getCell(35),rowNumber,"Loan Sanction Date"));
 
                         issFileParser.setLoanSanctionAmount(getCellValue(row.getCell(36)));
 
                         issFileParser.setTenureOFLoan(getCellValue(row.getCell(37)));
 
-                        issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38)));
+                        issFileParser.setDateOfOverDuePayment(getDateCellValue(row.getCell(38),rowNumber,"Date of Overdue Payment"));
 
                         issFileParser.setKccIssCropCode(getCellValue(row.getCell(39)));
 
@@ -2057,7 +2119,7 @@ public class IssFileParserResource {
                         // 01-03 to 30-09 (KHARIP)
                         // 01-10 to 31-03 (RABBI)
                         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        Date disbursementDate = dateFormat.parse(getDateCellValue(row.getCell(48)));
+                        Date disbursementDate = dateFormat.parse(getDateCellValue(row.getCell(48),rowNumber,"Disbursement Date"));
                         String seasonName = seasonNameAsPerDisbursementDate(disbursementDate);
                         issFileParser.setSeasonName(seasonName);
 
@@ -2067,33 +2129,33 @@ public class IssFileParserResource {
 
                         issFileParser.setLandType(getCellValue(row.getCell(47)));
 
-                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(48)));
+                        issFileParser.setDisbursementDate(getDateCellValue(row.getCell(48),rowNumber,"Disbursement Date"));
 
                         issFileParser.setDisburseAmount(getCellValue(row.getCell(49)));
 
-                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50)));
+                        issFileParser.setMaturityLoanDate(getDateCellValue(row.getCell(50),rowNumber,"Maturity Loan Date"));
 
                         issFileParser.setRecoveryAmountPrinciple(getCellValue(row.getCell(51)));
 
                         issFileParser.setRecoveryAmountInterest(getCellValue(row.getCell(52)));
 
-                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
+                        issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53),rowNumber," Recovery Date"));
                         //installment recovery details
                         try {
                             //second time
                             issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
                             issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
-                            issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56)));
+                            issFileParser.setSecondRecoveryDate(getDateCellValue(row.getCell(56),rowNumber,"Second Recovery Date"));
 
                             //third time
                             issFileParser.setThirdRecoveryAmountPrinciple(getCellValue(row.getCell(57)));
                             issFileParser.setThirdRecoveryAmountInterest(getCellValue(row.getCell(58)));
-                            issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59)));
+                            issFileParser.setThirdRecoveryDate(getDateCellValue(row.getCell(59),rowNumber,"Third Recovery Date"));
 
                             //fourth time
                             issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
                             issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
-                            issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62)));
+                            issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62),rowNumber,"Fourth Recovery Date"));
                         } catch (Exception e) {
                         }
 
@@ -2186,6 +2248,65 @@ public class IssFileParserResource {
             throw new BadRequestAlertException("File have extra non data column", ENTITY_NAME, "nullColumn");
         }
     }
+
+    private static String getDateCellValue(Cell cell, int rowNumber, String columnName) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String cellValue = "";
+        try {
+            if (cell == null) {
+                cellValue = "";
+            } else if (cell.getCellType() == CellType.STRING) {
+
+                Pattern patternYYYY_MM_DD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+                Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}/\\d{2}/\\d{2}$");
+                Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+                Pattern patternDD_MM_YYYY = Pattern.compile("^\\d{2}-\\d{2}-\\d{4}$");
+                Pattern patternDDMMYYY_dotSeperated = Pattern.compile("^\\d{2}\\.\\d{2}\\.\\d{4}$");
+                Pattern patternDD_MON_YYYY = Pattern.compile("^\\d{2}/(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)/\\d{4}$");
+                Pattern patternDD_MON_YYYY_dotSeperated = Pattern.compile("^\\d{2}\\.(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\\.\\d{4}$");
+
+
+                if (patternYYYY_MM_DD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
+                    LocalDate date = LocalDate.parse(cell.getStringCellValue());
+                    cellValue = date.format(formatter).trim();
+                } else if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy/dd/MM");
+                    LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                    cellValue = date.format(formatter).trim();
+                } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches() || patternDD_MON_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy , dd/MON/yyyy
+                    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                    cellValue = date.format(formatter).trim();
+                } else if (patternDD_MM_YYYY.matcher(cell.getStringCellValue()).matches()) { // dd-mm-yyyy
+                    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                    cellValue = date.format(formatter).trim();
+                } else if (patternDDMMYYY_dotSeperated.matcher(cell.getStringCellValue()).matches() || patternDD_MON_YYYY_dotSeperated.matcher(cell.getStringCellValue()).matches()) { // dd.mm.yyyy , dd.MON.yyyy
+                    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+                    LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                    cellValue = date.format(formatter).trim();
+                } else {
+                    cellValue = cell.getStringCellValue();
+                }
+            } else if (cell.getCellType() == CellType.NUMERIC) {
+                LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+                cellValue = date.format(formatter);
+            } else if (cell.getCellType() == CellType.FORMULA) {
+                LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+                cellValue = date.format(formatter);
+            } else if (cell.getCellType() == CellType.BLANK) {
+                cellValue = "";
+            }
+        } catch (Exception e) {
+            throw new BadRequestAlertException("Invalid " +columnName +" at row : "+rowNumber, ENTITY_NAME, "Invalid");
+        }
+
+        return cellValue;
+    }
+
+
 
     private String seasonNameAsPerDisbursementDate(Date disbursementDate) {
         // Note: Month is 0-based in Date class
@@ -3041,6 +3162,9 @@ public class IssFileParserResource {
         }
 
         ApplicationLog validateOneFileDataObject = getValidateOneFileDataObject(issFileParser, findOneByIssFileParser.get());
+        if (validateOneFileDataObject != null && Constants.ERROR.equals(validateOneFileDataObject.getStatus())){
+            throw new BadRequestAlertException(validateOneFileDataObject.getErrorMessage(),"","");
+        }
 
         // fetching iss portal file and updating error record count
         IssPortalFile issPortalFile = issFileParser.getIssPortalFile();
@@ -3056,6 +3180,10 @@ public class IssFileParserResource {
             if (Constants.validationError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
                 issPortalFile.setErrorRecordCount(issPortalFile.getErrorRecordCount() - 1);
                 issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
+                Optional<Application> application = applicationRepository.findOneByIssFileParser(issFileParser);
+                if (application.isPresent()){
+                    applicationRepository.deleteByIssFileParser(issFileParser);
+                }
             } else if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType())) {
                 issPortalFile.setKccErrorRecordCount(issPortalFile.getKccErrorRecordCount() - 1);
                 issPortalFile.setAppPendingToSubmitCount(issPortalFile.getAppAcceptedByKccCount() + 1);
@@ -3739,9 +3867,9 @@ public class IssFileParserResource {
         GrantedAuthority authority = authorities.stream().findFirst().get();
         if (!authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) &&
             !authority.toString().equals(AuthoritiesConstants.ADMIN) &&
-            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)  &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER) &&
             !authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)
-        ){
+        ) {
             throw new BadRequestAlertException("Unauthorized operation", ENTITY_NAME, "idnull");
         }
 
@@ -3924,24 +4052,43 @@ public class IssFileParserResource {
             .build();
     }
 
-    @GetMapping("/claimDownload")
-    public ResponseEntity<byte[]> generateClaimPDFFromHTML(@RequestParam String financialYear) throws Exception {
+    @PostMapping("/claimReports")
+    public ResponseEntity<byte[]> generateClaimPDFFromHTML(@RequestBody ClaimReportsDTO claimReportsDTO) throws Exception {
         String htmlStringForPdf = null;
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            throw new BadRequestAlertException("Unauthorized User", ENTITY_NAME, "idnull");
+        }
+
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         String pacsNumber = optUser.get().getPacsNumber();
         String pacsName = optUser.get().getPacsName();
 
+        String financialYear = claimReportsDTO.getFinancialYear();
         String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
 
+        //For verifyData Report
         List<IssFileParser> issFileParserList = issFileParserRepository.findByPacsNumberAndFinancialYear(pacsNumber, financialYear);
-
+        IssFileParser fileParserWithSum = sumOfRecovery(issFileParserList);
         List<String> htmlList = new ArrayList<>();
 
-        htmlStringForPdf = claimTemplate("claim/claimApplication.html", issFileParserList, downloadedDate);
+        switch (claimReportsDTO.getTemplateName()) {
 
-        htmlList.add(htmlStringForPdf);
+            case "verifyData":
+                htmlStringForPdf = claimTemplate("claim/claimApplication.html",
+                    issFileParserList,
+                    downloadedDate,
+                    pacsName,
+                    financialYear,
+                    fileParserWithSum);
+                htmlList.add(htmlStringForPdf);
+                break;
+
+        }
+
 
         ResponseEntity<byte[]> response = null;
         if (htmlList.size() == 1) {
@@ -3976,7 +4123,7 @@ public class IssFileParserResource {
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", "application/pdf");
-            headers.add("content-disposition", "attachment; filename=" + pacsNumber + financialYear + "claim.pdf");
+            headers.add("content-disposition", "attachment; filename=" + pacsNumber + "_" + financialYear + "_claim.pdf");
             headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
             response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
         } else if (htmlList.size() > 1) {
@@ -4035,13 +4182,57 @@ public class IssFileParserResource {
         return response;
     }
 
-    private String claimTemplate(String template, List<IssFileParser> issFileParserList, String downloadedDate) {
+
+    private String claimTemplate(String template, List<IssFileParser> issFileParserList, String downloadedDate, String pacsName, String financialYear, IssFileParser fileParserWithSum) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("issFileParserList", issFileParserList);
         context.setVariable("downloadedDate", downloadedDate);
+        context.setVariable("pacsName", pacsName);
+        context.setVariable("financialYear", financialYear);
+        context.setVariable("fileParserWithSum", fileParserWithSum);
         String content = templateEngine.process(template, context);
         return content;
+    }
+
+    private IssFileParser sumOfRecovery(List<IssFileParser> issFileParserList) {
+        double loanSanctionAmount = 0.0;
+        double recoveryAmount = 0.0;
+        double secondRecoveryAmount = 0.0;
+        double thirdRecoveryAmount = 0.0;
+        double fourthRecoveryAmount = 0.0;
+
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+        for (IssFileParser issFileParser : issFileParserList) {
+
+            if (issFileParser.getLoanSanctionAmount() != null && !issFileParser.getLoanSanctionAmount().equalsIgnoreCase("")) {
+                loanSanctionAmount += Double.parseDouble(issFileParser.getLoanSanctionAmount());
+            }
+            if (issFileParser.getRecoveryAmountPrinciple() != null && !issFileParser.getRecoveryAmountPrinciple().equalsIgnoreCase("")) {
+                recoveryAmount += Double.parseDouble(issFileParser.getRecoveryAmountPrinciple());
+            }
+            if (issFileParser.getSecondRecoveryAmountPrinciple() != null && !issFileParser.getSecondRecoveryAmountPrinciple().equalsIgnoreCase("")) {
+                secondRecoveryAmount += Double.parseDouble(issFileParser.getSecondRecoveryAmountPrinciple());
+            }
+            if (issFileParser.getThirdRecoveryAmountPrinciple() != null && !issFileParser.getThirdRecoveryAmountPrinciple().equalsIgnoreCase("")) {
+                thirdRecoveryAmount += Double.parseDouble(issFileParser.getSecondRecoveryAmountPrinciple());
+            }
+            if (issFileParser.getFourthRecoveryAmountPrinciple() != null && !issFileParser.getFourthRecoveryAmountPrinciple().equalsIgnoreCase("")) {
+                fourthRecoveryAmount += Double.parseDouble(issFileParser.getSecondRecoveryAmountPrinciple());
+            }
+
+        }
+
+        IssFileParser issFileParserWithSum = new IssFileParser();
+        issFileParserWithSum.setLoanSanctionAmount(decimalFormat.format(loanSanctionAmount));
+        issFileParserWithSum.setRecoveryAmountPrinciple(decimalFormat.format(recoveryAmount));
+        issFileParserWithSum.setSecondRecoveryAmountPrinciple(decimalFormat.format(secondRecoveryAmount));
+        issFileParserWithSum.setThirdRecoveryAmountPrinciple(decimalFormat.format(thirdRecoveryAmount));
+        issFileParserWithSum.setFourthRecoveryAmountPrinciple(decimalFormat.format(fourthRecoveryAmount));
+
+
+        return issFileParserWithSum;
     }
 
     String getUniqueNumberString() {
@@ -4049,6 +4240,142 @@ public class IssFileParserResource {
         return
             "" +
                 cal.get(Calendar.MILLISECOND);
+    }
+
+
+    @GetMapping("/download-errorPdf")
+    public ResponseEntity<byte[]> generateClaimPDFFromHTML(@RequestParam String errorType, @RequestParam String financialYear, @RequestParam Long portalFileId) throws Exception {
+        String htmlStringForPdf = null;
+
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+//        String pacsNumber = optUser.get().getPacsNumber();
+//        String pacsName = optUser.get().getPacsName();
+//
+        String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
+
+
+        Optional<IssPortalFile> issPortalFile = issPortalFileRepository.findById(portalFileId);
+        String pacsName = issPortalFile.get().getPacsName();
+        String branchName = issPortalFile.get().getBranchName();
+
+        List<ApplicationLog> applicationLogs = new ArrayList<>();
+        if (errorType.equalsIgnoreCase(Constants.kccError.replace(" ", ""))) {
+            applicationLogs = applicationLogRepository.findAllByIssPortalIdAndErrorTypeAndStatus(portalFileId, Constants.kccError, Constants.ERROR);
+        } else if (errorType.equalsIgnoreCase(Constants.validationError.replace(" ", ""))) {
+            applicationLogs = applicationLogRepository.findAllByIssPortalIdAndErrorTypeAndStatus(portalFileId, Constants.validationError, Constants.ERROR);
+        }
+
+        List<String> htmlList = new ArrayList<>();
+
+        htmlStringForPdf = errorTemplate("error/kccAndValidationError.html", pacsName, financialYear, errorType, applicationLogs, downloadedDate, branchName);
+
+        htmlList.add(htmlStringForPdf);
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream = new com.itextpdf.io.source.ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+            pdfDocument.setDefaultPageSize(PageSize.A4);
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + pacsName + "_" + financialYear + "_" + errorType + ".pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream = new com.itextpdf.io.source.ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    com.itextpdf.io.source.ByteArrayOutputStream byteArrayOutputStream1 = new com.itextpdf.io.source.ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + pacsName + financialYear + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + pacsName + financialYear + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+
+    private String errorTemplate(String template, String pacsName, String financialYear, String errorType, List<ApplicationLog> applicationLogs, String downloadedDate, String branchName) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("pacsName", pacsName);
+        context.setVariable("financialYear", financialYear);
+        context.setVariable("errorType", errorType);
+        context.setVariable("applicationLogs", applicationLogs);
+        context.setVariable("downloadedDate", downloadedDate);
+        context.setVariable("branchName", branchName);
+        String content = templateEngine.process(template, context);
+        return content;
     }
 
 }

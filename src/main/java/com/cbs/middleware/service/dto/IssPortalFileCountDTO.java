@@ -7,8 +7,11 @@ public class IssPortalFileCountDTO {
     private int   validationErrors;
     private int     kCCRejected;
     private int    kCCAccepted;
-    private int    kCCPending;
     private int totalFarmers;
+
+    private int    kCCPending;
+    private int    pendingToSubmit;
+    private int    submitted;
 
 
     public IssPortalFileCountDTO() {
@@ -68,6 +71,22 @@ public class IssPortalFileCountDTO {
     }
     public void setTotalFarmers(int totalFarmers) {
         this.totalFarmers = totalFarmers;
+    }
+
+    public int getPendingToSubmit() {
+        return pendingToSubmit;
+    }
+
+    public void setPendingToSubmit(int pendingToSubmit) {
+        this.pendingToSubmit = pendingToSubmit;
+    }
+
+    public int getSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(int submitted) {
+        this.submitted = submitted;
     }
 }
 

@@ -172,24 +172,25 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "gatt_no_mr")
     private String gattNoMr;
 
-    @JsonIgnoreProperties(value = {"branchCode","branchCodeMr","farmerName","farmerNameMr","farmerAddress","farmerAddressMr","gender","genderMr","caste","casteMr","pacsNumber","aadharNo","aadharNoMr","panNo","panNoMr","mobileNo","mobileNoMr","kccNo","kccNoMr","savingAcNo","savingAcNoMr","pacsMemberCode","pacsMemberCodeMr","entryFlag","birthDate","birthDateMr","loanAcNo","loanAcNoMr","farmerTypeMaster","kmDetails"}, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY,cascade= CascadeType.DETACH)
-    @JoinColumn(name="kmMaster_id")
+    @Column(name = "dob")
+    private Instant dob;
+
+    @Column(name = "financial_year")
+    private String financialYear;
+
+    @JsonIgnoreProperties(value = {"branchCode", "branchCodeMr", "farmerName", "farmerNameMr", "farmerAddress", "farmerAddressMr", "gender", "genderMr", "caste", "casteMr", "pacsNumber", "aadharNo", "aadharNoMr", "panNo", "panNoMr", "mobileNo", "mobileNoMr", "kccNo", "kccNoMr", "savingAcNo", "savingAcNoMr", "pacsMemberCode", "pacsMemberCodeMr", "entryFlag", "birthDate", "birthDateMr", "loanAcNo", "loanAcNoMr", "farmerTypeMaster", "kmDetails"}, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "kmMaster_id")
     private KmMaster kmMaster;
 
-    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade= CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"kmDetails"}, allowSetters = true, allowGetters = true)
     private Set<KmLoans> kmLoans;
 
-    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnoreProperties(value = { "kmDetails" }, allowSetters = true,allowGetters = true)
+    @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"kmDetails"}, allowSetters = true, allowGetters = true)
     private Set<KmCrops> kmCrops;
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
-
-    public void setKmMaster(KmMaster kmMaster) {
-        this.kmMaster = kmMaster;
-    }
 
     public String getSurveyNoMr() {
         return surveyNoMr;
@@ -235,17 +236,21 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public KmDetails id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Double getShares() {
         return this.shares;
+    }
+
+    public void setShares(Double shares) {
+        this.shares = shares;
     }
 
     public KmDetails shares(Double shares) {
@@ -253,12 +258,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setShares(Double shares) {
-        this.shares = shares;
-    }
-
     public String getSharesMr() {
         return this.sharesMr;
+    }
+
+    public void setSharesMr(String sharesMr) {
+        this.sharesMr = sharesMr;
     }
 
     public KmDetails sharesMr(String sharesMr) {
@@ -266,12 +271,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setSharesMr(String sharesMr) {
-        this.sharesMr = sharesMr;
-    }
-
     public Double getSugarShares() {
         return this.sugarShares;
+    }
+
+    public void setSugarShares(Double sugarShares) {
+        this.sugarShares = sugarShares;
     }
 
     public KmDetails sugarShares(Double sugarShares) {
@@ -279,12 +284,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setSugarShares(Double sugarShares) {
-        this.sugarShares = sugarShares;
-    }
-
     public String getSugarSharesMr() {
         return this.sugarSharesMr;
+    }
+
+    public void setSugarSharesMr(String sugarSharesMr) {
+        this.sugarSharesMr = sugarSharesMr;
     }
 
     public KmDetails sugarSharesMr(String sugarSharesMr) {
@@ -292,12 +297,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setSugarSharesMr(String sugarSharesMr) {
-        this.sugarSharesMr = sugarSharesMr;
-    }
-
     public Double getDeposite() {
         return this.deposite;
+    }
+
+    public void setDeposite(Double deposite) {
+        this.deposite = deposite;
     }
 
     public KmDetails deposite(Double deposite) {
@@ -305,12 +310,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDeposite(Double deposite) {
-        this.deposite = deposite;
-    }
-
     public String getDepositeMr() {
         return this.depositeMr;
+    }
+
+    public void setDepositeMr(String depositeMr) {
+        this.depositeMr = depositeMr;
     }
 
     public KmDetails depositeMr(String depositeMr) {
@@ -318,12 +323,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDepositeMr(String depositeMr) {
-        this.depositeMr = depositeMr;
-    }
-
     public Double getDueLoan() {
         return this.dueLoan;
+    }
+
+    public void setDueLoan(Double dueLoan) {
+        this.dueLoan = dueLoan;
     }
 
     public KmDetails dueLoan(Double dueLoan) {
@@ -331,12 +336,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueLoan(Double dueLoan) {
-        this.dueLoan = dueLoan;
-    }
-
     public String getDueLoanMr() {
         return this.dueLoanMr;
+    }
+
+    public void setDueLoanMr(String dueLoanMr) {
+        this.dueLoanMr = dueLoanMr;
     }
 
     public KmDetails dueLoanMr(String dueLoanMr) {
@@ -344,12 +349,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueLoanMr(String dueLoanMr) {
-        this.dueLoanMr = dueLoanMr;
-    }
-
     public Double getDueAmount() {
         return this.dueAmount;
+    }
+
+    public void setDueAmount(Double dueAmount) {
+        this.dueAmount = dueAmount;
     }
 
     public KmDetails dueAmount(Double dueAmount) {
@@ -357,12 +362,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueAmount(Double dueAmount) {
-        this.dueAmount = dueAmount;
-    }
-
     public String getDueAmountMr() {
         return this.dueAmountMr;
+    }
+
+    public void setDueAmountMr(String dueAmountMr) {
+        this.dueAmountMr = dueAmountMr;
     }
 
     public KmDetails dueAmountMr(String dueAmountMr) {
@@ -370,12 +375,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueAmountMr(String dueAmountMr) {
-        this.dueAmountMr = dueAmountMr;
-    }
-
     public String getDueDateMr() {
         return this.dueDateMr;
+    }
+
+    public void setDueDateMr(String dueDateMr) {
+        this.dueDateMr = dueDateMr;
     }
 
     public KmDetails dueDateMr(String dueDateMr) {
@@ -383,12 +388,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueDateMr(String dueDateMr) {
-        this.dueDateMr = dueDateMr;
-    }
-
     public Instant getDueDate() {
         return this.dueDate;
+    }
+
+    public void setDueDate(Instant dueDate) {
+        this.dueDate = dueDate;
     }
 
     public KmDetails dueDate(Instant dueDate) {
@@ -396,12 +401,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setDueDate(Instant dueDate) {
-        this.dueDate = dueDate;
-    }
-
     public Instant getKmDate() {
         return this.kmDate;
+    }
+
+    public void setKmDate(Instant kmDate) {
+        this.kmDate = kmDate;
     }
 
     public KmDetails kmDate(Instant kmDate) {
@@ -409,12 +414,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmDate(Instant kmDate) {
-        this.kmDate = kmDate;
-    }
-
     public String getKmDateMr() {
         return this.kmDateMr;
+    }
+
+    public void setKmDateMr(String kmDateMr) {
+        this.kmDateMr = kmDateMr;
     }
 
     public KmDetails kmDateMr(String kmDateMr) {
@@ -422,12 +427,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmDateMr(String kmDateMr) {
-        this.kmDateMr = kmDateMr;
-    }
-
     public Instant getKmFromDate() {
         return this.kmFromDate;
+    }
+
+    public void setKmFromDate(Instant kmFromDate) {
+        this.kmFromDate = kmFromDate;
     }
 
     public KmDetails kmFromDate(Instant kmFromDate) {
@@ -435,12 +440,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmFromDate(Instant kmFromDate) {
-        this.kmFromDate = kmFromDate;
-    }
-
     public String getKmFromDateMr() {
         return this.kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(String kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
     }
 
     public KmDetails kmFromDateMr(String kmFromDateMr) {
@@ -448,12 +453,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmFromDateMr(String kmFromDateMr) {
-        this.kmFromDateMr = kmFromDateMr;
-    }
-
     public Instant getKmToDate() {
         return this.kmToDate;
+    }
+
+    public void setKmToDate(Instant kmToDate) {
+        this.kmToDate = kmToDate;
     }
 
     public KmDetails kmToDate(Instant kmToDate) {
@@ -461,12 +466,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmToDate(Instant kmToDate) {
-        this.kmToDate = kmToDate;
-    }
-
     public String getKmToDateMr() {
         return this.kmToDateMr;
+    }
+
+    public void setKmToDateMr(String kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
     }
 
     public KmDetails kmToDateMr(String kmToDateMr) {
@@ -474,12 +479,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setKmToDateMr(String kmToDateMr) {
-        this.kmToDateMr = kmToDateMr;
-    }
-
     public Double getBagayatHector() {
         return this.bagayatHector;
+    }
+
+    public void setBagayatHector(Double bagayatHector) {
+        this.bagayatHector = bagayatHector;
     }
 
     public KmDetails bagayatHector(Double bagayatHector) {
@@ -487,12 +492,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBagayatHector(Double bagayatHector) {
-        this.bagayatHector = bagayatHector;
-    }
-
     public String getBagayatHectorMr() {
         return this.bagayatHectorMr;
+    }
+
+    public void setBagayatHectorMr(String bagayatHectorMr) {
+        this.bagayatHectorMr = bagayatHectorMr;
     }
 
     public KmDetails bagayatHectorMr(String bagayatHectorMr) {
@@ -500,12 +505,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBagayatHectorMr(String bagayatHectorMr) {
-        this.bagayatHectorMr = bagayatHectorMr;
-    }
-
     public Double getBagayatAre() {
         return this.bagayatAre;
+    }
+
+    public void setBagayatAre(Double bagayatAre) {
+        this.bagayatAre = bagayatAre;
     }
 
     public KmDetails bagayatAre(Double bagayatAre) {
@@ -513,12 +518,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBagayatAre(Double bagayatAre) {
-        this.bagayatAre = bagayatAre;
-    }
-
     public String getBagayatAreMr() {
         return this.bagayatAreMr;
+    }
+
+    public void setBagayatAreMr(String bagayatAreMr) {
+        this.bagayatAreMr = bagayatAreMr;
     }
 
     public KmDetails bagayatAreMr(String bagayatAreMr) {
@@ -526,12 +531,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBagayatAreMr(String bagayatAreMr) {
-        this.bagayatAreMr = bagayatAreMr;
-    }
-
     public Double getJirayatHector() {
         return this.jirayatHector;
+    }
+
+    public void setJirayatHector(Double jirayatHector) {
+        this.jirayatHector = jirayatHector;
     }
 
     public KmDetails jirayatHector(Double jirayatHector) {
@@ -539,12 +544,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setJirayatHector(Double jirayatHector) {
-        this.jirayatHector = jirayatHector;
-    }
-
     public String getJirayatHectorMr() {
         return this.jirayatHectorMr;
+    }
+
+    public void setJirayatHectorMr(String jirayatHectorMr) {
+        this.jirayatHectorMr = jirayatHectorMr;
     }
 
     public KmDetails jirayatHectorMr(String jirayatHectorMr) {
@@ -552,12 +557,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setJirayatHectorMr(String jirayatHectorMr) {
-        this.jirayatHectorMr = jirayatHectorMr;
-    }
-
     public Double getJirayatAre() {
         return this.jirayatAre;
+    }
+
+    public void setJirayatAre(Double jirayatAre) {
+        this.jirayatAre = jirayatAre;
     }
 
     public KmDetails jirayatAre(Double jirayatAre) {
@@ -565,12 +570,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setJirayatAre(Double jirayatAre) {
-        this.jirayatAre = jirayatAre;
-    }
-
     public String getJirayatAreMr() {
         return this.jirayatAreMr;
+    }
+
+    public void setJirayatAreMr(String jirayatAreMr) {
+        this.jirayatAreMr = jirayatAreMr;
     }
 
     public KmDetails jirayatAreMr(String jirayatAreMr) {
@@ -578,12 +583,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setJirayatAreMr(String jirayatAreMr) {
-        this.jirayatAreMr = jirayatAreMr;
-    }
-
     public Double getZindagiAmt() {
         return this.zindagiAmt;
+    }
+
+    public void setZindagiAmt(Double zindagiAmt) {
+        this.zindagiAmt = zindagiAmt;
     }
 
     public KmDetails zindagiAmt(Double zindagiAmt) {
@@ -591,12 +596,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setZindagiAmt(Double zindagiAmt) {
-        this.zindagiAmt = zindagiAmt;
-    }
-
     public Long getZindagiNo() {
         return this.zindagiNo;
+    }
+
+    public void setZindagiNo(Long zindagiNo) {
+        this.zindagiNo = zindagiNo;
     }
 
     public KmDetails zindagiNo(Long zindagiNo) {
@@ -604,12 +609,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setZindagiNo(Long zindagiNo) {
-        this.zindagiNo = zindagiNo;
-    }
-
     public String getSurveyNo() {
         return this.surveyNo;
+    }
+
+    public void setSurveyNo(String surveyNo) {
+        this.surveyNo = surveyNo;
     }
 
     public KmDetails surveyNo(String surveyNo) {
@@ -617,12 +622,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setSurveyNo(String surveyNo) {
-        this.surveyNo = surveyNo;
-    }
-
     public Double getLandValue() {
         return this.landValue;
+    }
+
+    public void setLandValue(Double landValue) {
+        this.landValue = landValue;
     }
 
     public KmDetails landValue(Double landValue) {
@@ -630,12 +635,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setLandValue(Double landValue) {
-        this.landValue = landValue;
-    }
-
     public String getLandValueMr() {
         return this.landValueMr;
+    }
+
+    public void setLandValueMr(String landValueMr) {
+        this.landValueMr = landValueMr;
     }
 
     public KmDetails landValueMr(String landValueMr) {
@@ -643,12 +648,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setLandValueMr(String landValueMr) {
-        this.landValueMr = landValueMr;
-    }
-
     public Double geteAgreementAmt() {
         return this.eAgreementAmt;
+    }
+
+    public void seteAgreementAmt(Double eAgreementAmt) {
+        this.eAgreementAmt = eAgreementAmt;
     }
 
     public KmDetails eAgreementAmt(Double eAgreementAmt) {
@@ -656,12 +661,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void seteAgreementAmt(Double eAgreementAmt) {
-        this.eAgreementAmt = eAgreementAmt;
-    }
-
     public String geteAgreementAmtMr() {
         return this.eAgreementAmtMr;
+    }
+
+    public void seteAgreementAmtMr(String eAgreementAmtMr) {
+        this.eAgreementAmtMr = eAgreementAmtMr;
     }
 
     public KmDetails eAgreementAmtMr(String eAgreementAmtMr) {
@@ -669,12 +674,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void seteAgreementAmtMr(String eAgreementAmtMr) {
-        this.eAgreementAmtMr = eAgreementAmtMr;
-    }
-
     public Instant geteAgreementDate() {
         return this.eAgreementDate;
+    }
+
+    public void seteAgreementDate(Instant eAgreementDate) {
+        this.eAgreementDate = eAgreementDate;
     }
 
     public KmDetails eAgreementDate(Instant eAgreementDate) {
@@ -682,12 +687,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void seteAgreementDate(Instant eAgreementDate) {
-        this.eAgreementDate = eAgreementDate;
-    }
-
     public String geteAgreementDateMr() {
         return this.eAgreementDateMr;
+    }
+
+    public void seteAgreementDateMr(String eAgreementDateMr) {
+        this.eAgreementDateMr = eAgreementDateMr;
     }
 
     public KmDetails eAgreementDateMr(String eAgreementDateMr) {
@@ -695,12 +700,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void seteAgreementDateMr(String eAgreementDateMr) {
-        this.eAgreementDateMr = eAgreementDateMr;
-    }
-
     public Double getBojaAmount() {
         return this.bojaAmount;
+    }
+
+    public void setBojaAmount(Double bojaAmount) {
+        this.bojaAmount = bojaAmount;
     }
 
     public KmDetails bojaAmount(Double bojaAmount) {
@@ -708,12 +713,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBojaAmount(Double bojaAmount) {
-        this.bojaAmount = bojaAmount;
-    }
-
     public String getBojaAmountMr() {
         return this.bojaAmountMr;
+    }
+
+    public void setBojaAmountMr(String bojaAmountMr) {
+        this.bojaAmountMr = bojaAmountMr;
     }
 
     public KmDetails bojaAmountMr(String bojaAmountMr) {
@@ -721,12 +726,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBojaAmountMr(String bojaAmountMr) {
-        this.bojaAmountMr = bojaAmountMr;
-    }
-
     public Instant getBojaDate() {
         return this.bojaDate;
+    }
+
+    public void setBojaDate(Instant bojaDate) {
+        this.bojaDate = bojaDate;
     }
 
     public KmDetails bojaDate(Instant bojaDate) {
@@ -734,12 +739,12 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBojaDate(Instant bojaDate) {
-        this.bojaDate = bojaDate;
-    }
-
     public String getBojaDateMr() {
         return this.bojaDateMr;
+    }
+
+    public void setBojaDateMr(String bojaDateMr) {
+        this.bojaDateMr = bojaDateMr;
     }
 
     public KmDetails bojaDateMr(String bojaDateMr) {
@@ -747,12 +752,38 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return this;
     }
 
-    public void setBojaDateMr(String bojaDateMr) {
-        this.bojaDateMr = bojaDateMr;
-    }
-
     public KmMaster getKmMaster() {
         return this.kmMaster;
+    }
+
+    public void setKmMaster(KmMaster kmMaster) {
+        this.kmMaster = kmMaster;
+    }
+
+    public Instant getDob() {
+        return this.dob;
+    }
+
+    public void setDob(Instant dob) {
+        this.dob = dob;
+    }
+
+    public KmDetails dob(Instant dob) {
+        this.setDob(dob);
+        return this;
+    }
+
+    public String getFinancialYear() {
+        return this.financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
+    }
+
+    public KmDetails financialYear(String financialYear) {
+        this.setFinancialYear(financialYear);
+        return this;
     }
 
 

@@ -65,6 +65,11 @@ public interface ApplicationLogRepository extends JpaRepository<ApplicationLog, 
     @Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC Error' AND status= 'Error' AND error_message LIKE 'This accountNumber is already being processed by batch%' AND iss_portal_id =:iss_portal_id", nativeQuery = true)
     List<ApplicationLog> findAllByStatusError(@Param("iss_portal_id") Long iss_portal_id);
 
+
+    @Query(value = "SELECT * FROM application_log WHERE error_type = 'KCC Error' AND status= 'Error' AND error_message LIKE 'Duplicate farmer and account details. %%' AND iss_portal_id =:iss_portal_id", nativeQuery = true)
+    List<ApplicationLog> findAllByErrorDuplicateFarmerDetails(@Param("iss_portal_id") Long iss_portal_id);
+
+
     @Query(value = "SELECT count(id) FROM application_log WHERE  iss_portal_id=:id AND error_type = 'Validation Error' AND status= 'ERROR' ", nativeQuery = true)
     Long countByValidationError(@Param("id") Long id);
 }

@@ -404,18 +404,19 @@ public class ApplicationLogResource {
     }
 
     //Ashvini
-
-
-     //@PostMapping("/addloandetails")
+     @PostMapping("/addloandetails")
     // @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     //0 30 16 * * *   (04:30 pm UTC i.e  10:00 pm IST)
     @Scheduled(cron = "0 30 16 * * *")
-    public CBSResponce getApplicationsWithKCCErrorDuplicateAccNo() {
+    public CBSResponce RetryBatchTransaction() {
 
-//      System.out.println("Get Applications with KCC Error Duplicate Number");
-      CBSResponce cbsResponce = null;
-//
-//        //get distinct iss_portal_id from application_transaction with kcc_status = 0
+
+        CBSResponce cbsResponce = null;
+
+      //Process This account number is already being processed by...... errors applications
+       // SubmitBatchOfDuplicateAccountNoErrorApplications();
+
+        //get distinct iss_portal_id from application_transaction with kcc_status = 0
         List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
 
         System.out.println("Application portalIds size:" + applicationsPortalIds.size());
@@ -481,12 +482,91 @@ public class ApplicationLogResource {
             }
 
         }
-        ////Process Invalid PreUniqueId errors Applications
+
+         //Process Duplicate Farmer & account details
+         SubmitBatchOfDuplicateFarmerAccountDetailsErrorApplications();
+
+         ////Process Invalid PreUniqueId errors Applications
         SubmitBatchOfInvalidpreUniqueidErrorApplications();
+
 
         return cbsResponce;
     }
 
+public void SubmitBatchOfDuplicateFarmerAccountDetailsErrorApplications()
+{
+
+    CBSResponce cbsResponce = null;
+
+    //Process Duplicate farmer and account details.... errors applications
+
+    //get distinct iss_portal_id from application_transaction with kcc_status = 0 and error like Duplicate Farmer account details
+    List<Long> applicationsPortalIds = applicationRepository.findDistinctPortalIdDuplicateFarmer();
+
+    //loop through applications
+    for (Long applicationsPortalId : applicationsPortalIds) {
+
+        System.out.println(".........Duplicate farmer account details:Loop through all the portals ids......");
+        System.out.println("Duplicate farmer account details: Application portalId: " + applicationsPortalId);
+        //get application log records with iss_portal_id
+        List<ApplicationLog> rejectedApplications = applicationLogRepository.findAllByErrorDuplicateFarmerDetails(applicationsPortalId);
+
+        System.out.println("Duplicate farmer account details: rejectedApplications size:" + rejectedApplications.size());
+
+        List<String> numbers = null;
+        List<Application> applicationTransactionList = new ArrayList<>();
+        List<Application> rejectedApplicationTransactionList = new ArrayList<>();
+
+        //Extract ids from error_message
+        for (ApplicationLog appLog : rejectedApplications) {
+
+            //Pattern to extract batch & unique id
+            Pattern p = Pattern.compile("\\d+");
+            Matcher m = p.matcher(appLog.getErrorMessage());
+            numbers = new ArrayList<String>();
+            while (m.find()) {
+                numbers.add(m.group());
+
+            }
+            System.out.println("Duplicate farmer account details- Application Log Id: " + appLog.getId() + " Error message: " + appLog.getErrorMessage());
+            //Get application_transaction record by unique id to get the farmerId
+            List<Application> applicationByUniqueId = applicationRepository.findAllByUniqueId(
+                numbers.get(1)
+            );
+
+            if (!applicationByUniqueId.isEmpty()) {
+
+                if (applicationByUniqueId.size() > 1) {
+
+                    System.out.println("Duplicate farmer account details: applicationByUniqueId size: " + applicationByUniqueId.size());
+
+                } else {
+                    applicationTransactionList.add(applicationByUniqueId.get(0));
+
+                    //get rejected record from application transaction by IssFileParserId
+                    List<Application> rejectedApp = applicationRepository.findRejectedApplicatonsByParserId(appLog.getIssFileParser().getId());
+                    rejectedApplicationTransactionList.add(rejectedApp.get(0));
+                }
+            } else {
+                System.out.println("Duplicate farmer account details: No record found for this uniqueId in application trans: " + numbers.get(1));
+            }
+        }
+        List<CBSResponce> cbsResponceStringList = new ArrayList<>();
+
+        if (!applicationTransactionList.isEmpty() && !rejectedApplicationTransactionList.isEmpty()) {
+            System.out.println("Duplicate farmer account details: Call add loan details method");
+            cbsResponce = addloandetails(applicationTransactionList, rejectedApplicationTransactionList,3);
+            cbsResponceStringList.add(cbsResponce);
+            System.out.println("Duplicate farmer account details: applicationTransactionList:" + applicationTransactionList);
+            System.out.println("Duplicate farmer account details: rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
+            System.out.println("Duplicate farmer account details: cbsResponse list: " + cbsResponceStringList);
+
+        }
+
+    }
+
+
+}
     public void SubmitBatchOfInvalidpreUniqueidErrorApplications() {
         //get distinct iss_portal_id from application_transaction with kcc_status = 0 & application_errors is Invalid PreUniqueId
         List<Long> applicationsPortalIds = applicationRepository.findDistinctPortalIdToSubmitBatch();
@@ -505,8 +585,8 @@ public class ApplicationLogResource {
                 System.out.println("Call add loan details method");
                cbsResponce = addloandetails(null, rejectedApplicationTransactionList,2);
                cbsResponceStringList.add(cbsResponce);
-                System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
-                System.out.println("cbsResponse list: " + cbsResponceStringList);
+               System.out.println("rejectedApplicationTransactionList:" + rejectedApplicationTransactionList);
+               System.out.println("cbsResponse list: " + cbsResponceStringList);
 
             }
         }
@@ -832,7 +912,6 @@ public class ApplicationLogResource {
             retryBatchTransactionDetails.setUniqueId(applicationTransaction.getUniqueId());
             retryBatchTransactionDetails.setISSFileParserId(applicationTransaction.getIssFileParser().getId());
             retryBatchTransactionDetails.setRetryBatchTransaction(retryBatchTransaction);
-            //API type
             retryBatchTransactionDetails.setApiType(apiType);
             retryBatchTransactionDetailsRepository.save(retryBatchTransactionDetails);
 

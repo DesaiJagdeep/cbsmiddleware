@@ -119,10 +119,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     @Query(value = "select * from application_transaction where financial_year is null; ", nativeQuery = true)
     List<Application> findByFianacialYearNull();
 
-
+//This account number is already being processed by...
     @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 1) AND application_errors LIKE 'This accountNumber is already being processed by batch%'", nativeQuery = true)
     List<Long> findDistinctByPortalId();
 
+
+    //Invalid preUniqueId
     @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0 and application_errors LIKE '%preUniqueid;%' and preunique_id is null", nativeQuery = true)
     List<Long> findDistinctPortalIdToUpdatePreuniqueId();
 
@@ -135,5 +137,10 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     @Query(value = "SELECT * FROM application_transaction WHERE kcc_status = 0 and application_errors LIKE '%preUniqueid;%' and iss_file_portal_id=:iss_portal_id and preunique_id is not null AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 2)", nativeQuery = true)
     List<Application> findApplicationsToSubmitBatchOfInvalidPreuniqueIdErroApp(@Param("iss_portal_id") Long iss_portal_id);
+
+
+    //Duplicate Farmer and account details
+    @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0  AND application_errors LIKE 'Duplicate farmer and account details. %' AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 3)", nativeQuery = true)
+    List<Long> findDistinctPortalIdDuplicateFarmer();
 
 }

@@ -144,8 +144,10 @@ public class CronJobResource {
 
     //@Scheduled(cron = "0 0 6 * * ?")
     //0 30 19 * * *   (7:30 pm UTC i.e  1 am IST)
+    //0 30 08 * * *   (8:30 am UTC i.e  2 pm IST)
 
     @Scheduled(cron = "0 30 19 * * *")
+    @Scheduled(cron = "0 30 08 * * *")
     public void updateRecordsInBatchTran() {
 
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);

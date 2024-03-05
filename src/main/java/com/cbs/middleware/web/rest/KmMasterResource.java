@@ -3,29 +3,30 @@ package com.cbs.middleware.web.rest;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.KmDetailsRepository;
+import com.cbs.middleware.repository.KmLoansRepository;
 import com.cbs.middleware.repository.KmMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.service.KmMasterQueryService;
 import com.cbs.middleware.service.KmMasterService;
-import com.cbs.middleware.service.criteria.CourtCaseCriteria;
 import com.cbs.middleware.service.criteria.KmMasterCriteria;
+import com.cbs.middleware.service.dto.MemberWiseKmPayload;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import com.cbs.middleware.web.rest.errors.ForbiddenAuthRequestAlertException;
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.font.PdfEncodings;
@@ -34,11 +35,11 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.font.FontProvider;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.context.Context;
@@ -62,24 +65,23 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 public class KmMasterResource {
+    private static final String ENTITY_NAME = "kmMaster";
+    private final Logger log = LoggerFactory.getLogger(KmMasterResource.class);
+    private final KmMasterService kmMasterService;
+    private final KmMasterRepository kmMasterRepository;
+    private final KmMasterQueryService kmMasterQueryService;
     @Autowired
     ResourceLoader resourceLoader;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     private SpringTemplateEngine templateEngine;
-    private final Logger log = LoggerFactory.getLogger(KmMasterResource.class);
-
-    private static final String ENTITY_NAME = "kmMaster";
-
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private final KmMasterService kmMasterService;
-
-    private final KmMasterRepository kmMasterRepository;
-
-    private final KmMasterQueryService kmMasterQueryService;
     @Autowired
     private KmDetailsRepository kmDetailsRepository;
+    @Autowired
+    private KmLoansRepository kmLoansRepository;
 
     public KmMasterResource(
         KmMasterService kmMasterService,
@@ -104,6 +106,11 @@ public class KmMasterResource {
         if (kmMaster.getId() != null) {
             throw new BadRequestAlertException("A new kmMaster cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+        kmMaster.setPacsNumber(pacsNumber);
+
         KmMaster result = kmMasterService.save(kmMaster);
         return ResponseEntity
             .created(new URI("/api/km-masters/" + result.getId()))
@@ -114,7 +121,7 @@ public class KmMasterResource {
     /**
      * {@code PUT  /km-masters/:id} : Updates an existing kmMaster.
      *
-     * @param id the id of the kmMaster to save.
+     * @param id       the id of the kmMaster to save.
      * @param kmMaster the kmMaster to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kmMaster,
      * or with status {@code 400 (Bad Request)} if the kmMaster is not valid,
@@ -148,7 +155,7 @@ public class KmMasterResource {
     /**
      * {@code PATCH  /km-masters/:id} : Partial updates given fields of an existing kmMaster, field will ignore if it is null
      *
-     * @param id the id of the kmMaster to save.
+     * @param id       the id of the kmMaster to save.
      * @param kmMaster the kmMaster to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kmMaster,
      * or with status {@code 400 (Bad Request)} if the kmMaster is not valid,
@@ -156,7 +163,7 @@ public class KmMasterResource {
      * or with status {@code 500 (Internal Server Error)} if the kmMaster couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/km-masters/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/km-masters/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<KmMaster> partialUpdateKmMaster(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody KmMaster kmMaster
@@ -194,6 +201,11 @@ public class KmMasterResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KmMasters by criteria: {}", criteria);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+
+        StringFilter pacsFilter = new StringFilter();
         Page<KmMaster> page = kmMasterQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -241,57 +253,30 @@ public class KmMasterResource {
     }
 
 
-    @GetMapping("/kmReport")
-    public ResponseEntity<byte[]> generatePDFFromHTML() throws Exception {
-
-      /*  Map<String, String> branchOrPacksNumber = bankBranchPacksCodeGet.getCodeNumber();
-        String pacsOrbranchCode = "";
-
-        if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.PACKS_CODE_KEY))) {
-            pacsOrbranchCode = branchOrPacksNumber.get(Constants.PACKS_CODE_KEY);
-
-        } else if (StringUtils.isNotBlank(branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY))) {
-
-            pacsOrbranchCode = branchOrPacksNumber.get(Constants.KCC_ISS_BRANCH_CODE_KEY);
-        } else {
-            throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
-        }*/
+    @PostMapping("/member-wise-km-report")
+    public ResponseEntity<byte[]> generatePDFFromHTML(@RequestBody MemberWiseKmPayload memberWiseKmPayload) throws Exception {
+        String financialYear = memberWiseKmPayload.getFinancialYear();
+        String templateName = memberWiseKmPayload.getTemplateName();
+        Instant kmDate = memberWiseKmPayload.getKmDate();
 
 
-      List<String> htmlList = new ArrayList<>();
-
-         /* CourtCaseCriteria criteria = new CourtCaseCriteria();
-
-        //creating filter
-        StringFilter pacsOrbranchCodeFilter = new StringFilter();
-        pacsOrbranchCodeFilter.setEquals(pacsOrbranchCode);
-
-        StringFilter bankFilter = new StringFilter();
-        bankFilter.setEquals(one01ReportParam.getBankName());
-
-        StringFilter financialYear = new StringFilter();
-        financialYear.setEquals(one01ReportParam.getFinancialYear());
-
-        //adding initial values
-        criteria.setBranchOrPacsCode(pacsOrbranchCodeFilter);
-        criteria.setBankName(bankFilter);
-        criteria.setFinancialYear(financialYear);
-
-        CourtCase courtCase = null;
-        String noticeDate = "";*/
+        List<String> htmlList = new ArrayList<>();
         String htmlStringForPdf = null;
 
-        // Parse input string to Instant
-        Instant inputInstant = Instant.parse("2024-03-30T09:39:52Z");
-        // Truncate time to midnight (00:00:00)
-        Instant resultInstant = inputInstant.truncatedTo(ChronoUnit.DAYS);
+        //This query should have pacs_number too ,as we haven't added pacs_number in kmDetails, for time being
+        List<KmDetails> kmDetailsList = kmDetailsRepository.findByKmDateAndFinancialYear(kmDate, financialYear);
 
-        List<KmDetails> KmDetailsByKmDateEquals = kmDetailsRepository.findByKmDateEquals(resultInstant);
+        List<Long> kmMasterIds = new ArrayList<>();
+        for (KmDetails kmDetails : kmDetailsList) {
+            Long kmMasterId = kmDetails.getKmMaster().getId();
+            kmMasterIds.add(kmMasterId);
 
-      /*  List<Long> kmMasterIds = KmDetailsByKmDateEquals.stream()
-            .map(kmDetail -> kmDetail.getKmMaster().getId())
-            .collect(Collectors.toList());
-        List<KmMaster> kmMasterList = kmMasterRepository.findAllById(kmMasterIds);*/
+        }
+        List<KmMaster> kmMasterList = kmMasterRepository.findAllById(kmMasterIds);
+
+
+
+    /*    List<KmDetails> KmDetailsByKmDateEquals = kmDetailsRepository.findByKmDateEquals(kmDate);
 
         List<KmMaster> kmMasterList =new ArrayList<>();
 
@@ -305,8 +290,32 @@ public class KmMasterResource {
             // generating html from template
             htmlStringForPdf =  kmTemplate("kmNotice/km.html",kmMaster);
             htmlList.add(htmlStringForPdf);
+        }*/
+
+        String html = "&lt;p&gt;hello&lt;/p&gt;";
+
+
+        switch (memberWiseKmPayload.getTemplateName()) {
+
+            //page 1
+            case "kamalPatrak":
+                String content = getContent(kmMasterList);
+   /*             htmlStringForPdf = kamalPatrakTemplate("memberWiseKm/kamalPatrak.html",
+                    kmMasterList,
+                    content,
+                    TranslationServiceUtility.getInstance()
+                );*/
+                htmlList.add(content);
+                break;
+
+            case "kamalSummary":
+                Object directPdf = downloadDirectPdf();
+                return (ResponseEntity<byte[]>) directPdf;
+
         }
 
+        String htmlStringForPdf1 = htmlStringForPdf;
+        System.out.println(htmlStringForPdf1);
         ResponseEntity<byte[]> response = null;
         if (htmlList.size() == 1) {
             //code for the generating pdf from html string
@@ -403,6 +412,307 @@ public class KmMasterResource {
         return response;
     }
 
+    private Object downloadDirectPdf() {
+        Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + "kamalSummary.pdf");
+
+        byte[] fileBytes;
+          try {
+
+              fileBytes = Files.readAllBytes(file);
+              ByteArrayResource resource = new ByteArrayResource(fileBytes);
+
+              HttpHeaders headers = new HttpHeaders();
+              headers.setContentType(MediaType.APPLICATION_PDF);
+             // headers.setContentDispositionFormData("filename", issPortalFile.getFileName());
+
+              List<String> contentDispositionList = new ArrayList<>();
+              contentDispositionList.add("Content-Disposition");
+
+              headers.setAccessControlExposeHeaders(contentDispositionList);
+              headers.set("X-Cbsmiddlewareapp-Alert", "cbsMiddlewareApp.issPortalFile.download");
+              //headers.set("X-Cbsmiddlewareapp-Params", issPortalFile.getFileName());
+
+              return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
+          } catch (IOException e) {
+              throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+          }
+      }
+
+
+    private String getContent(List<KmMaster> kmMasterList) {
+        StringBuilder toReturn = new StringBuilder();
+
+        double totalShares=0.0;
+        double totalDeposite=0.0;
+        double totalBagayat=0.0;
+        double totalDemand=0.0;
+        double totalBhagKapat=0.0;
+
+        toReturn.append("<!DOCTYPE html>\n" +
+            "<html lang=\"\">\n" +
+            "<head>\n" +
+            "  <meta charset=\"UTF-8\">\n" +
+            "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
+            "  <title>Kamal Patrak</title>\n" +
+            "</head>\n" +
+            "<body style=\"box-sizing: border-box;\">\n" +
+            "<table width=\"100%\">\n" +
+            "  <tr style=\"font-size: 14px;\">\n" +
+            "    <th width=\"50%\" style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+            "      <p style=\"text-align: center; margin: 10px 0; font-size: 20px;\">सिंधुदुर्ग जिल्हा मध्यवर्ती सहकारी बँक लि. सिंधुदुर्ग </p>\n" +
+            "      <p style=\"text-align: center; margin: 0;\">\n" +
+            "        <small style=\"font-weight: 400;\">किसान पतपात्र योजनेखाली अल्पमुदत शेती कर्जाचे कमाल मर्यादा पत्रक </small>\n" +
+            "      </p>\n" +
+            "      <div style=\"width: 60%; float: right;\">\n" +
+            "        <p style=\"margin: 5px; \">\n" +
+            "          <small>\n" +
+            "            सन <span style=\"font-weight: 400;\">01/04/2024</span>\n" +
+            "            ते <span style=\"font-weight: 400;\">31/03/2029 </span>\n" +
+            "          </small>\n" +
+            "        </p>\n" +
+            "      </div>\n" +
+            "    </th>\n" +
+            "    <th width=\"50%\" style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+            "      <p style=\"text-align: center; margin: 10px 0; font-size: 20px;\">भारत माता महिला नागरी पत  संस्था लि.</p>\n" +
+            "      <p style=\"text-align: center; margin: 0;\">\n" +
+            "        <small style=\"font-weight: 400;\">केडगाव</small>\n" +
+            "      </p>\n" +
+            "    </th>\n" +
+            "  </tr>\n" +
+            "</table>\n" +
+            "<div style=\"padding: 0px 10px 10px 0px; min-height: 60vh;\">");
+
+
+        toReturn.append("<table width=\"100%\" style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+            "    <tr style=\"border: 1px solid black; border-collapse: collapse;\">\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">अ. न.</th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">पि. आय. डी</th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">सभासद </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">शेअर्स  </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">ठेव </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">येणे बाकी  </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">थक बाकी  </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">एकुण क्षेत्र  </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">इ  क्षेत्र </th>\n" +
+            "      <th colspan=\"6\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">सभासद पिकवार मागणी, रक्कम  </th>\n" +
+            "      <th colspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">संस्था शिफारस </th>\n" +
+            "      <th colspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">बँक शिफारस </th>\n" +
+            "      <th rowspan=\"2\" style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">भाग </th>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">हंगाम </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">पीक </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">क्षेत्र</th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\"> ला. क्षेत्र </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">कलम संख्या </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">मागणी </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">कलम संख्या </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">रक्कम </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">कलम संख्या </th>\n" +
+            "      <th style=\"border: 1px solid black; border-collapse: collapse; font-size: 12px;\">रक्कम </th>\n" +
+            "    </tr>");
+
+        int srNo = 1;
+        for (KmMaster kmMaster : kmMasterList) {
+            KmDetails kmDetails = kmMaster.getKmDetails();
+            Set<KmLoans> kmLoans = kmDetails.getKmLoans();
+            Set<KmCrops> kmCrops = kmDetails.getKmCrops();
+
+            String kmDetail = "" +
+                "<tr style=\"border: 1px solid black; border-collapse: collapse;\"  " +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; text-align: right;\">" + srNo++ + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\">" + kmMaster.getPacsMemberCode() + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\">" + kmMaster.getFarmerName() + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(kmDetails.getShares()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right;\">" + getIntValue(kmDetails.getDeposite()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right;\">" + getIntValue(kmDetails.getDueLoan()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right;\">" + getIntValue(kmDetails.getDueAmount()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(kmDetails.getBagayatHector()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(kmDetails.getBagayatHector()) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(getTotal(kmCrops, "demand")) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(getTotal(kmCrops, "demand")) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(getTotal(kmCrops, "demand")) + "</td>\n" +
+                "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;text-align: right; padding-right: 2px;\">" + getIntValue(getTotal(kmCrops, "demand") * 0.05) + "</td>\n" +
+                "    </tr>";
+            toReturn.append(kmDetail);
+
+            totalShares+=kmDetails.getShares();
+            totalDeposite+=kmDetails.getDeposite();
+            totalBagayat+=kmDetails.getBagayatHector();
+            totalDemand+=getTotal(kmCrops, "demand");
+            totalBhagKapat+=(getTotal(kmCrops, "demand")* 0.05);
+
+            boolean first = true;
+            for (KmCrops kmCrop : kmCrops) {
+
+                    String crop = "" +
+                        "<tr style=\"border: 1px solid black; border-collapse: collapse;\"  ";
+                    if (first) {
+                        crop = crop + "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n" +
+                            "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n" +
+                            "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n" +
+                            "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n" +
+                            "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n";
+                    }
+                    crop = crop + "      " +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" +getAmountFromKmLoan(kmCrop,"LoanAmount")+"</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right;padding-right: 2px;\">" +getAmountFromKmLoan(kmCrop,"DueAmount")+"</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"></td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\">" + kmCrop.getCropMaster().getSeasonMaster().getSeasonName() + " </td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\">" + kmCrop.getCropMaster().getCropName() + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getAre()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getAre()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getNoOfTree()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getDemand()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getNoOfTree()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getDemand()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getNoOfTree()) + "</td>\n" +
+                        "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;text-align: right; padding-right: 2px;\">" + getIntValue(kmCrop.getDemand()) + "</td>\n";
+                    if (first) {
+                        crop = crop + "      <td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\" rowspan=\"" + kmCrops.size() + "\"></td>\n" +
+                            "    </tr>\n";
+
+                    }
+                    first = false;
+                    toReturn.append(crop);
+
+            }
+
+        }
+        toReturn.append(
+"<tr style=\"border: 1px solid black; border-collapse: collapse;>"+
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;font-weight:600 px;\"> एकूण </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalShares)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\">"+ getIntValue(totalDeposite)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalBagayat)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalBagayat)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalDemand)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalDemand)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end;\"> </td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalDemand)+"</td>\n" +
+            "<td style=\"border: 1px solid black; border-collapse: collapse; text-align: end; font-weight:600 ;\"> "+ getIntValue(totalBhagKapat)+"</td>\n"+
+    "</tr>"
+        );
+
+
+        toReturn.append(
+            "</table>\n" +
+                "</div>\n" +
+                "<div>\n" +
+                "  <div style=\"width: 30%; text-align: center; font-size: 14px; display: inline-block;\">\n" +
+                "    <p>\n" +
+                "      वरील माहितीत सूचनाबर हुकूम <br>\n" +
+                "      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे\n" +
+                "    </p>\n" +
+                "    <h5 style=\"padding: 8px;\">सचिव</h5>\n" +
+                "    <p>भारत माता महिला नागरी पत  संस्था लि.</p>\n" +
+                "  </div>\n" +
+                "  <div style=\"width: 30%; text-align: center; font-size: 14px; display: inline-block;\">\n" +
+                "    <p>\n" +
+                "      वरील माहितीत सूचनाबर हुकूम <br>\n" +
+                "      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे\n" +
+                "    </p>\n" +
+                "    <h5 style=\"padding: 8px;\">विकास अधिकारी</h5>\n" +
+                "    <p>शाखा</p>\n" +
+                "  </div>\n" +
+                "  <div style=\"width: 30%; text-align: center; font-size: 14px; display: inline-block;\">\n" +
+                "    <p>\n" +
+                "      वरील माहितीत सूचनाबर हुकूम <br>\n" +
+                "      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे\n" +
+                "    </p>\n" +
+                "    <h5 style=\"padding: 8px;\">विकास अधिकारी</h5>\n" +
+                "    <p>शाखा</p>\n" +
+                "  </div>\n" +
+                "</div>\n" +
+                "</body>\n" +
+                "</html></html>");
+        return toReturn.toString();
+    }
+
+    private String getAmountFromKmLoan(KmCrops kmCrop, String amount) {
+        Double  returnAmount=null;
+
+        Optional<KmDetails> kmDetails = kmDetailsRepository.findById(kmCrop.getKmDetails().getId());
+        List<KmLoans> kmLoanList = kmLoansRepository.findByKmDetails_IdEquals(kmDetails.get().getId());
+
+        for (KmLoans kmLoan:kmLoanList) {
+            if(amount.equalsIgnoreCase("LoanAmount") && kmCrop.getCropMaster().equals(kmLoan.getCropMaster())){
+                returnAmount= kmLoan.getLoanAmt();
+            } else if (amount.equalsIgnoreCase("DueAmount") && kmCrop.getCropMaster().equals(kmLoan.getCropMaster())) {
+                returnAmount = kmLoan.getDueAmt();
+            }
+        }
+
+        if (returnAmount == null) {
+            return "";
+        }
+        int intValue = returnAmount.intValue();
+
+        if (intValue == 0) {
+            return "";
+        } else {
+            return String.valueOf(intValue);
+        }
+
+    }
+
+    private String getIntValue(Double shares) {
+        if (shares == null) {
+            return "";
+        }
+        int intValue = shares.intValue();
+        if (intValue == 0) {
+            return "";
+        } else {
+            return String.valueOf(intValue);
+        }
+
+    }
+
+    private double getTotal(Set<KmCrops> kmCrops, String type) {
+        double toReturn = 0;
+        if ("are".equals(type)) {
+            for (KmCrops kmCrop : kmCrops) {
+                toReturn = toReturn + kmCrop.getAre();
+            }
+        } else if ("demand".equals(type)) {
+            for (KmCrops kmCrop : kmCrops) {
+                toReturn = toReturn + kmCrop.getDemand();
+            }
+        }
+        return toReturn;
+    }
+
+
+    private String kamalPatrakTemplate(String template, List<KmMaster> kmMasterList, String html, TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kmMasterList", kmMasterList);
+        context.setVariable("html", html);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
     private String kmTemplate(String template, KmMaster kmMaster) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
@@ -417,5 +727,64 @@ public class KmMasterResource {
             "" +
                 cal.get(Calendar.MILLISECOND);
     }
+
+    //Direct pdf Download
+//  @GetMapping("/download-file/{idIFP}")
+//  @PreAuthorize("@authentication.hasPermision('',#idIFP,'','FILE_DOWNLOAD','DOWNLOAD')")
+//  public Object pdfDownload(@PathVariable Long idIFP) {
+//      Optional<IssPortalFile> findByIssPortalFileId = issPortalFileRepository.findById(idIFP);
+//      if (findByIssPortalFileId.isPresent()) {
+//          Path file = Paths.get(Constants.ORIGINAL_FILE_PATH + findByIssPortalFileId.get().getUniqueName());
+//
+//          if (!Files.exists(file)) {
+//              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//          }
+//          IssPortalFile issPortalFile = findByIssPortalFileId.get();
+//          byte[] fileBytes;
+//          try {
+//              fileBytes = Files.readAllBytes(file);
+//              ByteArrayResource resource = new ByteArrayResource(fileBytes);
+//
+//              HttpHeaders headers = new HttpHeaders();
+//              headers.setContentType(MediaType.APPLICATION_PDF);
+//              headers.setContentDispositionFormData("filename", issPortalFile.getFileName());
+//
+//              List<String> contentDispositionList = new ArrayList<>();
+//              contentDispositionList.add("Content-Disposition");
+//
+//              headers.setAccessControlExposeHeaders(contentDispositionList);
+//              headers.set("X-Cbsmiddlewareapp-Alert", "cbsMiddlewareApp.issPortalFile.download");
+//              headers.set("X-Cbsmiddlewareapp-Params", issPortalFile.getFileName());
+//
+//              if (resource != null) {
+//                  try {
+//                      Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//                      Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+//                      String name = "";
+//                      if (optUser.isPresent()) {
+//                          name = optUser.get().getFirstName() + " " + optUser.get().getLastName();
+//                      }
+//
+//                      notificationDataUtility.notificationData(
+//                          "Application records file downloaded by user ",
+//                          "Application records file: " + issPortalFile.getFileName() + " is downloaded by user " + name,
+//                          false,
+//                          Instant.now(),
+//                          "ApplicationRecordFileDownload" // type
+//                      );
+//
+//                  } catch (Exception e) {
+//                  }
+//              }
+//
+//              return ResponseEntity.ok().headers(headers).contentLength(fileBytes.length).body(resource);
+//          } catch (IOException e) {
+//              throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+//          }
+//      } else {
+//          throw new BadRequestAlertException("Error in file download", ENTITY_NAME, "fileNotFound");
+//      }
+//  }
+
 
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
@@ -178,6 +179,7 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "financial_year")
     private String financialYear;
 
+
     @JsonIgnoreProperties(value = {"branchCode", "branchCodeMr", "farmerName", "farmerNameMr", "farmerAddress", "farmerAddressMr", "gender", "genderMr", "caste", "casteMr", "pacsNumber", "aadharNo", "aadharNoMr", "panNo", "panNoMr", "mobileNo", "mobileNoMr", "kccNo", "kccNoMr", "savingAcNo", "savingAcNoMr", "pacsMemberCode", "pacsMemberCodeMr", "entryFlag", "birthDate", "birthDateMr", "loanAcNo", "loanAcNoMr", "farmerTypeMaster", "kmDetails"}, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
     @JoinColumn(name = "kmMaster_id")
@@ -185,11 +187,11 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
 
     @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"kmDetails"}, allowSetters = true, allowGetters = true)
-    private Set<KmLoans> kmLoans;
+    private Set<KmLoans> kmLoans = new HashSet<>();
 
     @OneToMany(mappedBy = "kmDetails", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"kmDetails"}, allowSetters = true, allowGetters = true)
-    private Set<KmCrops> kmCrops;
+    private Set<KmCrops> kmCrops = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public String getSurveyNoMr() {
@@ -220,17 +222,68 @@ public class KmDetails extends AbstractAuditingEntity<Long> implements Serializa
         return kmLoans;
     }
 
-    public void setKmLoans(Set<KmLoans> kmLoans) {
-        this.kmLoans = kmLoans;
-    }
-
     public Set<KmCrops> getKmCrops() {
         return kmCrops;
     }
 
+    ////////////////////////////
     public void setKmCrops(Set<KmCrops> kmCrops) {
+        if (this.kmCrops != null) {
+            this.kmCrops.forEach(i -> i.setKmDetails(null));
+        }
+        if (kmCrops != null) {
+            kmCrops.forEach(i -> i.setKmDetails(this));
+        }
         this.kmCrops = kmCrops;
     }
+
+    public KmDetails kmCrops(Set<KmCrops> kmCrops) {
+        this.setKmCrops(kmCrops);
+        return this;
+    }
+
+    public KmDetails addKmCrops(KmCrops kmCrop) {
+        this.kmCrops.add(kmCrop);
+        kmCrop.setKmDetails(this);
+        return this;
+    }
+
+    public KmDetails removeKmCrops(KmCrops kmCrop) {
+        this.kmCrops.remove(kmCrop);
+        kmCrop.setKmDetails(null);
+        return this;
+    }
+
+    public void setKmLoans(Set<KmLoans> kmLoans) {
+        if (this.kmLoans != null) {
+            this.kmLoans.forEach(i -> i.setKmDetails(null));
+        }
+        if (kmLoans != null) {
+            kmLoans.forEach(i -> i.setKmDetails(this));
+        }
+        this.kmLoans = kmLoans;
+    }
+
+    public KmDetails kmLoans(Set<KmLoans> kmLoans) {
+        this.setKmLoans(kmLoans);
+        return this;
+    }
+
+    public KmDetails addKmLoans(KmLoans kmLoan) {
+        this.kmLoans.add(kmLoan);
+        kmLoan.setKmDetails(this);
+        return this;
+    }
+
+    public KmDetails removeKmLoans(KmLoans kmLoan) {
+        this.kmLoans.remove(kmLoan);
+        kmLoan.setKmDetails(null);
+        return this;
+    }
+
+
+    ///////////////////////////
+
 
     public Long getId() {
         return this.id;

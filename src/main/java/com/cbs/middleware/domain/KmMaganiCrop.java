@@ -1,5 +1,7 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
@@ -10,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_magani_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmMaganiCrop implements Serializable {
+public class KmMaganiCrop extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,7 +63,9 @@ public class KmMaganiCrop implements Serializable {
     @Column(name = "pacs_number")
     private String pacsNumber;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY,cascade= CascadeType.DETACH)
+    @JoinColumn(name = "km_magani_id")
+    @JsonIgnoreProperties(value = {"kmNumber","memberNumber","memberName","pacsNumber","share","financialYear","kmDate","maganiDate","kmMaganiCrop"}, allowSetters = true)
     private KmMagani kmMagani;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

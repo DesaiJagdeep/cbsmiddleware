@@ -1,7 +1,11 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 /**
@@ -10,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "km_magani")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KmMagani implements Serializable {
+public class KmMagani extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +47,40 @@ public class KmMagani implements Serializable {
     @Column(name = "magani_date")
     private Instant maganiDate;
 
+    @OneToMany(mappedBy = "kmMagani", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"kmMagani"}, allowSetters = true, allowGetters = true)
+    private Set<KmMaganiCrop> kmMaganiCrop = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public void setKmMaganiCrop(Set<KmMaganiCrop> kmMaganiCrop) {
+        if (this.kmMaganiCrop != null) {
+            this.kmMaganiCrop.forEach(i -> i.setKmMagani(null));
+        }
+        if (kmMaganiCrop != null) {
+            kmMaganiCrop.forEach(i -> i.setKmMagani(this));
+        }
+        this.kmMaganiCrop = kmMaganiCrop;
+    }
+
+    public KmMagani kmMaganiCrop(Set<KmMaganiCrop> kmMaganiCrop) {
+        this.setKmMaganiCrop(kmMaganiCrop);
+        return this;
+    }
+
+    public KmMagani addKmMaganiCrop(KmMaganiCrop kmMaganiCrop) {
+        this.kmMaganiCrop.add(kmMaganiCrop);
+        kmMaganiCrop.setKmMagani(this);
+        return this;
+    }
+
+    public KmMagani removeKmMaganiCrop(KmMaganiCrop kmMaganiCrop) {
+        this.kmMaganiCrop.remove(kmMaganiCrop);
+        kmMaganiCrop.setKmMagani(null);
+        return this;
+    }
+
+
+
 
     public Long getId() {
         return this.id;

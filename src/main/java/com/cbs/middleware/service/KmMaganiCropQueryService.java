@@ -88,6 +88,46 @@ public class KmMaganiCropQueryService extends QueryService<KmMaganiCrop> {
             if (criteria.getCropName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getCropName(), KmMaganiCrop_.cropName));
             }
+            if (criteria.getCropBalance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCropBalance(), KmMaganiCrop_.cropBalance));
+            }
+            if (criteria.getCropDue() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCropDue(), KmMaganiCrop_.cropDue));
+            }
+            if (criteria.getCropDueDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCropDueDate(), KmMaganiCrop_.cropDueDate));
+            }
+            if (criteria.getCropVasuliPatraDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getCropVasuliPatraDate(), KmMaganiCrop_.cropVasuliPatraDate));
+            }
+            if (criteria.getKmManjuri() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getKmManjuri(), KmMaganiCrop_.kmManjuri));
+            }
+            if (criteria.getKmArea() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getKmArea(), KmMaganiCrop_.kmArea));
+            }
+            if (criteria.geteKararNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.geteKararNumber(), KmMaganiCrop_.eKararNumber));
+            }
+            if (criteria.geteKararAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.geteKararAmount(), KmMaganiCrop_.eKararAmount));
+            }
+            if (criteria.geteKararArea() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.geteKararArea(), KmMaganiCrop_.eKararArea));
+            }
+            if (criteria.getMaganiArea() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMaganiArea(), KmMaganiCrop_.maganiArea));
+            }
+            if (criteria.getMaganiAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMaganiAmount(), KmMaganiCrop_.maganiAmount));
+            }
+            if (criteria.getMaganiShare() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMaganiShare(), KmMaganiCrop_.maganiShare));
+            }
+            if (criteria.getPacsNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KmMaganiCrop_.pacsNumber));
+            }
             if (criteria.getKmMaganiId() != null) {
                 specification =
                     specification.and(

@@ -46,6 +46,84 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="cropBalance">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropBalance">Crop Balance</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropDue">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDue">Crop Due</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropDueDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDueDate">Crop Due Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropVasuliPatraDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropVasuliPatraDate">Crop Vasuli Patra Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmManjuri">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmManjuri">Km Manjuri</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmArea">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmArea">Km Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="eKararNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararNumber">E Karar Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="eKararAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararAmount">E Karar Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="eKararArea">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararArea">E Karar Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maganiArea">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiArea">Magani Area</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maganiAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiAmount">Magani Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maganiShare">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiShare">Magani Share</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pacsNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.pacsNumber">Pacs Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="kmMagani.id">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmMagani">Km Magani</span>
@@ -61,6 +139,19 @@
             <a [routerLink]="['/km-magani-crop', kmMaganiCrop.id, 'view']">{{ kmMaganiCrop.id }}</a>
           </td>
           <td>{{ kmMaganiCrop.cropName }}</td>
+          <td>{{ kmMaganiCrop.cropBalance }}</td>
+          <td>{{ kmMaganiCrop.cropDue }}</td>
+          <td>{{ kmMaganiCrop.cropDueDate | formatMediumDatetime }}</td>
+          <td>{{ kmMaganiCrop.cropVasuliPatraDate | formatMediumDatetime }}</td>
+          <td>{{ kmMaganiCrop.kmManjuri }}</td>
+          <td>{{ kmMaganiCrop.kmArea }}</td>
+          <td>{{ kmMaganiCrop.eKararNumber }}</td>
+          <td>{{ kmMaganiCrop.eKararAmount }}</td>
+          <td>{{ kmMaganiCrop.eKararArea }}</td>
+          <td>{{ kmMaganiCrop.maganiArea }}</td>
+          <td>{{ kmMaganiCrop.maganiAmount }}</td>
+          <td>{{ kmMaganiCrop.maganiShare }}</td>
+          <td>{{ kmMaganiCrop.pacsNumber }}</td>
           <td>
             <div *ngIf="kmMaganiCrop.kmMagani">
               <a [routerLink]="['/km-magani', kmMaganiCrop.kmMagani.id, 'view']">{{ kmMaganiCrop.kmMagani.id }}</a>

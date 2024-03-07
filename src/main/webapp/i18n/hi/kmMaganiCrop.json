@@ -19,6 +19,19 @@
       },
       "id": "ID",
       "cropName": "Crop Name",
+      "cropBalance": "Crop Balance",
+      "cropDue": "Crop Due",
+      "cropDueDate": "Crop Due Date",
+      "cropVasuliPatraDate": "Crop Vasuli Patra Date",
+      "kmManjuri": "Km Manjuri",
+      "kmArea": "Km Area",
+      "eKararNumber": "E Karar Number",
+      "eKararAmount": "E Karar Amount",
+      "eKararArea": "E Karar Area",
+      "maganiArea": "Magani Area",
+      "maganiAmount": "Magani Amount",
+      "maganiShare": "Magani Share",
+      "pacsNumber": "Pacs Number",
       "kmMagani": "Km Magani"
     }
   }

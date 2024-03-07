@@ -21,6 +21,19 @@ describe('KmMaganiCrop Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             cropName: expect.any(Object),
+            cropBalance: expect.any(Object),
+            cropDue: expect.any(Object),
+            cropDueDate: expect.any(Object),
+            cropVasuliPatraDate: expect.any(Object),
+            kmManjuri: expect.any(Object),
+            kmArea: expect.any(Object),
+            eKararNumber: expect.any(Object),
+            eKararAmount: expect.any(Object),
+            eKararArea: expect.any(Object),
+            maganiArea: expect.any(Object),
+            maganiAmount: expect.any(Object),
+            maganiShare: expect.any(Object),
+            pacsNumber: expect.any(Object),
             kmMagani: expect.any(Object),
           })
         );
@@ -33,6 +46,19 @@ describe('KmMaganiCrop Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             cropName: expect.any(Object),
+            cropBalance: expect.any(Object),
+            cropDue: expect.any(Object),
+            cropDueDate: expect.any(Object),
+            cropVasuliPatraDate: expect.any(Object),
+            kmManjuri: expect.any(Object),
+            kmArea: expect.any(Object),
+            eKararNumber: expect.any(Object),
+            eKararAmount: expect.any(Object),
+            eKararArea: expect.any(Object),
+            maganiArea: expect.any(Object),
+            maganiAmount: expect.any(Object),
+            maganiShare: expect.any(Object),
+            pacsNumber: expect.any(Object),
             kmMagani: expect.any(Object),
           })
         );

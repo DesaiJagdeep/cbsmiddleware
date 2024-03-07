@@ -4,10 +4,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IKmMaganiCrop } from '../km-magani-crop.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../km-magani-crop.test-samples';
 
-import { KmMaganiCropService } from './km-magani-crop.service';
+import { KmMaganiCropService, RestKmMaganiCrop } from './km-magani-crop.service';
 
-const requireRestSample: IKmMaganiCrop = {
+const requireRestSample: RestKmMaganiCrop = {
   ...sampleWithRequiredData,
+  cropDueDate: sampleWithRequiredData.cropDueDate?.toJSON(),
+  cropVasuliPatraDate: sampleWithRequiredData.cropVasuliPatraDate?.toJSON(),
 };
 
 describe('KmMaganiCrop Service', () => {

@@ -48,6 +48,45 @@ public class KmMaganiCropServiceImpl implements KmMaganiCropService {
                 if (kmMaganiCrop.getCropName() != null) {
                     existingKmMaganiCrop.setCropName(kmMaganiCrop.getCropName());
                 }
+                if (kmMaganiCrop.getCropBalance() != null) {
+                    existingKmMaganiCrop.setCropBalance(kmMaganiCrop.getCropBalance());
+                }
+                if (kmMaganiCrop.getCropDue() != null) {
+                    existingKmMaganiCrop.setCropDue(kmMaganiCrop.getCropDue());
+                }
+                if (kmMaganiCrop.getCropDueDate() != null) {
+                    existingKmMaganiCrop.setCropDueDate(kmMaganiCrop.getCropDueDate());
+                }
+                if (kmMaganiCrop.getCropVasuliPatraDate() != null) {
+                    existingKmMaganiCrop.setCropVasuliPatraDate(kmMaganiCrop.getCropVasuliPatraDate());
+                }
+                if (kmMaganiCrop.getKmManjuri() != null) {
+                    existingKmMaganiCrop.setKmManjuri(kmMaganiCrop.getKmManjuri());
+                }
+                if (kmMaganiCrop.getKmArea() != null) {
+                    existingKmMaganiCrop.setKmArea(kmMaganiCrop.getKmArea());
+                }
+                if (kmMaganiCrop.geteKararNumber() != null) {
+                    existingKmMaganiCrop.seteKararNumber(kmMaganiCrop.geteKararNumber());
+                }
+                if (kmMaganiCrop.geteKararAmount() != null) {
+                    existingKmMaganiCrop.seteKararAmount(kmMaganiCrop.geteKararAmount());
+                }
+                if (kmMaganiCrop.geteKararArea() != null) {
+                    existingKmMaganiCrop.seteKararArea(kmMaganiCrop.geteKararArea());
+                }
+                if (kmMaganiCrop.getMaganiArea() != null) {
+                    existingKmMaganiCrop.setMaganiArea(kmMaganiCrop.getMaganiArea());
+                }
+                if (kmMaganiCrop.getMaganiAmount() != null) {
+                    existingKmMaganiCrop.setMaganiAmount(kmMaganiCrop.getMaganiAmount());
+                }
+                if (kmMaganiCrop.getMaganiShare() != null) {
+                    existingKmMaganiCrop.setMaganiShare(kmMaganiCrop.getMaganiShare());
+                }
+                if (kmMaganiCrop.getPacsNumber() != null) {
+                    existingKmMaganiCrop.setPacsNumber(kmMaganiCrop.getPacsNumber());
+                }
 
                 return existingKmMaganiCrop;
             })

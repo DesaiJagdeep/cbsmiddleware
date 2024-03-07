@@ -5,6 +5,58 @@
     {
       "fieldName": "cropName",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "cropBalance",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "cropDue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "cropDueDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "cropVasuliPatraDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmManjuri",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "kmArea",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "eKararNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "eKararAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "eKararArea",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "maganiArea",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "maganiAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "maganiShare",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

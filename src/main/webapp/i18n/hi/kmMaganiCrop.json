@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMaganiCrop": {
+      "home": {
+        "title": "KmMaganiCrops",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Km Magani Crop बनाएँ",
+        "createOrEditLabel": "Km Magani Crop बनाएँ या संपादित करें",
+        "notFound": "No Km Magani Crops found"
+      },
+      "created": "एक नया Km Magani Crop [identifier: {{ param }}] तैयार है",
+      "updated": "एक Km Magani Crop [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Km Magani Crop [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Km Magani Crop [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Km Magani Crop"
+      },
+      "id": "ID",
+      "cropName": "Crop Name",
+      "kmMagani": "Km Magani"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "changelogDate": "20240307111055",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "cropName",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMaganiCrop",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kmMagani",
+      "relationshipName": "kmMagani",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

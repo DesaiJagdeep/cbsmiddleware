@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMaganiCrop": {
+      "home": {
+        "title": "Km Magani Crops",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Km Magani Crop",
+        "createOrEditLabel": "Create or edit a Km Magani Crop",
+        "notFound": "No Km Magani Crops found"
+      },
+      "created": "A new Km Magani Crop is created with identifier {{ param }}",
+      "updated": "A Km Magani Crop is updated with identifier {{ param }}",
+      "deleted": "A Km Magani Crop is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Km Magani Crop {{ id }}?"
+      },
+      "detail": {
+        "title": "Km Magani Crop"
+      },
+      "id": "ID",
+      "cropName": "Crop Name",
+      "kmMagani": "Km Magani"
+    }
+  }
+}

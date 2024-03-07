@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmMaganiCrop">
+      <h2 data-cy="kmMaganiCropDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.detail.title">Km Magani Crop</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropName">Crop Name</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmMagani">Km Magani</span></dt>
+        <dd>
+          <div *ngIf="kmMaganiCrop.kmMagani">
+            <a [routerLink]="['/km-magani', kmMaganiCrop.kmMagani.id, 'view']">{{ kmMaganiCrop.kmMagani.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-magani-crop', kmMaganiCrop.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity KmMaganiCrop.
+    -->
+    <changeSet id="20240307111055-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="km_magani_id"
+                                 baseTableName="km_magani_crop"
+                                 constraintName="fk_km_magani_crop__km_magani_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="km_magani"/>
+    </changeSet>
+</databaseChangeLog>

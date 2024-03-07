@@ -204,8 +204,9 @@ public class KmMasterResource {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         String pacsNumber = optUser.get().getPacsNumber();
-
         StringFilter pacsFilter = new StringFilter();
+        pacsFilter.setEquals(pacsNumber);
+        criteria.setPacsNumber(pacsFilter);
         Page<KmMaster> page = kmMasterQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

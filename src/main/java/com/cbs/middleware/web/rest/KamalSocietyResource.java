@@ -686,9 +686,9 @@ public class KamalSocietyResource {
         otherSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(otherSummary);
 
         List<KamalCrop> totalSummaryList = new ArrayList<>();
-        totalSummaryList.addAll(marginalSummaryToPrint);
-        totalSummaryList.addAll(smallSummaryToPrint);
-        totalSummaryList.addAll(otherSummaryToPrint);
+            totalSummaryList.addAll(marginalSummaryToPrint);
+            totalSummaryList.addAll(smallSummaryToPrint);
+            totalSummaryList.addAll(otherSummaryToPrint);
 
         KamalCrop totalSummaryToPrint = getObjectOfTotal(totalSummaryList);
 
@@ -932,6 +932,7 @@ public class KamalSocietyResource {
 
 
     private List<KamalCrop> getListWithSumForKarayalayeenNivedanReport(List<KamalCrop> summaryList) {
+
         //addition of memberCount,area,pacsAmount,branchAmount,headOfficeAmount in 1st element of printList
         int totalMemberCount = 0;
         double totalArea = 0.0;
@@ -976,13 +977,16 @@ public class KamalSocietyResource {
                     }
                 }
             }
-            kamalCropListWithDistinctCrop.get(0).setMemberCount(String.valueOf(totalMemberCount));
-            kamalCropListWithDistinctCrop.get(0).setArea(decimalFormat.format(totalArea));
-            kamalCropListWithDistinctCrop.get(0).setPacsAmount(decimalFormat.format(pacsAmount));
-            kamalCropListWithDistinctCrop.get(0).setBranchAmount(decimalFormat.format(branchAmount));
-            kamalCropListWithDistinctCrop.get(0).setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
 
-            return kamalCropListWithDistinctCrop;
+            if(!kamalCropListWithDistinctCrop.isEmpty()){
+                kamalCropListWithDistinctCrop.get(0).setMemberCount(String.valueOf(totalMemberCount));
+                kamalCropListWithDistinctCrop.get(0).setArea(decimalFormat.format(totalArea));
+                kamalCropListWithDistinctCrop.get(0).setPacsAmount(decimalFormat.format(pacsAmount));
+                kamalCropListWithDistinctCrop.get(0).setBranchAmount(decimalFormat.format(branchAmount));
+                kamalCropListWithDistinctCrop.get(0).setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+
+                return kamalCropListWithDistinctCrop;
+            }
         }
         return summaryList;
     }

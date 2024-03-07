@@ -113,6 +113,17 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name="taluka_name")
+    private String talukaName;
+
+    public String getTalukaName() {
+        return talukaName;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
+    }
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(

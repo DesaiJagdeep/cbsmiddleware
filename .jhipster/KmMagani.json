@@ -1,0 +1,44 @@
+{
+  "changelogDate": "20240307104723",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "kmNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memberNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "memberName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "share",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "maganiDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "KmMagani",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

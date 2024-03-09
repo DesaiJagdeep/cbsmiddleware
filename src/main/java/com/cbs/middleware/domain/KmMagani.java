@@ -52,6 +52,12 @@ public class KmMagani extends AbstractAuditingEntity<Long> implements Serializab
     private Set<KmMaganiCrop> kmMaganiCrop = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public Set<KmMaganiCrop> getKmMaganiCrop() {
+        return kmMaganiCrop;
+    }
+
     public void setKmMaganiCrop(Set<KmMaganiCrop> kmMaganiCrop) {
         if (this.kmMaganiCrop != null) {
             this.kmMaganiCrop.forEach(i -> i.setKmMagani(null));

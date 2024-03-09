@@ -65,7 +65,7 @@ public class KmMaganiCrop extends AbstractAuditingEntity<Long> implements Serial
 
     @ManyToOne(fetch = FetchType.LAZY,cascade= CascadeType.DETACH)
     @JoinColumn(name = "km_magani_id")
-    @JsonIgnoreProperties(value = {"kmNumber","memberNumber","memberName","pacsNumber","share","financialYear","kmDate","maganiDate","kmMaganiCrop"}, allowSetters = true)
+    @JsonIgnoreProperties(value = {"kmNumber","memberNumber","memberName","pacsNumber","share","financialYear","kmDate","maganiDate","kmMaganiCrop","createdBy","createdDate","lastModifiedBy","lastModifiedDate"}, allowSetters = true)
     private KmMagani kmMagani;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

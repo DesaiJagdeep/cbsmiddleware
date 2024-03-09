@@ -968,8 +968,8 @@ public class IssPortalFileResource {
                 row.createCell(colNum++).setCellValue("Total Application");
                 row.createCell(colNum++).setCellValue("Validation Error");
                 row.createCell(colNum++).setCellValue("KCC Accepted");
-                row.createCell(colNum++).setCellValue("KCC Rejected");
-                row.createCell(colNum++).setCellValue("Submission Pending");
+                row.createCell(colNum++).setCellValue("KCC Errors");
+                row.createCell(colNum++).setCellValue("Pending From Branch Admin");
                 row.createCell(colNum++).setCellValue("Submitted (In Process)");
                 row.createCell(colNum++).setCellValue("Pending From KCC");
 

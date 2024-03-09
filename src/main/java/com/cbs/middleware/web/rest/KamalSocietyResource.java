@@ -133,6 +133,7 @@ public class KamalSocietyResource {
                 kamalCrop.setPacsNumber(pacsNumber);
                 kamalCrop.setFinancialYear(kamalSociety.getFinancialYear());
                 kamalCrop.setKmDate(kamalSociety.getKmDate());
+                kamalCrop.setKmDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmDate())));
             }
         );
 
@@ -144,6 +145,7 @@ public class KamalSocietyResource {
         kamalSociety.setZindagiPatrakDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getZindagiPatrakDate())));
         kamalSociety.setBankTapasaniDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBankTapasaniDate())));
         kamalSociety.setBalanceSheetDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate())));
+        kamalSociety.setGovTapasaniDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getGovTapasaniDate())));
 
         kamalSociety.setKamalCrops(kamalCrops);
 
@@ -275,6 +277,7 @@ public class KamalSocietyResource {
             BooleanFilter pacsVerifiedFilter = new BooleanFilter();
             pacsVerifiedFilter.setEquals(true);
             criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchId(branchIdFilter);
 
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
             String pacsNumber = optUser.get().getPacsNumber();
@@ -282,7 +285,7 @@ public class KamalSocietyResource {
             pacsNumberFilter.setEquals(pacsNumber);
             criteria.setPacsNumber(pacsNumberFilter);
 
-        } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+        } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)  || authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN) ) {
             BooleanFilter pacsVerifiedFilter = new BooleanFilter();
             pacsVerifiedFilter.setEquals(true);
             BooleanFilter branchVerifiedFilter = new BooleanFilter();

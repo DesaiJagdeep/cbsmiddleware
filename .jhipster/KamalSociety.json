@@ -282,6 +282,46 @@
     {
       "fieldName": "gambhirDosh",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "branchInwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchInwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "branchOutwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchOutwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeInwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeInwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeOutwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeOutwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "tharavNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tharavDate",
+      "fieldType": "Instant"
     }
   ],
   "jpaMetamodelFiltering": true,

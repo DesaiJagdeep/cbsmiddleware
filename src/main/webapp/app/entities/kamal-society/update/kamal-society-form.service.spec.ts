@@ -90,6 +90,16 @@ describe('KamalSociety Form Service', () => {
             divisionalOfficeVerifiedDate: expect.any(Object),
             doshPurtataDate: expect.any(Object),
             gambhirDosh: expect.any(Object),
+            branchInwardNumber: expect.any(Object),
+            branchInwardDate: expect.any(Object),
+            branchOutwardNumber: expect.any(Object),
+            branchOutwardDate: expect.any(Object),
+            headOfficeInwardNumber: expect.any(Object),
+            headOfficeInwardDate: expect.any(Object),
+            headOfficeOutwardNumber: expect.any(Object),
+            headOfficeOutwardDate: expect.any(Object),
+            tharavNumber: expect.any(Object),
+            tharavDate: expect.any(Object),
           })
         );
       });
@@ -170,6 +180,16 @@ describe('KamalSociety Form Service', () => {
             divisionalOfficeVerifiedDate: expect.any(Object),
             doshPurtataDate: expect.any(Object),
             gambhirDosh: expect.any(Object),
+            branchInwardNumber: expect.any(Object),
+            branchInwardDate: expect.any(Object),
+            branchOutwardNumber: expect.any(Object),
+            branchOutwardDate: expect.any(Object),
+            headOfficeInwardNumber: expect.any(Object),
+            headOfficeInwardDate: expect.any(Object),
+            headOfficeOutwardNumber: expect.any(Object),
+            headOfficeOutwardDate: expect.any(Object),
+            tharavNumber: expect.any(Object),
+            tharavDate: expect.any(Object),
           })
         );
       });

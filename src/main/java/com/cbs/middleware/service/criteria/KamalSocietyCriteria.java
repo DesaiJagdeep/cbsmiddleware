@@ -163,6 +163,26 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private StringFilter gambhirDosh;
 
+    private StringFilter branchInwardNumber;
+
+    private InstantFilter branchInwardDate;
+
+    private StringFilter branchOutwardNumber;
+
+    private InstantFilter branchOutwardDate;
+
+    private StringFilter headOfficeInwardNumber;
+
+    private InstantFilter headOfficeInwardDate;
+
+    private StringFilter headOfficeOutwardNumber;
+
+    private InstantFilter headOfficeOutwardDate;
+
+    private StringFilter tharavNumber;
+
+    private InstantFilter tharavDate;
+
     private Boolean distinct;
 
     public KamalSocietyCriteria() {}
@@ -241,6 +261,16 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.divisionalOfficeVerifiedDate = other.divisionalOfficeVerifiedDate == null ? null : other.divisionalOfficeVerifiedDate.copy();
         this.doshPurtataDate = other.doshPurtataDate == null ? null : other.doshPurtataDate.copy();
         this.gambhirDosh = other.gambhirDosh == null ? null : other.gambhirDosh.copy();
+        this.branchInwardNumber = other.branchInwardNumber == null ? null : other.branchInwardNumber.copy();
+        this.branchInwardDate = other.branchInwardDate == null ? null : other.branchInwardDate.copy();
+        this.branchOutwardNumber = other.branchOutwardNumber == null ? null : other.branchOutwardNumber.copy();
+        this.branchOutwardDate = other.branchOutwardDate == null ? null : other.branchOutwardDate.copy();
+        this.headOfficeInwardNumber = other.headOfficeInwardNumber == null ? null : other.headOfficeInwardNumber.copy();
+        this.headOfficeInwardDate = other.headOfficeInwardDate == null ? null : other.headOfficeInwardDate.copy();
+        this.headOfficeOutwardNumber = other.headOfficeOutwardNumber == null ? null : other.headOfficeOutwardNumber.copy();
+        this.headOfficeOutwardDate = other.headOfficeOutwardDate == null ? null : other.headOfficeOutwardDate.copy();
+        this.tharavNumber = other.tharavNumber == null ? null : other.tharavNumber.copy();
+        this.tharavDate = other.tharavDate == null ? null : other.tharavDate.copy();
         this.distinct = other.distinct;
     }
 
@@ -1314,6 +1344,156 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.gambhirDosh = gambhirDosh;
     }
 
+    public StringFilter getBranchInwardNumber() {
+        return branchInwardNumber;
+    }
+
+    public StringFilter branchInwardNumber() {
+        if (branchInwardNumber == null) {
+            branchInwardNumber = new StringFilter();
+        }
+        return branchInwardNumber;
+    }
+
+    public void setBranchInwardNumber(StringFilter branchInwardNumber) {
+        this.branchInwardNumber = branchInwardNumber;
+    }
+
+    public InstantFilter getBranchInwardDate() {
+        return branchInwardDate;
+    }
+
+    public InstantFilter branchInwardDate() {
+        if (branchInwardDate == null) {
+            branchInwardDate = new InstantFilter();
+        }
+        return branchInwardDate;
+    }
+
+    public void setBranchInwardDate(InstantFilter branchInwardDate) {
+        this.branchInwardDate = branchInwardDate;
+    }
+
+    public StringFilter getBranchOutwardNumber() {
+        return branchOutwardNumber;
+    }
+
+    public StringFilter branchOutwardNumber() {
+        if (branchOutwardNumber == null) {
+            branchOutwardNumber = new StringFilter();
+        }
+        return branchOutwardNumber;
+    }
+
+    public void setBranchOutwardNumber(StringFilter branchOutwardNumber) {
+        this.branchOutwardNumber = branchOutwardNumber;
+    }
+
+    public InstantFilter getBranchOutwardDate() {
+        return branchOutwardDate;
+    }
+
+    public InstantFilter branchOutwardDate() {
+        if (branchOutwardDate == null) {
+            branchOutwardDate = new InstantFilter();
+        }
+        return branchOutwardDate;
+    }
+
+    public void setBranchOutwardDate(InstantFilter branchOutwardDate) {
+        this.branchOutwardDate = branchOutwardDate;
+    }
+
+    public StringFilter getHeadOfficeInwardNumber() {
+        return headOfficeInwardNumber;
+    }
+
+    public StringFilter headOfficeInwardNumber() {
+        if (headOfficeInwardNumber == null) {
+            headOfficeInwardNumber = new StringFilter();
+        }
+        return headOfficeInwardNumber;
+    }
+
+    public void setHeadOfficeInwardNumber(StringFilter headOfficeInwardNumber) {
+        this.headOfficeInwardNumber = headOfficeInwardNumber;
+    }
+
+    public InstantFilter getHeadOfficeInwardDate() {
+        return headOfficeInwardDate;
+    }
+
+    public InstantFilter headOfficeInwardDate() {
+        if (headOfficeInwardDate == null) {
+            headOfficeInwardDate = new InstantFilter();
+        }
+        return headOfficeInwardDate;
+    }
+
+    public void setHeadOfficeInwardDate(InstantFilter headOfficeInwardDate) {
+        this.headOfficeInwardDate = headOfficeInwardDate;
+    }
+
+    public StringFilter getHeadOfficeOutwardNumber() {
+        return headOfficeOutwardNumber;
+    }
+
+    public StringFilter headOfficeOutwardNumber() {
+        if (headOfficeOutwardNumber == null) {
+            headOfficeOutwardNumber = new StringFilter();
+        }
+        return headOfficeOutwardNumber;
+    }
+
+    public void setHeadOfficeOutwardNumber(StringFilter headOfficeOutwardNumber) {
+        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
+    }
+
+    public InstantFilter getHeadOfficeOutwardDate() {
+        return headOfficeOutwardDate;
+    }
+
+    public InstantFilter headOfficeOutwardDate() {
+        if (headOfficeOutwardDate == null) {
+            headOfficeOutwardDate = new InstantFilter();
+        }
+        return headOfficeOutwardDate;
+    }
+
+    public void setHeadOfficeOutwardDate(InstantFilter headOfficeOutwardDate) {
+        this.headOfficeOutwardDate = headOfficeOutwardDate;
+    }
+
+    public StringFilter getTharavNumber() {
+        return tharavNumber;
+    }
+
+    public StringFilter tharavNumber() {
+        if (tharavNumber == null) {
+            tharavNumber = new StringFilter();
+        }
+        return tharavNumber;
+    }
+
+    public void setTharavNumber(StringFilter tharavNumber) {
+        this.tharavNumber = tharavNumber;
+    }
+
+    public InstantFilter getTharavDate() {
+        return tharavDate;
+    }
+
+    public InstantFilter tharavDate() {
+        if (tharavDate == null) {
+            tharavDate = new InstantFilter();
+        }
+        return tharavDate;
+    }
+
+    public void setTharavDate(InstantFilter tharavDate) {
+        this.tharavDate = tharavDate;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -1403,6 +1583,16 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             Objects.equals(divisionalOfficeVerifiedDate, that.divisionalOfficeVerifiedDate) &&
             Objects.equals(doshPurtataDate, that.doshPurtataDate) &&
             Objects.equals(gambhirDosh, that.gambhirDosh) &&
+            Objects.equals(branchInwardNumber, that.branchInwardNumber) &&
+            Objects.equals(branchInwardDate, that.branchInwardDate) &&
+            Objects.equals(branchOutwardNumber, that.branchOutwardNumber) &&
+            Objects.equals(branchOutwardDate, that.branchOutwardDate) &&
+            Objects.equals(headOfficeInwardNumber, that.headOfficeInwardNumber) &&
+            Objects.equals(headOfficeInwardDate, that.headOfficeInwardDate) &&
+            Objects.equals(headOfficeOutwardNumber, that.headOfficeOutwardNumber) &&
+            Objects.equals(headOfficeOutwardDate, that.headOfficeOutwardDate) &&
+            Objects.equals(tharavNumber, that.tharavNumber) &&
+            Objects.equals(tharavDate, that.tharavDate) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -1481,6 +1671,16 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             divisionalOfficeVerifiedDate,
             doshPurtataDate,
             gambhirDosh,
+            branchInwardNumber,
+            branchInwardDate,
+            branchOutwardNumber,
+            branchOutwardDate,
+            headOfficeInwardNumber,
+            headOfficeInwardDate,
+            headOfficeOutwardNumber,
+            headOfficeOutwardDate,
+            tharavNumber,
+            tharavDate,
             distinct
         );
     }
@@ -1560,6 +1760,16 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             (divisionalOfficeVerifiedDate != null ? "divisionalOfficeVerifiedDate=" + divisionalOfficeVerifiedDate + ", " : "") +
             (doshPurtataDate != null ? "doshPurtataDate=" + doshPurtataDate + ", " : "") +
             (gambhirDosh != null ? "gambhirDosh=" + gambhirDosh + ", " : "") +
+            (branchInwardNumber != null ? "branchInwardNumber=" + branchInwardNumber + ", " : "") +
+            (branchInwardDate != null ? "branchInwardDate=" + branchInwardDate + ", " : "") +
+            (branchOutwardNumber != null ? "branchOutwardNumber=" + branchOutwardNumber + ", " : "") +
+            (branchOutwardDate != null ? "branchOutwardDate=" + branchOutwardDate + ", " : "") +
+            (headOfficeInwardNumber != null ? "headOfficeInwardNumber=" + headOfficeInwardNumber + ", " : "") +
+            (headOfficeInwardDate != null ? "headOfficeInwardDate=" + headOfficeInwardDate + ", " : "") +
+            (headOfficeOutwardNumber != null ? "headOfficeOutwardNumber=" + headOfficeOutwardNumber + ", " : "") +
+            (headOfficeOutwardDate != null ? "headOfficeOutwardDate=" + headOfficeOutwardDate + ", " : "") +
+            (tharavNumber != null ? "tharavNumber=" + tharavNumber + ", " : "") +
+            (tharavDate != null ? "tharavDate=" + tharavDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

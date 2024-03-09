@@ -244,6 +244,36 @@ class KamalSocietyResourceIT {
     private static final String DEFAULT_GAMBHIR_DOSH = "AAAAAAAAAA";
     private static final String UPDATED_GAMBHIR_DOSH = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BRANCH_INWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_INWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_BRANCH_INWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BRANCH_INWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_BRANCH_OUTWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_OUTWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_BRANCH_OUTWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BRANCH_OUTWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_HEAD_OFFICE_INWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_INWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_HEAD_OFFICE_INWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HEAD_OFFICE_INWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_OUTWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_HEAD_OFFICE_OUTWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HEAD_OFFICE_OUTWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_THARAV_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_THARAV_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_THARAV_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_THARAV_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/kamal-societies";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -338,7 +368,17 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedBy(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)
             .divisionalOfficeVerifiedDate(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(DEFAULT_DOSH_PURTATA_DATE)
-            .gambhirDosh(DEFAULT_GAMBHIR_DOSH);
+            .gambhirDosh(DEFAULT_GAMBHIR_DOSH)
+            .branchInwardNumber(DEFAULT_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(DEFAULT_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(DEFAULT_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(DEFAULT_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(DEFAULT_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(DEFAULT_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(DEFAULT_THARAV_NUMBER)
+            .tharavDate(DEFAULT_THARAV_DATE);
         return kamalSociety;
     }
 
@@ -419,7 +459,17 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
-            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE);
         return kamalSociety;
     }
 
@@ -511,6 +561,16 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
         assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(DEFAULT_DOSH_PURTATA_DATE);
         assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(DEFAULT_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(DEFAULT_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(DEFAULT_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(DEFAULT_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(DEFAULT_THARAV_DATE);
     }
 
     @Test
@@ -631,7 +691,17 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
             .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
-            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)));
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)))
+            .andExpect(jsonPath("$.[*].branchInwardNumber").value(hasItem(DEFAULT_BRANCH_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchInwardDate").value(hasItem(DEFAULT_BRANCH_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchOutwardNumber").value(hasItem(DEFAULT_BRANCH_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchOutwardDate").value(hasItem(DEFAULT_BRANCH_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeInwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeInwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER)))
+            .andExpect(jsonPath("$.[*].tharavDate").value(hasItem(DEFAULT_THARAV_DATE.toString())));
     }
 
     @Test
@@ -715,7 +785,17 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.divisionalOfficeVerifiedBy").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY))
             .andExpect(jsonPath("$.divisionalOfficeVerifiedDate").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString()))
             .andExpect(jsonPath("$.doshPurtataDate").value(DEFAULT_DOSH_PURTATA_DATE.toString()))
-            .andExpect(jsonPath("$.gambhirDosh").value(DEFAULT_GAMBHIR_DOSH));
+            .andExpect(jsonPath("$.gambhirDosh").value(DEFAULT_GAMBHIR_DOSH))
+            .andExpect(jsonPath("$.branchInwardNumber").value(DEFAULT_BRANCH_INWARD_NUMBER))
+            .andExpect(jsonPath("$.branchInwardDate").value(DEFAULT_BRANCH_INWARD_DATE.toString()))
+            .andExpect(jsonPath("$.branchOutwardNumber").value(DEFAULT_BRANCH_OUTWARD_NUMBER))
+            .andExpect(jsonPath("$.branchOutwardDate").value(DEFAULT_BRANCH_OUTWARD_DATE.toString()))
+            .andExpect(jsonPath("$.headOfficeInwardNumber").value(DEFAULT_HEAD_OFFICE_INWARD_NUMBER))
+            .andExpect(jsonPath("$.headOfficeInwardDate").value(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString()))
+            .andExpect(jsonPath("$.headOfficeOutwardNumber").value(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER))
+            .andExpect(jsonPath("$.headOfficeOutwardDate").value(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString()))
+            .andExpect(jsonPath("$.tharavNumber").value(DEFAULT_THARAV_NUMBER))
+            .andExpect(jsonPath("$.tharavDate").value(DEFAULT_THARAV_DATE.toString()));
     }
 
     @Test
@@ -4897,6 +4977,534 @@ class KamalSocietyResourceIT {
         defaultKamalSocietyShouldBeFound("gambhirDosh.doesNotContain=" + UPDATED_GAMBHIR_DOSH);
     }
 
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardNumber equals to DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.equals=" + DEFAULT_BRANCH_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchInwardNumber equals to UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.equals=" + UPDATED_BRANCH_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardNumber in DEFAULT_BRANCH_INWARD_NUMBER or UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.in=" + DEFAULT_BRANCH_INWARD_NUMBER + "," + UPDATED_BRANCH_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchInwardNumber equals to UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.in=" + UPDATED_BRANCH_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardNumber is not null
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.specified=true");
+
+        // Get all the kamalSocietyList where branchInwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardNumberContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardNumber contains DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.contains=" + DEFAULT_BRANCH_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchInwardNumber contains UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.contains=" + UPDATED_BRANCH_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardNumber does not contain DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.doesNotContain=" + DEFAULT_BRANCH_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchInwardNumber does not contain UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.doesNotContain=" + UPDATED_BRANCH_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardDate equals to DEFAULT_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchInwardDate.equals=" + DEFAULT_BRANCH_INWARD_DATE);
+
+        // Get all the kamalSocietyList where branchInwardDate equals to UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.equals=" + UPDATED_BRANCH_INWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardDate in DEFAULT_BRANCH_INWARD_DATE or UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchInwardDate.in=" + DEFAULT_BRANCH_INWARD_DATE + "," + UPDATED_BRANCH_INWARD_DATE);
+
+        // Get all the kamalSocietyList where branchInwardDate equals to UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.in=" + UPDATED_BRANCH_INWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchInwardDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchInwardDate is not null
+        defaultKamalSocietyShouldBeFound("branchInwardDate.specified=true");
+
+        // Get all the kamalSocietyList where branchInwardDate is null
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardNumber equals to DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.equals=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchOutwardNumber equals to UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.equals=" + UPDATED_BRANCH_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardNumber in DEFAULT_BRANCH_OUTWARD_NUMBER or UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.in=" + DEFAULT_BRANCH_OUTWARD_NUMBER + "," + UPDATED_BRANCH_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchOutwardNumber equals to UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.in=" + UPDATED_BRANCH_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardNumber is not null
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.specified=true");
+
+        // Get all the kamalSocietyList where branchOutwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardNumberContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardNumber contains DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.contains=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchOutwardNumber contains UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.contains=" + UPDATED_BRANCH_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardNumber does not contain DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.doesNotContain=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where branchOutwardNumber does not contain UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.doesNotContain=" + UPDATED_BRANCH_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardDate equals to DEFAULT_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.equals=" + DEFAULT_BRANCH_OUTWARD_DATE);
+
+        // Get all the kamalSocietyList where branchOutwardDate equals to UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.equals=" + UPDATED_BRANCH_OUTWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardDate in DEFAULT_BRANCH_OUTWARD_DATE or UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.in=" + DEFAULT_BRANCH_OUTWARD_DATE + "," + UPDATED_BRANCH_OUTWARD_DATE);
+
+        // Get all the kamalSocietyList where branchOutwardDate equals to UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.in=" + UPDATED_BRANCH_OUTWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBranchOutwardDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where branchOutwardDate is not null
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.specified=true");
+
+        // Get all the kamalSocietyList where branchOutwardDate is null
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.equals=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.equals=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber in DEFAULT_HEAD_OFFICE_INWARD_NUMBER or UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeInwardNumber.in=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER + "," + UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        );
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.in=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber is not null
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.specified=true");
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardNumberContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber contains DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.contains=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber contains UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.contains=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber does not contain DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.doesNotContain=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeInwardNumber does not contain UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.doesNotContain=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to DEFAULT_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("headOfficeInwardDate.equals=" + DEFAULT_HEAD_OFFICE_INWARD_DATE);
+
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.equals=" + UPDATED_HEAD_OFFICE_INWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardDate in DEFAULT_HEAD_OFFICE_INWARD_DATE or UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeInwardDate.in=" + DEFAULT_HEAD_OFFICE_INWARD_DATE + "," + UPDATED_HEAD_OFFICE_INWARD_DATE
+        );
+
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.in=" + UPDATED_HEAD_OFFICE_INWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeInwardDate is not null
+        defaultKamalSocietyShouldBeFound("headOfficeInwardDate.specified=true");
+
+        // Get all the kamalSocietyList where headOfficeInwardDate is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.equals=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.equals=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber in DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER or UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeOutwardNumber.in=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER + "," + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        );
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.in=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber is not null
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.specified=true");
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber contains DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.contains=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber contains UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.contains=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber does not contain DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.doesNotContain=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
+
+        // Get all the kamalSocietyList where headOfficeOutwardNumber does not contain UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.doesNotContain=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to DEFAULT_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardDate.equals=" + DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.equals=" + UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate in DEFAULT_HEAD_OFFICE_OUTWARD_DATE or UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeOutwardDate.in=" + DEFAULT_HEAD_OFFICE_OUTWARD_DATE + "," + UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        );
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.in=" + UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate is not null
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardDate.specified=true");
+
+        // Get all the kamalSocietyList where headOfficeOutwardDate is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavNumber equals to DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.equals=" + DEFAULT_THARAV_NUMBER);
+
+        // Get all the kamalSocietyList where tharavNumber equals to UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.equals=" + UPDATED_THARAV_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavNumber in DEFAULT_THARAV_NUMBER or UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.in=" + DEFAULT_THARAV_NUMBER + "," + UPDATED_THARAV_NUMBER);
+
+        // Get all the kamalSocietyList where tharavNumber equals to UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.in=" + UPDATED_THARAV_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavNumber is not null
+        defaultKamalSocietyShouldBeFound("tharavNumber.specified=true");
+
+        // Get all the kamalSocietyList where tharavNumber is null
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavNumberContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavNumber contains DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.contains=" + DEFAULT_THARAV_NUMBER);
+
+        // Get all the kamalSocietyList where tharavNumber contains UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.contains=" + UPDATED_THARAV_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavNumber does not contain DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.doesNotContain=" + DEFAULT_THARAV_NUMBER);
+
+        // Get all the kamalSocietyList where tharavNumber does not contain UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.doesNotContain=" + UPDATED_THARAV_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavDate equals to DEFAULT_THARAV_DATE
+        defaultKamalSocietyShouldBeFound("tharavDate.equals=" + DEFAULT_THARAV_DATE);
+
+        // Get all the kamalSocietyList where tharavDate equals to UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldNotBeFound("tharavDate.equals=" + UPDATED_THARAV_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavDate in DEFAULT_THARAV_DATE or UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldBeFound("tharavDate.in=" + DEFAULT_THARAV_DATE + "," + UPDATED_THARAV_DATE);
+
+        // Get all the kamalSocietyList where tharavDate equals to UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldNotBeFound("tharavDate.in=" + UPDATED_THARAV_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByTharavDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where tharavDate is not null
+        defaultKamalSocietyShouldBeFound("tharavDate.specified=true");
+
+        // Get all the kamalSocietyList where tharavDate is null
+        defaultKamalSocietyShouldNotBeFound("tharavDate.specified=false");
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -4977,7 +5585,17 @@ class KamalSocietyResourceIT {
             .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
             .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
             .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
-            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)));
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)))
+            .andExpect(jsonPath("$.[*].branchInwardNumber").value(hasItem(DEFAULT_BRANCH_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchInwardDate").value(hasItem(DEFAULT_BRANCH_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchOutwardNumber").value(hasItem(DEFAULT_BRANCH_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchOutwardDate").value(hasItem(DEFAULT_BRANCH_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeInwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeInwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER)))
+            .andExpect(jsonPath("$.[*].tharavDate").value(hasItem(DEFAULT_THARAV_DATE.toString())));
 
         // Check, that the count call also returns 1
         restKamalSocietyMockMvc
@@ -5095,7 +5713,17 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
-            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5179,6 +5807,16 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
         assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
         assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(UPDATED_THARAV_DATE);
     }
 
     @Test
@@ -5281,7 +5919,12 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
-            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5365,6 +6008,16 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
         assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(DEFAULT_DOSH_PURTATA_DATE);
         assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(DEFAULT_THARAV_DATE);
     }
 
     @Test
@@ -5449,7 +6102,17 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
-            .gambhirDosh(UPDATED_GAMBHIR_DOSH);
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE);
 
         restKamalSocietyMockMvc
             .perform(
@@ -5533,6 +6196,16 @@ class KamalSocietyResourceIT {
         assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
         assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
         assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(UPDATED_THARAV_DATE);
     }
 
     @Test

@@ -87,7 +87,17 @@
       "divisionalOfficeVerifiedBy": "Divisional Office Verified By",
       "divisionalOfficeVerifiedDate": "Divisional Office Verified Date",
       "doshPurtataDate": "Dosh Purtata Date",
-      "gambhirDosh": "Gambhir Dosh"
+      "gambhirDosh": "Gambhir Dosh",
+      "branchInwardNumber": "Branch Inward Number",
+      "branchInwardDate": "Branch Inward Date",
+      "branchOutwardNumber": "Branch Outward Number",
+      "branchOutwardDate": "Branch Outward Date",
+      "headOfficeInwardNumber": "Head Office Inward Number",
+      "headOfficeInwardDate": "Head Office Inward Date",
+      "headOfficeOutwardNumber": "Head Office Outward Number",
+      "headOfficeOutwardDate": "Head Office Outward Date",
+      "tharavNumber": "Tharav Number",
+      "tharavDate": "Tharav Date"
     }
   }
 }

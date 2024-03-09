@@ -21,6 +21,11 @@ const requireRestSample: RestKamalSociety = {
   headOfficeVerifiedDate: sampleWithRequiredData.headOfficeVerifiedDate?.toJSON(),
   divisionalOfficeVerifiedDate: sampleWithRequiredData.divisionalOfficeVerifiedDate?.toJSON(),
   doshPurtataDate: sampleWithRequiredData.doshPurtataDate?.toJSON(),
+  branchInwardDate: sampleWithRequiredData.branchInwardDate?.toJSON(),
+  branchOutwardDate: sampleWithRequiredData.branchOutwardDate?.toJSON(),
+  headOfficeInwardDate: sampleWithRequiredData.headOfficeInwardDate?.toJSON(),
+  headOfficeOutwardDate: sampleWithRequiredData.headOfficeOutwardDate?.toJSON(),
+  tharavDate: sampleWithRequiredData.tharavDate?.toJSON(),
 };
 
 describe('KamalSociety Service', () => {

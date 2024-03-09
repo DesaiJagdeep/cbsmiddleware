@@ -460,6 +460,66 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="branchInwardNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchInwardNumber">Branch Inward Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchInwardDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchInwardDate">Branch Inward Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchOutwardNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchOutwardNumber">Branch Outward Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="branchOutwardDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.branchOutwardDate">Branch Outward Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeInwardNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeInwardNumber">Head Office Inward Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeInwardDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeInwardDate">Head Office Inward Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeOutwardNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeOutwardNumber">Head Office Outward Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="headOfficeOutwardDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.headOfficeOutwardDate">Head Office Outward Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavNumber">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.tharavNumber">Tharav Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tharavDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalSociety.tharavDate">Tharav Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -538,6 +598,16 @@
           <td>{{ kamalSociety.divisionalOfficeVerifiedDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.doshPurtataDate | formatMediumDatetime }}</td>
           <td>{{ kamalSociety.gambhirDosh }}</td>
+          <td>{{ kamalSociety.branchInwardNumber }}</td>
+          <td>{{ kamalSociety.branchInwardDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.branchOutwardNumber }}</td>
+          <td>{{ kamalSociety.branchOutwardDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.headOfficeInwardNumber }}</td>
+          <td>{{ kamalSociety.headOfficeInwardDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.headOfficeOutwardNumber }}</td>
+          <td>{{ kamalSociety.headOfficeOutwardDate | formatMediumDatetime }}</td>
+          <td>{{ kamalSociety.tharavNumber }}</td>
+          <td>{{ kamalSociety.tharavDate | formatMediumDatetime }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

@@ -329,6 +329,45 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getGambhirDosh() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGambhirDosh(), KamalSociety_.gambhirDosh));
             }
+            if (criteria.getBranchInwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBranchInwardNumber(), KamalSociety_.branchInwardNumber));
+            }
+            if (criteria.getBranchInwardDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchInwardDate(), KamalSociety_.branchInwardDate));
+            }
+            if (criteria.getBranchOutwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBranchOutwardNumber(), KamalSociety_.branchOutwardNumber));
+            }
+            if (criteria.getBranchOutwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getBranchOutwardDate(), KamalSociety_.branchOutwardDate));
+            }
+            if (criteria.getHeadOfficeInwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getHeadOfficeInwardNumber(), KamalSociety_.headOfficeInwardNumber));
+            }
+            if (criteria.getHeadOfficeInwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getHeadOfficeInwardDate(), KamalSociety_.headOfficeInwardDate));
+            }
+            if (criteria.getHeadOfficeOutwardNumber() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getHeadOfficeOutwardNumber(), KamalSociety_.headOfficeOutwardNumber)
+                    );
+            }
+            if (criteria.getHeadOfficeOutwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getHeadOfficeOutwardDate(), KamalSociety_.headOfficeOutwardDate));
+            }
+            if (criteria.getTharavNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTharavNumber(), KamalSociety_.tharavNumber));
+            }
+            if (criteria.getTharavDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTharavDate(), KamalSociety_.tharavDate));
+            }
         }
         return specification;
     }

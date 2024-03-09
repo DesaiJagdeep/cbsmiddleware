@@ -26,6 +26,11 @@ type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   | 'headOfficeVerifiedDate'
   | 'divisionalOfficeVerifiedDate'
   | 'doshPurtataDate'
+  | 'branchInwardDate'
+  | 'branchOutwardDate'
+  | 'headOfficeInwardDate'
+  | 'headOfficeOutwardDate'
+  | 'tharavDate'
 > & {
   kmDate?: string | null;
   kmFromDate?: string | null;
@@ -40,6 +45,11 @@ type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<
   headOfficeVerifiedDate?: string | null;
   divisionalOfficeVerifiedDate?: string | null;
   doshPurtataDate?: string | null;
+  branchInwardDate?: string | null;
+  branchOutwardDate?: string | null;
+  headOfficeInwardDate?: string | null;
+  headOfficeOutwardDate?: string | null;
+  tharavDate?: string | null;
 };
 
 export type RestKamalSociety = RestOf<IKamalSociety>;
@@ -141,6 +151,11 @@ export class KamalSocietyService {
       headOfficeVerifiedDate: kamalSociety.headOfficeVerifiedDate?.toJSON() ?? null,
       divisionalOfficeVerifiedDate: kamalSociety.divisionalOfficeVerifiedDate?.toJSON() ?? null,
       doshPurtataDate: kamalSociety.doshPurtataDate?.toJSON() ?? null,
+      branchInwardDate: kamalSociety.branchInwardDate?.toJSON() ?? null,
+      branchOutwardDate: kamalSociety.branchOutwardDate?.toJSON() ?? null,
+      headOfficeInwardDate: kamalSociety.headOfficeInwardDate?.toJSON() ?? null,
+      headOfficeOutwardDate: kamalSociety.headOfficeOutwardDate?.toJSON() ?? null,
+      tharavDate: kamalSociety.tharavDate?.toJSON() ?? null,
     };
   }
 
@@ -162,6 +177,11 @@ export class KamalSocietyService {
         ? dayjs(restKamalSociety.divisionalOfficeVerifiedDate)
         : undefined,
       doshPurtataDate: restKamalSociety.doshPurtataDate ? dayjs(restKamalSociety.doshPurtataDate) : undefined,
+      branchInwardDate: restKamalSociety.branchInwardDate ? dayjs(restKamalSociety.branchInwardDate) : undefined,
+      branchOutwardDate: restKamalSociety.branchOutwardDate ? dayjs(restKamalSociety.branchOutwardDate) : undefined,
+      headOfficeInwardDate: restKamalSociety.headOfficeInwardDate ? dayjs(restKamalSociety.headOfficeInwardDate) : undefined,
+      headOfficeOutwardDate: restKamalSociety.headOfficeOutwardDate ? dayjs(restKamalSociety.headOfficeOutwardDate) : undefined,
+      tharavDate: restKamalSociety.tharavDate ? dayjs(restKamalSociety.tharavDate) : undefined,
     };
   }
 

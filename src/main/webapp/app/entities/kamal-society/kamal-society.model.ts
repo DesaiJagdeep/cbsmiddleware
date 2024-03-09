@@ -72,6 +72,16 @@ export interface IKamalSociety {
   divisionalOfficeVerifiedDate?: dayjs.Dayjs | null;
   doshPurtataDate?: dayjs.Dayjs | null;
   gambhirDosh?: string | null;
+  branchInwardNumber?: string | null;
+  branchInwardDate?: dayjs.Dayjs | null;
+  branchOutwardNumber?: string | null;
+  branchOutwardDate?: dayjs.Dayjs | null;
+  headOfficeInwardNumber?: string | null;
+  headOfficeInwardDate?: dayjs.Dayjs | null;
+  headOfficeOutwardNumber?: string | null;
+  headOfficeOutwardDate?: dayjs.Dayjs | null;
+  tharavNumber?: string | null;
+  tharavDate?: dayjs.Dayjs | null;
 }
 
 export type NewKamalSociety = Omit<IKamalSociety, 'id'> & { id: null };

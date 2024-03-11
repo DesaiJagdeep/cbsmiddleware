@@ -1,9 +1,13 @@
 package com.cbs.middleware.domain;
 
+import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -236,6 +240,40 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
 
     @Column(name = "gambhir_dosh")
     private String gambhirDosh;
+
+    @Column(name = "branch_inward_number")
+    private String branchInwardNumber;
+
+    @Column(name = "branch_inward_date")
+    private Instant branchInwardDate;
+
+    @Column(name = "branch_outward_number")
+    private String branchOutwardNumber;
+
+    @Column(name = "branch_outward_date")
+    private Instant branchOutwardDate;
+
+
+    @Column(name = "head_office_inward_number")
+    private String headOfficeInwardNumber;
+
+    @Column(name = "head_office_inward_date")
+    private Instant headOfficeInwardDate;
+
+
+    @Column(name = "head_office_outward_number")
+    private String headOfficeOutwardNumber;
+
+    @Column(name = "head_office_outward_date")
+    private Instant headOfficeOutwardDate;
+
+
+    @Column(name = "tharav_number")
+    private String tharavNumber;
+
+
+    @Column(name = "tharav_date")
+    private Instant tharavDate;
 
 
     @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
@@ -1209,6 +1247,95 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     public void setGambhirDosh(String gambhirDosh) {
         this.gambhirDosh = gambhirDosh;
     }
+
+    public Boolean getSupplimenteryFlag() {
+        return isSupplimenteryFlag;
+    }
+
+    public void setSupplimenteryFlag(Boolean supplimenteryFlag) {
+        isSupplimenteryFlag = supplimenteryFlag;
+    }
+
+    public String getBranchInwardNumber() {
+        return branchInwardNumber;
+    }
+
+    public void setBranchInwardNumber(String branchInwardNumber) {
+        this.branchInwardNumber = branchInwardNumber;
+    }
+
+    public Instant getBranchInwardDate() {
+        return branchInwardDate;
+    }
+
+    public void setBranchInwardDate(Instant branchInwardDate) {
+        this.branchInwardDate = branchInwardDate;
+    }
+
+    public String getBranchOutwardNumber() {
+        return branchOutwardNumber;
+    }
+
+    public void setBranchOutwardNumber(String branchOutwardNumber) {
+        this.branchOutwardNumber = branchOutwardNumber;
+    }
+
+    public Instant getBranchOutwardDate() {
+        return branchOutwardDate;
+    }
+
+    public void setBranchOutwardDate(Instant branchOutwardDate) {
+        this.branchOutwardDate = branchOutwardDate;
+    }
+
+    public String getHeadOfficeInwardNumber() {
+        return headOfficeInwardNumber;
+    }
+
+    public void setHeadOfficeInwardNumber(String headOfficeInwardNumber) {
+        this.headOfficeInwardNumber = headOfficeInwardNumber;
+    }
+
+    public Instant getHeadOfficeInwardDate() {
+        return headOfficeInwardDate;
+    }
+
+    public void setHeadOfficeInwardDate(Instant headOfficeInwardDate) {
+        this.headOfficeInwardDate = headOfficeInwardDate;
+    }
+
+    public String getHeadOfficeOutwardNumber() {
+        return headOfficeOutwardNumber;
+    }
+
+    public void setHeadOfficeOutwardNumber(String headOfficeOutwardNumber) {
+        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
+    }
+
+    public Instant getHeadOfficeOutwardDate() {
+        return headOfficeOutwardDate;
+    }
+
+    public void setHeadOfficeOutwardDate(Instant headOfficeOutwardDate) {
+        this.headOfficeOutwardDate = headOfficeOutwardDate;
+    }
+
+    public String getTharavNumber() {
+        return tharavNumber;
+    }
+
+    public void setTharavNumber(String tharavNumber) {
+        this.tharavNumber = tharavNumber;
+    }
+
+    public Instant getTharavDate() {
+        return tharavDate;
+    }
+
+    public void setTharavDate(Instant tharavDate) {
+        this.tharavDate = tharavDate;
+    }
+
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
@@ -1292,4 +1419,14 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
             ", talukaName='" + getTalukaName() + "'" +
             "}";
     }
+
+
+    public LocalDate instantToLocalDate(Instant instantDate) {
+
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("UTC"));
+
+        LocalDate localDate = zonedDateTime.toLocalDate();
+        return localDate;
+    }
+
 }

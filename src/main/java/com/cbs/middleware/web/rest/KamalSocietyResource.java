@@ -141,7 +141,6 @@ public class KamalSocietyResource {
         kamalSociety.setKmFromDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmFromDate())));
         kamalSociety.setKmToDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmToDate())));
         kamalSociety.setBalanceSheetDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate())));
-        //kamalSociety.setTa(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getTalebandDate())));
         kamalSociety.setZindagiPatrakDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getZindagiPatrakDate())));
         kamalSociety.setBankTapasaniDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBankTapasaniDate())));
         kamalSociety.setBalanceSheetDateMr(TranslationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate())));
@@ -711,6 +710,25 @@ public class KamalSocietyResource {
                     smallSummaryToPrint,
                     otherSummaryToPrint,
                     totalSummaryToPrint,
+                    sugarcaneMarginalListToPrint,
+                    sugarcaneSmallListToPrint,
+                    totalSugarcaneA,
+                    sugarcaneOtherListToPrint,
+                    totalSugarcaneB,
+                    totalSugarcaneAplusB,
+                    kharipMarginalListToPrint,
+                    kharipSmallListToPrint,
+                    totalKharipA,
+                    kharipOtherListToPrint,
+                    totalKharipB,
+                    totalKharipAplusB,
+                    rabbiMarginalListToPrint,
+                    rabbiSmallListToPrint,
+                    totalRabbiA,
+                    rabbiOtherListToPrint,
+                    totalRabbiB,
+                    totalRabbiAplusB,
+                    grandTotal,
                     TranslationServiceUtility.getInstance()
                 );
                 htmlList.add(htmlStringForPdf);
@@ -1161,6 +1179,25 @@ public class KamalSocietyResource {
                                               List<KamalCrop> smallSummary,
                                               List<KamalCrop> otherSummary,
                                               KamalCrop totalSummaryToPrint,
+                                              List<KamalCrop> sugarcaneMarginal,
+                                              List<KamalCrop> sugarcaneSmall,
+                                              KamalCrop totalSugarcaneA,
+                                              List<KamalCrop> sugarcaneOther,
+                                              KamalCrop totalSugarcaneB,
+                                              KamalCrop totalSugarcaneAplusB,
+                                              List<KamalCrop> kharipMarginal,
+                                              List<KamalCrop> kharipSmall,
+                                              KamalCrop totalKharipA,
+                                              List<KamalCrop> kharipOther,
+                                              KamalCrop totalKharipB,
+                                              KamalCrop totalKharipAplusB,
+                                              List<KamalCrop> rabbiMarginal,
+                                              List<KamalCrop> rabbiSmall,
+                                              KamalCrop totalRabbiA,
+                                              List<KamalCrop> rabbiOther,
+                                              KamalCrop totalRabbiB,
+                                              KamalCrop totalRabbiAplusB,
+                                              KamalCrop grandTotal,
                                               TranslationServiceUtility translationServiceUtility) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
@@ -1169,6 +1206,25 @@ public class KamalSocietyResource {
         context.setVariable("smallSummary", smallSummary);
         context.setVariable("otherSummary", otherSummary);
         context.setVariable("totalSummaryToPrint", totalSummaryToPrint);
+        context.setVariable("sugarcaneMarginal", sugarcaneMarginal);
+        context.setVariable("sugarcaneSmall", sugarcaneSmall);
+        context.setVariable("totalSugarcaneA", totalSugarcaneA);
+        context.setVariable("sugarcaneOther", sugarcaneOther);
+        context.setVariable("totalSugarcaneB", totalSugarcaneB);
+        context.setVariable("totalSugarcaneAplusB", totalSugarcaneAplusB);
+        context.setVariable("kharipMarginal", kharipMarginal);
+        context.setVariable("kharipSmall", kharipSmall);
+        context.setVariable("totalKharipA", totalKharipA);
+        context.setVariable("kharipOther", kharipOther);
+        context.setVariable("totalKharipB", totalKharipB);
+        context.setVariable("totalKharipAplusB", totalKharipAplusB);
+        context.setVariable("rabbiMarginal", rabbiMarginal);
+        context.setVariable("rabbiSmall", rabbiSmall);
+        context.setVariable("totalRabbiA", totalRabbiA);
+        context.setVariable("rabbiOther", rabbiOther);
+        context.setVariable("totalRabbiB", totalRabbiB);
+        context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
+        context.setVariable("grandTotal", grandTotal);
         context.setVariable("translationServiceUtility", translationServiceUtility);
         return templateEngine.process(template, context);
     }

@@ -50,7 +50,7 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
         GrantedAuthority authority = authorities.stream().findFirst().get();
 
         Optional<KamalSociety> kamalSocietyDB = kamalSocietyRepository.findById(kamalSociety.getId());
-        if(kamalSocietyDB.isPresent()){
+        if (kamalSocietyDB.isPresent()) {
             kamalSociety.setPacsNumber(kamalSocietyDB.get().getPacsNumber());
             kamalSociety.setPacsName(kamalSocietyDB.get().getPacsName());
             kamalSociety.setBranchId(kamalSocietyDB.get().getBranchId());
@@ -60,259 +60,288 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
         }
 
 
-
         if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
-           kamalSociety.setBranchVerifiedBy(auth.getName());
-           kamalSociety.setBranchVerifiedDate(Instant.now());
+            kamalSociety.setBranchVerifiedBy(auth.getName());
+            kamalSociety.setBranchVerifiedDate(Instant.now());
         } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
             kamalSociety.setHeadOfficeVerifiedBy(auth.getName());
             kamalSociety.setHeadOfficeVerifiedDate(Instant.now());
         } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
-           kamalSociety.setDivisionalOfficeVerifiedBy(AuthoritiesConstants.ADMIN);
-           kamalSociety.setDivisionalOfficeVerifiedDate(Instant.now());
-       }
-            return kamalSocietyRepository.save(kamalSociety);
+            kamalSociety.setDivisionalOfficeVerifiedBy(AuthoritiesConstants.ADMIN);
+            kamalSociety.setDivisionalOfficeVerifiedDate(Instant.now());
         }
-
-        @Override
-        public Optional<KamalSociety> partialUpdate (KamalSociety kamalSociety){
-            log.debug("Request to partially update KamalSociety : {}", kamalSociety);
-
-            return kamalSocietyRepository
-                .findById(kamalSociety.getId())
-                .map(existingKamalSociety -> {
-                    if (kamalSociety.getFinancialYear() != null) {
-                        existingKamalSociety.setFinancialYear(kamalSociety.getFinancialYear());
-                    }
-                    if (kamalSociety.getKmDate() != null) {
-                        existingKamalSociety.setKmDate(kamalSociety.getKmDate());
-                    }
-                    if (kamalSociety.getKmDateMr() != null) {
-                        existingKamalSociety.setKmDateMr(kamalSociety.getKmDateMr());
-                    }
-                    if (kamalSociety.getKmFromDate() != null) {
-                        existingKamalSociety.setKmFromDate(kamalSociety.getKmFromDate());
-                    }
-                    if (kamalSociety.getKmFromDateMr() != null) {
-                        existingKamalSociety.setKmFromDateMr(kamalSociety.getKmFromDateMr());
-                    }
-                    if (kamalSociety.getKmToDate() != null) {
-                        existingKamalSociety.setKmToDate(kamalSociety.getKmToDate());
-                    }
-                    if (kamalSociety.getKmToDateMr() != null) {
-                        existingKamalSociety.setKmToDateMr(kamalSociety.getKmToDateMr());
-                    }
-                    if (kamalSociety.getPacsNumber() != null) {
-                        existingKamalSociety.setPacsNumber(kamalSociety.getPacsNumber());
-                    }
-                    if (kamalSociety.getPacsName() != null) {
-                        existingKamalSociety.setPacsName(kamalSociety.getPacsName());
-                    }
-                    if (kamalSociety.getBranchId() != null) {
-                        existingKamalSociety.setBranchId(kamalSociety.getBranchId());
-                    }
-                    if (kamalSociety.getBranchName() != null) {
-                        existingKamalSociety.setBranchName(kamalSociety.getBranchName());
-                    }
-                    if (kamalSociety.getZindagiPatrakDate() != null) {
-                        existingKamalSociety.setZindagiPatrakDate(kamalSociety.getZindagiPatrakDate());
-                    }
-                    if (kamalSociety.getZindagiPatrakDateMr() != null) {
-                        existingKamalSociety.setZindagiPatrakDateMr(kamalSociety.getZindagiPatrakDateMr());
-                    }
-                    if (kamalSociety.getBankTapasaniDate() != null) {
-                        existingKamalSociety.setBankTapasaniDate(kamalSociety.getBankTapasaniDate());
-                    }
-                    if (kamalSociety.getBankTapasaniDateMr() != null) {
-                        existingKamalSociety.setBankTapasaniDateMr(kamalSociety.getBankTapasaniDateMr());
-                    }
-                    if (kamalSociety.getGovTapasaniDate() != null) {
-                        existingKamalSociety.setGovTapasaniDate(kamalSociety.getGovTapasaniDate());
-                    }
-                    if (kamalSociety.getGovTapasaniDateMr() != null) {
-                        existingKamalSociety.setGovTapasaniDateMr(kamalSociety.getGovTapasaniDateMr());
-                    }
-                    if (kamalSociety.getSansthaTapasaniDate() != null) {
-                        existingKamalSociety.setSansthaTapasaniDate(kamalSociety.getSansthaTapasaniDate());
-                    }
-                    if (kamalSociety.getSansthaTapasaniDateMr() != null) {
-                        existingKamalSociety.setSansthaTapasaniDateMr(kamalSociety.getSansthaTapasaniDateMr());
-                    }
-                    if (kamalSociety.getTotalLand() != null) {
-                        existingKamalSociety.setTotalLand(kamalSociety.getTotalLand());
-                    }
-                    if (kamalSociety.getBagayat() != null) {
-                        existingKamalSociety.setBagayat(kamalSociety.getBagayat());
-                    }
-                    if (kamalSociety.getJirayat() != null) {
-                        existingKamalSociety.setJirayat(kamalSociety.getJirayat());
-                    }
-                    if (kamalSociety.getTotalFarmer() != null) {
-                        existingKamalSociety.setTotalFarmer(kamalSociety.getTotalFarmer());
-                    }
-                    if (kamalSociety.getMemberFarmer() != null) {
-                        existingKamalSociety.setMemberFarmer(kamalSociety.getMemberFarmer());
-                    }
-                    if (kamalSociety.getNonMemberFarmer() != null) {
-                        existingKamalSociety.setNonMemberFarmer(kamalSociety.getNonMemberFarmer());
-                    }
-                    if (kamalSociety.getTalebandDate() != null) {
-                        existingKamalSociety.setTalebandDate(kamalSociety.getTalebandDate());
-                    }
-                    if (kamalSociety.getMemLoan() != null) {
-                        existingKamalSociety.setMemLoan(kamalSociety.getMemLoan());
-                    }
-                    if (kamalSociety.getMemDue() != null) {
-                        existingKamalSociety.setMemDue(kamalSociety.getMemDue());
-                    }
-                    if (kamalSociety.getMemVasuli() != null) {
-                        existingKamalSociety.setMemVasuli(kamalSociety.getMemVasuli());
-                    }
-                    if (kamalSociety.getMemVasuliPer() != null) {
-                        existingKamalSociety.setMemVasuliPer(kamalSociety.getMemVasuliPer());
-                    }
-                    if (kamalSociety.getBankLoan() != null) {
-                        existingKamalSociety.setBankLoan(kamalSociety.getBankLoan());
-                    }
-                    if (kamalSociety.getBankDue() != null) {
-                        existingKamalSociety.setBankDue(kamalSociety.getBankDue());
-                    }
-                    if (kamalSociety.getBankVasuli() != null) {
-                        existingKamalSociety.setBankVasuli(kamalSociety.getBankVasuli());
-                    }
-                    if (kamalSociety.getBankVasuliPer() != null) {
-                        existingKamalSociety.setBankVasuliPer(kamalSociety.getBankVasuliPer());
-                    }
-                    if (kamalSociety.getBalanceSheetDate() != null) {
-                        existingKamalSociety.setBalanceSheetDate(kamalSociety.getBalanceSheetDate());
-                    }
-                    if (kamalSociety.getBalanceSheetDateMr() != null) {
-                        existingKamalSociety.setBalanceSheetDateMr(kamalSociety.getBalanceSheetDateMr());
-                    }
-                    if (kamalSociety.getLiabilityAdhikrutShareCapital() != null) {
-                        existingKamalSociety.setLiabilityAdhikrutShareCapital(kamalSociety.getLiabilityAdhikrutShareCapital());
-                    }
-                    if (kamalSociety.getLiabilityVasulShareCapital() != null) {
-                        existingKamalSociety.setLiabilityVasulShareCapital(kamalSociety.getLiabilityVasulShareCapital());
-                    }
-                    if (kamalSociety.getLiabilityFund() != null) {
-                        existingKamalSociety.setLiabilityFund(kamalSociety.getLiabilityFund());
-                    }
-                    if (kamalSociety.getLiabilitySpareFund() != null) {
-                        existingKamalSociety.setLiabilitySpareFund(kamalSociety.getLiabilitySpareFund());
-                    }
-                    if (kamalSociety.getLiabilityDeposite() != null) {
-                        existingKamalSociety.setLiabilityDeposite(kamalSociety.getLiabilityDeposite());
-                    }
-                    if (kamalSociety.getLiabilityBalanceSheetBankLoan() != null) {
-                        existingKamalSociety.setLiabilityBalanceSheetBankLoan(kamalSociety.getLiabilityBalanceSheetBankLoan());
-                    }
-                    if (kamalSociety.getLiabilityOtherPayable() != null) {
-                        existingKamalSociety.setLiabilityOtherPayable(kamalSociety.getLiabilityOtherPayable());
-                    }
-                    if (kamalSociety.getLiabilityProfit() != null) {
-                        existingKamalSociety.setLiabilityProfit(kamalSociety.getLiabilityProfit());
-                    }
-                    if (kamalSociety.getAssetCash() != null) {
-                        existingKamalSociety.setAssetCash(kamalSociety.getAssetCash());
-                    }
-                    if (kamalSociety.getAssetInvestment() != null) {
-                        existingKamalSociety.setAssetInvestment(kamalSociety.getAssetInvestment());
-                    }
-                    if (kamalSociety.getAssetImaratFund() != null) {
-                        existingKamalSociety.setAssetImaratFund(kamalSociety.getAssetImaratFund());
-                    }
-                    if (kamalSociety.getAssetMemberLoan() != null) {
-                        existingKamalSociety.setAssetMemberLoan(kamalSociety.getAssetMemberLoan());
-                    }
-                    if (kamalSociety.getAssetDeadStock() != null) {
-                        existingKamalSociety.setAssetDeadStock(kamalSociety.getAssetDeadStock());
-                    }
-                    if (kamalSociety.getAssetOtherReceivable() != null) {
-                        existingKamalSociety.setAssetOtherReceivable(kamalSociety.getAssetOtherReceivable());
-                    }
-                    if (kamalSociety.getAssetLoss() != null) {
-                        existingKamalSociety.setAssetLoss(kamalSociety.getAssetLoss());
-                    }
-                    if (kamalSociety.getTotalLiability() != null) {
-                        existingKamalSociety.setTotalLiability(kamalSociety.getTotalLiability());
-                    }
-                    if (kamalSociety.getTotalAsset() != null) {
-                        existingKamalSociety.setTotalAsset(kamalSociety.getTotalAsset());
-                    }
-                    if (kamalSociety.getVillageCode() != null) {
-                        existingKamalSociety.setVillageCode(kamalSociety.getVillageCode());
-                    }
-                    if (kamalSociety.getPacsVerifiedFlag() != null) {
-                        existingKamalSociety.setPacsVerifiedFlag(kamalSociety.getPacsVerifiedFlag());
-                    }
-                    if (kamalSociety.getBranchVerifiedFlag() != null) {
-                        existingKamalSociety.setBranchVerifiedFlag(kamalSociety.getBranchVerifiedFlag());
-                    }
-                    if (kamalSociety.getHeadOfficeVerifiedFlag() != null) {
-                        existingKamalSociety.setHeadOfficeVerifiedFlag(kamalSociety.getHeadOfficeVerifiedFlag());
-                    }
-                    if (kamalSociety.getDivisionalOfficeVerifiedFlag() != null) {
-                        existingKamalSociety.setDivisionalOfficeVerifiedFlag(kamalSociety.getDivisionalOfficeVerifiedFlag());
-                    }
-                    if (kamalSociety.getIsSupplimenteryFlag() != null) {
-                        existingKamalSociety.setIsSupplimenteryFlag(kamalSociety.getIsSupplimenteryFlag());
-                    }
-                    if (kamalSociety.getSansthaTapasaniVarg() != null) {
-                        existingKamalSociety.setSansthaTapasaniVarg(kamalSociety.getSansthaTapasaniVarg());
-                    }
-                    if (kamalSociety.getBranchVerifiedBy() != null) {
-                        existingKamalSociety.setBranchVerifiedBy(kamalSociety.getBranchVerifiedBy());
-                    }
-                    if (kamalSociety.getBranchVerifiedDate() != null) {
-                        existingKamalSociety.setBranchVerifiedDate(kamalSociety.getBranchVerifiedDate());
-                    }
-                    if (kamalSociety.getHeadOfficeVerifiedBy() != null) {
-                        existingKamalSociety.setHeadOfficeVerifiedBy(kamalSociety.getHeadOfficeVerifiedBy());
-                    }
-                    if (kamalSociety.getHeadOfficeVerifiedDate() != null) {
-                        existingKamalSociety.setHeadOfficeVerifiedDate(kamalSociety.getHeadOfficeVerifiedDate());
-                    }
-                    if (kamalSociety.getDivisionalOfficeVerifiedBy() != null) {
-                        existingKamalSociety.setDivisionalOfficeVerifiedBy(kamalSociety.getDivisionalOfficeVerifiedBy());
-                    }
-                    if (kamalSociety.getDivisionalOfficeVerifiedDate() != null) {
-                        existingKamalSociety.setDivisionalOfficeVerifiedDate(kamalSociety.getDivisionalOfficeVerifiedDate());
-                    }
-                    if (kamalSociety.getDoshPurtataDate() != null) {
-                        existingKamalSociety.setDoshPurtataDate(kamalSociety.getDoshPurtataDate());
-                    }
-                    if (kamalSociety.getGambhirDosh() != null) {
-                        existingKamalSociety.setGambhirDosh(kamalSociety.getGambhirDosh());
-                    }
-                    if (kamalSociety.getTalukaId() != null) {
-                        existingKamalSociety.setTalukaId(kamalSociety.getTalukaId());
-                    }
-                    if (kamalSociety.getTalukaName() != null) {
-                        existingKamalSociety.setTalukaName(kamalSociety.getTalukaName());
-                    }
-                    return existingKamalSociety;
-                })
-                .map(kamalSocietyRepository::save);
-        }
-
-        @Override
-        @Transactional(readOnly = true)
-        public Page<KamalSociety> findAll (Pageable pageable){
-            log.debug("Request to get all KamalSocieties");
-            return kamalSocietyRepository.findAll(pageable);
-        }
-
-        @Override
-        @Transactional(readOnly = true)
-        public Optional<KamalSociety> findOne (Long id){
-            log.debug("Request to get KamalSociety : {}", id);
-            return kamalSocietyRepository.findById(id);
-        }
-
-        @Override
-        public void delete (Long id){
-            log.debug("Request to delete KamalSociety : {}", id);
-            kamalSocietyRepository.deleteById(id);
-        }
+        return kamalSocietyRepository.save(kamalSociety);
     }
+
+    @Override
+    public Optional<KamalSociety> partialUpdate(KamalSociety kamalSociety) {
+        log.debug("Request to partially update KamalSociety : {}", kamalSociety);
+
+        return kamalSocietyRepository
+            .findById(kamalSociety.getId())
+            .map(existingKamalSociety -> {
+                if (kamalSociety.getFinancialYear() != null) {
+                    existingKamalSociety.setFinancialYear(kamalSociety.getFinancialYear());
+                }
+                if (kamalSociety.getKmDate() != null) {
+                    existingKamalSociety.setKmDate(kamalSociety.getKmDate());
+                }
+                if (kamalSociety.getKmDateMr() != null) {
+                    existingKamalSociety.setKmDateMr(kamalSociety.getKmDateMr());
+                }
+                if (kamalSociety.getKmFromDate() != null) {
+                    existingKamalSociety.setKmFromDate(kamalSociety.getKmFromDate());
+                }
+                if (kamalSociety.getKmFromDateMr() != null) {
+                    existingKamalSociety.setKmFromDateMr(kamalSociety.getKmFromDateMr());
+                }
+                if (kamalSociety.getKmToDate() != null) {
+                    existingKamalSociety.setKmToDate(kamalSociety.getKmToDate());
+                }
+                if (kamalSociety.getKmToDateMr() != null) {
+                    existingKamalSociety.setKmToDateMr(kamalSociety.getKmToDateMr());
+                }
+                if (kamalSociety.getPacsNumber() != null) {
+                    existingKamalSociety.setPacsNumber(kamalSociety.getPacsNumber());
+                }
+                if (kamalSociety.getPacsName() != null) {
+                    existingKamalSociety.setPacsName(kamalSociety.getPacsName());
+                }
+                if (kamalSociety.getBranchId() != null) {
+                    existingKamalSociety.setBranchId(kamalSociety.getBranchId());
+                }
+                if (kamalSociety.getBranchName() != null) {
+                    existingKamalSociety.setBranchName(kamalSociety.getBranchName());
+                }
+                if (kamalSociety.getZindagiPatrakDate() != null) {
+                    existingKamalSociety.setZindagiPatrakDate(kamalSociety.getZindagiPatrakDate());
+                }
+                if (kamalSociety.getZindagiPatrakDateMr() != null) {
+                    existingKamalSociety.setZindagiPatrakDateMr(kamalSociety.getZindagiPatrakDateMr());
+                }
+                if (kamalSociety.getBankTapasaniDate() != null) {
+                    existingKamalSociety.setBankTapasaniDate(kamalSociety.getBankTapasaniDate());
+                }
+                if (kamalSociety.getBankTapasaniDateMr() != null) {
+                    existingKamalSociety.setBankTapasaniDateMr(kamalSociety.getBankTapasaniDateMr());
+                }
+                if (kamalSociety.getGovTapasaniDate() != null) {
+                    existingKamalSociety.setGovTapasaniDate(kamalSociety.getGovTapasaniDate());
+                }
+                if (kamalSociety.getGovTapasaniDateMr() != null) {
+                    existingKamalSociety.setGovTapasaniDateMr(kamalSociety.getGovTapasaniDateMr());
+                }
+                if (kamalSociety.getSansthaTapasaniDate() != null) {
+                    existingKamalSociety.setSansthaTapasaniDate(kamalSociety.getSansthaTapasaniDate());
+                }
+                if (kamalSociety.getSansthaTapasaniDateMr() != null) {
+                    existingKamalSociety.setSansthaTapasaniDateMr(kamalSociety.getSansthaTapasaniDateMr());
+                }
+                if (kamalSociety.getTotalLand() != null) {
+                    existingKamalSociety.setTotalLand(kamalSociety.getTotalLand());
+                }
+                if (kamalSociety.getBagayat() != null) {
+                    existingKamalSociety.setBagayat(kamalSociety.getBagayat());
+                }
+                if (kamalSociety.getJirayat() != null) {
+                    existingKamalSociety.setJirayat(kamalSociety.getJirayat());
+                }
+                if (kamalSociety.getTotalFarmer() != null) {
+                    existingKamalSociety.setTotalFarmer(kamalSociety.getTotalFarmer());
+                }
+                if (kamalSociety.getMemberFarmer() != null) {
+                    existingKamalSociety.setMemberFarmer(kamalSociety.getMemberFarmer());
+                }
+                if (kamalSociety.getNonMemberFarmer() != null) {
+                    existingKamalSociety.setNonMemberFarmer(kamalSociety.getNonMemberFarmer());
+                }
+                if (kamalSociety.getTalebandDate() != null) {
+                    existingKamalSociety.setTalebandDate(kamalSociety.getTalebandDate());
+                }
+                if (kamalSociety.getMemLoan() != null) {
+                    existingKamalSociety.setMemLoan(kamalSociety.getMemLoan());
+                }
+                if (kamalSociety.getMemDue() != null) {
+                    existingKamalSociety.setMemDue(kamalSociety.getMemDue());
+                }
+                if (kamalSociety.getMemVasuli() != null) {
+                    existingKamalSociety.setMemVasuli(kamalSociety.getMemVasuli());
+                }
+                if (kamalSociety.getMemVasuliPer() != null) {
+                    existingKamalSociety.setMemVasuliPer(kamalSociety.getMemVasuliPer());
+                }
+                if (kamalSociety.getBankLoan() != null) {
+                    existingKamalSociety.setBankLoan(kamalSociety.getBankLoan());
+                }
+                if (kamalSociety.getBankDue() != null) {
+                    existingKamalSociety.setBankDue(kamalSociety.getBankDue());
+                }
+                if (kamalSociety.getBankVasuli() != null) {
+                    existingKamalSociety.setBankVasuli(kamalSociety.getBankVasuli());
+                }
+                if (kamalSociety.getBankVasuliPer() != null) {
+                    existingKamalSociety.setBankVasuliPer(kamalSociety.getBankVasuliPer());
+                }
+                if (kamalSociety.getBalanceSheetDate() != null) {
+                    existingKamalSociety.setBalanceSheetDate(kamalSociety.getBalanceSheetDate());
+                }
+                if (kamalSociety.getBalanceSheetDateMr() != null) {
+                    existingKamalSociety.setBalanceSheetDateMr(kamalSociety.getBalanceSheetDateMr());
+                }
+                if (kamalSociety.getLiabilityAdhikrutShareCapital() != null) {
+                    existingKamalSociety.setLiabilityAdhikrutShareCapital(kamalSociety.getLiabilityAdhikrutShareCapital());
+                }
+                if (kamalSociety.getLiabilityVasulShareCapital() != null) {
+                    existingKamalSociety.setLiabilityVasulShareCapital(kamalSociety.getLiabilityVasulShareCapital());
+                }
+                if (kamalSociety.getLiabilityFund() != null) {
+                    existingKamalSociety.setLiabilityFund(kamalSociety.getLiabilityFund());
+                }
+                if (kamalSociety.getLiabilitySpareFund() != null) {
+                    existingKamalSociety.setLiabilitySpareFund(kamalSociety.getLiabilitySpareFund());
+                }
+                if (kamalSociety.getLiabilityDeposite() != null) {
+                    existingKamalSociety.setLiabilityDeposite(kamalSociety.getLiabilityDeposite());
+                }
+                if (kamalSociety.getLiabilityBalanceSheetBankLoan() != null) {
+                    existingKamalSociety.setLiabilityBalanceSheetBankLoan(kamalSociety.getLiabilityBalanceSheetBankLoan());
+                }
+                if (kamalSociety.getLiabilityOtherPayable() != null) {
+                    existingKamalSociety.setLiabilityOtherPayable(kamalSociety.getLiabilityOtherPayable());
+                }
+                if (kamalSociety.getLiabilityProfit() != null) {
+                    existingKamalSociety.setLiabilityProfit(kamalSociety.getLiabilityProfit());
+                }
+                if (kamalSociety.getAssetCash() != null) {
+                    existingKamalSociety.setAssetCash(kamalSociety.getAssetCash());
+                }
+                if (kamalSociety.getAssetInvestment() != null) {
+                    existingKamalSociety.setAssetInvestment(kamalSociety.getAssetInvestment());
+                }
+                if (kamalSociety.getAssetImaratFund() != null) {
+                    existingKamalSociety.setAssetImaratFund(kamalSociety.getAssetImaratFund());
+                }
+                if (kamalSociety.getAssetMemberLoan() != null) {
+                    existingKamalSociety.setAssetMemberLoan(kamalSociety.getAssetMemberLoan());
+                }
+                if (kamalSociety.getAssetDeadStock() != null) {
+                    existingKamalSociety.setAssetDeadStock(kamalSociety.getAssetDeadStock());
+                }
+                if (kamalSociety.getAssetOtherReceivable() != null) {
+                    existingKamalSociety.setAssetOtherReceivable(kamalSociety.getAssetOtherReceivable());
+                }
+                if (kamalSociety.getAssetLoss() != null) {
+                    existingKamalSociety.setAssetLoss(kamalSociety.getAssetLoss());
+                }
+                if (kamalSociety.getTotalLiability() != null) {
+                    existingKamalSociety.setTotalLiability(kamalSociety.getTotalLiability());
+                }
+                if (kamalSociety.getTotalAsset() != null) {
+                    existingKamalSociety.setTotalAsset(kamalSociety.getTotalAsset());
+                }
+                if (kamalSociety.getVillageCode() != null) {
+                    existingKamalSociety.setVillageCode(kamalSociety.getVillageCode());
+                }
+                if (kamalSociety.getPacsVerifiedFlag() != null) {
+                    existingKamalSociety.setPacsVerifiedFlag(kamalSociety.getPacsVerifiedFlag());
+                }
+                if (kamalSociety.getBranchVerifiedFlag() != null) {
+                    existingKamalSociety.setBranchVerifiedFlag(kamalSociety.getBranchVerifiedFlag());
+                }
+                if (kamalSociety.getHeadOfficeVerifiedFlag() != null) {
+                    existingKamalSociety.setHeadOfficeVerifiedFlag(kamalSociety.getHeadOfficeVerifiedFlag());
+                }
+                if (kamalSociety.getDivisionalOfficeVerifiedFlag() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedFlag(kamalSociety.getDivisionalOfficeVerifiedFlag());
+                }
+                if (kamalSociety.getIsSupplimenteryFlag() != null) {
+                    existingKamalSociety.setIsSupplimenteryFlag(kamalSociety.getIsSupplimenteryFlag());
+                }
+                if (kamalSociety.getSansthaTapasaniVarg() != null) {
+                    existingKamalSociety.setSansthaTapasaniVarg(kamalSociety.getSansthaTapasaniVarg());
+                }
+                if (kamalSociety.getBranchVerifiedBy() != null) {
+                    existingKamalSociety.setBranchVerifiedBy(kamalSociety.getBranchVerifiedBy());
+                }
+                if (kamalSociety.getBranchVerifiedDate() != null) {
+                    existingKamalSociety.setBranchVerifiedDate(kamalSociety.getBranchVerifiedDate());
+                }
+                if (kamalSociety.getHeadOfficeVerifiedBy() != null) {
+                    existingKamalSociety.setHeadOfficeVerifiedBy(kamalSociety.getHeadOfficeVerifiedBy());
+                }
+                if (kamalSociety.getHeadOfficeVerifiedDate() != null) {
+                    existingKamalSociety.setHeadOfficeVerifiedDate(kamalSociety.getHeadOfficeVerifiedDate());
+                }
+                if (kamalSociety.getDivisionalOfficeVerifiedBy() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedBy(kamalSociety.getDivisionalOfficeVerifiedBy());
+                }
+                if (kamalSociety.getDivisionalOfficeVerifiedDate() != null) {
+                    existingKamalSociety.setDivisionalOfficeVerifiedDate(kamalSociety.getDivisionalOfficeVerifiedDate());
+                }
+                if (kamalSociety.getDoshPurtataDate() != null) {
+                    existingKamalSociety.setDoshPurtataDate(kamalSociety.getDoshPurtataDate());
+                }
+                if (kamalSociety.getGambhirDosh() != null) {
+                    existingKamalSociety.setGambhirDosh(kamalSociety.getGambhirDosh());
+                }
+                if (kamalSociety.getTalukaId() != null) {
+                    existingKamalSociety.setTalukaId(kamalSociety.getTalukaId());
+                }
+                if (kamalSociety.getTalukaName() != null) {
+                    existingKamalSociety.setTalukaName(kamalSociety.getTalukaName());
+                }
+                if (kamalSociety.getBranchInwardNumber() != null) {
+                    existingKamalSociety.setBranchInwardNumber(kamalSociety.getBranchInwardNumber());
+                }
+                if (kamalSociety.getBranchInwardDate() != null) {
+                    existingKamalSociety.setBranchInwardDate(kamalSociety.getBranchInwardDate());
+                }
+                if (kamalSociety.getBranchOutwardNumber() != null) {
+                    existingKamalSociety.setBranchOutwardNumber(kamalSociety.getBranchOutwardNumber());
+                }
+                if (kamalSociety.getBranchOutwardDate() != null) {
+                    existingKamalSociety.setBranchOutwardDate(kamalSociety.getBranchOutwardDate());
+                }
+                if (kamalSociety.getHeadOfficeInwardNumber() != null) {
+                    existingKamalSociety.setHeadOfficeInwardNumber(kamalSociety.getHeadOfficeInwardNumber());
+                }
+                if (kamalSociety.getHeadOfficeInwardDate() != null) {
+                    existingKamalSociety.setHeadOfficeInwardDate(kamalSociety.getHeadOfficeInwardDate());
+                }
+                if (kamalSociety.getHeadOfficeOutwardNumber() != null) {
+                    existingKamalSociety.setHeadOfficeOutwardNumber(kamalSociety.getHeadOfficeOutwardNumber());
+                }
+                if (kamalSociety.getHeadOfficeOutwardDate() != null) {
+                    existingKamalSociety.setHeadOfficeOutwardDate(kamalSociety.getHeadOfficeOutwardDate());
+                }
+                if (kamalSociety.getTharavNumber() != null) {
+                    existingKamalSociety.setTharavNumber(kamalSociety.getTharavNumber());
+                }
+                if (kamalSociety.getTharavDate() != null) {
+                    existingKamalSociety.setTharavDate(kamalSociety.getTharavDate());
+                }
+                return existingKamalSociety;
+            })
+            .map(kamalSocietyRepository::save);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<KamalSociety> findAll(Pageable pageable) {
+        log.debug("Request to get all KamalSocieties");
+        return kamalSocietyRepository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<KamalSociety> findOne(Long id) {
+        log.debug("Request to get KamalSociety : {}", id);
+        return kamalSocietyRepository.findById(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        log.debug("Request to delete KamalSociety : {}", id);
+        kamalSocietyRepository.deleteById(id);
+    }
+}

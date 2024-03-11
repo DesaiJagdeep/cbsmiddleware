@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "village_master")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class VillageMaster implements Serializable {
+public class VillageMaster extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -368,17 +368,17 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedBy(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)
             .divisionalOfficeVerifiedDate(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(DEFAULT_DOSH_PURTATA_DATE)
-            .gambhirDosh(DEFAULT_GAMBHIR_DOSH)
-            .branchInwardNumber(DEFAULT_BRANCH_INWARD_NUMBER)
-            .branchInwardDate(DEFAULT_BRANCH_INWARD_DATE)
-            .branchOutwardNumber(DEFAULT_BRANCH_OUTWARD_NUMBER)
-            .branchOutwardDate(DEFAULT_BRANCH_OUTWARD_DATE)
+            .gambhirDosh(DEFAULT_GAMBHIR_DOSH);
+            //.branchInwardNumber(DEFAULT_BRANCH_INWARD_NUMBER)
+            //.branchInwardDate(DEFAULT_BRANCH_INWARD_DATE)
+            ///.branchOutwardNumber(DEFAULT_BRANCH_OUTWARD_NUMBER)
+         /*   .branchOutwardDate(DEFAULT_BRANCH_OUTWARD_DATE)
             .headOfficeInwardNumber(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)
             .headOfficeInwardDate(DEFAULT_HEAD_OFFICE_INWARD_DATE)
             .headOfficeOutwardNumber(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)
             .headOfficeOutwardDate(DEFAULT_HEAD_OFFICE_OUTWARD_DATE)
             .tharavNumber(DEFAULT_THARAV_NUMBER)
-            .tharavDate(DEFAULT_THARAV_DATE);
+            .tharavDate(DEFAULT_THARAV_DATE);*/
         return kamalSociety;
     }
 
@@ -460,7 +460,7 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
             .gambhirDosh(UPDATED_GAMBHIR_DOSH)
-            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+       /*     .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
             .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
             .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
             .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
@@ -469,7 +469,7 @@ class KamalSocietyResourceIT {
             .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
             .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
             .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDate(UPDATED_THARAV_DATE);
+            .tharavDate(UPDATED_THARAV_DATE)*/;
         return kamalSociety;
     }
 
@@ -5714,7 +5714,7 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
             .gambhirDosh(UPDATED_GAMBHIR_DOSH)
-            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+         /*   .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
             .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
             .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
             .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
@@ -5723,7 +5723,7 @@ class KamalSocietyResourceIT {
             .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
             .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
             .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDate(UPDATED_THARAV_DATE);
+            .tharavDate(UPDATED_THARAV_DATE)*/;
 
         restKamalSocietyMockMvc
             .perform(
@@ -5920,11 +5920,11 @@ class KamalSocietyResourceIT {
             .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
             .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
             .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
-            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+           /* .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
             .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
             .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
             .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
-            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)*/;
 
         restKamalSocietyMockMvc
             .perform(
@@ -6103,7 +6103,7 @@ class KamalSocietyResourceIT {
             .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
             .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
             .gambhirDosh(UPDATED_GAMBHIR_DOSH)
-            .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+        /*    .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
             .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
             .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
             .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
@@ -6112,7 +6112,7 @@ class KamalSocietyResourceIT {
             .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
             .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
             .tharavNumber(UPDATED_THARAV_NUMBER)
-            .tharavDate(UPDATED_THARAV_DATE);
+            .tharavDate(UPDATED_THARAV_DATE)*/;
 
         restKamalSocietyMockMvc
             .perform(

@@ -1,0 +1,20 @@
+{
+  "changelogDate": "20240313113512",
+  "dto": "no",
+  "fields": [
+    {
+      "fieldName": "serialNo",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "IsCalculateTemp",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceImpl"
+}

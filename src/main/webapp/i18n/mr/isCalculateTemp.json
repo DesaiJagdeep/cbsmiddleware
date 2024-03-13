@@ -1,0 +1,25 @@
+{
+  "cbsMiddlewareApp": {
+    "isCalculateTemp": {
+      "home": {
+        "title": "Is Calculate Temps",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Is Calculate Temp तयार करा",
+        "createOrEditLabel": "Is Calculate Temp तयार किंवा संपादित करा",
+        "notFound": "No Is Calculate Temps found"
+      },
+      "created": "Is Calculate Temp [identifier: {{ param }}] तयार आहे",
+      "updated": "Is Calculate Temp [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Is Calculate Temp [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Is Calculate Temp [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Is Calculate Temp"
+      },
+      "id": "ID",
+      "serialNo": "Serial No",
+      "financialYear": "Financial Year"
+    }
+  }
+}

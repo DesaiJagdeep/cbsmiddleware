@@ -141,7 +141,7 @@
       </tbody>
     </table>
 
-    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. <span th:text="${translationServiceUtility.kamalSociety.instantToLocalDate(kamalSociety.talebandDate)}"></span> अखेर कर्जे व वसुलीची माहिती (रु. लाखात)</p>
+    <p style="text-align: center; margin: 10px 0;">संस्थेची दि. <span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.talebandDate))}"></span> अखेर कर्जे व वसुलीची माहिती (रु. लाखात)</p>
     <table style="width: 100%; border-collapse: collapse; ">
       <tbody>
       <tr>
@@ -229,12 +229,12 @@
 
 <div>
   <p style="text-align: justify; margin: 5px 0;">
-    संस्थेची बँक तपासणी दि. ______________ अखेर झालेली असून सरकारी तपासणी दि. _______________ अखेर झालेली आहे. तपासणी वर्ग _________ मिळाला आहे.
-    तपासणीचा दोष पुर्तता अहवाल दि. _____________ रोजी पाठविलेला आहे. <br>सरकारी/बँक तपासणीमधील गंभीर दोष : __________________________________________
+संस्थेची बँक तपासणी दि. <strong><span th:text="${kamalSociety.sansthaTapasaniDateMr}"></span></strong>  अखेर झालेली असून सरकारी तपासणी दि.  <strong><span th:text="${kamalSociety.govTapasaniDateMr}"></span></strong> अखेर झालेली आहे. तपासणी वर्ग  <strong><span th:text="${kamalSociety.sansthaTapasaniVarg}"></span></strong>मिळाला आहे.
+    तपासणीचा दोष पुर्तता अहवाल दि.<strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.doshPurtataDate))}"></span></strong>  रोजी पाठविलेला आहे. <br>सरकारी/बँक तपासणीमधील गंभीर दोष : <strong><span th:text="${kamalSociety.gambhirDosh}"></span></strong>
   </p>
 
 
-  <h3 style="margin: 8px 0; font-size: medium;">पीककर्ज मंजुरीसाठी शिफारस हंगाम २०२३-२०२४ (रक्कम रुपयात)</h3>
+  <h3 style="margin: 8px 0; font-size: medium;">पीककर्ज मंजुरीसाठी शिफारस हंगाम  <span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)}"></span>(रक्कम रुपयात)</h3>
   <table style="width: 100%; border-collapse: collapse; ">
     <tbody>
     <tr>

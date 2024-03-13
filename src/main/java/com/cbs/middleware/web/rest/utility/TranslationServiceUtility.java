@@ -18,10 +18,6 @@ import org.springframework.web.client.RestTemplate;
 public class TranslationServiceUtility {
 
 
-//	public String convertNumberToWords(int number) {
-//        return NumberToWords.toWords(number);
-//    }
-//
 	private static TranslationServiceUtility translationServiceUtility;
 public static TranslationServiceUtility getInstance(){
     return translationServiceUtility != null ? translationServiceUtility: new TranslationServiceUtility();
@@ -29,7 +25,7 @@ public static TranslationServiceUtility getInstance(){
 
 	public static String numberTOMarathiNumber( String str)
 	{
-            if (str == null || "".equals(str.trim())) return "";
+            if (str == null || "".equals(str.trim()) || str.equals("0") || str.equals("0.00")) return "";
 			    String answer = str;
 			    answer = answer.replace("1","१");
 			    answer = answer.replace("2","२");
@@ -50,7 +46,7 @@ public static TranslationServiceUtility getInstance(){
 
 
 
-    public String translationText(String text) {
+    public static String translationText(String text) {
         String returnText = "";
 
         RestTemplate restTemplate = new RestTemplate();
@@ -126,7 +122,10 @@ public static TranslationServiceUtility getInstance(){
 
 
 
-    public static String oneZeroOneDateMr(LocalDate loanDate) {
+    public  String oneZeroOneDateMr(LocalDate loanDate) {
+    if(loanDate==null){
+        return "";
+    }
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String formattedDate = loanDate.format(formatter);
@@ -138,7 +137,15 @@ public static TranslationServiceUtility getInstance(){
         }
     }
 
-
+    public static String totalAmountWord(Double amount) {
+        try {
+            String format = String.format("%.2f",amount);
+            String convertDoubleToText = EnglishNumberToWords.convertDoubleToText(Double.parseDouble(format));
+            return translationText(convertDoubleToText);
+        } catch (Exception e) {
+            return "Error in translation";
+        }
+    }
 
 
 

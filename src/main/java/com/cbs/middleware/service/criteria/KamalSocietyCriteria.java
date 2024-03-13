@@ -2,6 +2,7 @@ package com.cbs.middleware.service.criteria;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
@@ -185,7 +186,13 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
-    public KamalSocietyCriteria() {}
+    private DoubleFilter kamalKarjMarayadaAmount;
+    private BooleanFilter agriAdminVerifiedFlag;
+    private StringFilter agriAdminVerifiedBy;
+    private InstantFilter agriAdminVerifiedDate;
+
+    public KamalSocietyCriteria() {
+    }
 
     public KamalSocietyCriteria(KamalSocietyCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
@@ -271,6 +278,13 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         this.headOfficeOutwardDate = other.headOfficeOutwardDate == null ? null : other.headOfficeOutwardDate.copy();
         this.tharavNumber = other.tharavNumber == null ? null : other.tharavNumber.copy();
         this.tharavDate = other.tharavDate == null ? null : other.tharavDate.copy();
+
+        this.agriAdminVerifiedDate = other.agriAdminVerifiedDate == null ? null : other.agriAdminVerifiedDate.copy();
+        this.agriAdminVerifiedBy = other.agriAdminVerifiedBy == null ? null : other.agriAdminVerifiedBy.copy();
+        this.kamalKarjMarayadaAmount = other.kamalKarjMarayadaAmount == null ? null : other.kamalKarjMarayadaAmount.copy();
+        this.agriAdminVerifiedFlag = other.agriAdminVerifiedFlag == null ? null : other.agriAdminVerifiedFlag.copy();
+
+
         this.distinct = other.distinct;
     }
 
@@ -279,8 +293,74 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return new KamalSocietyCriteria(this);
     }
 
+    //----------------------------------------------
+    public StringFilter getAgriAdminVerifiedBy() {
+        return agriAdminVerifiedBy;
+    }
+
+    public void setAgriAdminVerifiedBy(StringFilter agriAdminVerifiedBy) {
+        this.agriAdminVerifiedBy = agriAdminVerifiedBy;
+    }
+
+    public StringFilter agriAdminVerifiedBy() {
+        if (agriAdminVerifiedBy == null) {
+            agriAdminVerifiedBy = new StringFilter();
+        }
+        return agriAdminVerifiedBy;
+    }
+
+    public InstantFilter getAgriAdminVerifiedDate() {
+        return agriAdminVerifiedDate;
+    }
+
+    public void setAgriAdminVerifiedDate(InstantFilter agriAdminVerifiedDate) {
+        this.agriAdminVerifiedDate = agriAdminVerifiedDate;
+    }
+
+    public InstantFilter agriAdminVerifiedDate() {
+        if (agriAdminVerifiedDate == null) {
+            agriAdminVerifiedDate = new InstantFilter();
+        }
+        return agriAdminVerifiedDate;
+    }
+
+    public DoubleFilter getKamalKarjMarayadaAmount() {
+        return kamalKarjMarayadaAmount;
+    }
+
+    public void setKamalKarjMarayadaAmount(DoubleFilter kamalKarjMarayadaAmount) {
+        this.kamalKarjMarayadaAmount = kamalKarjMarayadaAmount;
+    }
+
+    public DoubleFilter kamalKarjMarayadaAmount() {
+        if (kamalKarjMarayadaAmount == null) {
+            kamalKarjMarayadaAmount = new DoubleFilter();
+        }
+        return kamalKarjMarayadaAmount;
+    }
+
+    public BooleanFilter getAgriAdminVerifiedFlag() {
+        return agriAdminVerifiedFlag;
+    }
+
+    public void setAgriAdminVerifiedFlag(BooleanFilter agriAdminVerifiedFlag) {
+        this.agriAdminVerifiedFlag = agriAdminVerifiedFlag;
+    }
+
+    public BooleanFilter agriAdminVerifiedFlag() {
+        if (agriAdminVerifiedFlag == null) {
+            agriAdminVerifiedFlag = new BooleanFilter();
+        }
+        return agriAdminVerifiedFlag;
+    }
+
+    //---------------------------------------------------------------
     public LongFilter getId() {
         return id;
+    }
+
+    public void setId(LongFilter id) {
+        this.id = id;
     }
 
     public LongFilter id() {
@@ -290,12 +370,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return id;
     }
 
-    public void setId(LongFilter id) {
-        this.id = id;
-    }
-
     public StringFilter getFinancialYear() {
         return financialYear;
+    }
+
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
     }
 
     public StringFilter financialYear() {
@@ -305,12 +385,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return financialYear;
     }
 
-    public void setFinancialYear(StringFilter financialYear) {
-        this.financialYear = financialYear;
-    }
-
     public InstantFilter getKmDate() {
         return kmDate;
+    }
+
+    public void setKmDate(InstantFilter kmDate) {
+        this.kmDate = kmDate;
     }
 
     public InstantFilter kmDate() {
@@ -320,12 +400,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmDate;
     }
 
-    public void setKmDate(InstantFilter kmDate) {
-        this.kmDate = kmDate;
-    }
-
     public StringFilter getKmDateMr() {
         return kmDateMr;
+    }
+
+    public void setKmDateMr(StringFilter kmDateMr) {
+        this.kmDateMr = kmDateMr;
     }
 
     public StringFilter kmDateMr() {
@@ -335,12 +415,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmDateMr;
     }
 
-    public void setKmDateMr(StringFilter kmDateMr) {
-        this.kmDateMr = kmDateMr;
-    }
-
     public InstantFilter getKmFromDate() {
         return kmFromDate;
+    }
+
+    public void setKmFromDate(InstantFilter kmFromDate) {
+        this.kmFromDate = kmFromDate;
     }
 
     public InstantFilter kmFromDate() {
@@ -350,12 +430,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmFromDate;
     }
 
-    public void setKmFromDate(InstantFilter kmFromDate) {
-        this.kmFromDate = kmFromDate;
-    }
-
     public StringFilter getKmFromDateMr() {
         return kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(StringFilter kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
     }
 
     public StringFilter kmFromDateMr() {
@@ -365,12 +445,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmFromDateMr;
     }
 
-    public void setKmFromDateMr(StringFilter kmFromDateMr) {
-        this.kmFromDateMr = kmFromDateMr;
-    }
-
     public InstantFilter getKmToDate() {
         return kmToDate;
+    }
+
+    public void setKmToDate(InstantFilter kmToDate) {
+        this.kmToDate = kmToDate;
     }
 
     public InstantFilter kmToDate() {
@@ -380,12 +460,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmToDate;
     }
 
-    public void setKmToDate(InstantFilter kmToDate) {
-        this.kmToDate = kmToDate;
-    }
-
     public StringFilter getKmToDateMr() {
         return kmToDateMr;
+    }
+
+    public void setKmToDateMr(StringFilter kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
     }
 
     public StringFilter kmToDateMr() {
@@ -395,12 +475,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return kmToDateMr;
     }
 
-    public void setKmToDateMr(StringFilter kmToDateMr) {
-        this.kmToDateMr = kmToDateMr;
-    }
-
     public StringFilter getPacsNumber() {
         return pacsNumber;
+    }
+
+    public void setPacsNumber(StringFilter pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public StringFilter pacsNumber() {
@@ -410,12 +490,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return pacsNumber;
     }
 
-    public void setPacsNumber(StringFilter pacsNumber) {
-        this.pacsNumber = pacsNumber;
-    }
-
     public StringFilter getPacsName() {
         return pacsName;
+    }
+
+    public void setPacsName(StringFilter pacsName) {
+        this.pacsName = pacsName;
     }
 
     public StringFilter pacsName() {
@@ -425,12 +505,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return pacsName;
     }
 
-    public void setPacsName(StringFilter pacsName) {
-        this.pacsName = pacsName;
-    }
-
     public LongFilter getBranchId() {
         return branchId;
+    }
+
+    public void setBranchId(LongFilter branchId) {
+        this.branchId = branchId;
     }
 
     public LongFilter branchId() {
@@ -440,12 +520,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchId;
     }
 
-    public void setBranchId(LongFilter branchId) {
-        this.branchId = branchId;
-    }
-
     public StringFilter getBranchName() {
         return branchName;
+    }
+
+    public void setBranchName(StringFilter branchName) {
+        this.branchName = branchName;
     }
 
     public StringFilter branchName() {
@@ -455,12 +535,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchName;
     }
 
-    public void setBranchName(StringFilter branchName) {
-        this.branchName = branchName;
-    }
-
     public LongFilter getTalukaId() {
         return talukaId;
+    }
+
+    public void setTalukaId(LongFilter talukaId) {
+        this.talukaId = talukaId;
     }
 
     public LongFilter talukaId() {
@@ -470,12 +550,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return talukaId;
     }
 
-    public void setTalukaId(LongFilter talukaId) {
-        this.talukaId = talukaId;
-    }
-
     public StringFilter getTalukaName() {
         return talukaName;
+    }
+
+    public void setTalukaName(StringFilter talukaName) {
+        this.talukaName = talukaName;
     }
 
     public StringFilter talukaName() {
@@ -485,12 +565,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return talukaName;
     }
 
-    public void setTalukaName(StringFilter talukaName) {
-        this.talukaName = talukaName;
-    }
-
     public InstantFilter getZindagiPatrakDate() {
         return zindagiPatrakDate;
+    }
+
+    public void setZindagiPatrakDate(InstantFilter zindagiPatrakDate) {
+        this.zindagiPatrakDate = zindagiPatrakDate;
     }
 
     public InstantFilter zindagiPatrakDate() {
@@ -500,12 +580,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return zindagiPatrakDate;
     }
 
-    public void setZindagiPatrakDate(InstantFilter zindagiPatrakDate) {
-        this.zindagiPatrakDate = zindagiPatrakDate;
-    }
-
     public StringFilter getZindagiPatrakDateMr() {
         return zindagiPatrakDateMr;
+    }
+
+    public void setZindagiPatrakDateMr(StringFilter zindagiPatrakDateMr) {
+        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
     }
 
     public StringFilter zindagiPatrakDateMr() {
@@ -515,12 +595,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return zindagiPatrakDateMr;
     }
 
-    public void setZindagiPatrakDateMr(StringFilter zindagiPatrakDateMr) {
-        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
-    }
-
     public InstantFilter getBankTapasaniDate() {
         return bankTapasaniDate;
+    }
+
+    public void setBankTapasaniDate(InstantFilter bankTapasaniDate) {
+        this.bankTapasaniDate = bankTapasaniDate;
     }
 
     public InstantFilter bankTapasaniDate() {
@@ -530,12 +610,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankTapasaniDate;
     }
 
-    public void setBankTapasaniDate(InstantFilter bankTapasaniDate) {
-        this.bankTapasaniDate = bankTapasaniDate;
-    }
-
     public StringFilter getBankTapasaniDateMr() {
         return bankTapasaniDateMr;
+    }
+
+    public void setBankTapasaniDateMr(StringFilter bankTapasaniDateMr) {
+        this.bankTapasaniDateMr = bankTapasaniDateMr;
     }
 
     public StringFilter bankTapasaniDateMr() {
@@ -545,12 +625,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankTapasaniDateMr;
     }
 
-    public void setBankTapasaniDateMr(StringFilter bankTapasaniDateMr) {
-        this.bankTapasaniDateMr = bankTapasaniDateMr;
-    }
-
     public InstantFilter getGovTapasaniDate() {
         return govTapasaniDate;
+    }
+
+    public void setGovTapasaniDate(InstantFilter govTapasaniDate) {
+        this.govTapasaniDate = govTapasaniDate;
     }
 
     public InstantFilter govTapasaniDate() {
@@ -560,12 +640,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return govTapasaniDate;
     }
 
-    public void setGovTapasaniDate(InstantFilter govTapasaniDate) {
-        this.govTapasaniDate = govTapasaniDate;
-    }
-
     public StringFilter getGovTapasaniDateMr() {
         return govTapasaniDateMr;
+    }
+
+    public void setGovTapasaniDateMr(StringFilter govTapasaniDateMr) {
+        this.govTapasaniDateMr = govTapasaniDateMr;
     }
 
     public StringFilter govTapasaniDateMr() {
@@ -575,12 +655,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return govTapasaniDateMr;
     }
 
-    public void setGovTapasaniDateMr(StringFilter govTapasaniDateMr) {
-        this.govTapasaniDateMr = govTapasaniDateMr;
-    }
-
     public InstantFilter getSansthaTapasaniDate() {
         return sansthaTapasaniDate;
+    }
+
+    public void setSansthaTapasaniDate(InstantFilter sansthaTapasaniDate) {
+        this.sansthaTapasaniDate = sansthaTapasaniDate;
     }
 
     public InstantFilter sansthaTapasaniDate() {
@@ -590,12 +670,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return sansthaTapasaniDate;
     }
 
-    public void setSansthaTapasaniDate(InstantFilter sansthaTapasaniDate) {
-        this.sansthaTapasaniDate = sansthaTapasaniDate;
-    }
-
     public StringFilter getSansthaTapasaniDateMr() {
         return sansthaTapasaniDateMr;
+    }
+
+    public void setSansthaTapasaniDateMr(StringFilter sansthaTapasaniDateMr) {
+        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
     }
 
     public StringFilter sansthaTapasaniDateMr() {
@@ -605,12 +685,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return sansthaTapasaniDateMr;
     }
 
-    public void setSansthaTapasaniDateMr(StringFilter sansthaTapasaniDateMr) {
-        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
-    }
-
     public StringFilter getTotalLand() {
         return totalLand;
+    }
+
+    public void setTotalLand(StringFilter totalLand) {
+        this.totalLand = totalLand;
     }
 
     public StringFilter totalLand() {
@@ -620,12 +700,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return totalLand;
     }
 
-    public void setTotalLand(StringFilter totalLand) {
-        this.totalLand = totalLand;
-    }
-
     public StringFilter getBagayat() {
         return bagayat;
+    }
+
+    public void setBagayat(StringFilter bagayat) {
+        this.bagayat = bagayat;
     }
 
     public StringFilter bagayat() {
@@ -635,12 +715,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bagayat;
     }
 
-    public void setBagayat(StringFilter bagayat) {
-        this.bagayat = bagayat;
-    }
-
     public StringFilter getJirayat() {
         return jirayat;
+    }
+
+    public void setJirayat(StringFilter jirayat) {
+        this.jirayat = jirayat;
     }
 
     public StringFilter jirayat() {
@@ -650,12 +730,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return jirayat;
     }
 
-    public void setJirayat(StringFilter jirayat) {
-        this.jirayat = jirayat;
-    }
-
     public StringFilter getTotalFarmer() {
         return totalFarmer;
+    }
+
+    public void setTotalFarmer(StringFilter totalFarmer) {
+        this.totalFarmer = totalFarmer;
     }
 
     public StringFilter totalFarmer() {
@@ -665,12 +745,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return totalFarmer;
     }
 
-    public void setTotalFarmer(StringFilter totalFarmer) {
-        this.totalFarmer = totalFarmer;
-    }
-
     public StringFilter getMemberFarmer() {
         return memberFarmer;
+    }
+
+    public void setMemberFarmer(StringFilter memberFarmer) {
+        this.memberFarmer = memberFarmer;
     }
 
     public StringFilter memberFarmer() {
@@ -680,12 +760,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return memberFarmer;
     }
 
-    public void setMemberFarmer(StringFilter memberFarmer) {
-        this.memberFarmer = memberFarmer;
-    }
-
     public StringFilter getNonMemberFarmer() {
         return nonMemberFarmer;
+    }
+
+    public void setNonMemberFarmer(StringFilter nonMemberFarmer) {
+        this.nonMemberFarmer = nonMemberFarmer;
     }
 
     public StringFilter nonMemberFarmer() {
@@ -695,12 +775,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return nonMemberFarmer;
     }
 
-    public void setNonMemberFarmer(StringFilter nonMemberFarmer) {
-        this.nonMemberFarmer = nonMemberFarmer;
-    }
-
     public InstantFilter getTalebandDate() {
         return talebandDate;
+    }
+
+    public void setTalebandDate(InstantFilter talebandDate) {
+        this.talebandDate = talebandDate;
     }
 
     public InstantFilter talebandDate() {
@@ -710,12 +790,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return talebandDate;
     }
 
-    public void setTalebandDate(InstantFilter talebandDate) {
-        this.talebandDate = talebandDate;
-    }
-
     public StringFilter getMemLoan() {
         return memLoan;
+    }
+
+    public void setMemLoan(StringFilter memLoan) {
+        this.memLoan = memLoan;
     }
 
     public StringFilter memLoan() {
@@ -725,12 +805,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return memLoan;
     }
 
-    public void setMemLoan(StringFilter memLoan) {
-        this.memLoan = memLoan;
-    }
-
     public StringFilter getMemDue() {
         return memDue;
+    }
+
+    public void setMemDue(StringFilter memDue) {
+        this.memDue = memDue;
     }
 
     public StringFilter memDue() {
@@ -740,12 +820,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return memDue;
     }
 
-    public void setMemDue(StringFilter memDue) {
-        this.memDue = memDue;
-    }
-
     public StringFilter getMemVasuli() {
         return memVasuli;
+    }
+
+    public void setMemVasuli(StringFilter memVasuli) {
+        this.memVasuli = memVasuli;
     }
 
     public StringFilter memVasuli() {
@@ -755,12 +835,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return memVasuli;
     }
 
-    public void setMemVasuli(StringFilter memVasuli) {
-        this.memVasuli = memVasuli;
-    }
-
     public StringFilter getMemVasuliPer() {
         return memVasuliPer;
+    }
+
+    public void setMemVasuliPer(StringFilter memVasuliPer) {
+        this.memVasuliPer = memVasuliPer;
     }
 
     public StringFilter memVasuliPer() {
@@ -770,12 +850,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return memVasuliPer;
     }
 
-    public void setMemVasuliPer(StringFilter memVasuliPer) {
-        this.memVasuliPer = memVasuliPer;
-    }
-
     public StringFilter getBankLoan() {
         return bankLoan;
+    }
+
+    public void setBankLoan(StringFilter bankLoan) {
+        this.bankLoan = bankLoan;
     }
 
     public StringFilter bankLoan() {
@@ -785,12 +865,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankLoan;
     }
 
-    public void setBankLoan(StringFilter bankLoan) {
-        this.bankLoan = bankLoan;
-    }
-
     public StringFilter getBankDue() {
         return bankDue;
+    }
+
+    public void setBankDue(StringFilter bankDue) {
+        this.bankDue = bankDue;
     }
 
     public StringFilter bankDue() {
@@ -800,12 +880,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankDue;
     }
 
-    public void setBankDue(StringFilter bankDue) {
-        this.bankDue = bankDue;
-    }
-
     public StringFilter getBankVasuli() {
         return bankVasuli;
+    }
+
+    public void setBankVasuli(StringFilter bankVasuli) {
+        this.bankVasuli = bankVasuli;
     }
 
     public StringFilter bankVasuli() {
@@ -815,12 +895,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankVasuli;
     }
 
-    public void setBankVasuli(StringFilter bankVasuli) {
-        this.bankVasuli = bankVasuli;
-    }
-
     public StringFilter getBankVasuliPer() {
         return bankVasuliPer;
+    }
+
+    public void setBankVasuliPer(StringFilter bankVasuliPer) {
+        this.bankVasuliPer = bankVasuliPer;
     }
 
     public StringFilter bankVasuliPer() {
@@ -830,12 +910,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return bankVasuliPer;
     }
 
-    public void setBankVasuliPer(StringFilter bankVasuliPer) {
-        this.bankVasuliPer = bankVasuliPer;
-    }
-
     public InstantFilter getBalanceSheetDate() {
         return balanceSheetDate;
+    }
+
+    public void setBalanceSheetDate(InstantFilter balanceSheetDate) {
+        this.balanceSheetDate = balanceSheetDate;
     }
 
     public InstantFilter balanceSheetDate() {
@@ -845,12 +925,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return balanceSheetDate;
     }
 
-    public void setBalanceSheetDate(InstantFilter balanceSheetDate) {
-        this.balanceSheetDate = balanceSheetDate;
-    }
-
     public StringFilter getBalanceSheetDateMr() {
         return balanceSheetDateMr;
+    }
+
+    public void setBalanceSheetDateMr(StringFilter balanceSheetDateMr) {
+        this.balanceSheetDateMr = balanceSheetDateMr;
     }
 
     public StringFilter balanceSheetDateMr() {
@@ -860,12 +940,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return balanceSheetDateMr;
     }
 
-    public void setBalanceSheetDateMr(StringFilter balanceSheetDateMr) {
-        this.balanceSheetDateMr = balanceSheetDateMr;
-    }
-
     public StringFilter getLiabilityAdhikrutShareCapital() {
         return liabilityAdhikrutShareCapital;
+    }
+
+    public void setLiabilityAdhikrutShareCapital(StringFilter liabilityAdhikrutShareCapital) {
+        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
     }
 
     public StringFilter liabilityAdhikrutShareCapital() {
@@ -875,12 +955,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityAdhikrutShareCapital;
     }
 
-    public void setLiabilityAdhikrutShareCapital(StringFilter liabilityAdhikrutShareCapital) {
-        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
-    }
-
     public StringFilter getLiabilityVasulShareCapital() {
         return liabilityVasulShareCapital;
+    }
+
+    public void setLiabilityVasulShareCapital(StringFilter liabilityVasulShareCapital) {
+        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
     }
 
     public StringFilter liabilityVasulShareCapital() {
@@ -890,12 +970,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityVasulShareCapital;
     }
 
-    public void setLiabilityVasulShareCapital(StringFilter liabilityVasulShareCapital) {
-        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
-    }
-
     public StringFilter getLiabilityFund() {
         return liabilityFund;
+    }
+
+    public void setLiabilityFund(StringFilter liabilityFund) {
+        this.liabilityFund = liabilityFund;
     }
 
     public StringFilter liabilityFund() {
@@ -905,12 +985,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityFund;
     }
 
-    public void setLiabilityFund(StringFilter liabilityFund) {
-        this.liabilityFund = liabilityFund;
-    }
-
     public StringFilter getLiabilitySpareFund() {
         return liabilitySpareFund;
+    }
+
+    public void setLiabilitySpareFund(StringFilter liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
     }
 
     public StringFilter liabilitySpareFund() {
@@ -920,12 +1000,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilitySpareFund;
     }
 
-    public void setLiabilitySpareFund(StringFilter liabilitySpareFund) {
-        this.liabilitySpareFund = liabilitySpareFund;
-    }
-
     public StringFilter getLiabilityDeposite() {
         return liabilityDeposite;
+    }
+
+    public void setLiabilityDeposite(StringFilter liabilityDeposite) {
+        this.liabilityDeposite = liabilityDeposite;
     }
 
     public StringFilter liabilityDeposite() {
@@ -935,12 +1015,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityDeposite;
     }
 
-    public void setLiabilityDeposite(StringFilter liabilityDeposite) {
-        this.liabilityDeposite = liabilityDeposite;
-    }
-
     public StringFilter getLiabilityBalanceSheetBankLoan() {
         return liabilityBalanceSheetBankLoan;
+    }
+
+    public void setLiabilityBalanceSheetBankLoan(StringFilter liabilityBalanceSheetBankLoan) {
+        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
     }
 
     public StringFilter liabilityBalanceSheetBankLoan() {
@@ -950,12 +1030,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityBalanceSheetBankLoan;
     }
 
-    public void setLiabilityBalanceSheetBankLoan(StringFilter liabilityBalanceSheetBankLoan) {
-        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
-    }
-
     public StringFilter getLiabilityOtherPayable() {
         return liabilityOtherPayable;
+    }
+
+    public void setLiabilityOtherPayable(StringFilter liabilityOtherPayable) {
+        this.liabilityOtherPayable = liabilityOtherPayable;
     }
 
     public StringFilter liabilityOtherPayable() {
@@ -965,12 +1045,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityOtherPayable;
     }
 
-    public void setLiabilityOtherPayable(StringFilter liabilityOtherPayable) {
-        this.liabilityOtherPayable = liabilityOtherPayable;
-    }
-
     public StringFilter getLiabilityProfit() {
         return liabilityProfit;
+    }
+
+    public void setLiabilityProfit(StringFilter liabilityProfit) {
+        this.liabilityProfit = liabilityProfit;
     }
 
     public StringFilter liabilityProfit() {
@@ -980,12 +1060,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return liabilityProfit;
     }
 
-    public void setLiabilityProfit(StringFilter liabilityProfit) {
-        this.liabilityProfit = liabilityProfit;
-    }
-
     public StringFilter getAssetCash() {
         return assetCash;
+    }
+
+    public void setAssetCash(StringFilter assetCash) {
+        this.assetCash = assetCash;
     }
 
     public StringFilter assetCash() {
@@ -995,12 +1075,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetCash;
     }
 
-    public void setAssetCash(StringFilter assetCash) {
-        this.assetCash = assetCash;
-    }
-
     public StringFilter getAssetInvestment() {
         return assetInvestment;
+    }
+
+    public void setAssetInvestment(StringFilter assetInvestment) {
+        this.assetInvestment = assetInvestment;
     }
 
     public StringFilter assetInvestment() {
@@ -1010,12 +1090,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetInvestment;
     }
 
-    public void setAssetInvestment(StringFilter assetInvestment) {
-        this.assetInvestment = assetInvestment;
-    }
-
     public StringFilter getAssetImaratFund() {
         return assetImaratFund;
+    }
+
+    public void setAssetImaratFund(StringFilter assetImaratFund) {
+        this.assetImaratFund = assetImaratFund;
     }
 
     public StringFilter assetImaratFund() {
@@ -1025,12 +1105,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetImaratFund;
     }
 
-    public void setAssetImaratFund(StringFilter assetImaratFund) {
-        this.assetImaratFund = assetImaratFund;
-    }
-
     public StringFilter getAssetMemberLoan() {
         return assetMemberLoan;
+    }
+
+    public void setAssetMemberLoan(StringFilter assetMemberLoan) {
+        this.assetMemberLoan = assetMemberLoan;
     }
 
     public StringFilter assetMemberLoan() {
@@ -1040,12 +1120,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetMemberLoan;
     }
 
-    public void setAssetMemberLoan(StringFilter assetMemberLoan) {
-        this.assetMemberLoan = assetMemberLoan;
-    }
-
     public StringFilter getAssetDeadStock() {
         return assetDeadStock;
+    }
+
+    public void setAssetDeadStock(StringFilter assetDeadStock) {
+        this.assetDeadStock = assetDeadStock;
     }
 
     public StringFilter assetDeadStock() {
@@ -1055,12 +1135,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetDeadStock;
     }
 
-    public void setAssetDeadStock(StringFilter assetDeadStock) {
-        this.assetDeadStock = assetDeadStock;
-    }
-
     public StringFilter getAssetOtherReceivable() {
         return assetOtherReceivable;
+    }
+
+    public void setAssetOtherReceivable(StringFilter assetOtherReceivable) {
+        this.assetOtherReceivable = assetOtherReceivable;
     }
 
     public StringFilter assetOtherReceivable() {
@@ -1070,12 +1150,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetOtherReceivable;
     }
 
-    public void setAssetOtherReceivable(StringFilter assetOtherReceivable) {
-        this.assetOtherReceivable = assetOtherReceivable;
-    }
-
     public StringFilter getAssetLoss() {
         return assetLoss;
+    }
+
+    public void setAssetLoss(StringFilter assetLoss) {
+        this.assetLoss = assetLoss;
     }
 
     public StringFilter assetLoss() {
@@ -1085,12 +1165,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return assetLoss;
     }
 
-    public void setAssetLoss(StringFilter assetLoss) {
-        this.assetLoss = assetLoss;
-    }
-
     public StringFilter getTotalLiability() {
         return totalLiability;
+    }
+
+    public void setTotalLiability(StringFilter totalLiability) {
+        this.totalLiability = totalLiability;
     }
 
     public StringFilter totalLiability() {
@@ -1100,12 +1180,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return totalLiability;
     }
 
-    public void setTotalLiability(StringFilter totalLiability) {
-        this.totalLiability = totalLiability;
-    }
-
     public StringFilter getTotalAsset() {
         return totalAsset;
+    }
+
+    public void setTotalAsset(StringFilter totalAsset) {
+        this.totalAsset = totalAsset;
     }
 
     public StringFilter totalAsset() {
@@ -1115,12 +1195,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return totalAsset;
     }
 
-    public void setTotalAsset(StringFilter totalAsset) {
-        this.totalAsset = totalAsset;
-    }
-
     public StringFilter getVillageCode() {
         return villageCode;
+    }
+
+    public void setVillageCode(StringFilter villageCode) {
+        this.villageCode = villageCode;
     }
 
     public StringFilter villageCode() {
@@ -1130,12 +1210,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return villageCode;
     }
 
-    public void setVillageCode(StringFilter villageCode) {
-        this.villageCode = villageCode;
-    }
-
     public BooleanFilter getPacsVerifiedFlag() {
         return pacsVerifiedFlag;
+    }
+
+    public void setPacsVerifiedFlag(BooleanFilter pacsVerifiedFlag) {
+        this.pacsVerifiedFlag = pacsVerifiedFlag;
     }
 
     public BooleanFilter pacsVerifiedFlag() {
@@ -1145,12 +1225,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return pacsVerifiedFlag;
     }
 
-    public void setPacsVerifiedFlag(BooleanFilter pacsVerifiedFlag) {
-        this.pacsVerifiedFlag = pacsVerifiedFlag;
-    }
-
     public BooleanFilter getBranchVerifiedFlag() {
         return branchVerifiedFlag;
+    }
+
+    public void setBranchVerifiedFlag(BooleanFilter branchVerifiedFlag) {
+        this.branchVerifiedFlag = branchVerifiedFlag;
     }
 
     public BooleanFilter branchVerifiedFlag() {
@@ -1160,12 +1240,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchVerifiedFlag;
     }
 
-    public void setBranchVerifiedFlag(BooleanFilter branchVerifiedFlag) {
-        this.branchVerifiedFlag = branchVerifiedFlag;
-    }
-
     public BooleanFilter getHeadOfficeVerifiedFlag() {
         return headOfficeVerifiedFlag;
+    }
+
+    public void setHeadOfficeVerifiedFlag(BooleanFilter headOfficeVerifiedFlag) {
+        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
     }
 
     public BooleanFilter headOfficeVerifiedFlag() {
@@ -1175,12 +1255,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeVerifiedFlag;
     }
 
-    public void setHeadOfficeVerifiedFlag(BooleanFilter headOfficeVerifiedFlag) {
-        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
-    }
-
     public BooleanFilter getDivisionalOfficeVerifiedFlag() {
         return divisionalOfficeVerifiedFlag;
+    }
+
+    public void setDivisionalOfficeVerifiedFlag(BooleanFilter divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
     }
 
     public BooleanFilter divisionalOfficeVerifiedFlag() {
@@ -1190,12 +1270,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return divisionalOfficeVerifiedFlag;
     }
 
-    public void setDivisionalOfficeVerifiedFlag(BooleanFilter divisionalOfficeVerifiedFlag) {
-        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
-    }
-
     public BooleanFilter getIsSupplimenteryFlag() {
         return isSupplimenteryFlag;
+    }
+
+    public void setIsSupplimenteryFlag(BooleanFilter isSupplimenteryFlag) {
+        this.isSupplimenteryFlag = isSupplimenteryFlag;
     }
 
     public BooleanFilter isSupplimenteryFlag() {
@@ -1205,12 +1285,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return isSupplimenteryFlag;
     }
 
-    public void setIsSupplimenteryFlag(BooleanFilter isSupplimenteryFlag) {
-        this.isSupplimenteryFlag = isSupplimenteryFlag;
-    }
-
     public StringFilter getSansthaTapasaniVarg() {
         return sansthaTapasaniVarg;
+    }
+
+    public void setSansthaTapasaniVarg(StringFilter sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
     }
 
     public StringFilter sansthaTapasaniVarg() {
@@ -1220,12 +1300,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return sansthaTapasaniVarg;
     }
 
-    public void setSansthaTapasaniVarg(StringFilter sansthaTapasaniVarg) {
-        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
-    }
-
     public StringFilter getBranchVerifiedBy() {
         return branchVerifiedBy;
+    }
+
+    public void setBranchVerifiedBy(StringFilter branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
     }
 
     public StringFilter branchVerifiedBy() {
@@ -1235,12 +1315,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchVerifiedBy;
     }
 
-    public void setBranchVerifiedBy(StringFilter branchVerifiedBy) {
-        this.branchVerifiedBy = branchVerifiedBy;
-    }
-
     public InstantFilter getBranchVerifiedDate() {
         return branchVerifiedDate;
+    }
+
+    public void setBranchVerifiedDate(InstantFilter branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
     }
 
     public InstantFilter branchVerifiedDate() {
@@ -1250,12 +1330,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchVerifiedDate;
     }
 
-    public void setBranchVerifiedDate(InstantFilter branchVerifiedDate) {
-        this.branchVerifiedDate = branchVerifiedDate;
-    }
-
     public StringFilter getHeadOfficeVerifiedBy() {
         return headOfficeVerifiedBy;
+    }
+
+    public void setHeadOfficeVerifiedBy(StringFilter headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
     }
 
     public StringFilter headOfficeVerifiedBy() {
@@ -1265,12 +1345,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeVerifiedBy;
     }
 
-    public void setHeadOfficeVerifiedBy(StringFilter headOfficeVerifiedBy) {
-        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
-    }
-
     public InstantFilter getHeadOfficeVerifiedDate() {
         return headOfficeVerifiedDate;
+    }
+
+    public void setHeadOfficeVerifiedDate(InstantFilter headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
     public InstantFilter headOfficeVerifiedDate() {
@@ -1280,12 +1360,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeVerifiedDate;
     }
 
-    public void setHeadOfficeVerifiedDate(InstantFilter headOfficeVerifiedDate) {
-        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
-    }
-
     public StringFilter getDivisionalOfficeVerifiedBy() {
         return divisionalOfficeVerifiedBy;
+    }
+
+    public void setDivisionalOfficeVerifiedBy(StringFilter divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
     }
 
     public StringFilter divisionalOfficeVerifiedBy() {
@@ -1295,12 +1375,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return divisionalOfficeVerifiedBy;
     }
 
-    public void setDivisionalOfficeVerifiedBy(StringFilter divisionalOfficeVerifiedBy) {
-        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
-    }
-
     public InstantFilter getDivisionalOfficeVerifiedDate() {
         return divisionalOfficeVerifiedDate;
+    }
+
+    public void setDivisionalOfficeVerifiedDate(InstantFilter divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
     }
 
     public InstantFilter divisionalOfficeVerifiedDate() {
@@ -1310,12 +1390,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return divisionalOfficeVerifiedDate;
     }
 
-    public void setDivisionalOfficeVerifiedDate(InstantFilter divisionalOfficeVerifiedDate) {
-        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
-    }
-
     public InstantFilter getDoshPurtataDate() {
         return doshPurtataDate;
+    }
+
+    public void setDoshPurtataDate(InstantFilter doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
     }
 
     public InstantFilter doshPurtataDate() {
@@ -1325,12 +1405,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return doshPurtataDate;
     }
 
-    public void setDoshPurtataDate(InstantFilter doshPurtataDate) {
-        this.doshPurtataDate = doshPurtataDate;
-    }
-
     public StringFilter getGambhirDosh() {
         return gambhirDosh;
+    }
+
+    public void setGambhirDosh(StringFilter gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
     }
 
     public StringFilter gambhirDosh() {
@@ -1340,12 +1420,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return gambhirDosh;
     }
 
-    public void setGambhirDosh(StringFilter gambhirDosh) {
-        this.gambhirDosh = gambhirDosh;
-    }
-
     public StringFilter getBranchInwardNumber() {
         return branchInwardNumber;
+    }
+
+    public void setBranchInwardNumber(StringFilter branchInwardNumber) {
+        this.branchInwardNumber = branchInwardNumber;
     }
 
     public StringFilter branchInwardNumber() {
@@ -1355,12 +1435,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchInwardNumber;
     }
 
-    public void setBranchInwardNumber(StringFilter branchInwardNumber) {
-        this.branchInwardNumber = branchInwardNumber;
-    }
-
     public InstantFilter getBranchInwardDate() {
         return branchInwardDate;
+    }
+
+    public void setBranchInwardDate(InstantFilter branchInwardDate) {
+        this.branchInwardDate = branchInwardDate;
     }
 
     public InstantFilter branchInwardDate() {
@@ -1370,12 +1450,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchInwardDate;
     }
 
-    public void setBranchInwardDate(InstantFilter branchInwardDate) {
-        this.branchInwardDate = branchInwardDate;
-    }
-
     public StringFilter getBranchOutwardNumber() {
         return branchOutwardNumber;
+    }
+
+    public void setBranchOutwardNumber(StringFilter branchOutwardNumber) {
+        this.branchOutwardNumber = branchOutwardNumber;
     }
 
     public StringFilter branchOutwardNumber() {
@@ -1385,12 +1465,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchOutwardNumber;
     }
 
-    public void setBranchOutwardNumber(StringFilter branchOutwardNumber) {
-        this.branchOutwardNumber = branchOutwardNumber;
-    }
-
     public InstantFilter getBranchOutwardDate() {
         return branchOutwardDate;
+    }
+
+    public void setBranchOutwardDate(InstantFilter branchOutwardDate) {
+        this.branchOutwardDate = branchOutwardDate;
     }
 
     public InstantFilter branchOutwardDate() {
@@ -1400,12 +1480,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return branchOutwardDate;
     }
 
-    public void setBranchOutwardDate(InstantFilter branchOutwardDate) {
-        this.branchOutwardDate = branchOutwardDate;
-    }
-
     public StringFilter getHeadOfficeInwardNumber() {
         return headOfficeInwardNumber;
+    }
+
+    public void setHeadOfficeInwardNumber(StringFilter headOfficeInwardNumber) {
+        this.headOfficeInwardNumber = headOfficeInwardNumber;
     }
 
     public StringFilter headOfficeInwardNumber() {
@@ -1415,12 +1495,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeInwardNumber;
     }
 
-    public void setHeadOfficeInwardNumber(StringFilter headOfficeInwardNumber) {
-        this.headOfficeInwardNumber = headOfficeInwardNumber;
-    }
-
     public InstantFilter getHeadOfficeInwardDate() {
         return headOfficeInwardDate;
+    }
+
+    public void setHeadOfficeInwardDate(InstantFilter headOfficeInwardDate) {
+        this.headOfficeInwardDate = headOfficeInwardDate;
     }
 
     public InstantFilter headOfficeInwardDate() {
@@ -1430,12 +1510,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeInwardDate;
     }
 
-    public void setHeadOfficeInwardDate(InstantFilter headOfficeInwardDate) {
-        this.headOfficeInwardDate = headOfficeInwardDate;
-    }
-
     public StringFilter getHeadOfficeOutwardNumber() {
         return headOfficeOutwardNumber;
+    }
+
+    public void setHeadOfficeOutwardNumber(StringFilter headOfficeOutwardNumber) {
+        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
     }
 
     public StringFilter headOfficeOutwardNumber() {
@@ -1445,12 +1525,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeOutwardNumber;
     }
 
-    public void setHeadOfficeOutwardNumber(StringFilter headOfficeOutwardNumber) {
-        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
-    }
-
     public InstantFilter getHeadOfficeOutwardDate() {
         return headOfficeOutwardDate;
+    }
+
+    public void setHeadOfficeOutwardDate(InstantFilter headOfficeOutwardDate) {
+        this.headOfficeOutwardDate = headOfficeOutwardDate;
     }
 
     public InstantFilter headOfficeOutwardDate() {
@@ -1460,12 +1540,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return headOfficeOutwardDate;
     }
 
-    public void setHeadOfficeOutwardDate(InstantFilter headOfficeOutwardDate) {
-        this.headOfficeOutwardDate = headOfficeOutwardDate;
-    }
-
     public StringFilter getTharavNumber() {
         return tharavNumber;
+    }
+
+    public void setTharavNumber(StringFilter tharavNumber) {
+        this.tharavNumber = tharavNumber;
     }
 
     public StringFilter tharavNumber() {
@@ -1475,12 +1555,12 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return tharavNumber;
     }
 
-    public void setTharavNumber(StringFilter tharavNumber) {
-        this.tharavNumber = tharavNumber;
-    }
-
     public InstantFilter getTharavDate() {
         return tharavDate;
+    }
+
+    public void setTharavDate(InstantFilter tharavDate) {
+        this.tharavDate = tharavDate;
     }
 
     public InstantFilter tharavDate() {
@@ -1488,10 +1568,6 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             tharavDate = new InstantFilter();
         }
         return tharavDate;
-    }
-
-    public void setTharavDate(InstantFilter tharavDate) {
-        this.tharavDate = tharavDate;
     }
 
     public Boolean getDistinct() {
@@ -1513,87 +1589,92 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         final KamalSocietyCriteria that = (KamalSocietyCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(financialYear, that.financialYear) &&
-            Objects.equals(kmDate, that.kmDate) &&
-            Objects.equals(kmDateMr, that.kmDateMr) &&
-            Objects.equals(kmFromDate, that.kmFromDate) &&
-            Objects.equals(kmFromDateMr, that.kmFromDateMr) &&
-            Objects.equals(kmToDate, that.kmToDate) &&
-            Objects.equals(kmToDateMr, that.kmToDateMr) &&
-            Objects.equals(pacsNumber, that.pacsNumber) &&
-            Objects.equals(pacsName, that.pacsName) &&
-            Objects.equals(branchId, that.branchId) &&
-            Objects.equals(branchName, that.branchName) &&
-            Objects.equals(talukaId, that.talukaId) &&
-            Objects.equals(talukaName, that.talukaName) &&
-            Objects.equals(zindagiPatrakDate, that.zindagiPatrakDate) &&
-            Objects.equals(zindagiPatrakDateMr, that.zindagiPatrakDateMr) &&
-            Objects.equals(bankTapasaniDate, that.bankTapasaniDate) &&
-            Objects.equals(bankTapasaniDateMr, that.bankTapasaniDateMr) &&
-            Objects.equals(govTapasaniDate, that.govTapasaniDate) &&
-            Objects.equals(govTapasaniDateMr, that.govTapasaniDateMr) &&
-            Objects.equals(sansthaTapasaniDate, that.sansthaTapasaniDate) &&
-            Objects.equals(sansthaTapasaniDateMr, that.sansthaTapasaniDateMr) &&
-            Objects.equals(totalLand, that.totalLand) &&
-            Objects.equals(bagayat, that.bagayat) &&
-            Objects.equals(jirayat, that.jirayat) &&
-            Objects.equals(totalFarmer, that.totalFarmer) &&
-            Objects.equals(memberFarmer, that.memberFarmer) &&
-            Objects.equals(nonMemberFarmer, that.nonMemberFarmer) &&
-            Objects.equals(talebandDate, that.talebandDate) &&
-            Objects.equals(memLoan, that.memLoan) &&
-            Objects.equals(memDue, that.memDue) &&
-            Objects.equals(memVasuli, that.memVasuli) &&
-            Objects.equals(memVasuliPer, that.memVasuliPer) &&
-            Objects.equals(bankLoan, that.bankLoan) &&
-            Objects.equals(bankDue, that.bankDue) &&
-            Objects.equals(bankVasuli, that.bankVasuli) &&
-            Objects.equals(bankVasuliPer, that.bankVasuliPer) &&
-            Objects.equals(balanceSheetDate, that.balanceSheetDate) &&
-            Objects.equals(balanceSheetDateMr, that.balanceSheetDateMr) &&
-            Objects.equals(liabilityAdhikrutShareCapital, that.liabilityAdhikrutShareCapital) &&
-            Objects.equals(liabilityVasulShareCapital, that.liabilityVasulShareCapital) &&
-            Objects.equals(liabilityFund, that.liabilityFund) &&
-            Objects.equals(liabilitySpareFund, that.liabilitySpareFund) &&
-            Objects.equals(liabilityDeposite, that.liabilityDeposite) &&
-            Objects.equals(liabilityBalanceSheetBankLoan, that.liabilityBalanceSheetBankLoan) &&
-            Objects.equals(liabilityOtherPayable, that.liabilityOtherPayable) &&
-            Objects.equals(liabilityProfit, that.liabilityProfit) &&
-            Objects.equals(assetCash, that.assetCash) &&
-            Objects.equals(assetInvestment, that.assetInvestment) &&
-            Objects.equals(assetImaratFund, that.assetImaratFund) &&
-            Objects.equals(assetMemberLoan, that.assetMemberLoan) &&
-            Objects.equals(assetDeadStock, that.assetDeadStock) &&
-            Objects.equals(assetOtherReceivable, that.assetOtherReceivable) &&
-            Objects.equals(assetLoss, that.assetLoss) &&
-            Objects.equals(totalLiability, that.totalLiability) &&
-            Objects.equals(totalAsset, that.totalAsset) &&
-            Objects.equals(villageCode, that.villageCode) &&
-            Objects.equals(pacsVerifiedFlag, that.pacsVerifiedFlag) &&
-            Objects.equals(branchVerifiedFlag, that.branchVerifiedFlag) &&
-            Objects.equals(headOfficeVerifiedFlag, that.headOfficeVerifiedFlag) &&
-            Objects.equals(divisionalOfficeVerifiedFlag, that.divisionalOfficeVerifiedFlag) &&
-            Objects.equals(isSupplimenteryFlag, that.isSupplimenteryFlag) &&
-            Objects.equals(sansthaTapasaniVarg, that.sansthaTapasaniVarg) &&
-            Objects.equals(branchVerifiedBy, that.branchVerifiedBy) &&
-            Objects.equals(branchVerifiedDate, that.branchVerifiedDate) &&
-            Objects.equals(headOfficeVerifiedBy, that.headOfficeVerifiedBy) &&
-            Objects.equals(headOfficeVerifiedDate, that.headOfficeVerifiedDate) &&
-            Objects.equals(divisionalOfficeVerifiedBy, that.divisionalOfficeVerifiedBy) &&
-            Objects.equals(divisionalOfficeVerifiedDate, that.divisionalOfficeVerifiedDate) &&
-            Objects.equals(doshPurtataDate, that.doshPurtataDate) &&
-            Objects.equals(gambhirDosh, that.gambhirDosh) &&
-            Objects.equals(branchInwardNumber, that.branchInwardNumber) &&
-            Objects.equals(branchInwardDate, that.branchInwardDate) &&
-            Objects.equals(branchOutwardNumber, that.branchOutwardNumber) &&
-            Objects.equals(branchOutwardDate, that.branchOutwardDate) &&
-            Objects.equals(headOfficeInwardNumber, that.headOfficeInwardNumber) &&
-            Objects.equals(headOfficeInwardDate, that.headOfficeInwardDate) &&
-            Objects.equals(headOfficeOutwardNumber, that.headOfficeOutwardNumber) &&
-            Objects.equals(headOfficeOutwardDate, that.headOfficeOutwardDate) &&
-            Objects.equals(tharavNumber, that.tharavNumber) &&
-            Objects.equals(tharavDate, that.tharavDate) &&
-            Objects.equals(distinct, that.distinct)
+                Objects.equals(financialYear, that.financialYear) &&
+                Objects.equals(kmDate, that.kmDate) &&
+                Objects.equals(kmDateMr, that.kmDateMr) &&
+                Objects.equals(kmFromDate, that.kmFromDate) &&
+                Objects.equals(kmFromDateMr, that.kmFromDateMr) &&
+                Objects.equals(kmToDate, that.kmToDate) &&
+                Objects.equals(kmToDateMr, that.kmToDateMr) &&
+                Objects.equals(pacsNumber, that.pacsNumber) &&
+                Objects.equals(pacsName, that.pacsName) &&
+                Objects.equals(branchId, that.branchId) &&
+                Objects.equals(branchName, that.branchName) &&
+                Objects.equals(talukaId, that.talukaId) &&
+                Objects.equals(talukaName, that.talukaName) &&
+                Objects.equals(zindagiPatrakDate, that.zindagiPatrakDate) &&
+                Objects.equals(zindagiPatrakDateMr, that.zindagiPatrakDateMr) &&
+                Objects.equals(bankTapasaniDate, that.bankTapasaniDate) &&
+                Objects.equals(bankTapasaniDateMr, that.bankTapasaniDateMr) &&
+                Objects.equals(govTapasaniDate, that.govTapasaniDate) &&
+                Objects.equals(govTapasaniDateMr, that.govTapasaniDateMr) &&
+                Objects.equals(sansthaTapasaniDate, that.sansthaTapasaniDate) &&
+                Objects.equals(sansthaTapasaniDateMr, that.sansthaTapasaniDateMr) &&
+                Objects.equals(totalLand, that.totalLand) &&
+                Objects.equals(bagayat, that.bagayat) &&
+                Objects.equals(jirayat, that.jirayat) &&
+                Objects.equals(totalFarmer, that.totalFarmer) &&
+                Objects.equals(memberFarmer, that.memberFarmer) &&
+                Objects.equals(nonMemberFarmer, that.nonMemberFarmer) &&
+                Objects.equals(talebandDate, that.talebandDate) &&
+                Objects.equals(memLoan, that.memLoan) &&
+                Objects.equals(memDue, that.memDue) &&
+                Objects.equals(memVasuli, that.memVasuli) &&
+                Objects.equals(memVasuliPer, that.memVasuliPer) &&
+                Objects.equals(bankLoan, that.bankLoan) &&
+                Objects.equals(bankDue, that.bankDue) &&
+                Objects.equals(bankVasuli, that.bankVasuli) &&
+                Objects.equals(bankVasuliPer, that.bankVasuliPer) &&
+                Objects.equals(balanceSheetDate, that.balanceSheetDate) &&
+                Objects.equals(balanceSheetDateMr, that.balanceSheetDateMr) &&
+                Objects.equals(liabilityAdhikrutShareCapital, that.liabilityAdhikrutShareCapital) &&
+                Objects.equals(liabilityVasulShareCapital, that.liabilityVasulShareCapital) &&
+                Objects.equals(liabilityFund, that.liabilityFund) &&
+                Objects.equals(liabilitySpareFund, that.liabilitySpareFund) &&
+                Objects.equals(liabilityDeposite, that.liabilityDeposite) &&
+                Objects.equals(liabilityBalanceSheetBankLoan, that.liabilityBalanceSheetBankLoan) &&
+                Objects.equals(liabilityOtherPayable, that.liabilityOtherPayable) &&
+                Objects.equals(liabilityProfit, that.liabilityProfit) &&
+                Objects.equals(assetCash, that.assetCash) &&
+                Objects.equals(assetInvestment, that.assetInvestment) &&
+                Objects.equals(assetImaratFund, that.assetImaratFund) &&
+                Objects.equals(assetMemberLoan, that.assetMemberLoan) &&
+                Objects.equals(assetDeadStock, that.assetDeadStock) &&
+                Objects.equals(assetOtherReceivable, that.assetOtherReceivable) &&
+                Objects.equals(assetLoss, that.assetLoss) &&
+                Objects.equals(totalLiability, that.totalLiability) &&
+                Objects.equals(totalAsset, that.totalAsset) &&
+                Objects.equals(villageCode, that.villageCode) &&
+                Objects.equals(pacsVerifiedFlag, that.pacsVerifiedFlag) &&
+                Objects.equals(branchVerifiedFlag, that.branchVerifiedFlag) &&
+                Objects.equals(headOfficeVerifiedFlag, that.headOfficeVerifiedFlag) &&
+                Objects.equals(divisionalOfficeVerifiedFlag, that.divisionalOfficeVerifiedFlag) &&
+                Objects.equals(isSupplimenteryFlag, that.isSupplimenteryFlag) &&
+                Objects.equals(sansthaTapasaniVarg, that.sansthaTapasaniVarg) &&
+                Objects.equals(branchVerifiedBy, that.branchVerifiedBy) &&
+                Objects.equals(branchVerifiedDate, that.branchVerifiedDate) &&
+                Objects.equals(headOfficeVerifiedBy, that.headOfficeVerifiedBy) &&
+                Objects.equals(headOfficeVerifiedDate, that.headOfficeVerifiedDate) &&
+                Objects.equals(divisionalOfficeVerifiedBy, that.divisionalOfficeVerifiedBy) &&
+                Objects.equals(divisionalOfficeVerifiedDate, that.divisionalOfficeVerifiedDate) &&
+                Objects.equals(doshPurtataDate, that.doshPurtataDate) &&
+                Objects.equals(gambhirDosh, that.gambhirDosh) &&
+                Objects.equals(branchInwardNumber, that.branchInwardNumber) &&
+                Objects.equals(branchInwardDate, that.branchInwardDate) &&
+                Objects.equals(branchOutwardNumber, that.branchOutwardNumber) &&
+                Objects.equals(branchOutwardDate, that.branchOutwardDate) &&
+                Objects.equals(headOfficeInwardNumber, that.headOfficeInwardNumber) &&
+                Objects.equals(headOfficeInwardDate, that.headOfficeInwardDate) &&
+                Objects.equals(headOfficeOutwardNumber, that.headOfficeOutwardNumber) &&
+                Objects.equals(headOfficeOutwardDate, that.headOfficeOutwardDate) &&
+                Objects.equals(tharavNumber, that.tharavNumber) &&
+                Objects.equals(tharavDate, that.tharavDate) &&
+                Objects.equals(distinct, that.distinct) &&
+                Objects.equals(kamalKarjMarayadaAmount, that.kamalKarjMarayadaAmount) &&
+                Objects.equals(agriAdminVerifiedFlag, that.agriAdminVerifiedFlag) &&
+                Objects.equals(agriAdminVerifiedBy, that.agriAdminVerifiedBy) &&
+                Objects.equals(agriAdminVerifiedDate, that.agriAdminVerifiedDate)
+
         );
     }
 
@@ -1681,6 +1762,10 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
             headOfficeOutwardDate,
             tharavNumber,
             tharavDate,
+            kamalKarjMarayadaAmount,
+            agriAdminVerifiedFlag,
+            agriAdminVerifiedBy,
+            agriAdminVerifiedDate,
             distinct
         );
     }

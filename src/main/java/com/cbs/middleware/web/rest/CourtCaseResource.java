@@ -1314,7 +1314,7 @@ public class CourtCaseResource {
 
             //Marathi
             String settingCodeText = translationServiceUtility.translationText("" + finalCourtCaseSettingFile.getId());
-            String courtCaseDateText = TranslationServiceUtility.oneZeroOneDateMr(courtCaseDate);
+            String courtCaseDateText = translationServiceUtility.oneZeroOneDateMr(courtCaseDate);
 
             //updating court case setting
             courtCaseSetting.setCourtCaseSettingFile(finalCourtCaseSettingFile);
@@ -1679,7 +1679,7 @@ public class CourtCaseResource {
 
                         // marathi
                         courtCaseSetting
-                            .setFirstNoticeDateMr(TranslationServiceUtility.oneZeroOneDateMr(firstNoticeDate));
+                            .setFirstNoticeDateMr(translationServiceUtility.oneZeroOneDateMr(firstNoticeDate));
 
                     }
 
@@ -1690,7 +1690,7 @@ public class CourtCaseResource {
 
                         // marathi
                         courtCaseSetting
-                            .setSecondNoticeDateMr(TranslationServiceUtility.oneZeroOneDateMr(secondNoticeDate));
+                            .setSecondNoticeDateMr(translationServiceUtility.oneZeroOneDateMr(secondNoticeDate));
 
                     }
 

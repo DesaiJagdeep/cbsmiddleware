@@ -78,6 +78,9 @@ public class KamalCropServiceImpl implements KamalCropService {
                 if (kamalCrop.getKmDateMr() != null) {
                     existingKamalCrop.setKmDateMr(kamalCrop.getKmDateMr());
                 }
+                if (kamalCrop.getAgriAdminAmount() != null) {
+                    existingKamalCrop.setAgriAdminAmount(kamalCrop.getAgriAdminAmount());
+                }
 
                 return existingKamalCrop;
             })

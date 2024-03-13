@@ -42,12 +42,42 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "due_date")
     private Instant dueDate;
 
+    @Column(name = "crop_name_mr")
+    private String cropNameMr;
+
+    @Column(name = "crop_rate")
+    private String cropRate;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
+    public String getCropNameMr() {
+        return this.cropNameMr;
+    }
 
+    public CropMaster cropNameMr(String cropNameMr) {
+        this.setCropNameMr(cropNameMr);
+        return this;
+    }
+
+    public void setCropNameMr(String cropNameMr) {
+        this.cropNameMr = cropNameMr;
+    }
+
+    public String getCropRate() {
+        return this.cropRate;
+    }
+
+    public CropMaster cropRate(String cropRate) {
+        this.setCropRate(cropRate);
+        return this;
+    }
+
+    public void setCropRate(String cropRate) {
+        this.cropRate = cropRate;
+    }
     public Instant getFromDate() {
         return fromDate;
     }

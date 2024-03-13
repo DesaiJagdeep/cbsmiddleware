@@ -166,6 +166,9 @@ public class IssFileParserResource {
     ResourceLoader resourceLoader;
     @Autowired
     private SpringTemplateEngine templateEngine;
+    @Autowired
+    private TranslationServiceUtility translationServiceUtility;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
     @Autowired
@@ -4068,7 +4071,7 @@ public class IssFileParserResource {
         String pacsName = optUser.get().getPacsName();
 
         String financialYear = claimReportsDTO.getFinancialYear();
-        String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
+        String downloadedDate = translationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
 
         //For verifyData Report
         List<IssFileParser> issFileParserList = issFileParserRepository.findByPacsNumberAndFinancialYear(pacsNumber, financialYear);
@@ -4252,7 +4255,7 @@ public class IssFileParserResource {
 //        String pacsNumber = optUser.get().getPacsNumber();
 //        String pacsName = optUser.get().getPacsName();
 //
-        String downloadedDate = TranslationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
+        String downloadedDate = translationServiceUtility.oneZeroOneDateMr(LocalDate.now(ZoneId.of("Asia/Kolkata")));
 
 
         Optional<IssPortalFile> issPortalFile = issPortalFileRepository.findById(portalFileId);

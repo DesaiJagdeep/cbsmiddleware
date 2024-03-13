@@ -48,12 +48,13 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     @Column(name = "divisional_office_amount")
     private String divisionalOfficeAmount;
 
+    @Column(name = "agri_admin_amount")
+    private String agriAdminAmount;
     @Column(name = "km_date")
     private Instant kmDate;
 
     @Column(name = "km_date_mr")
     private String kmDateMr;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
@@ -280,6 +281,19 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
 
     public void setKmDateMr(String kmDateMr) {
         this.kmDateMr = kmDateMr;
+    }
+
+    public String getAgriAdminAmount() {
+        return this.agriAdminAmount;
+    }
+
+    public KamalCrop agriAdminAmount(String agriAdminAmount) {
+        this.setAgriAdminAmount(agriAdminAmount);
+        return this;
+    }
+
+    public void setAgriAdminAmount(String agriAdminAmount) {
+        this.agriAdminAmount = agriAdminAmount;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

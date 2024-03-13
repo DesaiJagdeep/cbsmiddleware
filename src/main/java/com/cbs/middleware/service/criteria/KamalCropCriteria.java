@@ -52,6 +52,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
     private LongFilter seasonMasterId;
 
     private LongFilter cropMasterId;
+    private StringFilter agriAdminAmount;
 
     private Boolean distinct;
 
@@ -74,6 +75,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
         this.seasonMasterId = other.seasonMasterId == null ? null : other.seasonMasterId.copy();
         this.cropMasterId = other.cropMasterId == null ? null : other.cropMasterId.copy();
+        this.agriAdminAmount = other.agriAdminAmount == null ? null : other.agriAdminAmount.copy();
         this.distinct = other.distinct;
     }
 
@@ -82,6 +84,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
         return new KamalCropCriteria(this);
     }
 
+
+    public StringFilter getAgriAdminAmount() {
+        return agriAdminAmount;
+    }
+
+    public StringFilter agriAdminAmount() {
+        if (agriAdminAmount == null) {
+            agriAdminAmount = new StringFilter();
+        }
+        return agriAdminAmount;
+    }
+
+    public void setAgriAdminAmount(StringFilter agriAdminAmount) {
+        this.agriAdminAmount = agriAdminAmount;
+    }
     public LongFilter getId() {
         return id;
     }
@@ -356,6 +373,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
             Objects.equals(seasonMasterId, that.seasonMasterId) &&
             Objects.equals(cropMasterId, that.cropMasterId) &&
+            Objects.equals(agriAdminAmount, that.agriAdminAmount) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -379,6 +397,7 @@ public class KamalCropCriteria implements Serializable, Criteria {
             farmerTypeMasterId,
             seasonMasterId,
             cropMasterId,
+            agriAdminAmount,
             distinct
         );
     }

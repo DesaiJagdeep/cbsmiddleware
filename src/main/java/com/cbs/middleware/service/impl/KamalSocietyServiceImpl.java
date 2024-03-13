@@ -75,7 +75,11 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
 
     @Override
     public Optional<KamalSociety> partialUpdate(KamalSociety kamalSociety) {
+
         log.debug("Request to partially update KamalSociety : {}", kamalSociety);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
 
         return kamalSocietyRepository
             .findById(kamalSociety.getId())
@@ -247,12 +251,18 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 }
                 if (kamalSociety.getBranchVerifiedFlag() != null) {
                     existingKamalSociety.setBranchVerifiedFlag(kamalSociety.getBranchVerifiedFlag());
+                    existingKamalSociety.setBranchVerifiedBy(auth.getName());
+                    existingKamalSociety.setBranchVerifiedDate(Instant.now());
                 }
                 if (kamalSociety.getHeadOfficeVerifiedFlag() != null) {
                     existingKamalSociety.setHeadOfficeVerifiedFlag(kamalSociety.getHeadOfficeVerifiedFlag());
+                    existingKamalSociety.setHeadOfficeVerifiedBy(auth.getName());
+                    existingKamalSociety.setHeadOfficeVerifiedDate(Instant.now());
                 }
                 if (kamalSociety.getDivisionalOfficeVerifiedFlag() != null) {
                     existingKamalSociety.setDivisionalOfficeVerifiedFlag(kamalSociety.getDivisionalOfficeVerifiedFlag());
+                    existingKamalSociety.setDivisionalOfficeVerifiedBy(auth.getName());
+                    existingKamalSociety.setDivisionalOfficeVerifiedDate(Instant.now());
                 }
                 if (kamalSociety.getIsSupplimenteryFlag() != null) {
                     existingKamalSociety.setIsSupplimenteryFlag(kamalSociety.getIsSupplimenteryFlag());
@@ -319,6 +329,21 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 }
                 if (kamalSociety.getTharavDate() != null) {
                     existingKamalSociety.setTharavDate(kamalSociety.getTharavDate());
+                }
+
+                if (kamalSociety.getKamalKarjMarayadaAmount() != null) {
+                    existingKamalSociety.setKamalKarjMarayadaAmount(kamalSociety.getKamalKarjMarayadaAmount());
+                }
+                if (kamalSociety.getAgriAdminVerifiedFlag() != null) {
+                    existingKamalSociety.setAgriAdminVerifiedFlag(kamalSociety.getAgriAdminVerifiedFlag());
+                    existingKamalSociety.setAgriAdminVerifiedBy(auth.getName());
+                    existingKamalSociety.setAgriAdminVerifiedDate(Instant.now());
+                }
+                if (kamalSociety.getAgriAdminVerifiedBy() != null) {
+                    existingKamalSociety.setAgriAdminVerifiedBy(kamalSociety.getAgriAdminVerifiedBy());
+                }
+                if (kamalSociety.getAgriAdminVerifiedDate() != null) {
+                    existingKamalSociety.setAgriAdminVerifiedDate(kamalSociety.getAgriAdminVerifiedDate());
                 }
                 return existingKamalSociety;
             })

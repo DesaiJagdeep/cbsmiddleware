@@ -235,6 +235,15 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "divisional_office_verified_date")
     private Instant divisionalOfficeVerifiedDate;
 
+    @Column(name = "agri_admin_verified_flag")
+    private Boolean agriAdminVerifiedFlag;
+
+    @Column(name = "agri_admin_verified_by")
+    private String agriAdminVerifiedBy;
+
+    @Column(name = "agri_admin_verified_date")
+    private Instant agriAdminVerifiedDate;
+
     @Column(name = "dosh_purtata_date")
     private Instant doshPurtataDate;
 
@@ -275,12 +284,29 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "tharav_date")
     private Instant tharavDate;
 
+    @Column(name = "kamal_karj_marayada_amount")
+    private Double kamalKarjMarayadaAmount;
 
-    @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
+
+    @OneToMany(mappedBy = "kamalSociety", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"kamalSociety"}, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+
+    public Double getKamalKarjMarayadaAmount() {
+        return kamalKarjMarayadaAmount;
+    }
+
+    public void setKamalKarjMarayadaAmount(Double kamalKarjMarayadaAmount) {
+        this.kamalKarjMarayadaAmount = kamalKarjMarayadaAmount;
+    }
+
+    public KamalSociety kamalKarjMarayadaAmount(Double kamalKarjMarayadaAmount) {
+        this.setKamalKarjMarayadaAmount(kamalKarjMarayadaAmount);
+        return this;
+    }
 
     public Set<KamalCrop> getKamalCrops() {
         return this.kamalCrops;
@@ -317,17 +343,21 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this.id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public KamalSociety id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getFinancialYear() {
         return this.financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
     }
 
     public KamalSociety financialYear(String financialYear) {
@@ -335,12 +365,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setFinancialYear(String financialYear) {
-        this.financialYear = financialYear;
-    }
-
     public Instant getKmDate() {
         return this.kmDate;
+    }
+
+    public void setKmDate(Instant kmDate) {
+        this.kmDate = kmDate;
     }
 
     public KamalSociety kmDate(Instant kmDate) {
@@ -348,12 +378,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmDate(Instant kmDate) {
-        this.kmDate = kmDate;
-    }
-
     public String getKmDateMr() {
         return this.kmDateMr;
+    }
+
+    public void setKmDateMr(String kmDateMr) {
+        this.kmDateMr = kmDateMr;
     }
 
     public KamalSociety kmDateMr(String kmDateMr) {
@@ -361,12 +391,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmDateMr(String kmDateMr) {
-        this.kmDateMr = kmDateMr;
-    }
-
     public Instant getKmFromDate() {
         return this.kmFromDate;
+    }
+
+    public void setKmFromDate(Instant kmFromDate) {
+        this.kmFromDate = kmFromDate;
     }
 
     public KamalSociety kmFromDate(Instant kmFromDate) {
@@ -374,12 +404,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmFromDate(Instant kmFromDate) {
-        this.kmFromDate = kmFromDate;
-    }
-
     public String getKmFromDateMr() {
         return this.kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(String kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
     }
 
     public KamalSociety kmFromDateMr(String kmFromDateMr) {
@@ -387,12 +417,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmFromDateMr(String kmFromDateMr) {
-        this.kmFromDateMr = kmFromDateMr;
-    }
-
     public Instant getKmToDate() {
         return this.kmToDate;
+    }
+
+    public void setKmToDate(Instant kmToDate) {
+        this.kmToDate = kmToDate;
     }
 
     public KamalSociety kmToDate(Instant kmToDate) {
@@ -400,12 +430,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmToDate(Instant kmToDate) {
-        this.kmToDate = kmToDate;
-    }
-
     public String getKmToDateMr() {
         return this.kmToDateMr;
+    }
+
+    public void setKmToDateMr(String kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
     }
 
     public KamalSociety kmToDateMr(String kmToDateMr) {
@@ -413,12 +443,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setKmToDateMr(String kmToDateMr) {
-        this.kmToDateMr = kmToDateMr;
-    }
-
     public String getPacsNumber() {
         return this.pacsNumber;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public KamalSociety pacsNumber(String pacsNumber) {
@@ -426,12 +456,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setPacsNumber(String pacsNumber) {
-        this.pacsNumber = pacsNumber;
-    }
-
     public String getPacsName() {
         return this.pacsName;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
     }
 
     public KamalSociety pacsName(String pacsName) {
@@ -439,12 +469,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setPacsName(String pacsName) {
-        this.pacsName = pacsName;
-    }
-
     public Long getBranchId() {
         return this.branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
     public KamalSociety branchId(Long branchId) {
@@ -452,12 +482,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
-
     public String getBranchName() {
         return this.branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
     public KamalSociety branchName(String branchName) {
@@ -465,12 +495,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
-    }
-
     public Instant getZindagiPatrakDate() {
         return this.zindagiPatrakDate;
+    }
+
+    public void setZindagiPatrakDate(Instant zindagiPatrakDate) {
+        this.zindagiPatrakDate = zindagiPatrakDate;
     }
 
     public KamalSociety zindagiPatrakDate(Instant zindagiPatrakDate) {
@@ -478,12 +508,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setZindagiPatrakDate(Instant zindagiPatrakDate) {
-        this.zindagiPatrakDate = zindagiPatrakDate;
-    }
-
     public String getZindagiPatrakDateMr() {
         return this.zindagiPatrakDateMr;
+    }
+
+    public void setZindagiPatrakDateMr(String zindagiPatrakDateMr) {
+        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
     }
 
     public KamalSociety zindagiPatrakDateMr(String zindagiPatrakDateMr) {
@@ -491,12 +521,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setZindagiPatrakDateMr(String zindagiPatrakDateMr) {
-        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
-    }
-
     public Instant getBankTapasaniDate() {
         return this.bankTapasaniDate;
+    }
+
+    public void setBankTapasaniDate(Instant bankTapasaniDate) {
+        this.bankTapasaniDate = bankTapasaniDate;
     }
 
     public KamalSociety bankTapasaniDate(Instant bankTapasaniDate) {
@@ -504,12 +534,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankTapasaniDate(Instant bankTapasaniDate) {
-        this.bankTapasaniDate = bankTapasaniDate;
-    }
-
     public String getBankTapasaniDateMr() {
         return this.bankTapasaniDateMr;
+    }
+
+    public void setBankTapasaniDateMr(String bankTapasaniDateMr) {
+        this.bankTapasaniDateMr = bankTapasaniDateMr;
     }
 
     public KamalSociety bankTapasaniDateMr(String bankTapasaniDateMr) {
@@ -517,12 +547,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankTapasaniDateMr(String bankTapasaniDateMr) {
-        this.bankTapasaniDateMr = bankTapasaniDateMr;
-    }
-
     public Instant getGovTapasaniDate() {
         return this.govTapasaniDate;
+    }
+
+    public void setGovTapasaniDate(Instant govTapasaniDate) {
+        this.govTapasaniDate = govTapasaniDate;
     }
 
     public KamalSociety govTapasaniDate(Instant govTapasaniDate) {
@@ -530,12 +560,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setGovTapasaniDate(Instant govTapasaniDate) {
-        this.govTapasaniDate = govTapasaniDate;
-    }
-
     public String getGovTapasaniDateMr() {
         return this.govTapasaniDateMr;
+    }
+
+    public void setGovTapasaniDateMr(String govTapasaniDateMr) {
+        this.govTapasaniDateMr = govTapasaniDateMr;
     }
 
     public KamalSociety govTapasaniDateMr(String govTapasaniDateMr) {
@@ -543,12 +573,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setGovTapasaniDateMr(String govTapasaniDateMr) {
-        this.govTapasaniDateMr = govTapasaniDateMr;
-    }
-
     public Instant getSansthaTapasaniDate() {
         return this.sansthaTapasaniDate;
+    }
+
+    public void setSansthaTapasaniDate(Instant sansthaTapasaniDate) {
+        this.sansthaTapasaniDate = sansthaTapasaniDate;
     }
 
     public KamalSociety sansthaTapasaniDate(Instant sansthaTapasaniDate) {
@@ -556,12 +586,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setSansthaTapasaniDate(Instant sansthaTapasaniDate) {
-        this.sansthaTapasaniDate = sansthaTapasaniDate;
-    }
-
     public String getSansthaTapasaniDateMr() {
         return this.sansthaTapasaniDateMr;
+    }
+
+    public void setSansthaTapasaniDateMr(String sansthaTapasaniDateMr) {
+        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
     }
 
     public KamalSociety sansthaTapasaniDateMr(String sansthaTapasaniDateMr) {
@@ -569,12 +599,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setSansthaTapasaniDateMr(String sansthaTapasaniDateMr) {
-        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
-    }
-
     public String getTotalLand() {
         return this.totalLand;
+    }
+
+    public void setTotalLand(String totalLand) {
+        this.totalLand = totalLand;
     }
 
     public KamalSociety totalLand(String totalLand) {
@@ -582,12 +612,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTotalLand(String totalLand) {
-        this.totalLand = totalLand;
-    }
-
     public String getBagayat() {
         return this.bagayat;
+    }
+
+    public void setBagayat(String bagayat) {
+        this.bagayat = bagayat;
     }
 
     public KamalSociety bagayat(String bagayat) {
@@ -595,12 +625,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBagayat(String bagayat) {
-        this.bagayat = bagayat;
-    }
-
     public String getJirayat() {
         return this.jirayat;
+    }
+
+    public void setJirayat(String jirayat) {
+        this.jirayat = jirayat;
     }
 
     public KamalSociety jirayat(String jirayat) {
@@ -608,12 +638,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setJirayat(String jirayat) {
-        this.jirayat = jirayat;
-    }
-
     public String getTotalFarmer() {
         return this.totalFarmer;
+    }
+
+    public void setTotalFarmer(String totalFarmer) {
+        this.totalFarmer = totalFarmer;
     }
 
     public KamalSociety totalFarmer(String totalFarmer) {
@@ -621,12 +651,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTotalFarmer(String totalFarmer) {
-        this.totalFarmer = totalFarmer;
-    }
-
     public String getMemberFarmer() {
         return this.memberFarmer;
+    }
+
+    public void setMemberFarmer(String memberFarmer) {
+        this.memberFarmer = memberFarmer;
     }
 
     public KamalSociety memberFarmer(String memberFarmer) {
@@ -634,12 +664,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setMemberFarmer(String memberFarmer) {
-        this.memberFarmer = memberFarmer;
-    }
-
     public String getNonMemberFarmer() {
         return this.nonMemberFarmer;
+    }
+
+    public void setNonMemberFarmer(String nonMemberFarmer) {
+        this.nonMemberFarmer = nonMemberFarmer;
     }
 
     public KamalSociety nonMemberFarmer(String nonMemberFarmer) {
@@ -647,12 +677,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setNonMemberFarmer(String nonMemberFarmer) {
-        this.nonMemberFarmer = nonMemberFarmer;
-    }
-
     public Instant getTalebandDate() {
         return this.talebandDate;
+    }
+
+    public void setTalebandDate(Instant talebandDate) {
+        this.talebandDate = talebandDate;
     }
 
     public KamalSociety talebandDate(Instant talebandDate) {
@@ -660,12 +690,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTalebandDate(Instant talebandDate) {
-        this.talebandDate = talebandDate;
-    }
-
     public String getMemLoan() {
         return this.memLoan;
+    }
+
+    public void setMemLoan(String memLoan) {
+        this.memLoan = memLoan;
     }
 
     public KamalSociety memLoan(String memLoan) {
@@ -673,12 +703,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setMemLoan(String memLoan) {
-        this.memLoan = memLoan;
-    }
-
     public String getMemDue() {
         return this.memDue;
+    }
+
+    public void setMemDue(String memDue) {
+        this.memDue = memDue;
     }
 
     public KamalSociety memDue(String memDue) {
@@ -686,12 +716,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setMemDue(String memDue) {
-        this.memDue = memDue;
-    }
-
     public String getMemVasuli() {
         return this.memVasuli;
+    }
+
+    public void setMemVasuli(String memVasuli) {
+        this.memVasuli = memVasuli;
     }
 
     public KamalSociety memVasuli(String memVasuli) {
@@ -699,12 +729,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setMemVasuli(String memVasuli) {
-        this.memVasuli = memVasuli;
-    }
-
     public String getMemVasuliPer() {
         return this.memVasuliPer;
+    }
+
+    public void setMemVasuliPer(String memVasuliPer) {
+        this.memVasuliPer = memVasuliPer;
     }
 
     public KamalSociety memVasuliPer(String memVasuliPer) {
@@ -712,12 +742,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setMemVasuliPer(String memVasuliPer) {
-        this.memVasuliPer = memVasuliPer;
-    }
-
     public String getBankLoan() {
         return this.bankLoan;
+    }
+
+    public void setBankLoan(String bankLoan) {
+        this.bankLoan = bankLoan;
     }
 
     public KamalSociety bankLoan(String bankLoan) {
@@ -725,12 +755,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankLoan(String bankLoan) {
-        this.bankLoan = bankLoan;
-    }
-
     public String getBankDue() {
         return this.bankDue;
+    }
+
+    public void setBankDue(String bankDue) {
+        this.bankDue = bankDue;
     }
 
     public KamalSociety bankDue(String bankDue) {
@@ -738,12 +768,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankDue(String bankDue) {
-        this.bankDue = bankDue;
-    }
-
     public String getBankVasuli() {
         return this.bankVasuli;
+    }
+
+    public void setBankVasuli(String bankVasuli) {
+        this.bankVasuli = bankVasuli;
     }
 
     public KamalSociety bankVasuli(String bankVasuli) {
@@ -751,12 +781,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankVasuli(String bankVasuli) {
-        this.bankVasuli = bankVasuli;
-    }
-
     public String getBankVasuliPer() {
         return this.bankVasuliPer;
+    }
+
+    public void setBankVasuliPer(String bankVasuliPer) {
+        this.bankVasuliPer = bankVasuliPer;
     }
 
     public KamalSociety bankVasuliPer(String bankVasuliPer) {
@@ -764,12 +794,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBankVasuliPer(String bankVasuliPer) {
-        this.bankVasuliPer = bankVasuliPer;
-    }
-
     public Instant getBalanceSheetDate() {
         return this.balanceSheetDate;
+    }
+
+    public void setBalanceSheetDate(Instant balanceSheetDate) {
+        this.balanceSheetDate = balanceSheetDate;
     }
 
     public KamalSociety balanceSheetDate(Instant balanceSheetDate) {
@@ -777,12 +807,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBalanceSheetDate(Instant balanceSheetDate) {
-        this.balanceSheetDate = balanceSheetDate;
-    }
-
     public String getBalanceSheetDateMr() {
         return this.balanceSheetDateMr;
+    }
+
+    public void setBalanceSheetDateMr(String balanceSheetDateMr) {
+        this.balanceSheetDateMr = balanceSheetDateMr;
     }
 
     public KamalSociety balanceSheetDateMr(String balanceSheetDateMr) {
@@ -790,12 +820,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBalanceSheetDateMr(String balanceSheetDateMr) {
-        this.balanceSheetDateMr = balanceSheetDateMr;
-    }
-
     public String getLiabilityAdhikrutShareCapital() {
         return this.liabilityAdhikrutShareCapital;
+    }
+
+    public void setLiabilityAdhikrutShareCapital(String liabilityAdhikrutShareCapital) {
+        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
     }
 
     public KamalSociety liabilityAdhikrutShareCapital(String liabilityAdhikrutShareCapital) {
@@ -803,12 +833,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityAdhikrutShareCapital(String liabilityAdhikrutShareCapital) {
-        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
-    }
-
     public String getLiabilityVasulShareCapital() {
         return this.liabilityVasulShareCapital;
+    }
+
+    public void setLiabilityVasulShareCapital(String liabilityVasulShareCapital) {
+        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
     }
 
     public KamalSociety liabilityVasulShareCapital(String liabilityVasulShareCapital) {
@@ -816,12 +846,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityVasulShareCapital(String liabilityVasulShareCapital) {
-        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
-    }
-
     public String getLiabilityFund() {
         return this.liabilityFund;
+    }
+
+    public void setLiabilityFund(String liabilityFund) {
+        this.liabilityFund = liabilityFund;
     }
 
     public KamalSociety liabilityFund(String liabilityFund) {
@@ -829,12 +859,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityFund(String liabilityFund) {
-        this.liabilityFund = liabilityFund;
-    }
-
     public String getLiabilitySpareFund() {
         return this.liabilitySpareFund;
+    }
+
+    public void setLiabilitySpareFund(String liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
     }
 
     public KamalSociety liabilitySpareFund(String liabilitySpareFund) {
@@ -842,12 +872,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilitySpareFund(String liabilitySpareFund) {
-        this.liabilitySpareFund = liabilitySpareFund;
-    }
-
     public String getLiabilityDeposite() {
         return this.liabilityDeposite;
+    }
+
+    public void setLiabilityDeposite(String liabilityDeposite) {
+        this.liabilityDeposite = liabilityDeposite;
     }
 
     public KamalSociety liabilityDeposite(String liabilityDeposite) {
@@ -855,12 +885,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityDeposite(String liabilityDeposite) {
-        this.liabilityDeposite = liabilityDeposite;
-    }
-
     public String getLiabilityBalanceSheetBankLoan() {
         return this.liabilityBalanceSheetBankLoan;
+    }
+
+    public void setLiabilityBalanceSheetBankLoan(String liabilityBalanceSheetBankLoan) {
+        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
     }
 
     public KamalSociety liabilityBalanceSheetBankLoan(String liabilityBalanceSheetBankLoan) {
@@ -868,12 +898,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityBalanceSheetBankLoan(String liabilityBalanceSheetBankLoan) {
-        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
-    }
-
     public String getLiabilityOtherPayable() {
         return this.liabilityOtherPayable;
+    }
+
+    public void setLiabilityOtherPayable(String liabilityOtherPayable) {
+        this.liabilityOtherPayable = liabilityOtherPayable;
     }
 
     public KamalSociety liabilityOtherPayable(String liabilityOtherPayable) {
@@ -881,12 +911,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityOtherPayable(String liabilityOtherPayable) {
-        this.liabilityOtherPayable = liabilityOtherPayable;
-    }
-
     public String getLiabilityProfit() {
         return this.liabilityProfit;
+    }
+
+    public void setLiabilityProfit(String liabilityProfit) {
+        this.liabilityProfit = liabilityProfit;
     }
 
     public KamalSociety liabilityProfit(String liabilityProfit) {
@@ -894,12 +924,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setLiabilityProfit(String liabilityProfit) {
-        this.liabilityProfit = liabilityProfit;
-    }
-
     public String getAssetCash() {
         return this.assetCash;
+    }
+
+    public void setAssetCash(String assetCash) {
+        this.assetCash = assetCash;
     }
 
     public KamalSociety assetCash(String assetCash) {
@@ -907,12 +937,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetCash(String assetCash) {
-        this.assetCash = assetCash;
-    }
-
     public String getAssetInvestment() {
         return this.assetInvestment;
+    }
+
+    public void setAssetInvestment(String assetInvestment) {
+        this.assetInvestment = assetInvestment;
     }
 
     public KamalSociety assetInvestment(String assetInvestment) {
@@ -920,12 +950,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetInvestment(String assetInvestment) {
-        this.assetInvestment = assetInvestment;
-    }
-
     public String getAssetImaratFund() {
         return this.assetImaratFund;
+    }
+
+    public void setAssetImaratFund(String assetImaratFund) {
+        this.assetImaratFund = assetImaratFund;
     }
 
     public KamalSociety assetImaratFund(String assetImaratFund) {
@@ -933,12 +963,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetImaratFund(String assetImaratFund) {
-        this.assetImaratFund = assetImaratFund;
-    }
-
     public String getAssetMemberLoan() {
         return this.assetMemberLoan;
+    }
+
+    public void setAssetMemberLoan(String assetMemberLoan) {
+        this.assetMemberLoan = assetMemberLoan;
     }
 
     public KamalSociety assetMemberLoan(String assetMemberLoan) {
@@ -946,12 +976,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetMemberLoan(String assetMemberLoan) {
-        this.assetMemberLoan = assetMemberLoan;
-    }
-
     public String getAssetDeadStock() {
         return this.assetDeadStock;
+    }
+
+    public void setAssetDeadStock(String assetDeadStock) {
+        this.assetDeadStock = assetDeadStock;
     }
 
     public KamalSociety assetDeadStock(String assetDeadStock) {
@@ -959,12 +989,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetDeadStock(String assetDeadStock) {
-        this.assetDeadStock = assetDeadStock;
-    }
-
     public String getAssetOtherReceivable() {
         return this.assetOtherReceivable;
+    }
+
+    public void setAssetOtherReceivable(String assetOtherReceivable) {
+        this.assetOtherReceivable = assetOtherReceivable;
     }
 
     public KamalSociety assetOtherReceivable(String assetOtherReceivable) {
@@ -972,12 +1002,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetOtherReceivable(String assetOtherReceivable) {
-        this.assetOtherReceivable = assetOtherReceivable;
-    }
-
     public String getAssetLoss() {
         return this.assetLoss;
+    }
+
+    public void setAssetLoss(String assetLoss) {
+        this.assetLoss = assetLoss;
     }
 
     public KamalSociety assetLoss(String assetLoss) {
@@ -985,12 +1015,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setAssetLoss(String assetLoss) {
-        this.assetLoss = assetLoss;
-    }
-
     public String getTotalLiability() {
         return this.totalLiability;
+    }
+
+    public void setTotalLiability(String totalLiability) {
+        this.totalLiability = totalLiability;
     }
 
     public KamalSociety totalLiability(String totalLiability) {
@@ -998,12 +1028,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTotalLiability(String totalLiability) {
-        this.totalLiability = totalLiability;
-    }
-
     public String getTotalAsset() {
         return this.totalAsset;
+    }
+
+    public void setTotalAsset(String totalAsset) {
+        this.totalAsset = totalAsset;
     }
 
     public KamalSociety totalAsset(String totalAsset) {
@@ -1011,12 +1041,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTotalAsset(String totalAsset) {
-        this.totalAsset = totalAsset;
-    }
-
     public String getVillageCode() {
         return this.villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
     }
 
     public KamalSociety villageCode(String villageCode) {
@@ -1024,12 +1054,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setVillageCode(String villageCode) {
-        this.villageCode = villageCode;
-    }
-
     public Boolean getPacsVerifiedFlag() {
         return this.pacsVerifiedFlag;
+    }
+
+    public void setPacsVerifiedFlag(Boolean pacsVerifiedFlag) {
+        this.pacsVerifiedFlag = pacsVerifiedFlag;
     }
 
     public KamalSociety pacsVerifiedFlag(Boolean pacsVerifiedFlag) {
@@ -1037,12 +1067,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setPacsVerifiedFlag(Boolean pacsVerifiedFlag) {
-        this.pacsVerifiedFlag = pacsVerifiedFlag;
-    }
-
     public Boolean getBranchVerifiedFlag() {
         return this.branchVerifiedFlag;
+    }
+
+    public void setBranchVerifiedFlag(Boolean branchVerifiedFlag) {
+        this.branchVerifiedFlag = branchVerifiedFlag;
     }
 
     public KamalSociety branchVerifiedFlag(Boolean branchVerifiedFlag) {
@@ -1050,12 +1080,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBranchVerifiedFlag(Boolean branchVerifiedFlag) {
-        this.branchVerifiedFlag = branchVerifiedFlag;
-    }
-
     public Boolean getHeadOfficeVerifiedFlag() {
         return this.headOfficeVerifiedFlag;
+    }
+
+    public void setHeadOfficeVerifiedFlag(Boolean headOfficeVerifiedFlag) {
+        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
     }
 
     public KamalSociety headOfficeVerifiedFlag(Boolean headOfficeVerifiedFlag) {
@@ -1063,12 +1093,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setHeadOfficeVerifiedFlag(Boolean headOfficeVerifiedFlag) {
-        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
-    }
-
     public Boolean getIsSupplimenteryFlag() {
         return this.isSupplimenteryFlag;
+    }
+
+    public void setIsSupplimenteryFlag(Boolean isSupplimenteryFlag) {
+        this.isSupplimenteryFlag = isSupplimenteryFlag;
     }
 
     public KamalSociety isSupplimenteryFlag(Boolean isSupplimenteryFlag) {
@@ -1076,11 +1106,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setIsSupplimenteryFlag(Boolean isSupplimenteryFlag) {
-        this.isSupplimenteryFlag = isSupplimenteryFlag;
-    }
     public String getSansthaTapasaniVarg() {
         return this.sansthaTapasaniVarg;
+    }
+
+    public void setSansthaTapasaniVarg(String sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
     }
 
     public KamalSociety sansthaTapasaniVarg(String sansthaTapasaniVarg) {
@@ -1088,12 +1119,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setSansthaTapasaniVarg(String sansthaTapasaniVarg) {
-        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
-    }
-
     public String getBranchVerifiedBy() {
         return this.branchVerifiedBy;
+    }
+
+    public void setBranchVerifiedBy(String branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
     }
 
     public KamalSociety branchVerifiedBy(String branchVerifiedBy) {
@@ -1101,12 +1132,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBranchVerifiedBy(String branchVerifiedBy) {
-        this.branchVerifiedBy = branchVerifiedBy;
-    }
-
     public Instant getBranchVerifiedDate() {
         return this.branchVerifiedDate;
+    }
+
+    public void setBranchVerifiedDate(Instant branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
     }
 
     public KamalSociety branchVerifiedDate(Instant branchVerifiedDate) {
@@ -1114,12 +1145,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setBranchVerifiedDate(Instant branchVerifiedDate) {
-        this.branchVerifiedDate = branchVerifiedDate;
-    }
-
     public String getHeadOfficeVerifiedBy() {
         return this.headOfficeVerifiedBy;
+    }
+
+    public void setHeadOfficeVerifiedBy(String headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
     }
 
     public KamalSociety headOfficeVerifiedBy(String headOfficeVerifiedBy) {
@@ -1127,12 +1158,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setHeadOfficeVerifiedBy(String headOfficeVerifiedBy) {
-        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
-    }
-
     public Instant getHeadOfficeVerifiedDate() {
         return this.headOfficeVerifiedDate;
+    }
+
+    public void setHeadOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
     public KamalSociety headOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
@@ -1140,12 +1171,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setHeadOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
-        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
-    }
-
     public Long getTalukaId() {
         return this.talukaId;
+    }
+
+    public void setTalukaId(Long talukaId) {
+        this.talukaId = talukaId;
     }
 
     public KamalSociety talukaId(Long talukaId) {
@@ -1153,21 +1184,17 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setTalukaId(Long talukaId) {
-        this.talukaId = talukaId;
-    }
-
     public String getTalukaName() {
         return this.talukaName;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
     }
 
     public KamalSociety talukaName(String talukaName) {
         this.setTalukaName(talukaName);
         return this;
-    }
-
-    public void setTalukaName(String talukaName) {
-        this.talukaName = talukaName;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -1187,17 +1214,21 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this.divisionalOfficeVerifiedFlag;
     }
 
+    public void setDivisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
+    }
+
     public KamalSociety divisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
         this.setDivisionalOfficeVerifiedFlag(divisionalOfficeVerifiedFlag);
         return this;
     }
 
-    public void setDivisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
-        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
-    }
-
     public String getDivisionalOfficeVerifiedBy() {
         return this.divisionalOfficeVerifiedBy;
+    }
+
+    public void setDivisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
     }
 
     public KamalSociety divisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
@@ -1205,12 +1236,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setDivisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
-        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
-    }
-
     public Instant getDivisionalOfficeVerifiedDate() {
         return this.divisionalOfficeVerifiedDate;
+    }
+
+    public void setDivisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
     }
 
     public KamalSociety divisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
@@ -1218,12 +1249,12 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setDivisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
-        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
-    }
-
     public Instant getDoshPurtataDate() {
         return this.doshPurtataDate;
+    }
+
+    public void setDoshPurtataDate(Instant doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
     }
 
     public KamalSociety doshPurtataDate(Instant doshPurtataDate) {
@@ -1231,21 +1262,17 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return this;
     }
 
-    public void setDoshPurtataDate(Instant doshPurtataDate) {
-        this.doshPurtataDate = doshPurtataDate;
-    }
-
     public String getGambhirDosh() {
         return this.gambhirDosh;
+    }
+
+    public void setGambhirDosh(String gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
     }
 
     public KamalSociety gambhirDosh(String gambhirDosh) {
         this.setGambhirDosh(gambhirDosh);
         return this;
-    }
-
-    public void setGambhirDosh(String gambhirDosh) {
-        this.gambhirDosh = gambhirDosh;
     }
 
     public Boolean getSupplimenteryFlag() {
@@ -1336,6 +1363,45 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         this.tharavDate = tharavDate;
     }
 
+    public Boolean getAgriAdminVerifiedFlag() {
+        return this.agriAdminVerifiedFlag;
+    }
+
+    public void setAgriAdminVerifiedFlag(Boolean agriAdminVerifiedFlag) {
+        this.agriAdminVerifiedFlag = agriAdminVerifiedFlag;
+    }
+
+    public KamalSociety agriAdminVerifiedFlag(Boolean agriAdminVerifiedFlag) {
+        this.setAgriAdminVerifiedFlag(agriAdminVerifiedFlag);
+        return this;
+    }
+
+    public String getAgriAdminVerifiedBy() {
+        return this.agriAdminVerifiedBy;
+    }
+
+    public void setAgriAdminVerifiedBy(String agriAdminVerifiedBy) {
+        this.agriAdminVerifiedBy = agriAdminVerifiedBy;
+    }
+
+    public KamalSociety agriAdminVerifiedBy(String agriAdminVerifiedBy) {
+        this.setAgriAdminVerifiedBy(agriAdminVerifiedBy);
+        return this;
+    }
+
+    public Instant getAgriAdminVerifiedDate() {
+        return this.agriAdminVerifiedDate;
+    }
+
+    public void setAgriAdminVerifiedDate(Instant agriAdminVerifiedDate) {
+        this.agriAdminVerifiedDate = agriAdminVerifiedDate;
+    }
+
+    public KamalSociety agriAdminVerifiedDate(Instant agriAdminVerifiedDate) {
+        this.setAgriAdminVerifiedDate(agriAdminVerifiedDate);
+        return this;
+    }
+
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
@@ -1422,7 +1488,9 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
 
 
     public LocalDate instantToLocalDate(Instant instantDate) {
-
+        if (instantDate==null) {
+            return null;
+        }
         ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("UTC"));
 
         LocalDate localDate = zonedDateTime.toLocalDate();

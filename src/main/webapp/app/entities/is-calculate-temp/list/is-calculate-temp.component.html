@@ -82,12 +82,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="cast">
-            <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.cast">Cast</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="aadharNumber">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.aadharNumber">Aadhar Number</span>
@@ -274,6 +268,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="interestAbove3Lakh">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestAbove3Lakh">Interest Above 3 Lakh</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="panjabraoInt3">
             <div class="d-flex">
               <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.panjabraoInt3">Panjabrao Int 3</span>
@@ -286,15 +286,15 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="abh3Lakh">
+          <th scope="col" jhiSortBy="abh3LakhAmt">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.abh3Lakh">Abh 3 Lakh</span>
+              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.abh3LakhAmt">Abh 3 Lakh Amt</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="amt50000">
+          <th scope="col" jhiSortBy="upto50000">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.amt50000">Amt 50000</span>
+              <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.upto50000">Upto 50000</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -313,7 +313,6 @@
           <td>{{ isCalculateTemp.loanAccountNumberKcc }}</td>
           <td>{{ isCalculateTemp.farmerName }}</td>
           <td>{{ isCalculateTemp.gender }}</td>
-          <td>{{ isCalculateTemp.cast }}</td>
           <td>{{ isCalculateTemp.aadharNumber }}</td>
           <td>{{ isCalculateTemp.mobileNo }}</td>
           <td>{{ isCalculateTemp.farmerType }}</td>
@@ -345,10 +344,11 @@
           <td>{{ isCalculateTemp.interestStateSecond3 }}</td>
           <td>{{ isCalculateTemp.interestFirstAbh3 }}</td>
           <td>{{ isCalculateTemp.interestSecondAbh3 }}</td>
+          <td>{{ isCalculateTemp.interestAbove3Lakh }}</td>
           <td>{{ isCalculateTemp.panjabraoInt3 }}</td>
           <td>{{ isCalculateTemp.isRecover }}</td>
-          <td>{{ isCalculateTemp.abh3Lakh }}</td>
-          <td>{{ isCalculateTemp.amt50000 }}</td>
+          <td>{{ isCalculateTemp.abh3LakhAmt }}</td>
+          <td>{{ isCalculateTemp.upto50000 }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

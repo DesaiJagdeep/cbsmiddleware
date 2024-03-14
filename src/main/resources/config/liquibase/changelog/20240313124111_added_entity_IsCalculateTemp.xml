@@ -35,9 +35,6 @@
             <column name="gender" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="cast" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="aadhar_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -86,13 +83,13 @@
             <column name="balance_amount" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="prev_days" type="integer">
+            <column name="prev_days" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="pres_days" type="integer">
+            <column name="pres_days" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="actual_days" type="integer">
+            <column name="actual_days" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="n_prod" type="integer">
@@ -107,40 +104,43 @@
             <column name="product_abh_3_lakh" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_first_15" type="bigint">
+            <column name="interest_first_15" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_first_25" type="bigint">
+            <column name="interest_first_25" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_second_15" type="bigint">
+            <column name="interest_second_15" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_second_25" type="bigint">
+            <column name="interest_second_25" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_state_first_3" type="bigint">
+            <column name="interest_state_first_3" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_state_second_3" type="bigint">
+            <column name="interest_state_second_3" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_first_abh_3" type="bigint">
+            <column name="interest_first_abh_3" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="interest_second_abh_3" type="bigint">
+            <column name="interest_second_abh_3" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="panjabrao_int_3" type="bigint">
+            <column name="interest_above_3_lakh" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="panjabrao_int_3" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="is_recover" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="abh_3_lakh" type="bigint">
+            <column name="abh_3_lakh_amt" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="amt_50000" type="integer">
+            <column name="upto_50000" type="integer">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -171,7 +171,6 @@
             <column name="loan_account_number_kcc" type="string"/>
             <column name="farmer_name" type="string"/>
             <column name="gender" type="string"/>
-            <column name="cast" type="string"/>
             <column name="aadhar_number" type="string"/>
             <column name="mobile_no" type="string"/>
             <column name="farmer_type" type="string"/>
@@ -203,10 +202,11 @@
             <column name="interest_state_second_3" type="numeric"/>
             <column name="interest_first_abh_3" type="numeric"/>
             <column name="interest_second_abh_3" type="numeric"/>
+            <column name="interest_above_3_lakh" type="numeric"/>
             <column name="panjabrao_int_3" type="numeric"/>
             <column name="is_recover" type="numeric"/>
-            <column name="abh_3_lakh" type="numeric"/>
-            <column name="amt_50000" type="numeric"/>
+            <column name="abh_3_lakh_amt" type="numeric"/>
+            <column name="upto_50000" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -107,9 +107,6 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
             if (criteria.getGender() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGender(), IsCalculateTemp_.gender));
             }
-            if (criteria.getCast() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCast(), IsCalculateTemp_.cast));
-            }
             if (criteria.getAadharNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAadharNumber(), IsCalculateTemp_.aadharNumber));
             }
@@ -215,17 +212,21 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getInterestSecondAbh3(), IsCalculateTemp_.interestSecondAbh3));
             }
+            if (criteria.getInterestAbove3Lakh() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getInterestAbove3Lakh(), IsCalculateTemp_.interestAbove3Lakh));
+            }
             if (criteria.getPanjabraoInt3() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPanjabraoInt3(), IsCalculateTemp_.panjabraoInt3));
             }
             if (criteria.getIsRecover() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getIsRecover(), IsCalculateTemp_.isRecover));
             }
-            if (criteria.getAbh3Lakh() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAbh3Lakh(), IsCalculateTemp_.abh3Lakh));
+            if (criteria.getAbh3LakhAmt() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAbh3LakhAmt(), IsCalculateTemp_.abh3LakhAmt));
             }
-            if (criteria.getAmt50000() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAmt50000(), IsCalculateTemp_.amt50000));
+            if (criteria.getUpto50000() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getUpto50000(), IsCalculateTemp_.upto50000));
             }
         }
         return specification;

@@ -27,7 +27,6 @@ describe('IsCalculateTemp Form Service', () => {
             loanAccountNumberKcc: expect.any(Object),
             farmerName: expect.any(Object),
             gender: expect.any(Object),
-            cast: expect.any(Object),
             aadharNumber: expect.any(Object),
             mobileNo: expect.any(Object),
             farmerType: expect.any(Object),
@@ -59,10 +58,11 @@ describe('IsCalculateTemp Form Service', () => {
             interestStateSecond3: expect.any(Object),
             interestFirstAbh3: expect.any(Object),
             interestSecondAbh3: expect.any(Object),
+            interestAbove3Lakh: expect.any(Object),
             panjabraoInt3: expect.any(Object),
             isRecover: expect.any(Object),
-            abh3Lakh: expect.any(Object),
-            amt50000: expect.any(Object),
+            abh3LakhAmt: expect.any(Object),
+            upto50000: expect.any(Object),
           })
         );
       });
@@ -80,7 +80,6 @@ describe('IsCalculateTemp Form Service', () => {
             loanAccountNumberKcc: expect.any(Object),
             farmerName: expect.any(Object),
             gender: expect.any(Object),
-            cast: expect.any(Object),
             aadharNumber: expect.any(Object),
             mobileNo: expect.any(Object),
             farmerType: expect.any(Object),
@@ -112,10 +111,11 @@ describe('IsCalculateTemp Form Service', () => {
             interestStateSecond3: expect.any(Object),
             interestFirstAbh3: expect.any(Object),
             interestSecondAbh3: expect.any(Object),
+            interestAbove3Lakh: expect.any(Object),
             panjabraoInt3: expect.any(Object),
             isRecover: expect.any(Object),
-            abh3Lakh: expect.any(Object),
-            amt50000: expect.any(Object),
+            abh3LakhAmt: expect.any(Object),
+            upto50000: expect.any(Object),
           })
         );
       });

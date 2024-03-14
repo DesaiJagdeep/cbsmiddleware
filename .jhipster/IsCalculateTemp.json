@@ -31,10 +31,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "cast",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "aadharNumber",
       "fieldType": "String"
     },
@@ -100,15 +96,15 @@
     },
     {
       "fieldName": "prevDays",
-      "fieldType": "Integer"
+      "fieldType": "Long"
     },
     {
       "fieldName": "presDays",
-      "fieldType": "Integer"
+      "fieldType": "Long"
     },
     {
       "fieldName": "actualDays",
-      "fieldType": "Integer"
+      "fieldType": "Long"
     },
     {
       "fieldName": "nProd",
@@ -128,50 +124,54 @@
     },
     {
       "fieldName": "interestFirst15",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestFirst25",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestSecond15",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestSecond25",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestStateFirst3",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestStateSecond3",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestFirstAbh3",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "interestSecondAbh3",
-      "fieldType": "Long"
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "interestAbove3Lakh",
+      "fieldType": "Double"
     },
     {
       "fieldName": "panjabraoInt3",
-      "fieldType": "Long"
+      "fieldType": "Double"
     },
     {
       "fieldName": "isRecover",
       "fieldType": "Integer"
     },
     {
-      "fieldName": "abh3Lakh",
+      "fieldName": "abh3LakhAmt",
       "fieldType": "Long"
     },
     {
-      "fieldName": "amt50000",
+      "fieldName": "upto50000",
       "fieldType": "Integer"
     }
   ],

@@ -66,9 +66,6 @@ public class IsCalculateTempServiceImpl implements IsCalculateTempService {
                 if (isCalculateTemp.getGender() != null) {
                     existingIsCalculateTemp.setGender(isCalculateTemp.getGender());
                 }
-                if (isCalculateTemp.getCast() != null) {
-                    existingIsCalculateTemp.setCast(isCalculateTemp.getCast());
-                }
                 if (isCalculateTemp.getAadharNumber() != null) {
                     existingIsCalculateTemp.setAadharNumber(isCalculateTemp.getAadharNumber());
                 }
@@ -162,17 +159,20 @@ public class IsCalculateTempServiceImpl implements IsCalculateTempService {
                 if (isCalculateTemp.getInterestSecondAbh3() != null) {
                     existingIsCalculateTemp.setInterestSecondAbh3(isCalculateTemp.getInterestSecondAbh3());
                 }
+                if (isCalculateTemp.getInterestAbove3Lakh() != null) {
+                    existingIsCalculateTemp.setInterestAbove3Lakh(isCalculateTemp.getInterestAbove3Lakh());
+                }
                 if (isCalculateTemp.getPanjabraoInt3() != null) {
                     existingIsCalculateTemp.setPanjabraoInt3(isCalculateTemp.getPanjabraoInt3());
                 }
                 if (isCalculateTemp.getIsRecover() != null) {
                     existingIsCalculateTemp.setIsRecover(isCalculateTemp.getIsRecover());
                 }
-                if (isCalculateTemp.getAbh3Lakh() != null) {
-                    existingIsCalculateTemp.setAbh3Lakh(isCalculateTemp.getAbh3Lakh());
+                if (isCalculateTemp.getAbh3LakhAmt() != null) {
+                    existingIsCalculateTemp.setAbh3LakhAmt(isCalculateTemp.getAbh3LakhAmt());
                 }
-                if (isCalculateTemp.getAmt50000() != null) {
-                    existingIsCalculateTemp.setAmt50000(isCalculateTemp.getAmt50000());
+                if (isCalculateTemp.getUpto50000() != null) {
+                    existingIsCalculateTemp.setUpto50000(isCalculateTemp.getUpto50000());
                 }
 
                 return existingIsCalculateTemp;

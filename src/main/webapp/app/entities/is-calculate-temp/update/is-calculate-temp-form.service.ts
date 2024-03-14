@@ -25,7 +25,6 @@ type IsCalculateTempFormGroupContent = {
   loanAccountNumberKcc: FormControl<IIsCalculateTemp['loanAccountNumberKcc']>;
   farmerName: FormControl<IIsCalculateTemp['farmerName']>;
   gender: FormControl<IIsCalculateTemp['gender']>;
-  cast: FormControl<IIsCalculateTemp['cast']>;
   aadharNumber: FormControl<IIsCalculateTemp['aadharNumber']>;
   mobileNo: FormControl<IIsCalculateTemp['mobileNo']>;
   farmerType: FormControl<IIsCalculateTemp['farmerType']>;
@@ -57,10 +56,11 @@ type IsCalculateTempFormGroupContent = {
   interestStateSecond3: FormControl<IIsCalculateTemp['interestStateSecond3']>;
   interestFirstAbh3: FormControl<IIsCalculateTemp['interestFirstAbh3']>;
   interestSecondAbh3: FormControl<IIsCalculateTemp['interestSecondAbh3']>;
+  interestAbove3Lakh: FormControl<IIsCalculateTemp['interestAbove3Lakh']>;
   panjabraoInt3: FormControl<IIsCalculateTemp['panjabraoInt3']>;
   isRecover: FormControl<IIsCalculateTemp['isRecover']>;
-  abh3Lakh: FormControl<IIsCalculateTemp['abh3Lakh']>;
-  amt50000: FormControl<IIsCalculateTemp['amt50000']>;
+  abh3LakhAmt: FormControl<IIsCalculateTemp['abh3LakhAmt']>;
+  upto50000: FormControl<IIsCalculateTemp['upto50000']>;
 };
 
 export type IsCalculateTempFormGroup = FormGroup<IsCalculateTempFormGroupContent>;
@@ -87,7 +87,6 @@ export class IsCalculateTempFormService {
       loanAccountNumberKcc: new FormControl(isCalculateTempRawValue.loanAccountNumberKcc),
       farmerName: new FormControl(isCalculateTempRawValue.farmerName),
       gender: new FormControl(isCalculateTempRawValue.gender),
-      cast: new FormControl(isCalculateTempRawValue.cast),
       aadharNumber: new FormControl(isCalculateTempRawValue.aadharNumber),
       mobileNo: new FormControl(isCalculateTempRawValue.mobileNo),
       farmerType: new FormControl(isCalculateTempRawValue.farmerType),
@@ -119,10 +118,11 @@ export class IsCalculateTempFormService {
       interestStateSecond3: new FormControl(isCalculateTempRawValue.interestStateSecond3),
       interestFirstAbh3: new FormControl(isCalculateTempRawValue.interestFirstAbh3),
       interestSecondAbh3: new FormControl(isCalculateTempRawValue.interestSecondAbh3),
+      interestAbove3Lakh: new FormControl(isCalculateTempRawValue.interestAbove3Lakh),
       panjabraoInt3: new FormControl(isCalculateTempRawValue.panjabraoInt3),
       isRecover: new FormControl(isCalculateTempRawValue.isRecover),
-      abh3Lakh: new FormControl(isCalculateTempRawValue.abh3Lakh),
-      amt50000: new FormControl(isCalculateTempRawValue.amt50000),
+      abh3LakhAmt: new FormControl(isCalculateTempRawValue.abh3LakhAmt),
+      upto50000: new FormControl(isCalculateTempRawValue.upto50000),
     });
   }
 

@@ -25,7 +25,6 @@
       "loanAccountNumberKcc": "Loan Account Number Kcc",
       "farmerName": "Farmer Name",
       "gender": "Gender",
-      "cast": "Cast",
       "aadharNumber": "Aadhar Number",
       "mobileNo": "Mobile No",
       "farmerType": "Farmer Type",
@@ -57,10 +56,11 @@
       "interestStateSecond3": "Interest State Second 3",
       "interestFirstAbh3": "Interest First Abh 3",
       "interestSecondAbh3": "Interest Second Abh 3",
+      "interestAbove3Lakh": "Interest Above 3 Lakh",
       "panjabraoInt3": "Panjabrao Int 3",
       "isRecover": "Is Recover",
-      "abh3Lakh": "Abh 3 Lakh",
-      "amt50000": "Amt 50000"
+      "abh3LakhAmt": "Abh 3 Lakh Amt",
+      "upto50000": "Upto 50000"
     }
   }
 }

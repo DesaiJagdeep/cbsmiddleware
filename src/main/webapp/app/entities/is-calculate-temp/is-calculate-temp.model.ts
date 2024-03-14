@@ -7,7 +7,6 @@ export interface IIsCalculateTemp {
   loanAccountNumberKcc?: string | null;
   farmerName?: string | null;
   gender?: string | null;
-  cast?: string | null;
   aadharNumber?: string | null;
   mobileNo?: string | null;
   farmerType?: string | null;
@@ -39,10 +38,11 @@ export interface IIsCalculateTemp {
   interestStateSecond3?: number | null;
   interestFirstAbh3?: number | null;
   interestSecondAbh3?: number | null;
+  interestAbove3Lakh?: number | null;
   panjabraoInt3?: number | null;
   isRecover?: number | null;
-  abh3Lakh?: number | null;
-  amt50000?: number | null;
+  abh3LakhAmt?: number | null;
+  upto50000?: number | null;
 }
 
 export type NewIsCalculateTemp = Omit<IIsCalculateTemp, 'id'> & { id: null };

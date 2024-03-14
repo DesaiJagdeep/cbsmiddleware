@@ -53,9 +53,6 @@ class IsCalculateTempResourceIT {
     private static final String DEFAULT_GENDER = "AAAAAAAAAA";
     private static final String UPDATED_GENDER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CAST = "AAAAAAAAAA";
-    private static final String UPDATED_CAST = "BBBBBBBBBB";
-
     private static final String DEFAULT_AADHAR_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_AADHAR_NUMBER = "BBBBBBBBBB";
 
@@ -104,17 +101,17 @@ class IsCalculateTempResourceIT {
     private static final String DEFAULT_BALANCE_AMOUNT = "AAAAAAAAAA";
     private static final String UPDATED_BALANCE_AMOUNT = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PREV_DAYS = 1;
-    private static final Integer UPDATED_PREV_DAYS = 2;
-    private static final Integer SMALLER_PREV_DAYS = 1 - 1;
+    private static final Long DEFAULT_PREV_DAYS = 1L;
+    private static final Long UPDATED_PREV_DAYS = 2L;
+    private static final Long SMALLER_PREV_DAYS = 1L - 1L;
 
-    private static final Integer DEFAULT_PRES_DAYS = 1;
-    private static final Integer UPDATED_PRES_DAYS = 2;
-    private static final Integer SMALLER_PRES_DAYS = 1 - 1;
+    private static final Long DEFAULT_PRES_DAYS = 1L;
+    private static final Long UPDATED_PRES_DAYS = 2L;
+    private static final Long SMALLER_PRES_DAYS = 1L - 1L;
 
-    private static final Integer DEFAULT_ACTUAL_DAYS = 1;
-    private static final Integer UPDATED_ACTUAL_DAYS = 2;
-    private static final Integer SMALLER_ACTUAL_DAYS = 1 - 1;
+    private static final Long DEFAULT_ACTUAL_DAYS = 1L;
+    private static final Long UPDATED_ACTUAL_DAYS = 2L;
+    private static final Long SMALLER_ACTUAL_DAYS = 1L - 1L;
 
     private static final Integer DEFAULT_N_PROD = 1;
     private static final Integer UPDATED_N_PROD = 2;
@@ -129,53 +126,57 @@ class IsCalculateTempResourceIT {
     private static final String DEFAULT_PRODUCT_ABH_3_LAKH = "AAAAAAAAAA";
     private static final String UPDATED_PRODUCT_ABH_3_LAKH = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_INTEREST_FIRST_15 = 1L;
-    private static final Long UPDATED_INTEREST_FIRST_15 = 2L;
-    private static final Long SMALLER_INTEREST_FIRST_15 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_FIRST_15 = 1D;
+    private static final Double UPDATED_INTEREST_FIRST_15 = 2D;
+    private static final Double SMALLER_INTEREST_FIRST_15 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_FIRST_25 = 1L;
-    private static final Long UPDATED_INTEREST_FIRST_25 = 2L;
-    private static final Long SMALLER_INTEREST_FIRST_25 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_FIRST_25 = 1D;
+    private static final Double UPDATED_INTEREST_FIRST_25 = 2D;
+    private static final Double SMALLER_INTEREST_FIRST_25 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_SECOND_15 = 1L;
-    private static final Long UPDATED_INTEREST_SECOND_15 = 2L;
-    private static final Long SMALLER_INTEREST_SECOND_15 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_SECOND_15 = 1D;
+    private static final Double UPDATED_INTEREST_SECOND_15 = 2D;
+    private static final Double SMALLER_INTEREST_SECOND_15 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_SECOND_25 = 1L;
-    private static final Long UPDATED_INTEREST_SECOND_25 = 2L;
-    private static final Long SMALLER_INTEREST_SECOND_25 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_SECOND_25 = 1D;
+    private static final Double UPDATED_INTEREST_SECOND_25 = 2D;
+    private static final Double SMALLER_INTEREST_SECOND_25 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_STATE_FIRST_3 = 1L;
-    private static final Long UPDATED_INTEREST_STATE_FIRST_3 = 2L;
-    private static final Long SMALLER_INTEREST_STATE_FIRST_3 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_STATE_FIRST_3 = 1D;
+    private static final Double UPDATED_INTEREST_STATE_FIRST_3 = 2D;
+    private static final Double SMALLER_INTEREST_STATE_FIRST_3 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_STATE_SECOND_3 = 1L;
-    private static final Long UPDATED_INTEREST_STATE_SECOND_3 = 2L;
-    private static final Long SMALLER_INTEREST_STATE_SECOND_3 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_STATE_SECOND_3 = 1D;
+    private static final Double UPDATED_INTEREST_STATE_SECOND_3 = 2D;
+    private static final Double SMALLER_INTEREST_STATE_SECOND_3 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_FIRST_ABH_3 = 1L;
-    private static final Long UPDATED_INTEREST_FIRST_ABH_3 = 2L;
-    private static final Long SMALLER_INTEREST_FIRST_ABH_3 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_FIRST_ABH_3 = 1D;
+    private static final Double UPDATED_INTEREST_FIRST_ABH_3 = 2D;
+    private static final Double SMALLER_INTEREST_FIRST_ABH_3 = 1D - 1D;
 
-    private static final Long DEFAULT_INTEREST_SECOND_ABH_3 = 1L;
-    private static final Long UPDATED_INTEREST_SECOND_ABH_3 = 2L;
-    private static final Long SMALLER_INTEREST_SECOND_ABH_3 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_SECOND_ABH_3 = 1D;
+    private static final Double UPDATED_INTEREST_SECOND_ABH_3 = 2D;
+    private static final Double SMALLER_INTEREST_SECOND_ABH_3 = 1D - 1D;
 
-    private static final Long DEFAULT_PANJABRAO_INT_3 = 1L;
-    private static final Long UPDATED_PANJABRAO_INT_3 = 2L;
-    private static final Long SMALLER_PANJABRAO_INT_3 = 1L - 1L;
+    private static final Double DEFAULT_INTEREST_ABOVE_3_LAKH = 1D;
+    private static final Double UPDATED_INTEREST_ABOVE_3_LAKH = 2D;
+    private static final Double SMALLER_INTEREST_ABOVE_3_LAKH = 1D - 1D;
+
+    private static final Double DEFAULT_PANJABRAO_INT_3 = 1D;
+    private static final Double UPDATED_PANJABRAO_INT_3 = 2D;
+    private static final Double SMALLER_PANJABRAO_INT_3 = 1D - 1D;
 
     private static final Integer DEFAULT_IS_RECOVER = 1;
     private static final Integer UPDATED_IS_RECOVER = 2;
     private static final Integer SMALLER_IS_RECOVER = 1 - 1;
 
-    private static final Long DEFAULT_ABH_3_LAKH = 1L;
-    private static final Long UPDATED_ABH_3_LAKH = 2L;
-    private static final Long SMALLER_ABH_3_LAKH = 1L - 1L;
+    private static final Long DEFAULT_ABH_3_LAKH_AMT = 1L;
+    private static final Long UPDATED_ABH_3_LAKH_AMT = 2L;
+    private static final Long SMALLER_ABH_3_LAKH_AMT = 1L - 1L;
 
-    private static final Integer DEFAULT_AMT_50000 = 1;
-    private static final Integer UPDATED_AMT_50000 = 2;
-    private static final Integer SMALLER_AMT_50000 = 1 - 1;
+    private static final Integer DEFAULT_UPTO_50000 = 1;
+    private static final Integer UPDATED_UPTO_50000 = 2;
+    private static final Integer SMALLER_UPTO_50000 = 1 - 1;
 
     private static final String ENTITY_API_URL = "/api/is-calculate-temps";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -209,7 +210,6 @@ class IsCalculateTempResourceIT {
             .loanAccountNumberKcc(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(DEFAULT_FARMER_NAME)
             .gender(DEFAULT_GENDER)
-            .cast(DEFAULT_CAST)
             .aadharNumber(DEFAULT_AADHAR_NUMBER)
             .mobileNo(DEFAULT_MOBILE_NO)
             .farmerType(DEFAULT_FARMER_TYPE)
@@ -241,10 +241,11 @@ class IsCalculateTempResourceIT {
             .interestStateSecond3(DEFAULT_INTEREST_STATE_SECOND_3)
             .interestFirstAbh3(DEFAULT_INTEREST_FIRST_ABH_3)
             .interestSecondAbh3(DEFAULT_INTEREST_SECOND_ABH_3)
+            .interestAbove3Lakh(DEFAULT_INTEREST_ABOVE_3_LAKH)
             .panjabraoInt3(DEFAULT_PANJABRAO_INT_3)
             .isRecover(DEFAULT_IS_RECOVER)
-            .abh3Lakh(DEFAULT_ABH_3_LAKH)
-            .amt50000(DEFAULT_AMT_50000);
+            .abh3LakhAmt(DEFAULT_ABH_3_LAKH_AMT)
+            .upto50000(DEFAULT_UPTO_50000);
         return isCalculateTemp;
     }
 
@@ -263,7 +264,6 @@ class IsCalculateTempResourceIT {
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
-            .cast(UPDATED_CAST)
             .aadharNumber(UPDATED_AADHAR_NUMBER)
             .mobileNo(UPDATED_MOBILE_NO)
             .farmerType(UPDATED_FARMER_TYPE)
@@ -295,10 +295,11 @@ class IsCalculateTempResourceIT {
             .interestStateSecond3(UPDATED_INTEREST_STATE_SECOND_3)
             .interestFirstAbh3(UPDATED_INTEREST_FIRST_ABH_3)
             .interestSecondAbh3(UPDATED_INTEREST_SECOND_ABH_3)
+            .interestAbove3Lakh(UPDATED_INTEREST_ABOVE_3_LAKH)
             .panjabraoInt3(UPDATED_PANJABRAO_INT_3)
             .isRecover(UPDATED_IS_RECOVER)
-            .abh3Lakh(UPDATED_ABH_3_LAKH)
-            .amt50000(UPDATED_AMT_50000);
+            .abh3LakhAmt(UPDATED_ABH_3_LAKH_AMT)
+            .upto50000(UPDATED_UPTO_50000);
         return isCalculateTemp;
     }
 
@@ -329,7 +330,6 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(DEFAULT_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(DEFAULT_GENDER);
-        assertThat(testIsCalculateTemp.getCast()).isEqualTo(DEFAULT_CAST);
         assertThat(testIsCalculateTemp.getAadharNumber()).isEqualTo(DEFAULT_AADHAR_NUMBER);
         assertThat(testIsCalculateTemp.getMobileNo()).isEqualTo(DEFAULT_MOBILE_NO);
         assertThat(testIsCalculateTemp.getFarmerType()).isEqualTo(DEFAULT_FARMER_TYPE);
@@ -361,10 +361,11 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(DEFAULT_INTEREST_STATE_SECOND_3);
         assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(DEFAULT_INTEREST_FIRST_ABH_3);
         assertThat(testIsCalculateTemp.getInterestSecondAbh3()).isEqualTo(DEFAULT_INTEREST_SECOND_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(DEFAULT_INTEREST_ABOVE_3_LAKH);
         assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(DEFAULT_PANJABRAO_INT_3);
         assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(DEFAULT_IS_RECOVER);
-        assertThat(testIsCalculateTemp.getAbh3Lakh()).isEqualTo(DEFAULT_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getAmt50000()).isEqualTo(DEFAULT_AMT_50000);
+        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(DEFAULT_ABH_3_LAKH_AMT);
+        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(DEFAULT_UPTO_50000);
     }
 
     @Test
@@ -406,7 +407,6 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].loanAccountNumberKcc").value(hasItem(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)))
             .andExpect(jsonPath("$.[*].farmerName").value(hasItem(DEFAULT_FARMER_NAME)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].cast").value(hasItem(DEFAULT_CAST)))
             .andExpect(jsonPath("$.[*].aadharNumber").value(hasItem(DEFAULT_AADHAR_NUMBER)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].farmerType").value(hasItem(DEFAULT_FARMER_TYPE)))
@@ -423,25 +423,26 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].recoveryInterest").value(hasItem(DEFAULT_RECOVERY_INTEREST)))
             .andExpect(jsonPath("$.[*].recoveryDate").value(hasItem(DEFAULT_RECOVERY_DATE)))
             .andExpect(jsonPath("$.[*].balanceAmount").value(hasItem(DEFAULT_BALANCE_AMOUNT)))
-            .andExpect(jsonPath("$.[*].prevDays").value(hasItem(DEFAULT_PREV_DAYS)))
-            .andExpect(jsonPath("$.[*].presDays").value(hasItem(DEFAULT_PRES_DAYS)))
-            .andExpect(jsonPath("$.[*].actualDays").value(hasItem(DEFAULT_ACTUAL_DAYS)))
+            .andExpect(jsonPath("$.[*].prevDays").value(hasItem(DEFAULT_PREV_DAYS.intValue())))
+            .andExpect(jsonPath("$.[*].presDays").value(hasItem(DEFAULT_PRES_DAYS.intValue())))
+            .andExpect(jsonPath("$.[*].actualDays").value(hasItem(DEFAULT_ACTUAL_DAYS.intValue())))
             .andExpect(jsonPath("$.[*].nProd").value(hasItem(DEFAULT_N_PROD)))
             .andExpect(jsonPath("$.[*].productAmount").value(hasItem(DEFAULT_PRODUCT_AMOUNT)))
             .andExpect(jsonPath("$.[*].productBank").value(hasItem(DEFAULT_PRODUCT_BANK)))
             .andExpect(jsonPath("$.[*].productAbh3Lakh").value(hasItem(DEFAULT_PRODUCT_ABH_3_LAKH)))
-            .andExpect(jsonPath("$.[*].interestFirst15").value(hasItem(DEFAULT_INTEREST_FIRST_15.intValue())))
-            .andExpect(jsonPath("$.[*].interestFirst25").value(hasItem(DEFAULT_INTEREST_FIRST_25.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecond15").value(hasItem(DEFAULT_INTEREST_SECOND_15.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecond25").value(hasItem(DEFAULT_INTEREST_SECOND_25.intValue())))
-            .andExpect(jsonPath("$.[*].interestStateFirst3").value(hasItem(DEFAULT_INTEREST_STATE_FIRST_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestStateSecond3").value(hasItem(DEFAULT_INTEREST_STATE_SECOND_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestFirstAbh3").value(hasItem(DEFAULT_INTEREST_FIRST_ABH_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecondAbh3").value(hasItem(DEFAULT_INTEREST_SECOND_ABH_3.intValue())))
-            .andExpect(jsonPath("$.[*].panjabraoInt3").value(hasItem(DEFAULT_PANJABRAO_INT_3.intValue())))
+            .andExpect(jsonPath("$.[*].interestFirst15").value(hasItem(DEFAULT_INTEREST_FIRST_15.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestFirst25").value(hasItem(DEFAULT_INTEREST_FIRST_25.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecond15").value(hasItem(DEFAULT_INTEREST_SECOND_15.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecond25").value(hasItem(DEFAULT_INTEREST_SECOND_25.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestStateFirst3").value(hasItem(DEFAULT_INTEREST_STATE_FIRST_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestStateSecond3").value(hasItem(DEFAULT_INTEREST_STATE_SECOND_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestFirstAbh3").value(hasItem(DEFAULT_INTEREST_FIRST_ABH_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecondAbh3").value(hasItem(DEFAULT_INTEREST_SECOND_ABH_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestAbove3Lakh").value(hasItem(DEFAULT_INTEREST_ABOVE_3_LAKH.doubleValue())))
+            .andExpect(jsonPath("$.[*].panjabraoInt3").value(hasItem(DEFAULT_PANJABRAO_INT_3.doubleValue())))
             .andExpect(jsonPath("$.[*].isRecover").value(hasItem(DEFAULT_IS_RECOVER)))
-            .andExpect(jsonPath("$.[*].abh3Lakh").value(hasItem(DEFAULT_ABH_3_LAKH.intValue())))
-            .andExpect(jsonPath("$.[*].amt50000").value(hasItem(DEFAULT_AMT_50000)));
+            .andExpect(jsonPath("$.[*].abh3LakhAmt").value(hasItem(DEFAULT_ABH_3_LAKH_AMT.intValue())))
+            .andExpect(jsonPath("$.[*].upto50000").value(hasItem(DEFAULT_UPTO_50000)));
     }
 
     @Test
@@ -463,7 +464,6 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.loanAccountNumberKcc").value(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC))
             .andExpect(jsonPath("$.farmerName").value(DEFAULT_FARMER_NAME))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER))
-            .andExpect(jsonPath("$.cast").value(DEFAULT_CAST))
             .andExpect(jsonPath("$.aadharNumber").value(DEFAULT_AADHAR_NUMBER))
             .andExpect(jsonPath("$.mobileNo").value(DEFAULT_MOBILE_NO))
             .andExpect(jsonPath("$.farmerType").value(DEFAULT_FARMER_TYPE))
@@ -480,25 +480,26 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.recoveryInterest").value(DEFAULT_RECOVERY_INTEREST))
             .andExpect(jsonPath("$.recoveryDate").value(DEFAULT_RECOVERY_DATE))
             .andExpect(jsonPath("$.balanceAmount").value(DEFAULT_BALANCE_AMOUNT))
-            .andExpect(jsonPath("$.prevDays").value(DEFAULT_PREV_DAYS))
-            .andExpect(jsonPath("$.presDays").value(DEFAULT_PRES_DAYS))
-            .andExpect(jsonPath("$.actualDays").value(DEFAULT_ACTUAL_DAYS))
+            .andExpect(jsonPath("$.prevDays").value(DEFAULT_PREV_DAYS.intValue()))
+            .andExpect(jsonPath("$.presDays").value(DEFAULT_PRES_DAYS.intValue()))
+            .andExpect(jsonPath("$.actualDays").value(DEFAULT_ACTUAL_DAYS.intValue()))
             .andExpect(jsonPath("$.nProd").value(DEFAULT_N_PROD))
             .andExpect(jsonPath("$.productAmount").value(DEFAULT_PRODUCT_AMOUNT))
             .andExpect(jsonPath("$.productBank").value(DEFAULT_PRODUCT_BANK))
             .andExpect(jsonPath("$.productAbh3Lakh").value(DEFAULT_PRODUCT_ABH_3_LAKH))
-            .andExpect(jsonPath("$.interestFirst15").value(DEFAULT_INTEREST_FIRST_15.intValue()))
-            .andExpect(jsonPath("$.interestFirst25").value(DEFAULT_INTEREST_FIRST_25.intValue()))
-            .andExpect(jsonPath("$.interestSecond15").value(DEFAULT_INTEREST_SECOND_15.intValue()))
-            .andExpect(jsonPath("$.interestSecond25").value(DEFAULT_INTEREST_SECOND_25.intValue()))
-            .andExpect(jsonPath("$.interestStateFirst3").value(DEFAULT_INTEREST_STATE_FIRST_3.intValue()))
-            .andExpect(jsonPath("$.interestStateSecond3").value(DEFAULT_INTEREST_STATE_SECOND_3.intValue()))
-            .andExpect(jsonPath("$.interestFirstAbh3").value(DEFAULT_INTEREST_FIRST_ABH_3.intValue()))
-            .andExpect(jsonPath("$.interestSecondAbh3").value(DEFAULT_INTEREST_SECOND_ABH_3.intValue()))
-            .andExpect(jsonPath("$.panjabraoInt3").value(DEFAULT_PANJABRAO_INT_3.intValue()))
+            .andExpect(jsonPath("$.interestFirst15").value(DEFAULT_INTEREST_FIRST_15.doubleValue()))
+            .andExpect(jsonPath("$.interestFirst25").value(DEFAULT_INTEREST_FIRST_25.doubleValue()))
+            .andExpect(jsonPath("$.interestSecond15").value(DEFAULT_INTEREST_SECOND_15.doubleValue()))
+            .andExpect(jsonPath("$.interestSecond25").value(DEFAULT_INTEREST_SECOND_25.doubleValue()))
+            .andExpect(jsonPath("$.interestStateFirst3").value(DEFAULT_INTEREST_STATE_FIRST_3.doubleValue()))
+            .andExpect(jsonPath("$.interestStateSecond3").value(DEFAULT_INTEREST_STATE_SECOND_3.doubleValue()))
+            .andExpect(jsonPath("$.interestFirstAbh3").value(DEFAULT_INTEREST_FIRST_ABH_3.doubleValue()))
+            .andExpect(jsonPath("$.interestSecondAbh3").value(DEFAULT_INTEREST_SECOND_ABH_3.doubleValue()))
+            .andExpect(jsonPath("$.interestAbove3Lakh").value(DEFAULT_INTEREST_ABOVE_3_LAKH.doubleValue()))
+            .andExpect(jsonPath("$.panjabraoInt3").value(DEFAULT_PANJABRAO_INT_3.doubleValue()))
             .andExpect(jsonPath("$.isRecover").value(DEFAULT_IS_RECOVER))
-            .andExpect(jsonPath("$.abh3Lakh").value(DEFAULT_ABH_3_LAKH.intValue()))
-            .andExpect(jsonPath("$.amt50000").value(DEFAULT_AMT_50000));
+            .andExpect(jsonPath("$.abh3LakhAmt").value(DEFAULT_ABH_3_LAKH_AMT.intValue()))
+            .andExpect(jsonPath("$.upto50000").value(DEFAULT_UPTO_50000));
     }
 
     @Test
@@ -1026,71 +1027,6 @@ class IsCalculateTempResourceIT {
 
         // Get all the isCalculateTempList where gender does not contain UPDATED_GENDER
         defaultIsCalculateTempShouldBeFound("gender.doesNotContain=" + UPDATED_GENDER);
-    }
-
-    @Test
-    @Transactional
-    void getAllIsCalculateTempsByCastIsEqualToSomething() throws Exception {
-        // Initialize the database
-        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
-
-        // Get all the isCalculateTempList where cast equals to DEFAULT_CAST
-        defaultIsCalculateTempShouldBeFound("cast.equals=" + DEFAULT_CAST);
-
-        // Get all the isCalculateTempList where cast equals to UPDATED_CAST
-        defaultIsCalculateTempShouldNotBeFound("cast.equals=" + UPDATED_CAST);
-    }
-
-    @Test
-    @Transactional
-    void getAllIsCalculateTempsByCastIsInShouldWork() throws Exception {
-        // Initialize the database
-        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
-
-        // Get all the isCalculateTempList where cast in DEFAULT_CAST or UPDATED_CAST
-        defaultIsCalculateTempShouldBeFound("cast.in=" + DEFAULT_CAST + "," + UPDATED_CAST);
-
-        // Get all the isCalculateTempList where cast equals to UPDATED_CAST
-        defaultIsCalculateTempShouldNotBeFound("cast.in=" + UPDATED_CAST);
-    }
-
-    @Test
-    @Transactional
-    void getAllIsCalculateTempsByCastIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
-
-        // Get all the isCalculateTempList where cast is not null
-        defaultIsCalculateTempShouldBeFound("cast.specified=true");
-
-        // Get all the isCalculateTempList where cast is null
-        defaultIsCalculateTempShouldNotBeFound("cast.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllIsCalculateTempsByCastContainsSomething() throws Exception {
-        // Initialize the database
-        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
-
-        // Get all the isCalculateTempList where cast contains DEFAULT_CAST
-        defaultIsCalculateTempShouldBeFound("cast.contains=" + DEFAULT_CAST);
-
-        // Get all the isCalculateTempList where cast contains UPDATED_CAST
-        defaultIsCalculateTempShouldNotBeFound("cast.contains=" + UPDATED_CAST);
-    }
-
-    @Test
-    @Transactional
-    void getAllIsCalculateTempsByCastNotContainsSomething() throws Exception {
-        // Initialize the database
-        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
-
-        // Get all the isCalculateTempList where cast does not contain DEFAULT_CAST
-        defaultIsCalculateTempShouldNotBeFound("cast.doesNotContain=" + DEFAULT_CAST);
-
-        // Get all the isCalculateTempList where cast does not contain UPDATED_CAST
-        defaultIsCalculateTempShouldBeFound("cast.doesNotContain=" + UPDATED_CAST);
     }
 
     @Test
@@ -3426,6 +3362,97 @@ class IsCalculateTempResourceIT {
 
     @Test
     @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsEqualToSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh equals to DEFAULT_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.equals=" + DEFAULT_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh equals to UPDATED_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.equals=" + UPDATED_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsInShouldWork() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh in DEFAULT_INTEREST_ABOVE_3_LAKH or UPDATED_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.in=" + DEFAULT_INTEREST_ABOVE_3_LAKH + "," + UPDATED_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh equals to UPDATED_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.in=" + UPDATED_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is not null
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.specified=true");
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is null
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is greater than or equal to DEFAULT_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.greaterThanOrEqual=" + DEFAULT_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is greater than or equal to UPDATED_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.greaterThanOrEqual=" + UPDATED_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is less than or equal to DEFAULT_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.lessThanOrEqual=" + DEFAULT_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is less than or equal to SMALLER_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.lessThanOrEqual=" + SMALLER_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsLessThanSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is less than DEFAULT_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.lessThan=" + DEFAULT_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is less than UPDATED_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.lessThan=" + UPDATED_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByInterestAbove3LakhIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is greater than DEFAULT_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldNotBeFound("interestAbove3Lakh.greaterThan=" + DEFAULT_INTEREST_ABOVE_3_LAKH);
+
+        // Get all the isCalculateTempList where interestAbove3Lakh is greater than SMALLER_INTEREST_ABOVE_3_LAKH
+        defaultIsCalculateTempShouldBeFound("interestAbove3Lakh.greaterThan=" + SMALLER_INTEREST_ABOVE_3_LAKH);
+    }
+
+    @Test
+    @Transactional
     void getAllIsCalculateTempsByPanjabraoInt3IsEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
@@ -3608,184 +3635,184 @@ class IsCalculateTempResourceIT {
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh equals to DEFAULT_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.equals=" + DEFAULT_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt equals to DEFAULT_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.equals=" + DEFAULT_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh equals to UPDATED_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.equals=" + UPDATED_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt equals to UPDATED_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.equals=" + UPDATED_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsInShouldWork() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsInShouldWork() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh in DEFAULT_ABH_3_LAKH or UPDATED_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.in=" + DEFAULT_ABH_3_LAKH + "," + UPDATED_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt in DEFAULT_ABH_3_LAKH_AMT or UPDATED_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.in=" + DEFAULT_ABH_3_LAKH_AMT + "," + UPDATED_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh equals to UPDATED_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.in=" + UPDATED_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt equals to UPDATED_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.in=" + UPDATED_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsNullOrNotNull() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsNullOrNotNull() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh is not null
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.specified=true");
+        // Get all the isCalculateTempList where abh3LakhAmt is not null
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.specified=true");
 
-        // Get all the isCalculateTempList where abh3Lakh is null
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.specified=false");
+        // Get all the isCalculateTempList where abh3LakhAmt is null
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh is greater than or equal to DEFAULT_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.greaterThanOrEqual=" + DEFAULT_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is greater than or equal to DEFAULT_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.greaterThanOrEqual=" + DEFAULT_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh is greater than or equal to UPDATED_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.greaterThanOrEqual=" + UPDATED_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is greater than or equal to UPDATED_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.greaterThanOrEqual=" + UPDATED_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsLessThanOrEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh is less than or equal to DEFAULT_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.lessThanOrEqual=" + DEFAULT_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is less than or equal to DEFAULT_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.lessThanOrEqual=" + DEFAULT_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh is less than or equal to SMALLER_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.lessThanOrEqual=" + SMALLER_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is less than or equal to SMALLER_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.lessThanOrEqual=" + SMALLER_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsLessThanSomething() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsLessThanSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh is less than DEFAULT_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.lessThan=" + DEFAULT_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is less than DEFAULT_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.lessThan=" + DEFAULT_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh is less than UPDATED_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.lessThan=" + UPDATED_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is less than UPDATED_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.lessThan=" + UPDATED_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAbh3LakhIsGreaterThanSomething() throws Exception {
+    void getAllIsCalculateTempsByAbh3LakhAmtIsGreaterThanSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where abh3Lakh is greater than DEFAULT_ABH_3_LAKH
-        defaultIsCalculateTempShouldNotBeFound("abh3Lakh.greaterThan=" + DEFAULT_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is greater than DEFAULT_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldNotBeFound("abh3LakhAmt.greaterThan=" + DEFAULT_ABH_3_LAKH_AMT);
 
-        // Get all the isCalculateTempList where abh3Lakh is greater than SMALLER_ABH_3_LAKH
-        defaultIsCalculateTempShouldBeFound("abh3Lakh.greaterThan=" + SMALLER_ABH_3_LAKH);
+        // Get all the isCalculateTempList where abh3LakhAmt is greater than SMALLER_ABH_3_LAKH_AMT
+        defaultIsCalculateTempShouldBeFound("abh3LakhAmt.greaterThan=" + SMALLER_ABH_3_LAKH_AMT);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 equals to DEFAULT_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.equals=" + DEFAULT_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 equals to DEFAULT_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.equals=" + DEFAULT_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 equals to UPDATED_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.equals=" + UPDATED_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 equals to UPDATED_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.equals=" + UPDATED_UPTO_50000);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsInShouldWork() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsInShouldWork() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 in DEFAULT_AMT_50000 or UPDATED_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.in=" + DEFAULT_AMT_50000 + "," + UPDATED_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 in DEFAULT_UPTO_50000 or UPDATED_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.in=" + DEFAULT_UPTO_50000 + "," + UPDATED_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 equals to UPDATED_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.in=" + UPDATED_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 equals to UPDATED_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.in=" + UPDATED_UPTO_50000);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsNullOrNotNull() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsNullOrNotNull() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 is not null
-        defaultIsCalculateTempShouldBeFound("amt50000.specified=true");
+        // Get all the isCalculateTempList where upto50000 is not null
+        defaultIsCalculateTempShouldBeFound("upto50000.specified=true");
 
-        // Get all the isCalculateTempList where amt50000 is null
-        defaultIsCalculateTempShouldNotBeFound("amt50000.specified=false");
+        // Get all the isCalculateTempList where upto50000 is null
+        defaultIsCalculateTempShouldNotBeFound("upto50000.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 is greater than or equal to DEFAULT_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.greaterThanOrEqual=" + DEFAULT_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is greater than or equal to DEFAULT_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.greaterThanOrEqual=" + DEFAULT_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 is greater than or equal to UPDATED_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.greaterThanOrEqual=" + UPDATED_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is greater than or equal to UPDATED_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.greaterThanOrEqual=" + UPDATED_UPTO_50000);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsLessThanOrEqualToSomething() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 is less than or equal to DEFAULT_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.lessThanOrEqual=" + DEFAULT_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is less than or equal to DEFAULT_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.lessThanOrEqual=" + DEFAULT_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 is less than or equal to SMALLER_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.lessThanOrEqual=" + SMALLER_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is less than or equal to SMALLER_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.lessThanOrEqual=" + SMALLER_UPTO_50000);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsLessThanSomething() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsLessThanSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 is less than DEFAULT_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.lessThan=" + DEFAULT_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is less than DEFAULT_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.lessThan=" + DEFAULT_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 is less than UPDATED_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.lessThan=" + UPDATED_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is less than UPDATED_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.lessThan=" + UPDATED_UPTO_50000);
     }
 
     @Test
     @Transactional
-    void getAllIsCalculateTempsByAmt50000IsGreaterThanSomething() throws Exception {
+    void getAllIsCalculateTempsByUpto50000IsGreaterThanSomething() throws Exception {
         // Initialize the database
         isCalculateTempRepository.saveAndFlush(isCalculateTemp);
 
-        // Get all the isCalculateTempList where amt50000 is greater than DEFAULT_AMT_50000
-        defaultIsCalculateTempShouldNotBeFound("amt50000.greaterThan=" + DEFAULT_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is greater than DEFAULT_UPTO_50000
+        defaultIsCalculateTempShouldNotBeFound("upto50000.greaterThan=" + DEFAULT_UPTO_50000);
 
-        // Get all the isCalculateTempList where amt50000 is greater than SMALLER_AMT_50000
-        defaultIsCalculateTempShouldBeFound("amt50000.greaterThan=" + SMALLER_AMT_50000);
+        // Get all the isCalculateTempList where upto50000 is greater than SMALLER_UPTO_50000
+        defaultIsCalculateTempShouldBeFound("upto50000.greaterThan=" + SMALLER_UPTO_50000);
     }
 
     /**
@@ -3804,7 +3831,6 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].loanAccountNumberKcc").value(hasItem(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)))
             .andExpect(jsonPath("$.[*].farmerName").value(hasItem(DEFAULT_FARMER_NAME)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
-            .andExpect(jsonPath("$.[*].cast").value(hasItem(DEFAULT_CAST)))
             .andExpect(jsonPath("$.[*].aadharNumber").value(hasItem(DEFAULT_AADHAR_NUMBER)))
             .andExpect(jsonPath("$.[*].mobileNo").value(hasItem(DEFAULT_MOBILE_NO)))
             .andExpect(jsonPath("$.[*].farmerType").value(hasItem(DEFAULT_FARMER_TYPE)))
@@ -3821,25 +3847,26 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].recoveryInterest").value(hasItem(DEFAULT_RECOVERY_INTEREST)))
             .andExpect(jsonPath("$.[*].recoveryDate").value(hasItem(DEFAULT_RECOVERY_DATE)))
             .andExpect(jsonPath("$.[*].balanceAmount").value(hasItem(DEFAULT_BALANCE_AMOUNT)))
-            .andExpect(jsonPath("$.[*].prevDays").value(hasItem(DEFAULT_PREV_DAYS)))
-            .andExpect(jsonPath("$.[*].presDays").value(hasItem(DEFAULT_PRES_DAYS)))
-            .andExpect(jsonPath("$.[*].actualDays").value(hasItem(DEFAULT_ACTUAL_DAYS)))
+            .andExpect(jsonPath("$.[*].prevDays").value(hasItem(DEFAULT_PREV_DAYS.intValue())))
+            .andExpect(jsonPath("$.[*].presDays").value(hasItem(DEFAULT_PRES_DAYS.intValue())))
+            .andExpect(jsonPath("$.[*].actualDays").value(hasItem(DEFAULT_ACTUAL_DAYS.intValue())))
             .andExpect(jsonPath("$.[*].nProd").value(hasItem(DEFAULT_N_PROD)))
             .andExpect(jsonPath("$.[*].productAmount").value(hasItem(DEFAULT_PRODUCT_AMOUNT)))
             .andExpect(jsonPath("$.[*].productBank").value(hasItem(DEFAULT_PRODUCT_BANK)))
             .andExpect(jsonPath("$.[*].productAbh3Lakh").value(hasItem(DEFAULT_PRODUCT_ABH_3_LAKH)))
-            .andExpect(jsonPath("$.[*].interestFirst15").value(hasItem(DEFAULT_INTEREST_FIRST_15.intValue())))
-            .andExpect(jsonPath("$.[*].interestFirst25").value(hasItem(DEFAULT_INTEREST_FIRST_25.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecond15").value(hasItem(DEFAULT_INTEREST_SECOND_15.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecond25").value(hasItem(DEFAULT_INTEREST_SECOND_25.intValue())))
-            .andExpect(jsonPath("$.[*].interestStateFirst3").value(hasItem(DEFAULT_INTEREST_STATE_FIRST_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestStateSecond3").value(hasItem(DEFAULT_INTEREST_STATE_SECOND_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestFirstAbh3").value(hasItem(DEFAULT_INTEREST_FIRST_ABH_3.intValue())))
-            .andExpect(jsonPath("$.[*].interestSecondAbh3").value(hasItem(DEFAULT_INTEREST_SECOND_ABH_3.intValue())))
-            .andExpect(jsonPath("$.[*].panjabraoInt3").value(hasItem(DEFAULT_PANJABRAO_INT_3.intValue())))
+            .andExpect(jsonPath("$.[*].interestFirst15").value(hasItem(DEFAULT_INTEREST_FIRST_15.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestFirst25").value(hasItem(DEFAULT_INTEREST_FIRST_25.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecond15").value(hasItem(DEFAULT_INTEREST_SECOND_15.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecond25").value(hasItem(DEFAULT_INTEREST_SECOND_25.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestStateFirst3").value(hasItem(DEFAULT_INTEREST_STATE_FIRST_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestStateSecond3").value(hasItem(DEFAULT_INTEREST_STATE_SECOND_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestFirstAbh3").value(hasItem(DEFAULT_INTEREST_FIRST_ABH_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestSecondAbh3").value(hasItem(DEFAULT_INTEREST_SECOND_ABH_3.doubleValue())))
+            .andExpect(jsonPath("$.[*].interestAbove3Lakh").value(hasItem(DEFAULT_INTEREST_ABOVE_3_LAKH.doubleValue())))
+            .andExpect(jsonPath("$.[*].panjabraoInt3").value(hasItem(DEFAULT_PANJABRAO_INT_3.doubleValue())))
             .andExpect(jsonPath("$.[*].isRecover").value(hasItem(DEFAULT_IS_RECOVER)))
-            .andExpect(jsonPath("$.[*].abh3Lakh").value(hasItem(DEFAULT_ABH_3_LAKH.intValue())))
-            .andExpect(jsonPath("$.[*].amt50000").value(hasItem(DEFAULT_AMT_50000)));
+            .andExpect(jsonPath("$.[*].abh3LakhAmt").value(hasItem(DEFAULT_ABH_3_LAKH_AMT.intValue())))
+            .andExpect(jsonPath("$.[*].upto50000").value(hasItem(DEFAULT_UPTO_50000)));
 
         // Check, that the count call also returns 1
         restIsCalculateTempMockMvc
@@ -3895,7 +3922,6 @@ class IsCalculateTempResourceIT {
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
-            .cast(UPDATED_CAST)
             .aadharNumber(UPDATED_AADHAR_NUMBER)
             .mobileNo(UPDATED_MOBILE_NO)
             .farmerType(UPDATED_FARMER_TYPE)
@@ -3927,10 +3953,11 @@ class IsCalculateTempResourceIT {
             .interestStateSecond3(UPDATED_INTEREST_STATE_SECOND_3)
             .interestFirstAbh3(UPDATED_INTEREST_FIRST_ABH_3)
             .interestSecondAbh3(UPDATED_INTEREST_SECOND_ABH_3)
+            .interestAbove3Lakh(UPDATED_INTEREST_ABOVE_3_LAKH)
             .panjabraoInt3(UPDATED_PANJABRAO_INT_3)
             .isRecover(UPDATED_IS_RECOVER)
-            .abh3Lakh(UPDATED_ABH_3_LAKH)
-            .amt50000(UPDATED_AMT_50000);
+            .abh3LakhAmt(UPDATED_ABH_3_LAKH_AMT)
+            .upto50000(UPDATED_UPTO_50000);
 
         restIsCalculateTempMockMvc
             .perform(
@@ -3951,7 +3978,6 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(UPDATED_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testIsCalculateTemp.getCast()).isEqualTo(UPDATED_CAST);
         assertThat(testIsCalculateTemp.getAadharNumber()).isEqualTo(UPDATED_AADHAR_NUMBER);
         assertThat(testIsCalculateTemp.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
         assertThat(testIsCalculateTemp.getFarmerType()).isEqualTo(UPDATED_FARMER_TYPE);
@@ -3983,10 +4009,11 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(UPDATED_INTEREST_STATE_SECOND_3);
         assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(UPDATED_INTEREST_FIRST_ABH_3);
         assertThat(testIsCalculateTemp.getInterestSecondAbh3()).isEqualTo(UPDATED_INTEREST_SECOND_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(UPDATED_INTEREST_ABOVE_3_LAKH);
         assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(UPDATED_PANJABRAO_INT_3);
         assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(UPDATED_IS_RECOVER);
-        assertThat(testIsCalculateTemp.getAbh3Lakh()).isEqualTo(UPDATED_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getAmt50000()).isEqualTo(UPDATED_AMT_50000);
+        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(UPDATED_ABH_3_LAKH_AMT);
+        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(UPDATED_UPTO_50000);
     }
 
     @Test
@@ -4062,25 +4089,25 @@ class IsCalculateTempResourceIT {
         partialUpdatedIsCalculateTemp
             .serialNo(UPDATED_SERIAL_NO)
             .farmerName(UPDATED_FARMER_NAME)
-            .cast(UPDATED_CAST)
             .aadharNumber(UPDATED_AADHAR_NUMBER)
             .mobileNo(UPDATED_MOBILE_NO)
             .farmerType(UPDATED_FARMER_TYPE)
             .socialCategory(UPDATED_SOCIAL_CATEGORY)
-            .maturityLoanDate(UPDATED_MATURITY_LOAN_DATE)
+            .accountNumber(UPDATED_ACCOUNT_NUMBER)
             .bankDate(UPDATED_BANK_DATE)
-            .recoveryAmount(UPDATED_RECOVERY_AMOUNT)
+            .cropName(UPDATED_CROP_NAME)
             .recoveryInterest(UPDATED_RECOVERY_INTEREST)
             .recoveryDate(UPDATED_RECOVERY_DATE)
             .balanceAmount(UPDATED_BALANCE_AMOUNT)
-            .presDays(UPDATED_PRES_DAYS)
+            .prevDays(UPDATED_PREV_DAYS)
             .actualDays(UPDATED_ACTUAL_DAYS)
             .nProd(UPDATED_N_PROD)
             .productAmount(UPDATED_PRODUCT_AMOUNT)
-            .interestFirst15(UPDATED_INTEREST_FIRST_15)
-            .interestStateSecond3(UPDATED_INTEREST_STATE_SECOND_3)
+            .productBank(UPDATED_PRODUCT_BANK)
+            .interestFirst25(UPDATED_INTEREST_FIRST_25)
+            .interestFirstAbh3(UPDATED_INTEREST_FIRST_ABH_3)
             .panjabraoInt3(UPDATED_PANJABRAO_INT_3)
-            .abh3Lakh(UPDATED_ABH_3_LAKH);
+            .abh3LakhAmt(UPDATED_ABH_3_LAKH_AMT);
 
         restIsCalculateTempMockMvc
             .perform(
@@ -4101,42 +4128,42 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(DEFAULT_GENDER);
-        assertThat(testIsCalculateTemp.getCast()).isEqualTo(UPDATED_CAST);
         assertThat(testIsCalculateTemp.getAadharNumber()).isEqualTo(UPDATED_AADHAR_NUMBER);
         assertThat(testIsCalculateTemp.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
         assertThat(testIsCalculateTemp.getFarmerType()).isEqualTo(UPDATED_FARMER_TYPE);
         assertThat(testIsCalculateTemp.getSocialCategory()).isEqualTo(UPDATED_SOCIAL_CATEGORY);
-        assertThat(testIsCalculateTemp.getAccountNumber()).isEqualTo(DEFAULT_ACCOUNT_NUMBER);
+        assertThat(testIsCalculateTemp.getAccountNumber()).isEqualTo(UPDATED_ACCOUNT_NUMBER);
         assertThat(testIsCalculateTemp.getLoanSanctionDate()).isEqualTo(DEFAULT_LOAN_SANCTION_DATE);
         assertThat(testIsCalculateTemp.getLoanSanctionAmount()).isEqualTo(DEFAULT_LOAN_SANCTION_AMOUNT);
         assertThat(testIsCalculateTemp.getDisbursementDate()).isEqualTo(DEFAULT_DISBURSEMENT_DATE);
         assertThat(testIsCalculateTemp.getDisburseAmount()).isEqualTo(DEFAULT_DISBURSE_AMOUNT);
-        assertThat(testIsCalculateTemp.getMaturityLoanDate()).isEqualTo(UPDATED_MATURITY_LOAN_DATE);
+        assertThat(testIsCalculateTemp.getMaturityLoanDate()).isEqualTo(DEFAULT_MATURITY_LOAN_DATE);
         assertThat(testIsCalculateTemp.getBankDate()).isEqualTo(UPDATED_BANK_DATE);
-        assertThat(testIsCalculateTemp.getCropName()).isEqualTo(DEFAULT_CROP_NAME);
-        assertThat(testIsCalculateTemp.getRecoveryAmount()).isEqualTo(UPDATED_RECOVERY_AMOUNT);
+        assertThat(testIsCalculateTemp.getCropName()).isEqualTo(UPDATED_CROP_NAME);
+        assertThat(testIsCalculateTemp.getRecoveryAmount()).isEqualTo(DEFAULT_RECOVERY_AMOUNT);
         assertThat(testIsCalculateTemp.getRecoveryInterest()).isEqualTo(UPDATED_RECOVERY_INTEREST);
         assertThat(testIsCalculateTemp.getRecoveryDate()).isEqualTo(UPDATED_RECOVERY_DATE);
         assertThat(testIsCalculateTemp.getBalanceAmount()).isEqualTo(UPDATED_BALANCE_AMOUNT);
-        assertThat(testIsCalculateTemp.getPrevDays()).isEqualTo(DEFAULT_PREV_DAYS);
-        assertThat(testIsCalculateTemp.getPresDays()).isEqualTo(UPDATED_PRES_DAYS);
+        assertThat(testIsCalculateTemp.getPrevDays()).isEqualTo(UPDATED_PREV_DAYS);
+        assertThat(testIsCalculateTemp.getPresDays()).isEqualTo(DEFAULT_PRES_DAYS);
         assertThat(testIsCalculateTemp.getActualDays()).isEqualTo(UPDATED_ACTUAL_DAYS);
         assertThat(testIsCalculateTemp.getnProd()).isEqualTo(UPDATED_N_PROD);
         assertThat(testIsCalculateTemp.getProductAmount()).isEqualTo(UPDATED_PRODUCT_AMOUNT);
-        assertThat(testIsCalculateTemp.getProductBank()).isEqualTo(DEFAULT_PRODUCT_BANK);
+        assertThat(testIsCalculateTemp.getProductBank()).isEqualTo(UPDATED_PRODUCT_BANK);
         assertThat(testIsCalculateTemp.getProductAbh3Lakh()).isEqualTo(DEFAULT_PRODUCT_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getInterestFirst15()).isEqualTo(UPDATED_INTEREST_FIRST_15);
-        assertThat(testIsCalculateTemp.getInterestFirst25()).isEqualTo(DEFAULT_INTEREST_FIRST_25);
+        assertThat(testIsCalculateTemp.getInterestFirst15()).isEqualTo(DEFAULT_INTEREST_FIRST_15);
+        assertThat(testIsCalculateTemp.getInterestFirst25()).isEqualTo(UPDATED_INTEREST_FIRST_25);
         assertThat(testIsCalculateTemp.getInterestSecond15()).isEqualTo(DEFAULT_INTEREST_SECOND_15);
         assertThat(testIsCalculateTemp.getInterestSecond25()).isEqualTo(DEFAULT_INTEREST_SECOND_25);
         assertThat(testIsCalculateTemp.getInterestStateFirst3()).isEqualTo(DEFAULT_INTEREST_STATE_FIRST_3);
-        assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(UPDATED_INTEREST_STATE_SECOND_3);
-        assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(DEFAULT_INTEREST_FIRST_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(DEFAULT_INTEREST_STATE_SECOND_3);
+        assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(UPDATED_INTEREST_FIRST_ABH_3);
         assertThat(testIsCalculateTemp.getInterestSecondAbh3()).isEqualTo(DEFAULT_INTEREST_SECOND_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(DEFAULT_INTEREST_ABOVE_3_LAKH);
         assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(UPDATED_PANJABRAO_INT_3);
         assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(DEFAULT_IS_RECOVER);
-        assertThat(testIsCalculateTemp.getAbh3Lakh()).isEqualTo(UPDATED_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getAmt50000()).isEqualTo(DEFAULT_AMT_50000);
+        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(UPDATED_ABH_3_LAKH_AMT);
+        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(DEFAULT_UPTO_50000);
     }
 
     @Test
@@ -4159,7 +4186,6 @@ class IsCalculateTempResourceIT {
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
-            .cast(UPDATED_CAST)
             .aadharNumber(UPDATED_AADHAR_NUMBER)
             .mobileNo(UPDATED_MOBILE_NO)
             .farmerType(UPDATED_FARMER_TYPE)
@@ -4191,10 +4217,11 @@ class IsCalculateTempResourceIT {
             .interestStateSecond3(UPDATED_INTEREST_STATE_SECOND_3)
             .interestFirstAbh3(UPDATED_INTEREST_FIRST_ABH_3)
             .interestSecondAbh3(UPDATED_INTEREST_SECOND_ABH_3)
+            .interestAbove3Lakh(UPDATED_INTEREST_ABOVE_3_LAKH)
             .panjabraoInt3(UPDATED_PANJABRAO_INT_3)
             .isRecover(UPDATED_IS_RECOVER)
-            .abh3Lakh(UPDATED_ABH_3_LAKH)
-            .amt50000(UPDATED_AMT_50000);
+            .abh3LakhAmt(UPDATED_ABH_3_LAKH_AMT)
+            .upto50000(UPDATED_UPTO_50000);
 
         restIsCalculateTempMockMvc
             .perform(
@@ -4215,7 +4242,6 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(UPDATED_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testIsCalculateTemp.getCast()).isEqualTo(UPDATED_CAST);
         assertThat(testIsCalculateTemp.getAadharNumber()).isEqualTo(UPDATED_AADHAR_NUMBER);
         assertThat(testIsCalculateTemp.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
         assertThat(testIsCalculateTemp.getFarmerType()).isEqualTo(UPDATED_FARMER_TYPE);
@@ -4247,10 +4273,11 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(UPDATED_INTEREST_STATE_SECOND_3);
         assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(UPDATED_INTEREST_FIRST_ABH_3);
         assertThat(testIsCalculateTemp.getInterestSecondAbh3()).isEqualTo(UPDATED_INTEREST_SECOND_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(UPDATED_INTEREST_ABOVE_3_LAKH);
         assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(UPDATED_PANJABRAO_INT_3);
         assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(UPDATED_IS_RECOVER);
-        assertThat(testIsCalculateTemp.getAbh3Lakh()).isEqualTo(UPDATED_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getAmt50000()).isEqualTo(UPDATED_AMT_50000);
+        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(UPDATED_ABH_3_LAKH_AMT);
+        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(UPDATED_UPTO_50000);
     }
 
     @Test

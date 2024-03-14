@@ -39,9 +39,6 @@ public class IsCalculateTemp implements Serializable {
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "cast")
-    private String cast;
-
     @Column(name = "aadhar_number")
     private String aadharNumber;
 
@@ -91,13 +88,13 @@ public class IsCalculateTemp implements Serializable {
     private String balanceAmount;
 
     @Column(name = "prev_days")
-    private Integer prevDays;
+    private Long prevDays;
 
     @Column(name = "pres_days")
-    private Integer presDays;
+    private Long presDays;
 
     @Column(name = "actual_days")
-    private Integer actualDays;
+    private Long actualDays;
 
     @Column(name = "n_prod")
     private Integer nProd;
@@ -112,40 +109,43 @@ public class IsCalculateTemp implements Serializable {
     private String productAbh3Lakh;
 
     @Column(name = "interest_first_15")
-    private Long interestFirst15;
+    private Double interestFirst15;
 
     @Column(name = "interest_first_25")
-    private Long interestFirst25;
+    private Double interestFirst25;
 
     @Column(name = "interest_second_15")
-    private Long interestSecond15;
+    private Double interestSecond15;
 
     @Column(name = "interest_second_25")
-    private Long interestSecond25;
+    private Double interestSecond25;
 
     @Column(name = "interest_state_first_3")
-    private Long interestStateFirst3;
+    private Double interestStateFirst3;
 
     @Column(name = "interest_state_second_3")
-    private Long interestStateSecond3;
+    private Double interestStateSecond3;
 
     @Column(name = "interest_first_abh_3")
-    private Long interestFirstAbh3;
+    private Double interestFirstAbh3;
 
     @Column(name = "interest_second_abh_3")
-    private Long interestSecondAbh3;
+    private Double interestSecondAbh3;
+
+    @Column(name = "interest_above_3_lakh")
+    private Double interestAbove3Lakh;
 
     @Column(name = "panjabrao_int_3")
-    private Long panjabraoInt3;
+    private Double panjabraoInt3;
 
     @Column(name = "is_recover")
     private Integer isRecover;
 
-    @Column(name = "abh_3_lakh")
-    private Long abh3Lakh;
+    @Column(name = "abh_3_lakh_amt")
+    private Long abh3LakhAmt;
 
-    @Column(name = "amt_50000")
-    private Integer amt50000;
+    @Column(name = "upto_50000")
+    private Integer upto50000;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -251,19 +251,6 @@ public class IsCalculateTemp implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getCast() {
-        return this.cast;
-    }
-
-    public IsCalculateTemp cast(String cast) {
-        this.setCast(cast);
-        return this;
-    }
-
-    public void setCast(String cast) {
-        this.cast = cast;
     }
 
     public String getAadharNumber() {
@@ -474,42 +461,42 @@ public class IsCalculateTemp implements Serializable {
         this.balanceAmount = balanceAmount;
     }
 
-    public Integer getPrevDays() {
+    public Long getPrevDays() {
         return this.prevDays;
     }
 
-    public IsCalculateTemp prevDays(Integer prevDays) {
+    public IsCalculateTemp prevDays(Long prevDays) {
         this.setPrevDays(prevDays);
         return this;
     }
 
-    public void setPrevDays(Integer prevDays) {
+    public void setPrevDays(Long prevDays) {
         this.prevDays = prevDays;
     }
 
-    public Integer getPresDays() {
+    public Long getPresDays() {
         return this.presDays;
     }
 
-    public IsCalculateTemp presDays(Integer presDays) {
+    public IsCalculateTemp presDays(Long presDays) {
         this.setPresDays(presDays);
         return this;
     }
 
-    public void setPresDays(Integer presDays) {
+    public void setPresDays(Long presDays) {
         this.presDays = presDays;
     }
 
-    public Integer getActualDays() {
+    public Long getActualDays() {
         return this.actualDays;
     }
 
-    public IsCalculateTemp actualDays(Integer actualDays) {
+    public IsCalculateTemp actualDays(Long actualDays) {
         this.setActualDays(actualDays);
         return this;
     }
 
-    public void setActualDays(Integer actualDays) {
+    public void setActualDays(Long actualDays) {
         this.actualDays = actualDays;
     }
 
@@ -565,120 +552,133 @@ public class IsCalculateTemp implements Serializable {
         this.productAbh3Lakh = productAbh3Lakh;
     }
 
-    public Long getInterestFirst15() {
+    public Double getInterestFirst15() {
         return this.interestFirst15;
     }
 
-    public IsCalculateTemp interestFirst15(Long interestFirst15) {
+    public IsCalculateTemp interestFirst15(Double interestFirst15) {
         this.setInterestFirst15(interestFirst15);
         return this;
     }
 
-    public void setInterestFirst15(Long interestFirst15) {
+    public void setInterestFirst15(Double interestFirst15) {
         this.interestFirst15 = interestFirst15;
     }
 
-    public Long getInterestFirst25() {
+    public Double getInterestFirst25() {
         return this.interestFirst25;
     }
 
-    public IsCalculateTemp interestFirst25(Long interestFirst25) {
+    public IsCalculateTemp interestFirst25(Double interestFirst25) {
         this.setInterestFirst25(interestFirst25);
         return this;
     }
 
-    public void setInterestFirst25(Long interestFirst25) {
+    public void setInterestFirst25(Double interestFirst25) {
         this.interestFirst25 = interestFirst25;
     }
 
-    public Long getInterestSecond15() {
+    public Double getInterestSecond15() {
         return this.interestSecond15;
     }
 
-    public IsCalculateTemp interestSecond15(Long interestSecond15) {
+    public IsCalculateTemp interestSecond15(Double interestSecond15) {
         this.setInterestSecond15(interestSecond15);
         return this;
     }
 
-    public void setInterestSecond15(Long interestSecond15) {
+    public void setInterestSecond15(Double interestSecond15) {
         this.interestSecond15 = interestSecond15;
     }
 
-    public Long getInterestSecond25() {
+    public Double getInterestSecond25() {
         return this.interestSecond25;
     }
 
-    public IsCalculateTemp interestSecond25(Long interestSecond25) {
+    public IsCalculateTemp interestSecond25(Double interestSecond25) {
         this.setInterestSecond25(interestSecond25);
         return this;
     }
 
-    public void setInterestSecond25(Long interestSecond25) {
+    public void setInterestSecond25(Double interestSecond25) {
         this.interestSecond25 = interestSecond25;
     }
 
-    public Long getInterestStateFirst3() {
+    public Double getInterestStateFirst3() {
         return this.interestStateFirst3;
     }
 
-    public IsCalculateTemp interestStateFirst3(Long interestStateFirst3) {
+    public IsCalculateTemp interestStateFirst3(Double interestStateFirst3) {
         this.setInterestStateFirst3(interestStateFirst3);
         return this;
     }
 
-    public void setInterestStateFirst3(Long interestStateFirst3) {
+    public void setInterestStateFirst3(Double interestStateFirst3) {
         this.interestStateFirst3 = interestStateFirst3;
     }
 
-    public Long getInterestStateSecond3() {
+    public Double getInterestStateSecond3() {
         return this.interestStateSecond3;
     }
 
-    public IsCalculateTemp interestStateSecond3(Long interestStateSecond3) {
+    public IsCalculateTemp interestStateSecond3(Double interestStateSecond3) {
         this.setInterestStateSecond3(interestStateSecond3);
         return this;
     }
 
-    public void setInterestStateSecond3(Long interestStateSecond3) {
+    public void setInterestStateSecond3(Double interestStateSecond3) {
         this.interestStateSecond3 = interestStateSecond3;
     }
 
-    public Long getInterestFirstAbh3() {
+    public Double getInterestFirstAbh3() {
         return this.interestFirstAbh3;
     }
 
-    public IsCalculateTemp interestFirstAbh3(Long interestFirstAbh3) {
+    public IsCalculateTemp interestFirstAbh3(Double interestFirstAbh3) {
         this.setInterestFirstAbh3(interestFirstAbh3);
         return this;
     }
 
-    public void setInterestFirstAbh3(Long interestFirstAbh3) {
+    public void setInterestFirstAbh3(Double interestFirstAbh3) {
         this.interestFirstAbh3 = interestFirstAbh3;
     }
 
-    public Long getInterestSecondAbh3() {
+    public Double getInterestSecondAbh3() {
         return this.interestSecondAbh3;
     }
 
-    public IsCalculateTemp interestSecondAbh3(Long interestSecondAbh3) {
+    public IsCalculateTemp interestSecondAbh3(Double interestSecondAbh3) {
         this.setInterestSecondAbh3(interestSecondAbh3);
         return this;
     }
 
-    public void setInterestSecondAbh3(Long interestSecondAbh3) {
+    public void setInterestSecondAbh3(Double interestSecondAbh3) {
         this.interestSecondAbh3 = interestSecondAbh3;
     }
 
-    public Long getPanjabraoInt3() {
+    public Double getInterestAbove3Lakh() {
+        return this.interestAbove3Lakh;
+    }
+
+    public IsCalculateTemp interestAbove3Lakh(Double interestAbove3Lakh) {
+        this.setInterestAbove3Lakh(interestAbove3Lakh);
+        return this;
+    }
+
+    public void setInterestAbove3Lakh(Double interestAbove3Lakh) {
+        this.interestAbove3Lakh = interestAbove3Lakh;
+    }
+
+    public Double getPanjabraoInt3() {
         return this.panjabraoInt3;
     }
 
-    public IsCalculateTemp panjabraoInt3(Long panjabraoInt3) {
+    public IsCalculateTemp panjabraoInt3(Double panjabraoInt3) {
         this.setPanjabraoInt3(panjabraoInt3);
         return this;
     }
 
-    public void setPanjabraoInt3(Long panjabraoInt3) {
+    public void setPanjabraoInt3(Double panjabraoInt3) {
         this.panjabraoInt3 = panjabraoInt3;
     }
 
@@ -695,30 +695,30 @@ public class IsCalculateTemp implements Serializable {
         this.isRecover = isRecover;
     }
 
-    public Long getAbh3Lakh() {
-        return this.abh3Lakh;
+    public Long getAbh3LakhAmt() {
+        return this.abh3LakhAmt;
     }
 
-    public IsCalculateTemp abh3Lakh(Long abh3Lakh) {
-        this.setAbh3Lakh(abh3Lakh);
+    public IsCalculateTemp abh3LakhAmt(Long abh3LakhAmt) {
+        this.setAbh3LakhAmt(abh3LakhAmt);
         return this;
     }
 
-    public void setAbh3Lakh(Long abh3Lakh) {
-        this.abh3Lakh = abh3Lakh;
+    public void setAbh3LakhAmt(Long abh3LakhAmt) {
+        this.abh3LakhAmt = abh3LakhAmt;
     }
 
-    public Integer getAmt50000() {
-        return this.amt50000;
+    public Integer getUpto50000() {
+        return this.upto50000;
     }
 
-    public IsCalculateTemp amt50000(Integer amt50000) {
-        this.setAmt50000(amt50000);
+    public IsCalculateTemp upto50000(Integer upto50000) {
+        this.setUpto50000(upto50000);
         return this;
     }
 
-    public void setAmt50000(Integer amt50000) {
-        this.amt50000 = amt50000;
+    public void setUpto50000(Integer upto50000) {
+        this.upto50000 = upto50000;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -752,7 +752,6 @@ public class IsCalculateTemp implements Serializable {
             ", loanAccountNumberKcc='" + getLoanAccountNumberKcc() + "'" +
             ", farmerName='" + getFarmerName() + "'" +
             ", gender='" + getGender() + "'" +
-            ", cast='" + getCast() + "'" +
             ", aadharNumber='" + getAadharNumber() + "'" +
             ", mobileNo='" + getMobileNo() + "'" +
             ", farmerType='" + getFarmerType() + "'" +
@@ -784,10 +783,11 @@ public class IsCalculateTemp implements Serializable {
             ", interestStateSecond3=" + getInterestStateSecond3() +
             ", interestFirstAbh3=" + getInterestFirstAbh3() +
             ", interestSecondAbh3=" + getInterestSecondAbh3() +
+            ", interestAbove3Lakh=" + getInterestAbove3Lakh() +
             ", panjabraoInt3=" + getPanjabraoInt3() +
             ", isRecover=" + getIsRecover() +
-            ", abh3Lakh=" + getAbh3Lakh() +
-            ", amt50000=" + getAmt50000() +
+            ", abh3LakhAmt=" + getAbh3LakhAmt() +
+            ", upto50000=" + getUpto50000() +
             "}";
     }
 }

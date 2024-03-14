@@ -37,8 +37,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
 
     private StringFilter gender;
 
-    private StringFilter cast;
-
     private StringFilter aadharNumber;
 
     private StringFilter mobileNo;
@@ -71,11 +69,11 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
 
     private StringFilter balanceAmount;
 
-    private IntegerFilter prevDays;
+    private LongFilter prevDays;
 
-    private IntegerFilter presDays;
+    private LongFilter presDays;
 
-    private IntegerFilter actualDays;
+    private LongFilter actualDays;
 
     private IntegerFilter nProd;
 
@@ -85,29 +83,31 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
 
     private StringFilter productAbh3Lakh;
 
-    private LongFilter interestFirst15;
+    private DoubleFilter interestFirst15;
 
-    private LongFilter interestFirst25;
+    private DoubleFilter interestFirst25;
 
-    private LongFilter interestSecond15;
+    private DoubleFilter interestSecond15;
 
-    private LongFilter interestSecond25;
+    private DoubleFilter interestSecond25;
 
-    private LongFilter interestStateFirst3;
+    private DoubleFilter interestStateFirst3;
 
-    private LongFilter interestStateSecond3;
+    private DoubleFilter interestStateSecond3;
 
-    private LongFilter interestFirstAbh3;
+    private DoubleFilter interestFirstAbh3;
 
-    private LongFilter interestSecondAbh3;
+    private DoubleFilter interestSecondAbh3;
 
-    private LongFilter panjabraoInt3;
+    private DoubleFilter interestAbove3Lakh;
+
+    private DoubleFilter panjabraoInt3;
 
     private IntegerFilter isRecover;
 
-    private LongFilter abh3Lakh;
+    private LongFilter abh3LakhAmt;
 
-    private IntegerFilter amt50000;
+    private IntegerFilter upto50000;
 
     private Boolean distinct;
 
@@ -122,7 +122,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.loanAccountNumberKcc = other.loanAccountNumberKcc == null ? null : other.loanAccountNumberKcc.copy();
         this.farmerName = other.farmerName == null ? null : other.farmerName.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
-        this.cast = other.cast == null ? null : other.cast.copy();
         this.aadharNumber = other.aadharNumber == null ? null : other.aadharNumber.copy();
         this.mobileNo = other.mobileNo == null ? null : other.mobileNo.copy();
         this.farmerType = other.farmerType == null ? null : other.farmerType.copy();
@@ -154,10 +153,11 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.interestStateSecond3 = other.interestStateSecond3 == null ? null : other.interestStateSecond3.copy();
         this.interestFirstAbh3 = other.interestFirstAbh3 == null ? null : other.interestFirstAbh3.copy();
         this.interestSecondAbh3 = other.interestSecondAbh3 == null ? null : other.interestSecondAbh3.copy();
+        this.interestAbove3Lakh = other.interestAbove3Lakh == null ? null : other.interestAbove3Lakh.copy();
         this.panjabraoInt3 = other.panjabraoInt3 == null ? null : other.panjabraoInt3.copy();
         this.isRecover = other.isRecover == null ? null : other.isRecover.copy();
-        this.abh3Lakh = other.abh3Lakh == null ? null : other.abh3Lakh.copy();
-        this.amt50000 = other.amt50000 == null ? null : other.amt50000.copy();
+        this.abh3LakhAmt = other.abh3LakhAmt == null ? null : other.abh3LakhAmt.copy();
+        this.upto50000 = other.upto50000 == null ? null : other.upto50000.copy();
         this.distinct = other.distinct;
     }
 
@@ -284,21 +284,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
 
     public void setGender(StringFilter gender) {
         this.gender = gender;
-    }
-
-    public StringFilter getCast() {
-        return cast;
-    }
-
-    public StringFilter cast() {
-        if (cast == null) {
-            cast = new StringFilter();
-        }
-        return cast;
-    }
-
-    public void setCast(StringFilter cast) {
-        this.cast = cast;
     }
 
     public StringFilter getAadharNumber() {
@@ -541,48 +526,48 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.balanceAmount = balanceAmount;
     }
 
-    public IntegerFilter getPrevDays() {
+    public LongFilter getPrevDays() {
         return prevDays;
     }
 
-    public IntegerFilter prevDays() {
+    public LongFilter prevDays() {
         if (prevDays == null) {
-            prevDays = new IntegerFilter();
+            prevDays = new LongFilter();
         }
         return prevDays;
     }
 
-    public void setPrevDays(IntegerFilter prevDays) {
+    public void setPrevDays(LongFilter prevDays) {
         this.prevDays = prevDays;
     }
 
-    public IntegerFilter getPresDays() {
+    public LongFilter getPresDays() {
         return presDays;
     }
 
-    public IntegerFilter presDays() {
+    public LongFilter presDays() {
         if (presDays == null) {
-            presDays = new IntegerFilter();
+            presDays = new LongFilter();
         }
         return presDays;
     }
 
-    public void setPresDays(IntegerFilter presDays) {
+    public void setPresDays(LongFilter presDays) {
         this.presDays = presDays;
     }
 
-    public IntegerFilter getActualDays() {
+    public LongFilter getActualDays() {
         return actualDays;
     }
 
-    public IntegerFilter actualDays() {
+    public LongFilter actualDays() {
         if (actualDays == null) {
-            actualDays = new IntegerFilter();
+            actualDays = new LongFilter();
         }
         return actualDays;
     }
 
-    public void setActualDays(IntegerFilter actualDays) {
+    public void setActualDays(LongFilter actualDays) {
         this.actualDays = actualDays;
     }
 
@@ -646,138 +631,153 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.productAbh3Lakh = productAbh3Lakh;
     }
 
-    public LongFilter getInterestFirst15() {
+    public DoubleFilter getInterestFirst15() {
         return interestFirst15;
     }
 
-    public LongFilter interestFirst15() {
+    public DoubleFilter interestFirst15() {
         if (interestFirst15 == null) {
-            interestFirst15 = new LongFilter();
+            interestFirst15 = new DoubleFilter();
         }
         return interestFirst15;
     }
 
-    public void setInterestFirst15(LongFilter interestFirst15) {
+    public void setInterestFirst15(DoubleFilter interestFirst15) {
         this.interestFirst15 = interestFirst15;
     }
 
-    public LongFilter getInterestFirst25() {
+    public DoubleFilter getInterestFirst25() {
         return interestFirst25;
     }
 
-    public LongFilter interestFirst25() {
+    public DoubleFilter interestFirst25() {
         if (interestFirst25 == null) {
-            interestFirst25 = new LongFilter();
+            interestFirst25 = new DoubleFilter();
         }
         return interestFirst25;
     }
 
-    public void setInterestFirst25(LongFilter interestFirst25) {
+    public void setInterestFirst25(DoubleFilter interestFirst25) {
         this.interestFirst25 = interestFirst25;
     }
 
-    public LongFilter getInterestSecond15() {
+    public DoubleFilter getInterestSecond15() {
         return interestSecond15;
     }
 
-    public LongFilter interestSecond15() {
+    public DoubleFilter interestSecond15() {
         if (interestSecond15 == null) {
-            interestSecond15 = new LongFilter();
+            interestSecond15 = new DoubleFilter();
         }
         return interestSecond15;
     }
 
-    public void setInterestSecond15(LongFilter interestSecond15) {
+    public void setInterestSecond15(DoubleFilter interestSecond15) {
         this.interestSecond15 = interestSecond15;
     }
 
-    public LongFilter getInterestSecond25() {
+    public DoubleFilter getInterestSecond25() {
         return interestSecond25;
     }
 
-    public LongFilter interestSecond25() {
+    public DoubleFilter interestSecond25() {
         if (interestSecond25 == null) {
-            interestSecond25 = new LongFilter();
+            interestSecond25 = new DoubleFilter();
         }
         return interestSecond25;
     }
 
-    public void setInterestSecond25(LongFilter interestSecond25) {
+    public void setInterestSecond25(DoubleFilter interestSecond25) {
         this.interestSecond25 = interestSecond25;
     }
 
-    public LongFilter getInterestStateFirst3() {
+    public DoubleFilter getInterestStateFirst3() {
         return interestStateFirst3;
     }
 
-    public LongFilter interestStateFirst3() {
+    public DoubleFilter interestStateFirst3() {
         if (interestStateFirst3 == null) {
-            interestStateFirst3 = new LongFilter();
+            interestStateFirst3 = new DoubleFilter();
         }
         return interestStateFirst3;
     }
 
-    public void setInterestStateFirst3(LongFilter interestStateFirst3) {
+    public void setInterestStateFirst3(DoubleFilter interestStateFirst3) {
         this.interestStateFirst3 = interestStateFirst3;
     }
 
-    public LongFilter getInterestStateSecond3() {
+    public DoubleFilter getInterestStateSecond3() {
         return interestStateSecond3;
     }
 
-    public LongFilter interestStateSecond3() {
+    public DoubleFilter interestStateSecond3() {
         if (interestStateSecond3 == null) {
-            interestStateSecond3 = new LongFilter();
+            interestStateSecond3 = new DoubleFilter();
         }
         return interestStateSecond3;
     }
 
-    public void setInterestStateSecond3(LongFilter interestStateSecond3) {
+    public void setInterestStateSecond3(DoubleFilter interestStateSecond3) {
         this.interestStateSecond3 = interestStateSecond3;
     }
 
-    public LongFilter getInterestFirstAbh3() {
+    public DoubleFilter getInterestFirstAbh3() {
         return interestFirstAbh3;
     }
 
-    public LongFilter interestFirstAbh3() {
+    public DoubleFilter interestFirstAbh3() {
         if (interestFirstAbh3 == null) {
-            interestFirstAbh3 = new LongFilter();
+            interestFirstAbh3 = new DoubleFilter();
         }
         return interestFirstAbh3;
     }
 
-    public void setInterestFirstAbh3(LongFilter interestFirstAbh3) {
+    public void setInterestFirstAbh3(DoubleFilter interestFirstAbh3) {
         this.interestFirstAbh3 = interestFirstAbh3;
     }
 
-    public LongFilter getInterestSecondAbh3() {
+    public DoubleFilter getInterestSecondAbh3() {
         return interestSecondAbh3;
     }
 
-    public LongFilter interestSecondAbh3() {
+    public DoubleFilter interestSecondAbh3() {
         if (interestSecondAbh3 == null) {
-            interestSecondAbh3 = new LongFilter();
+            interestSecondAbh3 = new DoubleFilter();
         }
         return interestSecondAbh3;
     }
 
-    public void setInterestSecondAbh3(LongFilter interestSecondAbh3) {
+    public void setInterestSecondAbh3(DoubleFilter interestSecondAbh3) {
         this.interestSecondAbh3 = interestSecondAbh3;
     }
 
-    public LongFilter getPanjabraoInt3() {
+    public DoubleFilter getInterestAbove3Lakh() {
+        return interestAbove3Lakh;
+    }
+
+    public DoubleFilter interestAbove3Lakh() {
+        if (interestAbove3Lakh == null) {
+            interestAbove3Lakh = new DoubleFilter();
+        }
+        return interestAbove3Lakh;
+    }
+
+    public void setInterestAbove3Lakh(DoubleFilter interestAbove3Lakh) {
+        this.interestAbove3Lakh = interestAbove3Lakh;
+    }
+
+    public DoubleFilter getPanjabraoInt3() {
         return panjabraoInt3;
     }
 
-    public LongFilter panjabraoInt3() {
+    public DoubleFilter panjabraoInt3() {
         if (panjabraoInt3 == null) {
-            panjabraoInt3 = new LongFilter();
+            panjabraoInt3 = new DoubleFilter();
         }
         return panjabraoInt3;
     }
 
-    public void setPanjabraoInt3(LongFilter panjabraoInt3) {
+    public void setPanjabraoInt3(DoubleFilter panjabraoInt3) {
         this.panjabraoInt3 = panjabraoInt3;
     }
 
@@ -796,34 +796,34 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.isRecover = isRecover;
     }
 
-    public LongFilter getAbh3Lakh() {
-        return abh3Lakh;
+    public LongFilter getAbh3LakhAmt() {
+        return abh3LakhAmt;
     }
 
-    public LongFilter abh3Lakh() {
-        if (abh3Lakh == null) {
-            abh3Lakh = new LongFilter();
+    public LongFilter abh3LakhAmt() {
+        if (abh3LakhAmt == null) {
+            abh3LakhAmt = new LongFilter();
         }
-        return abh3Lakh;
+        return abh3LakhAmt;
     }
 
-    public void setAbh3Lakh(LongFilter abh3Lakh) {
-        this.abh3Lakh = abh3Lakh;
+    public void setAbh3LakhAmt(LongFilter abh3LakhAmt) {
+        this.abh3LakhAmt = abh3LakhAmt;
     }
 
-    public IntegerFilter getAmt50000() {
-        return amt50000;
+    public IntegerFilter getUpto50000() {
+        return upto50000;
     }
 
-    public IntegerFilter amt50000() {
-        if (amt50000 == null) {
-            amt50000 = new IntegerFilter();
+    public IntegerFilter upto50000() {
+        if (upto50000 == null) {
+            upto50000 = new IntegerFilter();
         }
-        return amt50000;
+        return upto50000;
     }
 
-    public void setAmt50000(IntegerFilter amt50000) {
-        this.amt50000 = amt50000;
+    public void setUpto50000(IntegerFilter upto50000) {
+        this.upto50000 = upto50000;
     }
 
     public Boolean getDistinct() {
@@ -852,7 +852,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             Objects.equals(loanAccountNumberKcc, that.loanAccountNumberKcc) &&
             Objects.equals(farmerName, that.farmerName) &&
             Objects.equals(gender, that.gender) &&
-            Objects.equals(cast, that.cast) &&
             Objects.equals(aadharNumber, that.aadharNumber) &&
             Objects.equals(mobileNo, that.mobileNo) &&
             Objects.equals(farmerType, that.farmerType) &&
@@ -884,10 +883,11 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             Objects.equals(interestStateSecond3, that.interestStateSecond3) &&
             Objects.equals(interestFirstAbh3, that.interestFirstAbh3) &&
             Objects.equals(interestSecondAbh3, that.interestSecondAbh3) &&
+            Objects.equals(interestAbove3Lakh, that.interestAbove3Lakh) &&
             Objects.equals(panjabraoInt3, that.panjabraoInt3) &&
             Objects.equals(isRecover, that.isRecover) &&
-            Objects.equals(abh3Lakh, that.abh3Lakh) &&
-            Objects.equals(amt50000, that.amt50000) &&
+            Objects.equals(abh3LakhAmt, that.abh3LakhAmt) &&
+            Objects.equals(upto50000, that.upto50000) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -903,7 +903,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             loanAccountNumberKcc,
             farmerName,
             gender,
-            cast,
             aadharNumber,
             mobileNo,
             farmerType,
@@ -935,10 +934,11 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             interestStateSecond3,
             interestFirstAbh3,
             interestSecondAbh3,
+            interestAbove3Lakh,
             panjabraoInt3,
             isRecover,
-            abh3Lakh,
-            amt50000,
+            abh3LakhAmt,
+            upto50000,
             distinct
         );
     }
@@ -955,7 +955,6 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             (loanAccountNumberKcc != null ? "loanAccountNumberKcc=" + loanAccountNumberKcc + ", " : "") +
             (farmerName != null ? "farmerName=" + farmerName + ", " : "") +
             (gender != null ? "gender=" + gender + ", " : "") +
-            (cast != null ? "cast=" + cast + ", " : "") +
             (aadharNumber != null ? "aadharNumber=" + aadharNumber + ", " : "") +
             (mobileNo != null ? "mobileNo=" + mobileNo + ", " : "") +
             (farmerType != null ? "farmerType=" + farmerType + ", " : "") +
@@ -987,10 +986,11 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             (interestStateSecond3 != null ? "interestStateSecond3=" + interestStateSecond3 + ", " : "") +
             (interestFirstAbh3 != null ? "interestFirstAbh3=" + interestFirstAbh3 + ", " : "") +
             (interestSecondAbh3 != null ? "interestSecondAbh3=" + interestSecondAbh3 + ", " : "") +
+            (interestAbove3Lakh != null ? "interestAbove3Lakh=" + interestAbove3Lakh + ", " : "") +
             (panjabraoInt3 != null ? "panjabraoInt3=" + panjabraoInt3 + ", " : "") +
             (isRecover != null ? "isRecover=" + isRecover + ", " : "") +
-            (abh3Lakh != null ? "abh3Lakh=" + abh3Lakh + ", " : "") +
-            (amt50000 != null ? "amt50000=" + amt50000 + ", " : "") +
+            (abh3LakhAmt != null ? "abh3LakhAmt=" + abh3LakhAmt + ", " : "") +
+            (upto50000 != null ? "upto50000=" + upto50000 + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

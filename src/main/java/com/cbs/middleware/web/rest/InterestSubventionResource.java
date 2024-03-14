@@ -1,6 +1,5 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.IntersetSubvention;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.repository.IssFileParserRepository;
 import com.cbs.middleware.web.rest.utility.InterestSubventionCalculator;

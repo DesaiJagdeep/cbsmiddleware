@@ -2,6 +2,7 @@ package com.cbs.middleware.web.rest;
 
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.repository.IssFileParserRepository;
+import com.cbs.middleware.service.dto.InterestSubventionDTO;
 import com.cbs.middleware.web.rest.utility.InterestSubventionCalculator;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,20 +22,23 @@ public class InterestSubventionResource {
 
     //Process records
     @PostMapping("/interestSubvention")
-    public void ProcessRecordsToCalInterestSubvention (@RequestParam("financialYear") String financialYear,
-                                                        @RequestParam("pacsNumber") String pacsNumber){
+    public void ProcessRecordsToCalInterestSubvention (@RequestBody InterestSubventionDTO interestSubventionDTO){
         //get distinct aadhar numbers from parser by pacscode & financial year
-        List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(pacsNumber, financialYear);
+        List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
 
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
             //get the records from parser order by disbursementDate ASC
-            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber("901423243268", financialYear);
+            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber("901423243268", interestSubventionDTO.getFinancialYear());
             System.out.println("IssFileParsers:" + issFileParsers);
 
-            //call interest subvention calculator
-            //list<iss_subvention> = new subventioncalcularot(List<issfileparsearr>).calculate()
-            List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers).CalculateInterest();
+
+            //Calculate interest for report 1 & 2
+            List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO).CalculateInterestForCenterState();
+
+
+            //Calculate interest for punjab rao 3
+            issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO).CalculateInterestForPunjabRao();
 
         }
 

@@ -9,6 +9,170 @@
     {
       "fieldName": "financialYear",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "issFileParserId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "branchCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanAccountNumberKcc",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cast",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "aadharNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mobileNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "farmerType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "socialCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accountNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanSanctionDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "loanSanctionAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "disbursementDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "disburseAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maturityLoanDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryInterest",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recoveryDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "balanceAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prevDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "presDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "actualDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "nProd",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "productAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "productBank",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "productAbh3Lakh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "interestFirst15",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestFirst25",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestSecond15",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestSecond25",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestStateFirst3",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestStateSecond3",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestFirstAbh3",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "interestSecondAbh3",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "panjabraoInt3",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "isRecover",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "abh3Lakh",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "amt50000",
+      "fieldType": "Integer"
     }
   ],
   "jpaMetamodelFiltering": true,

@@ -51,6 +51,129 @@ public class IsCalculateTempServiceImpl implements IsCalculateTempService {
                 if (isCalculateTemp.getFinancialYear() != null) {
                     existingIsCalculateTemp.setFinancialYear(isCalculateTemp.getFinancialYear());
                 }
+                if (isCalculateTemp.getIssFileParserId() != null) {
+                    existingIsCalculateTemp.setIssFileParserId(isCalculateTemp.getIssFileParserId());
+                }
+                if (isCalculateTemp.getBranchCode() != null) {
+                    existingIsCalculateTemp.setBranchCode(isCalculateTemp.getBranchCode());
+                }
+                if (isCalculateTemp.getLoanAccountNumberKcc() != null) {
+                    existingIsCalculateTemp.setLoanAccountNumberKcc(isCalculateTemp.getLoanAccountNumberKcc());
+                }
+                if (isCalculateTemp.getFarmerName() != null) {
+                    existingIsCalculateTemp.setFarmerName(isCalculateTemp.getFarmerName());
+                }
+                if (isCalculateTemp.getGender() != null) {
+                    existingIsCalculateTemp.setGender(isCalculateTemp.getGender());
+                }
+                if (isCalculateTemp.getCast() != null) {
+                    existingIsCalculateTemp.setCast(isCalculateTemp.getCast());
+                }
+                if (isCalculateTemp.getAadharNumber() != null) {
+                    existingIsCalculateTemp.setAadharNumber(isCalculateTemp.getAadharNumber());
+                }
+                if (isCalculateTemp.getMobileNo() != null) {
+                    existingIsCalculateTemp.setMobileNo(isCalculateTemp.getMobileNo());
+                }
+                if (isCalculateTemp.getFarmerType() != null) {
+                    existingIsCalculateTemp.setFarmerType(isCalculateTemp.getFarmerType());
+                }
+                if (isCalculateTemp.getSocialCategory() != null) {
+                    existingIsCalculateTemp.setSocialCategory(isCalculateTemp.getSocialCategory());
+                }
+                if (isCalculateTemp.getAccountNumber() != null) {
+                    existingIsCalculateTemp.setAccountNumber(isCalculateTemp.getAccountNumber());
+                }
+                if (isCalculateTemp.getLoanSanctionDate() != null) {
+                    existingIsCalculateTemp.setLoanSanctionDate(isCalculateTemp.getLoanSanctionDate());
+                }
+                if (isCalculateTemp.getLoanSanctionAmount() != null) {
+                    existingIsCalculateTemp.setLoanSanctionAmount(isCalculateTemp.getLoanSanctionAmount());
+                }
+                if (isCalculateTemp.getDisbursementDate() != null) {
+                    existingIsCalculateTemp.setDisbursementDate(isCalculateTemp.getDisbursementDate());
+                }
+                if (isCalculateTemp.getDisburseAmount() != null) {
+                    existingIsCalculateTemp.setDisburseAmount(isCalculateTemp.getDisburseAmount());
+                }
+                if (isCalculateTemp.getMaturityLoanDate() != null) {
+                    existingIsCalculateTemp.setMaturityLoanDate(isCalculateTemp.getMaturityLoanDate());
+                }
+                if (isCalculateTemp.getBankDate() != null) {
+                    existingIsCalculateTemp.setBankDate(isCalculateTemp.getBankDate());
+                }
+                if (isCalculateTemp.getCropName() != null) {
+                    existingIsCalculateTemp.setCropName(isCalculateTemp.getCropName());
+                }
+                if (isCalculateTemp.getRecoveryAmount() != null) {
+                    existingIsCalculateTemp.setRecoveryAmount(isCalculateTemp.getRecoveryAmount());
+                }
+                if (isCalculateTemp.getRecoveryInterest() != null) {
+                    existingIsCalculateTemp.setRecoveryInterest(isCalculateTemp.getRecoveryInterest());
+                }
+                if (isCalculateTemp.getRecoveryDate() != null) {
+                    existingIsCalculateTemp.setRecoveryDate(isCalculateTemp.getRecoveryDate());
+                }
+                if (isCalculateTemp.getBalanceAmount() != null) {
+                    existingIsCalculateTemp.setBalanceAmount(isCalculateTemp.getBalanceAmount());
+                }
+                if (isCalculateTemp.getPrevDays() != null) {
+                    existingIsCalculateTemp.setPrevDays(isCalculateTemp.getPrevDays());
+                }
+                if (isCalculateTemp.getPresDays() != null) {
+                    existingIsCalculateTemp.setPresDays(isCalculateTemp.getPresDays());
+                }
+                if (isCalculateTemp.getActualDays() != null) {
+                    existingIsCalculateTemp.setActualDays(isCalculateTemp.getActualDays());
+                }
+                if (isCalculateTemp.getnProd() != null) {
+                    existingIsCalculateTemp.setnProd(isCalculateTemp.getnProd());
+                }
+                if (isCalculateTemp.getProductAmount() != null) {
+                    existingIsCalculateTemp.setProductAmount(isCalculateTemp.getProductAmount());
+                }
+                if (isCalculateTemp.getProductBank() != null) {
+                    existingIsCalculateTemp.setProductBank(isCalculateTemp.getProductBank());
+                }
+                if (isCalculateTemp.getProductAbh3Lakh() != null) {
+                    existingIsCalculateTemp.setProductAbh3Lakh(isCalculateTemp.getProductAbh3Lakh());
+                }
+                if (isCalculateTemp.getInterestFirst15() != null) {
+                    existingIsCalculateTemp.setInterestFirst15(isCalculateTemp.getInterestFirst15());
+                }
+                if (isCalculateTemp.getInterestFirst25() != null) {
+                    existingIsCalculateTemp.setInterestFirst25(isCalculateTemp.getInterestFirst25());
+                }
+                if (isCalculateTemp.getInterestSecond15() != null) {
+                    existingIsCalculateTemp.setInterestSecond15(isCalculateTemp.getInterestSecond15());
+                }
+                if (isCalculateTemp.getInterestSecond25() != null) {
+                    existingIsCalculateTemp.setInterestSecond25(isCalculateTemp.getInterestSecond25());
+                }
+                if (isCalculateTemp.getInterestStateFirst3() != null) {
+                    existingIsCalculateTemp.setInterestStateFirst3(isCalculateTemp.getInterestStateFirst3());
+                }
+                if (isCalculateTemp.getInterestStateSecond3() != null) {
+                    existingIsCalculateTemp.setInterestStateSecond3(isCalculateTemp.getInterestStateSecond3());
+                }
+                if (isCalculateTemp.getInterestFirstAbh3() != null) {
+                    existingIsCalculateTemp.setInterestFirstAbh3(isCalculateTemp.getInterestFirstAbh3());
+                }
+                if (isCalculateTemp.getInterestSecondAbh3() != null) {
+                    existingIsCalculateTemp.setInterestSecondAbh3(isCalculateTemp.getInterestSecondAbh3());
+                }
+                if (isCalculateTemp.getPanjabraoInt3() != null) {
+                    existingIsCalculateTemp.setPanjabraoInt3(isCalculateTemp.getPanjabraoInt3());
+                }
+                if (isCalculateTemp.getIsRecover() != null) {
+                    existingIsCalculateTemp.setIsRecover(isCalculateTemp.getIsRecover());
+                }
+                if (isCalculateTemp.getAbh3Lakh() != null) {
+                    existingIsCalculateTemp.setAbh3Lakh(isCalculateTemp.getAbh3Lakh());
+                }
+                if (isCalculateTemp.getAmt50000() != null) {
+                    existingIsCalculateTemp.setAmt50000(isCalculateTemp.getAmt50000());
+                }
 
                 return existingIsCalculateTemp;
             })

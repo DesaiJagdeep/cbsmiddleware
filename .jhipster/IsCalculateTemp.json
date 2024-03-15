@@ -30,6 +30,7 @@
       "fieldName": "gender",
       "fieldType": "String"
     },
+ 
     {
       "fieldName": "aadharNumber",
       "fieldType": "String"
@@ -107,7 +108,7 @@
       "fieldType": "Long"
     },
     {
-      "fieldName": "nProd",
+      "fieldName": "nProd",  
       "fieldType": "Integer"
     },
     {
@@ -154,10 +155,10 @@
       "fieldName": "interestSecondAbh3",
       "fieldType": "Double"
     },
-    {
+	  {
       "fieldName": "interestAbove3Lakh",
       "fieldType": "Double"
-    },
+    }, 
     {
       "fieldName": "panjabraoInt3",
       "fieldType": "Double"

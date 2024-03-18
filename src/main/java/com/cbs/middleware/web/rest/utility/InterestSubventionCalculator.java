@@ -198,7 +198,6 @@ public class InterestSubventionCalculator {
                     presentDays = ChronoUnit.DAYS.between(ChronoUnit.DAYS.addTo(reportDate, 1), bankDate);
 
                 }
-
                 //If recovery date is less than bank date find out days between loan date & recovery date
             } else {
                 day1 = ChronoUnit.DAYS.between(lastDate, recoveryDate);
@@ -851,6 +850,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setFinancialYear(issFileParser.getFinancialYear());
     isCalculateTemp.setIssFileParserId(issFileParser.getId());
     isCalculateTemp.setBranchCode(issFileParser.getBranchCode());
+    isCalculateTemp.setPacsNumber(issFileParser.getPacsNumber());
     isCalculateTemp.setLoanAccountNumberKcc(issFileParser.getLoanAccountNumberkcc());
     isCalculateTemp.setFarmerName(issFileParser.getFarmerName());
     isCalculateTemp.setGender(issFileParser.getGender());

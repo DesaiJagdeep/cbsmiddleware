@@ -234,4 +234,5 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
         }
         return specification;
     }
+
 }

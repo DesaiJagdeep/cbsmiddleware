@@ -30,6 +30,9 @@ public class IsCalculateTemp implements Serializable {
     @Column(name = "branch_code")
     private String branchCode;
 
+    @Column(name = "pacs_number")
+    private String pacsNumber;
+
     @Column(name = "loan_account_number_kcc")
     private String loanAccountNumberKcc;
 
@@ -212,6 +215,19 @@ public class IsCalculateTemp implements Serializable {
 
     public void setBranchCode(String branchCode) {
         this.branchCode = branchCode;
+    }
+
+    public String getPacsNumber() {
+        return this.pacsNumber;
+    }
+
+    public IsCalculateTemp pacsNumber(String pacsNumber) {
+        this.setPacsNumber(pacsNumber);
+        return this;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
     }
 
     public String getLoanAccountNumberKcc() {
@@ -749,6 +765,7 @@ public class IsCalculateTemp implements Serializable {
             ", financialYear='" + getFinancialYear() + "'" +
             ", issFileParserId=" + getIssFileParserId() +
             ", branchCode='" + getBranchCode() + "'" +
+            ", pacsNumber='" + getPacsNumber() + "'" +
             ", loanAccountNumberKcc='" + getLoanAccountNumberKcc() + "'" +
             ", farmerName='" + getFarmerName() + "'" +
             ", gender='" + getGender() + "'" +

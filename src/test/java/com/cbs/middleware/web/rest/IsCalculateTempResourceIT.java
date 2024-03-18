@@ -44,6 +44,9 @@ class IsCalculateTempResourceIT {
     private static final String DEFAULT_BRANCH_CODE = "AAAAAAAAAA";
     private static final String UPDATED_BRANCH_CODE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PACS_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NUMBER = "BBBBBBBBBB";
+
     private static final String DEFAULT_LOAN_ACCOUNT_NUMBER_KCC = "AAAAAAAAAA";
     private static final String UPDATED_LOAN_ACCOUNT_NUMBER_KCC = "BBBBBBBBBB";
 
@@ -207,6 +210,7 @@ class IsCalculateTempResourceIT {
             .financialYear(DEFAULT_FINANCIAL_YEAR)
             .issFileParserId(DEFAULT_ISS_FILE_PARSER_ID)
             .branchCode(DEFAULT_BRANCH_CODE)
+            .pacsNumber(DEFAULT_PACS_NUMBER)
             .loanAccountNumberKcc(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(DEFAULT_FARMER_NAME)
             .gender(DEFAULT_GENDER)
@@ -261,6 +265,7 @@ class IsCalculateTempResourceIT {
             .financialYear(UPDATED_FINANCIAL_YEAR)
             .issFileParserId(UPDATED_ISS_FILE_PARSER_ID)
             .branchCode(UPDATED_BRANCH_CODE)
+            .pacsNumber(UPDATED_PACS_NUMBER)
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
@@ -327,6 +332,7 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
         assertThat(testIsCalculateTemp.getIssFileParserId()).isEqualTo(DEFAULT_ISS_FILE_PARSER_ID);
         assertThat(testIsCalculateTemp.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
+        assertThat(testIsCalculateTemp.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(DEFAULT_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(DEFAULT_GENDER);
@@ -404,6 +410,7 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
             .andExpect(jsonPath("$.[*].issFileParserId").value(hasItem(DEFAULT_ISS_FILE_PARSER_ID.intValue())))
             .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE)))
+            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
             .andExpect(jsonPath("$.[*].loanAccountNumberKcc").value(hasItem(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)))
             .andExpect(jsonPath("$.[*].farmerName").value(hasItem(DEFAULT_FARMER_NAME)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
@@ -461,6 +468,7 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.financialYear").value(DEFAULT_FINANCIAL_YEAR))
             .andExpect(jsonPath("$.issFileParserId").value(DEFAULT_ISS_FILE_PARSER_ID.intValue()))
             .andExpect(jsonPath("$.branchCode").value(DEFAULT_BRANCH_CODE))
+            .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER))
             .andExpect(jsonPath("$.loanAccountNumberKcc").value(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC))
             .andExpect(jsonPath("$.farmerName").value(DEFAULT_FARMER_NAME))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER))
@@ -830,6 +838,71 @@ class IsCalculateTempResourceIT {
 
         // Get all the isCalculateTempList where branchCode does not contain UPDATED_BRANCH_CODE
         defaultIsCalculateTempShouldBeFound("branchCode.doesNotContain=" + UPDATED_BRANCH_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByPacsNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where pacsNumber equals to DEFAULT_PACS_NUMBER
+        defaultIsCalculateTempShouldBeFound("pacsNumber.equals=" + DEFAULT_PACS_NUMBER);
+
+        // Get all the isCalculateTempList where pacsNumber equals to UPDATED_PACS_NUMBER
+        defaultIsCalculateTempShouldNotBeFound("pacsNumber.equals=" + UPDATED_PACS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByPacsNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where pacsNumber in DEFAULT_PACS_NUMBER or UPDATED_PACS_NUMBER
+        defaultIsCalculateTempShouldBeFound("pacsNumber.in=" + DEFAULT_PACS_NUMBER + "," + UPDATED_PACS_NUMBER);
+
+        // Get all the isCalculateTempList where pacsNumber equals to UPDATED_PACS_NUMBER
+        defaultIsCalculateTempShouldNotBeFound("pacsNumber.in=" + UPDATED_PACS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByPacsNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where pacsNumber is not null
+        defaultIsCalculateTempShouldBeFound("pacsNumber.specified=true");
+
+        // Get all the isCalculateTempList where pacsNumber is null
+        defaultIsCalculateTempShouldNotBeFound("pacsNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByPacsNumberContainsSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where pacsNumber contains DEFAULT_PACS_NUMBER
+        defaultIsCalculateTempShouldBeFound("pacsNumber.contains=" + DEFAULT_PACS_NUMBER);
+
+        // Get all the isCalculateTempList where pacsNumber contains UPDATED_PACS_NUMBER
+        defaultIsCalculateTempShouldNotBeFound("pacsNumber.contains=" + UPDATED_PACS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllIsCalculateTempsByPacsNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        isCalculateTempRepository.saveAndFlush(isCalculateTemp);
+
+        // Get all the isCalculateTempList where pacsNumber does not contain DEFAULT_PACS_NUMBER
+        defaultIsCalculateTempShouldNotBeFound("pacsNumber.doesNotContain=" + DEFAULT_PACS_NUMBER);
+
+        // Get all the isCalculateTempList where pacsNumber does not contain UPDATED_PACS_NUMBER
+        defaultIsCalculateTempShouldBeFound("pacsNumber.doesNotContain=" + UPDATED_PACS_NUMBER);
     }
 
     @Test
@@ -3828,6 +3901,7 @@ class IsCalculateTempResourceIT {
             .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
             .andExpect(jsonPath("$.[*].issFileParserId").value(hasItem(DEFAULT_ISS_FILE_PARSER_ID.intValue())))
             .andExpect(jsonPath("$.[*].branchCode").value(hasItem(DEFAULT_BRANCH_CODE)))
+            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
             .andExpect(jsonPath("$.[*].loanAccountNumberKcc").value(hasItem(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC)))
             .andExpect(jsonPath("$.[*].farmerName").value(hasItem(DEFAULT_FARMER_NAME)))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER)))
@@ -3919,6 +3993,7 @@ class IsCalculateTempResourceIT {
             .financialYear(UPDATED_FINANCIAL_YEAR)
             .issFileParserId(UPDATED_ISS_FILE_PARSER_ID)
             .branchCode(UPDATED_BRANCH_CODE)
+            .pacsNumber(UPDATED_PACS_NUMBER)
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
@@ -3975,6 +4050,7 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
         assertThat(testIsCalculateTemp.getIssFileParserId()).isEqualTo(UPDATED_ISS_FILE_PARSER_ID);
         assertThat(testIsCalculateTemp.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testIsCalculateTemp.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(UPDATED_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(UPDATED_GENDER);
@@ -4088,26 +4164,27 @@ class IsCalculateTempResourceIT {
 
         partialUpdatedIsCalculateTemp
             .serialNo(UPDATED_SERIAL_NO)
-            .farmerName(UPDATED_FARMER_NAME)
+            .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
+            .gender(UPDATED_GENDER)
             .aadharNumber(UPDATED_AADHAR_NUMBER)
             .mobileNo(UPDATED_MOBILE_NO)
             .farmerType(UPDATED_FARMER_TYPE)
             .socialCategory(UPDATED_SOCIAL_CATEGORY)
-            .accountNumber(UPDATED_ACCOUNT_NUMBER)
+            .maturityLoanDate(UPDATED_MATURITY_LOAN_DATE)
             .bankDate(UPDATED_BANK_DATE)
-            .cropName(UPDATED_CROP_NAME)
+            .recoveryAmount(UPDATED_RECOVERY_AMOUNT)
             .recoveryInterest(UPDATED_RECOVERY_INTEREST)
             .recoveryDate(UPDATED_RECOVERY_DATE)
             .balanceAmount(UPDATED_BALANCE_AMOUNT)
-            .prevDays(UPDATED_PREV_DAYS)
+            .presDays(UPDATED_PRES_DAYS)
             .actualDays(UPDATED_ACTUAL_DAYS)
             .nProd(UPDATED_N_PROD)
             .productAmount(UPDATED_PRODUCT_AMOUNT)
-            .productBank(UPDATED_PRODUCT_BANK)
-            .interestFirst25(UPDATED_INTEREST_FIRST_25)
-            .interestFirstAbh3(UPDATED_INTEREST_FIRST_ABH_3)
-            .panjabraoInt3(UPDATED_PANJABRAO_INT_3)
-            .abh3LakhAmt(UPDATED_ABH_3_LAKH_AMT);
+            .interestFirst15(UPDATED_INTEREST_FIRST_15)
+            .interestStateSecond3(UPDATED_INTEREST_STATE_SECOND_3)
+            .interestAbove3Lakh(UPDATED_INTEREST_ABOVE_3_LAKH)
+            .isRecover(UPDATED_IS_RECOVER)
+            .upto50000(UPDATED_UPTO_50000);
 
         restIsCalculateTempMockMvc
             .perform(
@@ -4125,45 +4202,46 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
         assertThat(testIsCalculateTemp.getIssFileParserId()).isEqualTo(DEFAULT_ISS_FILE_PARSER_ID);
         assertThat(testIsCalculateTemp.getBranchCode()).isEqualTo(DEFAULT_BRANCH_CODE);
-        assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(DEFAULT_LOAN_ACCOUNT_NUMBER_KCC);
-        assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
-        assertThat(testIsCalculateTemp.getGender()).isEqualTo(DEFAULT_GENDER);
+        assertThat(testIsCalculateTemp.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
+        assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(UPDATED_LOAN_ACCOUNT_NUMBER_KCC);
+        assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(DEFAULT_FARMER_NAME);
+        assertThat(testIsCalculateTemp.getGender()).isEqualTo(UPDATED_GENDER);
         assertThat(testIsCalculateTemp.getAadharNumber()).isEqualTo(UPDATED_AADHAR_NUMBER);
         assertThat(testIsCalculateTemp.getMobileNo()).isEqualTo(UPDATED_MOBILE_NO);
         assertThat(testIsCalculateTemp.getFarmerType()).isEqualTo(UPDATED_FARMER_TYPE);
         assertThat(testIsCalculateTemp.getSocialCategory()).isEqualTo(UPDATED_SOCIAL_CATEGORY);
-        assertThat(testIsCalculateTemp.getAccountNumber()).isEqualTo(UPDATED_ACCOUNT_NUMBER);
+        assertThat(testIsCalculateTemp.getAccountNumber()).isEqualTo(DEFAULT_ACCOUNT_NUMBER);
         assertThat(testIsCalculateTemp.getLoanSanctionDate()).isEqualTo(DEFAULT_LOAN_SANCTION_DATE);
         assertThat(testIsCalculateTemp.getLoanSanctionAmount()).isEqualTo(DEFAULT_LOAN_SANCTION_AMOUNT);
         assertThat(testIsCalculateTemp.getDisbursementDate()).isEqualTo(DEFAULT_DISBURSEMENT_DATE);
         assertThat(testIsCalculateTemp.getDisburseAmount()).isEqualTo(DEFAULT_DISBURSE_AMOUNT);
-        assertThat(testIsCalculateTemp.getMaturityLoanDate()).isEqualTo(DEFAULT_MATURITY_LOAN_DATE);
+        assertThat(testIsCalculateTemp.getMaturityLoanDate()).isEqualTo(UPDATED_MATURITY_LOAN_DATE);
         assertThat(testIsCalculateTemp.getBankDate()).isEqualTo(UPDATED_BANK_DATE);
-        assertThat(testIsCalculateTemp.getCropName()).isEqualTo(UPDATED_CROP_NAME);
-        assertThat(testIsCalculateTemp.getRecoveryAmount()).isEqualTo(DEFAULT_RECOVERY_AMOUNT);
+        assertThat(testIsCalculateTemp.getCropName()).isEqualTo(DEFAULT_CROP_NAME);
+        assertThat(testIsCalculateTemp.getRecoveryAmount()).isEqualTo(UPDATED_RECOVERY_AMOUNT);
         assertThat(testIsCalculateTemp.getRecoveryInterest()).isEqualTo(UPDATED_RECOVERY_INTEREST);
         assertThat(testIsCalculateTemp.getRecoveryDate()).isEqualTo(UPDATED_RECOVERY_DATE);
         assertThat(testIsCalculateTemp.getBalanceAmount()).isEqualTo(UPDATED_BALANCE_AMOUNT);
-        assertThat(testIsCalculateTemp.getPrevDays()).isEqualTo(UPDATED_PREV_DAYS);
-        assertThat(testIsCalculateTemp.getPresDays()).isEqualTo(DEFAULT_PRES_DAYS);
+        assertThat(testIsCalculateTemp.getPrevDays()).isEqualTo(DEFAULT_PREV_DAYS);
+        assertThat(testIsCalculateTemp.getPresDays()).isEqualTo(UPDATED_PRES_DAYS);
         assertThat(testIsCalculateTemp.getActualDays()).isEqualTo(UPDATED_ACTUAL_DAYS);
         assertThat(testIsCalculateTemp.getnProd()).isEqualTo(UPDATED_N_PROD);
         assertThat(testIsCalculateTemp.getProductAmount()).isEqualTo(UPDATED_PRODUCT_AMOUNT);
-        assertThat(testIsCalculateTemp.getProductBank()).isEqualTo(UPDATED_PRODUCT_BANK);
+        assertThat(testIsCalculateTemp.getProductBank()).isEqualTo(DEFAULT_PRODUCT_BANK);
         assertThat(testIsCalculateTemp.getProductAbh3Lakh()).isEqualTo(DEFAULT_PRODUCT_ABH_3_LAKH);
-        assertThat(testIsCalculateTemp.getInterestFirst15()).isEqualTo(DEFAULT_INTEREST_FIRST_15);
-        assertThat(testIsCalculateTemp.getInterestFirst25()).isEqualTo(UPDATED_INTEREST_FIRST_25);
+        assertThat(testIsCalculateTemp.getInterestFirst15()).isEqualTo(UPDATED_INTEREST_FIRST_15);
+        assertThat(testIsCalculateTemp.getInterestFirst25()).isEqualTo(DEFAULT_INTEREST_FIRST_25);
         assertThat(testIsCalculateTemp.getInterestSecond15()).isEqualTo(DEFAULT_INTEREST_SECOND_15);
         assertThat(testIsCalculateTemp.getInterestSecond25()).isEqualTo(DEFAULT_INTEREST_SECOND_25);
         assertThat(testIsCalculateTemp.getInterestStateFirst3()).isEqualTo(DEFAULT_INTEREST_STATE_FIRST_3);
-        assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(DEFAULT_INTEREST_STATE_SECOND_3);
-        assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(UPDATED_INTEREST_FIRST_ABH_3);
+        assertThat(testIsCalculateTemp.getInterestStateSecond3()).isEqualTo(UPDATED_INTEREST_STATE_SECOND_3);
+        assertThat(testIsCalculateTemp.getInterestFirstAbh3()).isEqualTo(DEFAULT_INTEREST_FIRST_ABH_3);
         assertThat(testIsCalculateTemp.getInterestSecondAbh3()).isEqualTo(DEFAULT_INTEREST_SECOND_ABH_3);
-        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(DEFAULT_INTEREST_ABOVE_3_LAKH);
-        assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(UPDATED_PANJABRAO_INT_3);
-        assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(DEFAULT_IS_RECOVER);
-        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(UPDATED_ABH_3_LAKH_AMT);
-        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(DEFAULT_UPTO_50000);
+        assertThat(testIsCalculateTemp.getInterestAbove3Lakh()).isEqualTo(UPDATED_INTEREST_ABOVE_3_LAKH);
+        assertThat(testIsCalculateTemp.getPanjabraoInt3()).isEqualTo(DEFAULT_PANJABRAO_INT_3);
+        assertThat(testIsCalculateTemp.getIsRecover()).isEqualTo(UPDATED_IS_RECOVER);
+        assertThat(testIsCalculateTemp.getAbh3LakhAmt()).isEqualTo(DEFAULT_ABH_3_LAKH_AMT);
+        assertThat(testIsCalculateTemp.getUpto50000()).isEqualTo(UPDATED_UPTO_50000);
     }
 
     @Test
@@ -4183,6 +4261,7 @@ class IsCalculateTempResourceIT {
             .financialYear(UPDATED_FINANCIAL_YEAR)
             .issFileParserId(UPDATED_ISS_FILE_PARSER_ID)
             .branchCode(UPDATED_BRANCH_CODE)
+            .pacsNumber(UPDATED_PACS_NUMBER)
             .loanAccountNumberKcc(UPDATED_LOAN_ACCOUNT_NUMBER_KCC)
             .farmerName(UPDATED_FARMER_NAME)
             .gender(UPDATED_GENDER)
@@ -4239,6 +4318,7 @@ class IsCalculateTempResourceIT {
         assertThat(testIsCalculateTemp.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
         assertThat(testIsCalculateTemp.getIssFileParserId()).isEqualTo(UPDATED_ISS_FILE_PARSER_ID);
         assertThat(testIsCalculateTemp.getBranchCode()).isEqualTo(UPDATED_BRANCH_CODE);
+        assertThat(testIsCalculateTemp.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
         assertThat(testIsCalculateTemp.getLoanAccountNumberKcc()).isEqualTo(UPDATED_LOAN_ACCOUNT_NUMBER_KCC);
         assertThat(testIsCalculateTemp.getFarmerName()).isEqualTo(UPDATED_FARMER_NAME);
         assertThat(testIsCalculateTemp.getGender()).isEqualTo(UPDATED_GENDER);

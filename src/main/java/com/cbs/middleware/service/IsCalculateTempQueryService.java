@@ -97,6 +97,9 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
             if (criteria.getBranchCode() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBranchCode(), IsCalculateTemp_.branchCode));
             }
+            if (criteria.getPacsNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), IsCalculateTemp_.pacsNumber));
+            }
             if (criteria.getLoanAccountNumberKcc() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getLoanAccountNumberKcc(), IsCalculateTemp_.loanAccountNumberKcc));

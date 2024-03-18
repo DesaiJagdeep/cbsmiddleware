@@ -4,6 +4,7 @@ export interface IIsCalculateTemp {
   financialYear?: string | null;
   issFileParserId?: number | null;
   branchCode?: string | null;
+  pacsNumber?: string | null;
   loanAccountNumberKcc?: string | null;
   farmerName?: string | null;
   gender?: string | null;

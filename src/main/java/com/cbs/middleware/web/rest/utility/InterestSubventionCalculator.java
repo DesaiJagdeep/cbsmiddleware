@@ -48,6 +48,8 @@ public class InterestSubventionCalculator {
     public Double interestSecond25=0.00; //Center bank second 2.5%
     public Double interestFirst3=0.00;  //Center state first 3%
     public Double interestSecond3=0.00; //Center state second 3%
+
+    public Double interestStatePunjabrao3=0.00;  // state punjabrao 3 %
     public Double interestAbove3lakh=0.00; //Above 3 lakh interest
     public  LocalDate reportDate;
     DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -67,7 +69,7 @@ public class InterestSubventionCalculator {
         Integer thirdRecoveryAmount = 0;
         Integer fourthRecoveryAmount = 0;
 
-        //Check if is recover or not
+        //Check if loan is recover or not
         for (IssFileParser issFileParser : issFileParsers) {
             Long loanDisbursementAmount = Long.valueOf(issFileParser.getDisburseAmount());
 
@@ -154,8 +156,10 @@ public class InterestSubventionCalculator {
 
             //Calculate Product Amount
             if (interestSubventionDTO.getReportCondition() == 1) {
+                //center bank
                 calculateProductAmountsCenter(issFileParser);
             } else {
+                //state punjabrao
                 calculateProductAmountsState(issFileParser);
             }
 
@@ -254,7 +258,7 @@ public class InterestSubventionCalculator {
             }
 
             //Save record into isCalculateTemp
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
         }
         //Above remarks specified in first recovery are the same for the second , third & fourth recovery
@@ -334,7 +338,7 @@ public class InterestSubventionCalculator {
             if (prevDays < 0) {
                 prevDays = 0L;
             }
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day2, productAmount2, bankProductAmount2, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day2, productAmount2, bankProductAmount2, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         }
@@ -415,7 +419,7 @@ public class InterestSubventionCalculator {
             if (prevDays < 0) {
                 prevDays = 0L;
             }
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day3, productAmount3, bankProductAmount3, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day3, productAmount3, bankProductAmount3, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         }
@@ -498,7 +502,7 @@ public class InterestSubventionCalculator {
             if (prevDays < 0) {
                 prevDays = 0L;
             }
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day4, productAmount4, bankProductAmount4, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day4, productAmount4, bankProductAmount4, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25,interestStatePunjabrao3, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
         }
 
@@ -593,8 +597,7 @@ public class InterestSubventionCalculator {
             if (above3Product > 0) {
                 interestAbove3lakh = (above3Product * lastDays * interestSubventionDTO.getInterestAbove3Lakh()) / 36500;
             }
-
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, lastDays, memLastProdAmount, lastProdAmount, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, lastDays, memLastProdAmount, lastProdAmount, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         } else {
@@ -646,21 +649,19 @@ public class InterestSubventionCalculator {
 
 
             if (debitAmount < 0) {
-
                 diffAmount = diffAmount + debitAmount;
                 debitAmount = 0L;
             }
 
             //Interest calculation
 
-
             if (loanRecover == 1) {
-                interestFirst3 = (productAmount1 * day1 * interestSubventionDTO.getFromInterest()) / 36500;
+                interestStatePunjabrao3 = (productAmount1 * day1 * interestSubventionDTO.getFromInterest()) / 36500;
             }
 
 
             //Save record into isCalculateTemp
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         }
@@ -679,7 +680,7 @@ public class InterestSubventionCalculator {
             //check recovery date is Less than or equal to Maturity date
             int compareResult = recoveryDate.compareTo(loanMaturityDate);
 
-            //If recovery date is greater than maturity date find out days between loan date & bank date
+            //If recovery date is greater than maturity date mark days as zero
             if (compareResult > 0) {
 
                 day2=0L;
@@ -704,12 +705,11 @@ public class InterestSubventionCalculator {
             //Interest calculation
 
             if (loanRecover == 1) {
-                interestFirst3 = (productAmount2 * day2 * interestSubventionDTO.getFromInterest()) / 36500;
+                interestStatePunjabrao3 = (productAmount2 * day2 * interestSubventionDTO.getFromInterest()) / 36500;
 
             }
 
-
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day2, productAmount2, bankProductAmount2, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day2, productAmount2, bankProductAmount2, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         }
@@ -745,8 +745,6 @@ public class InterestSubventionCalculator {
             midBalanceAmt = midBalanceAmt - recoveryAmount;
             lastDate = recoveryDate;
             if (debitAmount < 0) {
-
-
                 diffAmount = diffAmount + debitAmount;
                 debitAmount = 0L;
             }
@@ -754,12 +752,12 @@ public class InterestSubventionCalculator {
             //Interest calculation
 
             if (loanRecover == 1) {
-                interestFirst3 = (productAmount3 * day3 * interestSubventionDTO.getFromInterest()) / 36500;
+                interestStatePunjabrao3 = (productAmount3 * day3 * interestSubventionDTO.getFromInterest()) / 36500;
 
             }
 
 
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day3, productAmount3, bankProductAmount3, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day3, productAmount3, bankProductAmount3, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         }
@@ -803,10 +801,10 @@ public class InterestSubventionCalculator {
 
             if (loanRecover == 1) {
 
-                interestSecond3 = (productAmount4 * day4 * interestSubventionDTO.getToInterest()) / 36500;
+                interestStatePunjabrao3 = (productAmount4 * day4 * interestSubventionDTO.getToInterest()) / 36500;
             }
 
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day4, productAmount4, bankProductAmount4, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day4, productAmount4, bankProductAmount4, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
         }
 
@@ -827,15 +825,15 @@ public class InterestSubventionCalculator {
             //Interest calculation
             if (loanRecover == 1) {
                 //memLastProdAmount=lastProdAmount;
-                interestFirst3 = (memLastProdAmount * lastDays * interestSubventionDTO.getFromInterest()) / 36500;
+                interestStatePunjabrao3 = (memLastProdAmount * lastDays * interestSubventionDTO.getFromInterest()) / 36500;
 
             } else {
-                interestFirst3 = 0.00;
+                interestStatePunjabrao3 = 0.00;
                 memLastProdAmount = 0L;
 
             }
 
-            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, lastDays, memLastProdAmount, lastProdAmount, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
+            saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, lastDays, memLastProdAmount, lastProdAmount, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
 
 
         } else {
@@ -846,9 +844,9 @@ public class InterestSubventionCalculator {
         //save previous loan amount
         previousDebitAmount = Long.valueOf(issFileParser.getDisburseAmount());
     }
-public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser,LocalDate recoveryDate,Long recoveryAmount,String recoveryInterest,Long midBalanceAmt,LocalDate bankDate,Long prevDays,Long presentDays,Long day,Long productAmount,Long bankProductAmount,Long above3Product,Double interestFirst3,Double interestSecond3,Double interestFirst15,Double interestFirst25,Double interestSecond15,Double interestSecond25,Double interestAbove3lakh, Long above3lakhAmt,Integer upto50000,Integer loanRecover){
+public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser,LocalDate recoveryDate,Long recoveryAmount,String recoveryInterest,Long midBalanceAmt,LocalDate bankDate,Long prevDays,Long presentDays,Long day,Long productAmount,Long bankProductAmount,Long above3Product,Double interestFirst3,Double interestSecond3,Double interestFirst15,Double interestFirst25,Double interestSecond15,Double interestSecond25,Double interestStatePunjabrao3,Double interestAbove3lakh, Long above3lakhAmt,Integer upto50000,Integer loanRecover){
 
-     IsCalculateTemp isCalculateTemp =new IsCalculateTemp();
+        IsCalculateTemp isCalculateTemp =new IsCalculateTemp();
     isCalculateTemp.setSerialNo(serialNo);
     isCalculateTemp.setFinancialYear(issFileParser.getFinancialYear());
     isCalculateTemp.setIssFileParserId(issFileParser.getId());
@@ -884,6 +882,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setInterestSecond15(interestFirst25);
     isCalculateTemp.setInterestStateFirst3(interestFirst3);
     isCalculateTemp.setInterestStateSecond3(interestSecond3);
+    isCalculateTemp.setPanjabraoInt3(interestStatePunjabrao3);
     isCalculateTemp.setInterestAbove3Lakh(interestAbove3lakh);
     isCalculateTemp.setAbh3LakhAmt(above3lakhAmt);
     isCalculateTemp.setIsRecover(loanRecover);
@@ -893,68 +892,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
   isCalculateTempRepository.save(isCalculateTemp);
 
 
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-    public List<IssFileParser> CalculateInterestForPunjabRao() {
-
-        totalDebitAmount =0L;
-        Long recoveryAmount=0L;
-        previousDebitAmount=0L;
-
-        firstVasuliDate = "2023-03-31";
-
-        for (IssFileParser issFileParser:issFileParsers){
-
-
-            Long loanDisbursementAmount = Long.valueOf(issFileParser.getDisburseAmount());
-            LocalDate loanDisbursementDate = LocalDate.parse(issFileParser.getDisbursementDate(), inputFormatter);
-
-            lastDate=loanDisbursementDate;
-            recoveryDate=loanDisbursementDate;
-            debitAmount=loanDisbursementAmount;
-            midBalanceAmt=loanDisbursementAmount;
-            diffAmount=0L;
-            serialNo=0;
-
-            loanMaturityDate=LocalDate.parse(issFileParser.getMaturityLoanDate());
-
-            //Calculate the total disbursement of loan
-            totalDebitAmount = totalDebitAmount + loanDisbursementAmount;
-
-            //If total disbursement of loan is greater than 3 lakh, the find out difference amount & substract diff amount from total loan amount
-            if (totalDebitAmount>interestCalAmount){
-                diffAmount = totalDebitAmount - interestCalAmount;
-                debitAmount= debitAmount- diffAmount;
-            }
-
-            //bankDate calculated upto 365 days
-            bankDate = ChronoUnit.DAYS.addTo(loanDisbursementDate,364);
-            System.out.println("Bank date:" + bankDate);
-
-            reportDate = LocalDate.parse(firstVasuliDate);
-
-            //Calculate Product Amount
-            calculateProductAmounts(issFileParser);
-        }
-
-        return null;
-    }
-
-
-
-
 
 
 }

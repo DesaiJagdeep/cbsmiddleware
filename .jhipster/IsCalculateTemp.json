@@ -18,6 +18,10 @@
       "fieldName": "branchCode",
       "fieldType": "String"
     },
+	  {
+      "fieldName": "pacsNumber",
+      "fieldType": "String"
+    },
     {
       "fieldName": "loanAccountNumberKcc",
       "fieldType": "String"

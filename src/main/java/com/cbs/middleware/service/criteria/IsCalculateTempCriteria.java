@@ -31,6 +31,8 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
 
     private StringFilter branchCode;
 
+    private StringFilter  pacsNumber;
+
     private StringFilter loanAccountNumberKcc;
 
     private StringFilter farmerName;
@@ -119,6 +121,7 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
         this.issFileParserId = other.issFileParserId == null ? null : other.issFileParserId.copy();
         this.branchCode = other.branchCode == null ? null : other.branchCode.copy();
+        this.pacsNumber = other.pacsNumber == null ? null : other.pacsNumber.copy();
         this.loanAccountNumberKcc = other.loanAccountNumberKcc == null ? null : other.loanAccountNumberKcc.copy();
         this.farmerName = other.farmerName == null ? null : other.farmerName.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
@@ -834,6 +837,14 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public StringFilter getPacsNumber() {
+        return pacsNumber;
+    }
+
+    public void setPacsNumber(StringFilter pacsNumber) {
+        this.pacsNumber = pacsNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -849,6 +860,7 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             Objects.equals(financialYear, that.financialYear) &&
             Objects.equals(issFileParserId, that.issFileParserId) &&
             Objects.equals(branchCode, that.branchCode) &&
+                Objects.equals(pacsNumber, that.pacsNumber) &&
             Objects.equals(loanAccountNumberKcc, that.loanAccountNumberKcc) &&
             Objects.equals(farmerName, that.farmerName) &&
             Objects.equals(gender, that.gender) &&
@@ -900,6 +912,7 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
             financialYear,
             issFileParserId,
             branchCode,
+            pacsNumber,
             loanAccountNumberKcc,
             farmerName,
             gender,
@@ -944,54 +957,57 @@ public class IsCalculateTempCriteria implements Serializable, Criteria {
     }
 
     // prettier-ignore
+
+
     @Override
     public String toString() {
         return "IsCalculateTempCriteria{" +
-            (id != null ? "id=" + id + ", " : "") +
-            (serialNo != null ? "serialNo=" + serialNo + ", " : "") +
-            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
-            (issFileParserId != null ? "issFileParserId=" + issFileParserId + ", " : "") +
-            (branchCode != null ? "branchCode=" + branchCode + ", " : "") +
-            (loanAccountNumberKcc != null ? "loanAccountNumberKcc=" + loanAccountNumberKcc + ", " : "") +
-            (farmerName != null ? "farmerName=" + farmerName + ", " : "") +
-            (gender != null ? "gender=" + gender + ", " : "") +
-            (aadharNumber != null ? "aadharNumber=" + aadharNumber + ", " : "") +
-            (mobileNo != null ? "mobileNo=" + mobileNo + ", " : "") +
-            (farmerType != null ? "farmerType=" + farmerType + ", " : "") +
-            (socialCategory != null ? "socialCategory=" + socialCategory + ", " : "") +
-            (accountNumber != null ? "accountNumber=" + accountNumber + ", " : "") +
-            (loanSanctionDate != null ? "loanSanctionDate=" + loanSanctionDate + ", " : "") +
-            (loanSanctionAmount != null ? "loanSanctionAmount=" + loanSanctionAmount + ", " : "") +
-            (disbursementDate != null ? "disbursementDate=" + disbursementDate + ", " : "") +
-            (disburseAmount != null ? "disburseAmount=" + disburseAmount + ", " : "") +
-            (maturityLoanDate != null ? "maturityLoanDate=" + maturityLoanDate + ", " : "") +
-            (bankDate != null ? "bankDate=" + bankDate + ", " : "") +
-            (cropName != null ? "cropName=" + cropName + ", " : "") +
-            (recoveryAmount != null ? "recoveryAmount=" + recoveryAmount + ", " : "") +
-            (recoveryInterest != null ? "recoveryInterest=" + recoveryInterest + ", " : "") +
-            (recoveryDate != null ? "recoveryDate=" + recoveryDate + ", " : "") +
-            (balanceAmount != null ? "balanceAmount=" + balanceAmount + ", " : "") +
-            (prevDays != null ? "prevDays=" + prevDays + ", " : "") +
-            (presDays != null ? "presDays=" + presDays + ", " : "") +
-            (actualDays != null ? "actualDays=" + actualDays + ", " : "") +
-            (nProd != null ? "nProd=" + nProd + ", " : "") +
-            (productAmount != null ? "productAmount=" + productAmount + ", " : "") +
-            (productBank != null ? "productBank=" + productBank + ", " : "") +
-            (productAbh3Lakh != null ? "productAbh3Lakh=" + productAbh3Lakh + ", " : "") +
-            (interestFirst15 != null ? "interestFirst15=" + interestFirst15 + ", " : "") +
-            (interestFirst25 != null ? "interestFirst25=" + interestFirst25 + ", " : "") +
-            (interestSecond15 != null ? "interestSecond15=" + interestSecond15 + ", " : "") +
-            (interestSecond25 != null ? "interestSecond25=" + interestSecond25 + ", " : "") +
-            (interestStateFirst3 != null ? "interestStateFirst3=" + interestStateFirst3 + ", " : "") +
-            (interestStateSecond3 != null ? "interestStateSecond3=" + interestStateSecond3 + ", " : "") +
-            (interestFirstAbh3 != null ? "interestFirstAbh3=" + interestFirstAbh3 + ", " : "") +
-            (interestSecondAbh3 != null ? "interestSecondAbh3=" + interestSecondAbh3 + ", " : "") +
-            (interestAbove3Lakh != null ? "interestAbove3Lakh=" + interestAbove3Lakh + ", " : "") +
-            (panjabraoInt3 != null ? "panjabraoInt3=" + panjabraoInt3 + ", " : "") +
-            (isRecover != null ? "isRecover=" + isRecover + ", " : "") +
-            (abh3LakhAmt != null ? "abh3LakhAmt=" + abh3LakhAmt + ", " : "") +
-            (upto50000 != null ? "upto50000=" + upto50000 + ", " : "") +
-            (distinct != null ? "distinct=" + distinct + ", " : "") +
-            "}";
+            "id=" + id +
+            ", serialNo=" + serialNo +
+            ", financialYear=" + financialYear +
+            ", issFileParserId=" + issFileParserId +
+            ", branchCode=" + branchCode +
+            ", pacsNumber=" + pacsNumber +
+            ", loanAccountNumberKcc=" + loanAccountNumberKcc +
+            ", farmerName=" + farmerName +
+            ", gender=" + gender +
+            ", aadharNumber=" + aadharNumber +
+            ", mobileNo=" + mobileNo +
+            ", farmerType=" + farmerType +
+            ", socialCategory=" + socialCategory +
+            ", accountNumber=" + accountNumber +
+            ", loanSanctionDate=" + loanSanctionDate +
+            ", loanSanctionAmount=" + loanSanctionAmount +
+            ", disbursementDate=" + disbursementDate +
+            ", disburseAmount=" + disburseAmount +
+            ", maturityLoanDate=" + maturityLoanDate +
+            ", bankDate=" + bankDate +
+            ", cropName=" + cropName +
+            ", recoveryAmount=" + recoveryAmount +
+            ", recoveryInterest=" + recoveryInterest +
+            ", recoveryDate=" + recoveryDate +
+            ", balanceAmount=" + balanceAmount +
+            ", prevDays=" + prevDays +
+            ", presDays=" + presDays +
+            ", actualDays=" + actualDays +
+            ", nProd=" + nProd +
+            ", productAmount=" + productAmount +
+            ", productBank=" + productBank +
+            ", productAbh3Lakh=" + productAbh3Lakh +
+            ", interestFirst15=" + interestFirst15 +
+            ", interestFirst25=" + interestFirst25 +
+            ", interestSecond15=" + interestSecond15 +
+            ", interestSecond25=" + interestSecond25 +
+            ", interestStateFirst3=" + interestStateFirst3 +
+            ", interestStateSecond3=" + interestStateSecond3 +
+            ", interestFirstAbh3=" + interestFirstAbh3 +
+            ", interestSecondAbh3=" + interestSecondAbh3 +
+            ", interestAbove3Lakh=" + interestAbove3Lakh +
+            ", panjabraoInt3=" + panjabraoInt3 +
+            ", isRecover=" + isRecover +
+            ", abh3LakhAmt=" + abh3LakhAmt +
+            ", upto50000=" + upto50000 +
+            ", distinct=" + distinct +
+            '}';
     }
 }

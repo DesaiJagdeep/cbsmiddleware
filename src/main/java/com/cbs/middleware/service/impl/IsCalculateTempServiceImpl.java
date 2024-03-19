@@ -57,6 +57,9 @@ public class IsCalculateTempServiceImpl implements IsCalculateTempService {
                 if (isCalculateTemp.getBranchCode() != null) {
                     existingIsCalculateTemp.setBranchCode(isCalculateTemp.getBranchCode());
                 }
+                if (isCalculateTemp.getPacsNumber() != null) {
+                    existingIsCalculateTemp.setPacsNumber(isCalculateTemp.getPacsNumber());
+                }
                 if (isCalculateTemp.getLoanAccountNumberKcc() != null) {
                     existingIsCalculateTemp.setLoanAccountNumberKcc(isCalculateTemp.getLoanAccountNumberKcc());
                 }

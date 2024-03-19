@@ -22,6 +22,7 @@ type IsCalculateTempFormGroupContent = {
   financialYear: FormControl<IIsCalculateTemp['financialYear']>;
   issFileParserId: FormControl<IIsCalculateTemp['issFileParserId']>;
   branchCode: FormControl<IIsCalculateTemp['branchCode']>;
+  pacsNumber: FormControl<IIsCalculateTemp['pacsNumber']>;
   loanAccountNumberKcc: FormControl<IIsCalculateTemp['loanAccountNumberKcc']>;
   farmerName: FormControl<IIsCalculateTemp['farmerName']>;
   gender: FormControl<IIsCalculateTemp['gender']>;
@@ -84,6 +85,7 @@ export class IsCalculateTempFormService {
       financialYear: new FormControl(isCalculateTempRawValue.financialYear),
       issFileParserId: new FormControl(isCalculateTempRawValue.issFileParserId),
       branchCode: new FormControl(isCalculateTempRawValue.branchCode),
+      pacsNumber: new FormControl(isCalculateTempRawValue.pacsNumber),
       loanAccountNumberKcc: new FormControl(isCalculateTempRawValue.loanAccountNumberKcc),
       farmerName: new FormControl(isCalculateTempRawValue.farmerName),
       gender: new FormControl(isCalculateTempRawValue.gender),

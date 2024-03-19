@@ -26,6 +26,9 @@
             <column name="branch_code" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="pacs_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="loan_account_number_kcc" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -168,6 +171,7 @@
             <column name="financial_year" type="string"/>
             <column name="iss_file_parser_id" type="numeric"/>
             <column name="branch_code" type="string"/>
+            <column name="pacs_number" type="string"/>
             <column name="loan_account_number_kcc" type="string"/>
             <column name="farmer_name" type="string"/>
             <column name="gender" type="string"/>

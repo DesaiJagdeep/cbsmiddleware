@@ -156,12 +156,7 @@ public class IsCalculateTempServiceImpl implements IsCalculateTempService {
                 if (isCalculateTemp.getInterestStateSecond3() != null) {
                     existingIsCalculateTemp.setInterestStateSecond3(isCalculateTemp.getInterestStateSecond3());
                 }
-                if (isCalculateTemp.getInterestFirstAbh3() != null) {
-                    existingIsCalculateTemp.setInterestFirstAbh3(isCalculateTemp.getInterestFirstAbh3());
-                }
-                if (isCalculateTemp.getInterestSecondAbh3() != null) {
-                    existingIsCalculateTemp.setInterestSecondAbh3(isCalculateTemp.getInterestSecondAbh3());
-                }
+
                 if (isCalculateTemp.getInterestAbove3Lakh() != null) {
                     existingIsCalculateTemp.setInterestAbove3Lakh(isCalculateTemp.getInterestAbove3Lakh());
                 }

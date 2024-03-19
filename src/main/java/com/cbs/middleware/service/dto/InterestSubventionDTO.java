@@ -10,6 +10,8 @@ public class InterestSubventionDTO {
     //@Column(name = "pacs_number")
     private String pacsNumber;
 
+    private String talukaCode;
+
     //  @Column(name = "from_date")
     private Date fromDate;
 
@@ -64,6 +66,14 @@ public class InterestSubventionDTO {
 
     public void setPacsNumber(String pacsNumber) {
         this.pacsNumber = pacsNumber;
+    }
+
+    public String getTalukaCode() {
+        return talukaCode;
+    }
+
+    public void setTalukaCode(String talukaCode) {
+        this.talukaCode = talukaCode;
     }
 
     public Date getFromDate() {
@@ -180,17 +190,18 @@ public class InterestSubventionDTO {
         return "InterestSubventionDTO{" +
             "financialYear='" + financialYear + '\'' +
             ", pacsNumber='" + pacsNumber + '\'' +
+            ", talukaCode='" + talukaCode + '\'' +
             ", fromDate=" + fromDate +
             ", toDate=" + toDate +
-            ", fromAmount=" + fromAmount +
-            ", toAmount=" + toAmount +
+            ", fromAmount='" + fromAmount + '\'' +
+            ", toAmount='" + toAmount + '\'' +
             ", fromInterest=" + fromInterest +
             ", toInterest=" + toInterest +
             ", fromBankInterest=" + fromBankInterest +
             ", toBankInterest=" + toBankInterest +
             ", interestAbove3Lakh=" + interestAbove3Lakh +
-            ", lastCreditDate=" + lastCreditDate +
-            ", dueDate=" + dueDate +
+            ", lastCreditDate='" + lastCreditDate + '\'' +
+            ", dueDate='" + dueDate + '\'' +
             ", reportType=" + reportType +
             ", reportCondition=" + reportCondition +
             '}';

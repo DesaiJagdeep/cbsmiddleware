@@ -57,19 +57,19 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
     private String kmDateMr;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private KamalSociety kamalSociety;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private FarmerTypeMaster farmerTypeMaster;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+   //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+   // @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private CropMaster cropMaster;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

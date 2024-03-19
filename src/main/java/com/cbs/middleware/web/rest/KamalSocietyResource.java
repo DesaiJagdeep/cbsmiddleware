@@ -169,7 +169,7 @@ public class KamalSocietyResource {
         if(instantDate.equals(null)){
             return null;
         }
-        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("UTC"));
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
 
         LocalDate localDate = zonedDateTime.toLocalDate();
         return localDate;
@@ -686,6 +686,8 @@ public class KamalSocietyResource {
         KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
 
 
+
+
         //for 1) karyalayeenNivedan Report
         Optional<KamalSociety> kamalSocietyOptional = kamalSocietyRepository.findByFyPacsNumberKmDate(financialYear, pacsNumber, kmDate);
         DecimalFormat decimalFormat = new DecimalFormat();
@@ -740,6 +742,7 @@ public class KamalSocietyResource {
         KamalCrop rabbiSmall = getObjectOfTotal(rabbiSmallListToPrint);
         KamalCrop rabbiOther = getObjectOfTotal(rabbiOtherListToPrint);
 
+       // KamalCrop  totalOfKmMagani=getTotalOfKmMagani(totalSugarcaneAplusB,totalKharipAplusB,totalRabbiAplusB);
 
         switch (newKmReportPayload.getTemplateName()) {
 
@@ -971,6 +974,19 @@ public class KamalSocietyResource {
 
         return response;
     }
+
+/*    private KamalCrop getTotalOfKmMagani(KamalCrop totalSugarcaneAplusB, KamalCrop totalKharipAplusB, KamalCrop totalRabbiAplusB) {
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double agriAdminAmount = 0.0;
+
+        int maxFromSugarcaneAndKharip = Math.max(Integer.parseInt(totalSugarcaneAplusB.getMemberCount()), Integer.parseInt(totalKharipAplusB.getMemberCount()));
+         totalMemberCount = Math.max(maxFromSugarcaneAndKharip, Integer.parseInt(totalSugarcaneAplusB.getMemberCount()));
+
+        int maxFromSugarcaneAndKharip = Math.max(Double.parseInt(totalSugarcaneAplusB.getArea()), Integer.parseInt(totalKharipAplusB.getMemberCount()));
+        totalMemberCount = Math.max(maxFromSugarcaneAndKharip, Integer.parseInt(totalSugarcaneAplusB.getMemberCount()));
+
+    }*/
 
 
     private KamalSociety kamalSocietyWithAmountInDecimal(KamalSociety kamalSociety) {

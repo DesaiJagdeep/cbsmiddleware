@@ -946,7 +946,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
             reportDate = LocalDate.parse(firstVasuliDate);
 
             //Calculate Product Amount
-            calculateProductAmounts(issFileParser);
+           // calculateProductAmounts(issFileParser);
         }
 
         return null;

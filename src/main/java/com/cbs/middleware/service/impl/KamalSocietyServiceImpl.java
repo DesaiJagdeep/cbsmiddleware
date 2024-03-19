@@ -1,5 +1,6 @@
 package com.cbs.middleware.service.impl;
 
+import com.cbs.middleware.domain.KamalCrop;
 import com.cbs.middleware.domain.KamalSociety;
 import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.KamalSocietyRepository;
@@ -8,11 +9,17 @@ import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyService;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -31,6 +38,9 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
     private final Logger log = LoggerFactory.getLogger(KamalSocietyServiceImpl.class);
 
     private final KamalSocietyRepository kamalSocietyRepository;
+
+    @Autowired
+    private TranslationServiceUtility translationServiceUtility;
 
     public KamalSocietyServiceImpl(KamalSocietyRepository kamalSocietyRepository) {
         this.kamalSocietyRepository = kamalSocietyRepository;
@@ -57,20 +67,46 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
             kamalSociety.setBranchName(kamalSocietyDB.get().getBranchName());
             kamalSociety.setTalukaId(kamalSocietyDB.get().getTalukaId());
             kamalSociety.setTalukaName(kamalSocietyDB.get().getTalukaName());
+
+            String kmDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmDate()));
+            String kmFromDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmFromDate()));
+            String kmToDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmToDate()));
+            String balanceSheetDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate()));
+            String zindagiPatrakDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getZindagiPatrakDate()));
+            String bankTapasaniDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBankTapasaniDate()));
+            String govTapasaniDate = translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getGovTapasaniDate()));
+
+            kamalSociety.setKmDateMr(kmDate);
+            kamalSociety.setKmFromDateMr(kmFromDate);
+            kamalSociety.setKmToDateMr(kmToDate);
+            kamalSociety.setBalanceSheetDateMr(balanceSheetDate);
+            kamalSociety.setZindagiPatrakDateMr(zindagiPatrakDate);
+            kamalSociety.setBankTapasaniDateMr(bankTapasaniDate);
+            kamalSociety.setGovTapasaniDateMr(govTapasaniDate);
+
+
         }
-
-
-        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
-            kamalSociety.setBranchVerifiedBy(auth.getName());
-            kamalSociety.setBranchVerifiedDate(Instant.now());
-        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
-            kamalSociety.setHeadOfficeVerifiedBy(auth.getName());
-            kamalSociety.setHeadOfficeVerifiedDate(Instant.now());
-        } else if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
-            kamalSociety.setDivisionalOfficeVerifiedBy(AuthoritiesConstants.ADMIN);
-            kamalSociety.setDivisionalOfficeVerifiedDate(Instant.now());
+        if (!kamalSocietyDB.get().getKamalCrops().isEmpty()) {
+            Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
+            kamalCrops.forEach(kamalCrop -> {
+                    kamalCrop.setFinancialYear(kamalSocietyDB.get().getFinancialYear());
+                    kamalCrop.setKmDate(kamalSocietyDB.get().getKmDate());
+                    kamalCrop.setPacsNumber(kamalSocietyDB.get().getPacsNumber());
+                    kamalCrop.setKmDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSocietyDB.get().getKmDate())));
+                }
+            );
         }
         return kamalSocietyRepository.save(kamalSociety);
+    }
+
+    private LocalDate InstantToLocalDate(Instant instantDate) {
+        if (instantDate.equals(null)) {
+            return null;
+        }
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
+
+        LocalDate localDate = zonedDateTime.toLocalDate();
+        return localDate;
     }
 
     @Override

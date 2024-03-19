@@ -27,9 +27,10 @@
   <img th:src="${imagePath}" style="height: 90%; width: 100%;" alt="pdcc">
 </div>
 <div style="display: flex; justify-content: space-between;">
-  <p style="margin: 5px 0;">जा. क्र. <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.headOfficeOutwardNumber)} "></span></strong>
-    शेतीकर्ज / मूळ क.म. / पुरवणी / <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)} "></span></strong> </p>
-  <p style="margin: 5px 0;">दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.branchOutwardDate))}"></span></strong>  </p>
+  <p style="margin: 5px 0;">जा. क्र.
+    शेतीकर्ज / मूळ क.म. / पुरवणी / <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)} "></span></strong>  /
+  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.headOfficeOutwardNumber)} "></span></strong> </p>
+  <p style="margin: 5px 0;">दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.headOfficeOutwardDate))}"></span></strong>  </p>
 </div>
 <h3 style="margin: 12px 0; font-size: medium;">प्रति,</h3>
 <h3 style="margin: 12px 0; font-size: medium;">मा. अध्यक्ष,</h3>
@@ -167,7 +168,7 @@
   </tr>
   <tr>
     <td class="text-left"></td>
-    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर (१+२+३)</td>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर </td>
     <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.memberCount)}"></td>
     <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(grandTotal.area))}" ></td>
     <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(grandTotal.area))}" ></td>
@@ -177,7 +178,7 @@
 </table>
 <p style="margin: 5px 0;">एकूण अक्षरी मंजुरी रु. <strong><span th:text="${translationServiceUtility.totalAmountWord(grandTotal.agriAdminAmount)}"> </span></strong> </p>
 <p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.kamalKarjMarayadaAmount)}"> </span></strong></p>
-<p style="margin: 5px 0;">सभासदवार कर्ज मंजुरींचा तपशील सोबतच्या मंजूर कमाल मर्यादा पत्रकानुसार राहील. </p>
+<p style="margin: 5px 0;">सभासदवार कर्ज मंजुरींचा तपशील सोबतच्या मंजूर कमाल मर्यादा पत्रकानुसार राहील. या कर्जासाठी खालील अटी बंधनकारक राहतील. </p>
 
 
 <table style="border:none; text-align: left;">
@@ -191,7 +192,7 @@
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">३)</td>
-    <td style="border:none; text-align: justify;">सन २०२३-२०२४ हंगामासाठी संस्था सभासदांनी अल्पमुदत पीककर्ज रुपे किसान कार्ड प्रणाली प्रमाणे करण्यात येईल व याबाबतचे सर्व अटी व नियम संस्था व सदांना बंधनकारक राहतील. (जा.क्र.शेतीकर्ज/२०१५-१६/१८८५ दि. १५.६.२०१५ चे परिपत्रक)</td>
+    <td style="border:none; text-align: justify;">सन २०२४-२०२५ हंगामासाठी संस्था सभासदांनी अल्पमुदत पीककर्ज रुपे किसान कार्ड प्रणाली प्रमाणे करण्यात येईल व याबाबतचे सर्व अटी व नियम संस्था व सदांना बंधनकारक राहतील. (जा.क्र.शेतीकर्ज/२०१५-१६/१८८५ दि. १५.६.२०१५ चे परिपत्रक)</td>
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">४)</td>
@@ -219,7 +220,10 @@
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">१०)</td>
-    <td style="border:none; text-align: justify;">संस्था तपासण्याचा अधिकार बँकेस राहील. त्यासाठी संस्थेचे दप्तर, मालमत्ता, शिल्लक साठा इ. तपासणीसाठी बँकेस उपलब्ध करुन दिले पाहिजे. अपात्र सभासद, अनियमित जमा खर्च असलेल्या संस्था, संस्था तपासणीमध्ये गंभीर दोष असलेल्या संस्था यांचे सभासदांना कर्ज वितरण करते वेळी बँक धोरण व कायदे विचारात घेऊन अवश्यक त्या सर्व बाबींची पुर्तता करुनच कर्ज वितरण करावे.</td>
+    <td style="border:none; text-align: justify;">कर्जवाटपाच्या वेळी सभासदांना मंजूर कर्ज मर्यादा रकमेची नोंद संस्था सचिवाकडून लगेचच रुपे किसान क्रेडीट
+      कार्डवर केली पाहिजे. याची खात्री करुन घेतली पाहिजे व कर्ज वितरण करण्यापूर्वी संस्था सभासदांकडून के. वाय.सी. मध्ये
+      सभासदाचे आधार क्रमांक बँक खात्यास संलग्न असणे आवश्यक आहे. तसेच बँक सी.बी.एस. प्रणालीमधील बचत
+      खात्याचे नाव आधार कार्ड प्रमाणे असणे/करणे आवश्यक आहे. पूर्तता करुन घ्यावी त्यानंतरच कर्ज वितरण करावे.</td>
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">११)</td>
@@ -260,7 +264,7 @@
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">२०)</td>
-    <td style="border:none; text-align: justify;">कर्जउचलीस प्रारंभ करण्यापूर्वी संस्थेच्या जिंदगी पत्रकाची किमान दि. ३१-३-२०२३ अखेरची तपासणी बँकेकडून करवून घेतली असली पाहिजे. बँकेच्या धोरणानुसार संस्थेने तयार केलेल्या जिंदगीपत्रकाची तपासणी प्रथम झालेली असली पाहिजे.</td>
+    <td style="border:none; text-align: justify;">कर्जउचलीस प्रारंभ करण्यापूर्वी संस्थेच्या जिंदगी पत्रकाची किमान दि. ३१-३-२०२४ अखेरची तपासणी बँकेकडून करवून घेतली असली पाहिजे. बँकेच्या धोरणानुसार संस्थेने तयार केलेल्या जिंदगीपत्रकाची तपासणी प्रथम झालेली असली पाहिजे.</td>
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">२१)</td>
@@ -308,8 +312,18 @@
   </tr>
   <tr style="border:none; text-align: left;">
     <td style="border:none; text-align: left; vertical-align: top;">३२)</td>
-    <td style="border:none; text-align: justify;">कर्ज वितरणापूर्वी मंजुर केलेल्या क. म. पत्रकातील सभासदांचे जमीन धारणेची/क्षेत्राची ७/१२ वरुन खात्री करुनच कर्ज वितरण करावे. (वरील १ यांनी वरील १ ते ३३ अटींची पुर्तता करुनच कर्ज वितरण करावे.)</td>
+    <td style="border:none; text-align: justify;">कर्ज वितरणापूर्वी मंजुर केलेल्या क. म. पत्रकातील सभासदांचे जमीन धारणेची/क्षेत्राची ७/१२ वरुन खात्री करुनच कर्ज वितरण करावे.</td>
   </tr>
+
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३३)</td>
+    <td style="border:none; text-align: justify;">
+      केंद्र व राज्यशासन व्याज सवलत योजनेचा मात्र डीबीटी द्वारे दिला जाणार असल्याने कर्जदार सभासदाचे आधार कार्ड असणे व खात्याला लिंक केलेले असणे आवश्यक आहे.<br>
+      (वरील अटी दुरुस्त करण्याचा आणि अगर नवीन अटी लागू करण्याचा अधिकार बँकेस आहे.)<br>
+      (संस्थेने वरील १ ते ३३ अटींची पुर्तता करूनच कर्ज वितरण करावे.)
+      </td>
+  </tr>
+
 </table>
 
 <div style="text-indent: 20px; line-height: 10px;">

@@ -1,6 +1,7 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -30,6 +31,9 @@ public class IsCalculateTemp implements Serializable {
     @Column(name = "branch_code")
     private String branchCode;
 
+    @Column(name = "taluka_code")
+    private String talukaCode;
+
     @Column(name = "pacs_number")
     private String pacsNumber;
 
@@ -58,37 +62,37 @@ public class IsCalculateTemp implements Serializable {
     private String accountNumber;
 
     @Column(name = "loan_sanction_date")
-    private String loanSanctionDate;
+    private LocalDate loanSanctionDate;
 
     @Column(name = "loan_sanction_amount")
-    private String loanSanctionAmount;
+    private Long loanSanctionAmount;
 
     @Column(name = "disbursement_date")
-    private String disbursementDate;
+    private LocalDate disbursementDate;
 
     @Column(name = "disburse_amount")
-    private String disburseAmount;
+    private Long disburseAmount;
 
     @Column(name = "maturity_loan_date")
-    private String maturityLoanDate;
+    private LocalDate maturityLoanDate;
 
     @Column(name = "bank_date")
-    private String bankDate;
+    private LocalDate bankDate;
 
     @Column(name = "crop_name")
     private String cropName;
 
     @Column(name = "recovery_amount")
-    private String recoveryAmount;
+    private Long recoveryAmount;
 
     @Column(name = "recovery_interest")
-    private String recoveryInterest;
+    private Double recoveryInterest;
 
     @Column(name = "recovery_date")
-    private String recoveryDate;
+    private LocalDate recoveryDate;
 
     @Column(name = "balance_amount")
-    private String balanceAmount;
+    private Long balanceAmount;
 
     @Column(name = "prev_days")
     private Long prevDays;
@@ -103,13 +107,13 @@ public class IsCalculateTemp implements Serializable {
     private Integer nProd;
 
     @Column(name = "product_amount")
-    private String productAmount;
+    private Long productAmount;
 
     @Column(name = "product_bank")
-    private String productBank;
+    private Long productBank;
 
     @Column(name = "product_abh_3_lakh")
-    private String productAbh3Lakh;
+    private Long productAbh3Lakh;
 
     @Column(name = "interest_first_15")
     private Double interestFirst15;
@@ -129,11 +133,6 @@ public class IsCalculateTemp implements Serializable {
     @Column(name = "interest_state_second_3")
     private Double interestStateSecond3;
 
-    @Column(name = "interest_first_abh_3")
-    private Double interestFirstAbh3;
-
-    @Column(name = "interest_second_abh_3")
-    private Double interestSecondAbh3;
 
     @Column(name = "interest_above_3_lakh")
     private Double interestAbove3Lakh;
@@ -153,12 +152,7 @@ public class IsCalculateTemp implements Serializable {
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
-        return this.id;
-    }
-
-    public IsCalculateTemp id(Long id) {
-        this.setId(id);
-        return this;
+        return id;
     }
 
     public void setId(Long id) {
@@ -166,12 +160,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Integer getSerialNo() {
-        return this.serialNo;
-    }
-
-    public IsCalculateTemp serialNo(Integer serialNo) {
-        this.setSerialNo(serialNo);
-        return this;
+        return serialNo;
     }
 
     public void setSerialNo(Integer serialNo) {
@@ -179,12 +168,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getFinancialYear() {
-        return this.financialYear;
-    }
-
-    public IsCalculateTemp financialYear(String financialYear) {
-        this.setFinancialYear(financialYear);
-        return this;
+        return financialYear;
     }
 
     public void setFinancialYear(String financialYear) {
@@ -192,12 +176,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Long getIssFileParserId() {
-        return this.issFileParserId;
-    }
-
-    public IsCalculateTemp issFileParserId(Long issFileParserId) {
-        this.setIssFileParserId(issFileParserId);
-        return this;
+        return issFileParserId;
     }
 
     public void setIssFileParserId(Long issFileParserId) {
@@ -205,25 +184,23 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getBranchCode() {
-        return this.branchCode;
-    }
-
-    public IsCalculateTemp branchCode(String branchCode) {
-        this.setBranchCode(branchCode);
-        return this;
+        return branchCode;
     }
 
     public void setBranchCode(String branchCode) {
         this.branchCode = branchCode;
     }
 
-    public String getPacsNumber() {
-        return this.pacsNumber;
+    public String getTalukaCode() {
+        return talukaCode;
     }
 
-    public IsCalculateTemp pacsNumber(String pacsNumber) {
-        this.setPacsNumber(pacsNumber);
-        return this;
+    public void setTalukaCode(String talukaCode) {
+        this.talukaCode = talukaCode;
+    }
+
+    public String getPacsNumber() {
+        return pacsNumber;
     }
 
     public void setPacsNumber(String pacsNumber) {
@@ -231,12 +208,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getLoanAccountNumberKcc() {
-        return this.loanAccountNumberKcc;
-    }
-
-    public IsCalculateTemp loanAccountNumberKcc(String loanAccountNumberKcc) {
-        this.setLoanAccountNumberKcc(loanAccountNumberKcc);
-        return this;
+        return loanAccountNumberKcc;
     }
 
     public void setLoanAccountNumberKcc(String loanAccountNumberKcc) {
@@ -244,12 +216,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getFarmerName() {
-        return this.farmerName;
-    }
-
-    public IsCalculateTemp farmerName(String farmerName) {
-        this.setFarmerName(farmerName);
-        return this;
+        return farmerName;
     }
 
     public void setFarmerName(String farmerName) {
@@ -257,12 +224,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getGender() {
-        return this.gender;
-    }
-
-    public IsCalculateTemp gender(String gender) {
-        this.setGender(gender);
-        return this;
+        return gender;
     }
 
     public void setGender(String gender) {
@@ -270,12 +232,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getAadharNumber() {
-        return this.aadharNumber;
-    }
-
-    public IsCalculateTemp aadharNumber(String aadharNumber) {
-        this.setAadharNumber(aadharNumber);
-        return this;
+        return aadharNumber;
     }
 
     public void setAadharNumber(String aadharNumber) {
@@ -283,12 +240,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getMobileNo() {
-        return this.mobileNo;
-    }
-
-    public IsCalculateTemp mobileNo(String mobileNo) {
-        this.setMobileNo(mobileNo);
-        return this;
+        return mobileNo;
     }
 
     public void setMobileNo(String mobileNo) {
@@ -296,12 +248,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getFarmerType() {
-        return this.farmerType;
-    }
-
-    public IsCalculateTemp farmerType(String farmerType) {
-        this.setFarmerType(farmerType);
-        return this;
+        return farmerType;
     }
 
     public void setFarmerType(String farmerType) {
@@ -309,12 +256,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getSocialCategory() {
-        return this.socialCategory;
-    }
-
-    public IsCalculateTemp socialCategory(String socialCategory) {
-        this.setSocialCategory(socialCategory);
-        return this;
+        return socialCategory;
     }
 
     public void setSocialCategory(String socialCategory) {
@@ -322,168 +264,103 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public String getAccountNumber() {
-        return this.accountNumber;
-    }
-
-    public IsCalculateTemp accountNumber(String accountNumber) {
-        this.setAccountNumber(accountNumber);
-        return this;
+        return accountNumber;
     }
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
-    public String getLoanSanctionDate() {
-        return this.loanSanctionDate;
+    public LocalDate getLoanSanctionDate() {
+        return loanSanctionDate;
     }
 
-    public IsCalculateTemp loanSanctionDate(String loanSanctionDate) {
-        this.setLoanSanctionDate(loanSanctionDate);
-        return this;
-    }
-
-    public void setLoanSanctionDate(String loanSanctionDate) {
+    public void setLoanSanctionDate(LocalDate loanSanctionDate) {
         this.loanSanctionDate = loanSanctionDate;
     }
 
-    public String getLoanSanctionAmount() {
-        return this.loanSanctionAmount;
+    public Long getLoanSanctionAmount() {
+        return loanSanctionAmount;
     }
 
-    public IsCalculateTemp loanSanctionAmount(String loanSanctionAmount) {
-        this.setLoanSanctionAmount(loanSanctionAmount);
-        return this;
-    }
-
-    public void setLoanSanctionAmount(String loanSanctionAmount) {
+    public void setLoanSanctionAmount(Long loanSanctionAmount) {
         this.loanSanctionAmount = loanSanctionAmount;
     }
 
-    public String getDisbursementDate() {
-        return this.disbursementDate;
+    public LocalDate getDisbursementDate() {
+        return disbursementDate;
     }
 
-    public IsCalculateTemp disbursementDate(String disbursementDate) {
-        this.setDisbursementDate(disbursementDate);
-        return this;
-    }
-
-    public void setDisbursementDate(String disbursementDate) {
+    public void setDisbursementDate(LocalDate disbursementDate) {
         this.disbursementDate = disbursementDate;
     }
 
-    public String getDisburseAmount() {
-        return this.disburseAmount;
+    public Long getDisburseAmount() {
+        return disburseAmount;
     }
 
-    public IsCalculateTemp disburseAmount(String disburseAmount) {
-        this.setDisburseAmount(disburseAmount);
-        return this;
-    }
-
-    public void setDisburseAmount(String disburseAmount) {
+    public void setDisburseAmount(Long disburseAmount) {
         this.disburseAmount = disburseAmount;
     }
 
-    public String getMaturityLoanDate() {
-        return this.maturityLoanDate;
+    public LocalDate getMaturityLoanDate() {
+        return maturityLoanDate;
     }
 
-    public IsCalculateTemp maturityLoanDate(String maturityLoanDate) {
-        this.setMaturityLoanDate(maturityLoanDate);
-        return this;
-    }
-
-    public void setMaturityLoanDate(String maturityLoanDate) {
+    public void setMaturityLoanDate(LocalDate maturityLoanDate) {
         this.maturityLoanDate = maturityLoanDate;
     }
 
-    public String getBankDate() {
-        return this.bankDate;
+    public LocalDate getBankDate() {
+        return bankDate;
     }
 
-    public IsCalculateTemp bankDate(String bankDate) {
-        this.setBankDate(bankDate);
-        return this;
-    }
-
-    public void setBankDate(String bankDate) {
+    public void setBankDate(LocalDate bankDate) {
         this.bankDate = bankDate;
     }
 
     public String getCropName() {
-        return this.cropName;
-    }
-
-    public IsCalculateTemp cropName(String cropName) {
-        this.setCropName(cropName);
-        return this;
+        return cropName;
     }
 
     public void setCropName(String cropName) {
         this.cropName = cropName;
     }
 
-    public String getRecoveryAmount() {
-        return this.recoveryAmount;
+    public Long getRecoveryAmount() {
+        return recoveryAmount;
     }
 
-    public IsCalculateTemp recoveryAmount(String recoveryAmount) {
-        this.setRecoveryAmount(recoveryAmount);
-        return this;
-    }
-
-    public void setRecoveryAmount(String recoveryAmount) {
+    public void setRecoveryAmount(Long recoveryAmount) {
         this.recoveryAmount = recoveryAmount;
     }
 
-    public String getRecoveryInterest() {
-        return this.recoveryInterest;
+    public Double getRecoveryInterest() {
+        return recoveryInterest;
     }
 
-    public IsCalculateTemp recoveryInterest(String recoveryInterest) {
-        this.setRecoveryInterest(recoveryInterest);
-        return this;
-    }
-
-    public void setRecoveryInterest(String recoveryInterest) {
+    public void setRecoveryInterest(Double recoveryInterest) {
         this.recoveryInterest = recoveryInterest;
     }
 
-    public String getRecoveryDate() {
-        return this.recoveryDate;
+    public LocalDate getRecoveryDate() {
+        return recoveryDate;
     }
 
-    public IsCalculateTemp recoveryDate(String recoveryDate) {
-        this.setRecoveryDate(recoveryDate);
-        return this;
-    }
-
-    public void setRecoveryDate(String recoveryDate) {
+    public void setRecoveryDate(LocalDate recoveryDate) {
         this.recoveryDate = recoveryDate;
     }
 
-    public String getBalanceAmount() {
-        return this.balanceAmount;
+    public Long getBalanceAmount() {
+        return balanceAmount;
     }
 
-    public IsCalculateTemp balanceAmount(String balanceAmount) {
-        this.setBalanceAmount(balanceAmount);
-        return this;
-    }
-
-    public void setBalanceAmount(String balanceAmount) {
+    public void setBalanceAmount(Long balanceAmount) {
         this.balanceAmount = balanceAmount;
     }
 
     public Long getPrevDays() {
-        return this.prevDays;
-    }
-
-    public IsCalculateTemp prevDays(Long prevDays) {
-        this.setPrevDays(prevDays);
-        return this;
+        return prevDays;
     }
 
     public void setPrevDays(Long prevDays) {
@@ -491,12 +368,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Long getPresDays() {
-        return this.presDays;
-    }
-
-    public IsCalculateTemp presDays(Long presDays) {
-        this.setPresDays(presDays);
-        return this;
+        return presDays;
     }
 
     public void setPresDays(Long presDays) {
@@ -504,12 +376,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Long getActualDays() {
-        return this.actualDays;
-    }
-
-    public IsCalculateTemp actualDays(Long actualDays) {
-        this.setActualDays(actualDays);
-        return this;
+        return actualDays;
     }
 
     public void setActualDays(Long actualDays) {
@@ -517,64 +384,39 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Integer getnProd() {
-        return this.nProd;
-    }
-
-    public IsCalculateTemp nProd(Integer nProd) {
-        this.setnProd(nProd);
-        return this;
+        return nProd;
     }
 
     public void setnProd(Integer nProd) {
         this.nProd = nProd;
     }
 
-    public String getProductAmount() {
-        return this.productAmount;
+    public Long getProductAmount() {
+        return productAmount;
     }
 
-    public IsCalculateTemp productAmount(String productAmount) {
-        this.setProductAmount(productAmount);
-        return this;
-    }
-
-    public void setProductAmount(String productAmount) {
+    public void setProductAmount(Long productAmount) {
         this.productAmount = productAmount;
     }
 
-    public String getProductBank() {
-        return this.productBank;
+    public Long getProductBank() {
+        return productBank;
     }
 
-    public IsCalculateTemp productBank(String productBank) {
-        this.setProductBank(productBank);
-        return this;
-    }
-
-    public void setProductBank(String productBank) {
+    public void setProductBank(Long productBank) {
         this.productBank = productBank;
     }
 
-    public String getProductAbh3Lakh() {
-        return this.productAbh3Lakh;
+    public Long getProductAbh3Lakh() {
+        return productAbh3Lakh;
     }
 
-    public IsCalculateTemp productAbh3Lakh(String productAbh3Lakh) {
-        this.setProductAbh3Lakh(productAbh3Lakh);
-        return this;
-    }
-
-    public void setProductAbh3Lakh(String productAbh3Lakh) {
+    public void setProductAbh3Lakh(Long productAbh3Lakh) {
         this.productAbh3Lakh = productAbh3Lakh;
     }
 
     public Double getInterestFirst15() {
-        return this.interestFirst15;
-    }
-
-    public IsCalculateTemp interestFirst15(Double interestFirst15) {
-        this.setInterestFirst15(interestFirst15);
-        return this;
+        return interestFirst15;
     }
 
     public void setInterestFirst15(Double interestFirst15) {
@@ -582,12 +424,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getInterestFirst25() {
-        return this.interestFirst25;
-    }
-
-    public IsCalculateTemp interestFirst25(Double interestFirst25) {
-        this.setInterestFirst25(interestFirst25);
-        return this;
+        return interestFirst25;
     }
 
     public void setInterestFirst25(Double interestFirst25) {
@@ -595,12 +432,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getInterestSecond15() {
-        return this.interestSecond15;
-    }
-
-    public IsCalculateTemp interestSecond15(Double interestSecond15) {
-        this.setInterestSecond15(interestSecond15);
-        return this;
+        return interestSecond15;
     }
 
     public void setInterestSecond15(Double interestSecond15) {
@@ -608,12 +440,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getInterestSecond25() {
-        return this.interestSecond25;
-    }
-
-    public IsCalculateTemp interestSecond25(Double interestSecond25) {
-        this.setInterestSecond25(interestSecond25);
-        return this;
+        return interestSecond25;
     }
 
     public void setInterestSecond25(Double interestSecond25) {
@@ -621,12 +448,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getInterestStateFirst3() {
-        return this.interestStateFirst3;
-    }
-
-    public IsCalculateTemp interestStateFirst3(Double interestStateFirst3) {
-        this.setInterestStateFirst3(interestStateFirst3);
-        return this;
+        return interestStateFirst3;
     }
 
     public void setInterestStateFirst3(Double interestStateFirst3) {
@@ -634,51 +456,15 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getInterestStateSecond3() {
-        return this.interestStateSecond3;
-    }
-
-    public IsCalculateTemp interestStateSecond3(Double interestStateSecond3) {
-        this.setInterestStateSecond3(interestStateSecond3);
-        return this;
+        return interestStateSecond3;
     }
 
     public void setInterestStateSecond3(Double interestStateSecond3) {
         this.interestStateSecond3 = interestStateSecond3;
     }
 
-    public Double getInterestFirstAbh3() {
-        return this.interestFirstAbh3;
-    }
-
-    public IsCalculateTemp interestFirstAbh3(Double interestFirstAbh3) {
-        this.setInterestFirstAbh3(interestFirstAbh3);
-        return this;
-    }
-
-    public void setInterestFirstAbh3(Double interestFirstAbh3) {
-        this.interestFirstAbh3 = interestFirstAbh3;
-    }
-
-    public Double getInterestSecondAbh3() {
-        return this.interestSecondAbh3;
-    }
-
-    public IsCalculateTemp interestSecondAbh3(Double interestSecondAbh3) {
-        this.setInterestSecondAbh3(interestSecondAbh3);
-        return this;
-    }
-
-    public void setInterestSecondAbh3(Double interestSecondAbh3) {
-        this.interestSecondAbh3 = interestSecondAbh3;
-    }
-
     public Double getInterestAbove3Lakh() {
-        return this.interestAbove3Lakh;
-    }
-
-    public IsCalculateTemp interestAbove3Lakh(Double interestAbove3Lakh) {
-        this.setInterestAbove3Lakh(interestAbove3Lakh);
-        return this;
+        return interestAbove3Lakh;
     }
 
     public void setInterestAbove3Lakh(Double interestAbove3Lakh) {
@@ -686,12 +472,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Double getPanjabraoInt3() {
-        return this.panjabraoInt3;
-    }
-
-    public IsCalculateTemp panjabraoInt3(Double panjabraoInt3) {
-        this.setPanjabraoInt3(panjabraoInt3);
-        return this;
+        return panjabraoInt3;
     }
 
     public void setPanjabraoInt3(Double panjabraoInt3) {
@@ -699,12 +480,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Integer getIsRecover() {
-        return this.isRecover;
-    }
-
-    public IsCalculateTemp isRecover(Integer isRecover) {
-        this.setIsRecover(isRecover);
-        return this;
+        return isRecover;
     }
 
     public void setIsRecover(Integer isRecover) {
@@ -712,12 +488,7 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Long getAbh3LakhAmt() {
-        return this.abh3LakhAmt;
-    }
-
-    public IsCalculateTemp abh3LakhAmt(Long abh3LakhAmt) {
-        this.setAbh3LakhAmt(abh3LakhAmt);
-        return this;
+        return abh3LakhAmt;
     }
 
     public void setAbh3LakhAmt(Long abh3LakhAmt) {
@@ -725,17 +496,13 @@ public class IsCalculateTemp implements Serializable {
     }
 
     public Integer getUpto50000() {
-        return this.upto50000;
-    }
-
-    public IsCalculateTemp upto50000(Integer upto50000) {
-        this.setUpto50000(upto50000);
-        return this;
+        return upto50000;
     }
 
     public void setUpto50000(Integer upto50000) {
         this.upto50000 = upto50000;
     }
+
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -757,54 +524,54 @@ public class IsCalculateTemp implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "IsCalculateTemp{" +
-            "id=" + getId() +
-            ", serialNo=" + getSerialNo() +
-            ", financialYear='" + getFinancialYear() + "'" +
-            ", issFileParserId=" + getIssFileParserId() +
-            ", branchCode='" + getBranchCode() + "'" +
-            ", pacsNumber='" + getPacsNumber() + "'" +
-            ", loanAccountNumberKcc='" + getLoanAccountNumberKcc() + "'" +
-            ", farmerName='" + getFarmerName() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", aadharNumber='" + getAadharNumber() + "'" +
-            ", mobileNo='" + getMobileNo() + "'" +
-            ", farmerType='" + getFarmerType() + "'" +
-            ", socialCategory='" + getSocialCategory() + "'" +
-            ", accountNumber='" + getAccountNumber() + "'" +
-            ", loanSanctionDate='" + getLoanSanctionDate() + "'" +
-            ", loanSanctionAmount='" + getLoanSanctionAmount() + "'" +
-            ", disbursementDate='" + getDisbursementDate() + "'" +
-            ", disburseAmount='" + getDisburseAmount() + "'" +
-            ", maturityLoanDate='" + getMaturityLoanDate() + "'" +
-            ", bankDate='" + getBankDate() + "'" +
-            ", cropName='" + getCropName() + "'" +
-            ", recoveryAmount='" + getRecoveryAmount() + "'" +
-            ", recoveryInterest='" + getRecoveryInterest() + "'" +
-            ", recoveryDate='" + getRecoveryDate() + "'" +
-            ", balanceAmount='" + getBalanceAmount() + "'" +
-            ", prevDays=" + getPrevDays() +
-            ", presDays=" + getPresDays() +
-            ", actualDays=" + getActualDays() +
-            ", nProd=" + getnProd() +
-            ", productAmount='" + getProductAmount() + "'" +
-            ", productBank='" + getProductBank() + "'" +
-            ", productAbh3Lakh='" + getProductAbh3Lakh() + "'" +
-            ", interestFirst15=" + getInterestFirst15() +
-            ", interestFirst25=" + getInterestFirst25() +
-            ", interestSecond15=" + getInterestSecond15() +
-            ", interestSecond25=" + getInterestSecond25() +
-            ", interestStateFirst3=" + getInterestStateFirst3() +
-            ", interestStateSecond3=" + getInterestStateSecond3() +
-            ", interestFirstAbh3=" + getInterestFirstAbh3() +
-            ", interestSecondAbh3=" + getInterestSecondAbh3() +
-            ", interestAbove3Lakh=" + getInterestAbove3Lakh() +
-            ", panjabraoInt3=" + getPanjabraoInt3() +
-            ", isRecover=" + getIsRecover() +
-            ", abh3LakhAmt=" + getAbh3LakhAmt() +
-            ", upto50000=" + getUpto50000() +
-            "}";
+            "id=" + id +
+            ", serialNo=" + serialNo +
+            ", financialYear='" + financialYear + '\'' +
+            ", issFileParserId=" + issFileParserId +
+            ", branchCode='" + branchCode + '\'' +
+            ", talukaCode='" + talukaCode + '\'' +
+            ", pacsNumber='" + pacsNumber + '\'' +
+            ", loanAccountNumberKcc='" + loanAccountNumberKcc + '\'' +
+            ", farmerName='" + farmerName + '\'' +
+            ", gender='" + gender + '\'' +
+            ", aadharNumber='" + aadharNumber + '\'' +
+            ", mobileNo='" + mobileNo + '\'' +
+            ", farmerType='" + farmerType + '\'' +
+            ", socialCategory='" + socialCategory + '\'' +
+            ", accountNumber='" + accountNumber + '\'' +
+            ", loanSanctionDate=" + loanSanctionDate +
+            ", loanSanctionAmount=" + loanSanctionAmount +
+            ", disbursementDate=" + disbursementDate +
+            ", disburseAmount=" + disburseAmount +
+            ", maturityLoanDate=" + maturityLoanDate +
+            ", bankDate=" + bankDate +
+            ", cropName='" + cropName + '\'' +
+            ", recoveryAmount=" + recoveryAmount +
+            ", recoveryInterest=" + recoveryInterest +
+            ", recoveryDate=" + recoveryDate +
+            ", balanceAmount=" + balanceAmount +
+            ", prevDays=" + prevDays +
+            ", presDays=" + presDays +
+            ", actualDays=" + actualDays +
+            ", nProd=" + nProd +
+            ", productAmount=" + productAmount +
+            ", productBank=" + productBank +
+            ", productAbh3Lakh=" + productAbh3Lakh +
+            ", interestFirst15=" + interestFirst15 +
+            ", interestFirst25=" + interestFirst25 +
+            ", interestSecond15=" + interestSecond15 +
+            ", interestSecond25=" + interestSecond25 +
+            ", interestStateFirst3=" + interestStateFirst3 +
+            ", interestStateSecond3=" + interestStateSecond3 +
+            ", interestAbove3Lakh=" + interestAbove3Lakh +
+            ", panjabraoInt3=" + panjabraoInt3 +
+            ", isRecover=" + isRecover +
+            ", abh3LakhAmt=" + abh3LakhAmt +
+            ", upto50000=" + upto50000 +
+            '}';
     }
 }

@@ -18,6 +18,10 @@
       "fieldName": "branchCode",
       "fieldType": "String"
     },
+	{
+      "fieldName": "talukaCode",
+      "fieldType": "String"
+    },
 	  {
       "fieldName": "pacsNumber",
       "fieldType": "String"
@@ -57,27 +61,27 @@
     },
     {
       "fieldName": "loanSanctionDate",
-      "fieldType": "String"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "loanSanctionAmount",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "disbursementDate",
-      "fieldType": "String"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "disburseAmount",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "maturityLoanDate",
-      "fieldType": "String"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "bankDate",
-      "fieldType": "String"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "cropName",
@@ -85,19 +89,19 @@
     },
     {
       "fieldName": "recoveryAmount",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "recoveryInterest",
-      "fieldType": "String"
+      "fieldType": "Double"
     },
     {
       "fieldName": "recoveryDate",
-      "fieldType": "String"
+      "fieldType": "LocalDate"
     },
     {
       "fieldName": "balanceAmount",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "prevDays",
@@ -117,15 +121,15 @@
     },
     {
       "fieldName": "productAmount",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "productBank",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "productAbh3Lakh",
-      "fieldType": "String"
+      "fieldType": "Long"
     },
     {
       "fieldName": "interestFirst15",
@@ -151,14 +155,7 @@
       "fieldName": "interestStateSecond3",
       "fieldType": "Double"
     },
-    {
-      "fieldName": "interestFirstAbh3",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "interestSecondAbh3",
-      "fieldType": "Double"
-    },
+  
 	  {
       "fieldName": "interestAbove3Lakh",
       "fieldType": "Double"

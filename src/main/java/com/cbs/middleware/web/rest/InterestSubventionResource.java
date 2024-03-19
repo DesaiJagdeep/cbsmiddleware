@@ -1,5 +1,6 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.IsCalculateTemp;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.repository.IsCalculateTempRepository;
 import com.cbs.middleware.repository.IssFileParserRepository;
@@ -28,8 +29,12 @@ public class InterestSubventionResource {
     //Process records
     @PostMapping("/interestSubvention")
     public void ProcessRecordsToCalInterestSubvention (@RequestBody InterestSubventionDTO interestSubventionDTO){
-        //get distinct aadhar numbers from parser by pacscode & financial year
+        //delete record from ISCalculateTemp
+        deleteFromIsCalculateTemp(interestSubventionDTO);
+
+       //get distinct aadhar numbers from parser by pacscode & financial year
         List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
 
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
@@ -41,21 +46,46 @@ public class InterestSubventionResource {
             //Calculate interest for report 1 & 2
             List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO,isCalculateTempRepository).CalculateInterestForCenterState();
 
-
-            //Calculate interest for punjab rao 3
-           // issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO).CalculateInterestForPunjabRao();
-
         }
 
-
-
+//Insert data into center march & center june
+saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
 
         //end loop through aadhar numbers
 
 
+    }
+public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
+
+        //Insert data to center march table
+        if (interestSubventionDTO.getReportType()=='1' && interestSubventionDTO.getReportCondition()=='1'){
+
+
+
+        }
+        //Insert data to center june table
+        else if  (interestSubventionDTO.getReportType()=='1' && interestSubventionDTO.getReportCondition()=='2'){
+
+
+            }
+        //Insert data to state punjabrao table
+            else if (interestSubventionDTO.getReportType()=='2' && interestSubventionDTO.getReportCondition()=='2'){
+
+            }
+
+            deleteFromIsCalculateTemp(interestSubventionDTO);
 
     }
 
+
+    public void deleteFromIsCalculateTemp(InterestSubventionDTO interestSubventionDTO){
+        List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.FindFromIscalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+        if (isCalculateTempList!=null){
+            isCalculateTempRepository.deleteAll(isCalculateTempList);
+        }
+
+    }
     // InterestSubvention
     // is_eligible
     // State - 3%

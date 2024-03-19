@@ -258,7 +258,7 @@ public class InterestSubventionCalculator {
 
             //Save record into isCalculateTemp
             saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
-
+above3lakhAmt=0L;
         }
         //Above remarks specified in first recovery are the same for the second , third & fourth recovery
         //Check for Second recovery
@@ -661,7 +661,7 @@ public class InterestSubventionCalculator {
 
             //Save record into isCalculateTemp
             saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, issFileParser.getRecoveryAmountInterest(), midBalanceAmt, bankDate, prevDays, presentDays, day1, productAmount1, bankProductAmount1, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25, interestStatePunjabrao3,interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
-
+above3lakhAmt=0L;
 
         }
 
@@ -850,6 +850,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setFinancialYear(issFileParser.getFinancialYear());
     isCalculateTemp.setIssFileParserId(issFileParser.getId());
     isCalculateTemp.setBranchCode(issFileParser.getBranchCode());
+    isCalculateTemp.setTalukaCode(this.interestSubventionDTO.getTalukaCode());
     isCalculateTemp.setPacsNumber(issFileParser.getPacsNumber());
     isCalculateTemp.setLoanAccountNumberKcc(issFileParser.getLoanAccountNumberkcc());
     isCalculateTemp.setFarmerName(issFileParser.getFarmerName());
@@ -859,23 +860,23 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setMobileNo(issFileParser.getMobileNo());
     isCalculateTemp.setFarmerType(issFileParser.getFarmerType());
     isCalculateTemp.setAccountNumber(issFileParser.getAccountNumber());
-    isCalculateTemp.setLoanSanctionDate(issFileParser.getLoanSactionDate());
-    isCalculateTemp.setLoanSanctionAmount(issFileParser.getLoanSanctionAmount());
-    isCalculateTemp.setDisbursementDate(issFileParser.getDisbursementDate());
-    isCalculateTemp.setDisburseAmount(issFileParser.getDisburseAmount());
-    isCalculateTemp.setMaturityLoanDate(issFileParser.getMaturityLoanDate());
-    isCalculateTemp.setBankDate(bankDate.format(inputFormatter));
+    isCalculateTemp.setLoanSanctionDate(LocalDate.parse(issFileParser.getLoanSactionDate(), inputFormatter));
+    isCalculateTemp.setLoanSanctionAmount(Long.valueOf(issFileParser.getLoanSanctionAmount()));
+    isCalculateTemp.setDisbursementDate(LocalDate.parse(issFileParser.getDisbursementDate(), inputFormatter));
+    isCalculateTemp.setDisburseAmount(Long.valueOf(issFileParser.getDisburseAmount()));
+    isCalculateTemp.setMaturityLoanDate(LocalDate.parse(issFileParser.getMaturityLoanDate(),inputFormatter));
+    isCalculateTemp.setBankDate(bankDate);
     isCalculateTemp.setCropName(issFileParser.getCropName());
-    isCalculateTemp.setRecoveryAmount(String.valueOf(recoveryAmount));
-    isCalculateTemp.setRecoveryInterest(recoveryInterest);
-    isCalculateTemp.setRecoveryDate(recoveryDate.format(inputFormatter));
-    isCalculateTemp.setBalanceAmount(String.valueOf(midBalanceAmt));
+    isCalculateTemp.setRecoveryAmount(recoveryAmount);
+    isCalculateTemp.setRecoveryInterest(Double.valueOf(recoveryInterest));
+    isCalculateTemp.setRecoveryDate(recoveryDate);
+    isCalculateTemp.setBalanceAmount(midBalanceAmt);
     isCalculateTemp.setPrevDays(prevDays);
     isCalculateTemp.setPresDays(presentDays);
     isCalculateTemp.setActualDays(day);
-    isCalculateTemp.setProductAmount(String.valueOf(productAmount));
-    isCalculateTemp.setProductBank(String.valueOf(bankProductAmount));
-    isCalculateTemp.setProductAbh3Lakh(String.valueOf(above3Product));
+    isCalculateTemp.setProductAmount(productAmount);
+    isCalculateTemp.setProductBank(bankProductAmount);
+    isCalculateTemp.setProductAbh3Lakh(above3Product);
     isCalculateTemp.setInterestFirst15(interestFirst15);
     isCalculateTemp.setInterestFirst25(interestFirst25);
     isCalculateTemp.setInterestSecond25(interestSecond25);
@@ -886,7 +887,7 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setInterestAbove3Lakh(interestAbove3lakh);
     isCalculateTemp.setAbh3LakhAmt(above3lakhAmt);
     isCalculateTemp.setIsRecover(loanRecover);
-    isCalculateTemp.upto50000(upto50000);
+    isCalculateTemp.setUpto50000(upto50000);
 
 
   isCalculateTempRepository.save(isCalculateTemp);

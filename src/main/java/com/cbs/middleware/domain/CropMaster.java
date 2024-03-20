@@ -49,7 +49,7 @@ public class CropMaster extends AbstractAuditingEntity<Long> implements Serializ
     private String cropRate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
     // jhipster-needle-entity-add-field - JHipster will add fields here
 

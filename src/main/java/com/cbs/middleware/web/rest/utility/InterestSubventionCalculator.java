@@ -921,6 +921,58 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
 }
 
 
+
+
+    public List<IssFileParser> CalculateInterestForPunjabRao() {
+
+        totalDebitAmount =0L;
+        Long recoveryAmount=0L;
+        previousDebitAmount=0L;
+
+        firstVasuliDate = "2023-03-31";
+
+        for (IssFileParser issFileParser:issFileParsers){
+
+
+            Long loanDisbursementAmount = Long.valueOf(issFileParser.getDisburseAmount());
+            LocalDate loanDisbursementDate = LocalDate.parse(issFileParser.getDisbursementDate(), inputFormatter);
+
+            lastDate=loanDisbursementDate;
+            recoveryDate=loanDisbursementDate;
+            debitAmount=loanDisbursementAmount;
+            midBalanceAmt=loanDisbursementAmount;
+            diffAmount=0L;
+            serialNo=0;
+
+            loanMaturityDate=LocalDate.parse(issFileParser.getMaturityLoanDate());
+
+            //Calculate the total disbursement of loan
+            totalDebitAmount = totalDebitAmount + loanDisbursementAmount;
+
+            //If total disbursement of loan is greater than 3 lakh, the find out difference amount & substract diff amount from total loan amount
+            if (totalDebitAmount>interestCalAmount){
+                diffAmount = totalDebitAmount - interestCalAmount;
+                debitAmount= debitAmount- diffAmount;
+            }
+
+            //bankDate calculated upto 365 days
+            bankDate = ChronoUnit.DAYS.addTo(loanDisbursementDate,364);
+            System.out.println("Bank date:" + bankDate);
+
+            reportDate = LocalDate.parse(firstVasuliDate);
+
+            //Calculate Product Amount
+           // calculateProductAmounts(issFileParser);
+        }
+
+        return null;
+    }
+
+
+
+
+
+
 }
 
 

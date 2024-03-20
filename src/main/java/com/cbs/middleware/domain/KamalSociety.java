@@ -1491,7 +1491,7 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         if (instantDate==null) {
             return null;
         }
-        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("UTC"));
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
 
         LocalDate localDate = zonedDateTime.toLocalDate();
         return localDate;

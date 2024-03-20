@@ -31,6 +31,9 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
     @Column(name = "pacs_number")
     private String pacsNumber;
 
+
+    @Column(name = "taluka_code")
+    private String talukaCode;
     @Column(name = "loan_account_number_kcc")
     private String loanAccountNumberKcc;
 
@@ -80,7 +83,7 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
     private Long recoveryAmount;
 
     @Column(name = "recovery_interest")
-    private String recoveryInterest;
+    private Double recoveryInterest;
 
     @Column(name = "recovery_date")
     private LocalDate recoveryDate;
@@ -328,11 +331,11 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
         this.recoveryAmount = recoveryAmount;
     }
 
-    public String getRecoveryInterest() {
+    public Double getRecoveryInterest() {
         return recoveryInterest;
     }
 
-    public void setRecoveryInterest(String recoveryInterest) {
+    public void setRecoveryInterest(Double recoveryInterest) {
         this.recoveryInterest = recoveryInterest;
     }
 
@@ -512,6 +515,14 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
         this.upto50000 = upto50000;
     }
 
+    public String getTalukaCode() {
+        return talukaCode;
+    }
+
+    public void setTalukaCode(String talukaCode) {
+        this.talukaCode = talukaCode;
+    }
+
     @Override
     public String toString() {
         return "CenterReportJune{" +
@@ -521,6 +532,7 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
             ", issFileParserId=" + issFileParserId +
             ", branchCode='" + branchCode + '\'' +
             ", pacsNumber='" + pacsNumber + '\'' +
+            ", talukaCode='" + talukaCode + '\'' +
             ", loanAccountNumberKcc='" + loanAccountNumberKcc + '\'' +
             ", farmerName='" + farmerName + '\'' +
             ", gender='" + gender + '\'' +
@@ -537,7 +549,7 @@ public class CenterReportJune extends AbstractAuditingEntity<Long> implements Se
             ", bankDate=" + bankDate +
             ", cropName='" + cropName + '\'' +
             ", recoveryAmount=" + recoveryAmount +
-            ", recoveryInterest='" + recoveryInterest + '\'' +
+            ", recoveryInterest=" + recoveryInterest +
             ", recoveryDate=" + recoveryDate +
             ", balanceAmount=" + balanceAmount +
             ", prevDays=" + prevDays +

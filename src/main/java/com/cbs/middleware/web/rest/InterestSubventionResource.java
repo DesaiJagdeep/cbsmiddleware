@@ -1,16 +1,17 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.IsCalculateTemp;
-import com.cbs.middleware.domain.IssFileParser;
-import com.cbs.middleware.repository.IsCalculateTempRepository;
-import com.cbs.middleware.repository.IssFileParserRepository;
+import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.*;
 import com.cbs.middleware.service.dto.InterestSubventionDTO;
 import com.cbs.middleware.web.rest.utility.InterestSubventionCalculator;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Console;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,16 @@ public class InterestSubventionResource {
 
     @Autowired
     IsCalculateTempRepository isCalculateTempRepository;
+
+    @Autowired
+    CenterReportMarchRepository centerReportMarchRepository;
+    @Autowired
+    CenterReportJuneRepository centerReportJuneRepository;
+
+    @Autowired
+    StateReportPanjabraoRepository stateReportPanjabraoRepository;
+
+
     public InterestSubventionResource(IssFileParserRepository issFileParserRepository) {
 
         this.issFileParserRepository = issFileParserRepository;
@@ -29,12 +40,12 @@ public class InterestSubventionResource {
     //Process records
     @PostMapping("/interestSubvention")
     public void ProcessRecordsToCalInterestSubvention (@RequestBody InterestSubventionDTO interestSubventionDTO){
+
         //delete record from ISCalculateTemp
         deleteFromIsCalculateTemp(interestSubventionDTO);
 
        //get distinct aadhar numbers from parser by pacscode & financial year
         List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
-
 
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
@@ -42,47 +53,139 @@ public class InterestSubventionResource {
             List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber(aadharNumber, interestSubventionDTO.getFinancialYear());
             System.out.println("IssFileParsers:" + issFileParsers);
 
-
             //Calculate interest for report 1 & 2
             List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO,isCalculateTempRepository).CalculateInterestForCenterState();
 
         }
 
-//Insert data into center march & center june
-saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
-
-        //end loop through aadhar numbers
-
+            //Insert data into Center March & Center June & State Panjabrao
+        saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
 
     }
-public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
+ public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
 
         //Insert data to center march table
-        if (interestSubventionDTO.getReportType()=='1' && interestSubventionDTO.getReportCondition()=='1'){
+        if (interestSubventionDTO.getReportType()==1 && interestSubventionDTO.getReportCondition()==1){
 
+            //delete record from center report march table
+            deleteFromCenterReportMarch(interestSubventionDTO);
 
+            //select records from IsCalculateTemp
+            List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.SelectFromIsCalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+            //save records into center report march table
+            List<CenterReportMarch> centerReportMarchList =convertToCenterReportMarch(isCalculateTempList);
+            centerReportMarchRepository.saveAll(centerReportMarchList);
 
         }
         //Insert data to center june table
-        else if  (interestSubventionDTO.getReportType()=='1' && interestSubventionDTO.getReportCondition()=='2'){
+        else if (interestSubventionDTO.getReportType()==2 && interestSubventionDTO.getReportCondition()==1){
 
+             //delete record from center report june table
+            deleteFromCenterReportJune(interestSubventionDTO);
+
+            //select records from IsCalculateTemp
+            List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.SelectFromIsCalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+            //save records into center report june table
+            List<CenterReportJune> centerReportJuneList =convertToCenterReportJune(isCalculateTempList);
+            centerReportJuneRepository.saveAll(centerReportJuneList);
+            }
+        //Insert data to state panjabrao table
+        else if (interestSubventionDTO.getReportType()==3 && interestSubventionDTO.getReportCondition()==2){
+
+            //delete record from state report panjabrao table
+            deleteFromStateReportPanjabrao(interestSubventionDTO);
+
+            //select records from IsCalculateTemp
+            List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.SelectFromIsCalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+            //save records into state report panjabrao table
+            List<StateReportPanjabro> stateReportPanjabroList =convertToStateReportPanjabrao(isCalculateTempList);
+            stateReportPanjabraoRepository.saveAll(stateReportPanjabroList);
 
             }
-        //Insert data to state punjabrao table
-            else if (interestSubventionDTO.getReportType()=='2' && interestSubventionDTO.getReportCondition()=='2'){
 
-            }
-
-            deleteFromIsCalculateTemp(interestSubventionDTO);
+         deleteFromIsCalculateTemp(interestSubventionDTO);
 
     }
 
+    private List<CenterReportMarch> convertToCenterReportMarch(List<IsCalculateTemp> isCalculateTempList) {
+        List<CenterReportMarch> centerReportMarchList = new ArrayList<>();
 
+        for (IsCalculateTemp isCalculateTemp : isCalculateTempList) {
+            CenterReportMarch  centerReportMarch = new CenterReportMarch();
+            // Copy properties from ISCalculateTemp to CenterReportMarch
+            BeanUtils.copyProperties(isCalculateTemp, centerReportMarch);
+            centerReportMarchList.add(centerReportMarch);
+        }
+
+        return centerReportMarchList;
+    }
+
+    private List<CenterReportJune> convertToCenterReportJune(List<IsCalculateTemp> isCalculateTempList) {
+        List<CenterReportJune> centerReportJuneList = new ArrayList<>();
+
+        for (IsCalculateTemp isCalculateTemp : isCalculateTempList) {
+            CenterReportJune  centerReportJune = new CenterReportJune();
+            // Copy properties from ISCalculateTemp to CenterReportJune
+            BeanUtils.copyProperties(isCalculateTemp, centerReportJune);
+            centerReportJuneList.add(centerReportJune);
+        }
+
+        return centerReportJuneList;
+    }
+
+    private List<StateReportPanjabro> convertToStateReportPanjabrao(List<IsCalculateTemp> isCalculateTempList) {
+        List<StateReportPanjabro> stateReportPanjabroList = new ArrayList<>();
+
+        for (IsCalculateTemp isCalculateTemp : isCalculateTempList) {
+            StateReportPanjabro  stateReportPanjabro = new StateReportPanjabro();
+            // Copy properties from ISCalculateTemp to CenterReportJune
+            BeanUtils.copyProperties(isCalculateTemp, stateReportPanjabro);
+            stateReportPanjabroList.add(stateReportPanjabro);
+        }
+
+        return stateReportPanjabroList;
+    }
+
+
+    //Delete records from ISCalculateTemp before record insertion
     public void deleteFromIsCalculateTemp(InterestSubventionDTO interestSubventionDTO){
-        List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.FindFromIscalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+        List<IsCalculateTemp> isCalculateTempList = isCalculateTempRepository.SelectFromIsCalculateTemp(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
 
         if (isCalculateTempList!=null){
             isCalculateTempRepository.deleteAll(isCalculateTempList);
+        }
+
+    }
+
+    //Delete records from CenterReportMarch
+    public void deleteFromCenterReportMarch(InterestSubventionDTO interestSubventionDTO){
+        List<CenterReportMarch> centerReportMarchList = centerReportMarchRepository.SelectFromCenterReportMarch(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+        if (!centerReportMarchList.isEmpty()){
+            centerReportMarchRepository.deleteAll(centerReportMarchList);
+        }
+
+    }
+
+    //Delete records from CenterReportJune
+    public void deleteFromCenterReportJune(InterestSubventionDTO interestSubventionDTO){
+        List<CenterReportJune> centerReportJuneList = centerReportJuneRepository.SelectFromCenterReportJune(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+        if (!centerReportJuneList.isEmpty()){
+            centerReportJuneRepository.deleteAll(centerReportJuneList);
+        }
+
+    }
+
+    //Delete records from StateReportPanjabrao
+    public void deleteFromStateReportPanjabrao(InterestSubventionDTO interestSubventionDTO){
+        List<StateReportPanjabro> stateReportPanjabroList = stateReportPanjabraoRepository.SelectFromStateReportPanjabro(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
+        if (!stateReportPanjabroList.isEmpty()){
+            stateReportPanjabraoRepository.deleteAll(stateReportPanjabroList);
         }
 
     }

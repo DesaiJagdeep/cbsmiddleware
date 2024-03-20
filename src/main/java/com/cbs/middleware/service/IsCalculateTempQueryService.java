@@ -125,44 +125,44 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
             if (criteria.getAccountNumber() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAccountNumber(), IsCalculateTemp_.accountNumber));
             }
-            if (criteria.getLoanSanctionDate() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getLoanSanctionDate(), IsCalculateTemp_.loanSanctionDate));
-            }
-            if (criteria.getLoanSanctionAmount() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getLoanSanctionAmount(), IsCalculateTemp_.loanSanctionAmount));
-            }
-            if (criteria.getDisbursementDate() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getDisbursementDate(), IsCalculateTemp_.disbursementDate));
-            }
-            if (criteria.getDisburseAmount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDisburseAmount(), IsCalculateTemp_.disburseAmount));
-            }
-            if (criteria.getMaturityLoanDate() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getMaturityLoanDate(), IsCalculateTemp_.maturityLoanDate));
-            }
-            if (criteria.getBankDate() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankDate(), IsCalculateTemp_.bankDate));
-            }
-            if (criteria.getCropName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCropName(), IsCalculateTemp_.cropName));
-            }
-            if (criteria.getRecoveryAmount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getRecoveryAmount(), IsCalculateTemp_.recoveryAmount));
-            }
-            if (criteria.getRecoveryInterest() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getRecoveryInterest(), IsCalculateTemp_.recoveryInterest));
-            }
-            if (criteria.getRecoveryDate() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getRecoveryDate(), IsCalculateTemp_.recoveryDate));
-            }
-            if (criteria.getBalanceAmount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBalanceAmount(), IsCalculateTemp_.balanceAmount));
-            }
+//            if (criteria.getLoanSanctionDate() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getLoanSanctionDate(), IsCalculateTemp_.loanSanctionDate));
+//            }
+//            if (criteria.getLoanSanctionAmount() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getLoanSanctionAmount(), IsCalculateTemp_.loanSanctionAmount));
+//            }
+//            if (criteria.getDisbursementDate() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getDisbursementDate(), IsCalculateTemp_.disbursementDate));
+//            }
+//            if (criteria.getDisburseAmount() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getDisburseAmount(), IsCalculateTemp_.disburseAmount));
+//            }
+//            if (criteria.getMaturityLoanDate() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getMaturityLoanDate(), IsCalculateTemp_.maturityLoanDate));
+//            }
+//            if (criteria.getBankDate() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getBankDate(), IsCalculateTemp_.bankDate));
+//            }
+//            if (criteria.getCropName() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getCropName(), IsCalculateTemp_.cropName));
+//            }
+//            if (criteria.getRecoveryAmount() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getRecoveryAmount(), IsCalculateTemp_.recoveryAmount));
+//            }
+//            if (criteria.getRecoveryInterest() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getRecoveryInterest(), IsCalculateTemp_.recoveryInterest));
+//            }
+//            if (criteria.getRecoveryDate() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getRecoveryDate(), IsCalculateTemp_.recoveryDate));
+//            }
+//            if (criteria.getBalanceAmount() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getBalanceAmount(), IsCalculateTemp_.balanceAmount));
+//            }
             if (criteria.getPrevDays() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPrevDays(), IsCalculateTemp_.prevDays));
             }
@@ -175,22 +175,22 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
             if (criteria.getnProd() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getnProd(), IsCalculateTemp_.nProd));
             }
-            if (criteria.getProductAmount() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProductAmount(), IsCalculateTemp_.productAmount));
-            }
-            if (criteria.getProductBank() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProductBank(), IsCalculateTemp_.productBank));
-            }
-            if (criteria.getProductAbh3Lakh() != null) {
-                specification =
-                    specification.and(buildStringSpecification(criteria.getProductAbh3Lakh(), IsCalculateTemp_.productAbh3Lakh));
-            }
-            if (criteria.getInterestFirst15() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInterestFirst15(), IsCalculateTemp_.interestFirst15));
-            }
-            if (criteria.getInterestFirst25() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInterestFirst25(), IsCalculateTemp_.interestFirst25));
-            }
+//            if (criteria.getProductAmount() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getProductAmount(), IsCalculateTemp_.productAmount));
+//            }
+//            if (criteria.getProductBank() != null) {
+//                specification = specification.and(buildStringSpecification(criteria.getProductBank(), IsCalculateTemp_.productBank));
+//            }
+//            if (criteria.getProductAbh3Lakh() != null) {
+//                specification =
+//                    specification.and(buildStringSpecification(criteria.getProductAbh3Lakh(), IsCalculateTemp_.productAbh3Lakh));
+//            }
+//            if (criteria.getInterestFirst15() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getInterestFirst15(), IsCalculateTemp_.interestFirst15));
+//            }
+//            if (criteria.getInterestFirst25() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getInterestFirst25(), IsCalculateTemp_.interestFirst25));
+//            }
             if (criteria.getInterestSecond15() != null) {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getInterestSecond15(), IsCalculateTemp_.interestSecond15));
@@ -207,30 +207,30 @@ public class IsCalculateTempQueryService extends QueryService<IsCalculateTemp> {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getInterestStateSecond3(), IsCalculateTemp_.interestStateSecond3));
             }
-            if (criteria.getInterestFirstAbh3() != null) {
-                specification =
-                    specification.and(buildRangeSpecification(criteria.getInterestFirstAbh3(), IsCalculateTemp_.interestFirstAbh3));
-            }
-            if (criteria.getInterestSecondAbh3() != null) {
-                specification =
-                    specification.and(buildRangeSpecification(criteria.getInterestSecondAbh3(), IsCalculateTemp_.interestSecondAbh3));
-            }
-            if (criteria.getInterestAbove3Lakh() != null) {
-                specification =
-                    specification.and(buildRangeSpecification(criteria.getInterestAbove3Lakh(), IsCalculateTemp_.interestAbove3Lakh));
-            }
-            if (criteria.getPanjabraoInt3() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPanjabraoInt3(), IsCalculateTemp_.panjabraoInt3));
-            }
-            if (criteria.getIsRecover() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getIsRecover(), IsCalculateTemp_.isRecover));
-            }
-            if (criteria.getAbh3LakhAmt() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAbh3LakhAmt(), IsCalculateTemp_.abh3LakhAmt));
-            }
-            if (criteria.getUpto50000() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getUpto50000(), IsCalculateTemp_.upto50000));
-            }
+//            if (criteria.getInterestFirstAbh3() != null) {
+//                specification =
+//                    specification.and(buildRangeSpecification(criteria.getInterestFirstAbh3(), IsCalculateTemp_.interestFirstAbh3));
+//            }
+//            if (criteria.getInterestSecondAbh3() != null) {
+//                specification =
+//                    specification.and(buildRangeSpecification(criteria.getInterestSecondAbh3(), IsCalculateTemp_.interestSecondAbh3));
+//            }
+//            if (criteria.getInterestAbove3Lakh() != null) {
+//                specification =
+//                    specification.and(buildRangeSpecification(criteria.getInterestAbove3Lakh(), IsCalculateTemp_.interestAbove3Lakh));
+//            }
+//            if (criteria.getPanjabraoInt3() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getPanjabraoInt3(), IsCalculateTemp_.panjabraoInt3));
+//            }
+//            if (criteria.getIsRecover() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getIsRecover(), IsCalculateTemp_.isRecover));
+//            }
+//            if (criteria.getAbh3LakhAmt() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getAbh3LakhAmt(), IsCalculateTemp_.abh3LakhAmt));
+//            }
+//            if (criteria.getUpto50000() != null) {
+//                specification = specification.and(buildRangeSpecification(criteria.getUpto50000(), IsCalculateTemp_.upto50000));
+//            }
         }
         return specification;
     }

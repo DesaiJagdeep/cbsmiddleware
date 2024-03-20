@@ -20,6 +20,7 @@ public interface IsCalculateTempRepository extends JpaRepository<IsCalculateTemp
 //    void deleteByIssFileParser(@Param("id") Long id);
 
 
+
 @Query(value = "select * from is_calculate_temp where pacs_number=:pacsNumber and financial_year=:financialYear ", nativeQuery = true)
-List<IsCalculateTemp> FindFromIscalculateTemp(@Param("pacsNumber") String pacsNumber, @Param("financialYear") String financialYear);
+List<IsCalculateTemp> SelectFromIsCalculateTemp(@Param("pacsNumber") String pacsNumber, @Param("financialYear") String financialYear);
 }

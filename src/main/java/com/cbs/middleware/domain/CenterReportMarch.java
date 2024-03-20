@@ -30,6 +30,9 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
     @Column(name = "pacs_number")
     private String pacsNumber;
 
+
+    @Column(name = "taluka_code")
+    private String talukaCode;
     @Column(name = "loan_account_number_kcc")
     private String loanAccountNumberKcc;
 
@@ -79,7 +82,7 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
     private Long recoveryAmount;
 
     @Column(name = "recovery_interest")
-    private String recoveryInterest;
+    private Double recoveryInterest;
 
     @Column(name = "recovery_date")
     private LocalDate recoveryDate;
@@ -327,11 +330,11 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
         this.recoveryAmount = recoveryAmount;
     }
 
-    public String getRecoveryInterest() {
+    public Double getRecoveryInterest() {
         return recoveryInterest;
     }
 
-    public void setRecoveryInterest(String recoveryInterest) {
+    public void setRecoveryInterest(Double recoveryInterest) {
         this.recoveryInterest = recoveryInterest;
     }
 
@@ -511,6 +514,14 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
         this.upto50000 = upto50000;
     }
 
+    public String getTalukaCode() {
+        return talukaCode;
+    }
+
+    public void setTalukaCode(String talukaCode) {
+        this.talukaCode = talukaCode;
+    }
+
     @Override
     public String toString() {
         return "CenterReportMarch{" +
@@ -520,6 +531,7 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
             ", issFileParserId=" + issFileParserId +
             ", branchCode='" + branchCode + '\'' +
             ", pacsNumber='" + pacsNumber + '\'' +
+            ", talukaCode='" + talukaCode + '\'' +
             ", loanAccountNumberKcc='" + loanAccountNumberKcc + '\'' +
             ", farmerName='" + farmerName + '\'' +
             ", gender='" + gender + '\'' +
@@ -536,7 +548,7 @@ public class CenterReportMarch extends AbstractAuditingEntity<Long> implements S
             ", bankDate=" + bankDate +
             ", cropName='" + cropName + '\'' +
             ", recoveryAmount=" + recoveryAmount +
-            ", recoveryInterest='" + recoveryInterest + '\'' +
+            ", recoveryInterest=" + recoveryInterest +
             ", recoveryDate=" + recoveryDate +
             ", balanceAmount=" + balanceAmount +
             ", prevDays=" + prevDays +

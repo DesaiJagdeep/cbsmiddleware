@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "is_calculate_temp")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class IsCalculateTemp implements Serializable {
+public class IsCalculateTemp extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

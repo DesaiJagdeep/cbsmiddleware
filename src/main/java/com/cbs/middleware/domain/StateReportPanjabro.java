@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "state_report_punjabro")
+@Table(name = "state_report_panjabrao")
 public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,8 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
     @Column(name = "pacs_number")
     private String pacsNumber;
 
-
+    @Column(name = "taluka_code")
+    private String talukaCode;
     @Column(name = "loan_account_number_kcc")
     private String loanAccountNumberKcc;
 
@@ -79,7 +80,7 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
     private Long recoveryAmount;
 
     @Column(name = "recovery_interest")
-    private String recoveryInterest;
+    private Double recoveryInterest;
 
     @Column(name = "recovery_date")
     private LocalDate recoveryDate;
@@ -300,11 +301,11 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
         this.recoveryAmount = recoveryAmount;
     }
 
-    public String getRecoveryInterest() {
+    public Double getRecoveryInterest() {
         return recoveryInterest;
     }
 
-    public void setRecoveryInterest(String recoveryInterest) {
+    public void setRecoveryInterest(Double recoveryInterest) {
         this.recoveryInterest = recoveryInterest;
     }
 
@@ -412,6 +413,14 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
         this.upto50000 = upto50000;
     }
 
+    public String getTalukaCode() {
+        return talukaCode;
+    }
+
+    public void setTalukaCode(String talukaCode) {
+        this.talukaCode = talukaCode;
+    }
+
     @Override
     public String toString() {
         return "StateReportPanjabro{" +
@@ -421,6 +430,7 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
             ", issFileParserId=" + issFileParserId +
             ", branchCode='" + branchCode + '\'' +
             ", pacsNumber='" + pacsNumber + '\'' +
+            ", talukaCode='" + talukaCode + '\'' +
             ", loanAccountNumberKcc='" + loanAccountNumberKcc + '\'' +
             ", farmerName='" + farmerName + '\'' +
             ", gender='" + gender + '\'' +
@@ -437,7 +447,7 @@ public class StateReportPanjabro extends AbstractAuditingEntity<Long> implements
             ", bankDate=" + bankDate +
             ", cropName='" + cropName + '\'' +
             ", recoveryAmount=" + recoveryAmount +
-            ", recoveryInterest='" + recoveryInterest + '\'' +
+            ", recoveryInterest=" + recoveryInterest +
             ", recoveryDate=" + recoveryDate +
             ", balanceAmount=" + balanceAmount +
             ", prevDays=" + prevDays +

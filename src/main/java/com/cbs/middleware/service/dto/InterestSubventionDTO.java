@@ -45,10 +45,10 @@ public class InterestSubventionDTO {
     private String dueDate;
 
     // @Column(name = "report_type")
-    private Long reportType;
+    private Integer reportType;
 
     ///  @Column(name = "report_condition")
-    private Long reportCondition;
+    private Integer reportCondition;
 
 
 
@@ -97,19 +97,19 @@ public class InterestSubventionDTO {
 
 
 
-    public Long getReportType() {
+    public Integer getReportType() {
         return reportType;
     }
 
-    public void setReportType(Long reportType) {
+    public void setReportType(Integer reportType) {
         this.reportType = reportType;
     }
 
-    public Long getReportCondition() {
+    public Integer getReportCondition() {
         return reportCondition;
     }
 
-    public void setReportCondition(Long reportCondition) {
+    public void setReportCondition(Integer reportCondition) {
         this.reportCondition = reportCondition;
     }
 

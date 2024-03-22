@@ -22,9 +22,14 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "taluka_code")
     private String talukaCode;
-    @Column(name = "type_of_report")
-    private Integer typeOfReport;
+    @Column(name = "report_type")
+    private Integer reportType;
 
+    @Column(name = "report_condition")
+    private Integer reportCondition;
+
+    @Column(name = "interest_type")
+    private Integer interestType;
     @Column(name = "upto_50000")
     private Integer upto50000;
 
@@ -41,31 +46,31 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
     private Integer NoOfRecoveryAccounts;
 
     @Column(name = "general_amount")
-    private Long generalAmount;
+    private Double generalAmount;
 
     @Column(name = "no_of_general_accounts")
     private Integer NoOfGeneralAccounts;
 
     @Column(name = "sc_amount")
-    private Long scAmount;
+    private Double scAmount;
 
     @Column(name = "no_of_sc_accounts")
     private Integer NoOfSCAccounts;
 
     @Column(name = "st_amount")
-    private Long stAmount;
+    private Double stAmount;
 
     @Column(name = "no_of_st_accounts")
     private Integer NoOfSTAccounts;
 
     @Column(name = "small_medium_amount")
-    private Long smallMediumAmount;
+    private Double smallMediumAmount;
 
     @Column(name = "no_of_small_medium_accounts")
     private Integer NoOfSmallMediumAccounts;
 
     @Column(name = "women_amount")
-    private Long womenAmount;
+    private Double womenAmount;
 
     @Column(name = "no_of_women_accounts")
     private Integer NoOfWomenAccounts;
@@ -111,12 +116,29 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         this.talukaCode = talukaCode;
     }
 
-    public Integer getTypeOfReport() {
-        return typeOfReport;
+
+    public Integer getReportType() {
+        return reportType;
     }
 
-    public void setTypeOfReport(Integer typeOfReport) {
-        this.typeOfReport = typeOfReport;
+    public void setReportType(Integer reportType) {
+        this.reportType = reportType;
+    }
+
+    public Integer getReportCondition() {
+        return reportCondition;
+    }
+
+    public void setReportCondition(Integer reportCondition) {
+        this.reportCondition = reportCondition;
+    }
+
+    public Integer getInterestType() {
+        return interestType;
+    }
+
+    public void setInterestType(Integer interestType) {
+        this.interestType = interestType;
     }
 
     public Integer getUpto50000() {
@@ -159,11 +181,11 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         NoOfRecoveryAccounts = noOfRecoveryAccounts;
     }
 
-    public Long getGeneralAmount() {
+    public Double getGeneralAmount() {
         return generalAmount;
     }
 
-    public void setGeneralAmount(Long generalAmount) {
+    public void setGeneralAmount(Double generalAmount) {
         this.generalAmount = generalAmount;
     }
 
@@ -175,11 +197,11 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         NoOfGeneralAccounts = noOfGeneralAccounts;
     }
 
-    public Long getScAmount() {
+    public Double getScAmount() {
         return scAmount;
     }
 
-    public void setScAmount(Long scAmount) {
+    public void setScAmount(Double scAmount) {
         this.scAmount = scAmount;
     }
 
@@ -191,11 +213,11 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         NoOfSCAccounts = noOfSCAccounts;
     }
 
-    public Long getStAmount() {
+    public Double getStAmount() {
         return stAmount;
     }
 
-    public void setStAmount(Long stAmount) {
+    public void setStAmount(Double stAmount) {
         this.stAmount = stAmount;
     }
 
@@ -207,11 +229,11 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         NoOfSTAccounts = noOfSTAccounts;
     }
 
-    public Long getSmallMediumAmount() {
+    public Double getSmallMediumAmount() {
         return smallMediumAmount;
     }
 
-    public void setSmallMediumAmount(Long smallMediumAmount) {
+    public void setSmallMediumAmount(Double smallMediumAmount) {
         this.smallMediumAmount = smallMediumAmount;
     }
 
@@ -223,11 +245,11 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
         NoOfSmallMediumAccounts = noOfSmallMediumAccounts;
     }
 
-    public Long getWomenAmount() {
+    public Double getWomenAmount() {
         return womenAmount;
     }
 
-    public void setWomenAmount(Long womenAmount) {
+    public void setWomenAmount(Double womenAmount) {
         this.womenAmount = womenAmount;
     }
 
@@ -247,7 +269,9 @@ public class SummaryReport extends AbstractAuditingEntity<Long> implements Seria
             ", branchCode='" + branchCode + '\'' +
             ", pacsNumber='" + pacsNumber + '\'' +
             ", talukaCode='" + talukaCode + '\'' +
-            ", typeOfReport=" + typeOfReport +
+            ", reportType=" + reportType +
+            ", reportCondition=" + reportCondition +
+            ", interestType=" + interestType +
             ", upto50000=" + upto50000 +
             ", totalLoanAmount=" + totalLoanAmount +
             ", NoOfLoanAccounts=" + NoOfLoanAccounts +

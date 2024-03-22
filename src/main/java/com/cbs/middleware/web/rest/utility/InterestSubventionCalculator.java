@@ -36,6 +36,7 @@ public class InterestSubventionCalculator {
     public  LocalDate lastDate;
     public  LocalDate loanMaturityDate;
     public Long previousDebitAmount;
+   public Long recoveryAmount = 0L;
     public  LocalDate recoveryDate;
     public  Long diffAmount=0L;
     public  Long above3Product=0L;
@@ -127,13 +128,12 @@ public class InterestSubventionCalculator {
     public List<IssFileParser> CalculateInterestForCenterState()
     {
 
-        insertLoanDetails=false;
         totalDebitAmount =0L;
         Long recoveryAmount=0L;
         previousDebitAmount=0L;
 
         for (IssFileParser issFileParser:issFileParsers) {
-
+            insertLoanDetails=false;
             Long loanDisbursementAmount = Long.valueOf(issFileParser.getDisburseAmount());
             LocalDate loanDisbursementDate = LocalDate.parse(issFileParser.getDisbursementDate(), inputFormatter);
 
@@ -175,7 +175,7 @@ public class InterestSubventionCalculator {
     }
     public void calculateProductAmountsCenter(IssFileParser issFileParser) {
         Long interestCalAmount = 300000L;
-        Long recoveryAmount = 0L;
+
 
         //check for first recovery
         if (issFileParser.getRecoveryDate() != null && issFileParser.getRecoveryAmountPrinciple() != null) {
@@ -529,6 +529,7 @@ public class InterestSubventionCalculator {
         }
 
         serialNo = 5;
+        recoveryAmount=0L;
 
         if (debitAmount > 0) {
 
@@ -622,7 +623,6 @@ public class InterestSubventionCalculator {
 
     public void  calculateProductAmountsState(IssFileParser issFileParser) {
         Long interestCalAmount = 300000L;
-        Long recoveryAmount = 0L;
 
         //check for first recovery
         if (issFileParser.getRecoveryDate() != null && issFileParser.getRecoveryAmountPrinciple() != null) {
@@ -825,6 +825,7 @@ public class InterestSubventionCalculator {
         Long memLastProdAmount = 0L;
 
         serialNo = 5;
+        recoveryAmount=0L;
 
         if (debitAmount > 0) {
 
@@ -903,8 +904,8 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
     isCalculateTemp.setProductAbh3Lakh(above3Product);
     isCalculateTemp.setInterestFirst15(InterestUptoTwoDecimalPlaces( interestFirst15));
     isCalculateTemp.setInterestFirst25( InterestUptoTwoDecimalPlaces(interestFirst25));
+    isCalculateTemp.setInterestSecond15( InterestUptoTwoDecimalPlaces(interestSecond15));
     isCalculateTemp.setInterestSecond25( InterestUptoTwoDecimalPlaces(interestSecond25));
-    isCalculateTemp.setInterestSecond15( InterestUptoTwoDecimalPlaces(interestFirst25));
     isCalculateTemp.setInterestStateFirst3( InterestUptoTwoDecimalPlaces(interestFirst3));
     isCalculateTemp.setInterestStateSecond3( InterestUptoTwoDecimalPlaces(interestSecond3));
     isCalculateTemp.setPanjabraoInt3( InterestUptoTwoDecimalPlaces(interestStatePunjabrao3));
@@ -923,50 +924,6 @@ public void saveIntoIsCalculateTemp(Integer serialNo,IssFileParser issFileParser
 
 
 
-    public List<IssFileParser> CalculateInterestForPunjabRao() {
-
-        totalDebitAmount =0L;
-        Long recoveryAmount=0L;
-        previousDebitAmount=0L;
-
-        firstVasuliDate = "2023-03-31";
-
-        for (IssFileParser issFileParser:issFileParsers){
-
-
-            Long loanDisbursementAmount = Long.valueOf(issFileParser.getDisburseAmount());
-            LocalDate loanDisbursementDate = LocalDate.parse(issFileParser.getDisbursementDate(), inputFormatter);
-
-            lastDate=loanDisbursementDate;
-            recoveryDate=loanDisbursementDate;
-            debitAmount=loanDisbursementAmount;
-            midBalanceAmt=loanDisbursementAmount;
-            diffAmount=0L;
-            serialNo=0;
-
-            loanMaturityDate=LocalDate.parse(issFileParser.getMaturityLoanDate());
-
-            //Calculate the total disbursement of loan
-            totalDebitAmount = totalDebitAmount + loanDisbursementAmount;
-
-            //If total disbursement of loan is greater than 3 lakh, the find out difference amount & substract diff amount from total loan amount
-            if (totalDebitAmount>interestCalAmount){
-                diffAmount = totalDebitAmount - interestCalAmount;
-                debitAmount= debitAmount- diffAmount;
-            }
-
-            //bankDate calculated upto 365 days
-            bankDate = ChronoUnit.DAYS.addTo(loanDisbursementDate,364);
-            System.out.println("Bank date:" + bankDate);
-
-            reportDate = LocalDate.parse(firstVasuliDate);
-
-            //Calculate Product Amount
-           // calculateProductAmounts(issFileParser);
-        }
-
-        return null;
-    }
 
 
 

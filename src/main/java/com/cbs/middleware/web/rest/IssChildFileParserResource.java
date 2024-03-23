@@ -97,85 +97,149 @@ import com.cbs.middleware.web.rest.utility.NotificationDataUtility;
 @RequestMapping("/api")
 public class IssChildFileParserResource {
 
-    private final Logger log = LoggerFactory.getLogger(IssChildFileParserResource.class);
-
     private static final String ENTITY_NAME = "issFileParser";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
+    private final Logger log = LoggerFactory.getLogger(IssChildFileParserResource.class);
+    private final IssFileParserRepository issFileParserRepository;
     @Autowired
     ApplicationProperties applicationProperties;
 
     @Autowired
     DesignationMasterRepository designationMasterRepository;
-
-    private final IssFileParserRepository issFileParserRepository;
-
     @Autowired
     SeasonMasterRepository seasonMasterRepository;
-
     @Autowired
     NotificationDataUtility notificationDataUtility;
-
     @Autowired
     IssChildPortalFileRepository issChildPortalFileRepository;
-
     @Autowired
     IssPortalFileRepository issPortalFileRepository;
-
     @Autowired
     ResponceService responceService;
-
     @Autowired
     ApplicationLogRepository applicationLogRepository;
-
     @Autowired
     CropMasterRepository cropMasterRepository;
-
     @Autowired
     ApplicationRepository applicationRepository;
-
     @Autowired
     LandTypeMasterRepository landTypeMasterRepository;
-
     @Autowired
     AccountHolderMasterRepository accountHolderMasterRepository;
-
     @Autowired
     RelativeMasterRepository relativeMasterRepository;
-
     @Autowired
     OccupationMasterRepository occupationMasterRepository;
-
     @Autowired
     FarmerTypeMasterRepository farmerTypeMasterRepository;
-
     @Autowired
     FarmerCategoryMasterRepository farmerCategoryMasterRepository;
-
     @Autowired
     CastCategoryMasterRepository castCategoryMasterRepository;
-
     @Autowired
     BatchTransactionRepository batchTransactionRepository;
-
     @Autowired
     RBAControl rbaControl;
-
     @Autowired
     NotificationRepository notificationRepository;
+    @Value("${jhipster.clientApp.name}")
+    private String applicationName;
 
     public IssChildFileParserResource(IssFileParserRepository issFileParserRepository) {
         this.issFileParserRepository = issFileParserRepository;
     }
 
+    public static byte[] objectToBytes(BatchData encDecObject) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+            objectOutputStream.writeObject(encDecObject);
+            objectOutputStream.close();
+            return byteArrayOutputStream.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static SecretKey generateSecretKey(String secretKey, int keySize) {
+        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        byte[] truncatedKey = new byte[keySize / 8];
+        System.arraycopy(keyBytes, 0, truncatedKey, 0, truncatedKey.length);
+        return new SecretKeySpec(truncatedKey, "AES");
+    }
+
+    private static String getCellValue(Cell cell) {
+        String cellValue = "";
+
+        if (cell == null) {
+            return cellValue;
+        } else if (cell.getCellType() == CellType.STRING) {
+            cellValue = cell.getStringCellValue().trim();
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+            BigDecimal bigDecimal = new BigDecimal(cellValue);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
+
+            cellValue = decimalFormat.format(bigDecimal);
+        } else if (cell.getCellType() == CellType.BOOLEAN) {
+            cellValue = String.valueOf(cell.getBooleanCellValue());
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            cellValue = String.valueOf(cell.getNumericCellValue());
+
+            if (cellValue.contains(".0")) {
+                cellValue = cellValue.substring(0, cellValue.indexOf("."));
+            }
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
+    }
+
+    private static String getDateCellValue(Cell cell) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String cellValue = "";
+
+        if (cell == null) {
+            return cellValue;
+        } else if (cell.getCellType() == CellType.STRING) {
+            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+            Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
+
+            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
+                LocalDate date = LocalDate.parse(cell.getStringCellValue());
+                cellValue = date.format(formatter).trim();
+            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
+                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
+                cellValue = date.format(formatter).trim();
+            } else {
+                cellValue = cell.getStringCellValue();
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC) {
+            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+            cellValue = date.format(formatter);
+        } else if (cell.getCellType() == CellType.FORMULA) {
+            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
+            cellValue = date.format(formatter);
+        } else if (cell.getCellType() == CellType.BLANK) {
+            cellValue = "";
+        }
+
+        return cellValue;
+    }
+
     /**
      * Customize code
+     *
      * @return
-     *
      * @throws Exception
-     *
      * @throws Exception
      */
 
@@ -208,8 +272,8 @@ public class IssChildFileParserResource {
 
             if (
                 getCellValue(row.getCell(0)) != null &&
-                !getCellValue(row.getCell(0)).contains("Financial") &&
-                !getCellValue(row.getCell(0)).contains("Year")
+                    !getCellValue(row.getCell(0)).contains("Financial") &&
+                    !getCellValue(row.getCell(0)).contains("Year")
             ) {
                 throw new BadRequestAlertException("Invalid file", ENTITY_NAME, "fileInvalid");
             }
@@ -253,20 +317,20 @@ public class IssChildFileParserResource {
         Calendar cal = new GregorianCalendar();
         String uniqueName =
             "" +
-            cal.get(Calendar.YEAR) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MINUTE) +
-            cal.get(Calendar.MILLISECOND) +
-            cal.get(Calendar.MONTH) +
-            cal.get(Calendar.DAY_OF_MONTH) +
-            cal.get(Calendar.HOUR) +
-            cal.get(Calendar.SECOND) +
-            cal.get(Calendar.MILLISECOND);
+                cal.get(Calendar.YEAR) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MINUTE) +
+                cal.get(Calendar.MILLISECOND) +
+                cal.get(Calendar.MONTH) +
+                cal.get(Calendar.DAY_OF_MONTH) +
+                cal.get(Calendar.HOUR) +
+                cal.get(Calendar.SECOND) +
+                cal.get(Calendar.MILLISECOND);
 
         Path path = Paths.get(filePath + File.separator + uniqueName + "." + fileExtension);
         try {
@@ -406,8 +470,7 @@ public class IssChildFileParserResource {
                             issFileParser.setRecoveryDate(getDateCellValue(row.getCell(53)));
 
 
-                            try
-                            {
+                            try {
                                 //second time
                                 issFileParser.setSecondRecoveryAmountPrinciple(getCellValue(row.getCell(54)));
                                 issFileParser.setSecondRecoveryAmountInterest(getCellValue(row.getCell(55)));
@@ -422,9 +485,8 @@ public class IssChildFileParserResource {
                                 issFileParser.setFourthRecoveryAmountPrinciple(getCellValue(row.getCell(60)));
                                 issFileParser.setFourthRecoveryAmountInterest(getCellValue(row.getCell(61)));
                                 issFileParser.setFourthRecoveryDate(getDateCellValue(row.getCell(62)));
+                            } catch (Exception e) {
                             }
-                            catch (Exception e) {
-    						}
 
 
                             issFileParser.setIssPortalFile(issFileParseInChildFile.get().getIssPortalFile());
@@ -455,7 +517,7 @@ public class IssChildFileParserResource {
                         );
                     } catch (Exception e) {
 
-                    	e.printStackTrace();
+                        e.printStackTrace();
                     }
                 }
 
@@ -469,11 +531,12 @@ public class IssChildFileParserResource {
     }
 
     public Set<ApplicationLog> validateFile(List<IssFileParser> issFileParserList, IssChildPortalFile issChildPortalFile) {
-        //------------for KCC ERROR -------------------------------------------
-        for (IssFileParser issFileParser:issFileParserList) {
-            Optional<ApplicationLog> findOneByIssFileParser = applicationLogRepository.findOneByIssFileParser(issFileParser);
 
-            if(findOneByIssFileParser.isPresent()){
+        //------------for KCC ERROR -------------------------------------------
+        for (IssFileParser issFileParser : issFileParserList) {
+
+            Optional<ApplicationLog> findOneByIssFileParser = applicationLogRepository.findOneByIssFileParser(issFileParser);
+            if (findOneByIssFileParser.isPresent()) {
                 if (Constants.kccError.equalsIgnoreCase(findOneByIssFileParser.get().getErrorType()) && findOneByIssFileParser.get().getStatus().equals("ERROR")) {
 
                     if (!findOneByIssFileParser.get().getErrorMessage().contains("eixsts") &&
@@ -482,7 +545,7 @@ public class IssChildFileParserResource {
                         !findOneByIssFileParser.get().getErrorMessage().contains("proper") &&
                         !findOneByIssFileParser.get().getErrorMessage().contains("token") &&
                         !findOneByIssFileParser.get().getErrorMessage().contains("preUniqueId")
-                    ){
+                    ) {
                         applicationRepository.deleteByIssFileParser(issFileParser);
 
                         Application application = new Application();
@@ -522,389 +585,388 @@ public class IssChildFileParserResource {
         Set<ApplicationLog> applicationLogList = new HashSet<>();
         Set<ApplicationLog> applicationLogListToSaveError = new HashSet<>();
         Set<IssFileParser> issFileParserValidationErrorSet = new HashSet<>();
-        if(!issFileParserList.isEmpty())
-        {
-
-
-              IssPortalFile issPortalFile = issFileParserList.get(0).getIssPortalFile();
-
-              // Filter invalid Financial Year
-              List<IssFileParser> invalidFinancialYearList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateFinancialYear(person.getFinancialYear()))
-                  .collect(Collectors.toList());
-              for (IssFileParser issFileParser : invalidFinancialYearList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Financial Year is not in yyyy-yyyy format", issFileParser));
-              }
-
-              // Filter invalid Aadhaar numbers
-              List<IssFileParser> invalidAadhaarList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateAadhaarNumber(person.getAadharNumber()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidAadhaarList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Aadhar number is incorrect format", issFileParser));
-              }
-
-              // Filter invalid beneficiary Name and beneficiary Passbook Name and
-              // accountHolder
-
-              List<IssFileParser> invalidBeneficiaryNameList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getFarmerName()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidBeneficiaryNameList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Beneficiary Name is incorrect format", issFileParser));
-              }
-
-              // Filter invalid Mobile number
-
-              List<IssFileParser> invalidMobileNumberList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateMobileNumber(person.getMobileNo()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidMobileNumberList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Mobile number is incorrect format", issFileParser));
-              }
-
-              // Filter invalid dob
-
-              List<IssFileParser> invalidDOBList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getDateofBirth()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidDOBList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Date of birth is not in yyyy-mm-dd format", issFileParser));
-              }
-
-              // Filter invalid gender
-
-              List<IssFileParser> invalidGenderList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateGender(person.getGender()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidGenderList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Gender is incorrect format", issFileParser));
-              }
-
-              // Filter invalid socialCategory
-
-              List<IssFileParser> invalidSocialCategoryList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateSocialCategory(person.getSocialCategory()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidSocialCategoryList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Social Category is not in SC, ST, OBC, GEN format", issFileParser));
-              }
-
-              // Filter invalid farmerCategory
-              List<IssFileParser> invalidFarmerCategoryList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateFarmerCategory(person.getFarmersCategory()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidFarmerCategoryList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Farmer Category is not in OWNER, SHARECROPPER, TENANT format", issFileParser));
-              }
-
-              // Filter invalid farmerType
-              List<IssFileParser> invalidFarmerTypeList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateFarmerType(person.getFarmerType()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidFarmerTypeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Farmer type is not in SMALL, OTHER, MARGINAL format", issFileParser));
-              }
-
-              // Filter invalid primaryOccupation
-
-              List<IssFileParser> invalidPrimaryOccupationList = issFileParserList
-                  .stream()
-                  .filter(person -> !validatePrimaryOccupation(person.getPrimaryOccupation()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidPrimaryOccupationList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(
-                      new ApplicationLog("Farmer primary occupation is not in FARMER, FISHRIES, ANIMAL HUSBANDARY format", issFileParser)
-                  );
-              }
-
-              // Filter invalid relativeType
-              List<IssFileParser> invalidRelativeTypeList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getRelativeType()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidRelativeTypeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(
-                      new ApplicationLog("Relative Type is not in SON OF, DAUGHTER OF, CARE OF, WIFE OF format", issFileParser)
-                  );
-              }
-
-              // Filter invalid relativeName
-
-              List<IssFileParser> invalidRelativeNameList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getRelativeName()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidRelativeNameList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Relative name is incorrect format", issFileParser));
-              }
-
-              // Filter invalid residentialPincode
-              List<IssFileParser> invalidResidentialPincodeList = issFileParserList
-                  .stream()
-                  .filter(person -> !person.getPinCode().matches("^[0-9]{6}$"))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidResidentialPincodeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Residential pin code is incorrect format", issFileParser));
-              }
-
-              // Filter invalid accountNumber
-              List<IssFileParser> invalidAccountNumberList = issFileParserList
-                  .stream()
-                  .filter(person -> !person.getAccountNumber().matches("\\d+"))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidAccountNumberList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Account Number is incorrect format", issFileParser));
-              }
-
-              // Filter invalid Scheme Wise Branch Code
-              List<IssFileParser> invalidBranchCodeList = issFileParserList
-                  .stream()
-                  .filter(person -> !person.getSchemeWiseBranchCode().matches("^[0-9]{6}$"))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidBranchCodeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Scheme Wise Branch Code is incorrect format", issFileParser));
-              }
-
-              // Filter invalid ifsc
-              List<IssFileParser> invalidIFSCCodeList = issFileParserList
-                  .stream()
-                  .filter(person -> !person.getIfsc().matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$"))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidIFSCCodeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("IFSC Code is incorrect format", issFileParser));
-              }
-
-              // Filter invalid kccLoanSanctionedDate //loanSanctionedDate
-              List<IssFileParser> invalidKccLoanSanctionedDateList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getLoanSactionDate()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidKccLoanSanctionedDateList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Loan Sanctioned Date is incorrect format", issFileParser));
-              }
-
-              // Filter invalid kccLoanSanctionedAmount // kccDrawingLimitforFY // Loan
-              // Sanction Amount
-              List<IssFileParser> invalidkccLoanSanctionedAmountList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateAmount(person.getLoanSanctionAmount()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidkccLoanSanctionedAmountList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Loan Sanction Amount is incorrect format", issFileParser));
-              }
-
-              // Filter invalid landVillage
-              List<IssFileParser> invalidLandVillageList = issFileParserList
-                  .stream()
-                  .filter(person -> !person.getVillageCode().matches("^[0-9]{6}$"))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidLandVillageList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Land Village Code is incorrect format", issFileParser));
-              }
-
-              // Filter invalid cropCode
-              List<IssFileParser> invalidCropCodeList = issFileParserList
-                  .stream()
-                  .filter(person -> StringUtils.isBlank(person.getCropName()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidCropCodeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
-              }
-
-              // Filter invalid surveyNumber
-              List<IssFileParser> invalidSurveyNumberList = issFileParserList
-                  .stream()
-                  .filter(person -> (!person.getSurveyNo().matches("^[0-9,\\/ ]+$")))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidSurveyNumberList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Survey Number is incorrect format", issFileParser));
-              }
-
-              // Filter invalid khataNumber or Sat Bara number
-              List<IssFileParser> invalidSatBaraNumberList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateSatBaraNumber(person.getSatBaraSubsurveyNo()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidSatBaraNumberList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Sat Bara number is incorrect format", issFileParser));
-              }
-
-              // Filter invalid landArea
-              List<IssFileParser> invalidLandAreaList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateAmount(person.getAreaHect()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidLandAreaList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Land Area Hect is incorrect format", issFileParser));
-              }
-
-              // Filter invalid landType
-              List<IssFileParser> invalidLandTypeList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateLandType(person.getLandType()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidLandTypeList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(new ApplicationLog("Land Type is not in IRRIGATED, NON-IRRIGATED format", issFileParser));
-              }
-
-              // Filter invalid season //activityType
-              List<IssFileParser> invalidSeasonList = issFileParserList
-                  .stream()
-                  .filter(person -> !validateSeasonName(person.getSeasonName()))
-                  .collect(Collectors.toList());
-
-              for (IssFileParser issFileParser : invalidSeasonList) {
-                  issFileParserValidationErrorSet.add(issFileParser);
-                  applicationLogList.add(
-                      new ApplicationLog("Season is not in KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE format", issFileParser)
-                  );
-              }
-
-              // --------------------------------------------------------------
-
-              for (IssFileParser issFileParser : issFileParserValidationErrorSet) {
-                  StringBuilder str = new StringBuilder();
-
-                  List<ApplicationLog> collect = applicationLogList
-                      .stream()
-                      .filter(a -> a.getIssFileParser().equals(issFileParser))
-                      .collect(Collectors.toList());
-                  int index = 0;
-                  for (ApplicationLog applicationLog : collect) {
-                      str = str.append(applicationLog.getErrorMessage());
-                      index = index + 1;
-                      if (collect.size() != index) {
-                          str = str.append(". ");
-                      }
-                  }
-                  ApplicationLog applicationLog = new ApplicationLog();
-                  Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);
-                  if (applicationLogSaved.isPresent()) {
-                      applicationLog = applicationLogSaved.get();
-                  }
-                  applicationLog.setIssFileParser(issFileParser);
-                  applicationLog.setErrorMessage("" + str);
-                  applicationLog.setSevierity(Constants.HighSevierity);
-                  applicationLog.setExpectedSolution("Provide correct information");
-                  applicationLog.setStatus(Constants.ERROR);
-                  applicationLog.setErrorType(Constants.validationError);
-                  applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
-                  applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
-                  applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
-                  applicationLogListToSaveError.add(applicationLog);
-              }
-
-              if (!applicationLogListToSaveError.isEmpty()) {
-                  applicationLogRepository.saveAll(applicationLogListToSaveError);
-              }
-
-              List<IssFileParser> correctedRecordsInFile = issFileParserList
-                  .stream()
-                  .filter(c1 -> issFileParserValidationErrorSet.stream().noneMatch(c2 -> c1.getId() == c2.getId()))
-                  .collect(Collectors.toList());
-
-              List<Application> applicationList = new ArrayList<>();
-              if (!correctedRecordsInFile.isEmpty()) {
-                  Set<ApplicationLog> applicationLogListMarkedFix = new HashSet<>();
-                  for (IssFileParser issFileParser : correctedRecordsInFile) {
-                      Application application = new Application();
-                      application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-                      application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-                      application.setIssFileParser(issFileParser);
-                      application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
-                      application.setFinancialYear(issFileParser.getFinancialYear());
-                      applicationList.add(application);
-
-                      ApplicationLog applicationLog = new ApplicationLog();
-                      Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);
-                      if (applicationLogSaved.isPresent()) {
-                          applicationLog = applicationLogSaved.get();
-                      }
-
-                      applicationLog.setIssFileParser(issFileParser);
-                      applicationLog.setStatus(Constants.FIXED);
-                      applicationLog.setSevierity("");
-                      applicationLog.setErrorRecordCount(Long.valueOf(0));
-                      applicationLog.setIssPortalId(issPortalFile.getId());
-                      applicationLog.setFileName(issPortalFile.getFileName());
-                      applicationLogListMarkedFix.add(applicationLog);
-                  }
-
-                  applicationRepository.saveAll(applicationList);
-                  applicationLogRepository.saveAll(applicationLogListMarkedFix);
-
-                  issPortalFile.setErrorRecordCount(
-                      issPortalFile.getApplicationCount() - applicationRepository.countByIssFilePortalId(issPortalFile.getId())
-                  );
-                  issPortalFileRepository.save(issPortalFile);
-              }
-              issFileParserRepository.saveAll(issFileParserList);
-
-              issChildPortalFile.setApplicationCount("" + issFileParserList.size());
-              issChildPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
-              issChildPortalFile.setSchemeWiseBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getSchemeWiseBranchCode())));
-              issChildPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
-              issChildPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
-              issChildPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
-
-              issChildPortalFileRepository.save(issChildPortalFile);
+        if (!issFileParserList.isEmpty()) {
+
+
+            IssPortalFile issPortalFile = issFileParserList.get(0).getIssPortalFile();
+
+            // Filter invalid Financial Year
+            List<IssFileParser> invalidFinancialYearList = issFileParserList
+                .stream()
+                .filter(person -> !validateFinancialYear(person.getFinancialYear()))
+                .collect(Collectors.toList());
+            for (IssFileParser issFileParser : invalidFinancialYearList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Financial Year is not in yyyy-yyyy format", issFileParser));
+            }
+
+            // Filter invalid Aadhaar numbers
+            List<IssFileParser> invalidAadhaarList = issFileParserList
+                .stream()
+                .filter(person -> !validateAadhaarNumber(person.getAadharNumber()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidAadhaarList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Aadhar number is incorrect format", issFileParser));
+            }
+
+            // Filter invalid beneficiary Name and beneficiary Passbook Name and
+            // accountHolder
+
+            List<IssFileParser> invalidBeneficiaryNameList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getFarmerName()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidBeneficiaryNameList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Beneficiary Name is incorrect format", issFileParser));
+            }
+
+            // Filter invalid Mobile number
+
+            List<IssFileParser> invalidMobileNumberList = issFileParserList
+                .stream()
+                .filter(person -> !validateMobileNumber(person.getMobileNo()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidMobileNumberList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Mobile number is incorrect format", issFileParser));
+            }
+
+            // Filter invalid dob
+
+            List<IssFileParser> invalidDOBList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getDateofBirth()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidDOBList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Date of birth is not in yyyy-mm-dd format", issFileParser));
+            }
+
+            // Filter invalid gender
+
+            List<IssFileParser> invalidGenderList = issFileParserList
+                .stream()
+                .filter(person -> !validateGender(person.getGender()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidGenderList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Gender is incorrect format", issFileParser));
+            }
+
+            // Filter invalid socialCategory
+
+            List<IssFileParser> invalidSocialCategoryList = issFileParserList
+                .stream()
+                .filter(person -> !validateSocialCategory(person.getSocialCategory()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidSocialCategoryList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Social Category is not in SC, ST, OBC, GEN format", issFileParser));
+            }
+
+            // Filter invalid farmerCategory
+            List<IssFileParser> invalidFarmerCategoryList = issFileParserList
+                .stream()
+                .filter(person -> !validateFarmerCategory(person.getFarmersCategory()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidFarmerCategoryList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Farmer Category is not in OWNER, SHARECROPPER, TENANT format", issFileParser));
+            }
+
+            // Filter invalid farmerType
+            List<IssFileParser> invalidFarmerTypeList = issFileParserList
+                .stream()
+                .filter(person -> !validateFarmerType(person.getFarmerType()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidFarmerTypeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Farmer type is not in SMALL, OTHER, MARGINAL format", issFileParser));
+            }
+
+            // Filter invalid primaryOccupation
+
+            List<IssFileParser> invalidPrimaryOccupationList = issFileParserList
+                .stream()
+                .filter(person -> !validatePrimaryOccupation(person.getPrimaryOccupation()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidPrimaryOccupationList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(
+                    new ApplicationLog("Farmer primary occupation is not in FARMER, FISHRIES, ANIMAL HUSBANDARY format", issFileParser)
+                );
+            }
+
+            // Filter invalid relativeType
+            List<IssFileParser> invalidRelativeTypeList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getRelativeType()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidRelativeTypeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(
+                    new ApplicationLog("Relative Type is not in SON OF, DAUGHTER OF, CARE OF, WIFE OF format", issFileParser)
+                );
+            }
+
+            // Filter invalid relativeName
+
+            List<IssFileParser> invalidRelativeNameList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getRelativeName()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidRelativeNameList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Relative name is incorrect format", issFileParser));
+            }
+
+            // Filter invalid residentialPincode
+            List<IssFileParser> invalidResidentialPincodeList = issFileParserList
+                .stream()
+                .filter(person -> !person.getPinCode().matches("^[0-9]{6}$"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidResidentialPincodeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Residential pin code is incorrect format", issFileParser));
+            }
+
+            // Filter invalid accountNumber
+            List<IssFileParser> invalidAccountNumberList = issFileParserList
+                .stream()
+                .filter(person -> !person.getAccountNumber().matches("\\d+"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidAccountNumberList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Account Number is incorrect format", issFileParser));
+            }
+
+            // Filter invalid Scheme Wise Branch Code
+            List<IssFileParser> invalidBranchCodeList = issFileParserList
+                .stream()
+                .filter(person -> !person.getSchemeWiseBranchCode().matches("^[0-9]{6}$"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidBranchCodeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Scheme Wise Branch Code is incorrect format", issFileParser));
+            }
+
+            // Filter invalid ifsc
+            List<IssFileParser> invalidIFSCCodeList = issFileParserList
+                .stream()
+                .filter(person -> !person.getIfsc().matches("^[A-Za-z]{4}0[A-Z0-9a-z]{6}$"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidIFSCCodeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("IFSC Code is incorrect format", issFileParser));
+            }
+
+            // Filter invalid kccLoanSanctionedDate //loanSanctionedDate
+            List<IssFileParser> invalidKccLoanSanctionedDateList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getLoanSactionDate()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidKccLoanSanctionedDateList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Loan Sanctioned Date is incorrect format", issFileParser));
+            }
+
+            // Filter invalid kccLoanSanctionedAmount // kccDrawingLimitforFY // Loan
+            // Sanction Amount
+            List<IssFileParser> invalidkccLoanSanctionedAmountList = issFileParserList
+                .stream()
+                .filter(person -> !validateAmount(person.getLoanSanctionAmount()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidkccLoanSanctionedAmountList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Loan Sanction Amount is incorrect format", issFileParser));
+            }
+
+            // Filter invalid landVillage
+            List<IssFileParser> invalidLandVillageList = issFileParserList
+                .stream()
+                .filter(person -> !person.getVillageCode().matches("^[0-9]{6}$"))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidLandVillageList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Land Village Code is incorrect format", issFileParser));
+            }
+
+            // Filter invalid cropCode
+            List<IssFileParser> invalidCropCodeList = issFileParserList
+                .stream()
+                .filter(person -> StringUtils.isBlank(person.getCropName()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidCropCodeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Crop Name is incorrect format", issFileParser));
+            }
+
+            // Filter invalid surveyNumber
+            List<IssFileParser> invalidSurveyNumberList = issFileParserList
+                .stream()
+                .filter(person -> (!person.getSurveyNo().matches("^[0-9,\\/ ]+$")))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidSurveyNumberList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Survey Number is incorrect format", issFileParser));
+            }
+
+            // Filter invalid khataNumber or Sat Bara number
+            List<IssFileParser> invalidSatBaraNumberList = issFileParserList
+                .stream()
+                .filter(person -> !validateSatBaraNumber(person.getSatBaraSubsurveyNo()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidSatBaraNumberList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Sat Bara number is incorrect format", issFileParser));
+            }
+
+            // Filter invalid landArea
+            List<IssFileParser> invalidLandAreaList = issFileParserList
+                .stream()
+                .filter(person -> !validateAmount(person.getAreaHect()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidLandAreaList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Land Area Hect is incorrect format", issFileParser));
+            }
+
+            // Filter invalid landType
+            List<IssFileParser> invalidLandTypeList = issFileParserList
+                .stream()
+                .filter(person -> !validateLandType(person.getLandType()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidLandTypeList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(new ApplicationLog("Land Type is not in IRRIGATED, NON-IRRIGATED format", issFileParser));
+            }
+
+            // Filter invalid season //activityType
+            List<IssFileParser> invalidSeasonList = issFileParserList
+                .stream()
+                .filter(person -> !validateSeasonName(person.getSeasonName()))
+                .collect(Collectors.toList());
+
+            for (IssFileParser issFileParser : invalidSeasonList) {
+                issFileParserValidationErrorSet.add(issFileParser);
+                applicationLogList.add(
+                    new ApplicationLog("Season is not in KHARIF, RABI, SUMMER/ZAID/OTHERS, HORTICULTURE, SUGARCANE format", issFileParser)
+                );
+            }
+
+            // --------------------------------------------------------------
+
+            for (IssFileParser issFileParser : issFileParserValidationErrorSet) {
+                StringBuilder str = new StringBuilder();
+
+                List<ApplicationLog> collect = applicationLogList
+                    .stream()
+                    .filter(a -> a.getIssFileParser().equals(issFileParser))
+                    .collect(Collectors.toList());
+                int index = 0;
+                for (ApplicationLog applicationLog : collect) {
+                    str = str.append(applicationLog.getErrorMessage());
+                    index = index + 1;
+                    if (collect.size() != index) {
+                        str = str.append(". ");
+                    }
+                }
+                ApplicationLog applicationLog = new ApplicationLog();
+                Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);
+                if (applicationLogSaved.isPresent()) {
+                    applicationLog = applicationLogSaved.get();
+                }
+                applicationLog.setIssFileParser(issFileParser);
+                applicationLog.setErrorMessage("" + str);
+                applicationLog.setSevierity(Constants.HighSevierity);
+                applicationLog.setExpectedSolution("Provide correct information");
+                applicationLog.setStatus(Constants.ERROR);
+                applicationLog.setErrorType(Constants.validationError);
+                applicationLog.setErrorRecordCount(Long.valueOf(collect.size()));
+                applicationLog.setIssPortalId(issFileParser.getIssPortalFile().getId());
+                applicationLog.setFileName(issFileParser.getIssPortalFile().getFileName());
+                applicationLogListToSaveError.add(applicationLog);
+            }
+
+            if (!applicationLogListToSaveError.isEmpty()) {
+                applicationLogRepository.saveAll(applicationLogListToSaveError);
+            }
+
+            List<IssFileParser> correctedRecordsInFile = issFileParserList
+                .stream()
+                .filter(c1 -> issFileParserValidationErrorSet.stream().noneMatch(c2 -> c1.getId() == c2.getId()))
+                .collect(Collectors.toList());
+
+            List<Application> applicationList = new ArrayList<>();
+            if (!correctedRecordsInFile.isEmpty()) {
+                Set<ApplicationLog> applicationLogListMarkedFix = new HashSet<>();
+                for (IssFileParser issFileParser : correctedRecordsInFile) {
+                    Application application = new Application();
+                    application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                    application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+                    application.setIssFileParser(issFileParser);
+                    application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                    application.setFinancialYear(issFileParser.getFinancialYear());
+                    applicationList.add(application);
+
+                    ApplicationLog applicationLog = new ApplicationLog();
+                    Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);
+                    if (applicationLogSaved.isPresent()) {
+                        applicationLog = applicationLogSaved.get();
+                    }
+
+                    applicationLog.setIssFileParser(issFileParser);
+                    applicationLog.setStatus(Constants.FIXED);
+                    applicationLog.setSevierity("");
+                    applicationLog.setErrorRecordCount(Long.valueOf(0));
+                    applicationLog.setIssPortalId(issPortalFile.getId());
+                    applicationLog.setFileName(issPortalFile.getFileName());
+                    applicationLogListMarkedFix.add(applicationLog);
+                }
+
+                applicationRepository.saveAll(applicationList);
+                applicationLogRepository.saveAll(applicationLogListMarkedFix);
+
+                issPortalFile.setErrorRecordCount(
+                    issPortalFile.getApplicationCount() - applicationRepository.countByIssFilePortalId(issPortalFile.getId())
+                );
+                issPortalFileRepository.save(issPortalFile);
+            }
+            issFileParserRepository.saveAll(issFileParserList);
+
+            issChildPortalFile.setApplicationCount("" + issFileParserList.size());
+            issChildPortalFile.setFinancialYear(issFileParserList.get(0).getFinancialYear());
+            issChildPortalFile.setSchemeWiseBranchCode(Math.round(Double.parseDouble(issFileParserList.get(0).getSchemeWiseBranchCode())));
+            issChildPortalFile.setPacsCode(Long.parseLong(issFileParserList.get(0).getPacsNumber()));
+            issChildPortalFile.setPacsName(issFileParserList.get(0).getPacsName());
+            issChildPortalFile.setBranchName(issFileParserList.get(0).getBranchName());
+
+            issChildPortalFileRepository.save(issChildPortalFile);
 
         }
 
@@ -1051,7 +1113,7 @@ public class IssChildFileParserResource {
 
     private boolean validateSocialCategory(String castCategoryName) {
 
-    	System.out.println("?????????????????????????????"+castCategoryName);
+        System.out.println("?????????????????????????????" + castCategoryName);
         boolean flag = false;
         if (StringUtils.isBlank(castCategoryName)) {
             return flag;
@@ -1136,19 +1198,6 @@ public class IssChildFileParserResource {
         return aadharNumber.matches(aadhaarPattern);
     }
 
-    public static byte[] objectToBytes(BatchData encDecObject) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            objectOutputStream.writeObject(encDecObject);
-            objectOutputStream.close();
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public String encryption(Object encDecObject) {
         try {
             SecretKey secretKey = generateSecretKey(applicationProperties.getSecretKey(), applicationProperties.getKeySizeBits());
@@ -1199,80 +1248,6 @@ public class IssChildFileParserResource {
             log.error("Error while decrypting: " + e);
         }
         return null;
-    }
-
-    private static SecretKey generateSecretKey(String secretKey, int keySize) {
-        byte[] keyBytes = secretKey.getBytes(StandardCharsets.UTF_8);
-        byte[] truncatedKey = new byte[keySize / 8];
-        System.arraycopy(keyBytes, 0, truncatedKey, 0, truncatedKey.length);
-        return new SecretKeySpec(truncatedKey, "AES");
-    }
-
-    private static String getCellValue(Cell cell) {
-        String cellValue = "";
-
-        if (cell == null) {
-            return cellValue;
-        } else if (cell.getCellType() == CellType.STRING) {
-            cellValue = cell.getStringCellValue().trim();
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            cellValue = String.valueOf(cell.getNumericCellValue());
-            BigDecimal bigDecimal = new BigDecimal(cellValue);
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-            DecimalFormat decimalFormat = new DecimalFormat("0", symbols);
-
-            cellValue = decimalFormat.format(bigDecimal);
-        } else if (cell.getCellType() == CellType.BOOLEAN) {
-            cellValue = String.valueOf(cell.getBooleanCellValue());
-        } else if (cell.getCellType() == CellType.FORMULA) {
-            cellValue = String.valueOf(cell.getNumericCellValue());
-
-            if (cellValue.contains(".0")) {
-                cellValue = cellValue.substring(0, cellValue.indexOf("."));
-            }
-        } else if (cell.getCellType() == CellType.BLANK) {
-            cellValue = "";
-        }
-
-        return cellValue;
-    }
-
-    private static String getDateCellValue(Cell cell) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        String cellValue = "";
-
-        if (cell == null) {
-            return cellValue;
-        } else if (cell.getCellType() == CellType.STRING) {
-            Pattern patternYYYYMMDD = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-            Pattern patternDDMMYYYY = Pattern.compile("^\\d{2}/\\d{2}/\\d{4}$");
-
-            if (patternYYYYMMDD.matcher(cell.getStringCellValue()).matches()) { // yyyy-MM-dd
-                LocalDate date = LocalDate.parse(cell.getStringCellValue());
-                cellValue = date.format(formatter).trim();
-            } else if (patternDDMMYYYY.matcher(cell.getStringCellValue()).matches()) { // dd/mm/yyyy
-                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate date = LocalDate.parse(cell.getStringCellValue(), inputFormatter);
-                cellValue = date.format(formatter).trim();
-            } else {
-                cellValue = cell.getStringCellValue();
-            }
-        } else if (cell.getCellType() == CellType.NUMERIC) {
-            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
-            cellValue = date.format(formatter);
-        } else if (cell.getCellType() == CellType.FORMULA) {
-            LocalDate date = LocalDate.of(1900, 1, 1).plusDays((long) cell.getNumericCellValue() - 2);
-            cellValue = date.format(formatter);
-        } else if (cell.getCellType() == CellType.BLANK) {
-            cellValue = "";
-        }
-
-        return cellValue;
     }
 
     ApplicationLog generateApplicationLog(String ErrorMsg, String expectedSolution, String sevierity) {

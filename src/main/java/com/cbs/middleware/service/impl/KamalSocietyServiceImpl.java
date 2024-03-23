@@ -55,6 +55,13 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
     @Override
     public KamalSociety update(KamalSociety kamalSociety) {
         log.debug("Request to update KamalSociety : {}", kamalSociety);
+
+        //update the amount in ascending order...
+        kamalSociety=updateTheAmountUpward(kamalSociety);
+
+        if(kamalSociety.getAmount()!=null && kamalSociety.getAmount()!=0){
+            kamalSociety = calculateKamalKarjMarayadaAmount(kamalSociety);
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         GrantedAuthority authority = authorities.stream().findFirst().get();
@@ -86,7 +93,7 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
 
 
         }
-        if (!kamalSocietyDB.get().getKamalCrops().isEmpty()) {
+        if (!kamalSociety.getKamalCrops().isEmpty()) {
             Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
             kamalCrops.forEach(kamalCrop -> {
                     kamalCrop.setFinancialYear(kamalSocietyDB.get().getFinancialYear());
@@ -96,7 +103,88 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 }
             );
         }
+
+
         return kamalSocietyRepository.save(kamalSociety);
+    }
+
+    private KamalSociety updateTheAmountUpward(KamalSociety kamalSociety) {
+        Optional<KamalSociety> kamalSocietyDB = kamalSocietyRepository.findById(kamalSociety.getId());
+        Set<KamalCrop> kamalCropsDB = kamalSocietyDB.get().getKamalCrops();
+        Set<KamalCrop> kamalCropsEdited = kamalSociety.getKamalCrops();
+
+        for (KamalCrop kamalCropDB:kamalCropsDB) {
+            for (KamalCrop kamalCropEdited:kamalCropsEdited) {
+
+                //for amount changed by pacs
+                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
+                    kamalCropEdited.getPacsAmount()!=null &&
+                    !kamalCropEdited.getPacsAmount().equals(kamalCropDB.getPacsAmount())
+                ){
+                    kamalCropEdited.setBranchAmount(kamalCropEdited.getPacsAmount());
+                    kamalCropEdited.setHeadOfficeAmount(kamalCropEdited.getPacsAmount());
+                    kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getPacsAmount());
+                    kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getPacsAmount());
+                }
+
+                //for amount changed by branch user (branch_amount)
+                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
+                    kamalCropEdited.getBranchAmount()!=null &&
+                    !kamalCropEdited.getBranchAmount().equals(kamalCropDB.getBranchAmount())
+                ){
+                    kamalCropEdited.setHeadOfficeAmount(kamalCropEdited.getBranchAmount());
+                    kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getBranchAmount());
+                    kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getBranchAmount());
+                }
+
+                //for amount changed by branch admin (head_office_amount)
+                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
+                    kamalCropEdited.getHeadOfficeAmount()!=null &&
+                    !kamalCropEdited.getHeadOfficeAmount().equals(kamalCropDB.getHeadOfficeAmount())
+                ){
+                    kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getHeadOfficeAmount());
+                    kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getHeadOfficeAmount());
+                }
+
+                //for amount changed by zonal_officer (divisional_officer_amount)
+                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
+                    kamalCropEdited.getDivisionalOfficeAmount()!=null &&
+                    !kamalCropEdited.getDivisionalOfficeAmount().equals(kamalCropDB.getDivisionalOfficeAmount())
+                ){
+                    kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getDivisionalOfficeAmount());
+                }
+
+            }
+
+        }
+
+        return kamalSociety;
+
+    }
+
+    private KamalSociety calculateKamalKarjMarayadaAmount(KamalSociety kamalSociety) {
+        double a = 0.0;
+        double b = 0.0;
+        double c = 0.0;
+        double fraudAmount = 0.0;
+
+
+        Double maganiAmount = kamalSociety.getAmount();
+        String bankLoan = kamalSociety.getLiabilityBalanceSheetBankLoan();
+
+        String assetMemberLoan = kamalSociety.getAssetMemberLoan();
+        String cash = kamalSociety.getAssetCash(); // रोख शिल्लक व बँक शिल्लक
+        if(kamalSociety.getFraudAmount()!=null){
+            fraudAmount = kamalSociety.getFraudAmount();
+        }
+
+        a=maganiAmount+Double.parseDouble(bankLoan)+(0.05*maganiAmount);
+        b=Double.parseDouble(assetMemberLoan)+(0.1*maganiAmount)+Double.parseDouble(cash)+fraudAmount;
+
+        c=a-b;
+
+        kamalSociety.setKamalKarjMarayadaAmount(c);
+        return kamalSociety;
     }
 
     private LocalDate InstantToLocalDate(Instant instantDate) {
@@ -380,6 +468,18 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 }
                 if (kamalSociety.getAgriAdminVerifiedDate() != null) {
                     existingKamalSociety.setAgriAdminVerifiedDate(kamalSociety.getAgriAdminVerifiedDate());
+                }
+                if (kamalSociety.getAmount() != null) {
+                    existingKamalSociety.setAmount(kamalSociety.getAmount());
+                }
+                if (kamalSociety.getArea() != null) {
+                    existingKamalSociety.setArea(kamalSociety.getArea());
+                }
+                if (kamalSociety.getMemberCount() != null) {
+                    existingKamalSociety.setMemberCount(kamalSociety.getMemberCount());
+                }
+                if (kamalSociety.getFraudAmount() != null) {
+                    existingKamalSociety.setFraudAmount(kamalSociety.getFraudAmount());
                 }
                 return existingKamalSociety;
             })

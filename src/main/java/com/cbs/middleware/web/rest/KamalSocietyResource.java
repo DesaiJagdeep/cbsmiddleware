@@ -118,11 +118,19 @@ public class KamalSocietyResource {
      */
     @PostMapping("/kamal-societies")
     public ResponseEntity<KamalSociety> createKamalSociety(@Valid @RequestBody KamalSociety kamalSociety) throws URISyntaxException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            throw new BadRequestAlertException("Unauthorized User", ENTITY_NAME, "idnull");
+        }
+
+
         log.debug("REST request to save KamalSociety : {}", kamalSociety);
         if (kamalSociety.getId() != null) {
             throw new BadRequestAlertException("A new kamalSociety cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
         String pacsNumber = optUser.get().getPacsNumber();
         kamalSociety.setPacsNumber(pacsNumber);
@@ -166,7 +174,7 @@ public class KamalSocietyResource {
     }
 
     private LocalDate InstantToLocalDate(Instant instantDate) {
-        if(instantDate.equals(null)){
+        if (instantDate.equals(null)) {
             return null;
         }
         ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
@@ -190,6 +198,9 @@ public class KamalSocietyResource {
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody KamalSociety kamalSociety
     ) throws URISyntaxException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
         log.debug("REST request to update KamalSociety : {}, {}", id, kamalSociety);
         if (kamalSociety.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -209,6 +220,20 @@ public class KamalSocietyResource {
             .body(result);
     }
 
+    private void authenticateTOAccessKamalSociety(Authentication auth) {
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_ZONAL_OFFICER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ADMIN)
+        ) {
+            throw new BadRequestAlertException("Unauthorized User", ENTITY_NAME, "idnull");
+        }
+    }
+
     /**
      * {@code PATCH  /kamal-societies/:id} : Partial updates given fields of an existing kamalSociety, field will ignore if it is null
      *
@@ -226,6 +251,9 @@ public class KamalSocietyResource {
         @NotNull @RequestBody KamalSociety kamalSociety
     ) throws URISyntaxException {
         log.debug("REST request to partial update KamalSociety partially : {}, {}", id, kamalSociety);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
         if (kamalSociety.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -259,6 +287,8 @@ public class KamalSocietyResource {
     ) {
         log.debug("REST request to get KamalSocieties by criteria: {}", criteria);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         GrantedAuthority authority = authorities.stream().findFirst().get();
 
@@ -295,8 +325,7 @@ public class KamalSocietyResource {
             pacsNumberFilter.setEquals(pacsNumber);
             criteria.setPacsNumber(pacsNumberFilter);
 
-        }
-        else if ( authority.toString().equals(AuthoritiesConstants.ROLE_ZONAL_OFFICER) ){
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_ZONAL_OFFICER)) {
             TalukaMaster talukaName = talukaMasterRepository.findOneByTalukaName(optUser.get().getTalukaName());
 
             BooleanFilter pacsVerifiedFilter = new BooleanFilter();
@@ -305,14 +334,13 @@ public class KamalSocietyResource {
             branchVerifiedFilter.setEquals(true);
             BooleanFilter headOfficeVerifiedFilter = new BooleanFilter();
             headOfficeVerifiedFilter.setEquals(true);
-            LongFilter talukaFilter=new LongFilter();
+            LongFilter talukaFilter = new LongFilter();
             talukaFilter.setEquals(talukaName.getId());
             criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
             criteria.setBranchVerifiedFlag(branchVerifiedFilter);
             criteria.setHeadOfficeVerifiedFlag(headOfficeVerifiedFilter);
             criteria.setTalukaId(talukaFilter);
-        }
-        else if (authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN)){
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN)) {
             BooleanFilter pacsVerifiedFilter = new BooleanFilter();
             pacsVerifiedFilter.setEquals(true);
             BooleanFilter branchVerifiedFilter = new BooleanFilter();
@@ -686,8 +714,6 @@ public class KamalSocietyResource {
         KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
 
 
-
-
         //for 1) karyalayeenNivedan Report
         Optional<KamalSociety> kamalSocietyOptional = kamalSocietyRepository.findByFyPacsNumberKmDate(financialYear, pacsNumber, kmDate);
         DecimalFormat decimalFormat = new DecimalFormat();
@@ -742,7 +768,7 @@ public class KamalSocietyResource {
         KamalCrop rabbiSmall = getObjectOfTotal(rabbiSmallListToPrint);
         KamalCrop rabbiOther = getObjectOfTotal(rabbiOtherListToPrint);
 
-       // KamalCrop  totalOfKmMagani=getTotalOfKmMagani(totalSugarcaneAplusB,totalKharipAplusB,totalRabbiAplusB);
+        // KamalCrop  totalOfKmMagani=getTotalOfKmMagani(totalSugarcaneAplusB,totalKharipAplusB,totalRabbiAplusB);
 
         switch (newKmReportPayload.getTemplateName()) {
 
@@ -975,6 +1001,8 @@ public class KamalSocietyResource {
         return response;
     }
 
+
+
 /*    private KamalCrop getTotalOfKmMagani(KamalCrop totalSugarcaneAplusB, KamalCrop totalKharipAplusB, KamalCrop totalRabbiAplusB) {
         int totalMemberCount = 0;
         double totalArea = 0.0;
@@ -1198,10 +1226,10 @@ public class KamalSocietyResource {
         List<KamalCrop> kamalCropsWithAmount = new ArrayList<>();
 
         for (KamalCrop kamalCrop : kamalCropListDB) {
-           // Optional<CropRateMaster> cropRateMasterDB = cropRateMasterRepository.findCropRateByCropAndFinancialYear(kamalCrop.getCropMaster().getId(), financialYear);
+            // Optional<CropRateMaster> cropRateMasterDB = cropRateMasterRepository.findCropRateByCropAndFinancialYear(kamalCrop.getCropMaster().getId(), financialYear);
             String cropRate = kamalCrop.getCropMaster().getCropRate();
 
-            if (cropRate!=null) {
+            if (cropRate != null) {
                 Double area = Double.parseDouble(kamalCrop.getArea());
                 double perHectorCropAmount = Double.parseDouble(cropRate);
                 double pacsAmount = area * perHectorCropAmount;
@@ -1355,7 +1383,7 @@ public class KamalSocietyResource {
                                         KamalCrop grandTotal,
                                         String imagePath,
                                         TranslationServiceUtility translationServiceUtility
-                                        ) {
+    ) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("kamalSociety", kamalSociety);

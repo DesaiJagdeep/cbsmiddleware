@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kamal Patrak</title>
+</head>
+<body style="box-sizing: border-box;">
+<table width="100%">
+  <tr style="font-size: 14px;">
+    <th width="50%" style="border: 1px solid black; border-collapse: collapse;">
+      <p style="text-align: center; margin: 10px 0;">सिंधुदुर्ग जिल्हा मध्यवर्ती सहकारी बँक लि. सिंधुदुर्ग </p>
+      <p style="text-align: center; margin: 0;">
+        <small style="font-weight: 400;">किसान पतपात्र योजनेखाली अल्पमुदत शेती कर्जाचे कमाल मर्यादा पत्रक </small>
+      </p>
+      <div style="width: 60%; float: right;">
+        <p style="margin: 5px; ">
+          <small>
+            सन <span style="font-weight: 400;">01/04/2015</span>
+            ते <span style="font-weight: 400;">31/03/2018 </span>
+          </small>
+        </p>
+      </div>
+    </th>
+    <th width="50%" style="border: 1px solid black; border-collapse: collapse;">
+      <p style="text-align: center; margin: 10px 0;">भारत माता महिला नागरी पत  संस्था लि.</p>
+      <p style="text-align: center; margin: 0;">
+        <small style="font-weight: 400;">केडगाव</small>
+      </p>
+    </th>
+  </tr>
+</table>
+<div style="padding: 0px 10px 10px 0px; min-height: 60vh;">
+  <table width="100%" style="border: 1px solid black; border-collapse: collapse;">
+    <tr style="border: 1px solid black; border-collapse: collapse;">
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">अ. न.</th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">पि. आय. डी</th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">सभासद </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">शेअर्स  </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">ठेव </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">येणे बाकी  </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">थक बाकी  </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">एकुण क्षेत्र  </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">इ  क्षेत्र </th>
+      <th colspan="6" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">सभासद पिकवार मागणी, रक्कम  </th>
+      <th colspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">संस्था शिफारस </th>
+      <th colspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">बँक शिफारस </th>
+      <th rowspan="2" style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">भाग </th>
+    </tr>
+    <tr>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">हंगाम </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">पीक </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">क्षेत्र</th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;"> ला. क्षेत्र </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">कलम संख्या </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">मागणी </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">कलम संख्या </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">रक्कम </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">कलम संख्या </th>
+      <th style="border: 1px solid black; border-collapse: collapse; font-size: 12px;">रक्कम </th>
+    </tr>
+    <tr style="border: 1px solid black; border-collapse: collapse;"  th:if="${not #lists.isEmpty(kmMasterList)}" th:each="kmMaster,iterStat : ${kmMasterList}">
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;"   th:text="${iterStat.count}"></td>
+
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;"   th:text="${kmMaster.pacsMemberCode}"></td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;" th:text="${kmMaster.farmerName}"></td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;"  th:text="${kmMaster.kmDetails.shares}"></td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+      <td style="border: 1px solid black; border-collapse: collapse; text-align: end;">43</td>
+    </tr>
+  </table>
+</div>
+
+<div>
+  <div style="width: 30%; text-align: center; font-size: 14px; display: inline-block;">
+    <p>
+      वरील माहितीत सूचनाबर हुकूम <br>
+      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे
+    </p>
+    <h5 style="padding: 8px;">सचिव</h5>
+    <p>भारत माता महिला नागरी पत  संस्था लि.</p>
+  </div>
+  <div style="width: 30%; text-align: center; font-size: 14px; display: inline-block;">
+    <p>
+      वरील माहितीत सूचनाबर हुकूम <br>
+      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे
+    </p>
+    <h5 style="padding: 8px;">विकास अधिकारी</h5>
+    <p>शाखा</p>
+  </div>
+  <div style="width: 30%; text-align: center; font-size: 14px; display: inline-block;">
+    <p>
+      वरील माहितीत सूचनाबर हुकूम <br>
+      सर्व पात्र सभासदांचा समावेश केला असून बिनचूक केली आहे
+    </p>
+    <h5 style="padding: 8px;">विकास अधिकारी</h5>
+    <p>शाखा</p>
+  </div>
+</div>
+</body>
+</html></html>

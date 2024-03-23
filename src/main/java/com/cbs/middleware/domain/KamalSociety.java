@@ -1,13 +1,18 @@
 package com.cbs.middleware.domain;
 
+import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 /**
  * A KamalSociety.
@@ -15,7 +20,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "kamal_society")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class KamalSociety  extends AbstractAuditingEntity<Long> implements Serializable {
+public class KamalSociety extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,1095 +29,346 @@ public class KamalSociety  extends AbstractAuditingEntity<Long> implements Seria
     @Column(name = "id")
     private Long id;
 
+    @NotNull
+    @Column(name = "financial_year", nullable = false)
+    private String financialYear;
+
+    @Column(name = "km_date")
+    private Instant kmDate;
+
+    @Column(name = "km_date_mr")
+    private String kmDateMr;
+
+    @Column(name = "km_from_date")
+    private Instant kmFromDate;
+
+    @Column(name = "km_from_date_mr")
+    private String kmFromDateMr;
+
+    @Column(name = "km_to_date")
+    private Instant kmToDate;
+
+    @Column(name = "km_to_date_mr")
+    private String kmToDateMr;
+
     @Column(name = "pacs_number")
-    private Long pacsNumber;
+    private String pacsNumber;
 
-    @Column(name = "zindagi_date")
-    private Instant zindagiDate;
+    @Column(name = "pacs_name")
+    private String pacsName;
 
-    @Column(name = "zindagi_date_mr")
-    private String zindagiDateMr;
+    @Column(name = "branch_id")
+    private Long branchId;
 
-    @Column(name = "village_1")
-    private String village1;
+    @Column(name = "branch_name")
+    private String branchName;
+    @Column(name = "taluka_id")
+    private Long talukaId;
 
-    @Column(name = "village_1_mr")
-    private String village1Mr;
+    @Column(name = "taluka_name")
+    private String talukaName;
 
-    @Column(name = "village_2")
-    private String village2;
+    @Column(name = "zindagi_patrak_date")
+    private Instant zindagiPatrakDate;
 
-    @Column(name = "village_2_mr")
-    private String village2Mr;
+    @Column(name = "zindagi_patrak_date_mr")
+    private String zindagiPatrakDateMr;
 
-    @Column(name = "village_3")
-    private String village3;
+    @Column(name = "bank_tapasani_date")
+    private Instant bankTapasaniDate;
 
-    @Column(name = "village_3_mr")
-    private String village3Mr;
+    @Column(name = "bank_tapasani_date_mr")
+    private String bankTapasaniDateMr;
+
+    @Column(name = "gov_tapasani_date")
+    private Instant govTapasaniDate;
+
+    @Column(name = "gov_tapasani_date_mr")
+    private String govTapasaniDateMr;
+
+    @Column(name = "sanstha_tapasani_date")
+    private Instant sansthaTapasaniDate;
+
+    @Column(name = "sanstha_tapasani_date_mr")
+    private String sansthaTapasaniDateMr;
 
     @Column(name = "total_land")
-    private Double totalLand;
+    private String totalLand;
 
-    @Column(name = "total_land_mr")
-    private String totalLandMr;
+    @Column(name = "bagayat")
+    private String bagayat;
 
-    @Column(name = "total_mem")
-    private Double totalMem;
+    @Column(name = "jirayat")
+    private String jirayat;
 
-    @Column(name = "total_mem_mr")
-    private String totalMemMr;
+    @Column(name = "total_farmer")
+    private String totalFarmer;
 
-    @Column(name = "total_non_mem")
-    private Double totalNonMem;
+    @Column(name = "member_farmer")
+    private String memberFarmer;
 
-    @Column(name = "total_non_mem_mr")
-    private String totalNonMemMr;
+    @Column(name = "non_member_farmer")
+    private String nonMemberFarmer;
 
-    @Column(name = "total_g_mem")
-    private Double totalGMem;
-
-    @Column(name = "total_g_mem_mr")
-    private String totalGMemMr;
+    @Column(name = "taleband_date")
+    private Instant talebandDate;
 
     @Column(name = "mem_loan")
-    private Double memLoan;
-
-    @Column(name = "mem_loan_mr")
-    private String memLoanMr;
+    private String memLoan;
 
     @Column(name = "mem_due")
-    private Double memDue;
+    private String memDue;
 
-    @Column(name = "mem_due_mr")
-    private String memDueMr;
+    @Column(name = "mem_vasuli")
+    private String memVasuli;
 
-    @Column(name = "mem_dueper")
-    private Double memDueper;
-
-    @Column(name = "mem_dueper_mr")
-    private String memDueperMr;
-
-    @Column(name = "mem_vasulpatra")
-    private Double memVasulpatra;
-
-    @Column(name = "mem_vasulpatra_mr")
-    private String memVasulpatraMr;
-
-    @Column(name = "mem_vasul")
-    private Double memVasul;
-
-    @Column(name = "mem_vasul_mr")
-    private String memVasulMr;
-
-    @Column(name = "mem_vasul_per")
-    private Double memVasulPer;
-
-    @Column(name = "mem_vasul_per_mr")
-    private String memVasulPerMr;
+    @Column(name = "mem_vasuli_per")
+    private String memVasuliPer;
 
     @Column(name = "bank_loan")
-    private Double bankLoan;
-
-    @Column(name = "bank_loan_mr")
-    private String bankLoanMr;
+    private String bankLoan;
 
     @Column(name = "bank_due")
-    private Double bankDue;
+    private String bankDue;
 
-    @Column(name = "bank_due_mr")
-    private String bankDueMr;
+    @Column(name = "bank_vasuli")
+    private String bankVasuli;
 
-    @Column(name = "bank_dueper")
-    private Double bankDueper;
+    @Column(name = "bank_vasuli_per")
+    private String bankVasuliPer;
 
-    @Column(name = "bank_dueper_mr")
-    private String bankDueperMr;
+    @Column(name = "balance_sheet_date")
+    private Instant balanceSheetDate;
 
-    @Column(name = "bank_vasulpatra")
-    private Double bankVasulpatra;
+    @Column(name = "balance_sheet_date_mr")
+    private String balanceSheetDateMr;
 
-    @Column(name = "bank_vasulpatra_mr")
-    private String bankVasulpatraMr;
+    @Column(name = "liability_adhikrut_share_capital")
+    private String liabilityAdhikrutShareCapital;
 
-    @Column(name = "bank_vasul")
-    private Double bankVasul;
+    @Column(name = "liability_vasul_share_capital")
+    private String liabilityVasulShareCapital;
 
-    @Column(name = "bank_vasul_mr")
-    private String bankVasulMr;
+    @Column(name = "liability_fund")
+    private String liabilityFund;
 
-    @Column(name = "bank_vasul_per")
-    private Double bankVasulPer;
+    @Column(name = "liability_spare_fund")
+    private String liabilitySpareFund;
 
-    @Column(name = "bank_vasul_per_mr")
-    private String bankVasulPerMr;
+    @Column(name = "liability_deposite")
+    private String liabilityDeposite;
 
-    @Column(name = "share_capital")
-    private Double shareCapital;
+    @Column(name = "liability_balance_sheet_bank_loan")
+    private String liabilityBalanceSheetBankLoan;
 
-    @Column(name = "share_capital_mr")
-    private String shareCapitalMr;
+    @Column(name = "liability_other_payable")
+    private String liabilityOtherPayable;
 
-    @Column(name = "share")
-    private Double share;
+    @Column(name = "liability_profit")
+    private String liabilityProfit;
 
-    @Column(name = "share_mr")
-    private String shareMr;
+    @Column(name = "asset_cash")
+    private String assetCash;
 
-    @Column(name = "funds")
-    private Double funds;
+    @Column(name = "asset_investment")
+    private String assetInvestment;
 
-    @Column(name = "funds_mr")
-    private String fundsMr;
+    @Column(name = "asset_imarat_fund")
+    private String assetImaratFund;
 
-    @Column(name = "deposit")
-    private Double deposit;
+    @Column(name = "asset_member_loan")
+    private String assetMemberLoan;
 
-    @Column(name = "deposit_mr")
-    private String depositMr;
+    @Column(name = "asset_dead_stock")
+    private String assetDeadStock;
 
-    @Column(name = "payable")
-    private Double payable;
+    @Column(name = "asset_other_receivable")
+    private String assetOtherReceivable;
 
-    @Column(name = "payable_mr")
-    private String payableMr;
+    @Column(name = "asset_loss")
+    private String assetLoss;
 
-    @Column(name = "profit")
-    private Double profit;
+    @Column(name = "total_liability")
+    private String totalLiability;
 
-    @Column(name = "profit_mr")
-    private String profitMr;
+    @Column(name = "total_asset")
+    private String totalAsset;
 
-    @Column(name = "cash_in_hand")
-    private Double cashInHand;
+    @Column(name = "village_code")
+    private String villageCode;
 
-    @Column(name = "cash_in_hand_mr")
-    private String cashInHandMr;
+    @Column(name = "pacs_verified_flag")
+    private Boolean pacsVerifiedFlag;
 
-    @Column(name = "investment")
-    private Double investment;
+    @Column(name = "branch_verified_flag")
+    private Boolean branchVerifiedFlag;
 
-    @Column(name = "investment_mr")
-    private String investmentMr;
+    @Column(name = "head_office_verified_flag")
+    private Boolean headOfficeVerifiedFlag;
 
-    @Column(name = "dead_stock")
-    private Double deadStock;
+    @Column(name = "is_supplimentery_flag")
+    private Boolean isSupplimenteryFlag;
 
-    @Column(name = "dead_stock_mr")
-    private String deadStockMr;
+    @Column(name = "sanstha_tapasani_varg")
+    private String sansthaTapasaniVarg;
 
-    @Column(name = "other_pay")
-    private Double otherPay;
 
-    @Column(name = "other_pay_mr")
-    private String otherPayMr;
+    @Column(name = "branch_verified_by")
+    private String branchVerifiedBy;
 
-    @Column(name = "loss")
-    private Double loss;
 
-    @Column(name = "loss_mr")
-    private String lossMr;
+    @Column(name = "branch_verified_date")
+    private Instant branchVerifiedDate;
 
-    @Column(name = "total_bagayat")
-    private Double totalBagayat;
+    @Column(name = "head_office_verified_by")
+    private String headOfficeVerifiedBy;
 
-    @Column(name = "total_bagayat_mr")
-    private String totalBagayatMr;
 
-    @Column(name = "total_jirayat")
-    private Double totalJirayat;
+    @Column(name = "head_office_verified_date")
+    private Instant headOfficeVerifiedDate;
 
-    @Column(name = "total_jirayat_mr")
-    private String totalJirayatMr;
+    @Column(name = "divisional_office_verified_flag")
+    private Boolean divisionalOfficeVerifiedFlag;
 
-    @OneToMany(mappedBy = "kamalSociety",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnoreProperties(value = { "kamalSociety" }, allowSetters = true)
+    @Column(name = "divisional_office_verified_by")
+    private String divisionalOfficeVerifiedBy;
+
+    @Column(name = "divisional_office_verified_date")
+    private Instant divisionalOfficeVerifiedDate;
+
+    @Column(name = "agri_admin_verified_flag")
+    private Boolean agriAdminVerifiedFlag;
+
+    @Column(name = "agri_admin_verified_by")
+    private String agriAdminVerifiedBy;
+
+    @Column(name = "agri_admin_verified_date")
+    private Instant agriAdminVerifiedDate;
+
+    @Column(name = "dosh_purtata_date")
+    private Instant doshPurtataDate;
+
+    @Column(name = "gambhir_dosh")
+    private String gambhirDosh;
+
+    @Column(name = "branch_inward_number")
+    private String branchInwardNumber;
+
+    @Column(name = "branch_inward_date")
+    private Instant branchInwardDate;
+
+    @Column(name = "branch_outward_number")
+    private String branchOutwardNumber;
+
+    @Column(name = "branch_outward_date")
+    private Instant branchOutwardDate;
+
+
+    @Column(name = "head_office_inward_number")
+    private String headOfficeInwardNumber;
+
+    @Column(name = "head_office_inward_date")
+    private Instant headOfficeInwardDate;
+
+
+    @Column(name = "head_office_outward_number")
+    private String headOfficeOutwardNumber;
+
+    @Column(name = "head_office_outward_date")
+    private Instant headOfficeOutwardDate;
+
+
+    @Column(name = "tharav_number")
+    private String tharavNumber;
+
+
+    @Column(name = "tharav_date")
+    private Instant tharavDate;
+
+    @Column(name = "kamal_karj_marayada_amount")
+    private Double kamalKarjMarayadaAmount;
+
+    @Column(name = "member_count")
+    private Long memberCount;
+    @Column(name = "area")
+    private Double area;
+
+    @Column(name = "amount")
+    private  Double amount ;
+
+    @Column(name = "fraud_amount")
+    private  Double fraudAmount ;
+
+    @OneToMany(mappedBy = "kamalSociety", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties(value = {"kamalSociety"}, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    //
 
-    public Long getId() {
-        return this.id;
+    public Double getFraudAmount() {
+        return fraudAmount;
     }
-
-    public KamalSociety id(Long id) {
-        this.setId(id);
-        return this;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getPacsNumber() {
-        return this.pacsNumber;
-    }
-
-    public KamalSociety pacsNumber(Long pacsNumber) {
-        this.setPacsNumber(pacsNumber);
-        return this;
-    }
-
-    public void setPacsNumber(Long pacsNumber) {
-        this.pacsNumber = pacsNumber;
-    }
-
-    public Instant getZindagiDate() {
-        return this.zindagiDate;
-    }
-
-    public KamalSociety zindagiDate(Instant zindagiDate) {
-        this.setZindagiDate(zindagiDate);
-        return this;
-    }
-
-    public void setZindagiDate(Instant zindagiDate) {
-        this.zindagiDate = zindagiDate;
-    }
-
-    public String getZindagiDateMr() {
-        return this.zindagiDateMr;
-    }
-
-    public KamalSociety zindagiDateMr(String zindagiDateMr) {
-        this.setZindagiDateMr(zindagiDateMr);
-        return this;
-    }
-
-    public void setZindagiDateMr(String zindagiDateMr) {
-        this.zindagiDateMr = zindagiDateMr;
-    }
-
-    public String getVillage1() {
-        return this.village1;
-    }
-
-    public KamalSociety village1(String village1) {
-        this.setVillage1(village1);
-        return this;
-    }
-
-    public void setVillage1(String village1) {
-        this.village1 = village1;
-    }
-
-    public String getVillage1Mr() {
-        return this.village1Mr;
-    }
-
-    public KamalSociety village1Mr(String village1Mr) {
-        this.setVillage1Mr(village1Mr);
-        return this;
-    }
-
-    public void setVillage1Mr(String village1Mr) {
-        this.village1Mr = village1Mr;
-    }
-
-    public String getVillage2() {
-        return this.village2;
-    }
-
-    public KamalSociety village2(String village2) {
-        this.setVillage2(village2);
-        return this;
-    }
-
-    public void setVillage2(String village2) {
-        this.village2 = village2;
-    }
-
-    public String getVillage2Mr() {
-        return this.village2Mr;
-    }
-
-    public KamalSociety village2Mr(String village2Mr) {
-        this.setVillage2Mr(village2Mr);
-        return this;
-    }
-
-    public void setVillage2Mr(String village2Mr) {
-        this.village2Mr = village2Mr;
-    }
-
-    public String getVillage3() {
-        return this.village3;
-    }
-
-    public KamalSociety village3(String village3) {
-        this.setVillage3(village3);
-        return this;
-    }
-
-    public void setVillage3(String village3) {
-        this.village3 = village3;
-    }
-
-    public String getVillage3Mr() {
-        return this.village3Mr;
-    }
-
-    public KamalSociety village3Mr(String village3Mr) {
-        this.setVillage3Mr(village3Mr);
-        return this;
-    }
-
-    public void setVillage3Mr(String village3Mr) {
-        this.village3Mr = village3Mr;
-    }
-
-    public Double getTotalLand() {
-        return this.totalLand;
-    }
-
-    public KamalSociety totalLand(Double totalLand) {
-        this.setTotalLand(totalLand);
-        return this;
-    }
-
-    public void setTotalLand(Double totalLand) {
-        this.totalLand = totalLand;
-    }
-
-    public String getTotalLandMr() {
-        return this.totalLandMr;
-    }
-
-    public KamalSociety totalLandMr(String totalLandMr) {
-        this.setTotalLandMr(totalLandMr);
-        return this;
-    }
-
-    public void setTotalLandMr(String totalLandMr) {
-        this.totalLandMr = totalLandMr;
-    }
-
-    public Double getTotalMem() {
-        return this.totalMem;
-    }
-
-    public KamalSociety totalMem(Double totalMem) {
-        this.setTotalMem(totalMem);
-        return this;
-    }
-
-    public void setTotalMem(Double totalMem) {
-        this.totalMem = totalMem;
-    }
-
-    public String getTotalMemMr() {
-        return this.totalMemMr;
-    }
-
-    public KamalSociety totalMemMr(String totalMemMr) {
-        this.setTotalMemMr(totalMemMr);
-        return this;
-    }
-
-    public void setTotalMemMr(String totalMemMr) {
-        this.totalMemMr = totalMemMr;
-    }
-
-    public Double getTotalNonMem() {
-        return this.totalNonMem;
-    }
-
-    public KamalSociety totalNonMem(Double totalNonMem) {
-        this.setTotalNonMem(totalNonMem);
-        return this;
-    }
-
-    public void setTotalNonMem(Double totalNonMem) {
-        this.totalNonMem = totalNonMem;
-    }
-
-    public String getTotalNonMemMr() {
-        return this.totalNonMemMr;
-    }
-
-    public KamalSociety totalNonMemMr(String totalNonMemMr) {
-        this.setTotalNonMemMr(totalNonMemMr);
-        return this;
-    }
-
-    public void setTotalNonMemMr(String totalNonMemMr) {
-        this.totalNonMemMr = totalNonMemMr;
-    }
-
-    public Double getTotalGMem() {
-        return this.totalGMem;
-    }
-
-    public KamalSociety totalGMem(Double totalGMem) {
-        this.setTotalGMem(totalGMem);
-        return this;
-    }
-
-    public void setTotalGMem(Double totalGMem) {
-        this.totalGMem = totalGMem;
-    }
-
-    public String getTotalGMemMr() {
-        return this.totalGMemMr;
-    }
-
-    public KamalSociety totalGMemMr(String totalGMemMr) {
-        this.setTotalGMemMr(totalGMemMr);
-        return this;
-    }
-
-    public void setTotalGMemMr(String totalGMemMr) {
-        this.totalGMemMr = totalGMemMr;
-    }
-
-    public Double getMemLoan() {
-        return this.memLoan;
-    }
-
-    public KamalSociety memLoan(Double memLoan) {
-        this.setMemLoan(memLoan);
-        return this;
-    }
-
-    public void setMemLoan(Double memLoan) {
-        this.memLoan = memLoan;
-    }
-
-    public String getMemLoanMr() {
-        return this.memLoanMr;
-    }
-
-    public KamalSociety memLoanMr(String memLoanMr) {
-        this.setMemLoanMr(memLoanMr);
-        return this;
-    }
-
-    public void setMemLoanMr(String memLoanMr) {
-        this.memLoanMr = memLoanMr;
-    }
-
-    public Double getMemDue() {
-        return this.memDue;
-    }
-
-    public KamalSociety memDue(Double memDue) {
-        this.setMemDue(memDue);
-        return this;
-    }
-
-    public void setMemDue(Double memDue) {
-        this.memDue = memDue;
-    }
-
-    public String getMemDueMr() {
-        return this.memDueMr;
-    }
-
-    public KamalSociety memDueMr(String memDueMr) {
-        this.setMemDueMr(memDueMr);
-        return this;
-    }
-
-    public void setMemDueMr(String memDueMr) {
-        this.memDueMr = memDueMr;
-    }
-
-    public Double getMemDueper() {
-        return this.memDueper;
-    }
-
-    public KamalSociety memDueper(Double memDueper) {
-        this.setMemDueper(memDueper);
-        return this;
-    }
-
-    public void setMemDueper(Double memDueper) {
-        this.memDueper = memDueper;
-    }
-
-    public String getMemDueperMr() {
-        return this.memDueperMr;
-    }
-
-    public KamalSociety memDueperMr(String memDueperMr) {
-        this.setMemDueperMr(memDueperMr);
-        return this;
-    }
-
-    public void setMemDueperMr(String memDueperMr) {
-        this.memDueperMr = memDueperMr;
-    }
-
-    public Double getMemVasulpatra() {
-        return this.memVasulpatra;
-    }
-
-    public KamalSociety memVasulpatra(Double memVasulpatra) {
-        this.setMemVasulpatra(memVasulpatra);
-        return this;
-    }
-
-    public void setMemVasulpatra(Double memVasulpatra) {
-        this.memVasulpatra = memVasulpatra;
-    }
-
-    public String getMemVasulpatraMr() {
-        return this.memVasulpatraMr;
-    }
-
-    public KamalSociety memVasulpatraMr(String memVasulpatraMr) {
-        this.setMemVasulpatraMr(memVasulpatraMr);
-        return this;
-    }
-
-    public void setMemVasulpatraMr(String memVasulpatraMr) {
-        this.memVasulpatraMr = memVasulpatraMr;
-    }
-
-    public Double getMemVasul() {
-        return this.memVasul;
-    }
-
-    public KamalSociety memVasul(Double memVasul) {
-        this.setMemVasul(memVasul);
-        return this;
-    }
-
-    public void setMemVasul(Double memVasul) {
-        this.memVasul = memVasul;
-    }
-
-    public String getMemVasulMr() {
-        return this.memVasulMr;
-    }
-
-    public KamalSociety memVasulMr(String memVasulMr) {
-        this.setMemVasulMr(memVasulMr);
-        return this;
-    }
-
-    public void setMemVasulMr(String memVasulMr) {
-        this.memVasulMr = memVasulMr;
-    }
-
-    public Double getMemVasulPer() {
-        return this.memVasulPer;
-    }
-
-    public KamalSociety memVasulPer(Double memVasulPer) {
-        this.setMemVasulPer(memVasulPer);
-        return this;
-    }
-
-    public void setMemVasulPer(Double memVasulPer) {
-        this.memVasulPer = memVasulPer;
-    }
-
-    public String getMemVasulPerMr() {
-        return this.memVasulPerMr;
-    }
-
-    public KamalSociety memVasulPerMr(String memVasulPerMr) {
-        this.setMemVasulPerMr(memVasulPerMr);
-        return this;
-    }
-
-    public void setMemVasulPerMr(String memVasulPerMr) {
-        this.memVasulPerMr = memVasulPerMr;
-    }
-
-    public Double getBankLoan() {
-        return this.bankLoan;
-    }
-
-    public KamalSociety bankLoan(Double bankLoan) {
-        this.setBankLoan(bankLoan);
-        return this;
-    }
-
-    public void setBankLoan(Double bankLoan) {
-        this.bankLoan = bankLoan;
-    }
-
-    public String getBankLoanMr() {
-        return this.bankLoanMr;
-    }
-
-    public KamalSociety bankLoanMr(String bankLoanMr) {
-        this.setBankLoanMr(bankLoanMr);
-        return this;
-    }
-
-    public void setBankLoanMr(String bankLoanMr) {
-        this.bankLoanMr = bankLoanMr;
-    }
-
-    public Double getBankDue() {
-        return this.bankDue;
-    }
-
-    public KamalSociety bankDue(Double bankDue) {
-        this.setBankDue(bankDue);
-        return this;
-    }
-
-    public void setBankDue(Double bankDue) {
-        this.bankDue = bankDue;
-    }
-
-    public String getBankDueMr() {
-        return this.bankDueMr;
-    }
-
-    public KamalSociety bankDueMr(String bankDueMr) {
-        this.setBankDueMr(bankDueMr);
-        return this;
-    }
-
-    public void setBankDueMr(String bankDueMr) {
-        this.bankDueMr = bankDueMr;
-    }
-
-    public Double getBankDueper() {
-        return this.bankDueper;
-    }
-
-    public KamalSociety bankDueper(Double bankDueper) {
-        this.setBankDueper(bankDueper);
-        return this;
-    }
-
-    public void setBankDueper(Double bankDueper) {
-        this.bankDueper = bankDueper;
-    }
-
-    public String getBankDueperMr() {
-        return this.bankDueperMr;
-    }
-
-    public KamalSociety bankDueperMr(String bankDueperMr) {
-        this.setBankDueperMr(bankDueperMr);
-        return this;
-    }
-
-    public void setBankDueperMr(String bankDueperMr) {
-        this.bankDueperMr = bankDueperMr;
-    }
-
-    public Double getBankVasulpatra() {
-        return this.bankVasulpatra;
-    }
-
-    public KamalSociety bankVasulpatra(Double bankVasulpatra) {
-        this.setBankVasulpatra(bankVasulpatra);
-        return this;
-    }
-
-    public void setBankVasulpatra(Double bankVasulpatra) {
-        this.bankVasulpatra = bankVasulpatra;
-    }
-
-    public String getBankVasulpatraMr() {
-        return this.bankVasulpatraMr;
-    }
-
-    public KamalSociety bankVasulpatraMr(String bankVasulpatraMr) {
-        this.setBankVasulpatraMr(bankVasulpatraMr);
-        return this;
-    }
-
-    public void setBankVasulpatraMr(String bankVasulpatraMr) {
-        this.bankVasulpatraMr = bankVasulpatraMr;
-    }
-
-    public Double getBankVasul() {
-        return this.bankVasul;
-    }
-
-    public KamalSociety bankVasul(Double bankVasul) {
-        this.setBankVasul(bankVasul);
-        return this;
-    }
-
-    public void setBankVasul(Double bankVasul) {
-        this.bankVasul = bankVasul;
-    }
-
-    public String getBankVasulMr() {
-        return this.bankVasulMr;
-    }
-
-    public KamalSociety bankVasulMr(String bankVasulMr) {
-        this.setBankVasulMr(bankVasulMr);
-        return this;
-    }
-
-    public void setBankVasulMr(String bankVasulMr) {
-        this.bankVasulMr = bankVasulMr;
-    }
-
-    public Double getBankVasulPer() {
-        return this.bankVasulPer;
-    }
-
-    public KamalSociety bankVasulPer(Double bankVasulPer) {
-        this.setBankVasulPer(bankVasulPer);
-        return this;
-    }
-
-    public void setBankVasulPer(Double bankVasulPer) {
-        this.bankVasulPer = bankVasulPer;
-    }
-
-    public String getBankVasulPerMr() {
-        return this.bankVasulPerMr;
-    }
-
-    public KamalSociety bankVasulPerMr(String bankVasulPerMr) {
-        this.setBankVasulPerMr(bankVasulPerMr);
-        return this;
-    }
-
-    public void setBankVasulPerMr(String bankVasulPerMr) {
-        this.bankVasulPerMr = bankVasulPerMr;
-    }
-
-    public Double getShareCapital() {
-        return this.shareCapital;
-    }
-
-    public KamalSociety shareCapital(Double shareCapital) {
-        this.setShareCapital(shareCapital);
-        return this;
-    }
-
-    public void setShareCapital(Double shareCapital) {
-        this.shareCapital = shareCapital;
-    }
-
-    public String getShareCapitalMr() {
-        return this.shareCapitalMr;
-    }
-
-    public KamalSociety shareCapitalMr(String shareCapitalMr) {
-        this.setShareCapitalMr(shareCapitalMr);
-        return this;
-    }
-
-    public void setShareCapitalMr(String shareCapitalMr) {
-        this.shareCapitalMr = shareCapitalMr;
-    }
-
-    public Double getShare() {
-        return this.share;
-    }
-
-    public KamalSociety share(Double share) {
-        this.setShare(share);
-        return this;
-    }
-
-    public void setShare(Double share) {
-        this.share = share;
-    }
-
-    public String getShareMr() {
-        return this.shareMr;
-    }
-
-    public KamalSociety shareMr(String shareMr) {
-        this.setShareMr(shareMr);
-        return this;
-    }
-
-    public void setShareMr(String shareMr) {
-        this.shareMr = shareMr;
-    }
-
-    public Double getFunds() {
-        return this.funds;
-    }
-
-    public KamalSociety funds(Double funds) {
-        this.setFunds(funds);
-        return this;
-    }
-
-    public void setFunds(Double funds) {
-        this.funds = funds;
-    }
-
-    public String getFundsMr() {
-        return this.fundsMr;
-    }
-
-    public KamalSociety fundsMr(String fundsMr) {
-        this.setFundsMr(fundsMr);
-        return this;
-    }
-
-    public void setFundsMr(String fundsMr) {
-        this.fundsMr = fundsMr;
-    }
-
-    public Double getDeposit() {
-        return this.deposit;
-    }
-
-    public KamalSociety deposit(Double deposit) {
-        this.setDeposit(deposit);
-        return this;
-    }
-
-    public void setDeposit(Double deposit) {
-        this.deposit = deposit;
-    }
-
-    public String getDepositMr() {
-        return this.depositMr;
-    }
-
-    public KamalSociety depositMr(String depositMr) {
-        this.setDepositMr(depositMr);
-        return this;
-    }
-
-    public void setDepositMr(String depositMr) {
-        this.depositMr = depositMr;
-    }
-
-    public Double getPayable() {
-        return this.payable;
-    }
-
-    public KamalSociety payable(Double payable) {
-        this.setPayable(payable);
-        return this;
-    }
-
-    public void setPayable(Double payable) {
-        this.payable = payable;
-    }
-
-    public String getPayableMr() {
-        return this.payableMr;
-    }
-
-    public KamalSociety payableMr(String payableMr) {
-        this.setPayableMr(payableMr);
-        return this;
-    }
-
-    public void setPayableMr(String payableMr) {
-        this.payableMr = payableMr;
-    }
-
-    public Double getProfit() {
-        return this.profit;
-    }
-
-    public KamalSociety profit(Double profit) {
-        this.setProfit(profit);
-        return this;
-    }
-
-    public void setProfit(Double profit) {
-        this.profit = profit;
-    }
-
-    public String getProfitMr() {
-        return this.profitMr;
-    }
-
-    public KamalSociety profitMr(String profitMr) {
-        this.setProfitMr(profitMr);
-        return this;
-    }
-
-    public void setProfitMr(String profitMr) {
-        this.profitMr = profitMr;
-    }
-
-    public Double getCashInHand() {
-        return this.cashInHand;
-    }
-
-    public KamalSociety cashInHand(Double cashInHand) {
-        this.setCashInHand(cashInHand);
-        return this;
-    }
-
-    public void setCashInHand(Double cashInHand) {
-        this.cashInHand = cashInHand;
-    }
-
-    public String getCashInHandMr() {
-        return this.cashInHandMr;
-    }
-
-    public KamalSociety cashInHandMr(String cashInHandMr) {
-        this.setCashInHandMr(cashInHandMr);
+    public KamalSociety fraudAmount(Double fraudAmount) {
+        this.setFraudAmount(fraudAmount);
         return this;
     }
 
-    public void setCashInHandMr(String cashInHandMr) {
-        this.cashInHandMr = cashInHandMr;
+    public void setFraudAmount(Double fraudAmount) {
+        this.fraudAmount = fraudAmount;
     }
 
-    public Double getInvestment() {
-        return this.investment;
+    public Double getArea() {
+        return area;
     }
 
-    public KamalSociety investment(Double investment) {
-        this.setInvestment(investment);
-        return this;
-    }
-
-    public void setInvestment(Double investment) {
-        this.investment = investment;
-    }
-
-    public String getInvestmentMr() {
-        return this.investmentMr;
-    }
-
-    public KamalSociety investmentMr(String investmentMr) {
-        this.setInvestmentMr(investmentMr);
-        return this;
-    }
-
-    public void setInvestmentMr(String investmentMr) {
-        this.investmentMr = investmentMr;
-    }
-
-    public Double getDeadStock() {
-        return this.deadStock;
-    }
-
-    public KamalSociety deadStock(Double deadStock) {
-        this.setDeadStock(deadStock);
-        return this;
-    }
-
-    public void setDeadStock(Double deadStock) {
-        this.deadStock = deadStock;
-    }
-
-    public String getDeadStockMr() {
-        return this.deadStockMr;
-    }
-
-    public KamalSociety deadStockMr(String deadStockMr) {
-        this.setDeadStockMr(deadStockMr);
-        return this;
-    }
-
-    public void setDeadStockMr(String deadStockMr) {
-        this.deadStockMr = deadStockMr;
-    }
-
-    public Double getOtherPay() {
-        return this.otherPay;
-    }
-
-    public KamalSociety otherPay(Double otherPay) {
-        this.setOtherPay(otherPay);
-        return this;
-    }
-
-    public void setOtherPay(Double otherPay) {
-        this.otherPay = otherPay;
-    }
-
-    public String getOtherPayMr() {
-        return this.otherPayMr;
-    }
-
-    public KamalSociety otherPayMr(String otherPayMr) {
-        this.setOtherPayMr(otherPayMr);
-        return this;
-    }
-
-    public void setOtherPayMr(String otherPayMr) {
-        this.otherPayMr = otherPayMr;
-    }
-
-    public Double getLoss() {
-        return this.loss;
-    }
-
-    public KamalSociety loss(Double loss) {
-        this.setLoss(loss);
-        return this;
-    }
-
-    public void setLoss(Double loss) {
-        this.loss = loss;
-    }
-
-    public String getLossMr() {
-        return this.lossMr;
-    }
-
-    public KamalSociety lossMr(String lossMr) {
-        this.setLossMr(lossMr);
-        return this;
-    }
-
-    public void setLossMr(String lossMr) {
-        this.lossMr = lossMr;
+    public void setArea(Double area) {
+        this.area = area;
     }
 
-    public Double getTotalBagayat() {
-        return this.totalBagayat;
-    }
-
-    public KamalSociety totalBagayat(Double totalBagayat) {
-        this.setTotalBagayat(totalBagayat);
+    public KamalSociety area(Double area) {
+        this.setArea(area);
         return this;
     }
 
-    public void setTotalBagayat(Double totalBagayat) {
-        this.totalBagayat = totalBagayat;
+    public Double getAmount() {
+        return amount;
     }
 
-    public String getTotalBagayatMr() {
-        return this.totalBagayatMr;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public KamalSociety totalBagayatMr(String totalBagayatMr) {
-        this.setTotalBagayatMr(totalBagayatMr);
+    public KamalSociety amount(Double amount) {
+        this.setAmount(amount);
         return this;
     }
 
-    public void setTotalBagayatMr(String totalBagayatMr) {
-        this.totalBagayatMr = totalBagayatMr;
+    public Long getMemberCount() {
+        return memberCount;
     }
 
-    public Double getTotalJirayat() {
-        return this.totalJirayat;
+    public void setMemberCount(Long memberCount) {
+        this.memberCount = memberCount;
     }
 
-    public KamalSociety totalJirayat(Double totalJirayat) {
-        this.setTotalJirayat(totalJirayat);
+    public KamalSociety memberCount(Long memberCount) {
+        this.setMemberCount(memberCount);
         return this;
     }
+    //
 
-    public void setTotalJirayat(Double totalJirayat) {
-        this.totalJirayat = totalJirayat;
+    public Double getKamalKarjMarayadaAmount() {
+        return kamalKarjMarayadaAmount;
     }
 
-    public String getTotalJirayatMr() {
-        return this.totalJirayatMr;
+    public void setKamalKarjMarayadaAmount(Double kamalKarjMarayadaAmount) {
+        this.kamalKarjMarayadaAmount = kamalKarjMarayadaAmount;
     }
 
-    public KamalSociety totalJirayatMr(String totalJirayatMr) {
-        this.setTotalJirayatMr(totalJirayatMr);
+    public KamalSociety kamalKarjMarayadaAmount(Double kamalKarjMarayadaAmount) {
+        this.setKamalKarjMarayadaAmount(kamalKarjMarayadaAmount);
         return this;
-    }
-
-    public void setTotalJirayatMr(String totalJirayatMr) {
-        this.totalJirayatMr = totalJirayatMr;
     }
 
     public Set<KamalCrop> getKamalCrops() {
@@ -1146,6 +402,863 @@ public class KamalSociety  extends AbstractAuditingEntity<Long> implements Seria
         return this;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public KamalSociety id(Long id) {
+        this.setId(id);
+        return this;
+    }
+
+    public String getFinancialYear() {
+        return this.financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
+    }
+
+    public KamalSociety financialYear(String financialYear) {
+        this.setFinancialYear(financialYear);
+        return this;
+    }
+
+    public Instant getKmDate() {
+        return this.kmDate;
+    }
+
+    public void setKmDate(Instant kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public KamalSociety kmDate(Instant kmDate) {
+        this.setKmDate(kmDate);
+        return this;
+    }
+
+    public String getKmDateMr() {
+        return this.kmDateMr;
+    }
+
+    public void setKmDateMr(String kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
+    public KamalSociety kmDateMr(String kmDateMr) {
+        this.setKmDateMr(kmDateMr);
+        return this;
+    }
+
+    public Instant getKmFromDate() {
+        return this.kmFromDate;
+    }
+
+    public void setKmFromDate(Instant kmFromDate) {
+        this.kmFromDate = kmFromDate;
+    }
+
+    public KamalSociety kmFromDate(Instant kmFromDate) {
+        this.setKmFromDate(kmFromDate);
+        return this;
+    }
+
+    public String getKmFromDateMr() {
+        return this.kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(String kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
+    }
+
+    public KamalSociety kmFromDateMr(String kmFromDateMr) {
+        this.setKmFromDateMr(kmFromDateMr);
+        return this;
+    }
+
+    public Instant getKmToDate() {
+        return this.kmToDate;
+    }
+
+    public void setKmToDate(Instant kmToDate) {
+        this.kmToDate = kmToDate;
+    }
+
+    public KamalSociety kmToDate(Instant kmToDate) {
+        this.setKmToDate(kmToDate);
+        return this;
+    }
+
+    public String getKmToDateMr() {
+        return this.kmToDateMr;
+    }
+
+    public void setKmToDateMr(String kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
+    }
+
+    public KamalSociety kmToDateMr(String kmToDateMr) {
+        this.setKmToDateMr(kmToDateMr);
+        return this;
+    }
+
+    public String getPacsNumber() {
+        return this.pacsNumber;
+    }
+
+    public void setPacsNumber(String pacsNumber) {
+        this.pacsNumber = pacsNumber;
+    }
+
+    public KamalSociety pacsNumber(String pacsNumber) {
+        this.setPacsNumber(pacsNumber);
+        return this;
+    }
+
+    public String getPacsName() {
+        return this.pacsName;
+    }
+
+    public void setPacsName(String pacsName) {
+        this.pacsName = pacsName;
+    }
+
+    public KamalSociety pacsName(String pacsName) {
+        this.setPacsName(pacsName);
+        return this;
+    }
+
+    public Long getBranchId() {
+        return this.branchId;
+    }
+
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
+    }
+
+    public KamalSociety branchId(Long branchId) {
+        this.setBranchId(branchId);
+        return this;
+    }
+
+    public String getBranchName() {
+        return this.branchName;
+    }
+
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public KamalSociety branchName(String branchName) {
+        this.setBranchName(branchName);
+        return this;
+    }
+
+    public Instant getZindagiPatrakDate() {
+        return this.zindagiPatrakDate;
+    }
+
+    public void setZindagiPatrakDate(Instant zindagiPatrakDate) {
+        this.zindagiPatrakDate = zindagiPatrakDate;
+    }
+
+    public KamalSociety zindagiPatrakDate(Instant zindagiPatrakDate) {
+        this.setZindagiPatrakDate(zindagiPatrakDate);
+        return this;
+    }
+
+    public String getZindagiPatrakDateMr() {
+        return this.zindagiPatrakDateMr;
+    }
+
+    public void setZindagiPatrakDateMr(String zindagiPatrakDateMr) {
+        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
+    }
+
+    public KamalSociety zindagiPatrakDateMr(String zindagiPatrakDateMr) {
+        this.setZindagiPatrakDateMr(zindagiPatrakDateMr);
+        return this;
+    }
+
+    public Instant getBankTapasaniDate() {
+        return this.bankTapasaniDate;
+    }
+
+    public void setBankTapasaniDate(Instant bankTapasaniDate) {
+        this.bankTapasaniDate = bankTapasaniDate;
+    }
+
+    public KamalSociety bankTapasaniDate(Instant bankTapasaniDate) {
+        this.setBankTapasaniDate(bankTapasaniDate);
+        return this;
+    }
+
+    public String getBankTapasaniDateMr() {
+        return this.bankTapasaniDateMr;
+    }
+
+    public void setBankTapasaniDateMr(String bankTapasaniDateMr) {
+        this.bankTapasaniDateMr = bankTapasaniDateMr;
+    }
+
+    public KamalSociety bankTapasaniDateMr(String bankTapasaniDateMr) {
+        this.setBankTapasaniDateMr(bankTapasaniDateMr);
+        return this;
+    }
+
+    public Instant getGovTapasaniDate() {
+        return this.govTapasaniDate;
+    }
+
+    public void setGovTapasaniDate(Instant govTapasaniDate) {
+        this.govTapasaniDate = govTapasaniDate;
+    }
+
+    public KamalSociety govTapasaniDate(Instant govTapasaniDate) {
+        this.setGovTapasaniDate(govTapasaniDate);
+        return this;
+    }
+
+    public String getGovTapasaniDateMr() {
+        return this.govTapasaniDateMr;
+    }
+
+    public void setGovTapasaniDateMr(String govTapasaniDateMr) {
+        this.govTapasaniDateMr = govTapasaniDateMr;
+    }
+
+    public KamalSociety govTapasaniDateMr(String govTapasaniDateMr) {
+        this.setGovTapasaniDateMr(govTapasaniDateMr);
+        return this;
+    }
+
+    public Instant getSansthaTapasaniDate() {
+        return this.sansthaTapasaniDate;
+    }
+
+    public void setSansthaTapasaniDate(Instant sansthaTapasaniDate) {
+        this.sansthaTapasaniDate = sansthaTapasaniDate;
+    }
+
+    public KamalSociety sansthaTapasaniDate(Instant sansthaTapasaniDate) {
+        this.setSansthaTapasaniDate(sansthaTapasaniDate);
+        return this;
+    }
+
+    public String getSansthaTapasaniDateMr() {
+        return this.sansthaTapasaniDateMr;
+    }
+
+    public void setSansthaTapasaniDateMr(String sansthaTapasaniDateMr) {
+        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
+    }
+
+    public KamalSociety sansthaTapasaniDateMr(String sansthaTapasaniDateMr) {
+        this.setSansthaTapasaniDateMr(sansthaTapasaniDateMr);
+        return this;
+    }
+
+    public String getTotalLand() {
+        return this.totalLand;
+    }
+
+    public void setTotalLand(String totalLand) {
+        this.totalLand = totalLand;
+    }
+
+    public KamalSociety totalLand(String totalLand) {
+        this.setTotalLand(totalLand);
+        return this;
+    }
+
+    public String getBagayat() {
+        return this.bagayat;
+    }
+
+    public void setBagayat(String bagayat) {
+        this.bagayat = bagayat;
+    }
+
+    public KamalSociety bagayat(String bagayat) {
+        this.setBagayat(bagayat);
+        return this;
+    }
+
+    public String getJirayat() {
+        return this.jirayat;
+    }
+
+    public void setJirayat(String jirayat) {
+        this.jirayat = jirayat;
+    }
+
+    public KamalSociety jirayat(String jirayat) {
+        this.setJirayat(jirayat);
+        return this;
+    }
+
+    public String getTotalFarmer() {
+        return this.totalFarmer;
+    }
+
+    public void setTotalFarmer(String totalFarmer) {
+        this.totalFarmer = totalFarmer;
+    }
+
+    public KamalSociety totalFarmer(String totalFarmer) {
+        this.setTotalFarmer(totalFarmer);
+        return this;
+    }
+
+    public String getMemberFarmer() {
+        return this.memberFarmer;
+    }
+
+    public void setMemberFarmer(String memberFarmer) {
+        this.memberFarmer = memberFarmer;
+    }
+
+    public KamalSociety memberFarmer(String memberFarmer) {
+        this.setMemberFarmer(memberFarmer);
+        return this;
+    }
+
+    public String getNonMemberFarmer() {
+        return this.nonMemberFarmer;
+    }
+
+    public void setNonMemberFarmer(String nonMemberFarmer) {
+        this.nonMemberFarmer = nonMemberFarmer;
+    }
+
+    public KamalSociety nonMemberFarmer(String nonMemberFarmer) {
+        this.setNonMemberFarmer(nonMemberFarmer);
+        return this;
+    }
+
+    public Instant getTalebandDate() {
+        return this.talebandDate;
+    }
+
+    public void setTalebandDate(Instant talebandDate) {
+        this.talebandDate = talebandDate;
+    }
+
+    public KamalSociety talebandDate(Instant talebandDate) {
+        this.setTalebandDate(talebandDate);
+        return this;
+    }
+
+    public String getMemLoan() {
+        return this.memLoan;
+    }
+
+    public void setMemLoan(String memLoan) {
+        this.memLoan = memLoan;
+    }
+
+    public KamalSociety memLoan(String memLoan) {
+        this.setMemLoan(memLoan);
+        return this;
+    }
+
+    public String getMemDue() {
+        return this.memDue;
+    }
+
+    public void setMemDue(String memDue) {
+        this.memDue = memDue;
+    }
+
+    public KamalSociety memDue(String memDue) {
+        this.setMemDue(memDue);
+        return this;
+    }
+
+    public String getMemVasuli() {
+        return this.memVasuli;
+    }
+
+    public void setMemVasuli(String memVasuli) {
+        this.memVasuli = memVasuli;
+    }
+
+    public KamalSociety memVasuli(String memVasuli) {
+        this.setMemVasuli(memVasuli);
+        return this;
+    }
+
+    public String getMemVasuliPer() {
+        return this.memVasuliPer;
+    }
+
+    public void setMemVasuliPer(String memVasuliPer) {
+        this.memVasuliPer = memVasuliPer;
+    }
+
+    public KamalSociety memVasuliPer(String memVasuliPer) {
+        this.setMemVasuliPer(memVasuliPer);
+        return this;
+    }
+
+    public String getBankLoan() {
+        return this.bankLoan;
+    }
+
+    public void setBankLoan(String bankLoan) {
+        this.bankLoan = bankLoan;
+    }
+
+    public KamalSociety bankLoan(String bankLoan) {
+        this.setBankLoan(bankLoan);
+        return this;
+    }
+
+    public String getBankDue() {
+        return this.bankDue;
+    }
+
+    public void setBankDue(String bankDue) {
+        this.bankDue = bankDue;
+    }
+
+    public KamalSociety bankDue(String bankDue) {
+        this.setBankDue(bankDue);
+        return this;
+    }
+
+    public String getBankVasuli() {
+        return this.bankVasuli;
+    }
+
+    public void setBankVasuli(String bankVasuli) {
+        this.bankVasuli = bankVasuli;
+    }
+
+    public KamalSociety bankVasuli(String bankVasuli) {
+        this.setBankVasuli(bankVasuli);
+        return this;
+    }
+
+    public String getBankVasuliPer() {
+        return this.bankVasuliPer;
+    }
+
+    public void setBankVasuliPer(String bankVasuliPer) {
+        this.bankVasuliPer = bankVasuliPer;
+    }
+
+    public KamalSociety bankVasuliPer(String bankVasuliPer) {
+        this.setBankVasuliPer(bankVasuliPer);
+        return this;
+    }
+
+    public Instant getBalanceSheetDate() {
+        return this.balanceSheetDate;
+    }
+
+    public void setBalanceSheetDate(Instant balanceSheetDate) {
+        this.balanceSheetDate = balanceSheetDate;
+    }
+
+    public KamalSociety balanceSheetDate(Instant balanceSheetDate) {
+        this.setBalanceSheetDate(balanceSheetDate);
+        return this;
+    }
+
+    public String getBalanceSheetDateMr() {
+        return this.balanceSheetDateMr;
+    }
+
+    public void setBalanceSheetDateMr(String balanceSheetDateMr) {
+        this.balanceSheetDateMr = balanceSheetDateMr;
+    }
+
+    public KamalSociety balanceSheetDateMr(String balanceSheetDateMr) {
+        this.setBalanceSheetDateMr(balanceSheetDateMr);
+        return this;
+    }
+
+    public String getLiabilityAdhikrutShareCapital() {
+        return this.liabilityAdhikrutShareCapital;
+    }
+
+    public void setLiabilityAdhikrutShareCapital(String liabilityAdhikrutShareCapital) {
+        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
+    }
+
+    public KamalSociety liabilityAdhikrutShareCapital(String liabilityAdhikrutShareCapital) {
+        this.setLiabilityAdhikrutShareCapital(liabilityAdhikrutShareCapital);
+        return this;
+    }
+
+    public String getLiabilityVasulShareCapital() {
+        return this.liabilityVasulShareCapital;
+    }
+
+    public void setLiabilityVasulShareCapital(String liabilityVasulShareCapital) {
+        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
+    }
+
+    public KamalSociety liabilityVasulShareCapital(String liabilityVasulShareCapital) {
+        this.setLiabilityVasulShareCapital(liabilityVasulShareCapital);
+        return this;
+    }
+
+    public String getLiabilityFund() {
+        return this.liabilityFund;
+    }
+
+    public void setLiabilityFund(String liabilityFund) {
+        this.liabilityFund = liabilityFund;
+    }
+
+    public KamalSociety liabilityFund(String liabilityFund) {
+        this.setLiabilityFund(liabilityFund);
+        return this;
+    }
+
+    public String getLiabilitySpareFund() {
+        return this.liabilitySpareFund;
+    }
+
+    public void setLiabilitySpareFund(String liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
+    }
+
+    public KamalSociety liabilitySpareFund(String liabilitySpareFund) {
+        this.setLiabilitySpareFund(liabilitySpareFund);
+        return this;
+    }
+
+    public String getLiabilityDeposite() {
+        return this.liabilityDeposite;
+    }
+
+    public void setLiabilityDeposite(String liabilityDeposite) {
+        this.liabilityDeposite = liabilityDeposite;
+    }
+
+    public KamalSociety liabilityDeposite(String liabilityDeposite) {
+        this.setLiabilityDeposite(liabilityDeposite);
+        return this;
+    }
+
+    public String getLiabilityBalanceSheetBankLoan() {
+        return this.liabilityBalanceSheetBankLoan;
+    }
+
+    public void setLiabilityBalanceSheetBankLoan(String liabilityBalanceSheetBankLoan) {
+        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
+    }
+
+    public KamalSociety liabilityBalanceSheetBankLoan(String liabilityBalanceSheetBankLoan) {
+        this.setLiabilityBalanceSheetBankLoan(liabilityBalanceSheetBankLoan);
+        return this;
+    }
+
+    public String getLiabilityOtherPayable() {
+        return this.liabilityOtherPayable;
+    }
+
+    public void setLiabilityOtherPayable(String liabilityOtherPayable) {
+        this.liabilityOtherPayable = liabilityOtherPayable;
+    }
+
+    public KamalSociety liabilityOtherPayable(String liabilityOtherPayable) {
+        this.setLiabilityOtherPayable(liabilityOtherPayable);
+        return this;
+    }
+
+    public String getLiabilityProfit() {
+        return this.liabilityProfit;
+    }
+
+    public void setLiabilityProfit(String liabilityProfit) {
+        this.liabilityProfit = liabilityProfit;
+    }
+
+    public KamalSociety liabilityProfit(String liabilityProfit) {
+        this.setLiabilityProfit(liabilityProfit);
+        return this;
+    }
+
+    public String getAssetCash() {
+        return this.assetCash;
+    }
+
+    public void setAssetCash(String assetCash) {
+        this.assetCash = assetCash;
+    }
+
+    public KamalSociety assetCash(String assetCash) {
+        this.setAssetCash(assetCash);
+        return this;
+    }
+
+    public String getAssetInvestment() {
+        return this.assetInvestment;
+    }
+
+    public void setAssetInvestment(String assetInvestment) {
+        this.assetInvestment = assetInvestment;
+    }
+
+    public KamalSociety assetInvestment(String assetInvestment) {
+        this.setAssetInvestment(assetInvestment);
+        return this;
+    }
+
+    public String getAssetImaratFund() {
+        return this.assetImaratFund;
+    }
+
+    public void setAssetImaratFund(String assetImaratFund) {
+        this.assetImaratFund = assetImaratFund;
+    }
+
+    public KamalSociety assetImaratFund(String assetImaratFund) {
+        this.setAssetImaratFund(assetImaratFund);
+        return this;
+    }
+
+    public String getAssetMemberLoan() {
+        return this.assetMemberLoan;
+    }
+
+    public void setAssetMemberLoan(String assetMemberLoan) {
+        this.assetMemberLoan = assetMemberLoan;
+    }
+
+    public KamalSociety assetMemberLoan(String assetMemberLoan) {
+        this.setAssetMemberLoan(assetMemberLoan);
+        return this;
+    }
+
+    public String getAssetDeadStock() {
+        return this.assetDeadStock;
+    }
+
+    public void setAssetDeadStock(String assetDeadStock) {
+        this.assetDeadStock = assetDeadStock;
+    }
+
+    public KamalSociety assetDeadStock(String assetDeadStock) {
+        this.setAssetDeadStock(assetDeadStock);
+        return this;
+    }
+
+    public String getAssetOtherReceivable() {
+        return this.assetOtherReceivable;
+    }
+
+    public void setAssetOtherReceivable(String assetOtherReceivable) {
+        this.assetOtherReceivable = assetOtherReceivable;
+    }
+
+    public KamalSociety assetOtherReceivable(String assetOtherReceivable) {
+        this.setAssetOtherReceivable(assetOtherReceivable);
+        return this;
+    }
+
+    public String getAssetLoss() {
+        return this.assetLoss;
+    }
+
+    public void setAssetLoss(String assetLoss) {
+        this.assetLoss = assetLoss;
+    }
+
+    public KamalSociety assetLoss(String assetLoss) {
+        this.setAssetLoss(assetLoss);
+        return this;
+    }
+
+    public String getTotalLiability() {
+        return this.totalLiability;
+    }
+
+    public void setTotalLiability(String totalLiability) {
+        this.totalLiability = totalLiability;
+    }
+
+    public KamalSociety totalLiability(String totalLiability) {
+        this.setTotalLiability(totalLiability);
+        return this;
+    }
+
+    public String getTotalAsset() {
+        return this.totalAsset;
+    }
+
+    public void setTotalAsset(String totalAsset) {
+        this.totalAsset = totalAsset;
+    }
+
+    public KamalSociety totalAsset(String totalAsset) {
+        this.setTotalAsset(totalAsset);
+        return this;
+    }
+
+    public String getVillageCode() {
+        return this.villageCode;
+    }
+
+    public void setVillageCode(String villageCode) {
+        this.villageCode = villageCode;
+    }
+
+    public KamalSociety villageCode(String villageCode) {
+        this.setVillageCode(villageCode);
+        return this;
+    }
+
+    public Boolean getPacsVerifiedFlag() {
+        return this.pacsVerifiedFlag;
+    }
+
+    public void setPacsVerifiedFlag(Boolean pacsVerifiedFlag) {
+        this.pacsVerifiedFlag = pacsVerifiedFlag;
+    }
+
+    public KamalSociety pacsVerifiedFlag(Boolean pacsVerifiedFlag) {
+        this.setPacsVerifiedFlag(pacsVerifiedFlag);
+        return this;
+    }
+
+    public Boolean getBranchVerifiedFlag() {
+        return this.branchVerifiedFlag;
+    }
+
+    public void setBranchVerifiedFlag(Boolean branchVerifiedFlag) {
+        this.branchVerifiedFlag = branchVerifiedFlag;
+    }
+
+    public KamalSociety branchVerifiedFlag(Boolean branchVerifiedFlag) {
+        this.setBranchVerifiedFlag(branchVerifiedFlag);
+        return this;
+    }
+
+    public Boolean getHeadOfficeVerifiedFlag() {
+        return this.headOfficeVerifiedFlag;
+    }
+
+    public void setHeadOfficeVerifiedFlag(Boolean headOfficeVerifiedFlag) {
+        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
+    }
+
+    public KamalSociety headOfficeVerifiedFlag(Boolean headOfficeVerifiedFlag) {
+        this.setHeadOfficeVerifiedFlag(headOfficeVerifiedFlag);
+        return this;
+    }
+
+    public Boolean getIsSupplimenteryFlag() {
+        return this.isSupplimenteryFlag;
+    }
+
+    public void setIsSupplimenteryFlag(Boolean isSupplimenteryFlag) {
+        this.isSupplimenteryFlag = isSupplimenteryFlag;
+    }
+
+    public KamalSociety isSupplimenteryFlag(Boolean isSupplimenteryFlag) {
+        this.setIsSupplimenteryFlag(isSupplimenteryFlag);
+        return this;
+    }
+
+    public String getSansthaTapasaniVarg() {
+        return this.sansthaTapasaniVarg;
+    }
+
+    public void setSansthaTapasaniVarg(String sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
+    }
+
+    public KamalSociety sansthaTapasaniVarg(String sansthaTapasaniVarg) {
+        this.setSansthaTapasaniVarg(sansthaTapasaniVarg);
+        return this;
+    }
+
+    public String getBranchVerifiedBy() {
+        return this.branchVerifiedBy;
+    }
+
+    public void setBranchVerifiedBy(String branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
+    }
+
+    public KamalSociety branchVerifiedBy(String branchVerifiedBy) {
+        this.setBranchVerifiedBy(branchVerifiedBy);
+        return this;
+    }
+
+    public Instant getBranchVerifiedDate() {
+        return this.branchVerifiedDate;
+    }
+
+    public void setBranchVerifiedDate(Instant branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
+    }
+
+    public KamalSociety branchVerifiedDate(Instant branchVerifiedDate) {
+        this.setBranchVerifiedDate(branchVerifiedDate);
+        return this;
+    }
+
+    public String getHeadOfficeVerifiedBy() {
+        return this.headOfficeVerifiedBy;
+    }
+
+    public void setHeadOfficeVerifiedBy(String headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
+    }
+
+    public KamalSociety headOfficeVerifiedBy(String headOfficeVerifiedBy) {
+        this.setHeadOfficeVerifiedBy(headOfficeVerifiedBy);
+        return this;
+    }
+
+    public Instant getHeadOfficeVerifiedDate() {
+        return this.headOfficeVerifiedDate;
+    }
+
+    public void setHeadOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
+    }
+
+    public KamalSociety headOfficeVerifiedDate(Instant headOfficeVerifiedDate) {
+        this.setHeadOfficeVerifiedDate(headOfficeVerifiedDate);
+        return this;
+    }
+
+    public Long getTalukaId() {
+        return this.talukaId;
+    }
+
+    public void setTalukaId(Long talukaId) {
+        this.talukaId = talukaId;
+    }
+
+    public KamalSociety talukaId(Long talukaId) {
+        this.setTalukaId(talukaId);
+        return this;
+    }
+
+    public String getTalukaName() {
+        return this.talukaName;
+    }
+
+    public void setTalukaName(String talukaName) {
+        this.talukaName = talukaName;
+    }
+
+    public KamalSociety talukaName(String talukaName) {
+        this.setTalukaName(talukaName);
+        return this;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -1159,6 +1272,199 @@ public class KamalSociety  extends AbstractAuditingEntity<Long> implements Seria
         return id != null && id.equals(((KamalSociety) o).id);
     }
 
+
+    public Boolean getDivisionalOfficeVerifiedFlag() {
+        return this.divisionalOfficeVerifiedFlag;
+    }
+
+    public void setDivisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedFlag(Boolean divisionalOfficeVerifiedFlag) {
+        this.setDivisionalOfficeVerifiedFlag(divisionalOfficeVerifiedFlag);
+        return this;
+    }
+
+    public String getDivisionalOfficeVerifiedBy() {
+        return this.divisionalOfficeVerifiedBy;
+    }
+
+    public void setDivisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedBy(String divisionalOfficeVerifiedBy) {
+        this.setDivisionalOfficeVerifiedBy(divisionalOfficeVerifiedBy);
+        return this;
+    }
+
+    public Instant getDivisionalOfficeVerifiedDate() {
+        return this.divisionalOfficeVerifiedDate;
+    }
+
+    public void setDivisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
+    }
+
+    public KamalSociety divisionalOfficeVerifiedDate(Instant divisionalOfficeVerifiedDate) {
+        this.setDivisionalOfficeVerifiedDate(divisionalOfficeVerifiedDate);
+        return this;
+    }
+
+    public Instant getDoshPurtataDate() {
+        return this.doshPurtataDate;
+    }
+
+    public void setDoshPurtataDate(Instant doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
+    }
+
+    public KamalSociety doshPurtataDate(Instant doshPurtataDate) {
+        this.setDoshPurtataDate(doshPurtataDate);
+        return this;
+    }
+
+    public String getGambhirDosh() {
+        return this.gambhirDosh;
+    }
+
+    public void setGambhirDosh(String gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
+    }
+
+    public KamalSociety gambhirDosh(String gambhirDosh) {
+        this.setGambhirDosh(gambhirDosh);
+        return this;
+    }
+
+    public Boolean getSupplimenteryFlag() {
+        return isSupplimenteryFlag;
+    }
+
+    public void setSupplimenteryFlag(Boolean supplimenteryFlag) {
+        isSupplimenteryFlag = supplimenteryFlag;
+    }
+
+    public String getBranchInwardNumber() {
+        return branchInwardNumber;
+    }
+
+    public void setBranchInwardNumber(String branchInwardNumber) {
+        this.branchInwardNumber = branchInwardNumber;
+    }
+
+    public Instant getBranchInwardDate() {
+        return branchInwardDate;
+    }
+
+    public void setBranchInwardDate(Instant branchInwardDate) {
+        this.branchInwardDate = branchInwardDate;
+    }
+
+    public String getBranchOutwardNumber() {
+        return branchOutwardNumber;
+    }
+
+    public void setBranchOutwardNumber(String branchOutwardNumber) {
+        this.branchOutwardNumber = branchOutwardNumber;
+    }
+
+    public Instant getBranchOutwardDate() {
+        return branchOutwardDate;
+    }
+
+    public void setBranchOutwardDate(Instant branchOutwardDate) {
+        this.branchOutwardDate = branchOutwardDate;
+    }
+
+    public String getHeadOfficeInwardNumber() {
+        return headOfficeInwardNumber;
+    }
+
+    public void setHeadOfficeInwardNumber(String headOfficeInwardNumber) {
+        this.headOfficeInwardNumber = headOfficeInwardNumber;
+    }
+
+    public Instant getHeadOfficeInwardDate() {
+        return headOfficeInwardDate;
+    }
+
+    public void setHeadOfficeInwardDate(Instant headOfficeInwardDate) {
+        this.headOfficeInwardDate = headOfficeInwardDate;
+    }
+
+    public String getHeadOfficeOutwardNumber() {
+        return headOfficeOutwardNumber;
+    }
+
+    public void setHeadOfficeOutwardNumber(String headOfficeOutwardNumber) {
+        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
+    }
+
+    public Instant getHeadOfficeOutwardDate() {
+        return headOfficeOutwardDate;
+    }
+
+    public void setHeadOfficeOutwardDate(Instant headOfficeOutwardDate) {
+        this.headOfficeOutwardDate = headOfficeOutwardDate;
+    }
+
+    public String getTharavNumber() {
+        return tharavNumber;
+    }
+
+    public void setTharavNumber(String tharavNumber) {
+        this.tharavNumber = tharavNumber;
+    }
+
+    public Instant getTharavDate() {
+        return tharavDate;
+    }
+
+    public void setTharavDate(Instant tharavDate) {
+        this.tharavDate = tharavDate;
+    }
+
+    public Boolean getAgriAdminVerifiedFlag() {
+        return this.agriAdminVerifiedFlag;
+    }
+
+    public void setAgriAdminVerifiedFlag(Boolean agriAdminVerifiedFlag) {
+        this.agriAdminVerifiedFlag = agriAdminVerifiedFlag;
+    }
+
+    public KamalSociety agriAdminVerifiedFlag(Boolean agriAdminVerifiedFlag) {
+        this.setAgriAdminVerifiedFlag(agriAdminVerifiedFlag);
+        return this;
+    }
+
+    public String getAgriAdminVerifiedBy() {
+        return this.agriAdminVerifiedBy;
+    }
+
+    public void setAgriAdminVerifiedBy(String agriAdminVerifiedBy) {
+        this.agriAdminVerifiedBy = agriAdminVerifiedBy;
+    }
+
+    public KamalSociety agriAdminVerifiedBy(String agriAdminVerifiedBy) {
+        this.setAgriAdminVerifiedBy(agriAdminVerifiedBy);
+        return this;
+    }
+
+    public Instant getAgriAdminVerifiedDate() {
+        return this.agriAdminVerifiedDate;
+    }
+
+    public void setAgriAdminVerifiedDate(Instant agriAdminVerifiedDate) {
+        this.agriAdminVerifiedDate = agriAdminVerifiedDate;
+    }
+
+    public KamalSociety agriAdminVerifiedDate(Instant agriAdminVerifiedDate) {
+        this.setAgriAdminVerifiedDate(agriAdminVerifiedDate);
+        return this;
+    }
+
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
@@ -1170,73 +1476,103 @@ public class KamalSociety  extends AbstractAuditingEntity<Long> implements Seria
     public String toString() {
         return "KamalSociety{" +
             "id=" + getId() +
-            ", pacsNumber=" + getPacsNumber() +
-            ", zindagiDate='" + getZindagiDate() + "'" +
-            ", zindagiDateMr='" + getZindagiDateMr() + "'" +
-            ", village1='" + getVillage1() + "'" +
-            ", village1Mr='" + getVillage1Mr() + "'" +
-            ", village2='" + getVillage2() + "'" +
-            ", village2Mr='" + getVillage2Mr() + "'" +
-            ", village3='" + getVillage3() + "'" +
-            ", village3Mr='" + getVillage3Mr() + "'" +
-            ", totalLand=" + getTotalLand() +
-            ", totalLandMr='" + getTotalLandMr() + "'" +
-            ", totalMem=" + getTotalMem() +
-            ", totalMemMr='" + getTotalMemMr() + "'" +
-            ", totalNonMem=" + getTotalNonMem() +
-            ", totalNonMemMr='" + getTotalNonMemMr() + "'" +
-            ", totalGMem=" + getTotalGMem() +
-            ", totalGMemMr='" + getTotalGMemMr() + "'" +
-            ", memLoan=" + getMemLoan() +
-            ", memLoanMr='" + getMemLoanMr() + "'" +
-            ", memDue=" + getMemDue() +
-            ", memDueMr='" + getMemDueMr() + "'" +
-            ", memDueper=" + getMemDueper() +
-            ", memDueperMr='" + getMemDueperMr() + "'" +
-            ", memVasulpatra=" + getMemVasulpatra() +
-            ", memVasulpatraMr='" + getMemVasulpatraMr() + "'" +
-            ", memVasul=" + getMemVasul() +
-            ", memVasulMr='" + getMemVasulMr() + "'" +
-            ", memVasulPer=" + getMemVasulPer() +
-            ", memVasulPerMr='" + getMemVasulPerMr() + "'" +
-            ", bankLoan=" + getBankLoan() +
-            ", bankLoanMr='" + getBankLoanMr() + "'" +
-            ", bankDue=" + getBankDue() +
-            ", bankDueMr='" + getBankDueMr() + "'" +
-            ", bankDueper=" + getBankDueper() +
-            ", bankDueperMr='" + getBankDueperMr() + "'" +
-            ", bankVasulpatra=" + getBankVasulpatra() +
-            ", bankVasulpatraMr='" + getBankVasulpatraMr() + "'" +
-            ", bankVasul=" + getBankVasul() +
-            ", bankVasulMr='" + getBankVasulMr() + "'" +
-            ", bankVasulPer=" + getBankVasulPer() +
-            ", bankVasulPerMr='" + getBankVasulPerMr() + "'" +
-            ", shareCapital=" + getShareCapital() +
-            ", shareCapitalMr='" + getShareCapitalMr() + "'" +
-            ", share=" + getShare() +
-            ", shareMr='" + getShareMr() + "'" +
-            ", funds=" + getFunds() +
-            ", fundsMr='" + getFundsMr() + "'" +
-            ", deposit=" + getDeposit() +
-            ", depositMr='" + getDepositMr() + "'" +
-            ", payable=" + getPayable() +
-            ", payableMr='" + getPayableMr() + "'" +
-            ", profit=" + getProfit() +
-            ", profitMr='" + getProfitMr() + "'" +
-            ", cashInHand=" + getCashInHand() +
-            ", cashInHandMr='" + getCashInHandMr() + "'" +
-            ", investment=" + getInvestment() +
-            ", investmentMr='" + getInvestmentMr() + "'" +
-            ", deadStock=" + getDeadStock() +
-            ", deadStockMr='" + getDeadStockMr() + "'" +
-            ", otherPay=" + getOtherPay() +
-            ", otherPayMr='" + getOtherPayMr() + "'" +
-            ", loss=" + getLoss() +
-            ", lossMr='" + getLossMr() + "'" +
-            ", totalBagayat=" + getTotalBagayat() +
-            ", totalBagayatMr='" + getTotalBagayatMr() + "'" +
-            ", totalJirayat=" + getTotalJirayat() +
-            ", totalJirayatMr='" + getTotalJirayatMr() + "'" +
+            ", financialYear='" + getFinancialYear() + "'" +
+            ", kmDate='" + getKmDate() + "'" +
+            ", kmDateMr='" + getKmDateMr() + "'" +
+            ", kmFromDate='" + getKmFromDate() + "'" +
+            ", kmFromDateMr='" + getKmFromDateMr() + "'" +
+            ", kmToDate='" + getKmToDate() + "'" +
+            ", kmToDateMr='" + getKmToDateMr() + "'" +
+            ", pacsNumber='" + getPacsNumber() + "'" +
+            ", pacsName='" + getPacsName() + "'" +
+            ", branchId=" + getBranchId() +
+            ", branchName='" + getBranchName() + "'" +
+            ", zindagiPatrakDate='" + getZindagiPatrakDate() + "'" +
+            ", zindagiPatrakDateMr='" + getZindagiPatrakDateMr() + "'" +
+            ", bankTapasaniDate='" + getBankTapasaniDate() + "'" +
+            ", bankTapasaniDateMr='" + getBankTapasaniDateMr() + "'" +
+            ", govTapasaniDate='" + getGovTapasaniDate() + "'" +
+            ", govTapasaniDateMr='" + getGovTapasaniDateMr() + "'" +
+            ", sansthaTapasaniDate='" + getSansthaTapasaniDate() + "'" +
+            ", sansthaTapasaniDateMr='" + getSansthaTapasaniDateMr() + "'" +
+            ", totalLand='" + getTotalLand() + "'" +
+            ", bagayat='" + getBagayat() + "'" +
+            ", jirayat='" + getJirayat() + "'" +
+            ", totalFarmer='" + getTotalFarmer() + "'" +
+            ", memberFarmer='" + getMemberFarmer() + "'" +
+            ", nonMemberFarmer='" + getNonMemberFarmer() + "'" +
+            ", talebandDate='" + getTalebandDate() + "'" +
+            ", memLoan='" + getMemLoan() + "'" +
+            ", memDue='" + getMemDue() + "'" +
+            ", memVasuli='" + getMemVasuli() + "'" +
+            ", memVasuliPer='" + getMemVasuliPer() + "'" +
+            ", bankLoan='" + getBankLoan() + "'" +
+            ", bankDue='" + getBankDue() + "'" +
+            ", bankVasuli='" + getBankVasuli() + "'" +
+            ", bankVasuliPer='" + getBankVasuliPer() + "'" +
+            ", balanceSheetDate='" + getBalanceSheetDate() + "'" +
+            ", balanceSheetDateMr='" + getBalanceSheetDateMr() + "'" +
+            ", liabilityAdhikrutShareCapital='" + getLiabilityAdhikrutShareCapital() + "'" +
+            ", liabilityVasulShareCapital='" + getLiabilityVasulShareCapital() + "'" +
+            ", liabilityFund='" + getLiabilityFund() + "'" +
+            ", liabilitySpareFund='" + getLiabilitySpareFund() + "'" +
+            ", liabilityDeposite='" + getLiabilityDeposite() + "'" +
+            ", liabilityBalanceSheetBankLoan='" + getLiabilityBalanceSheetBankLoan() + "'" +
+            ", liabilityOtherPayable='" + getLiabilityOtherPayable() + "'" +
+            ", liabilityProfit='" + getLiabilityProfit() + "'" +
+            ", assetCash='" + getAssetCash() + "'" +
+            ", assetInvestment='" + getAssetInvestment() + "'" +
+            ", assetImaratFund='" + getAssetImaratFund() + "'" +
+            ", assetMemberLoan='" + getAssetMemberLoan() + "'" +
+            ", assetDeadStock='" + getAssetDeadStock() + "'" +
+            ", assetOtherReceivable='" + getAssetOtherReceivable() + "'" +
+            ", assetLoss='" + getAssetLoss() + "'" +
+            ", totalLiability='" + getTotalLiability() + "'" +
+            ", totalAsset='" + getTotalAsset() + "'" +
+            ", villageCode='" + getVillageCode() + "'" +
+            ", pacsVerifiedFlag='" + getPacsVerifiedFlag() + "'" +
+            ", branchVerifiedFlag='" + getBranchVerifiedFlag() + "'" +
+            ", headOfficeVerifiedFlag='" + getHeadOfficeVerifiedFlag() + "'" +
+            ", isSupplimenteryFlag='" + getIsSupplimenteryFlag() + "'" +
+            ", sansthaTapasaniVarg='" + getSansthaTapasaniVarg() + "'" +
+            ", branchVerifiedBy='" + getBranchVerifiedBy() + "'" +
+            ", branchVerifiedDate='" + getBranchVerifiedDate() + "'" +
+            ", headOfficeVerifiedBy='" + getHeadOfficeVerifiedBy() + "'" +
+            ", headOfficeVerifiedDate='" + getHeadOfficeVerifiedDate() + "'" +
+            ", divisionalOfficeVerifiedBy='" + getDivisionalOfficeVerifiedBy() + "'" +
+            ", divisionalOfficeVerifiedDate='" + getDivisionalOfficeVerifiedDate() + "'" +
+            ", doshPurtataDate='" + getDoshPurtataDate() + "'" +
+            ", gambhirDosh='" + getGambhirDosh() + "'" +
+            ", divisionalOfficeVerifiedFlag='" + getDivisionalOfficeVerifiedFlag() + "'" +
+            ", talukaId=" + getTalukaId() +
+            ", talukaName='" + getTalukaName() + "'" +
             "}";
+    }
+
+
+    public LocalDate instantToLocalDate(Instant instantDate) {
+        if (instantDate==null) {
+            return null;
+        }
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
+
+        LocalDate localDate = zonedDateTime.toLocalDate();
+        return localDate;
+    }
+
+
+    public String doubleToString(Double doubleValue){
+        if(doubleValue==null){
+            return null;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(doubleValue);
+    }
+
+    public String longToString( Long longValue){
+        if(longValue==null){
+            return null;
+        }
+        return longValue.toString();
     }
 }

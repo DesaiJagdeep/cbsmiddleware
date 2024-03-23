@@ -60,43 +60,46 @@ public class EnglishNumberToWords {
 		  }
 
 
-		  
+
 		  public static String convertDoubleToText(Double number)
 		  {
-			  
-			  String[] div = number.toString().split("\\.");
-			  
-			  
+              DecimalFormat df = new DecimalFormat("#.###########");
+              String largeNumber = df.format(number);
+
+
+			  String[] div = largeNumber.toString().split("\\.");
+
+
 			  StringBuilder numberToWord=new StringBuilder();
-			
-			  
+
+
 			  if(div[0].length()>1)
 			  {
 				  String rupee=div[0];
-				  
+
 				  numberToWord.append(EnglishNumberToWords.convert(Long.parseLong(rupee)));
 				  numberToWord.append(" Rupees");
 			  }
-			  
-			  
-			  if(div[1].length()>1)
+
+
+			  if(div.length >1 && div[1].length()>1)
 			  {
 				  String paise= div[1];
 				  numberToWord.append(" ");
 				  numberToWord.append(EnglishNumberToWords.convert(Long.parseLong(paise)));
 				  numberToWord.append(" Paise");
 			  }
-			  
+
 			  numberToWord.append(" Only");
-			  
-			  
-			  
-			  
+
+
+
+
 			return numberToWord.toString();
-			  
+
 		  }
-		  
-		  
+
+
 		  static String convert(long number) {
 		    // 0 to 999 999 999 999
 		    if (number == 0) { return "zero"; }
@@ -175,7 +178,7 @@ public class EnglishNumberToWords {
 		   */
 		 // public static void main(String[] args) {
 		   // System.out.println("*** " + EnglishNumberToWords.convertDoubleToText(51240.01));
-		    
+
 
 		    /*
 		     *** zero
@@ -201,6 +204,6 @@ public class EnglishNumberToWords {
 		     *** three billion ten
 		     **/
 		//  }
-		  
-		  
+
+
 }

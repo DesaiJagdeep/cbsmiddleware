@@ -23,27 +23,36 @@ public class KamalCropCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private IntegerFilter pacsNumber;
+    private StringFilter pacsNumber;
 
-    private IntegerFilter memNo;
+    private StringFilter financialYear;
 
-    private DoubleFilter memHector;
+    private StringFilter memberCount;
 
-    private StringFilter memNoMr;
+    private StringFilter area;
 
-    private StringFilter memHectorMr;
+    private StringFilter pacsAmount;
 
-    private DoubleFilter memAar;
+    private StringFilter branchAmount;
 
-    private StringFilter memAarMr;
+    private StringFilter headOfficeAmount;
+
+    private StringFilter divisionalOfficeAmount;
+
+    private StringFilter cropEligibilityAmount;
+
+    private InstantFilter kmDate;
+
+    private StringFilter kmDateMr;
+
+    private LongFilter kamalSocietyId;
 
     private LongFilter farmerTypeMasterId;
 
     private LongFilter seasonMasterId;
 
     private LongFilter cropMasterId;
-
-    private LongFilter kamalSocietyId;
+    private StringFilter agriAdminAmount;
 
     private Boolean distinct;
 
@@ -52,16 +61,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
     public KamalCropCriteria(KamalCropCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.pacsNumber = other.pacsNumber == null ? null : other.pacsNumber.copy();
-        this.memNo = other.memNo == null ? null : other.memNo.copy();
-        this.memHector = other.memHector == null ? null : other.memHector.copy();
-        this.memNoMr = other.memNoMr == null ? null : other.memNoMr.copy();
-        this.memHectorMr = other.memHectorMr == null ? null : other.memHectorMr.copy();
-        this.memAar = other.memAar == null ? null : other.memAar.copy();
-        this.memAarMr = other.memAarMr == null ? null : other.memAarMr.copy();
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
+        this.memberCount = other.memberCount == null ? null : other.memberCount.copy();
+        this.area = other.area == null ? null : other.area.copy();
+        this.pacsAmount = other.pacsAmount == null ? null : other.pacsAmount.copy();
+        this.branchAmount = other.branchAmount == null ? null : other.branchAmount.copy();
+        this.headOfficeAmount = other.headOfficeAmount == null ? null : other.headOfficeAmount.copy();
+        this.divisionalOfficeAmount = other.divisionalOfficeAmount == null ? null : other.divisionalOfficeAmount.copy();
+        this.cropEligibilityAmount = other.cropEligibilityAmount == null ? null : other.cropEligibilityAmount.copy();
+        this.kmDate = other.kmDate == null ? null : other.kmDate.copy();
+        this.kmDateMr = other.kmDateMr == null ? null : other.kmDateMr.copy();
+        this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
         this.farmerTypeMasterId = other.farmerTypeMasterId == null ? null : other.farmerTypeMasterId.copy();
         this.seasonMasterId = other.seasonMasterId == null ? null : other.seasonMasterId.copy();
         this.cropMasterId = other.cropMasterId == null ? null : other.cropMasterId.copy();
-        this.kamalSocietyId = other.kamalSocietyId == null ? null : other.kamalSocietyId.copy();
+        this.agriAdminAmount = other.agriAdminAmount == null ? null : other.agriAdminAmount.copy();
         this.distinct = other.distinct;
     }
 
@@ -70,6 +84,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
         return new KamalCropCriteria(this);
     }
 
+
+    public StringFilter getAgriAdminAmount() {
+        return agriAdminAmount;
+    }
+
+    public StringFilter agriAdminAmount() {
+        if (agriAdminAmount == null) {
+            agriAdminAmount = new StringFilter();
+        }
+        return agriAdminAmount;
+    }
+
+    public void setAgriAdminAmount(StringFilter agriAdminAmount) {
+        this.agriAdminAmount = agriAdminAmount;
+    }
     public LongFilter getId() {
         return id;
     }
@@ -85,109 +114,184 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public IntegerFilter getPacsNumber() {
+    public StringFilter getPacsNumber() {
         return pacsNumber;
     }
 
-    public IntegerFilter pacsNumber() {
+    public StringFilter pacsNumber() {
         if (pacsNumber == null) {
-            pacsNumber = new IntegerFilter();
+            pacsNumber = new StringFilter();
         }
         return pacsNumber;
     }
 
-    public void setPacsNumber(IntegerFilter pacsNumber) {
+    public void setPacsNumber(StringFilter pacsNumber) {
         this.pacsNumber = pacsNumber;
     }
 
-    public IntegerFilter getMemNo() {
-        return memNo;
+    public StringFilter getFinancialYear() {
+        return financialYear;
     }
 
-    public IntegerFilter memNo() {
-        if (memNo == null) {
-            memNo = new IntegerFilter();
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+            financialYear = new StringFilter();
         }
-        return memNo;
+        return financialYear;
     }
 
-    public void setMemNo(IntegerFilter memNo) {
-        this.memNo = memNo;
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
     }
 
-    public DoubleFilter getMemHector() {
-        return memHector;
+    public StringFilter getMemberCount() {
+        return memberCount;
     }
 
-    public DoubleFilter memHector() {
-        if (memHector == null) {
-            memHector = new DoubleFilter();
+    public StringFilter memberCount() {
+        if (memberCount == null) {
+            memberCount = new StringFilter();
         }
-        return memHector;
+        return memberCount;
     }
 
-    public void setMemHector(DoubleFilter memHector) {
-        this.memHector = memHector;
+    public void setMemberCount(StringFilter memberCount) {
+        this.memberCount = memberCount;
     }
 
-    public StringFilter getMemNoMr() {
-        return memNoMr;
+    public StringFilter getArea() {
+        return area;
     }
 
-    public StringFilter memNoMr() {
-        if (memNoMr == null) {
-            memNoMr = new StringFilter();
+    public StringFilter area() {
+        if (area == null) {
+            area = new StringFilter();
         }
-        return memNoMr;
+        return area;
     }
 
-    public void setMemNoMr(StringFilter memNoMr) {
-        this.memNoMr = memNoMr;
+    public void setArea(StringFilter area) {
+        this.area = area;
     }
 
-    public StringFilter getMemHectorMr() {
-        return memHectorMr;
+    public StringFilter getPacsAmount() {
+        return pacsAmount;
     }
 
-    public StringFilter memHectorMr() {
-        if (memHectorMr == null) {
-            memHectorMr = new StringFilter();
+    public StringFilter pacsAmount() {
+        if (pacsAmount == null) {
+            pacsAmount = new StringFilter();
         }
-        return memHectorMr;
+        return pacsAmount;
     }
 
-    public void setMemHectorMr(StringFilter memHectorMr) {
-        this.memHectorMr = memHectorMr;
+    public void setPacsAmount(StringFilter pacsAmount) {
+        this.pacsAmount = pacsAmount;
     }
 
-    public DoubleFilter getMemAar() {
-        return memAar;
+    public StringFilter getBranchAmount() {
+        return branchAmount;
     }
 
-    public DoubleFilter memAar() {
-        if (memAar == null) {
-            memAar = new DoubleFilter();
+    public StringFilter branchAmount() {
+        if (branchAmount == null) {
+            branchAmount = new StringFilter();
         }
-        return memAar;
+        return branchAmount;
     }
 
-    public void setMemAar(DoubleFilter memAar) {
-        this.memAar = memAar;
+    public void setBranchAmount(StringFilter branchAmount) {
+        this.branchAmount = branchAmount;
     }
 
-    public StringFilter getMemAarMr() {
-        return memAarMr;
+    public StringFilter getHeadOfficeAmount() {
+        return headOfficeAmount;
     }
 
-    public StringFilter memAarMr() {
-        if (memAarMr == null) {
-            memAarMr = new StringFilter();
+    public StringFilter headOfficeAmount() {
+        if (headOfficeAmount == null) {
+            headOfficeAmount = new StringFilter();
         }
-        return memAarMr;
+        return headOfficeAmount;
     }
 
-    public void setMemAarMr(StringFilter memAarMr) {
-        this.memAarMr = memAarMr;
+    public void setHeadOfficeAmount(StringFilter headOfficeAmount) {
+        this.headOfficeAmount = headOfficeAmount;
+    }
+
+    public StringFilter getDivisionalOfficeAmount() {
+        return divisionalOfficeAmount;
+    }
+
+    public StringFilter divisionalOfficeAmount() {
+        if (divisionalOfficeAmount == null) {
+            divisionalOfficeAmount = new StringFilter();
+        }
+        return divisionalOfficeAmount;
+    }
+
+    public void setDivisionalOfficeAmount(StringFilter divisionalOfficeAmount) {
+        this.divisionalOfficeAmount = divisionalOfficeAmount;
+    }
+
+    public StringFilter getCropEligibilityAmount() {
+        return cropEligibilityAmount;
+    }
+
+    public StringFilter cropEligibilityAmount() {
+        if (cropEligibilityAmount == null) {
+            cropEligibilityAmount = new StringFilter();
+        }
+        return cropEligibilityAmount;
+    }
+
+    public void setCropEligibilityAmount(StringFilter cropEligibilityAmount) {
+        this.cropEligibilityAmount = cropEligibilityAmount;
+    }
+
+    public InstantFilter getKmDate() {
+        return kmDate;
+    }
+
+    public InstantFilter kmDate() {
+        if (kmDate == null) {
+            kmDate = new InstantFilter();
+        }
+        return kmDate;
+    }
+
+    public void setKmDate(InstantFilter kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public StringFilter getKmDateMr() {
+        return kmDateMr;
+    }
+
+    public StringFilter kmDateMr() {
+        if (kmDateMr == null) {
+            kmDateMr = new StringFilter();
+        }
+        return kmDateMr;
+    }
+
+    public void setKmDateMr(StringFilter kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
+    public LongFilter getKamalSocietyId() {
+        return kamalSocietyId;
+    }
+
+    public LongFilter kamalSocietyId() {
+        if (kamalSocietyId == null) {
+            kamalSocietyId = new LongFilter();
+        }
+        return kamalSocietyId;
+    }
+
+    public void setKamalSocietyId(LongFilter kamalSocietyId) {
+        this.kamalSocietyId = kamalSocietyId;
     }
 
     public LongFilter getFarmerTypeMasterId() {
@@ -235,21 +339,6 @@ public class KamalCropCriteria implements Serializable, Criteria {
         this.cropMasterId = cropMasterId;
     }
 
-    public LongFilter getKamalSocietyId() {
-        return kamalSocietyId;
-    }
-
-    public LongFilter kamalSocietyId() {
-        if (kamalSocietyId == null) {
-            kamalSocietyId = new LongFilter();
-        }
-        return kamalSocietyId;
-    }
-
-    public void setKamalSocietyId(LongFilter kamalSocietyId) {
-        this.kamalSocietyId = kamalSocietyId;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -270,16 +359,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(pacsNumber, that.pacsNumber) &&
-            Objects.equals(memNo, that.memNo) &&
-            Objects.equals(memHector, that.memHector) &&
-            Objects.equals(memNoMr, that.memNoMr) &&
-            Objects.equals(memHectorMr, that.memHectorMr) &&
-            Objects.equals(memAar, that.memAar) &&
-            Objects.equals(memAarMr, that.memAarMr) &&
+            Objects.equals(financialYear, that.financialYear) &&
+            Objects.equals(memberCount, that.memberCount) &&
+            Objects.equals(area, that.area) &&
+            Objects.equals(pacsAmount, that.pacsAmount) &&
+            Objects.equals(branchAmount, that.branchAmount) &&
+            Objects.equals(headOfficeAmount, that.headOfficeAmount) &&
+            Objects.equals(divisionalOfficeAmount, that.divisionalOfficeAmount) &&
+            Objects.equals(cropEligibilityAmount, that.cropEligibilityAmount) &&
+            Objects.equals(kmDate, that.kmDate) &&
+            Objects.equals(kmDateMr, that.kmDateMr) &&
+            Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
             Objects.equals(farmerTypeMasterId, that.farmerTypeMasterId) &&
             Objects.equals(seasonMasterId, that.seasonMasterId) &&
             Objects.equals(cropMasterId, that.cropMasterId) &&
-            Objects.equals(kamalSocietyId, that.kamalSocietyId) &&
+            Objects.equals(agriAdminAmount, that.agriAdminAmount) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -289,16 +383,21 @@ public class KamalCropCriteria implements Serializable, Criteria {
         return Objects.hash(
             id,
             pacsNumber,
-            memNo,
-            memHector,
-            memNoMr,
-            memHectorMr,
-            memAar,
-            memAarMr,
+            financialYear,
+            memberCount,
+            area,
+            pacsAmount,
+            branchAmount,
+            headOfficeAmount,
+            divisionalOfficeAmount,
+            cropEligibilityAmount,
+            kmDate,
+            kmDateMr,
+            kamalSocietyId,
             farmerTypeMasterId,
             seasonMasterId,
             cropMasterId,
-            kamalSocietyId,
+            agriAdminAmount,
             distinct
         );
     }
@@ -309,16 +408,20 @@ public class KamalCropCriteria implements Serializable, Criteria {
         return "KamalCropCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (pacsNumber != null ? "pacsNumber=" + pacsNumber + ", " : "") +
-            (memNo != null ? "memNo=" + memNo + ", " : "") +
-            (memHector != null ? "memHector=" + memHector + ", " : "") +
-            (memNoMr != null ? "memNoMr=" + memNoMr + ", " : "") +
-            (memHectorMr != null ? "memHectorMr=" + memHectorMr + ", " : "") +
-            (memAar != null ? "memAar=" + memAar + ", " : "") +
-            (memAarMr != null ? "memAarMr=" + memAarMr + ", " : "") +
+            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
+            (memberCount != null ? "memberCount=" + memberCount + ", " : "") +
+            (area != null ? "area=" + area + ", " : "") +
+            (pacsAmount != null ? "pacsAmount=" + pacsAmount + ", " : "") +
+            (branchAmount != null ? "branchAmount=" + branchAmount + ", " : "") +
+            (headOfficeAmount != null ? "headOfficeAmount=" + headOfficeAmount + ", " : "") +
+            (divisionalOfficeAmount != null ? "divisionalOfficeAmount=" + divisionalOfficeAmount + ", " : "") +
+            (cropEligibilityAmount != null ? "cropEligibilityAmount=" + cropEligibilityAmount + ", " : "") +
+            (kmDate != null ? "kmDate=" + kmDate + ", " : "") +
+            (kmDateMr != null ? "kmDateMr=" + kmDateMr + ", " : "") +
+            (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (farmerTypeMasterId != null ? "farmerTypeMasterId=" + farmerTypeMasterId + ", " : "") +
             (seasonMasterId != null ? "seasonMasterId=" + seasonMasterId + ", " : "") +
             (cropMasterId != null ? "cropMasterId=" + cropMasterId + ", " : "") +
-            (kamalSocietyId != null ? "kamalSocietyId=" + kamalSocietyId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

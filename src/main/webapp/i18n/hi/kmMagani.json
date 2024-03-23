@@ -1,0 +1,31 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMagani": {
+      "home": {
+        "title": "KmMaganis",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नया Km Magani बनाएँ",
+        "createOrEditLabel": "Km Magani बनाएँ या संपादित करें",
+        "notFound": "No Km Maganis found"
+      },
+      "created": "एक नया Km Magani [identifier: {{ param }}] तैयार है",
+      "updated": "एक Km Magani [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Km Magani [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Km Magani [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Km Magani"
+      },
+      "id": "ID",
+      "kmNumber": "Km Number",
+      "memberNumber": "Member Number",
+      "memberName": "Member Name",
+      "pacsNumber": "Pacs Number",
+      "share": "Share",
+      "financialYear": "Financial Year",
+      "kmDate": "Km Date",
+      "maganiDate": "Magani Date"
+    }
+  }
+}

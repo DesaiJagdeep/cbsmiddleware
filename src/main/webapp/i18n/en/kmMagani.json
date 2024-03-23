@@ -1,0 +1,31 @@
+{
+  "cbsMiddlewareApp": {
+    "kmMagani": {
+      "home": {
+        "title": "Km Maganis",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Km Magani",
+        "createOrEditLabel": "Create or edit a Km Magani",
+        "notFound": "No Km Maganis found"
+      },
+      "created": "A new Km Magani is created with identifier {{ param }}",
+      "updated": "A Km Magani is updated with identifier {{ param }}",
+      "deleted": "A Km Magani is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Km Magani {{ id }}?"
+      },
+      "detail": {
+        "title": "Km Magani"
+      },
+      "id": "ID",
+      "kmNumber": "Km Number",
+      "memberNumber": "Member Number",
+      "memberName": "Member Name",
+      "pacsNumber": "Pacs Number",
+      "share": "Share",
+      "financialYear": "Financial Year",
+      "kmDate": "Km Date",
+      "maganiDate": "Magani Date"
+    }
+  }
+}

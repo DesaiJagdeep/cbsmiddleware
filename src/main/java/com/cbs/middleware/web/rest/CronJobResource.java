@@ -144,8 +144,10 @@ public class CronJobResource {
 
     //@Scheduled(cron = "0 0 6 * * ?")
     //0 30 19 * * *   (7:30 pm UTC i.e  1 am IST)
+    //0 30 08 * * *   (8:30 am UTC i.e  2 pm IST)
 
     @Scheduled(cron = "0 30 19 * * *")
+    @Scheduled(cron = "0 30 08 * * *")
     public void updateRecordsInBatchTran() {
 
         List<BatchTransaction> batchTransactionList = batchTransactionRepository.findAllByStatus(Constants.NEW);
@@ -502,12 +504,22 @@ public class CronJobResource {
         updateRecordsInRetryBatchTran(batchId);
     }
     //0 30 0 * * *   (12:30 am UTC i.e  06:00 am IST)
+    //0 0 13 * * *   (07:30 am UTC i.e 01:00 pm IST)
     @Scheduled(cron = "0 30 0 * * *")
+    @Scheduled(cron = "0 0 13 * * *")
     public void updateRecordsInRetryBatchTranScheduler() {
         updateRecordsInRetryBatchTran("0000");
     }
 
     private void updateRecordsInRetryBatchTran(String batchId) {
+
+        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setTimeZone(timeZone);
+        String indianTime = dateFormat.format(new Date());
+
+        log.debug("cron Job started at" + indianTime);
+        log.info("cron Job started at" + indianTime);
 
         List<RetryBatchTransaction> retryBatchTransactionList = new ArrayList<>();
         if(batchId.equals("0000"))
@@ -524,17 +536,14 @@ public class CronJobResource {
         System.out.println("RetryTransactionList batchId: " + retryBatchTransactionList.get(0).getBatchId());
         System.out.println("RetryTransactionList size: " + retryBatchTransactionList.size());
 
-        TimeZone timeZone = TimeZone.getTimeZone("Asia/Kolkata");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.setTimeZone(timeZone);
-        String indianTime = dateFormat.format(new Date());
+
 
         if (!retryBatchTransactionList.isEmpty()) {
             log.info("Retry Batch transaction list not empty");
             System.out.println("Retry Batch transaction list not empty");
             for (RetryBatchTransaction retryBatchTransaction : retryBatchTransactionList) {
 
-                System.out.println("Retry Batch transaction id"+retryBatchTransaction.getId());
+                System.out.println("Retry Batch transaction id "+retryBatchTransaction.getId());
 
     List<Application> applicationListSave = new ArrayList<>();
     List<RetryBatchTransactionDetails> retryBatchTransactionapplicationListSave = new ArrayList<>();
@@ -589,12 +598,13 @@ public class CronJobResource {
                 if (!dataByBatchAckId.getApplications().isEmpty()) {
                     for (ApplicationsByBatchAckId applicationsByBatchAckId : dataByBatchAckId.getApplications()) {
 
-                        System.out.println("Application from batch ack result: " +applicationsByBatchAckId);
+                        System.out.println("application uniqueId: " +applicationsByBatchAckId.getUniqueId());
 
                         //application_transaction
                         Application applicationByUniqueId = applicationRepository.findOneByUniqueId(
                             applicationsByBatchAckId.getUniqueId()
                         );
+
 
                         //application_log
                         Optional<ApplicationLog> applicationLog = applicationLogRepository.findOneByIssFileParser(

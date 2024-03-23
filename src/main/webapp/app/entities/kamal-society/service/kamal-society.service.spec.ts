@@ -8,7 +8,24 @@ import { KamalSocietyService, RestKamalSociety } from './kamal-society.service';
 
 const requireRestSample: RestKamalSociety = {
   ...sampleWithRequiredData,
-  zindagiDate: sampleWithRequiredData.zindagiDate?.toJSON(),
+  kmDate: sampleWithRequiredData.kmDate?.toJSON(),
+  kmFromDate: sampleWithRequiredData.kmFromDate?.toJSON(),
+  kmToDate: sampleWithRequiredData.kmToDate?.toJSON(),
+  zindagiPatrakDate: sampleWithRequiredData.zindagiPatrakDate?.toJSON(),
+  bankTapasaniDate: sampleWithRequiredData.bankTapasaniDate?.toJSON(),
+  govTapasaniDate: sampleWithRequiredData.govTapasaniDate?.toJSON(),
+  sansthaTapasaniDate: sampleWithRequiredData.sansthaTapasaniDate?.toJSON(),
+  talebandDate: sampleWithRequiredData.talebandDate?.toJSON(),
+  balanceSheetDate: sampleWithRequiredData.balanceSheetDate?.toJSON(),
+  branchVerifiedDate: sampleWithRequiredData.branchVerifiedDate?.toJSON(),
+  headOfficeVerifiedDate: sampleWithRequiredData.headOfficeVerifiedDate?.toJSON(),
+  divisionalOfficeVerifiedDate: sampleWithRequiredData.divisionalOfficeVerifiedDate?.toJSON(),
+  doshPurtataDate: sampleWithRequiredData.doshPurtataDate?.toJSON(),
+  branchInwardDate: sampleWithRequiredData.branchInwardDate?.toJSON(),
+  branchOutwardDate: sampleWithRequiredData.branchOutwardDate?.toJSON(),
+  headOfficeInwardDate: sampleWithRequiredData.headOfficeInwardDate?.toJSON(),
+  headOfficeOutwardDate: sampleWithRequiredData.headOfficeOutwardDate?.toJSON(),
+  tharavDate: sampleWithRequiredData.tharavDate?.toJSON(),
 };
 
 describe('KamalSociety Service', () => {

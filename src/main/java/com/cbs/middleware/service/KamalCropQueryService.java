@@ -86,25 +86,42 @@ public class KamalCropQueryService extends QueryService<KamalCrop> {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), KamalCrop_.id));
             }
             if (criteria.getPacsNumber() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPacsNumber(), KamalCrop_.pacsNumber));
+                specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KamalCrop_.pacsNumber));
             }
-            if (criteria.getMemNo() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemNo(), KamalCrop_.memNo));
+            if (criteria.getFinancialYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), KamalCrop_.financialYear));
             }
-            if (criteria.getMemHector() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemHector(), KamalCrop_.memHector));
+            if (criteria.getMemberCount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMemberCount(), KamalCrop_.memberCount));
             }
-            if (criteria.getMemNoMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemNoMr(), KamalCrop_.memNoMr));
+            if (criteria.getArea() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getArea(), KamalCrop_.area));
             }
-            if (criteria.getMemHectorMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemHectorMr(), KamalCrop_.memHectorMr));
+            if (criteria.getPacsAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsAmount(), KamalCrop_.pacsAmount));
             }
-            if (criteria.getMemAar() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemAar(), KamalCrop_.memAar));
+            if (criteria.getBranchAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchAmount(), KamalCrop_.branchAmount));
             }
-            if (criteria.getMemAarMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemAarMr(), KamalCrop_.memAarMr));
+            if (criteria.getHeadOfficeAmount() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getHeadOfficeAmount(), KamalCrop_.headOfficeAmount));
+            }
+            if (criteria.getDivisionalOfficeAmount() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getDivisionalOfficeAmount(), KamalCrop_.divisionalOfficeAmount));
+            }
+            if (criteria.getCropEligibilityAmount() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getCropEligibilityAmount(), KamalCrop_.cropEligibilityAmount));
+            }
+            if (criteria.getKamalSocietyId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getKamalSocietyId(),
+                            root -> root.join(KamalCrop_.kamalSociety, JoinType.LEFT).get(KamalSociety_.id)
+                        )
+                    );
             }
             if (criteria.getFarmerTypeMasterId() != null) {
                 specification =
@@ -130,15 +147,6 @@ public class KamalCropQueryService extends QueryService<KamalCrop> {
                         buildSpecification(
                             criteria.getCropMasterId(),
                             root -> root.join(KamalCrop_.cropMaster, JoinType.LEFT).get(CropMaster_.id)
-                        )
-                    );
-            }
-            if (criteria.getKamalSocietyId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getKamalSocietyId(),
-                            root -> root.join(KamalCrop_.kamalSociety, JoinType.LEFT).get(KamalSociety_.id)
                         )
                     );
             }

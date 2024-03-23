@@ -162,6 +162,12 @@ public class KmDetailsServiceImpl implements KmDetailsService {
                 if (kmDetails.getBojaDateMr() != null) {
                     existingKmDetails.setBojaDateMr(kmDetails.getBojaDateMr());
                 }
+                if (kmDetails.getDob() != null) {
+                    existingKmDetails.setDob(kmDetails.getDob());
+                }
+                if (kmDetails.getFinancialYear() != null) {
+                    existingKmDetails.setFinancialYear(kmDetails.getFinancialYear());
+                }
 
                 return existingKmDetails;
             })

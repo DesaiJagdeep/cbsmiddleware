@@ -1,12 +1,10 @@
 package com.cbs.middleware.service.impl;
 
+import com.cbs.middleware.domain.BatchTransaction;
 import com.cbs.middleware.domain.IssFileParser;
 import com.cbs.middleware.domain.IssPortalFile;
 import com.cbs.middleware.domain.TalukaMaster;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.IssFileParserRepository;
-import com.cbs.middleware.repository.IssPortalFileRepository;
-import com.cbs.middleware.repository.TalukaMasterRepository;
+import com.cbs.middleware.repository.*;
 import com.cbs.middleware.service.IssPortalFileService;
 
 import java.math.BigInteger;
@@ -15,10 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
-import com.cbs.middleware.service.dto.IssPortalFileDTO;
-import com.cbs.middleware.service.dto.PacsApplicationDTO;
-import com.cbs.middleware.service.dto.TalukaApplicationDTO;
+import com.cbs.middleware.service.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -41,15 +36,18 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
     private final IssFileParserRepository issFileParserRepository;
     private final ApplicationRepository applicationRepository;
     private final TalukaMasterRepository talukaMasterRepository;
+    private final BatchTransactionRepository batchTransactionRepository;
 
     public IssPortalFileServiceImpl(IssPortalFileRepository issPortalFileRepository,
                                     IssFileParserRepository issFileParserRepository,
                                     ApplicationRepository applicationRepository,
-                                    TalukaMasterRepository talukaMasterRepository) {
+                                    TalukaMasterRepository talukaMasterRepository,
+                                    BatchTransactionRepository batchTransactionRepository) {
         this.issPortalFileRepository = issPortalFileRepository;
         this.issFileParserRepository = issFileParserRepository;
         this.applicationRepository = applicationRepository;
         this.talukaMasterRepository = talukaMasterRepository;
+        this.batchTransactionRepository = batchTransactionRepository;
     }
 
     @Override
@@ -141,6 +139,9 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
         Integer KccPending = issPortalFileRepository.findKccPendingCountByFinancialYear(financialYear);
         Integer totalFarmers = issPortalFileRepository.findDistinctFarmersCountByFinancialYear(financialYear);
 
+//        Integer KccPending = issPortalFileRepository.findKccPendingCountByFinancialYear(financialYear);
+//        Integer submitted= issPortalFileRepository.findSubmitted(financialYear);
+//        Integer submitted= issPortalFileRepository.find(financialYear);
 
         issPortalFileCountDTO.setTotalApplications(totalApplication);
         issPortalFileCountDTO.setValidationErrors(validationError);
@@ -148,6 +149,11 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
         issPortalFileCountDTO.setkCCRejected(kccRejected - kccDuplicateOrAccountNumberProcessedCount);
         issPortalFileCountDTO.setkCCPending(KccPending);
         issPortalFileCountDTO.setTotalFarmers(totalFarmers);
+
+//        issPortalFileCountDTO.setSubmitted(submitted);
+//        issPortalFileCountDTO.setPendingToSubmit();
+
+
 
         return issPortalFileCountDTO;
     }
@@ -223,17 +229,88 @@ public class IssPortalFileServiceImpl implements IssPortalFileService {
                 Long validationError = issPortalFileRepository.findValidationErrorByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
                 Long kccAccepted = issPortalFileRepository.findKccAcceptedByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
                 Long kccRejected = issPortalFileRepository.findKccRejectedByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
-                Long kccPending = issPortalFileRepository.findKccPendingByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+               // Long kccPending = issPortalFileRepository.findKccPendingByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+
+                Long readyToSubmitPendingFromPdcc=issPortalFileRepository.findPendingFromPdccByPacsCodeAndFinancialYear(pacsCode.longValue(), financialYear);
+
+               //get distinct batch_id against particular pacs  which has batch_id . then agianst that batch_id check in the batch_transaction
+                //whether batch has processed or not if batch_details is null then get application_count increament it
+                List<String> batchIds=issPortalFileRepository.getDistinctBatchId(pacsCode.longValue(), financialYear);
+
+                int submittedToKcc=0;
+                int pendingFromKcc=0;
+                for (String batchId:batchIds) {
+                    BatchTransaction batchTransaction=batchTransactionRepository.findByBatchId(batchId);
+                    if(batchTransaction.getBatchDetails()==null){
+                        submittedToKcc+=batchTransaction.getApplicationCount();
+
+                    }else if(batchTransaction.getBatchDetails().equalsIgnoreCase("Batch is not processed yet")){
+                        pendingFromKcc+=batchTransaction.getApplicationCount();
+                    }
+
+                }
 
                 issPortalFileDTO.setTotalApplications(totalApps.intValue());
                 issPortalFileDTO.setkCCAccepted(kccAccepted.intValue());
                 issPortalFileDTO.setkCCRejected(kccRejected.intValue());
                 issPortalFileDTO.setValidationErrors(validationError.intValue());
+                issPortalFileDTO.setReadyToSubmitPendingFromPdcc(readyToSubmitPendingFromPdcc.intValue());
+                issPortalFileDTO.setSubmittedToKcc(submittedToKcc);
+                issPortalFileDTO.setPendingFromKcc(pendingFromKcc);
 
                 issPortalFileDTOList.add(issPortalFileDTO);
             }
         }
         return issPortalFileDTOList;
+    }
+
+    @Override
+    public List<NotYetStartedDTO> findAllRecordsWhoNotStarted(String financialYear) {
+        List<NotYetStartedDTO> notYetStartedDTOList = new ArrayList<>();
+
+        List<Object[]> pacsNotStarted = issPortalFileRepository.findRecordsWhoNotStarted(financialYear);
+
+        for (Object[] notStarted:pacsNotStarted) {
+            NotYetStartedDTO notYetStartedDTO=new NotYetStartedDTO();
+            notYetStartedDTO.setPacsNumber((String)notStarted[0]);
+            notYetStartedDTO.setPacsName((String)notStarted[1]);
+            notYetStartedDTO.setBranchName((String)notStarted[2]);
+            notYetStartedDTO.setTalukaName((String)notStarted[3]);
+            notYetStartedDTOList.add(notYetStartedDTO);
+        }
+
+        return notYetStartedDTOList;
+    }
+
+    @Override
+    public List<VerifyPendingDTO> findAllpendingFromBranchAdmin() {
+        List<VerifyPendingDTO> verifyPendingDTOList=new ArrayList<>();
+        List<Object[]> pendingFromBranchAdmin =issPortalFileRepository.findRecordsPendingFromBranchAdmin();
+        for (Object[] branchAdminPending:pendingFromBranchAdmin) {
+            VerifyPendingDTO verifyPendingDTO=new VerifyPendingDTO();
+            verifyPendingDTO.setPacsNumber(String.valueOf(branchAdminPending[0]));
+            verifyPendingDTO.setPacsName((String)branchAdminPending[1]);
+            verifyPendingDTO.setBranchName((String)branchAdminPending[2]);
+            verifyPendingDTO.setFinancialYear((String)branchAdminPending[3]);
+            verifyPendingDTOList.add(verifyPendingDTO);
+        }
+        return verifyPendingDTOList;
+    }
+
+    @Override
+    public List<VerifyPendingDTO> findAllpendingFromBranchUser() {
+        List<VerifyPendingDTO> verifyPendingDTOList=new ArrayList<>();
+        List<Object[]> pendingFromBranchUser =issPortalFileRepository.findRecordsPendingFromBranchUser();
+        for (Object[] branchUserPending:pendingFromBranchUser) {
+            VerifyPendingDTO verifyPendingDTO=new VerifyPendingDTO();
+            verifyPendingDTO.setPacsNumber(String.valueOf(branchUserPending[0]));
+            verifyPendingDTO.setPacsName((String)branchUserPending[1]);
+            verifyPendingDTO.setBranchName((String)branchUserPending[2]);
+            verifyPendingDTO.setFinancialYear((String)branchUserPending[3]);
+            verifyPendingDTOList.add(verifyPendingDTO);
+        }
+        return verifyPendingDTOList;
+
     }
 
 }

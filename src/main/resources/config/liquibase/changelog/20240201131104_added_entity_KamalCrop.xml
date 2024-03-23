@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity KamalCrop.
+    -->
+    <changeSet id="20240201131104-1" author="jhipster">
+        <createTable tableName="kamal_crop">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="pacs_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="financial_year" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="member_count" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="area" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="divisional_office_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_eligibility_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="kamal_society_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="farmer_type_master_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="season_master_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_master_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="kamal_crop" columnName="km_date" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20240201131104-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/kamal_crop.csv"
+                  separator=";"
+                  tableName="kamal_crop"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="pacs_number" type="string"/>
+            <column name="financial_year" type="string"/>
+            <column name="member_count" type="string"/>
+            <column name="area" type="string"/>
+            <column name="pacs_amount" type="string"/>
+            <column name="branch_amount" type="string"/>
+            <column name="head_office_amount" type="string"/>
+            <column name="divisional_office_amount" type="string"/>
+            <column name="crop_eligibility_amount" type="string"/>
+            <column name="km_date" type="date"/>
+            <column name="km_date_mr" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

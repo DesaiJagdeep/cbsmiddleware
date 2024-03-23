@@ -1,0 +1,122 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-km-magani-heading" data-cy="KmMaganiCreateUpdateHeading" jhiTranslate="cbsMiddlewareApp.kmMagani.home.createOrEditLabel">
+        Create or edit a Km Magani
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.kmNumber" for="field_kmNumber">Km Number</label>
+          <input type="text" class="form-control" name="kmNumber" id="field_kmNumber" data-cy="kmNumber" formControlName="kmNumber" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.memberNumber" for="field_memberNumber">Member Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="memberNumber"
+            id="field_memberNumber"
+            data-cy="memberNumber"
+            formControlName="memberNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.memberName" for="field_memberName">Member Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="memberName"
+            id="field_memberName"
+            data-cy="memberName"
+            formControlName="memberName"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.share" for="field_share">Share</label>
+          <input type="number" class="form-control" name="share" id="field_share" data-cy="share" formControlName="share" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.financialYear" for="field_financialYear">Financial Year</label>
+          <input
+            type="text"
+            class="form-control"
+            name="financialYear"
+            id="field_financialYear"
+            data-cy="financialYear"
+            formControlName="financialYear"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.kmDate" for="field_kmDate">Km Date</label>
+          <div class="d-flex">
+            <input
+              id="field_kmDate"
+              data-cy="kmDate"
+              type="datetime-local"
+              class="form-control"
+              name="kmDate"
+              formControlName="kmDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMagani.maganiDate" for="field_maganiDate">Magani Date</label>
+          <div class="d-flex">
+            <input
+              id="field_maganiDate"
+              data-cy="maganiDate"
+              type="datetime-local"
+              class="form-control"
+              name="maganiDate"
+              formControlName="maganiDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

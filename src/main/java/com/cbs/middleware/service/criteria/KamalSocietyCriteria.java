@@ -2,6 +2,7 @@ package com.cbs.middleware.service.criteria;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.*;
@@ -23,216 +24,267 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LongFilter pacsNumber;
+    private StringFilter financialYear;
 
-    private InstantFilter zindagiDate;
+    private InstantFilter kmDate;
 
-    private StringFilter zindagiDateMr;
+    private StringFilter kmDateMr;
 
-    private StringFilter village1;
+    private InstantFilter kmFromDate;
 
-    private StringFilter village1Mr;
+    private StringFilter kmFromDateMr;
 
-    private StringFilter village2;
+    private InstantFilter kmToDate;
 
-    private StringFilter village2Mr;
+    private StringFilter kmToDateMr;
 
-    private StringFilter village3;
+    private StringFilter pacsNumber;
 
-    private StringFilter village3Mr;
+    private StringFilter pacsName;
 
-    private DoubleFilter totalLand;
+    private LongFilter branchId;
 
-    private StringFilter totalLandMr;
+    private StringFilter branchName;
 
-    private DoubleFilter totalMem;
+    private LongFilter talukaId;
 
-    private StringFilter totalMemMr;
+    private StringFilter talukaName;
 
-    private DoubleFilter totalNonMem;
+    private InstantFilter zindagiPatrakDate;
 
-    private StringFilter totalNonMemMr;
+    private StringFilter zindagiPatrakDateMr;
 
-    private DoubleFilter totalGMem;
+    private InstantFilter bankTapasaniDate;
 
-    private StringFilter totalGMemMr;
+    private StringFilter bankTapasaniDateMr;
 
-    private DoubleFilter memLoan;
+    private InstantFilter govTapasaniDate;
 
-    private StringFilter memLoanMr;
+    private StringFilter govTapasaniDateMr;
 
-    private DoubleFilter memDue;
+    private InstantFilter sansthaTapasaniDate;
 
-    private StringFilter memDueMr;
+    private StringFilter sansthaTapasaniDateMr;
 
-    private DoubleFilter memDueper;
+    private StringFilter totalLand;
 
-    private StringFilter memDueperMr;
+    private StringFilter bagayat;
 
-    private DoubleFilter memVasulpatra;
+    private StringFilter jirayat;
 
-    private StringFilter memVasulpatraMr;
+    private StringFilter totalFarmer;
 
-    private DoubleFilter memVasul;
+    private StringFilter memberFarmer;
 
-    private StringFilter memVasulMr;
+    private StringFilter nonMemberFarmer;
 
-    private DoubleFilter memVasulPer;
+    private InstantFilter talebandDate;
 
-    private StringFilter memVasulPerMr;
+    private StringFilter memLoan;
 
-    private DoubleFilter bankLoan;
+    private StringFilter memDue;
 
-    private StringFilter bankLoanMr;
+    private StringFilter memVasuli;
 
-    private DoubleFilter bankDue;
+    private StringFilter memVasuliPer;
 
-    private StringFilter bankDueMr;
+    private StringFilter bankLoan;
 
-    private DoubleFilter bankDueper;
+    private StringFilter bankDue;
 
-    private StringFilter bankDueperMr;
+    private StringFilter bankVasuli;
 
-    private DoubleFilter bankVasulpatra;
+    private StringFilter bankVasuliPer;
 
-    private StringFilter bankVasulpatraMr;
+    private InstantFilter balanceSheetDate;
 
-    private DoubleFilter bankVasul;
+    private StringFilter balanceSheetDateMr;
 
-    private StringFilter bankVasulMr;
+    private StringFilter liabilityAdhikrutShareCapital;
 
-    private DoubleFilter bankVasulPer;
+    private StringFilter liabilityVasulShareCapital;
 
-    private StringFilter bankVasulPerMr;
+    private StringFilter liabilityFund;
 
-    private DoubleFilter shareCapital;
+    private StringFilter liabilitySpareFund;
 
-    private StringFilter shareCapitalMr;
+    private StringFilter liabilityDeposite;
 
-    private DoubleFilter share;
+    private StringFilter liabilityBalanceSheetBankLoan;
 
-    private StringFilter shareMr;
+    private StringFilter liabilityOtherPayable;
 
-    private DoubleFilter funds;
+    private StringFilter liabilityProfit;
 
-    private StringFilter fundsMr;
+    private StringFilter assetCash;
 
-    private DoubleFilter deposit;
+    private StringFilter assetInvestment;
 
-    private StringFilter depositMr;
+    private StringFilter assetImaratFund;
 
-    private DoubleFilter payable;
+    private StringFilter assetMemberLoan;
 
-    private StringFilter payableMr;
+    private StringFilter assetDeadStock;
 
-    private DoubleFilter profit;
+    private StringFilter assetOtherReceivable;
 
-    private StringFilter profitMr;
+    private StringFilter assetLoss;
 
-    private DoubleFilter cashInHand;
+    private StringFilter totalLiability;
 
-    private StringFilter cashInHandMr;
+    private StringFilter totalAsset;
 
-    private DoubleFilter investment;
+    private StringFilter villageCode;
 
-    private StringFilter investmentMr;
+    private BooleanFilter pacsVerifiedFlag;
 
-    private DoubleFilter deadStock;
+    private BooleanFilter branchVerifiedFlag;
 
-    private StringFilter deadStockMr;
+    private BooleanFilter headOfficeVerifiedFlag;
 
-    private DoubleFilter otherPay;
+    private BooleanFilter divisionalOfficeVerifiedFlag;
 
-    private StringFilter otherPayMr;
+    private BooleanFilter isSupplimenteryFlag;
 
-    private DoubleFilter loss;
+    private StringFilter sansthaTapasaniVarg;
 
-    private StringFilter lossMr;
+    private StringFilter branchVerifiedBy;
 
-    private DoubleFilter totalBagayat;
+    private InstantFilter branchVerifiedDate;
 
-    private StringFilter totalBagayatMr;
+    private StringFilter headOfficeVerifiedBy;
 
-    private DoubleFilter totalJirayat;
+    private InstantFilter headOfficeVerifiedDate;
 
-    private StringFilter totalJirayatMr;
+    private StringFilter divisionalOfficeVerifiedBy;
 
-    private LongFilter kamalCropId;
+    private InstantFilter divisionalOfficeVerifiedDate;
+
+    private InstantFilter doshPurtataDate;
+
+    private StringFilter gambhirDosh;
+
+    private StringFilter branchInwardNumber;
+
+    private InstantFilter branchInwardDate;
+
+    private StringFilter branchOutwardNumber;
+
+    private InstantFilter branchOutwardDate;
+
+    private StringFilter headOfficeInwardNumber;
+
+    private InstantFilter headOfficeInwardDate;
+
+    private StringFilter headOfficeOutwardNumber;
+
+    private InstantFilter headOfficeOutwardDate;
+
+    private StringFilter tharavNumber;
+
+    private InstantFilter tharavDate;
 
     private Boolean distinct;
 
-    public KamalSocietyCriteria() {}
+    private DoubleFilter kamalKarjMarayadaAmount;
+    private BooleanFilter agriAdminVerifiedFlag;
+    private StringFilter agriAdminVerifiedBy;
+    private InstantFilter agriAdminVerifiedDate;
+
+    public KamalSocietyCriteria() {
+    }
 
     public KamalSocietyCriteria(KamalSocietyCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
+        this.kmDate = other.kmDate == null ? null : other.kmDate.copy();
+        this.kmDateMr = other.kmDateMr == null ? null : other.kmDateMr.copy();
+        this.kmFromDate = other.kmFromDate == null ? null : other.kmFromDate.copy();
+        this.kmFromDateMr = other.kmFromDateMr == null ? null : other.kmFromDateMr.copy();
+        this.kmToDate = other.kmToDate == null ? null : other.kmToDate.copy();
+        this.kmToDateMr = other.kmToDateMr == null ? null : other.kmToDateMr.copy();
         this.pacsNumber = other.pacsNumber == null ? null : other.pacsNumber.copy();
-        this.zindagiDate = other.zindagiDate == null ? null : other.zindagiDate.copy();
-        this.zindagiDateMr = other.zindagiDateMr == null ? null : other.zindagiDateMr.copy();
-        this.village1 = other.village1 == null ? null : other.village1.copy();
-        this.village1Mr = other.village1Mr == null ? null : other.village1Mr.copy();
-        this.village2 = other.village2 == null ? null : other.village2.copy();
-        this.village2Mr = other.village2Mr == null ? null : other.village2Mr.copy();
-        this.village3 = other.village3 == null ? null : other.village3.copy();
-        this.village3Mr = other.village3Mr == null ? null : other.village3Mr.copy();
+        this.pacsName = other.pacsName == null ? null : other.pacsName.copy();
+        this.branchId = other.branchId == null ? null : other.branchId.copy();
+        this.branchName = other.branchName == null ? null : other.branchName.copy();
+        this.talukaId = other.talukaId == null ? null : other.talukaId.copy();
+        this.talukaName = other.talukaName == null ? null : other.talukaName.copy();
+        this.zindagiPatrakDate = other.zindagiPatrakDate == null ? null : other.zindagiPatrakDate.copy();
+        this.zindagiPatrakDateMr = other.zindagiPatrakDateMr == null ? null : other.zindagiPatrakDateMr.copy();
+        this.bankTapasaniDate = other.bankTapasaniDate == null ? null : other.bankTapasaniDate.copy();
+        this.bankTapasaniDateMr = other.bankTapasaniDateMr == null ? null : other.bankTapasaniDateMr.copy();
+        this.govTapasaniDate = other.govTapasaniDate == null ? null : other.govTapasaniDate.copy();
+        this.govTapasaniDateMr = other.govTapasaniDateMr == null ? null : other.govTapasaniDateMr.copy();
+        this.sansthaTapasaniDate = other.sansthaTapasaniDate == null ? null : other.sansthaTapasaniDate.copy();
+        this.sansthaTapasaniDateMr = other.sansthaTapasaniDateMr == null ? null : other.sansthaTapasaniDateMr.copy();
         this.totalLand = other.totalLand == null ? null : other.totalLand.copy();
-        this.totalLandMr = other.totalLandMr == null ? null : other.totalLandMr.copy();
-        this.totalMem = other.totalMem == null ? null : other.totalMem.copy();
-        this.totalMemMr = other.totalMemMr == null ? null : other.totalMemMr.copy();
-        this.totalNonMem = other.totalNonMem == null ? null : other.totalNonMem.copy();
-        this.totalNonMemMr = other.totalNonMemMr == null ? null : other.totalNonMemMr.copy();
-        this.totalGMem = other.totalGMem == null ? null : other.totalGMem.copy();
-        this.totalGMemMr = other.totalGMemMr == null ? null : other.totalGMemMr.copy();
+        this.bagayat = other.bagayat == null ? null : other.bagayat.copy();
+        this.jirayat = other.jirayat == null ? null : other.jirayat.copy();
+        this.totalFarmer = other.totalFarmer == null ? null : other.totalFarmer.copy();
+        this.memberFarmer = other.memberFarmer == null ? null : other.memberFarmer.copy();
+        this.nonMemberFarmer = other.nonMemberFarmer == null ? null : other.nonMemberFarmer.copy();
+        this.talebandDate = other.talebandDate == null ? null : other.talebandDate.copy();
         this.memLoan = other.memLoan == null ? null : other.memLoan.copy();
-        this.memLoanMr = other.memLoanMr == null ? null : other.memLoanMr.copy();
         this.memDue = other.memDue == null ? null : other.memDue.copy();
-        this.memDueMr = other.memDueMr == null ? null : other.memDueMr.copy();
-        this.memDueper = other.memDueper == null ? null : other.memDueper.copy();
-        this.memDueperMr = other.memDueperMr == null ? null : other.memDueperMr.copy();
-        this.memVasulpatra = other.memVasulpatra == null ? null : other.memVasulpatra.copy();
-        this.memVasulpatraMr = other.memVasulpatraMr == null ? null : other.memVasulpatraMr.copy();
-        this.memVasul = other.memVasul == null ? null : other.memVasul.copy();
-        this.memVasulMr = other.memVasulMr == null ? null : other.memVasulMr.copy();
-        this.memVasulPer = other.memVasulPer == null ? null : other.memVasulPer.copy();
-        this.memVasulPerMr = other.memVasulPerMr == null ? null : other.memVasulPerMr.copy();
+        this.memVasuli = other.memVasuli == null ? null : other.memVasuli.copy();
+        this.memVasuliPer = other.memVasuliPer == null ? null : other.memVasuliPer.copy();
         this.bankLoan = other.bankLoan == null ? null : other.bankLoan.copy();
-        this.bankLoanMr = other.bankLoanMr == null ? null : other.bankLoanMr.copy();
         this.bankDue = other.bankDue == null ? null : other.bankDue.copy();
-        this.bankDueMr = other.bankDueMr == null ? null : other.bankDueMr.copy();
-        this.bankDueper = other.bankDueper == null ? null : other.bankDueper.copy();
-        this.bankDueperMr = other.bankDueperMr == null ? null : other.bankDueperMr.copy();
-        this.bankVasulpatra = other.bankVasulpatra == null ? null : other.bankVasulpatra.copy();
-        this.bankVasulpatraMr = other.bankVasulpatraMr == null ? null : other.bankVasulpatraMr.copy();
-        this.bankVasul = other.bankVasul == null ? null : other.bankVasul.copy();
-        this.bankVasulMr = other.bankVasulMr == null ? null : other.bankVasulMr.copy();
-        this.bankVasulPer = other.bankVasulPer == null ? null : other.bankVasulPer.copy();
-        this.bankVasulPerMr = other.bankVasulPerMr == null ? null : other.bankVasulPerMr.copy();
-        this.shareCapital = other.shareCapital == null ? null : other.shareCapital.copy();
-        this.shareCapitalMr = other.shareCapitalMr == null ? null : other.shareCapitalMr.copy();
-        this.share = other.share == null ? null : other.share.copy();
-        this.shareMr = other.shareMr == null ? null : other.shareMr.copy();
-        this.funds = other.funds == null ? null : other.funds.copy();
-        this.fundsMr = other.fundsMr == null ? null : other.fundsMr.copy();
-        this.deposit = other.deposit == null ? null : other.deposit.copy();
-        this.depositMr = other.depositMr == null ? null : other.depositMr.copy();
-        this.payable = other.payable == null ? null : other.payable.copy();
-        this.payableMr = other.payableMr == null ? null : other.payableMr.copy();
-        this.profit = other.profit == null ? null : other.profit.copy();
-        this.profitMr = other.profitMr == null ? null : other.profitMr.copy();
-        this.cashInHand = other.cashInHand == null ? null : other.cashInHand.copy();
-        this.cashInHandMr = other.cashInHandMr == null ? null : other.cashInHandMr.copy();
-        this.investment = other.investment == null ? null : other.investment.copy();
-        this.investmentMr = other.investmentMr == null ? null : other.investmentMr.copy();
-        this.deadStock = other.deadStock == null ? null : other.deadStock.copy();
-        this.deadStockMr = other.deadStockMr == null ? null : other.deadStockMr.copy();
-        this.otherPay = other.otherPay == null ? null : other.otherPay.copy();
-        this.otherPayMr = other.otherPayMr == null ? null : other.otherPayMr.copy();
-        this.loss = other.loss == null ? null : other.loss.copy();
-        this.lossMr = other.lossMr == null ? null : other.lossMr.copy();
-        this.totalBagayat = other.totalBagayat == null ? null : other.totalBagayat.copy();
-        this.totalBagayatMr = other.totalBagayatMr == null ? null : other.totalBagayatMr.copy();
-        this.totalJirayat = other.totalJirayat == null ? null : other.totalJirayat.copy();
-        this.totalJirayatMr = other.totalJirayatMr == null ? null : other.totalJirayatMr.copy();
-        this.kamalCropId = other.kamalCropId == null ? null : other.kamalCropId.copy();
+        this.bankVasuli = other.bankVasuli == null ? null : other.bankVasuli.copy();
+        this.bankVasuliPer = other.bankVasuliPer == null ? null : other.bankVasuliPer.copy();
+        this.balanceSheetDate = other.balanceSheetDate == null ? null : other.balanceSheetDate.copy();
+        this.balanceSheetDateMr = other.balanceSheetDateMr == null ? null : other.balanceSheetDateMr.copy();
+        this.liabilityAdhikrutShareCapital =
+            other.liabilityAdhikrutShareCapital == null ? null : other.liabilityAdhikrutShareCapital.copy();
+        this.liabilityVasulShareCapital = other.liabilityVasulShareCapital == null ? null : other.liabilityVasulShareCapital.copy();
+        this.liabilityFund = other.liabilityFund == null ? null : other.liabilityFund.copy();
+        this.liabilitySpareFund = other.liabilitySpareFund == null ? null : other.liabilitySpareFund.copy();
+        this.liabilityDeposite = other.liabilityDeposite == null ? null : other.liabilityDeposite.copy();
+        this.liabilityBalanceSheetBankLoan =
+            other.liabilityBalanceSheetBankLoan == null ? null : other.liabilityBalanceSheetBankLoan.copy();
+        this.liabilityOtherPayable = other.liabilityOtherPayable == null ? null : other.liabilityOtherPayable.copy();
+        this.liabilityProfit = other.liabilityProfit == null ? null : other.liabilityProfit.copy();
+        this.assetCash = other.assetCash == null ? null : other.assetCash.copy();
+        this.assetInvestment = other.assetInvestment == null ? null : other.assetInvestment.copy();
+        this.assetImaratFund = other.assetImaratFund == null ? null : other.assetImaratFund.copy();
+        this.assetMemberLoan = other.assetMemberLoan == null ? null : other.assetMemberLoan.copy();
+        this.assetDeadStock = other.assetDeadStock == null ? null : other.assetDeadStock.copy();
+        this.assetOtherReceivable = other.assetOtherReceivable == null ? null : other.assetOtherReceivable.copy();
+        this.assetLoss = other.assetLoss == null ? null : other.assetLoss.copy();
+        this.totalLiability = other.totalLiability == null ? null : other.totalLiability.copy();
+        this.totalAsset = other.totalAsset == null ? null : other.totalAsset.copy();
+        this.villageCode = other.villageCode == null ? null : other.villageCode.copy();
+        this.pacsVerifiedFlag = other.pacsVerifiedFlag == null ? null : other.pacsVerifiedFlag.copy();
+        this.branchVerifiedFlag = other.branchVerifiedFlag == null ? null : other.branchVerifiedFlag.copy();
+        this.headOfficeVerifiedFlag = other.headOfficeVerifiedFlag == null ? null : other.headOfficeVerifiedFlag.copy();
+        this.divisionalOfficeVerifiedFlag = other.divisionalOfficeVerifiedFlag == null ? null : other.divisionalOfficeVerifiedFlag.copy();
+        this.isSupplimenteryFlag = other.isSupplimenteryFlag == null ? null : other.isSupplimenteryFlag.copy();
+        this.sansthaTapasaniVarg = other.sansthaTapasaniVarg == null ? null : other.sansthaTapasaniVarg.copy();
+        this.branchVerifiedBy = other.branchVerifiedBy == null ? null : other.branchVerifiedBy.copy();
+        this.branchVerifiedDate = other.branchVerifiedDate == null ? null : other.branchVerifiedDate.copy();
+        this.headOfficeVerifiedBy = other.headOfficeVerifiedBy == null ? null : other.headOfficeVerifiedBy.copy();
+        this.headOfficeVerifiedDate = other.headOfficeVerifiedDate == null ? null : other.headOfficeVerifiedDate.copy();
+        this.divisionalOfficeVerifiedBy = other.divisionalOfficeVerifiedBy == null ? null : other.divisionalOfficeVerifiedBy.copy();
+        this.divisionalOfficeVerifiedDate = other.divisionalOfficeVerifiedDate == null ? null : other.divisionalOfficeVerifiedDate.copy();
+        this.doshPurtataDate = other.doshPurtataDate == null ? null : other.doshPurtataDate.copy();
+        this.gambhirDosh = other.gambhirDosh == null ? null : other.gambhirDosh.copy();
+        this.branchInwardNumber = other.branchInwardNumber == null ? null : other.branchInwardNumber.copy();
+        this.branchInwardDate = other.branchInwardDate == null ? null : other.branchInwardDate.copy();
+        this.branchOutwardNumber = other.branchOutwardNumber == null ? null : other.branchOutwardNumber.copy();
+        this.branchOutwardDate = other.branchOutwardDate == null ? null : other.branchOutwardDate.copy();
+        this.headOfficeInwardNumber = other.headOfficeInwardNumber == null ? null : other.headOfficeInwardNumber.copy();
+        this.headOfficeInwardDate = other.headOfficeInwardDate == null ? null : other.headOfficeInwardDate.copy();
+        this.headOfficeOutwardNumber = other.headOfficeOutwardNumber == null ? null : other.headOfficeOutwardNumber.copy();
+        this.headOfficeOutwardDate = other.headOfficeOutwardDate == null ? null : other.headOfficeOutwardDate.copy();
+        this.tharavNumber = other.tharavNumber == null ? null : other.tharavNumber.copy();
+        this.tharavDate = other.tharavDate == null ? null : other.tharavDate.copy();
+
+        this.agriAdminVerifiedDate = other.agriAdminVerifiedDate == null ? null : other.agriAdminVerifiedDate.copy();
+        this.agriAdminVerifiedBy = other.agriAdminVerifiedBy == null ? null : other.agriAdminVerifiedBy.copy();
+        this.kamalKarjMarayadaAmount = other.kamalKarjMarayadaAmount == null ? null : other.kamalKarjMarayadaAmount.copy();
+        this.agriAdminVerifiedFlag = other.agriAdminVerifiedFlag == null ? null : other.agriAdminVerifiedFlag.copy();
+
+
         this.distinct = other.distinct;
     }
 
@@ -241,8 +293,74 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return new KamalSocietyCriteria(this);
     }
 
+    //----------------------------------------------
+    public StringFilter getAgriAdminVerifiedBy() {
+        return agriAdminVerifiedBy;
+    }
+
+    public void setAgriAdminVerifiedBy(StringFilter agriAdminVerifiedBy) {
+        this.agriAdminVerifiedBy = agriAdminVerifiedBy;
+    }
+
+    public StringFilter agriAdminVerifiedBy() {
+        if (agriAdminVerifiedBy == null) {
+            agriAdminVerifiedBy = new StringFilter();
+        }
+        return agriAdminVerifiedBy;
+    }
+
+    public InstantFilter getAgriAdminVerifiedDate() {
+        return agriAdminVerifiedDate;
+    }
+
+    public void setAgriAdminVerifiedDate(InstantFilter agriAdminVerifiedDate) {
+        this.agriAdminVerifiedDate = agriAdminVerifiedDate;
+    }
+
+    public InstantFilter agriAdminVerifiedDate() {
+        if (agriAdminVerifiedDate == null) {
+            agriAdminVerifiedDate = new InstantFilter();
+        }
+        return agriAdminVerifiedDate;
+    }
+
+    public DoubleFilter getKamalKarjMarayadaAmount() {
+        return kamalKarjMarayadaAmount;
+    }
+
+    public void setKamalKarjMarayadaAmount(DoubleFilter kamalKarjMarayadaAmount) {
+        this.kamalKarjMarayadaAmount = kamalKarjMarayadaAmount;
+    }
+
+    public DoubleFilter kamalKarjMarayadaAmount() {
+        if (kamalKarjMarayadaAmount == null) {
+            kamalKarjMarayadaAmount = new DoubleFilter();
+        }
+        return kamalKarjMarayadaAmount;
+    }
+
+    public BooleanFilter getAgriAdminVerifiedFlag() {
+        return agriAdminVerifiedFlag;
+    }
+
+    public void setAgriAdminVerifiedFlag(BooleanFilter agriAdminVerifiedFlag) {
+        this.agriAdminVerifiedFlag = agriAdminVerifiedFlag;
+    }
+
+    public BooleanFilter agriAdminVerifiedFlag() {
+        if (agriAdminVerifiedFlag == null) {
+            agriAdminVerifiedFlag = new BooleanFilter();
+        }
+        return agriAdminVerifiedFlag;
+    }
+
+    //---------------------------------------------------------------
     public LongFilter getId() {
         return id;
+    }
+
+    public void setId(LongFilter id) {
+        this.id = id;
     }
 
     public LongFilter id() {
@@ -252,1028 +370,1204 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         return id;
     }
 
-    public void setId(LongFilter id) {
-        this.id = id;
+    public StringFilter getFinancialYear() {
+        return financialYear;
     }
 
-    public LongFilter getPacsNumber() {
-        return pacsNumber;
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
     }
 
-    public LongFilter pacsNumber() {
-        if (pacsNumber == null) {
-            pacsNumber = new LongFilter();
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+            financialYear = new StringFilter();
         }
+        return financialYear;
+    }
+
+    public InstantFilter getKmDate() {
+        return kmDate;
+    }
+
+    public void setKmDate(InstantFilter kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public InstantFilter kmDate() {
+        if (kmDate == null) {
+            kmDate = new InstantFilter();
+        }
+        return kmDate;
+    }
+
+    public StringFilter getKmDateMr() {
+        return kmDateMr;
+    }
+
+    public void setKmDateMr(StringFilter kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
+    public StringFilter kmDateMr() {
+        if (kmDateMr == null) {
+            kmDateMr = new StringFilter();
+        }
+        return kmDateMr;
+    }
+
+    public InstantFilter getKmFromDate() {
+        return kmFromDate;
+    }
+
+    public void setKmFromDate(InstantFilter kmFromDate) {
+        this.kmFromDate = kmFromDate;
+    }
+
+    public InstantFilter kmFromDate() {
+        if (kmFromDate == null) {
+            kmFromDate = new InstantFilter();
+        }
+        return kmFromDate;
+    }
+
+    public StringFilter getKmFromDateMr() {
+        return kmFromDateMr;
+    }
+
+    public void setKmFromDateMr(StringFilter kmFromDateMr) {
+        this.kmFromDateMr = kmFromDateMr;
+    }
+
+    public StringFilter kmFromDateMr() {
+        if (kmFromDateMr == null) {
+            kmFromDateMr = new StringFilter();
+        }
+        return kmFromDateMr;
+    }
+
+    public InstantFilter getKmToDate() {
+        return kmToDate;
+    }
+
+    public void setKmToDate(InstantFilter kmToDate) {
+        this.kmToDate = kmToDate;
+    }
+
+    public InstantFilter kmToDate() {
+        if (kmToDate == null) {
+            kmToDate = new InstantFilter();
+        }
+        return kmToDate;
+    }
+
+    public StringFilter getKmToDateMr() {
+        return kmToDateMr;
+    }
+
+    public void setKmToDateMr(StringFilter kmToDateMr) {
+        this.kmToDateMr = kmToDateMr;
+    }
+
+    public StringFilter kmToDateMr() {
+        if (kmToDateMr == null) {
+            kmToDateMr = new StringFilter();
+        }
+        return kmToDateMr;
+    }
+
+    public StringFilter getPacsNumber() {
         return pacsNumber;
     }
 
-    public void setPacsNumber(LongFilter pacsNumber) {
+    public void setPacsNumber(StringFilter pacsNumber) {
         this.pacsNumber = pacsNumber;
     }
 
-    public InstantFilter getZindagiDate() {
-        return zindagiDate;
-    }
-
-    public InstantFilter zindagiDate() {
-        if (zindagiDate == null) {
-            zindagiDate = new InstantFilter();
+    public StringFilter pacsNumber() {
+        if (pacsNumber == null) {
+            pacsNumber = new StringFilter();
         }
-        return zindagiDate;
+        return pacsNumber;
     }
 
-    public void setZindagiDate(InstantFilter zindagiDate) {
-        this.zindagiDate = zindagiDate;
+    public StringFilter getPacsName() {
+        return pacsName;
     }
 
-    public StringFilter getZindagiDateMr() {
-        return zindagiDateMr;
+    public void setPacsName(StringFilter pacsName) {
+        this.pacsName = pacsName;
     }
 
-    public StringFilter zindagiDateMr() {
-        if (zindagiDateMr == null) {
-            zindagiDateMr = new StringFilter();
+    public StringFilter pacsName() {
+        if (pacsName == null) {
+            pacsName = new StringFilter();
         }
-        return zindagiDateMr;
+        return pacsName;
     }
 
-    public void setZindagiDateMr(StringFilter zindagiDateMr) {
-        this.zindagiDateMr = zindagiDateMr;
+    public LongFilter getBranchId() {
+        return branchId;
     }
 
-    public StringFilter getVillage1() {
-        return village1;
+    public void setBranchId(LongFilter branchId) {
+        this.branchId = branchId;
     }
 
-    public StringFilter village1() {
-        if (village1 == null) {
-            village1 = new StringFilter();
+    public LongFilter branchId() {
+        if (branchId == null) {
+            branchId = new LongFilter();
         }
-        return village1;
+        return branchId;
     }
 
-    public void setVillage1(StringFilter village1) {
-        this.village1 = village1;
+    public StringFilter getBranchName() {
+        return branchName;
     }
 
-    public StringFilter getVillage1Mr() {
-        return village1Mr;
+    public void setBranchName(StringFilter branchName) {
+        this.branchName = branchName;
     }
 
-    public StringFilter village1Mr() {
-        if (village1Mr == null) {
-            village1Mr = new StringFilter();
+    public StringFilter branchName() {
+        if (branchName == null) {
+            branchName = new StringFilter();
         }
-        return village1Mr;
+        return branchName;
     }
 
-    public void setVillage1Mr(StringFilter village1Mr) {
-        this.village1Mr = village1Mr;
+    public LongFilter getTalukaId() {
+        return talukaId;
     }
 
-    public StringFilter getVillage2() {
-        return village2;
+    public void setTalukaId(LongFilter talukaId) {
+        this.talukaId = talukaId;
     }
 
-    public StringFilter village2() {
-        if (village2 == null) {
-            village2 = new StringFilter();
+    public LongFilter talukaId() {
+        if (talukaId == null) {
+            talukaId = new LongFilter();
         }
-        return village2;
+        return talukaId;
     }
 
-    public void setVillage2(StringFilter village2) {
-        this.village2 = village2;
+    public StringFilter getTalukaName() {
+        return talukaName;
     }
 
-    public StringFilter getVillage2Mr() {
-        return village2Mr;
+    public void setTalukaName(StringFilter talukaName) {
+        this.talukaName = talukaName;
     }
 
-    public StringFilter village2Mr() {
-        if (village2Mr == null) {
-            village2Mr = new StringFilter();
+    public StringFilter talukaName() {
+        if (talukaName == null) {
+            talukaName = new StringFilter();
         }
-        return village2Mr;
+        return talukaName;
     }
 
-    public void setVillage2Mr(StringFilter village2Mr) {
-        this.village2Mr = village2Mr;
+    public InstantFilter getZindagiPatrakDate() {
+        return zindagiPatrakDate;
     }
 
-    public StringFilter getVillage3() {
-        return village3;
+    public void setZindagiPatrakDate(InstantFilter zindagiPatrakDate) {
+        this.zindagiPatrakDate = zindagiPatrakDate;
     }
 
-    public StringFilter village3() {
-        if (village3 == null) {
-            village3 = new StringFilter();
+    public InstantFilter zindagiPatrakDate() {
+        if (zindagiPatrakDate == null) {
+            zindagiPatrakDate = new InstantFilter();
         }
-        return village3;
+        return zindagiPatrakDate;
     }
 
-    public void setVillage3(StringFilter village3) {
-        this.village3 = village3;
+    public StringFilter getZindagiPatrakDateMr() {
+        return zindagiPatrakDateMr;
     }
 
-    public StringFilter getVillage3Mr() {
-        return village3Mr;
+    public void setZindagiPatrakDateMr(StringFilter zindagiPatrakDateMr) {
+        this.zindagiPatrakDateMr = zindagiPatrakDateMr;
     }
 
-    public StringFilter village3Mr() {
-        if (village3Mr == null) {
-            village3Mr = new StringFilter();
+    public StringFilter zindagiPatrakDateMr() {
+        if (zindagiPatrakDateMr == null) {
+            zindagiPatrakDateMr = new StringFilter();
         }
-        return village3Mr;
+        return zindagiPatrakDateMr;
     }
 
-    public void setVillage3Mr(StringFilter village3Mr) {
-        this.village3Mr = village3Mr;
+    public InstantFilter getBankTapasaniDate() {
+        return bankTapasaniDate;
     }
 
-    public DoubleFilter getTotalLand() {
+    public void setBankTapasaniDate(InstantFilter bankTapasaniDate) {
+        this.bankTapasaniDate = bankTapasaniDate;
+    }
+
+    public InstantFilter bankTapasaniDate() {
+        if (bankTapasaniDate == null) {
+            bankTapasaniDate = new InstantFilter();
+        }
+        return bankTapasaniDate;
+    }
+
+    public StringFilter getBankTapasaniDateMr() {
+        return bankTapasaniDateMr;
+    }
+
+    public void setBankTapasaniDateMr(StringFilter bankTapasaniDateMr) {
+        this.bankTapasaniDateMr = bankTapasaniDateMr;
+    }
+
+    public StringFilter bankTapasaniDateMr() {
+        if (bankTapasaniDateMr == null) {
+            bankTapasaniDateMr = new StringFilter();
+        }
+        return bankTapasaniDateMr;
+    }
+
+    public InstantFilter getGovTapasaniDate() {
+        return govTapasaniDate;
+    }
+
+    public void setGovTapasaniDate(InstantFilter govTapasaniDate) {
+        this.govTapasaniDate = govTapasaniDate;
+    }
+
+    public InstantFilter govTapasaniDate() {
+        if (govTapasaniDate == null) {
+            govTapasaniDate = new InstantFilter();
+        }
+        return govTapasaniDate;
+    }
+
+    public StringFilter getGovTapasaniDateMr() {
+        return govTapasaniDateMr;
+    }
+
+    public void setGovTapasaniDateMr(StringFilter govTapasaniDateMr) {
+        this.govTapasaniDateMr = govTapasaniDateMr;
+    }
+
+    public StringFilter govTapasaniDateMr() {
+        if (govTapasaniDateMr == null) {
+            govTapasaniDateMr = new StringFilter();
+        }
+        return govTapasaniDateMr;
+    }
+
+    public InstantFilter getSansthaTapasaniDate() {
+        return sansthaTapasaniDate;
+    }
+
+    public void setSansthaTapasaniDate(InstantFilter sansthaTapasaniDate) {
+        this.sansthaTapasaniDate = sansthaTapasaniDate;
+    }
+
+    public InstantFilter sansthaTapasaniDate() {
+        if (sansthaTapasaniDate == null) {
+            sansthaTapasaniDate = new InstantFilter();
+        }
+        return sansthaTapasaniDate;
+    }
+
+    public StringFilter getSansthaTapasaniDateMr() {
+        return sansthaTapasaniDateMr;
+    }
+
+    public void setSansthaTapasaniDateMr(StringFilter sansthaTapasaniDateMr) {
+        this.sansthaTapasaniDateMr = sansthaTapasaniDateMr;
+    }
+
+    public StringFilter sansthaTapasaniDateMr() {
+        if (sansthaTapasaniDateMr == null) {
+            sansthaTapasaniDateMr = new StringFilter();
+        }
+        return sansthaTapasaniDateMr;
+    }
+
+    public StringFilter getTotalLand() {
         return totalLand;
     }
 
-    public DoubleFilter totalLand() {
-        if (totalLand == null) {
-            totalLand = new DoubleFilter();
-        }
-        return totalLand;
-    }
-
-    public void setTotalLand(DoubleFilter totalLand) {
+    public void setTotalLand(StringFilter totalLand) {
         this.totalLand = totalLand;
     }
 
-    public StringFilter getTotalLandMr() {
-        return totalLandMr;
-    }
-
-    public StringFilter totalLandMr() {
-        if (totalLandMr == null) {
-            totalLandMr = new StringFilter();
+    public StringFilter totalLand() {
+        if (totalLand == null) {
+            totalLand = new StringFilter();
         }
-        return totalLandMr;
+        return totalLand;
     }
 
-    public void setTotalLandMr(StringFilter totalLandMr) {
-        this.totalLandMr = totalLandMr;
+    public StringFilter getBagayat() {
+        return bagayat;
     }
 
-    public DoubleFilter getTotalMem() {
-        return totalMem;
+    public void setBagayat(StringFilter bagayat) {
+        this.bagayat = bagayat;
     }
 
-    public DoubleFilter totalMem() {
-        if (totalMem == null) {
-            totalMem = new DoubleFilter();
+    public StringFilter bagayat() {
+        if (bagayat == null) {
+            bagayat = new StringFilter();
         }
-        return totalMem;
+        return bagayat;
     }
 
-    public void setTotalMem(DoubleFilter totalMem) {
-        this.totalMem = totalMem;
+    public StringFilter getJirayat() {
+        return jirayat;
     }
 
-    public StringFilter getTotalMemMr() {
-        return totalMemMr;
+    public void setJirayat(StringFilter jirayat) {
+        this.jirayat = jirayat;
     }
 
-    public StringFilter totalMemMr() {
-        if (totalMemMr == null) {
-            totalMemMr = new StringFilter();
+    public StringFilter jirayat() {
+        if (jirayat == null) {
+            jirayat = new StringFilter();
         }
-        return totalMemMr;
+        return jirayat;
     }
 
-    public void setTotalMemMr(StringFilter totalMemMr) {
-        this.totalMemMr = totalMemMr;
+    public StringFilter getTotalFarmer() {
+        return totalFarmer;
     }
 
-    public DoubleFilter getTotalNonMem() {
-        return totalNonMem;
+    public void setTotalFarmer(StringFilter totalFarmer) {
+        this.totalFarmer = totalFarmer;
     }
 
-    public DoubleFilter totalNonMem() {
-        if (totalNonMem == null) {
-            totalNonMem = new DoubleFilter();
+    public StringFilter totalFarmer() {
+        if (totalFarmer == null) {
+            totalFarmer = new StringFilter();
         }
-        return totalNonMem;
+        return totalFarmer;
     }
 
-    public void setTotalNonMem(DoubleFilter totalNonMem) {
-        this.totalNonMem = totalNonMem;
+    public StringFilter getMemberFarmer() {
+        return memberFarmer;
     }
 
-    public StringFilter getTotalNonMemMr() {
-        return totalNonMemMr;
+    public void setMemberFarmer(StringFilter memberFarmer) {
+        this.memberFarmer = memberFarmer;
     }
 
-    public StringFilter totalNonMemMr() {
-        if (totalNonMemMr == null) {
-            totalNonMemMr = new StringFilter();
+    public StringFilter memberFarmer() {
+        if (memberFarmer == null) {
+            memberFarmer = new StringFilter();
         }
-        return totalNonMemMr;
+        return memberFarmer;
     }
 
-    public void setTotalNonMemMr(StringFilter totalNonMemMr) {
-        this.totalNonMemMr = totalNonMemMr;
+    public StringFilter getNonMemberFarmer() {
+        return nonMemberFarmer;
     }
 
-    public DoubleFilter getTotalGMem() {
-        return totalGMem;
+    public void setNonMemberFarmer(StringFilter nonMemberFarmer) {
+        this.nonMemberFarmer = nonMemberFarmer;
     }
 
-    public DoubleFilter totalGMem() {
-        if (totalGMem == null) {
-            totalGMem = new DoubleFilter();
+    public StringFilter nonMemberFarmer() {
+        if (nonMemberFarmer == null) {
+            nonMemberFarmer = new StringFilter();
         }
-        return totalGMem;
+        return nonMemberFarmer;
     }
 
-    public void setTotalGMem(DoubleFilter totalGMem) {
-        this.totalGMem = totalGMem;
+    public InstantFilter getTalebandDate() {
+        return talebandDate;
     }
 
-    public StringFilter getTotalGMemMr() {
-        return totalGMemMr;
+    public void setTalebandDate(InstantFilter talebandDate) {
+        this.talebandDate = talebandDate;
     }
 
-    public StringFilter totalGMemMr() {
-        if (totalGMemMr == null) {
-            totalGMemMr = new StringFilter();
+    public InstantFilter talebandDate() {
+        if (talebandDate == null) {
+            talebandDate = new InstantFilter();
         }
-        return totalGMemMr;
+        return talebandDate;
     }
 
-    public void setTotalGMemMr(StringFilter totalGMemMr) {
-        this.totalGMemMr = totalGMemMr;
-    }
-
-    public DoubleFilter getMemLoan() {
+    public StringFilter getMemLoan() {
         return memLoan;
     }
 
-    public DoubleFilter memLoan() {
-        if (memLoan == null) {
-            memLoan = new DoubleFilter();
-        }
-        return memLoan;
-    }
-
-    public void setMemLoan(DoubleFilter memLoan) {
+    public void setMemLoan(StringFilter memLoan) {
         this.memLoan = memLoan;
     }
 
-    public StringFilter getMemLoanMr() {
-        return memLoanMr;
-    }
-
-    public StringFilter memLoanMr() {
-        if (memLoanMr == null) {
-            memLoanMr = new StringFilter();
+    public StringFilter memLoan() {
+        if (memLoan == null) {
+            memLoan = new StringFilter();
         }
-        return memLoanMr;
+        return memLoan;
     }
 
-    public void setMemLoanMr(StringFilter memLoanMr) {
-        this.memLoanMr = memLoanMr;
-    }
-
-    public DoubleFilter getMemDue() {
+    public StringFilter getMemDue() {
         return memDue;
     }
 
-    public DoubleFilter memDue() {
-        if (memDue == null) {
-            memDue = new DoubleFilter();
-        }
-        return memDue;
-    }
-
-    public void setMemDue(DoubleFilter memDue) {
+    public void setMemDue(StringFilter memDue) {
         this.memDue = memDue;
     }
 
-    public StringFilter getMemDueMr() {
-        return memDueMr;
-    }
-
-    public StringFilter memDueMr() {
-        if (memDueMr == null) {
-            memDueMr = new StringFilter();
+    public StringFilter memDue() {
+        if (memDue == null) {
+            memDue = new StringFilter();
         }
-        return memDueMr;
+        return memDue;
     }
 
-    public void setMemDueMr(StringFilter memDueMr) {
-        this.memDueMr = memDueMr;
+    public StringFilter getMemVasuli() {
+        return memVasuli;
     }
 
-    public DoubleFilter getMemDueper() {
-        return memDueper;
+    public void setMemVasuli(StringFilter memVasuli) {
+        this.memVasuli = memVasuli;
     }
 
-    public DoubleFilter memDueper() {
-        if (memDueper == null) {
-            memDueper = new DoubleFilter();
+    public StringFilter memVasuli() {
+        if (memVasuli == null) {
+            memVasuli = new StringFilter();
         }
-        return memDueper;
+        return memVasuli;
     }
 
-    public void setMemDueper(DoubleFilter memDueper) {
-        this.memDueper = memDueper;
+    public StringFilter getMemVasuliPer() {
+        return memVasuliPer;
     }
 
-    public StringFilter getMemDueperMr() {
-        return memDueperMr;
+    public void setMemVasuliPer(StringFilter memVasuliPer) {
+        this.memVasuliPer = memVasuliPer;
     }
 
-    public StringFilter memDueperMr() {
-        if (memDueperMr == null) {
-            memDueperMr = new StringFilter();
+    public StringFilter memVasuliPer() {
+        if (memVasuliPer == null) {
+            memVasuliPer = new StringFilter();
         }
-        return memDueperMr;
+        return memVasuliPer;
     }
 
-    public void setMemDueperMr(StringFilter memDueperMr) {
-        this.memDueperMr = memDueperMr;
-    }
-
-    public DoubleFilter getMemVasulpatra() {
-        return memVasulpatra;
-    }
-
-    public DoubleFilter memVasulpatra() {
-        if (memVasulpatra == null) {
-            memVasulpatra = new DoubleFilter();
-        }
-        return memVasulpatra;
-    }
-
-    public void setMemVasulpatra(DoubleFilter memVasulpatra) {
-        this.memVasulpatra = memVasulpatra;
-    }
-
-    public StringFilter getMemVasulpatraMr() {
-        return memVasulpatraMr;
-    }
-
-    public StringFilter memVasulpatraMr() {
-        if (memVasulpatraMr == null) {
-            memVasulpatraMr = new StringFilter();
-        }
-        return memVasulpatraMr;
-    }
-
-    public void setMemVasulpatraMr(StringFilter memVasulpatraMr) {
-        this.memVasulpatraMr = memVasulpatraMr;
-    }
-
-    public DoubleFilter getMemVasul() {
-        return memVasul;
-    }
-
-    public DoubleFilter memVasul() {
-        if (memVasul == null) {
-            memVasul = new DoubleFilter();
-        }
-        return memVasul;
-    }
-
-    public void setMemVasul(DoubleFilter memVasul) {
-        this.memVasul = memVasul;
-    }
-
-    public StringFilter getMemVasulMr() {
-        return memVasulMr;
-    }
-
-    public StringFilter memVasulMr() {
-        if (memVasulMr == null) {
-            memVasulMr = new StringFilter();
-        }
-        return memVasulMr;
-    }
-
-    public void setMemVasulMr(StringFilter memVasulMr) {
-        this.memVasulMr = memVasulMr;
-    }
-
-    public DoubleFilter getMemVasulPer() {
-        return memVasulPer;
-    }
-
-    public DoubleFilter memVasulPer() {
-        if (memVasulPer == null) {
-            memVasulPer = new DoubleFilter();
-        }
-        return memVasulPer;
-    }
-
-    public void setMemVasulPer(DoubleFilter memVasulPer) {
-        this.memVasulPer = memVasulPer;
-    }
-
-    public StringFilter getMemVasulPerMr() {
-        return memVasulPerMr;
-    }
-
-    public StringFilter memVasulPerMr() {
-        if (memVasulPerMr == null) {
-            memVasulPerMr = new StringFilter();
-        }
-        return memVasulPerMr;
-    }
-
-    public void setMemVasulPerMr(StringFilter memVasulPerMr) {
-        this.memVasulPerMr = memVasulPerMr;
-    }
-
-    public DoubleFilter getBankLoan() {
+    public StringFilter getBankLoan() {
         return bankLoan;
     }
 
-    public DoubleFilter bankLoan() {
-        if (bankLoan == null) {
-            bankLoan = new DoubleFilter();
-        }
-        return bankLoan;
-    }
-
-    public void setBankLoan(DoubleFilter bankLoan) {
+    public void setBankLoan(StringFilter bankLoan) {
         this.bankLoan = bankLoan;
     }
 
-    public StringFilter getBankLoanMr() {
-        return bankLoanMr;
-    }
-
-    public StringFilter bankLoanMr() {
-        if (bankLoanMr == null) {
-            bankLoanMr = new StringFilter();
+    public StringFilter bankLoan() {
+        if (bankLoan == null) {
+            bankLoan = new StringFilter();
         }
-        return bankLoanMr;
+        return bankLoan;
     }
 
-    public void setBankLoanMr(StringFilter bankLoanMr) {
-        this.bankLoanMr = bankLoanMr;
-    }
-
-    public DoubleFilter getBankDue() {
+    public StringFilter getBankDue() {
         return bankDue;
     }
 
-    public DoubleFilter bankDue() {
-        if (bankDue == null) {
-            bankDue = new DoubleFilter();
-        }
-        return bankDue;
-    }
-
-    public void setBankDue(DoubleFilter bankDue) {
+    public void setBankDue(StringFilter bankDue) {
         this.bankDue = bankDue;
     }
 
-    public StringFilter getBankDueMr() {
-        return bankDueMr;
-    }
-
-    public StringFilter bankDueMr() {
-        if (bankDueMr == null) {
-            bankDueMr = new StringFilter();
+    public StringFilter bankDue() {
+        if (bankDue == null) {
+            bankDue = new StringFilter();
         }
-        return bankDueMr;
+        return bankDue;
     }
 
-    public void setBankDueMr(StringFilter bankDueMr) {
-        this.bankDueMr = bankDueMr;
+    public StringFilter getBankVasuli() {
+        return bankVasuli;
     }
 
-    public DoubleFilter getBankDueper() {
-        return bankDueper;
+    public void setBankVasuli(StringFilter bankVasuli) {
+        this.bankVasuli = bankVasuli;
     }
 
-    public DoubleFilter bankDueper() {
-        if (bankDueper == null) {
-            bankDueper = new DoubleFilter();
+    public StringFilter bankVasuli() {
+        if (bankVasuli == null) {
+            bankVasuli = new StringFilter();
         }
-        return bankDueper;
+        return bankVasuli;
     }
 
-    public void setBankDueper(DoubleFilter bankDueper) {
-        this.bankDueper = bankDueper;
+    public StringFilter getBankVasuliPer() {
+        return bankVasuliPer;
     }
 
-    public StringFilter getBankDueperMr() {
-        return bankDueperMr;
+    public void setBankVasuliPer(StringFilter bankVasuliPer) {
+        this.bankVasuliPer = bankVasuliPer;
     }
 
-    public StringFilter bankDueperMr() {
-        if (bankDueperMr == null) {
-            bankDueperMr = new StringFilter();
+    public StringFilter bankVasuliPer() {
+        if (bankVasuliPer == null) {
+            bankVasuliPer = new StringFilter();
         }
-        return bankDueperMr;
+        return bankVasuliPer;
     }
 
-    public void setBankDueperMr(StringFilter bankDueperMr) {
-        this.bankDueperMr = bankDueperMr;
+    public InstantFilter getBalanceSheetDate() {
+        return balanceSheetDate;
     }
 
-    public DoubleFilter getBankVasulpatra() {
-        return bankVasulpatra;
+    public void setBalanceSheetDate(InstantFilter balanceSheetDate) {
+        this.balanceSheetDate = balanceSheetDate;
     }
 
-    public DoubleFilter bankVasulpatra() {
-        if (bankVasulpatra == null) {
-            bankVasulpatra = new DoubleFilter();
+    public InstantFilter balanceSheetDate() {
+        if (balanceSheetDate == null) {
+            balanceSheetDate = new InstantFilter();
         }
-        return bankVasulpatra;
+        return balanceSheetDate;
     }
 
-    public void setBankVasulpatra(DoubleFilter bankVasulpatra) {
-        this.bankVasulpatra = bankVasulpatra;
+    public StringFilter getBalanceSheetDateMr() {
+        return balanceSheetDateMr;
     }
 
-    public StringFilter getBankVasulpatraMr() {
-        return bankVasulpatraMr;
+    public void setBalanceSheetDateMr(StringFilter balanceSheetDateMr) {
+        this.balanceSheetDateMr = balanceSheetDateMr;
     }
 
-    public StringFilter bankVasulpatraMr() {
-        if (bankVasulpatraMr == null) {
-            bankVasulpatraMr = new StringFilter();
+    public StringFilter balanceSheetDateMr() {
+        if (balanceSheetDateMr == null) {
+            balanceSheetDateMr = new StringFilter();
         }
-        return bankVasulpatraMr;
+        return balanceSheetDateMr;
     }
 
-    public void setBankVasulpatraMr(StringFilter bankVasulpatraMr) {
-        this.bankVasulpatraMr = bankVasulpatraMr;
+    public StringFilter getLiabilityAdhikrutShareCapital() {
+        return liabilityAdhikrutShareCapital;
     }
 
-    public DoubleFilter getBankVasul() {
-        return bankVasul;
+    public void setLiabilityAdhikrutShareCapital(StringFilter liabilityAdhikrutShareCapital) {
+        this.liabilityAdhikrutShareCapital = liabilityAdhikrutShareCapital;
     }
 
-    public DoubleFilter bankVasul() {
-        if (bankVasul == null) {
-            bankVasul = new DoubleFilter();
+    public StringFilter liabilityAdhikrutShareCapital() {
+        if (liabilityAdhikrutShareCapital == null) {
+            liabilityAdhikrutShareCapital = new StringFilter();
         }
-        return bankVasul;
+        return liabilityAdhikrutShareCapital;
     }
 
-    public void setBankVasul(DoubleFilter bankVasul) {
-        this.bankVasul = bankVasul;
+    public StringFilter getLiabilityVasulShareCapital() {
+        return liabilityVasulShareCapital;
     }
 
-    public StringFilter getBankVasulMr() {
-        return bankVasulMr;
+    public void setLiabilityVasulShareCapital(StringFilter liabilityVasulShareCapital) {
+        this.liabilityVasulShareCapital = liabilityVasulShareCapital;
     }
 
-    public StringFilter bankVasulMr() {
-        if (bankVasulMr == null) {
-            bankVasulMr = new StringFilter();
+    public StringFilter liabilityVasulShareCapital() {
+        if (liabilityVasulShareCapital == null) {
+            liabilityVasulShareCapital = new StringFilter();
         }
-        return bankVasulMr;
+        return liabilityVasulShareCapital;
     }
 
-    public void setBankVasulMr(StringFilter bankVasulMr) {
-        this.bankVasulMr = bankVasulMr;
+    public StringFilter getLiabilityFund() {
+        return liabilityFund;
     }
 
-    public DoubleFilter getBankVasulPer() {
-        return bankVasulPer;
+    public void setLiabilityFund(StringFilter liabilityFund) {
+        this.liabilityFund = liabilityFund;
     }
 
-    public DoubleFilter bankVasulPer() {
-        if (bankVasulPer == null) {
-            bankVasulPer = new DoubleFilter();
+    public StringFilter liabilityFund() {
+        if (liabilityFund == null) {
+            liabilityFund = new StringFilter();
         }
-        return bankVasulPer;
+        return liabilityFund;
     }
 
-    public void setBankVasulPer(DoubleFilter bankVasulPer) {
-        this.bankVasulPer = bankVasulPer;
+    public StringFilter getLiabilitySpareFund() {
+        return liabilitySpareFund;
     }
 
-    public StringFilter getBankVasulPerMr() {
-        return bankVasulPerMr;
+    public void setLiabilitySpareFund(StringFilter liabilitySpareFund) {
+        this.liabilitySpareFund = liabilitySpareFund;
     }
 
-    public StringFilter bankVasulPerMr() {
-        if (bankVasulPerMr == null) {
-            bankVasulPerMr = new StringFilter();
+    public StringFilter liabilitySpareFund() {
+        if (liabilitySpareFund == null) {
+            liabilitySpareFund = new StringFilter();
         }
-        return bankVasulPerMr;
+        return liabilitySpareFund;
     }
 
-    public void setBankVasulPerMr(StringFilter bankVasulPerMr) {
-        this.bankVasulPerMr = bankVasulPerMr;
+    public StringFilter getLiabilityDeposite() {
+        return liabilityDeposite;
     }
 
-    public DoubleFilter getShareCapital() {
-        return shareCapital;
+    public void setLiabilityDeposite(StringFilter liabilityDeposite) {
+        this.liabilityDeposite = liabilityDeposite;
     }
 
-    public DoubleFilter shareCapital() {
-        if (shareCapital == null) {
-            shareCapital = new DoubleFilter();
+    public StringFilter liabilityDeposite() {
+        if (liabilityDeposite == null) {
+            liabilityDeposite = new StringFilter();
         }
-        return shareCapital;
+        return liabilityDeposite;
     }
 
-    public void setShareCapital(DoubleFilter shareCapital) {
-        this.shareCapital = shareCapital;
+    public StringFilter getLiabilityBalanceSheetBankLoan() {
+        return liabilityBalanceSheetBankLoan;
     }
 
-    public StringFilter getShareCapitalMr() {
-        return shareCapitalMr;
+    public void setLiabilityBalanceSheetBankLoan(StringFilter liabilityBalanceSheetBankLoan) {
+        this.liabilityBalanceSheetBankLoan = liabilityBalanceSheetBankLoan;
     }
 
-    public StringFilter shareCapitalMr() {
-        if (shareCapitalMr == null) {
-            shareCapitalMr = new StringFilter();
+    public StringFilter liabilityBalanceSheetBankLoan() {
+        if (liabilityBalanceSheetBankLoan == null) {
+            liabilityBalanceSheetBankLoan = new StringFilter();
         }
-        return shareCapitalMr;
+        return liabilityBalanceSheetBankLoan;
     }
 
-    public void setShareCapitalMr(StringFilter shareCapitalMr) {
-        this.shareCapitalMr = shareCapitalMr;
+    public StringFilter getLiabilityOtherPayable() {
+        return liabilityOtherPayable;
     }
 
-    public DoubleFilter getShare() {
-        return share;
+    public void setLiabilityOtherPayable(StringFilter liabilityOtherPayable) {
+        this.liabilityOtherPayable = liabilityOtherPayable;
     }
 
-    public DoubleFilter share() {
-        if (share == null) {
-            share = new DoubleFilter();
+    public StringFilter liabilityOtherPayable() {
+        if (liabilityOtherPayable == null) {
+            liabilityOtherPayable = new StringFilter();
         }
-        return share;
+        return liabilityOtherPayable;
     }
 
-    public void setShare(DoubleFilter share) {
-        this.share = share;
+    public StringFilter getLiabilityProfit() {
+        return liabilityProfit;
     }
 
-    public StringFilter getShareMr() {
-        return shareMr;
+    public void setLiabilityProfit(StringFilter liabilityProfit) {
+        this.liabilityProfit = liabilityProfit;
     }
 
-    public StringFilter shareMr() {
-        if (shareMr == null) {
-            shareMr = new StringFilter();
+    public StringFilter liabilityProfit() {
+        if (liabilityProfit == null) {
+            liabilityProfit = new StringFilter();
         }
-        return shareMr;
+        return liabilityProfit;
     }
 
-    public void setShareMr(StringFilter shareMr) {
-        this.shareMr = shareMr;
+    public StringFilter getAssetCash() {
+        return assetCash;
     }
 
-    public DoubleFilter getFunds() {
-        return funds;
+    public void setAssetCash(StringFilter assetCash) {
+        this.assetCash = assetCash;
     }
 
-    public DoubleFilter funds() {
-        if (funds == null) {
-            funds = new DoubleFilter();
+    public StringFilter assetCash() {
+        if (assetCash == null) {
+            assetCash = new StringFilter();
         }
-        return funds;
+        return assetCash;
     }
 
-    public void setFunds(DoubleFilter funds) {
-        this.funds = funds;
+    public StringFilter getAssetInvestment() {
+        return assetInvestment;
     }
 
-    public StringFilter getFundsMr() {
-        return fundsMr;
+    public void setAssetInvestment(StringFilter assetInvestment) {
+        this.assetInvestment = assetInvestment;
     }
 
-    public StringFilter fundsMr() {
-        if (fundsMr == null) {
-            fundsMr = new StringFilter();
+    public StringFilter assetInvestment() {
+        if (assetInvestment == null) {
+            assetInvestment = new StringFilter();
         }
-        return fundsMr;
+        return assetInvestment;
     }
 
-    public void setFundsMr(StringFilter fundsMr) {
-        this.fundsMr = fundsMr;
+    public StringFilter getAssetImaratFund() {
+        return assetImaratFund;
     }
 
-    public DoubleFilter getDeposit() {
-        return deposit;
+    public void setAssetImaratFund(StringFilter assetImaratFund) {
+        this.assetImaratFund = assetImaratFund;
     }
 
-    public DoubleFilter deposit() {
-        if (deposit == null) {
-            deposit = new DoubleFilter();
+    public StringFilter assetImaratFund() {
+        if (assetImaratFund == null) {
+            assetImaratFund = new StringFilter();
         }
-        return deposit;
+        return assetImaratFund;
     }
 
-    public void setDeposit(DoubleFilter deposit) {
-        this.deposit = deposit;
+    public StringFilter getAssetMemberLoan() {
+        return assetMemberLoan;
     }
 
-    public StringFilter getDepositMr() {
-        return depositMr;
+    public void setAssetMemberLoan(StringFilter assetMemberLoan) {
+        this.assetMemberLoan = assetMemberLoan;
     }
 
-    public StringFilter depositMr() {
-        if (depositMr == null) {
-            depositMr = new StringFilter();
+    public StringFilter assetMemberLoan() {
+        if (assetMemberLoan == null) {
+            assetMemberLoan = new StringFilter();
         }
-        return depositMr;
+        return assetMemberLoan;
     }
 
-    public void setDepositMr(StringFilter depositMr) {
-        this.depositMr = depositMr;
+    public StringFilter getAssetDeadStock() {
+        return assetDeadStock;
     }
 
-    public DoubleFilter getPayable() {
-        return payable;
+    public void setAssetDeadStock(StringFilter assetDeadStock) {
+        this.assetDeadStock = assetDeadStock;
     }
 
-    public DoubleFilter payable() {
-        if (payable == null) {
-            payable = new DoubleFilter();
+    public StringFilter assetDeadStock() {
+        if (assetDeadStock == null) {
+            assetDeadStock = new StringFilter();
         }
-        return payable;
+        return assetDeadStock;
     }
 
-    public void setPayable(DoubleFilter payable) {
-        this.payable = payable;
+    public StringFilter getAssetOtherReceivable() {
+        return assetOtherReceivable;
     }
 
-    public StringFilter getPayableMr() {
-        return payableMr;
+    public void setAssetOtherReceivable(StringFilter assetOtherReceivable) {
+        this.assetOtherReceivable = assetOtherReceivable;
     }
 
-    public StringFilter payableMr() {
-        if (payableMr == null) {
-            payableMr = new StringFilter();
+    public StringFilter assetOtherReceivable() {
+        if (assetOtherReceivable == null) {
+            assetOtherReceivable = new StringFilter();
         }
-        return payableMr;
+        return assetOtherReceivable;
     }
 
-    public void setPayableMr(StringFilter payableMr) {
-        this.payableMr = payableMr;
+    public StringFilter getAssetLoss() {
+        return assetLoss;
     }
 
-    public DoubleFilter getProfit() {
-        return profit;
+    public void setAssetLoss(StringFilter assetLoss) {
+        this.assetLoss = assetLoss;
     }
 
-    public DoubleFilter profit() {
-        if (profit == null) {
-            profit = new DoubleFilter();
+    public StringFilter assetLoss() {
+        if (assetLoss == null) {
+            assetLoss = new StringFilter();
         }
-        return profit;
+        return assetLoss;
     }
 
-    public void setProfit(DoubleFilter profit) {
-        this.profit = profit;
+    public StringFilter getTotalLiability() {
+        return totalLiability;
     }
 
-    public StringFilter getProfitMr() {
-        return profitMr;
+    public void setTotalLiability(StringFilter totalLiability) {
+        this.totalLiability = totalLiability;
     }
 
-    public StringFilter profitMr() {
-        if (profitMr == null) {
-            profitMr = new StringFilter();
+    public StringFilter totalLiability() {
+        if (totalLiability == null) {
+            totalLiability = new StringFilter();
         }
-        return profitMr;
+        return totalLiability;
     }
 
-    public void setProfitMr(StringFilter profitMr) {
-        this.profitMr = profitMr;
+    public StringFilter getTotalAsset() {
+        return totalAsset;
     }
 
-    public DoubleFilter getCashInHand() {
-        return cashInHand;
+    public void setTotalAsset(StringFilter totalAsset) {
+        this.totalAsset = totalAsset;
     }
 
-    public DoubleFilter cashInHand() {
-        if (cashInHand == null) {
-            cashInHand = new DoubleFilter();
+    public StringFilter totalAsset() {
+        if (totalAsset == null) {
+            totalAsset = new StringFilter();
         }
-        return cashInHand;
+        return totalAsset;
     }
 
-    public void setCashInHand(DoubleFilter cashInHand) {
-        this.cashInHand = cashInHand;
+    public StringFilter getVillageCode() {
+        return villageCode;
     }
 
-    public StringFilter getCashInHandMr() {
-        return cashInHandMr;
+    public void setVillageCode(StringFilter villageCode) {
+        this.villageCode = villageCode;
     }
 
-    public StringFilter cashInHandMr() {
-        if (cashInHandMr == null) {
-            cashInHandMr = new StringFilter();
+    public StringFilter villageCode() {
+        if (villageCode == null) {
+            villageCode = new StringFilter();
         }
-        return cashInHandMr;
+        return villageCode;
     }
 
-    public void setCashInHandMr(StringFilter cashInHandMr) {
-        this.cashInHandMr = cashInHandMr;
+    public BooleanFilter getPacsVerifiedFlag() {
+        return pacsVerifiedFlag;
     }
 
-    public DoubleFilter getInvestment() {
-        return investment;
+    public void setPacsVerifiedFlag(BooleanFilter pacsVerifiedFlag) {
+        this.pacsVerifiedFlag = pacsVerifiedFlag;
     }
 
-    public DoubleFilter investment() {
-        if (investment == null) {
-            investment = new DoubleFilter();
+    public BooleanFilter pacsVerifiedFlag() {
+        if (pacsVerifiedFlag == null) {
+            pacsVerifiedFlag = new BooleanFilter();
         }
-        return investment;
+        return pacsVerifiedFlag;
     }
 
-    public void setInvestment(DoubleFilter investment) {
-        this.investment = investment;
+    public BooleanFilter getBranchVerifiedFlag() {
+        return branchVerifiedFlag;
     }
 
-    public StringFilter getInvestmentMr() {
-        return investmentMr;
+    public void setBranchVerifiedFlag(BooleanFilter branchVerifiedFlag) {
+        this.branchVerifiedFlag = branchVerifiedFlag;
     }
 
-    public StringFilter investmentMr() {
-        if (investmentMr == null) {
-            investmentMr = new StringFilter();
+    public BooleanFilter branchVerifiedFlag() {
+        if (branchVerifiedFlag == null) {
+            branchVerifiedFlag = new BooleanFilter();
         }
-        return investmentMr;
+        return branchVerifiedFlag;
     }
 
-    public void setInvestmentMr(StringFilter investmentMr) {
-        this.investmentMr = investmentMr;
+    public BooleanFilter getHeadOfficeVerifiedFlag() {
+        return headOfficeVerifiedFlag;
     }
 
-    public DoubleFilter getDeadStock() {
-        return deadStock;
+    public void setHeadOfficeVerifiedFlag(BooleanFilter headOfficeVerifiedFlag) {
+        this.headOfficeVerifiedFlag = headOfficeVerifiedFlag;
     }
 
-    public DoubleFilter deadStock() {
-        if (deadStock == null) {
-            deadStock = new DoubleFilter();
+    public BooleanFilter headOfficeVerifiedFlag() {
+        if (headOfficeVerifiedFlag == null) {
+            headOfficeVerifiedFlag = new BooleanFilter();
         }
-        return deadStock;
+        return headOfficeVerifiedFlag;
     }
 
-    public void setDeadStock(DoubleFilter deadStock) {
-        this.deadStock = deadStock;
+    public BooleanFilter getDivisionalOfficeVerifiedFlag() {
+        return divisionalOfficeVerifiedFlag;
     }
 
-    public StringFilter getDeadStockMr() {
-        return deadStockMr;
+    public void setDivisionalOfficeVerifiedFlag(BooleanFilter divisionalOfficeVerifiedFlag) {
+        this.divisionalOfficeVerifiedFlag = divisionalOfficeVerifiedFlag;
     }
 
-    public StringFilter deadStockMr() {
-        if (deadStockMr == null) {
-            deadStockMr = new StringFilter();
+    public BooleanFilter divisionalOfficeVerifiedFlag() {
+        if (divisionalOfficeVerifiedFlag == null) {
+            divisionalOfficeVerifiedFlag = new BooleanFilter();
         }
-        return deadStockMr;
+        return divisionalOfficeVerifiedFlag;
     }
 
-    public void setDeadStockMr(StringFilter deadStockMr) {
-        this.deadStockMr = deadStockMr;
+    public BooleanFilter getIsSupplimenteryFlag() {
+        return isSupplimenteryFlag;
     }
 
-    public DoubleFilter getOtherPay() {
-        return otherPay;
+    public void setIsSupplimenteryFlag(BooleanFilter isSupplimenteryFlag) {
+        this.isSupplimenteryFlag = isSupplimenteryFlag;
     }
 
-    public DoubleFilter otherPay() {
-        if (otherPay == null) {
-            otherPay = new DoubleFilter();
+    public BooleanFilter isSupplimenteryFlag() {
+        if (isSupplimenteryFlag == null) {
+            isSupplimenteryFlag = new BooleanFilter();
         }
-        return otherPay;
+        return isSupplimenteryFlag;
     }
 
-    public void setOtherPay(DoubleFilter otherPay) {
-        this.otherPay = otherPay;
+    public StringFilter getSansthaTapasaniVarg() {
+        return sansthaTapasaniVarg;
     }
 
-    public StringFilter getOtherPayMr() {
-        return otherPayMr;
+    public void setSansthaTapasaniVarg(StringFilter sansthaTapasaniVarg) {
+        this.sansthaTapasaniVarg = sansthaTapasaniVarg;
     }
 
-    public StringFilter otherPayMr() {
-        if (otherPayMr == null) {
-            otherPayMr = new StringFilter();
+    public StringFilter sansthaTapasaniVarg() {
+        if (sansthaTapasaniVarg == null) {
+            sansthaTapasaniVarg = new StringFilter();
         }
-        return otherPayMr;
+        return sansthaTapasaniVarg;
     }
 
-    public void setOtherPayMr(StringFilter otherPayMr) {
-        this.otherPayMr = otherPayMr;
+    public StringFilter getBranchVerifiedBy() {
+        return branchVerifiedBy;
     }
 
-    public DoubleFilter getLoss() {
-        return loss;
+    public void setBranchVerifiedBy(StringFilter branchVerifiedBy) {
+        this.branchVerifiedBy = branchVerifiedBy;
     }
 
-    public DoubleFilter loss() {
-        if (loss == null) {
-            loss = new DoubleFilter();
+    public StringFilter branchVerifiedBy() {
+        if (branchVerifiedBy == null) {
+            branchVerifiedBy = new StringFilter();
         }
-        return loss;
+        return branchVerifiedBy;
     }
 
-    public void setLoss(DoubleFilter loss) {
-        this.loss = loss;
+    public InstantFilter getBranchVerifiedDate() {
+        return branchVerifiedDate;
     }
 
-    public StringFilter getLossMr() {
-        return lossMr;
+    public void setBranchVerifiedDate(InstantFilter branchVerifiedDate) {
+        this.branchVerifiedDate = branchVerifiedDate;
     }
 
-    public StringFilter lossMr() {
-        if (lossMr == null) {
-            lossMr = new StringFilter();
+    public InstantFilter branchVerifiedDate() {
+        if (branchVerifiedDate == null) {
+            branchVerifiedDate = new InstantFilter();
         }
-        return lossMr;
+        return branchVerifiedDate;
     }
 
-    public void setLossMr(StringFilter lossMr) {
-        this.lossMr = lossMr;
+    public StringFilter getHeadOfficeVerifiedBy() {
+        return headOfficeVerifiedBy;
     }
 
-    public DoubleFilter getTotalBagayat() {
-        return totalBagayat;
+    public void setHeadOfficeVerifiedBy(StringFilter headOfficeVerifiedBy) {
+        this.headOfficeVerifiedBy = headOfficeVerifiedBy;
     }
 
-    public DoubleFilter totalBagayat() {
-        if (totalBagayat == null) {
-            totalBagayat = new DoubleFilter();
+    public StringFilter headOfficeVerifiedBy() {
+        if (headOfficeVerifiedBy == null) {
+            headOfficeVerifiedBy = new StringFilter();
         }
-        return totalBagayat;
+        return headOfficeVerifiedBy;
     }
 
-    public void setTotalBagayat(DoubleFilter totalBagayat) {
-        this.totalBagayat = totalBagayat;
+    public InstantFilter getHeadOfficeVerifiedDate() {
+        return headOfficeVerifiedDate;
     }
 
-    public StringFilter getTotalBagayatMr() {
-        return totalBagayatMr;
+    public void setHeadOfficeVerifiedDate(InstantFilter headOfficeVerifiedDate) {
+        this.headOfficeVerifiedDate = headOfficeVerifiedDate;
     }
 
-    public StringFilter totalBagayatMr() {
-        if (totalBagayatMr == null) {
-            totalBagayatMr = new StringFilter();
+    public InstantFilter headOfficeVerifiedDate() {
+        if (headOfficeVerifiedDate == null) {
+            headOfficeVerifiedDate = new InstantFilter();
         }
-        return totalBagayatMr;
+        return headOfficeVerifiedDate;
     }
 
-    public void setTotalBagayatMr(StringFilter totalBagayatMr) {
-        this.totalBagayatMr = totalBagayatMr;
+    public StringFilter getDivisionalOfficeVerifiedBy() {
+        return divisionalOfficeVerifiedBy;
     }
 
-    public DoubleFilter getTotalJirayat() {
-        return totalJirayat;
+    public void setDivisionalOfficeVerifiedBy(StringFilter divisionalOfficeVerifiedBy) {
+        this.divisionalOfficeVerifiedBy = divisionalOfficeVerifiedBy;
     }
 
-    public DoubleFilter totalJirayat() {
-        if (totalJirayat == null) {
-            totalJirayat = new DoubleFilter();
+    public StringFilter divisionalOfficeVerifiedBy() {
+        if (divisionalOfficeVerifiedBy == null) {
+            divisionalOfficeVerifiedBy = new StringFilter();
         }
-        return totalJirayat;
+        return divisionalOfficeVerifiedBy;
     }
 
-    public void setTotalJirayat(DoubleFilter totalJirayat) {
-        this.totalJirayat = totalJirayat;
+    public InstantFilter getDivisionalOfficeVerifiedDate() {
+        return divisionalOfficeVerifiedDate;
     }
 
-    public StringFilter getTotalJirayatMr() {
-        return totalJirayatMr;
+    public void setDivisionalOfficeVerifiedDate(InstantFilter divisionalOfficeVerifiedDate) {
+        this.divisionalOfficeVerifiedDate = divisionalOfficeVerifiedDate;
     }
 
-    public StringFilter totalJirayatMr() {
-        if (totalJirayatMr == null) {
-            totalJirayatMr = new StringFilter();
+    public InstantFilter divisionalOfficeVerifiedDate() {
+        if (divisionalOfficeVerifiedDate == null) {
+            divisionalOfficeVerifiedDate = new InstantFilter();
         }
-        return totalJirayatMr;
+        return divisionalOfficeVerifiedDate;
     }
 
-    public void setTotalJirayatMr(StringFilter totalJirayatMr) {
-        this.totalJirayatMr = totalJirayatMr;
+    public InstantFilter getDoshPurtataDate() {
+        return doshPurtataDate;
     }
 
-    public LongFilter getKamalCropId() {
-        return kamalCropId;
+    public void setDoshPurtataDate(InstantFilter doshPurtataDate) {
+        this.doshPurtataDate = doshPurtataDate;
     }
 
-    public LongFilter kamalCropId() {
-        if (kamalCropId == null) {
-            kamalCropId = new LongFilter();
+    public InstantFilter doshPurtataDate() {
+        if (doshPurtataDate == null) {
+            doshPurtataDate = new InstantFilter();
         }
-        return kamalCropId;
+        return doshPurtataDate;
     }
 
-    public void setKamalCropId(LongFilter kamalCropId) {
-        this.kamalCropId = kamalCropId;
+    public StringFilter getGambhirDosh() {
+        return gambhirDosh;
+    }
+
+    public void setGambhirDosh(StringFilter gambhirDosh) {
+        this.gambhirDosh = gambhirDosh;
+    }
+
+    public StringFilter gambhirDosh() {
+        if (gambhirDosh == null) {
+            gambhirDosh = new StringFilter();
+        }
+        return gambhirDosh;
+    }
+
+    public StringFilter getBranchInwardNumber() {
+        return branchInwardNumber;
+    }
+
+    public void setBranchInwardNumber(StringFilter branchInwardNumber) {
+        this.branchInwardNumber = branchInwardNumber;
+    }
+
+    public StringFilter branchInwardNumber() {
+        if (branchInwardNumber == null) {
+            branchInwardNumber = new StringFilter();
+        }
+        return branchInwardNumber;
+    }
+
+    public InstantFilter getBranchInwardDate() {
+        return branchInwardDate;
+    }
+
+    public void setBranchInwardDate(InstantFilter branchInwardDate) {
+        this.branchInwardDate = branchInwardDate;
+    }
+
+    public InstantFilter branchInwardDate() {
+        if (branchInwardDate == null) {
+            branchInwardDate = new InstantFilter();
+        }
+        return branchInwardDate;
+    }
+
+    public StringFilter getBranchOutwardNumber() {
+        return branchOutwardNumber;
+    }
+
+    public void setBranchOutwardNumber(StringFilter branchOutwardNumber) {
+        this.branchOutwardNumber = branchOutwardNumber;
+    }
+
+    public StringFilter branchOutwardNumber() {
+        if (branchOutwardNumber == null) {
+            branchOutwardNumber = new StringFilter();
+        }
+        return branchOutwardNumber;
+    }
+
+    public InstantFilter getBranchOutwardDate() {
+        return branchOutwardDate;
+    }
+
+    public void setBranchOutwardDate(InstantFilter branchOutwardDate) {
+        this.branchOutwardDate = branchOutwardDate;
+    }
+
+    public InstantFilter branchOutwardDate() {
+        if (branchOutwardDate == null) {
+            branchOutwardDate = new InstantFilter();
+        }
+        return branchOutwardDate;
+    }
+
+    public StringFilter getHeadOfficeInwardNumber() {
+        return headOfficeInwardNumber;
+    }
+
+    public void setHeadOfficeInwardNumber(StringFilter headOfficeInwardNumber) {
+        this.headOfficeInwardNumber = headOfficeInwardNumber;
+    }
+
+    public StringFilter headOfficeInwardNumber() {
+        if (headOfficeInwardNumber == null) {
+            headOfficeInwardNumber = new StringFilter();
+        }
+        return headOfficeInwardNumber;
+    }
+
+    public InstantFilter getHeadOfficeInwardDate() {
+        return headOfficeInwardDate;
+    }
+
+    public void setHeadOfficeInwardDate(InstantFilter headOfficeInwardDate) {
+        this.headOfficeInwardDate = headOfficeInwardDate;
+    }
+
+    public InstantFilter headOfficeInwardDate() {
+        if (headOfficeInwardDate == null) {
+            headOfficeInwardDate = new InstantFilter();
+        }
+        return headOfficeInwardDate;
+    }
+
+    public StringFilter getHeadOfficeOutwardNumber() {
+        return headOfficeOutwardNumber;
+    }
+
+    public void setHeadOfficeOutwardNumber(StringFilter headOfficeOutwardNumber) {
+        this.headOfficeOutwardNumber = headOfficeOutwardNumber;
+    }
+
+    public StringFilter headOfficeOutwardNumber() {
+        if (headOfficeOutwardNumber == null) {
+            headOfficeOutwardNumber = new StringFilter();
+        }
+        return headOfficeOutwardNumber;
+    }
+
+    public InstantFilter getHeadOfficeOutwardDate() {
+        return headOfficeOutwardDate;
+    }
+
+    public void setHeadOfficeOutwardDate(InstantFilter headOfficeOutwardDate) {
+        this.headOfficeOutwardDate = headOfficeOutwardDate;
+    }
+
+    public InstantFilter headOfficeOutwardDate() {
+        if (headOfficeOutwardDate == null) {
+            headOfficeOutwardDate = new InstantFilter();
+        }
+        return headOfficeOutwardDate;
+    }
+
+    public StringFilter getTharavNumber() {
+        return tharavNumber;
+    }
+
+    public void setTharavNumber(StringFilter tharavNumber) {
+        this.tharavNumber = tharavNumber;
+    }
+
+    public StringFilter tharavNumber() {
+        if (tharavNumber == null) {
+            tharavNumber = new StringFilter();
+        }
+        return tharavNumber;
+    }
+
+    public InstantFilter getTharavDate() {
+        return tharavDate;
+    }
+
+    public void setTharavDate(InstantFilter tharavDate) {
+        this.tharavDate = tharavDate;
+    }
+
+    public InstantFilter tharavDate() {
+        if (tharavDate == null) {
+            tharavDate = new InstantFilter();
+        }
+        return tharavDate;
     }
 
     public Boolean getDistinct() {
@@ -1295,75 +1589,92 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
         final KamalSocietyCriteria that = (KamalSocietyCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(pacsNumber, that.pacsNumber) &&
-            Objects.equals(zindagiDate, that.zindagiDate) &&
-            Objects.equals(zindagiDateMr, that.zindagiDateMr) &&
-            Objects.equals(village1, that.village1) &&
-            Objects.equals(village1Mr, that.village1Mr) &&
-            Objects.equals(village2, that.village2) &&
-            Objects.equals(village2Mr, that.village2Mr) &&
-            Objects.equals(village3, that.village3) &&
-            Objects.equals(village3Mr, that.village3Mr) &&
-            Objects.equals(totalLand, that.totalLand) &&
-            Objects.equals(totalLandMr, that.totalLandMr) &&
-            Objects.equals(totalMem, that.totalMem) &&
-            Objects.equals(totalMemMr, that.totalMemMr) &&
-            Objects.equals(totalNonMem, that.totalNonMem) &&
-            Objects.equals(totalNonMemMr, that.totalNonMemMr) &&
-            Objects.equals(totalGMem, that.totalGMem) &&
-            Objects.equals(totalGMemMr, that.totalGMemMr) &&
-            Objects.equals(memLoan, that.memLoan) &&
-            Objects.equals(memLoanMr, that.memLoanMr) &&
-            Objects.equals(memDue, that.memDue) &&
-            Objects.equals(memDueMr, that.memDueMr) &&
-            Objects.equals(memDueper, that.memDueper) &&
-            Objects.equals(memDueperMr, that.memDueperMr) &&
-            Objects.equals(memVasulpatra, that.memVasulpatra) &&
-            Objects.equals(memVasulpatraMr, that.memVasulpatraMr) &&
-            Objects.equals(memVasul, that.memVasul) &&
-            Objects.equals(memVasulMr, that.memVasulMr) &&
-            Objects.equals(memVasulPer, that.memVasulPer) &&
-            Objects.equals(memVasulPerMr, that.memVasulPerMr) &&
-            Objects.equals(bankLoan, that.bankLoan) &&
-            Objects.equals(bankLoanMr, that.bankLoanMr) &&
-            Objects.equals(bankDue, that.bankDue) &&
-            Objects.equals(bankDueMr, that.bankDueMr) &&
-            Objects.equals(bankDueper, that.bankDueper) &&
-            Objects.equals(bankDueperMr, that.bankDueperMr) &&
-            Objects.equals(bankVasulpatra, that.bankVasulpatra) &&
-            Objects.equals(bankVasulpatraMr, that.bankVasulpatraMr) &&
-            Objects.equals(bankVasul, that.bankVasul) &&
-            Objects.equals(bankVasulMr, that.bankVasulMr) &&
-            Objects.equals(bankVasulPer, that.bankVasulPer) &&
-            Objects.equals(bankVasulPerMr, that.bankVasulPerMr) &&
-            Objects.equals(shareCapital, that.shareCapital) &&
-            Objects.equals(shareCapitalMr, that.shareCapitalMr) &&
-            Objects.equals(share, that.share) &&
-            Objects.equals(shareMr, that.shareMr) &&
-            Objects.equals(funds, that.funds) &&
-            Objects.equals(fundsMr, that.fundsMr) &&
-            Objects.equals(deposit, that.deposit) &&
-            Objects.equals(depositMr, that.depositMr) &&
-            Objects.equals(payable, that.payable) &&
-            Objects.equals(payableMr, that.payableMr) &&
-            Objects.equals(profit, that.profit) &&
-            Objects.equals(profitMr, that.profitMr) &&
-            Objects.equals(cashInHand, that.cashInHand) &&
-            Objects.equals(cashInHandMr, that.cashInHandMr) &&
-            Objects.equals(investment, that.investment) &&
-            Objects.equals(investmentMr, that.investmentMr) &&
-            Objects.equals(deadStock, that.deadStock) &&
-            Objects.equals(deadStockMr, that.deadStockMr) &&
-            Objects.equals(otherPay, that.otherPay) &&
-            Objects.equals(otherPayMr, that.otherPayMr) &&
-            Objects.equals(loss, that.loss) &&
-            Objects.equals(lossMr, that.lossMr) &&
-            Objects.equals(totalBagayat, that.totalBagayat) &&
-            Objects.equals(totalBagayatMr, that.totalBagayatMr) &&
-            Objects.equals(totalJirayat, that.totalJirayat) &&
-            Objects.equals(totalJirayatMr, that.totalJirayatMr) &&
-            Objects.equals(kamalCropId, that.kamalCropId) &&
-            Objects.equals(distinct, that.distinct)
+                Objects.equals(financialYear, that.financialYear) &&
+                Objects.equals(kmDate, that.kmDate) &&
+                Objects.equals(kmDateMr, that.kmDateMr) &&
+                Objects.equals(kmFromDate, that.kmFromDate) &&
+                Objects.equals(kmFromDateMr, that.kmFromDateMr) &&
+                Objects.equals(kmToDate, that.kmToDate) &&
+                Objects.equals(kmToDateMr, that.kmToDateMr) &&
+                Objects.equals(pacsNumber, that.pacsNumber) &&
+                Objects.equals(pacsName, that.pacsName) &&
+                Objects.equals(branchId, that.branchId) &&
+                Objects.equals(branchName, that.branchName) &&
+                Objects.equals(talukaId, that.talukaId) &&
+                Objects.equals(talukaName, that.talukaName) &&
+                Objects.equals(zindagiPatrakDate, that.zindagiPatrakDate) &&
+                Objects.equals(zindagiPatrakDateMr, that.zindagiPatrakDateMr) &&
+                Objects.equals(bankTapasaniDate, that.bankTapasaniDate) &&
+                Objects.equals(bankTapasaniDateMr, that.bankTapasaniDateMr) &&
+                Objects.equals(govTapasaniDate, that.govTapasaniDate) &&
+                Objects.equals(govTapasaniDateMr, that.govTapasaniDateMr) &&
+                Objects.equals(sansthaTapasaniDate, that.sansthaTapasaniDate) &&
+                Objects.equals(sansthaTapasaniDateMr, that.sansthaTapasaniDateMr) &&
+                Objects.equals(totalLand, that.totalLand) &&
+                Objects.equals(bagayat, that.bagayat) &&
+                Objects.equals(jirayat, that.jirayat) &&
+                Objects.equals(totalFarmer, that.totalFarmer) &&
+                Objects.equals(memberFarmer, that.memberFarmer) &&
+                Objects.equals(nonMemberFarmer, that.nonMemberFarmer) &&
+                Objects.equals(talebandDate, that.talebandDate) &&
+                Objects.equals(memLoan, that.memLoan) &&
+                Objects.equals(memDue, that.memDue) &&
+                Objects.equals(memVasuli, that.memVasuli) &&
+                Objects.equals(memVasuliPer, that.memVasuliPer) &&
+                Objects.equals(bankLoan, that.bankLoan) &&
+                Objects.equals(bankDue, that.bankDue) &&
+                Objects.equals(bankVasuli, that.bankVasuli) &&
+                Objects.equals(bankVasuliPer, that.bankVasuliPer) &&
+                Objects.equals(balanceSheetDate, that.balanceSheetDate) &&
+                Objects.equals(balanceSheetDateMr, that.balanceSheetDateMr) &&
+                Objects.equals(liabilityAdhikrutShareCapital, that.liabilityAdhikrutShareCapital) &&
+                Objects.equals(liabilityVasulShareCapital, that.liabilityVasulShareCapital) &&
+                Objects.equals(liabilityFund, that.liabilityFund) &&
+                Objects.equals(liabilitySpareFund, that.liabilitySpareFund) &&
+                Objects.equals(liabilityDeposite, that.liabilityDeposite) &&
+                Objects.equals(liabilityBalanceSheetBankLoan, that.liabilityBalanceSheetBankLoan) &&
+                Objects.equals(liabilityOtherPayable, that.liabilityOtherPayable) &&
+                Objects.equals(liabilityProfit, that.liabilityProfit) &&
+                Objects.equals(assetCash, that.assetCash) &&
+                Objects.equals(assetInvestment, that.assetInvestment) &&
+                Objects.equals(assetImaratFund, that.assetImaratFund) &&
+                Objects.equals(assetMemberLoan, that.assetMemberLoan) &&
+                Objects.equals(assetDeadStock, that.assetDeadStock) &&
+                Objects.equals(assetOtherReceivable, that.assetOtherReceivable) &&
+                Objects.equals(assetLoss, that.assetLoss) &&
+                Objects.equals(totalLiability, that.totalLiability) &&
+                Objects.equals(totalAsset, that.totalAsset) &&
+                Objects.equals(villageCode, that.villageCode) &&
+                Objects.equals(pacsVerifiedFlag, that.pacsVerifiedFlag) &&
+                Objects.equals(branchVerifiedFlag, that.branchVerifiedFlag) &&
+                Objects.equals(headOfficeVerifiedFlag, that.headOfficeVerifiedFlag) &&
+                Objects.equals(divisionalOfficeVerifiedFlag, that.divisionalOfficeVerifiedFlag) &&
+                Objects.equals(isSupplimenteryFlag, that.isSupplimenteryFlag) &&
+                Objects.equals(sansthaTapasaniVarg, that.sansthaTapasaniVarg) &&
+                Objects.equals(branchVerifiedBy, that.branchVerifiedBy) &&
+                Objects.equals(branchVerifiedDate, that.branchVerifiedDate) &&
+                Objects.equals(headOfficeVerifiedBy, that.headOfficeVerifiedBy) &&
+                Objects.equals(headOfficeVerifiedDate, that.headOfficeVerifiedDate) &&
+                Objects.equals(divisionalOfficeVerifiedBy, that.divisionalOfficeVerifiedBy) &&
+                Objects.equals(divisionalOfficeVerifiedDate, that.divisionalOfficeVerifiedDate) &&
+                Objects.equals(doshPurtataDate, that.doshPurtataDate) &&
+                Objects.equals(gambhirDosh, that.gambhirDosh) &&
+                Objects.equals(branchInwardNumber, that.branchInwardNumber) &&
+                Objects.equals(branchInwardDate, that.branchInwardDate) &&
+                Objects.equals(branchOutwardNumber, that.branchOutwardNumber) &&
+                Objects.equals(branchOutwardDate, that.branchOutwardDate) &&
+                Objects.equals(headOfficeInwardNumber, that.headOfficeInwardNumber) &&
+                Objects.equals(headOfficeInwardDate, that.headOfficeInwardDate) &&
+                Objects.equals(headOfficeOutwardNumber, that.headOfficeOutwardNumber) &&
+                Objects.equals(headOfficeOutwardDate, that.headOfficeOutwardDate) &&
+                Objects.equals(tharavNumber, that.tharavNumber) &&
+                Objects.equals(tharavDate, that.tharavDate) &&
+                Objects.equals(distinct, that.distinct) &&
+                Objects.equals(kamalKarjMarayadaAmount, that.kamalKarjMarayadaAmount) &&
+                Objects.equals(agriAdminVerifiedFlag, that.agriAdminVerifiedFlag) &&
+                Objects.equals(agriAdminVerifiedBy, that.agriAdminVerifiedBy) &&
+                Objects.equals(agriAdminVerifiedDate, that.agriAdminVerifiedDate)
+
         );
     }
 
@@ -1371,74 +1682,90 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
             id,
+            financialYear,
+            kmDate,
+            kmDateMr,
+            kmFromDate,
+            kmFromDateMr,
+            kmToDate,
+            kmToDateMr,
             pacsNumber,
-            zindagiDate,
-            zindagiDateMr,
-            village1,
-            village1Mr,
-            village2,
-            village2Mr,
-            village3,
-            village3Mr,
+            pacsName,
+            branchId,
+            branchName,
+            talukaId,
+            talukaName,
+            zindagiPatrakDate,
+            zindagiPatrakDateMr,
+            bankTapasaniDate,
+            bankTapasaniDateMr,
+            govTapasaniDate,
+            govTapasaniDateMr,
+            sansthaTapasaniDate,
+            sansthaTapasaniDateMr,
             totalLand,
-            totalLandMr,
-            totalMem,
-            totalMemMr,
-            totalNonMem,
-            totalNonMemMr,
-            totalGMem,
-            totalGMemMr,
+            bagayat,
+            jirayat,
+            totalFarmer,
+            memberFarmer,
+            nonMemberFarmer,
+            talebandDate,
             memLoan,
-            memLoanMr,
             memDue,
-            memDueMr,
-            memDueper,
-            memDueperMr,
-            memVasulpatra,
-            memVasulpatraMr,
-            memVasul,
-            memVasulMr,
-            memVasulPer,
-            memVasulPerMr,
+            memVasuli,
+            memVasuliPer,
             bankLoan,
-            bankLoanMr,
             bankDue,
-            bankDueMr,
-            bankDueper,
-            bankDueperMr,
-            bankVasulpatra,
-            bankVasulpatraMr,
-            bankVasul,
-            bankVasulMr,
-            bankVasulPer,
-            bankVasulPerMr,
-            shareCapital,
-            shareCapitalMr,
-            share,
-            shareMr,
-            funds,
-            fundsMr,
-            deposit,
-            depositMr,
-            payable,
-            payableMr,
-            profit,
-            profitMr,
-            cashInHand,
-            cashInHandMr,
-            investment,
-            investmentMr,
-            deadStock,
-            deadStockMr,
-            otherPay,
-            otherPayMr,
-            loss,
-            lossMr,
-            totalBagayat,
-            totalBagayatMr,
-            totalJirayat,
-            totalJirayatMr,
-            kamalCropId,
+            bankVasuli,
+            bankVasuliPer,
+            balanceSheetDate,
+            balanceSheetDateMr,
+            liabilityAdhikrutShareCapital,
+            liabilityVasulShareCapital,
+            liabilityFund,
+            liabilitySpareFund,
+            liabilityDeposite,
+            liabilityBalanceSheetBankLoan,
+            liabilityOtherPayable,
+            liabilityProfit,
+            assetCash,
+            assetInvestment,
+            assetImaratFund,
+            assetMemberLoan,
+            assetDeadStock,
+            assetOtherReceivable,
+            assetLoss,
+            totalLiability,
+            totalAsset,
+            villageCode,
+            pacsVerifiedFlag,
+            branchVerifiedFlag,
+            headOfficeVerifiedFlag,
+            divisionalOfficeVerifiedFlag,
+            isSupplimenteryFlag,
+            sansthaTapasaniVarg,
+            branchVerifiedBy,
+            branchVerifiedDate,
+            headOfficeVerifiedBy,
+            headOfficeVerifiedDate,
+            divisionalOfficeVerifiedBy,
+            divisionalOfficeVerifiedDate,
+            doshPurtataDate,
+            gambhirDosh,
+            branchInwardNumber,
+            branchInwardDate,
+            branchOutwardNumber,
+            branchOutwardDate,
+            headOfficeInwardNumber,
+            headOfficeInwardDate,
+            headOfficeOutwardNumber,
+            headOfficeOutwardDate,
+            tharavNumber,
+            tharavDate,
+            kamalKarjMarayadaAmount,
+            agriAdminVerifiedFlag,
+            agriAdminVerifiedBy,
+            agriAdminVerifiedDate,
             distinct
         );
     }
@@ -1448,74 +1775,86 @@ public class KamalSocietyCriteria implements Serializable, Criteria {
     public String toString() {
         return "KamalSocietyCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
+            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
+            (kmDate != null ? "kmDate=" + kmDate + ", " : "") +
+            (kmDateMr != null ? "kmDateMr=" + kmDateMr + ", " : "") +
+            (kmFromDate != null ? "kmFromDate=" + kmFromDate + ", " : "") +
+            (kmFromDateMr != null ? "kmFromDateMr=" + kmFromDateMr + ", " : "") +
+            (kmToDate != null ? "kmToDate=" + kmToDate + ", " : "") +
+            (kmToDateMr != null ? "kmToDateMr=" + kmToDateMr + ", " : "") +
             (pacsNumber != null ? "pacsNumber=" + pacsNumber + ", " : "") +
-            (zindagiDate != null ? "zindagiDate=" + zindagiDate + ", " : "") +
-            (zindagiDateMr != null ? "zindagiDateMr=" + zindagiDateMr + ", " : "") +
-            (village1 != null ? "village1=" + village1 + ", " : "") +
-            (village1Mr != null ? "village1Mr=" + village1Mr + ", " : "") +
-            (village2 != null ? "village2=" + village2 + ", " : "") +
-            (village2Mr != null ? "village2Mr=" + village2Mr + ", " : "") +
-            (village3 != null ? "village3=" + village3 + ", " : "") +
-            (village3Mr != null ? "village3Mr=" + village3Mr + ", " : "") +
+            (pacsName != null ? "pacsName=" + pacsName + ", " : "") +
+            (branchId != null ? "branchId=" + branchId + ", " : "") +
+            (branchName != null ? "branchName=" + branchName + ", " : "") +
+            (talukaId != null ? "talukaId=" + talukaId + ", " : "") +
+            (talukaName != null ? "talukaName=" + talukaName + ", " : "") +
+            (zindagiPatrakDate != null ? "zindagiPatrakDate=" + zindagiPatrakDate + ", " : "") +
+            (zindagiPatrakDateMr != null ? "zindagiPatrakDateMr=" + zindagiPatrakDateMr + ", " : "") +
+            (bankTapasaniDate != null ? "bankTapasaniDate=" + bankTapasaniDate + ", " : "") +
+            (bankTapasaniDateMr != null ? "bankTapasaniDateMr=" + bankTapasaniDateMr + ", " : "") +
+            (govTapasaniDate != null ? "govTapasaniDate=" + govTapasaniDate + ", " : "") +
+            (govTapasaniDateMr != null ? "govTapasaniDateMr=" + govTapasaniDateMr + ", " : "") +
+            (sansthaTapasaniDate != null ? "sansthaTapasaniDate=" + sansthaTapasaniDate + ", " : "") +
+            (sansthaTapasaniDateMr != null ? "sansthaTapasaniDateMr=" + sansthaTapasaniDateMr + ", " : "") +
             (totalLand != null ? "totalLand=" + totalLand + ", " : "") +
-            (totalLandMr != null ? "totalLandMr=" + totalLandMr + ", " : "") +
-            (totalMem != null ? "totalMem=" + totalMem + ", " : "") +
-            (totalMemMr != null ? "totalMemMr=" + totalMemMr + ", " : "") +
-            (totalNonMem != null ? "totalNonMem=" + totalNonMem + ", " : "") +
-            (totalNonMemMr != null ? "totalNonMemMr=" + totalNonMemMr + ", " : "") +
-            (totalGMem != null ? "totalGMem=" + totalGMem + ", " : "") +
-            (totalGMemMr != null ? "totalGMemMr=" + totalGMemMr + ", " : "") +
+            (bagayat != null ? "bagayat=" + bagayat + ", " : "") +
+            (jirayat != null ? "jirayat=" + jirayat + ", " : "") +
+            (totalFarmer != null ? "totalFarmer=" + totalFarmer + ", " : "") +
+            (memberFarmer != null ? "memberFarmer=" + memberFarmer + ", " : "") +
+            (nonMemberFarmer != null ? "nonMemberFarmer=" + nonMemberFarmer + ", " : "") +
+            (talebandDate != null ? "talebandDate=" + talebandDate + ", " : "") +
             (memLoan != null ? "memLoan=" + memLoan + ", " : "") +
-            (memLoanMr != null ? "memLoanMr=" + memLoanMr + ", " : "") +
             (memDue != null ? "memDue=" + memDue + ", " : "") +
-            (memDueMr != null ? "memDueMr=" + memDueMr + ", " : "") +
-            (memDueper != null ? "memDueper=" + memDueper + ", " : "") +
-            (memDueperMr != null ? "memDueperMr=" + memDueperMr + ", " : "") +
-            (memVasulpatra != null ? "memVasulpatra=" + memVasulpatra + ", " : "") +
-            (memVasulpatraMr != null ? "memVasulpatraMr=" + memVasulpatraMr + ", " : "") +
-            (memVasul != null ? "memVasul=" + memVasul + ", " : "") +
-            (memVasulMr != null ? "memVasulMr=" + memVasulMr + ", " : "") +
-            (memVasulPer != null ? "memVasulPer=" + memVasulPer + ", " : "") +
-            (memVasulPerMr != null ? "memVasulPerMr=" + memVasulPerMr + ", " : "") +
+            (memVasuli != null ? "memVasuli=" + memVasuli + ", " : "") +
+            (memVasuliPer != null ? "memVasuliPer=" + memVasuliPer + ", " : "") +
             (bankLoan != null ? "bankLoan=" + bankLoan + ", " : "") +
-            (bankLoanMr != null ? "bankLoanMr=" + bankLoanMr + ", " : "") +
             (bankDue != null ? "bankDue=" + bankDue + ", " : "") +
-            (bankDueMr != null ? "bankDueMr=" + bankDueMr + ", " : "") +
-            (bankDueper != null ? "bankDueper=" + bankDueper + ", " : "") +
-            (bankDueperMr != null ? "bankDueperMr=" + bankDueperMr + ", " : "") +
-            (bankVasulpatra != null ? "bankVasulpatra=" + bankVasulpatra + ", " : "") +
-            (bankVasulpatraMr != null ? "bankVasulpatraMr=" + bankVasulpatraMr + ", " : "") +
-            (bankVasul != null ? "bankVasul=" + bankVasul + ", " : "") +
-            (bankVasulMr != null ? "bankVasulMr=" + bankVasulMr + ", " : "") +
-            (bankVasulPer != null ? "bankVasulPer=" + bankVasulPer + ", " : "") +
-            (bankVasulPerMr != null ? "bankVasulPerMr=" + bankVasulPerMr + ", " : "") +
-            (shareCapital != null ? "shareCapital=" + shareCapital + ", " : "") +
-            (shareCapitalMr != null ? "shareCapitalMr=" + shareCapitalMr + ", " : "") +
-            (share != null ? "share=" + share + ", " : "") +
-            (shareMr != null ? "shareMr=" + shareMr + ", " : "") +
-            (funds != null ? "funds=" + funds + ", " : "") +
-            (fundsMr != null ? "fundsMr=" + fundsMr + ", " : "") +
-            (deposit != null ? "deposit=" + deposit + ", " : "") +
-            (depositMr != null ? "depositMr=" + depositMr + ", " : "") +
-            (payable != null ? "payable=" + payable + ", " : "") +
-            (payableMr != null ? "payableMr=" + payableMr + ", " : "") +
-            (profit != null ? "profit=" + profit + ", " : "") +
-            (profitMr != null ? "profitMr=" + profitMr + ", " : "") +
-            (cashInHand != null ? "cashInHand=" + cashInHand + ", " : "") +
-            (cashInHandMr != null ? "cashInHandMr=" + cashInHandMr + ", " : "") +
-            (investment != null ? "investment=" + investment + ", " : "") +
-            (investmentMr != null ? "investmentMr=" + investmentMr + ", " : "") +
-            (deadStock != null ? "deadStock=" + deadStock + ", " : "") +
-            (deadStockMr != null ? "deadStockMr=" + deadStockMr + ", " : "") +
-            (otherPay != null ? "otherPay=" + otherPay + ", " : "") +
-            (otherPayMr != null ? "otherPayMr=" + otherPayMr + ", " : "") +
-            (loss != null ? "loss=" + loss + ", " : "") +
-            (lossMr != null ? "lossMr=" + lossMr + ", " : "") +
-            (totalBagayat != null ? "totalBagayat=" + totalBagayat + ", " : "") +
-            (totalBagayatMr != null ? "totalBagayatMr=" + totalBagayatMr + ", " : "") +
-            (totalJirayat != null ? "totalJirayat=" + totalJirayat + ", " : "") +
-            (totalJirayatMr != null ? "totalJirayatMr=" + totalJirayatMr + ", " : "") +
-            (kamalCropId != null ? "kamalCropId=" + kamalCropId + ", " : "") +
+            (bankVasuli != null ? "bankVasuli=" + bankVasuli + ", " : "") +
+            (bankVasuliPer != null ? "bankVasuliPer=" + bankVasuliPer + ", " : "") +
+            (balanceSheetDate != null ? "balanceSheetDate=" + balanceSheetDate + ", " : "") +
+            (balanceSheetDateMr != null ? "balanceSheetDateMr=" + balanceSheetDateMr + ", " : "") +
+            (liabilityAdhikrutShareCapital != null ? "liabilityAdhikrutShareCapital=" + liabilityAdhikrutShareCapital + ", " : "") +
+            (liabilityVasulShareCapital != null ? "liabilityVasulShareCapital=" + liabilityVasulShareCapital + ", " : "") +
+            (liabilityFund != null ? "liabilityFund=" + liabilityFund + ", " : "") +
+            (liabilitySpareFund != null ? "liabilitySpareFund=" + liabilitySpareFund + ", " : "") +
+            (liabilityDeposite != null ? "liabilityDeposite=" + liabilityDeposite + ", " : "") +
+            (liabilityBalanceSheetBankLoan != null ? "liabilityBalanceSheetBankLoan=" + liabilityBalanceSheetBankLoan + ", " : "") +
+            (liabilityOtherPayable != null ? "liabilityOtherPayable=" + liabilityOtherPayable + ", " : "") +
+            (liabilityProfit != null ? "liabilityProfit=" + liabilityProfit + ", " : "") +
+            (assetCash != null ? "assetCash=" + assetCash + ", " : "") +
+            (assetInvestment != null ? "assetInvestment=" + assetInvestment + ", " : "") +
+            (assetImaratFund != null ? "assetImaratFund=" + assetImaratFund + ", " : "") +
+            (assetMemberLoan != null ? "assetMemberLoan=" + assetMemberLoan + ", " : "") +
+            (assetDeadStock != null ? "assetDeadStock=" + assetDeadStock + ", " : "") +
+            (assetOtherReceivable != null ? "assetOtherReceivable=" + assetOtherReceivable + ", " : "") +
+            (assetLoss != null ? "assetLoss=" + assetLoss + ", " : "") +
+            (totalLiability != null ? "totalLiability=" + totalLiability + ", " : "") +
+            (totalAsset != null ? "totalAsset=" + totalAsset + ", " : "") +
+            (villageCode != null ? "villageCode=" + villageCode + ", " : "") +
+            (pacsVerifiedFlag != null ? "pacsVerifiedFlag=" + pacsVerifiedFlag + ", " : "") +
+            (branchVerifiedFlag != null ? "branchVerifiedFlag=" + branchVerifiedFlag + ", " : "") +
+            (headOfficeVerifiedFlag != null ? "headOfficeVerifiedFlag=" + headOfficeVerifiedFlag + ", " : "") +
+            (divisionalOfficeVerifiedFlag != null ? "divisionalOfficeVerifiedFlag=" + divisionalOfficeVerifiedFlag + ", " : "") +
+            (isSupplimenteryFlag != null ? "isSupplimenteryFlag=" + isSupplimenteryFlag + ", " : "") +
+            (sansthaTapasaniVarg != null ? "sansthaTapasaniVarg=" + sansthaTapasaniVarg + ", " : "") +
+            (branchVerifiedBy != null ? "branchVerifiedBy=" + branchVerifiedBy + ", " : "") +
+            (branchVerifiedDate != null ? "branchVerifiedDate=" + branchVerifiedDate + ", " : "") +
+            (headOfficeVerifiedBy != null ? "headOfficeVerifiedBy=" + headOfficeVerifiedBy + ", " : "") +
+            (headOfficeVerifiedDate != null ? "headOfficeVerifiedDate=" + headOfficeVerifiedDate + ", " : "") +
+            (divisionalOfficeVerifiedBy != null ? "divisionalOfficeVerifiedBy=" + divisionalOfficeVerifiedBy + ", " : "") +
+            (divisionalOfficeVerifiedDate != null ? "divisionalOfficeVerifiedDate=" + divisionalOfficeVerifiedDate + ", " : "") +
+            (doshPurtataDate != null ? "doshPurtataDate=" + doshPurtataDate + ", " : "") +
+            (gambhirDosh != null ? "gambhirDosh=" + gambhirDosh + ", " : "") +
+            (branchInwardNumber != null ? "branchInwardNumber=" + branchInwardNumber + ", " : "") +
+            (branchInwardDate != null ? "branchInwardDate=" + branchInwardDate + ", " : "") +
+            (branchOutwardNumber != null ? "branchOutwardNumber=" + branchOutwardNumber + ", " : "") +
+            (branchOutwardDate != null ? "branchOutwardDate=" + branchOutwardDate + ", " : "") +
+            (headOfficeInwardNumber != null ? "headOfficeInwardNumber=" + headOfficeInwardNumber + ", " : "") +
+            (headOfficeInwardDate != null ? "headOfficeInwardDate=" + headOfficeInwardDate + ", " : "") +
+            (headOfficeOutwardNumber != null ? "headOfficeOutwardNumber=" + headOfficeOutwardNumber + ", " : "") +
+            (headOfficeOutwardDate != null ? "headOfficeOutwardDate=" + headOfficeOutwardDate + ", " : "") +
+            (tharavNumber != null ? "tharavNumber=" + tharavNumber + ", " : "") +
+            (tharavDate != null ? "tharavDate=" + tharavDate + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

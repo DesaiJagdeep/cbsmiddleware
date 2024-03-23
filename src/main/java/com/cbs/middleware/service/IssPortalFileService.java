@@ -5,10 +5,7 @@ import com.cbs.middleware.domain.IssPortalFile;
 import java.util.List;
 import java.util.Optional;
 
-import com.cbs.middleware.service.dto.IssPortalFileCountDTO;
-import com.cbs.middleware.service.dto.IssPortalFileDTO;
-import com.cbs.middleware.service.dto.PacsApplicationDTO;
-import com.cbs.middleware.service.dto.TalukaApplicationDTO;
+import com.cbs.middleware.service.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -70,4 +67,10 @@ public interface IssPortalFileService {
     List<PacsApplicationDTO> findPacsWiseDataBySchemeBranchCodeAndFinacialYear(Long schemeBranchCode, String finacialYear);
 
     List<IssPortalFileDTO> findAllRecordsByTalukaBranchPacsWise(String financialYear);
+
+    List<NotYetStartedDTO> findAllRecordsWhoNotStarted(String financialYear);
+
+    List<VerifyPendingDTO> findAllpendingFromBranchAdmin();
+
+    List<VerifyPendingDTO> findAllpendingFromBranchUser();
 }

@@ -7,14 +7,14 @@ import { finalize, map } from 'rxjs/operators';
 import { KamalCropFormService, KamalCropFormGroup } from './kamal-crop-form.service';
 import { IKamalCrop } from '../kamal-crop.model';
 import { KamalCropService } from '../service/kamal-crop.service';
+import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
+import { KamalSocietyService } from 'app/entities/kamal-society/service/kamal-society.service';
 import { IFarmerTypeMaster } from 'app/entities/farmer-type-master/farmer-type-master.model';
 import { FarmerTypeMasterService } from 'app/entities/farmer-type-master/service/farmer-type-master.service';
 import { ISeasonMaster } from 'app/entities/season-master/season-master.model';
 import { SeasonMasterService } from 'app/entities/season-master/service/season-master.service';
 import { ICropMaster } from 'app/entities/crop-master/crop-master.model';
 import { CropMasterService } from 'app/entities/crop-master/service/crop-master.service';
-import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
-import { KamalSocietyService } from 'app/entities/kamal-society/service/kamal-society.service';
 
 @Component({
   selector: 'jhi-kamal-crop-update',
@@ -24,22 +24,25 @@ export class KamalCropUpdateComponent implements OnInit {
   isSaving = false;
   kamalCrop: IKamalCrop | null = null;
 
+  kamalSocietiesSharedCollection: IKamalSociety[] = [];
   farmerTypeMastersSharedCollection: IFarmerTypeMaster[] = [];
   seasonMastersSharedCollection: ISeasonMaster[] = [];
   cropMastersSharedCollection: ICropMaster[] = [];
-  kamalSocietiesSharedCollection: IKamalSociety[] = [];
 
   editForm: KamalCropFormGroup = this.kamalCropFormService.createKamalCropFormGroup();
 
   constructor(
     protected kamalCropService: KamalCropService,
     protected kamalCropFormService: KamalCropFormService,
+    protected kamalSocietyService: KamalSocietyService,
     protected farmerTypeMasterService: FarmerTypeMasterService,
     protected seasonMasterService: SeasonMasterService,
     protected cropMasterService: CropMasterService,
-    protected kamalSocietyService: KamalSocietyService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareKamalSociety = (o1: IKamalSociety | null, o2: IKamalSociety | null): boolean =>
+    this.kamalSocietyService.compareKamalSociety(o1, o2);
 
   compareFarmerTypeMaster = (o1: IFarmerTypeMaster | null, o2: IFarmerTypeMaster | null): boolean =>
     this.farmerTypeMasterService.compareFarmerTypeMaster(o1, o2);
@@ -48,9 +51,6 @@ export class KamalCropUpdateComponent implements OnInit {
     this.seasonMasterService.compareSeasonMaster(o1, o2);
 
   compareCropMaster = (o1: ICropMaster | null, o2: ICropMaster | null): boolean => this.cropMasterService.compareCropMaster(o1, o2);
-
-  compareKamalSociety = (o1: IKamalSociety | null, o2: IKamalSociety | null): boolean =>
-    this.kamalSocietyService.compareKamalSociety(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ kamalCrop }) => {
@@ -100,6 +100,10 @@ export class KamalCropUpdateComponent implements OnInit {
     this.kamalCrop = kamalCrop;
     this.kamalCropFormService.resetForm(this.editForm, kamalCrop);
 
+    this.kamalSocietiesSharedCollection = this.kamalSocietyService.addKamalSocietyToCollectionIfMissing<IKamalSociety>(
+      this.kamalSocietiesSharedCollection,
+      kamalCrop.kamalSociety
+    );
     this.farmerTypeMastersSharedCollection = this.farmerTypeMasterService.addFarmerTypeMasterToCollectionIfMissing<IFarmerTypeMaster>(
       this.farmerTypeMastersSharedCollection,
       kamalCrop.farmerTypeMaster
@@ -112,13 +116,19 @@ export class KamalCropUpdateComponent implements OnInit {
       this.cropMastersSharedCollection,
       kamalCrop.cropMaster
     );
-    this.kamalSocietiesSharedCollection = this.kamalSocietyService.addKamalSocietyToCollectionIfMissing<IKamalSociety>(
-      this.kamalSocietiesSharedCollection,
-      kamalCrop.kamalSociety
-    );
   }
 
   protected loadRelationshipsOptions(): void {
+    this.kamalSocietyService
+      .query()
+      .pipe(map((res: HttpResponse<IKamalSociety[]>) => res.body ?? []))
+      .pipe(
+        map((kamalSocieties: IKamalSociety[]) =>
+          this.kamalSocietyService.addKamalSocietyToCollectionIfMissing<IKamalSociety>(kamalSocieties, this.kamalCrop?.kamalSociety)
+        )
+      )
+      .subscribe((kamalSocieties: IKamalSociety[]) => (this.kamalSocietiesSharedCollection = kamalSocieties));
+
     this.farmerTypeMasterService
       .query()
       .pipe(map((res: HttpResponse<IFarmerTypeMaster[]>) => res.body ?? []))
@@ -151,15 +161,5 @@ export class KamalCropUpdateComponent implements OnInit {
         )
       )
       .subscribe((cropMasters: ICropMaster[]) => (this.cropMastersSharedCollection = cropMasters));
-
-    this.kamalSocietyService
-      .query()
-      .pipe(map((res: HttpResponse<IKamalSociety[]>) => res.body ?? []))
-      .pipe(
-        map((kamalSocieties: IKamalSociety[]) =>
-          this.kamalSocietyService.addKamalSocietyToCollectionIfMissing<IKamalSociety>(kamalSocieties, this.kamalCrop?.kamalSociety)
-        )
-      )
-      .subscribe((kamalSocieties: IKamalSociety[]) => (this.kamalSocietiesSharedCollection = kamalSocieties));
   }
 }

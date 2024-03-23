@@ -20,90 +20,145 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsNumber" for="field_pacsNumber">Pacs Number</label>
           <input
-            type="number"
+            type="text"
             class="form-control"
             name="pacsNumber"
             id="field_pacsNumber"
             data-cy="pacsNumber"
             formControlName="pacsNumber"
           />
-          <div *ngIf="editForm.get('pacsNumber')!.invalid && (editForm.get('pacsNumber')!.dirty || editForm.get('pacsNumber')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('pacsNumber')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('pacsNumber')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memNo" for="field_memNo">Mem No</label>
-          <input type="number" class="form-control" name="memNo" id="field_memNo" data-cy="memNo" formControlName="memNo" />
-          <div *ngIf="editForm.get('memNo')!.invalid && (editForm.get('memNo')!.dirty || editForm.get('memNo')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('memNo')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('memNo')?.errors?.number" jhiTranslate="entity.validation.number">
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memHector" for="field_memHector">Mem Hector</label>
-          <input type="number" class="form-control" name="memHector" id="field_memHector" data-cy="memHector" formControlName="memHector" />
-          <div *ngIf="editForm.get('memHector')!.invalid && (editForm.get('memHector')!.dirty || editForm.get('memHector')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('memHector')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('memHector')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memNoMr" for="field_memNoMr">Mem No Mr</label>
-          <input type="text" class="form-control" name="memNoMr" id="field_memNoMr" data-cy="memNoMr" formControlName="memNoMr" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memHectorMr" for="field_memHectorMr">Mem Hector Mr</label>
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.financialYear" for="field_financialYear">Financial Year</label>
           <input
             type="text"
             class="form-control"
-            name="memHectorMr"
-            id="field_memHectorMr"
-            data-cy="memHectorMr"
-            formControlName="memHectorMr"
+            name="financialYear"
+            id="field_financialYear"
+            data-cy="financialYear"
+            formControlName="financialYear"
           />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memAar" for="field_memAar">Mem Aar</label>
-          <input type="number" class="form-control" name="memAar" id="field_memAar" data-cy="memAar" formControlName="memAar" />
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memberCount" for="field_memberCount">Member Count</label>
+          <input
+            type="text"
+            class="form-control"
+            name="memberCount"
+            id="field_memberCount"
+            data-cy="memberCount"
+            formControlName="memberCount"
+          />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.memAarMr" for="field_memAarMr">Mem Aar Mr</label>
-          <input type="text" class="form-control" name="memAarMr" id="field_memAarMr" data-cy="memAarMr" formControlName="memAarMr" />
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.area" for="field_area">Area</label>
+          <input type="text" class="form-control" name="area" id="field_area" data-cy="area" formControlName="area" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsAmount" for="field_pacsAmount">Pacs Amount</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsAmount"
+            id="field_pacsAmount"
+            data-cy="pacsAmount"
+            formControlName="pacsAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.branchAmount" for="field_branchAmount">Branch Amount</label>
+          <input
+            type="text"
+            class="form-control"
+            name="branchAmount"
+            id="field_branchAmount"
+            data-cy="branchAmount"
+            formControlName="branchAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.headOfficeAmount" for="field_headOfficeAmount"
+            >Head Office Amount</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="headOfficeAmount"
+            id="field_headOfficeAmount"
+            data-cy="headOfficeAmount"
+            formControlName="headOfficeAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.divisionalOfficeAmount" for="field_divisionalOfficeAmount"
+            >Divisional Office Amount</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="divisionalOfficeAmount"
+            id="field_divisionalOfficeAmount"
+            data-cy="divisionalOfficeAmount"
+            formControlName="divisionalOfficeAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.cropEligibilityAmount" for="field_cropEligibilityAmount"
+            >Crop Eligibility Amount</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="cropEligibilityAmount"
+            id="field_cropEligibilityAmount"
+            data-cy="cropEligibilityAmount"
+            formControlName="cropEligibilityAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDate" for="field_kmDate">Km Date</label>
+          <div class="d-flex">
+            <input
+              id="field_kmDate"
+              data-cy="kmDate"
+              type="datetime-local"
+              class="form-control"
+              name="kmDate"
+              formControlName="kmDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDateMr" for="field_kmDateMr">Km Date Mr</label>
+          <input type="text" class="form-control" name="kmDateMr" id="field_kmDateMr" data-cy="kmDateMr" formControlName="kmDateMr" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety" for="field_kamalSociety">Kamal Society</label>
+          <select
+            class="form-control"
+            id="field_kamalSociety"
+            data-cy="kamalSociety"
+            name="kamalSociety"
+            formControlName="kamalSociety"
+            [compareWith]="compareKamalSociety"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kamalSocietyOption" *ngFor="let kamalSocietyOption of kamalSocietiesSharedCollection">
+              {{ kamalSocietyOption.id }}
+            </option>
+          </select>
         </div>
 
         <div class="row mb-3">
@@ -155,23 +210,6 @@
             <option [ngValue]="null"></option>
             <option [ngValue]="cropMasterOption" *ngFor="let cropMasterOption of cropMastersSharedCollection">
               {{ cropMasterOption.id }}
-            </option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety" for="field_kamalSociety">Kamal Society</label>
-          <select
-            class="form-control"
-            id="field_kamalSociety"
-            data-cy="kamalSociety"
-            name="kamalSociety"
-            formControlName="kamalSociety"
-            [compareWith]="compareKamalSociety"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="kamalSocietyOption" *ngFor="let kamalSocietyOption of kamalSocietiesSharedCollection">
-              {{ kamalSocietyOption.id }}
             </option>
           </select>
         </div>

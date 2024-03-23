@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity KamalSociety.
+    -->
+    <changeSet id="20240201123349-1" author="jhipster">
+        <createTable tableName="kamal_society">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="financial_year" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="km_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_from_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_from_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_to_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_to_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="taluka_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="zindagi_patrak_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="zindagi_patrak_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_tapasani_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_tapasani_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="gov_tapasani_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="gov_tapasani_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sanstha_tapasani_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="sanstha_tapasani_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_land" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bagayat" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="jirayat" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_farmer" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="member_farmer" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="non_member_farmer" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="taleband_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_loan" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_due" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasuli" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mem_vasuli_per" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_loan" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_due" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasuli" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_vasuli_per" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="balance_sheet_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="balance_sheet_date_mr" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_adhikrut_share_capital" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_vasul_share_capital" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_fund" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_spare_fund" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_deposite" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_balance_sheet_bank_loan" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_other_payable" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="liability_profit" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_cash" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_investment" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_imarat_fund" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_member_loan" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_dead_stock" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_other_receivable" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="asset_loss" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_liability" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="total_asset" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="village_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_verified_flag" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_verified_flag" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_verified_flag" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="divisional_office_verified_flag" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_supplimentery_flag" type="boolean">
+                <constraints nullable="true" />
+            </column>
+            <column name="sanstha_tapasani_varg" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_verified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_verified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_verified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_verified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="divisional_office_verified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="divisional_office_verified_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="dosh_purtata_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="gambhir_dosh" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_inward_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_inward_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_outward_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_outward_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_inward_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_inward_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_outward_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="head_office_outward_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="tharav_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="tharav_date" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="kamal_society" columnName="km_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="km_from_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="km_to_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="zindagi_patrak_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="bank_tapasani_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="gov_tapasani_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="sanstha_tapasani_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="taleband_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="balance_sheet_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="branch_verified_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="head_office_verified_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="divisional_office_verified_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="dosh_purtata_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="branch_inward_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="branch_outward_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="head_office_inward_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="head_office_outward_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="kamal_society" columnName="tharav_date" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20240201123349-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/kamal_society.csv"
+                  separator=";"
+                  tableName="kamal_society"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="financial_year" type="string"/>
+            <column name="km_date" type="date"/>
+            <column name="km_date_mr" type="string"/>
+            <column name="km_from_date" type="date"/>
+            <column name="km_from_date_mr" type="string"/>
+            <column name="km_to_date" type="date"/>
+            <column name="km_to_date_mr" type="string"/>
+            <column name="pacs_number" type="string"/>
+            <column name="pacs_name" type="string"/>
+            <column name="branch_id" type="numeric"/>
+            <column name="branch_name" type="string"/>
+            <column name="taluka_id" type="numeric"/>
+            <column name="taluka_name" type="string"/>
+            <column name="zindagi_patrak_date" type="date"/>
+            <column name="zindagi_patrak_date_mr" type="string"/>
+            <column name="bank_tapasani_date" type="date"/>
+            <column name="bank_tapasani_date_mr" type="string"/>
+            <column name="gov_tapasani_date" type="date"/>
+            <column name="gov_tapasani_date_mr" type="string"/>
+            <column name="sanstha_tapasani_date" type="date"/>
+            <column name="sanstha_tapasani_date_mr" type="string"/>
+            <column name="total_land" type="string"/>
+            <column name="bagayat" type="string"/>
+            <column name="jirayat" type="string"/>
+            <column name="total_farmer" type="string"/>
+            <column name="member_farmer" type="string"/>
+            <column name="non_member_farmer" type="string"/>
+            <column name="taleband_date" type="date"/>
+            <column name="mem_loan" type="string"/>
+            <column name="mem_due" type="string"/>
+            <column name="mem_vasuli" type="string"/>
+            <column name="mem_vasuli_per" type="string"/>
+            <column name="bank_loan" type="string"/>
+            <column name="bank_due" type="string"/>
+            <column name="bank_vasuli" type="string"/>
+            <column name="bank_vasuli_per" type="string"/>
+            <column name="balance_sheet_date" type="date"/>
+            <column name="balance_sheet_date_mr" type="string"/>
+            <column name="liability_adhikrut_share_capital" type="string"/>
+            <column name="liability_vasul_share_capital" type="string"/>
+            <column name="liability_fund" type="string"/>
+            <column name="liability_spare_fund" type="string"/>
+            <column name="liability_deposite" type="string"/>
+            <column name="liability_balance_sheet_bank_loan" type="string"/>
+            <column name="liability_other_payable" type="string"/>
+            <column name="liability_profit" type="string"/>
+            <column name="asset_cash" type="string"/>
+            <column name="asset_investment" type="string"/>
+            <column name="asset_imarat_fund" type="string"/>
+            <column name="asset_member_loan" type="string"/>
+            <column name="asset_dead_stock" type="string"/>
+            <column name="asset_other_receivable" type="string"/>
+            <column name="asset_loss" type="string"/>
+            <column name="total_liability" type="string"/>
+            <column name="total_asset" type="string"/>
+            <column name="village_code" type="string"/>
+            <column name="pacs_verified_flag" type="boolean"/>
+            <column name="branch_verified_flag" type="boolean"/>
+            <column name="head_office_verified_flag" type="boolean"/>
+            <column name="divisional_office_verified_flag" type="boolean"/>
+            <column name="is_supplimentery_flag" type="boolean"/>
+            <column name="sanstha_tapasani_varg" type="string"/>
+            <column name="branch_verified_by" type="string"/>
+            <column name="branch_verified_date" type="date"/>
+            <column name="head_office_verified_by" type="string"/>
+            <column name="head_office_verified_date" type="date"/>
+            <column name="divisional_office_verified_by" type="string"/>
+            <column name="divisional_office_verified_date" type="date"/>
+            <column name="dosh_purtata_date" type="date"/>
+            <column name="gambhir_dosh" type="string"/>
+            <column name="branch_inward_number" type="string"/>
+            <column name="branch_inward_date" type="date"/>
+            <column name="branch_outward_number" type="string"/>
+            <column name="branch_outward_date" type="date"/>
+            <column name="head_office_inward_number" type="string"/>
+            <column name="head_office_inward_date" type="date"/>
+            <column name="head_office_outward_number" type="string"/>
+            <column name="head_office_outward_date" type="date"/>
+            <column name="tharav_number" type="string"/>
+            <column name="tharav_date" type="date"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

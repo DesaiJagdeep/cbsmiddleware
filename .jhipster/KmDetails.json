@@ -84,6 +84,14 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "dob",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "financialYear",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "bagayatHector",
       "fieldType": "Double",
       "fieldValidateRules": ["required"]

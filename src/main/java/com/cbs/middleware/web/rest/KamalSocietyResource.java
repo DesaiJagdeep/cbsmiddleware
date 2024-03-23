@@ -1,25 +1,63 @@
 package com.cbs.middleware.web.rest;
 
-import com.cbs.middleware.domain.KamalSociety;
-import com.cbs.middleware.repository.KamalSocietyRepository;
+import com.cbs.middleware.config.Constants;
+import com.cbs.middleware.domain.*;
+import com.cbs.middleware.repository.*;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyQueryService;
 import com.cbs.middleware.service.KamalSocietyService;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
+import com.cbs.middleware.service.dto.NewKmReportPayload;
+import com.cbs.middleware.service.dto.ReportDD;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
+
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import com.cbs.middleware.web.rest.utility.TranslationServiceUtility;
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.io.source.ByteArrayOutputStream;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.font.FontProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -30,19 +68,36 @@ import tech.jhipster.web.util.ResponseUtil;
 @RestController
 @RequestMapping("/api")
 public class KamalSocietyResource {
-
-    private final Logger log = LoggerFactory.getLogger(KamalSocietyResource.class);
-
     private static final String ENTITY_NAME = "kamalSociety";
-
+    private final Logger log = LoggerFactory.getLogger(KamalSocietyResource.class);
+    private final KamalSocietyService kamalSocietyService;
+    private final KamalSocietyRepository kamalSocietyRepository;
+    private final KamalSocietyQueryService kamalSocietyQueryService;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ResourceLoader resourceLoader;
+    @Autowired
+    KamalCropRepository kamalCropRepository;
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
+    @Autowired
+    private PacsMasterRepository pacsMasterRepository;
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
-    private final KamalSocietyService kamalSocietyService;
+    @Autowired
+    private CropRateMasterRepository cropRateMasterRepository;
+    @Autowired
+    private BankBranchMasterRepository bankBranchMasterRepository;
 
-    private final KamalSocietyRepository kamalSocietyRepository;
+    @Autowired
+    private TranslationServiceUtility translationServiceUtility;
 
-    private final KamalSocietyQueryService kamalSocietyQueryService;
+    @Autowired
+    private CropMasterRepository cropMasterRepository;
+    @Autowired
+    private TalukaMasterRepository talukaMasterRepository;
 
     public KamalSocietyResource(
         KamalSocietyService kamalSocietyService,
@@ -62,22 +117,76 @@ public class KamalSocietyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/kamal-societies")
-    public ResponseEntity<KamalSociety> createKamalSociety(@RequestBody KamalSociety kamalSociety) throws URISyntaxException {
+    public ResponseEntity<KamalSociety> createKamalSociety(@Valid @RequestBody KamalSociety kamalSociety) throws URISyntaxException {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            throw new BadRequestAlertException("Unauthorized User", ENTITY_NAME, "idnull");
+        }
+
+
         log.debug("REST request to save KamalSociety : {}", kamalSociety);
         if (kamalSociety.getId() != null) {
             throw new BadRequestAlertException("A new kamalSociety cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+        String pacsNumber = optUser.get().getPacsNumber();
+        kamalSociety.setPacsNumber(pacsNumber);
+        kamalSociety.setPacsName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getPacsNameMr());
+        kamalSociety.setBranchId(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getId());
+        kamalSociety.setBranchName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getBranchNameMr());
+        kamalSociety.setTalukaId(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getTalukaMaster().getId());
+        kamalSociety.setTalukaName(pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getTalukaMaster().getTalukaNameMr());
+
+        //set pacs number and FinancialYear to every kamalaCrop Object
+        Set<KamalCrop> kamalCrops = kamalSociety.getKamalCrops();
+        kamalCrops.forEach(kamalCrop -> {
+                kamalCrop.setPacsNumber(pacsNumber);
+                kamalCrop.setFinancialYear(kamalSociety.getFinancialYear());
+                kamalCrop.setKmDate(kamalSociety.getKmDate());
+                kamalCrop.setKmDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmDate())));
+                kamalCrop.setBranchAmount(kamalCrop.getPacsAmount());
+                kamalCrop.setHeadOfficeAmount(kamalCrop.getPacsAmount());
+                kamalCrop.setDivisionalOfficeAmount(kamalCrop.getPacsAmount());
+                kamalCrop.setAgriAdminAmount(kamalCrop.getPacsAmount());
+            }
+        );
+
+        kamalSociety.setKmDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmDate())));
+        kamalSociety.setKmFromDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmFromDate())));
+        kamalSociety.setKmToDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getKmToDate())));
+        kamalSociety.setBalanceSheetDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate())));
+        kamalSociety.setZindagiPatrakDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getZindagiPatrakDate())));
+        kamalSociety.setBankTapasaniDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBankTapasaniDate())));
+        kamalSociety.setBalanceSheetDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getBalanceSheetDate())));
+        kamalSociety.setGovTapasaniDateMr(translationServiceUtility.oneZeroOneDateMr(InstantToLocalDate(kamalSociety.getGovTapasaniDate())));
+
+        kamalSociety.setKamalCrops(kamalCrops);
+
         KamalSociety result = kamalSocietyService.save(kamalSociety);
+
         return ResponseEntity
             .created(new URI("/api/kamal-societies/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
+    private LocalDate InstantToLocalDate(Instant instantDate) {
+        if (instantDate.equals(null)) {
+            return null;
+        }
+        ZonedDateTime zonedDateTime = instantDate.atZone(ZoneId.of("Asia/Kolkata"));
+
+        LocalDate localDate = zonedDateTime.toLocalDate();
+        return localDate;
+    }
+
     /**
      * {@code PUT  /kamal-societies/:id} : Updates an existing kamalSociety.
      *
-     * @param id the id of the kamalSociety to save.
+     * @param id           the id of the kamalSociety to save.
      * @param kamalSociety the kamalSociety to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kamalSociety,
      * or with status {@code 400 (Bad Request)} if the kamalSociety is not valid,
@@ -87,8 +196,11 @@ public class KamalSocietyResource {
     @PutMapping("/kamal-societies/{id}")
     public ResponseEntity<KamalSociety> updateKamalSociety(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KamalSociety kamalSociety
+        @Valid @RequestBody KamalSociety kamalSociety
     ) throws URISyntaxException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
         log.debug("REST request to update KamalSociety : {}, {}", id, kamalSociety);
         if (kamalSociety.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -108,10 +220,24 @@ public class KamalSocietyResource {
             .body(result);
     }
 
+    private void authenticateTOAccessKamalSociety(Authentication auth) {
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        if (!authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_ZONAL_OFFICER) &&
+            !authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN) &&
+            !authority.toString().equals(AuthoritiesConstants.ADMIN)
+        ) {
+            throw new BadRequestAlertException("Unauthorized User", ENTITY_NAME, "idnull");
+        }
+    }
+
     /**
      * {@code PATCH  /kamal-societies/:id} : Partial updates given fields of an existing kamalSociety, field will ignore if it is null
      *
-     * @param id the id of the kamalSociety to save.
+     * @param id           the id of the kamalSociety to save.
      * @param kamalSociety the kamalSociety to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated kamalSociety,
      * or with status {@code 400 (Bad Request)} if the kamalSociety is not valid,
@@ -119,12 +245,15 @@ public class KamalSocietyResource {
      * or with status {@code 500 (Internal Server Error)} if the kamalSociety couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/kamal-societies/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PatchMapping(value = "/kamal-societies/{id}", consumes = {"application/json", "application/merge-patch+json"})
     public ResponseEntity<KamalSociety> partialUpdateKamalSociety(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody KamalSociety kamalSociety
+        @NotNull @RequestBody KamalSociety kamalSociety
     ) throws URISyntaxException {
         log.debug("REST request to partial update KamalSociety partially : {}, {}", id, kamalSociety);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
         if (kamalSociety.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -157,6 +286,75 @@ public class KamalSocietyResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get KamalSocieties by criteria: {}", criteria);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        authenticateTOAccessKamalSociety(auth);
+
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_ADMIN)) {
+            Long branchId = bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
+            LongFilter branchIdFilter = new LongFilter();
+            branchIdFilter.setEquals(branchId);
+
+            BooleanFilter pacsVerifiedFilter = new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
+
+            BooleanFilter branchVerifiedFlag = new BooleanFilter();
+            branchVerifiedFlag.setEquals(true);
+
+            criteria.setBranchId(branchIdFilter);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchVerifiedFlag(branchVerifiedFlag);
+
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+            Long branchId = bankBranchMasterRepository.findOneBySchemeWiseBranchCode(optUser.get().getSchemeWiseBranchCode()).get().getId();
+            LongFilter branchIdFilter = new LongFilter();
+            branchIdFilter.setEquals(branchId);
+
+            BooleanFilter pacsVerifiedFilter = new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchId(branchIdFilter);
+
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            String pacsNumber = optUser.get().getPacsNumber();
+            StringFilter pacsNumberFilter = new StringFilter();
+            pacsNumberFilter.setEquals(pacsNumber);
+            criteria.setPacsNumber(pacsNumberFilter);
+
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_ZONAL_OFFICER)) {
+            TalukaMaster talukaName = talukaMasterRepository.findOneByTalukaName(optUser.get().getTalukaName());
+
+            BooleanFilter pacsVerifiedFilter = new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
+            BooleanFilter branchVerifiedFilter = new BooleanFilter();
+            branchVerifiedFilter.setEquals(true);
+            BooleanFilter headOfficeVerifiedFilter = new BooleanFilter();
+            headOfficeVerifiedFilter.setEquals(true);
+            LongFilter talukaFilter = new LongFilter();
+            talukaFilter.setEquals(talukaName.getId());
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchVerifiedFlag(branchVerifiedFilter);
+            criteria.setHeadOfficeVerifiedFlag(headOfficeVerifiedFilter);
+            criteria.setTalukaId(talukaFilter);
+        } else if (authority.toString().equals(AuthoritiesConstants.ROLE_AGRI_ADMIN)) {
+            BooleanFilter pacsVerifiedFilter = new BooleanFilter();
+            pacsVerifiedFilter.setEquals(true);
+            BooleanFilter branchVerifiedFilter = new BooleanFilter();
+            branchVerifiedFilter.setEquals(true);
+            BooleanFilter headOfficeVerifiedFilter = new BooleanFilter();
+            headOfficeVerifiedFilter.setEquals(true);
+            BooleanFilter divisionalOfficeVerifiedFilter = new BooleanFilter();
+            divisionalOfficeVerifiedFilter.setEquals(true);
+            criteria.setPacsVerifiedFlag(pacsVerifiedFilter);
+            criteria.setBranchVerifiedFlag(branchVerifiedFilter);
+            criteria.setHeadOfficeVerifiedFlag(headOfficeVerifiedFilter);
+            criteria.setDivisionalOfficeVerifiedFlag(divisionalOfficeVerifiedFilter);
+        }
+
         Page<KamalSociety> page = kamalSocietyQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
@@ -201,5 +399,1034 @@ public class KamalSocietyResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+
+    @GetMapping("/DD1Report")
+    public ResponseEntity<byte[]> generatePDFFromHTML() throws Exception {
+
+        List<String> htmlList = new ArrayList<>();
+
+        String htmlStringForPdf = null;
+
+        // Parse input string to Instant
+        Instant inputInstant = Instant.parse("2024-03-30T09:39:52Z");
+        // Truncate time to midnight (00:00:00)
+        Instant resultInstant = inputInstant.truncatedTo(ChronoUnit.DAYS);
+
+        Optional<KamalSociety> kamalSociety = kamalSocietyRepository.findById(1L);
+        //List<KamalSociety> all = kamalSocietyRepository.findAll();
+        int sumOfMemberFarmer = kamalSocietyRepository.sumOfMemberFarmer(kamalSociety.get().getPacsNumber(), kamalSociety.get().getFinancialYear());
+
+        String sumOfMemberFarmerMr = TranslationServiceUtility.numberTOMarathiNumber(String.valueOf(sumOfMemberFarmer));
+        List<ReportDD> reportData = new ArrayList<>();
+
+        String fy = "2023-2024";
+        String kmDate = "2023-01-01T00:00:00.000Z";
+        String kmFromDate = "2024-04-01T00:00:00.000Z";
+        String KmToDate = "2024-03-31T00:00:00.000Z";
+
+        Instant kmDateInstant = Instant.parse(kmDate);
+        Instant kmFromDateInstant = Instant.parse(kmFromDate);
+        Instant KmToDateInstant = Instant.parse(KmToDate);
+
+        // List<KamalSociety> all=kamalSocietyRepository.findByFyAndKmDateAndKmFromToKmToDate(fy,kmDateInstant,kmFromDateInstant,KmToDateInstant);
+
+        List<KamalSociety> all = kamalSocietyRepository.findAll();
+        // Grouping KamalSociety by branchName
+        Map<String, List<KamalSociety>> groupedByBranchName = all.stream()
+            .collect(Collectors.groupingBy(KamalSociety::getBranchName));
+
+        // Iterating through the groupedByBranchName map
+        for (Map.Entry<String, List<KamalSociety>> entry : groupedByBranchName.entrySet()) {
+            String branchName = entry.getKey();
+            List<KamalSociety> kamalSocieties = entry.getValue();
+
+            // Creating ReportDD and adding it to the reportData list
+            ReportDD reportDD = new ReportDD(branchName, kamalSocieties);
+            reportData.add(reportDD);
+        }
+
+        List<KamalSociety> toPrint = new ArrayList<KamalSociety>();
+
+        for (int i = 0; i < reportData.size(); i++) {
+            ReportDD data = reportData.get(i);
+            KamalSociety KamalSocietyForBranchName = new KamalSociety();
+            KamalSocietyForBranchName.setPacsName(data.getBranchName());
+            toPrint.add(KamalSocietyForBranchName);
+            int sumTotalLand = 0;
+            int sumBagayat = 0;
+            int sumJirayat = 0;
+            int sumTotalFarmer = 0;
+            int sumMemberFarmer = 0;
+            int sumNonMemberFarmer = 0;
+
+            for (int j = 0; j < data.getKamalSocieties().size(); j++) {
+                KamalSociety temp = data.getKamalSocieties().get(j);
+                temp.setId(0L);
+                sumTotalLand = sumTotalLand + Integer.parseInt(temp.getTotalLand());
+                sumBagayat = sumBagayat + Integer.parseInt(temp.getBagayat());
+                sumJirayat = sumJirayat + Integer.parseInt(temp.getJirayat());
+                sumTotalFarmer = sumTotalFarmer + Integer.parseInt(temp.getTotalFarmer());
+                sumMemberFarmer = sumMemberFarmer + Integer.parseInt(temp.getMemberFarmer());
+                sumNonMemberFarmer = sumNonMemberFarmer + Integer.parseInt(temp.getNonMemberFarmer());
+
+                toPrint.add(temp);
+            }
+
+            KamalSociety total = new KamalSociety();
+            total.setPacsName("एकुण");
+            total.setId(Long.valueOf(data.getKamalSocieties().size()));
+            total.setTotalLand("" + sumTotalLand);
+            total.setBagayat("" + sumBagayat);
+            total.setJirayat("" + sumJirayat);
+            total.setTotalFarmer("" + sumTotalFarmer);
+            total.setMemberFarmer("" + sumMemberFarmer);
+            total.setNonMemberFarmer("" + sumNonMemberFarmer);
+            toPrint.add(total);
+
+        }
+
+        htmlStringForPdf = DD1Template("newKm/DD1.html", toPrint, sumOfMemberFarmerMr, TranslationServiceUtility.getInstance());
+
+        htmlList.add(htmlStringForPdf);
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+    private String DD1Template(String template, List<KamalSociety> reportDD, String sumOfMemberFarmerMr, TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("reportDD", reportDD);
+        context.setVariable("sumOfMemberFarmerMr", sumOfMemberFarmerMr);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+
+        String content = templateEngine.process(template, context);
+        return content;
+    }
+
+    String getUniqueNumberString() {
+        Calendar cal = new GregorianCalendar();
+        return
+            "" +
+                cal.get(Calendar.MILLISECOND);
+    }
+
+
+    //Manjuri Crop Detail
+
+    @PostMapping("/kmReports")
+    public ResponseEntity<byte[]> generateManjuriPDFFromHTML(@RequestBody NewKmReportPayload newKmReportPayload) throws Exception {
+        String financialYear = newKmReportPayload.getFinancialYear();
+        String pacsNumber = newKmReportPayload.getPacsNumber();
+        Instant kmDate = newKmReportPayload.getKmDate();
+
+        List<String> htmlList = new ArrayList<>();
+
+        String htmlStringForPdf = null;
+
+
+        List<KamalCrop> sugarcaneMarginalListDB = kamalCropRepository.findBySugarcaneMarginal(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> sugarcaneMarginalListToPrint = new ArrayList<>();
+        if (!sugarcaneMarginalListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneMarginalList = getCropListWithAmountAsPerCropRate(sugarcaneMarginalListDB, financialYear);
+            sugarcaneMarginalListToPrint.addAll(sugarcaneMarginalList);
+        }
+
+        List<KamalCrop> sugarcaneSmallListDB = kamalCropRepository.findBySugarcaneSmall(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> sugarcaneSmallListToPrint = new ArrayList<>();
+        if (!sugarcaneSmallListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneSmallList = getCropListWithAmountAsPerCropRate(sugarcaneSmallListDB, financialYear);
+            sugarcaneSmallListToPrint.addAll(sugarcaneSmallList);
+        }
+
+        //to get the sugarcane एकूण (अ)
+        KamalCrop totalSugarcaneA = getObjectOfTotal(sugarcaneMarginalListToPrint, sugarcaneSmallListToPrint);
+
+
+        List<KamalCrop> sugarcaneOtherListDB = kamalCropRepository.findBySugarcaneOther(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> sugarcaneOtherListToPrint = new ArrayList<>();
+        if (!sugarcaneOtherListDB.isEmpty()) {
+            List<KamalCrop> sugarcaneOtherList = getCropListWithAmountAsPerCropRate(sugarcaneOtherListDB, financialYear);
+            sugarcaneOtherListToPrint.addAll(sugarcaneOtherList);
+        }
+        //to get the sugarcane एकूण (ब)
+        KamalCrop totalSugarcaneB = getObjectOfTotal(sugarcaneOtherListToPrint);
+
+        //to get the sugarcane एकूण (अ+ब)
+        KamalCrop totalSugarcaneAplusB = getObjectOfTotal(Collections.singletonList(totalSugarcaneA), Collections.singletonList(totalSugarcaneB));
+
+        List<KamalCrop> kharipMarginalListDB = kamalCropRepository.findByKharipMarginal(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> kharipMarginalListToPrint = new ArrayList<>();
+        if (!kharipMarginalListDB.isEmpty()) {
+            List<KamalCrop> kharipMarginalList = getCropListWithAmountAsPerCropRate(kharipMarginalListDB, financialYear);
+            kharipMarginalListToPrint.addAll(kharipMarginalList);
+        }
+
+        List<KamalCrop> kharipSmallListDB = kamalCropRepository.findByKharipSmall(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> kharipSmallListToPrint = new ArrayList<>();
+        if (!kharipSmallListDB.isEmpty()) {
+            List<KamalCrop> kharipSmallList = getCropListWithAmountAsPerCropRate(kharipSmallListDB, financialYear);
+            kharipSmallListToPrint.addAll(kharipSmallList);
+        }
+        //to get the kharip एकूण (अ)
+        KamalCrop totalKharipA = getObjectOfTotal(kharipMarginalListToPrint, kharipSmallListToPrint);
+
+        List<KamalCrop> kharipOtherListDB = kamalCropRepository.findByKharipOther(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> kharipOtherListToPrint = new ArrayList<>();
+        if (!kharipOtherListDB.isEmpty()) {
+            List<KamalCrop> kharipOtherList = getCropListWithAmountAsPerCropRate(kharipOtherListDB, financialYear);
+            kharipOtherListToPrint.addAll(kharipOtherList);
+        }
+        //to get the kharip एकूण (ब)
+        KamalCrop totalKharipB = getObjectOfTotal(kharipOtherListToPrint);
+
+        //to get the kharip एकूण (अ+ब)
+        KamalCrop totalKharipAplusB = getObjectOfTotal(Collections.singletonList(totalKharipA), Collections.singletonList(totalKharipB));
+
+
+        List<KamalCrop> rabbiMarginalListDB = kamalCropRepository.findByRabbiMarginal(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> rabbiMarginalListToPrint = new ArrayList<>();
+        if (!rabbiMarginalListDB.isEmpty()) {
+            List<KamalCrop> rabbiMarginalList = getCropListWithAmountAsPerCropRate(rabbiMarginalListDB, financialYear);
+            rabbiMarginalListToPrint.addAll(rabbiMarginalList);
+        }
+
+        List<KamalCrop> rabbiSmallListDB = kamalCropRepository.findByRabbiSmall(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> rabbiSmallListToPrint = new ArrayList<>();
+        if (!rabbiSmallListDB.isEmpty()) {
+            List<KamalCrop> rabbiSmallList = getCropListWithAmountAsPerCropRate(rabbiSmallListDB, financialYear);
+            rabbiSmallListToPrint.addAll(rabbiSmallList);
+        }
+        //to get the rabbi एकूण (अ)
+        KamalCrop totalRabbiA = getObjectOfTotal(rabbiMarginalListToPrint, rabbiSmallListToPrint);
+
+        List<KamalCrop> rabbiOtherListDB = kamalCropRepository.findByRabbiOther(financialYear, pacsNumber, kmDate);
+        List<KamalCrop> rabbiOtherListToPrint = new ArrayList<>();
+        if (!rabbiOtherListDB.isEmpty()) {
+            List<KamalCrop> rabbiOtherList = getCropListWithAmountAsPerCropRate(rabbiOtherListDB, financialYear);
+            rabbiOtherListToPrint.addAll(rabbiOtherList);
+        }
+        //to get the Rabbi एकूण (ब)
+        KamalCrop totalRabbiB = getObjectOfTotal(rabbiOtherListToPrint);
+
+        //to get the Rabbi एकूण (अ+ब)
+        KamalCrop totalRabbiAplusB = getObjectOfTotal(Collections.singletonList(totalRabbiA), Collections.singletonList(totalRabbiB));
+
+        //to get total एकूण (१+२+३)
+        List<KamalCrop> grandTotalList = new ArrayList<>();
+        grandTotalList.add(totalSugarcaneAplusB);
+        grandTotalList.add(totalKharipAplusB);
+        grandTotalList.add(totalRabbiAplusB);
+        KamalCrop grandTotal = getObjectOfTotal(grandTotalList);
+
+
+        //for 1) karyalayeenNivedan Report
+        Optional<KamalSociety> kamalSocietyOptional = kamalSocietyRepository.findByFyPacsNumberKmDate(financialYear, pacsNumber, kmDate);
+        DecimalFormat decimalFormat = new DecimalFormat();
+        KamalSociety kamalSociety = kamalSocietyOptional.get();
+        KamalSociety kamalaSocietyWithAmountInDecimal = kamalSocietyWithAmountInDecimal(kamalSociety);
+
+        List<KamalCrop> marginalSummary = new ArrayList<>();
+        marginalSummary.addAll(sugarcaneMarginalListToPrint);
+        marginalSummary.addAll(kharipMarginalListToPrint);
+        marginalSummary.addAll(rabbiMarginalListToPrint);
+
+        List<KamalCrop> smallSummary = new ArrayList<>();
+        smallSummary.addAll(sugarcaneSmallListToPrint);
+        smallSummary.addAll(kharipSmallListToPrint);
+        smallSummary.addAll(rabbiSmallListToPrint);
+
+        List<KamalCrop> otherSummary = new ArrayList<>();
+        otherSummary.addAll(sugarcaneOtherListToPrint);
+        otherSummary.addAll(kharipOtherListToPrint);
+        otherSummary.addAll(rabbiOtherListToPrint);
+
+        List<KamalCrop> marginalSummaryToPrint = new ArrayList<>();
+        List<KamalCrop> smallSummaryToPrint = new ArrayList<>();
+        List<KamalCrop> otherSummaryToPrint = new ArrayList<>();
+
+        //addition of memberCount,area,pacsAmount,branchAmount,headOfficeAmount in 1st element of printList
+
+        marginalSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(marginalSummary);
+        smallSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(smallSummary);
+        otherSummaryToPrint = getListWithSumForKarayalayeenNivedanReport(otherSummary);
+
+        List<KamalCrop> totalSummaryList = new ArrayList<>();
+        totalSummaryList.addAll(marginalSummaryToPrint);
+        totalSummaryList.addAll(smallSummaryToPrint);
+        totalSummaryList.addAll(otherSummaryToPrint);
+
+        KamalCrop totalSummaryToPrint = getObjectOfTotal(totalSummaryList);
+
+
+        //for 2) mukhyaKacheriShifaras Report
+
+        //for 4) pikKarjMagni Report
+        KamalCrop sugarCaneMarginal = getObjectOfTotal(sugarcaneMarginalListToPrint);
+        KamalCrop sugarCaneSmall = getObjectOfTotal(sugarcaneSmallListToPrint);
+        KamalCrop sugarCaneOther = getObjectOfTotal(sugarcaneOtherListToPrint);
+
+        KamalCrop kharipMarginal = getObjectOfTotal(kharipMarginalListToPrint);
+        KamalCrop kharipSmall = getObjectOfTotal(kharipSmallListToPrint);
+        KamalCrop kharipOther = getObjectOfTotal(kharipOtherListToPrint);
+
+        KamalCrop rabbiMarginal = getObjectOfTotal(rabbiMarginalListToPrint);
+        KamalCrop rabbiSmall = getObjectOfTotal(rabbiSmallListToPrint);
+        KamalCrop rabbiOther = getObjectOfTotal(rabbiOtherListToPrint);
+
+        // KamalCrop  totalOfKmMagani=getTotalOfKmMagani(totalSugarcaneAplusB,totalKharipAplusB,totalRabbiAplusB);
+
+        switch (newKmReportPayload.getTemplateName()) {
+
+            //page 1
+            case "karyalayeenNivedan":
+                htmlStringForPdf = karyalayeenNivedanTemplate("newKm/karyalayeenNivedan.html",
+                    kamalaSocietyWithAmountInDecimal,
+                    marginalSummaryToPrint,
+                    smallSummaryToPrint,
+                    otherSummaryToPrint,
+                    totalSummaryToPrint,
+                    sugarcaneMarginalListToPrint,
+                    sugarcaneSmallListToPrint,
+                    totalSugarcaneA,
+                    sugarcaneOtherListToPrint,
+                    totalSugarcaneB,
+                    totalSugarcaneAplusB,
+                    kharipMarginalListToPrint,
+                    kharipSmallListToPrint,
+                    totalKharipA,
+                    kharipOtherListToPrint,
+                    totalKharipB,
+                    totalKharipAplusB,
+                    rabbiMarginalListToPrint,
+                    rabbiSmallListToPrint,
+                    totalRabbiA,
+                    rabbiOtherListToPrint,
+                    totalRabbiB,
+                    totalRabbiAplusB,
+                    grandTotal,
+                    TranslationServiceUtility.getInstance()
+                );
+                htmlList.add(htmlStringForPdf);
+                break;
+
+            //page 2
+            case "mukhyaKacheriShifaras":
+                htmlStringForPdf = mukhyaKacheriShifarasTemplate("newKm/mukhyaKacheriShifaras.html",
+                    kamalaSocietyWithAmountInDecimal,
+                    marginalSummaryToPrint,
+                    smallSummaryToPrint,
+                    otherSummaryToPrint,
+                    totalSummaryToPrint,
+                    TranslationServiceUtility.getInstance()
+                );
+                htmlList.add(htmlStringForPdf);
+                break;
+
+
+            //page3
+            case "karjManjuriShifaras":
+                htmlStringForPdf = karjManjuriShifarasTemplate("newKm/karjManjuriShifaras.html",
+                    sugarcaneMarginalListToPrint,
+                    sugarcaneSmallListToPrint,
+                    totalSugarcaneA,
+                    sugarcaneOtherListToPrint,
+                    totalSugarcaneB,
+                    totalSugarcaneAplusB,
+                    kharipMarginalListToPrint,
+                    kharipSmallListToPrint,
+                    totalKharipA,
+                    kharipOtherListToPrint,
+                    totalKharipB,
+                    totalKharipAplusB,
+                    rabbiMarginalListToPrint,
+                    rabbiSmallListToPrint,
+                    totalRabbiA,
+                    rabbiOtherListToPrint,
+                    totalRabbiB,
+                    totalRabbiAplusB,
+                    grandTotal,
+                    TranslationServiceUtility.getInstance());
+
+                htmlList.add(htmlStringForPdf);
+                break;
+
+            //page 4
+            case "pikKarjMagni":
+                htmlStringForPdf = pikKarjMagniTemplate("newKm/pikKarjMagni.html",
+                    kamalaSocietyWithAmountInDecimal,
+                    sugarCaneMarginal,
+                    sugarCaneSmall,
+                    sugarCaneOther,
+                    totalSugarcaneAplusB,
+                    kharipMarginal,
+                    kharipSmall,
+                    kharipOther,
+                    totalKharipAplusB,
+                    rabbiMarginal,
+                    rabbiSmall,
+                    rabbiOther,
+                    totalRabbiAplusB,
+                    grandTotal,
+                    Constants.imagePath,
+                    TranslationServiceUtility.getInstance()
+                );
+                htmlList.add(htmlStringForPdf);
+                break;
+
+
+            //page 5
+            case "sanchalakShifaras":
+                htmlStringForPdf = sanchalakShifarasTemplate("newKm/sanchalakShifaras.html");
+                htmlList.add(htmlStringForPdf);
+                break;
+
+
+            //page 6
+            case "bankGahanKhat":
+                htmlStringForPdf = bankGahanKhatTemplate("newKm/bankGahanKhat.html");
+                htmlList.add(htmlStringForPdf);
+                break;
+
+
+            //page 7
+            case "karjVatapSlip":
+                htmlStringForPdf = karjVatapSlipTemplate("newKm/karjVatapSlip.html");
+
+                htmlList.add(htmlStringForPdf);
+                break;
+
+
+            //page 8
+            case "vachanPatrika":
+                htmlStringForPdf = vachanPatrikaTemplate("newKm/vachanPatrika.html");
+                htmlList.add(htmlStringForPdf);
+                break;
+
+        }
+
+
+        ResponseEntity<byte[]> response = null;
+        if (htmlList.size() == 1) {
+            //code for the generating pdf from html string
+
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream);
+            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+            String templateName = newKmReportPayload.getTemplateName();
+            if (templateName.equalsIgnoreCase("karjVatapSlip") || templateName.equalsIgnoreCase("vachanPatrika")) {
+                pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+            }
+            if (templateName.equalsIgnoreCase("pikKarjMagni")) {
+                pdfDocument.setDefaultPageSize(PageSize.LEGAL);
+            }
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+
+            File file = new File(Constants.fontFilePath);
+            File file1 = new File(Constants.fontFilePath1);
+
+            // Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            //String filepath=resource.getFile().getAbsolutePath();
+
+            String filepath = file.getAbsolutePath();
+            String filepath1 = file1.getAbsolutePath();
+
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+            fontProvider.addFont(filepath1, PdfEncodings.IDENTITY_H);
+
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            //converting html to pdf
+            HtmlConverter.convertToPdf(htmlList.get(0), pdfDocument, converterProperties);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Type", "application/pdf");
+            headers.add("content-disposition", "attachment; filename=" + getUniqueNumberString() + "certificate.pdf");
+            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+            response = new ResponseEntity<byte[]>(byteArrayOutputStream.toByteArray(), headers, HttpStatus.OK);
+        } else if (htmlList.size() > 1) {
+
+            // Create ConverterProperties and set the font provider
+            ConverterProperties converterProperties = new ConverterProperties();
+
+            FontProvider fontProvider = new FontProvider();
+            Resource resource = resourceLoader.getResource("classpath:" + "fonts/NotoSans-Regular.ttf");
+            String filepath = resource.getFile().getAbsolutePath();
+            fontProvider.addFont(filepath, PdfEncodings.IDENTITY_H);
+
+            converterProperties.setFontProvider(fontProvider);
+            converterProperties.setCharset("UTF-8");
+
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+
+                for (String htmlString : htmlList) {
+
+                    //code for the generating pdf from html string
+
+                    ByteArrayOutputStream byteArrayOutputStream1 = new ByteArrayOutputStream();
+                    PdfWriter pdfWriter = new PdfWriter(byteArrayOutputStream1);
+                    PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+                    pdfDocument.setDefaultPageSize(PageSize.A3.rotate());
+
+                    //converting html to pdf
+                    HtmlConverter.convertToPdf(htmlString, pdfDocument, converterProperties);
+
+                    //adding files in zip
+                    ZipEntry zipEntry = new ZipEntry("certificate" + getUniqueNumberString() + ".pdf");
+                    zipOutputStream.putNextEntry(zipEntry);
+                    zipOutputStream.write(byteArrayOutputStream1.toByteArray());
+                    zipOutputStream.closeEntry();
+                }
+
+                zipOutputStream.close();
+                byteArrayOutputStream.close();
+
+                byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", "file" + getUniqueNumberString() + ".zip");
+
+                return new ResponseEntity<>(zipBytes, headers, HttpStatus.OK);
+            } catch (Exception e) {
+                throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+            }
+
+        } else {
+            throw new BadRequestAlertException("Error in file downloading", ENTITY_NAME, "errorInFileDownload");
+        }
+
+        return response;
+    }
+
+
+
+/*    private KamalCrop getTotalOfKmMagani(KamalCrop totalSugarcaneAplusB, KamalCrop totalKharipAplusB, KamalCrop totalRabbiAplusB) {
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double agriAdminAmount = 0.0;
+
+        int maxFromSugarcaneAndKharip = Math.max(Integer.parseInt(totalSugarcaneAplusB.getMemberCount()), Integer.parseInt(totalKharipAplusB.getMemberCount()));
+         totalMemberCount = Math.max(maxFromSugarcaneAndKharip, Integer.parseInt(totalSugarcaneAplusB.getMemberCount()));
+
+        int maxFromSugarcaneAndKharip = Math.max(Double.parseInt(totalSugarcaneAplusB.getArea()), Integer.parseInt(totalKharipAplusB.getMemberCount()));
+        totalMemberCount = Math.max(maxFromSugarcaneAndKharip, Integer.parseInt(totalSugarcaneAplusB.getMemberCount()));
+
+    }*/
+
+
+    private KamalSociety kamalSocietyWithAmountInDecimal(KamalSociety kamalSociety) {
+        //KamalSociety newKamalSociety=new KamalSociety();
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        kamalSociety.setTotalLand(decimalFormat.format(Double.valueOf(kamalSociety.getTotalLand())));
+        kamalSociety.setBagayat(decimalFormat.format(Double.valueOf(kamalSociety.getBagayat())));
+
+        kamalSociety.setJirayat(decimalFormat.format(Double.valueOf(kamalSociety.getJirayat())));
+        kamalSociety.setMemDue(decimalFormat.format(Double.valueOf(kamalSociety.getMemDue())));
+        kamalSociety.setMemLoan(decimalFormat.format(Double.valueOf(kamalSociety.getMemLoan())));
+        kamalSociety.setMemVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuli())));
+        kamalSociety.setMemVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuliPer())));
+        kamalSociety.setBankLoan(decimalFormat.format(Double.valueOf(kamalSociety.getBankLoan())));
+        kamalSociety.setBankDue(decimalFormat.format(Double.valueOf(kamalSociety.getBankDue())));
+        kamalSociety.setBankVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuli())));
+        kamalSociety.setBankVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuliPer())));
+
+        kamalSociety.setLiabilityAdhikrutShareCapital(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityAdhikrutShareCapital())));
+        kamalSociety.setLiabilityVasulShareCapital(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityVasulShareCapital())));
+        kamalSociety.setLiabilityFund(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityFund())));
+        kamalSociety.setLiabilityBalanceSheetBankLoan(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityBalanceSheetBankLoan())));
+        kamalSociety.setLiabilityOtherPayable(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityOtherPayable())));
+        kamalSociety.setLiabilityProfit(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityProfit())));
+        kamalSociety.setLiabilitySpareFund(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilitySpareFund())));
+        kamalSociety.setLiabilityDeposite(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityDeposite())));
+
+        kamalSociety.setAssetCash(decimalFormat.format(Double.valueOf(kamalSociety.getAssetCash())));
+        kamalSociety.setAssetDeadStock(decimalFormat.format(Double.valueOf(kamalSociety.getAssetDeadStock())));
+        kamalSociety.setAssetImaratFund(decimalFormat.format(Double.valueOf(kamalSociety.getAssetImaratFund())));
+        kamalSociety.setAssetInvestment(decimalFormat.format(Double.valueOf(kamalSociety.getAssetInvestment())));
+        kamalSociety.setAssetLoss(decimalFormat.format(Double.valueOf(kamalSociety.getAssetLoss())));
+        kamalSociety.setAssetMemberLoan(decimalFormat.format(Double.valueOf(kamalSociety.getAssetMemberLoan())));
+        kamalSociety.setAssetOtherReceivable(decimalFormat.format(Double.valueOf(kamalSociety.getAssetOtherReceivable())));
+
+        kamalSociety.setTotalAsset(decimalFormat.format(Double.valueOf(kamalSociety.getTotalAsset())));
+        kamalSociety.setTotalLiability(decimalFormat.format(Double.valueOf(kamalSociety.getTotalLiability())));
+
+
+        return kamalSociety;
+    }
+
+
+    private List<KamalCrop> getListWithSumForKarayalayeenNivedanReport(List<KamalCrop> summaryList) {
+
+        //addition of memberCount,area,pacsAmount,branchAmount,headOfficeAmount in 1st element of printList
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double pacsAmount = 0.0;
+        double branchAmount = 0.0;
+        double headOfficeAmount = 0.0;
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+
+        for (KamalCrop kamalCrop : summaryList) {
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            }
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
+            }
+            if (kamalCrop.getPacsAmount() != null) {
+                pacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            }
+            if (kamalCrop.getBranchAmount() != null) {
+                branchAmount += Double.parseDouble(kamalCrop.getBranchAmount());
+            }
+            if (kamalCrop.getHeadOfficeAmount() != null) {
+                headOfficeAmount += Double.parseDouble(kamalCrop.getHeadOfficeAmount());
+            }
+        }
+        summaryList.get(0).setMemberCount(String.valueOf(totalMemberCount));
+        summaryList.get(0).setArea(decimalFormat.format(totalArea));
+        summaryList.get(0).setPacsAmount(decimalFormat.format(pacsAmount));
+        summaryList.get(0).setBranchAmount(decimalFormat.format(branchAmount));
+        summaryList.get(0).setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+
+        //if  same crop has different farmerTypes is available then to avoid duplicate cropName printing in report
+        if (summaryList.size() > 1) {
+            List<KamalCrop> kamalCropListWithDistinctCrop = new ArrayList<>();
+            for (int i = 0; i <= summaryList.size() - 2; i++) {
+                for (int j = i + 1; j <= summaryList.size() - 1; j++) {
+                    if (summaryList.get(i).getCropMaster().getId().equals(summaryList.get(j).getCropMaster().getId())) {
+                        KamalCrop kamalDistinctCrop = new KamalCrop();
+                        kamalDistinctCrop.setCropMaster(summaryList.get(i).getCropMaster());
+                        kamalCropListWithDistinctCrop.add(kamalDistinctCrop);
+                    }
+                }
+            }
+
+            if (!kamalCropListWithDistinctCrop.isEmpty()) {
+                kamalCropListWithDistinctCrop.get(0).setMemberCount(String.valueOf(totalMemberCount));
+                kamalCropListWithDistinctCrop.get(0).setArea(decimalFormat.format(totalArea));
+                kamalCropListWithDistinctCrop.get(0).setPacsAmount(decimalFormat.format(pacsAmount));
+                kamalCropListWithDistinctCrop.get(0).setBranchAmount(decimalFormat.format(branchAmount));
+                kamalCropListWithDistinctCrop.get(0).setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+
+                return kamalCropListWithDistinctCrop;
+            }
+        }
+        return summaryList;
+    }
+
+
+    private KamalCrop getObjectOfTotal(List<KamalCrop> kamalCropList) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        double totalCropEligibilityAmount = 0.0;
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double pacsAmount = 0.0;
+        double branchAmount = 0.0;
+        double divisionalOfficeAmount = 0.0;
+        double headOfficeAmount = 0.0;
+        double agriAdminAmount = 0.0;
+
+        for (KamalCrop kamalCrop : kamalCropList) {
+            // totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            }
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
+            }
+            if (kamalCrop.getPacsAmount() != null) {
+                pacsAmount += Double.parseDouble(kamalCrop.getPacsAmount());
+            }
+            if (kamalCrop.getBranchAmount() != null) {
+                branchAmount += Double.parseDouble(kamalCrop.getBranchAmount());
+            }
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                divisionalOfficeAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            }
+            if (kamalCrop.getHeadOfficeAmount() != null) {
+                headOfficeAmount += Double.parseDouble(kamalCrop.getHeadOfficeAmount());
+            }
+            if (kamalCrop.getAgriAdminAmount() != null) {
+                agriAdminAmount += Double.parseDouble(kamalCrop.getAgriAdminAmount());
+            }
+
+        }
+        KamalCrop kamalCropTotal = new KamalCrop();
+        kamalCropTotal.setCropEligibilityAmount(decimalFormat.format(totalCropEligibilityAmount));
+        kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
+        kamalCropTotal.setArea(decimalFormat.format(totalArea));
+        kamalCropTotal.setPacsAmount((decimalFormat.format(pacsAmount)));
+        kamalCropTotal.setBranchAmount((decimalFormat.format(branchAmount)));
+        kamalCropTotal.setDivisionalOfficeAmount((decimalFormat.format(divisionalOfficeAmount)));
+        kamalCropTotal.setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+        kamalCropTotal.setAgriAdminAmount(decimalFormat.format(agriAdminAmount));
+
+
+        return kamalCropTotal;
+    }
+
+    private KamalCrop getObjectOfTotal(List<KamalCrop> kamalCropList1, List<KamalCrop> kamalCropList2) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        double totalCropEligibilityAmount = 0.0;
+        int totalMemberCount = 0;
+        double totalArea = 0.0;
+        double totalAmount = 0.0;
+        double totalAgriAmount = 0.0;
+
+        for (KamalCrop kamalCrop : kamalCropList1) {
+            //totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            }
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
+            }
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            }
+            if (kamalCrop.getAgriAdminAmount() != null) {
+                totalAgriAmount += Double.parseDouble(kamalCrop.getAgriAdminAmount());
+            }
+        }
+
+        for (KamalCrop kamalCrop : kamalCropList2) {
+            //totalCropEligibilityAmount += Double.parseDouble(kamalCrop.getCropEligibilityAmount());
+            if (kamalCrop.getMemberCount() != null) {
+                totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
+            }
+            if (kamalCrop.getArea() != null) {
+                totalArea += Double.parseDouble(kamalCrop.getArea());
+            }
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                totalAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            }
+            if (kamalCrop.getAgriAdminAmount() != null) {
+                totalAgriAmount += Double.parseDouble(kamalCrop.getAgriAdminAmount());
+            }
+        }
+
+
+        KamalCrop kamalCropTotal = new KamalCrop();
+        kamalCropTotal.setCropEligibilityAmount(decimalFormat.format(totalCropEligibilityAmount));
+        kamalCropTotal.setMemberCount(String.valueOf(totalMemberCount));
+        kamalCropTotal.setArea(decimalFormat.format(totalArea));
+        kamalCropTotal.setDivisionalOfficeAmount(decimalFormat.format(totalAmount));
+        kamalCropTotal.setAgriAdminAmount(decimalFormat.format(totalAgriAmount));
+
+        return kamalCropTotal;
+
+    }
+
+
+    private List<KamalCrop> getCropListWithAmountAsPerCropRate(List<KamalCrop> kamalCropListDB, String financialYear) {
+        List<KamalCrop> kamalCropsWithAmount = new ArrayList<>();
+
+        for (KamalCrop kamalCrop : kamalCropListDB) {
+            // Optional<CropRateMaster> cropRateMasterDB = cropRateMasterRepository.findCropRateByCropAndFinancialYear(kamalCrop.getCropMaster().getId(), financialYear);
+            String cropRate = kamalCrop.getCropMaster().getCropRate();
+
+            if (cropRate != null) {
+                Double area = Double.parseDouble(kamalCrop.getArea());
+                double perHectorCropAmount = Double.parseDouble(cropRate);
+                double pacsAmount = area * perHectorCropAmount;
+                DecimalFormat decfor = new DecimalFormat("0.00");
+                String pacsAmountWithTwoDecimal = decfor.format(pacsAmount);
+                kamalCrop.setCropEligibilityAmount(String.valueOf(perHectorCropAmount));
+                KamalCrop savedInDbWithAmount = kamalCropRepository.save(kamalCrop);
+                kamalCropsWithAmount.add(savedInDbWithAmount);
+            } else {
+                kamalCropsWithAmount.add(kamalCrop);
+            }
+        }
+        return kamalCropsWithAmount;
+    }
+
+    private String karjManjuriShifarasTemplate(String template,
+                                               List<KamalCrop> sugarcaneMarginal,
+                                               List<KamalCrop> sugarcaneSmall,
+                                               KamalCrop totalSugarcaneA,
+                                               List<KamalCrop> sugarcaneOther,
+                                               KamalCrop totalSugarcaneB,
+                                               KamalCrop totalSugarcaneAplusB,
+                                               List<KamalCrop> kharipMarginal,
+                                               List<KamalCrop> kharipSmall,
+                                               KamalCrop totalKharipA,
+                                               List<KamalCrop> kharipOther,
+                                               KamalCrop totalKharipB,
+                                               KamalCrop totalKharipAplusB,
+                                               List<KamalCrop> rabbiMarginal,
+                                               List<KamalCrop> rabbiSmall,
+                                               KamalCrop totalRabbiA,
+                                               List<KamalCrop> rabbiOther,
+                                               KamalCrop totalRabbiB,
+                                               KamalCrop totalRabbiAplusB,
+                                               KamalCrop grandTotal,
+                                               TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("sugarcaneMarginal", sugarcaneMarginal);
+        context.setVariable("sugarcaneSmall", sugarcaneSmall);
+        context.setVariable("totalSugarcaneA", totalSugarcaneA);
+        context.setVariable("sugarcaneOther", sugarcaneOther);
+        context.setVariable("totalSugarcaneB", totalSugarcaneB);
+        context.setVariable("totalSugarcaneAplusB", totalSugarcaneAplusB);
+        context.setVariable("kharipMarginal", kharipMarginal);
+        context.setVariable("kharipSmall", kharipSmall);
+        context.setVariable("totalKharipA", totalKharipA);
+        context.setVariable("kharipOther", kharipOther);
+        context.setVariable("totalKharipB", totalKharipB);
+        context.setVariable("totalKharipAplusB", totalKharipAplusB);
+        context.setVariable("rabbiMarginal", rabbiMarginal);
+        context.setVariable("rabbiSmall", rabbiSmall);
+        context.setVariable("totalRabbiA", totalRabbiA);
+        context.setVariable("rabbiOther", rabbiOther);
+        context.setVariable("totalRabbiB", totalRabbiB);
+        context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
+        context.setVariable("grandTotal", grandTotal);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+        return templateEngine.process(template, context);
+
+    }
+
+    private String karyalayeenNivedanTemplate(String template,
+                                              KamalSociety kamalSociety,
+                                              List<KamalCrop> marginalSummary,
+                                              List<KamalCrop> smallSummary,
+                                              List<KamalCrop> otherSummary,
+                                              KamalCrop totalSummaryToPrint,
+                                              List<KamalCrop> sugarcaneMarginal,
+                                              List<KamalCrop> sugarcaneSmall,
+                                              KamalCrop totalSugarcaneA,
+                                              List<KamalCrop> sugarcaneOther,
+                                              KamalCrop totalSugarcaneB,
+                                              KamalCrop totalSugarcaneAplusB,
+                                              List<KamalCrop> kharipMarginal,
+                                              List<KamalCrop> kharipSmall,
+                                              KamalCrop totalKharipA,
+                                              List<KamalCrop> kharipOther,
+                                              KamalCrop totalKharipB,
+                                              KamalCrop totalKharipAplusB,
+                                              List<KamalCrop> rabbiMarginal,
+                                              List<KamalCrop> rabbiSmall,
+                                              KamalCrop totalRabbiA,
+                                              List<KamalCrop> rabbiOther,
+                                              KamalCrop totalRabbiB,
+                                              KamalCrop totalRabbiAplusB,
+                                              KamalCrop grandTotal,
+                                              TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kamalSociety", kamalSociety);
+        context.setVariable("marginalSummary", marginalSummary);
+        context.setVariable("smallSummary", smallSummary);
+        context.setVariable("otherSummary", otherSummary);
+        context.setVariable("totalSummaryToPrint", totalSummaryToPrint);
+        context.setVariable("sugarcaneMarginal", sugarcaneMarginal);
+        context.setVariable("sugarcaneSmall", sugarcaneSmall);
+        context.setVariable("totalSugarcaneA", totalSugarcaneA);
+        context.setVariable("sugarcaneOther", sugarcaneOther);
+        context.setVariable("totalSugarcaneB", totalSugarcaneB);
+        context.setVariable("totalSugarcaneAplusB", totalSugarcaneAplusB);
+        context.setVariable("kharipMarginal", kharipMarginal);
+        context.setVariable("kharipSmall", kharipSmall);
+        context.setVariable("totalKharipA", totalKharipA);
+        context.setVariable("kharipOther", kharipOther);
+        context.setVariable("totalKharipB", totalKharipB);
+        context.setVariable("totalKharipAplusB", totalKharipAplusB);
+        context.setVariable("rabbiMarginal", rabbiMarginal);
+        context.setVariable("rabbiSmall", rabbiSmall);
+        context.setVariable("totalRabbiA", totalRabbiA);
+        context.setVariable("rabbiOther", rabbiOther);
+        context.setVariable("totalRabbiB", totalRabbiB);
+        context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
+        context.setVariable("grandTotal", grandTotal);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+        return templateEngine.process(template, context);
+    }
+
+    private String mukhyaKacheriShifarasTemplate(String template,
+                                                 KamalSociety kamalSociety,
+                                                 List<KamalCrop> marginalSummary,
+                                                 List<KamalCrop> smallSummary,
+                                                 List<KamalCrop> otherSummary,
+                                                 KamalCrop totalSummaryToPrint,
+                                                 TranslationServiceUtility translationServiceUtility) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kamalSociety", kamalSociety);
+        context.setVariable("marginalSummary", marginalSummary);
+        context.setVariable("smallSummary", smallSummary);
+        context.setVariable("otherSummary", otherSummary);
+        context.setVariable("totalSummaryToPrint", totalSummaryToPrint);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+        return templateEngine.process(template, context);
+    }
+
+    private String pikKarjMagniTemplate(String template,
+                                        KamalSociety kamalSociety,
+                                        KamalCrop sugarCaneMarginal,
+                                        KamalCrop sugarCaneSmall,
+                                        KamalCrop sugarCaneOther,
+                                        KamalCrop totalSugarcaneAplusB,
+                                        KamalCrop kharipMarginal,
+                                        KamalCrop kharipSmall,
+                                        KamalCrop kharipOther,
+                                        KamalCrop totalKharipAplusB,
+                                        KamalCrop rabbiMarginal,
+                                        KamalCrop rabbiSmall,
+                                        KamalCrop rabbiOther,
+                                        KamalCrop totalRabbiAplusB,
+                                        KamalCrop grandTotal,
+                                        String imagePath,
+                                        TranslationServiceUtility translationServiceUtility
+    ) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        context.setVariable("kamalSociety", kamalSociety);
+        context.setVariable("sugarCaneMarginal", sugarCaneMarginal);
+        context.setVariable("sugarCaneSmall", sugarCaneSmall);
+        context.setVariable("sugarCaneOther", sugarCaneOther);
+        context.setVariable("totalSugarcaneAplusB", totalSugarcaneAplusB);
+        context.setVariable("kharipMarginal", kharipMarginal);
+        context.setVariable("kharipSmall", kharipSmall);
+        context.setVariable("kharipOther", kharipOther);
+        context.setVariable("totalKharipAplusB", totalKharipAplusB);
+        context.setVariable("rabbiMarginal", rabbiMarginal);
+        context.setVariable("rabbiSmall", rabbiSmall);
+        context.setVariable("rabbiOther", rabbiOther);
+        context.setVariable("totalRabbiAplusB", totalRabbiAplusB);
+        context.setVariable("grandTotal", grandTotal);
+        context.setVariable("imagePath", imagePath);
+        context.setVariable("translationServiceUtility", translationServiceUtility);
+
+        return templateEngine.process(template, context);
+    }
+
+    private String vachanPatrikaTemplate(String template) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        return templateEngine.process(template, context);
+    }
+
+    private String karjVatapSlipTemplate(String template) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        return templateEngine.process(template, context);
+    }
+
+    private String bankGahanKhatTemplate(String template) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        return templateEngine.process(template, context);
+    }
+
+    private String sanchalakShifarasTemplate(String template) {
+        Locale locale = Locale.forLanguageTag("en");
+        Context context = new Context(locale);
+        return templateEngine.process(template, context);
     }
 }

@@ -111,11 +111,12 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 2", nativeQuery = true)
     Long findKccPendingByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
 
-   // @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and verified_file=0", nativeQuery = true)
-   @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and download_file = 0", nativeQuery = true)
+    //@Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and download_file = 0", nativeQuery = true)
+    @Query(value = " SELECT count(distinct(pm.pacs_number)) from pacs_master pm,  bank_branch_master bbm,taluka_master tm WHERE pm.pacs_number IN(SELECT pacs_code from iss_portal_file where financial_year=:financialYear and verified_file=0 )and pm.bank_branch_master_id = bbm.id and bbm.taluka_Master_id =:talukaId ", nativeQuery = true)
     Integer findPendingForApprovalCountByBanchUser(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
+
     @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId ) and download_file = 1 and verified_file=0 ", nativeQuery = true)
-   Integer findPendingForApprovalCountByBanchAdmin(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
+    Integer findPendingForApprovalCountByBanchAdmin(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
     @Query(value = "select count(ipf.id) from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId)", nativeQuery = true)
     Integer findTotalIssPortalFileByTalukaId(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
@@ -123,17 +124,44 @@ public interface IssPortalFileRepository extends JpaRepository<IssPortalFile, Lo
     @Query(value = "select count(ipf.id) from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and exists (select 1 from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id = ipf.id) and batch_id is not null )", nativeQuery = true)
     Integer findNotNullIssPortalFile(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and ipf.app_submited_to_kcc_count>0",nativeQuery = true)
+    //@Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and ipf.app_submited_to_kcc_count>0", nativeQuery = true)
+    @Query(value = "SELECT count(distinct(pm.pacs_number)) from pacs_master pm,  bank_branch_master bbm,taluka_master tm WHERE pm.pacs_number IN(SELECT pacs_code from iss_portal_file where financial_year=:financialYear and app_submited_to_kcc_count>0)and pm.bank_branch_master_id = bbm.id and bbm.taluka_Master_id =:talukaId ;",nativeQuery = true)
     Integer findCompletedCountByTalukaId(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
-    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and ipf.error_record_count>0 AND ipf.app_submited_to_kcc_count=0",nativeQuery = true)
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId) and ipf.error_record_count>0 AND ipf.app_submited_to_kcc_count=0", nativeQuery = true)
     Integer findInProgressCountByTalukaId(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
 
     //BranchWise Pending Approvals
-    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 1 and verified_file=0 ",nativeQuery = true)
+    //@Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 1 and verified_file=0 ", nativeQuery = true)
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 1 and verified_file=1 ", nativeQuery = true)
     Long findBranchAdminApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
-    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 0",nativeQuery = true)
+
+    //@Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and download_file = 0", nativeQuery = true)
+    @Query(value = "select count(ipf.id)from iss_portal_file ipf where ipf.financial_year=:financialYear and ipf.scheme_wise_branch_code=:schemeWiseBranchCode and verified_file = 0", nativeQuery = true)
     Long findBranchUserApprovalPendingByBranchCodeAndFinancialYear(@Param("schemeWiseBranchCode") Long schemeWiseBranchCode, @Param("financialYear") String financialYear);
-    @Query(value = "select pacs_code,pacs_name,branch_name from iss_portal_file where scheme_wise_branch_code IN (select distinct(scheme_wise_branch_code) from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId )) and financial_year=:financialYear order by branch_name asc ;",nativeQuery = true)
+
+    @Query(value = "select pacs_code,pacs_name,branch_name from iss_portal_file where scheme_wise_branch_code IN (select distinct(scheme_wise_branch_code) from iss_portal_file where financial_year=:financialYear and scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id =:talukaId )) and financial_year=:financialYear order by branch_name asc ;", nativeQuery = true)
     List<Object[]> pacsUnderTaluka(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
+
+    @Query(value = " SELECT pm.pacs_number , pm.pacs_name , bbm.branch_name,tm.taluka_name from pacs_master pm,  bank_branch_master bbm,taluka_master tm WHERE pm.pacs_number NOT in(SELECT pacs_code from iss_portal_file where financial_year=:financialYear ) and pm.bank_branch_master_id = bbm.id and bbm.taluka_Master_id = tm.id ", nativeQuery = true)
+    List<Object[]> findRecordsWhoNotStarted(@Param("financialYear") String financialYear);
+
+    @Query(value = "select ipf.pacs_code, ipf.pacs_name, ipf.branch_name, ipf.financial_year from iss_portal_file ipf where ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16)) and download_file = 1 and verified_file=0 ",nativeQuery = true)
+    List<Object[]> findRecordsPendingFromBranchAdmin();
+
+   // @Query(value = "select ipf.pacs_code, ipf.pacs_name, ipf.branch_name, ipf.financial_year from iss_portal_file ipf  where ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) ) and download_file = 0 ",nativeQuery = true)
+    @Query(value = "select ipf.pacs_code, ipf.pacs_name, ipf.branch_name, ipf.financial_year from iss_portal_file ipf  where ipf.scheme_wise_branch_code in (select scheme_wise_branch_code from bank_branch_master where taluka_master_id in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16) ) and verified_file =0 ",nativeQuery = true)
+    List<Object[]> findRecordsPendingFromBranchUser();
+
+
+    //update counts
+    @Query(value = "SELECT count(distinct(pm.pacs_number)) from pacs_master pm,bank_branch_master bbm,taluka_master tm  WHERE pm.pacs_number NOT in(SELECT pacs_code from iss_portal_file where financial_year=:financialYear)  and pm.bank_branch_master_id = bbm.id and bbm.taluka_Master_id =:talukaId ",nativeQuery = true)
+    Integer findYetToStart(@Param("talukaId") Long talukaId, @Param("financialYear") String financialYear);
+
+    @Query(value = "select count(id) from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 2 and batch_id is null",nativeQuery = true)
+    Long findPendingFromPdccByPacsCodeAndFinancialYear(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
+
+    @Query(value = "select batch_id from application_transaction where iss_file_parser_id in (select id from iss_file_parser where iss_portal_file_id IN (select id from iss_portal_file where financial_year=:financialYear and pacs_code =:pacsCode)) and  application_status = 2 and batch_id is not null group by batch_id",nativeQuery = true)
+    List<String> getDistinctBatchId(@Param("pacsCode") Long pacsCode, @Param("financialYear") String financialYear);
+
 }

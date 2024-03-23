@@ -1,13 +1,18 @@
 package com.cbs.middleware.web.rest;
 
+import com.cbs.middleware.domain.User;
 import com.cbs.middleware.domain.VillageMaster;
+import com.cbs.middleware.repository.PacsMasterRepository;
+import com.cbs.middleware.repository.UserRepository;
 import com.cbs.middleware.repository.VillageMasterRepository;
+import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.VillageMasterQueryService;
 import com.cbs.middleware.service.VillageMasterService;
 import com.cbs.middleware.service.criteria.VillageMasterCriteria;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,13 +20,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -45,6 +55,11 @@ public class VillageMasterResource {
     private final VillageMasterRepository villageMasterRepository;
 
     private final VillageMasterQueryService villageMasterQueryService;
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PacsMasterRepository pacsMasterRepository;
 
     public VillageMasterResource(
         VillageMasterService villageMasterService,
@@ -159,6 +174,19 @@ public class VillageMasterResource {
         @org.springdoc.api.annotations.ParameterObject Pageable pageable
     ) {
         log.debug("REST request to get VillageMasters by criteria: {}", criteria);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        Optional<User> optUser = userRepository.findOneByLogin(auth.getName());
+
+        if (authority.toString().equals(AuthoritiesConstants.ROLE_PACS_USER)) {
+            String pacsNumber = optUser.get().getPacsNumber();
+            Long talukaId = pacsMasterRepository.findOneByPacsNumber(pacsNumber).get().getBankBranchMaster().getTalukaMaster().getId();
+            LongFilter talukaIdFilter=new LongFilter();
+            talukaIdFilter.setEquals(talukaId);
+            criteria.setTalukaMasterId(talukaIdFilter);
+        }
+
         Page<VillageMaster> page = villageMasterQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());

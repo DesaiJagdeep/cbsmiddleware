@@ -4,10 +4,11 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IKamalCrop } from '../kamal-crop.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../kamal-crop.test-samples';
 
-import { KamalCropService } from './kamal-crop.service';
+import { KamalCropService, RestKamalCrop } from './kamal-crop.service';
 
-const requireRestSample: IKamalCrop = {
+const requireRestSample: RestKamalCrop = {
   ...sampleWithRequiredData,
+  kmDate: sampleWithRequiredData.kmDate?.toJSON(),
 };
 
 describe('KamalCrop Service', () => {

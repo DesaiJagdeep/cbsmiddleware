@@ -109,7 +109,8 @@ public class KmDetailsCriteria implements Serializable, Criteria {
     private StringFilter surveyNoMr;
     private StringFilter gattNo;
     private StringFilter gattNoMr;
-
+    private InstantFilter dob;
+    private StringFilter financialYear;
 
     public KmDetailsCriteria() {
     }
@@ -160,6 +161,8 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         this.surveyNoMr = other.surveyNoMr == null ? null : other.surveyNoMr.copy();
         this.gattNo = other.gattNo == null ? null : other.gattNo.copy();
         this.gattNoMr = other.gattNoMr == null ? null : other.gattNoMr.copy();
+        this.dob = other.dob == null ? null : other.dob.copy();
+        this.financialYear = other.financialYear == null ? null : other.financialYear.copy();
     }
 
     @Override
@@ -835,6 +838,35 @@ public class KmDetailsCriteria implements Serializable, Criteria {
         return gattNoMr;
     }
 
+    public InstantFilter getDob() {
+        return dob;
+    }
+
+    public InstantFilter dob() {
+        if (dob == null) {
+            dob = new InstantFilter();
+        }
+        return dob;
+    }
+
+    public void setDob(InstantFilter dob) {
+        this.dob = dob;
+    }
+
+    public StringFilter getFinancialYear() {
+        return financialYear;
+    }
+
+    public StringFilter financialYear() {
+        if (financialYear == null) {
+            financialYear = new StringFilter();
+        }
+        return financialYear;
+    }
+    public void setFinancialYear(StringFilter financialYear) {
+        this.financialYear = financialYear;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -889,6 +921,8 @@ public class KmDetailsCriteria implements Serializable, Criteria {
                 Objects.equals(surveyNoMr, that.surveyNoMr) &&
                 Objects.equals(gattNo, that.gattNo) &&
                 Objects.equals(gattNoMr, that.gattNoMr) &&
+                Objects.equals(dob, that.dob) &&
+                Objects.equals(financialYear, that.financialYear) &&
                 Objects.equals(distinct, that.distinct)
 
 
@@ -939,6 +973,8 @@ public class KmDetailsCriteria implements Serializable, Criteria {
             bojaDate,
             bojaDateMr,
             kmMasterId,
+            dob,
+            financialYear,
             distinct
         );
     }
@@ -988,6 +1024,8 @@ public class KmDetailsCriteria implements Serializable, Criteria {
             (bojaDate != null ? "bojaDate=" + bojaDate + ", " : "") +
             (bojaDateMr != null ? "bojaDateMr=" + bojaDateMr + ", " : "") +
             (kmMasterId != null ? "kmMasterId=" + kmMasterId + ", " : "") +
+            (dob != null ? "dob=" + dob + ", " : "") +
+            (financialYear != null ? "financialYear=" + financialYear + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

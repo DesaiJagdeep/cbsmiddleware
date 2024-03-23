@@ -1,0 +1,206 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="isCalculateTemp">
+      <h2 data-cy="isCalculateTempDetailsHeading">
+        <span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.detail.title">Is Calculate Temp</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.serialNo">Serial No</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.serialNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.financialYear">Financial Year</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.financialYear }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.issFileParserId">Iss File Parser Id</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.issFileParserId }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.pacsNumber">Pacs Number</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.pacsNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.loanAccountNumberKcc">Loan Account Number Kcc</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.loanAccountNumberKcc }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.farmerName">Farmer Name</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.farmerName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.gender">Gender</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.gender }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.aadharNumber">Aadhar Number</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.aadharNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.mobileNo">Mobile No</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.mobileNo }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.farmerType">Farmer Type</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.farmerType }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.socialCategory">Social Category</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.socialCategory }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.accountNumber">Account Number</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.accountNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.loanSanctionDate">Loan Sanction Date</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.loanSanctionDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.loanSanctionAmount">Loan Sanction Amount</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.loanSanctionAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.disbursementDate">Disbursement Date</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.disbursementDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.disburseAmount">Disburse Amount</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.disburseAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.maturityLoanDate">Maturity Loan Date</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.maturityLoanDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.bankDate">Bank Date</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.bankDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.cropName">Crop Name</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.cropName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.recoveryAmount">Recovery Amount</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.recoveryAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.recoveryInterest">Recovery Interest</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.recoveryInterest }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.recoveryDate">Recovery Date</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.recoveryDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.balanceAmount">Balance Amount</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.balanceAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.prevDays">Prev Days</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.prevDays }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.presDays">Pres Days</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.presDays }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.actualDays">Actual Days</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.actualDays }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.nProd">N Prod</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.nProd }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.productAmount">Product Amount</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.productAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.productBank">Product Bank</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.productBank }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.productAbh3Lakh">Product Abh 3 Lakh</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.productAbh3Lakh }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestFirst15">Interest First 15</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestFirst15 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestFirst25">Interest First 25</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestFirst25 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestSecond15">Interest Second 15</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestSecond15 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestSecond25">Interest Second 25</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestSecond25 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestStateFirst3">Interest State First 3</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestStateFirst3 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestStateSecond3">Interest State Second 3</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestStateSecond3 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestFirstAbh3">Interest First Abh 3</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestFirstAbh3 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestSecondAbh3">Interest Second Abh 3</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestSecondAbh3 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.interestAbove3Lakh">Interest Above 3 Lakh</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.interestAbove3Lakh }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.panjabraoInt3">Panjabrao Int 3</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.panjabraoInt3 }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.isRecover">Is Recover</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.isRecover }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.abh3LakhAmt">Abh 3 Lakh Amt</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.abh3LakhAmt }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.isCalculateTemp.upto50000">Upto 50000</span></dt>
+        <dd>
+          <span>{{ isCalculateTemp.upto50000 }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/is-calculate-temp', isCalculateTemp.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

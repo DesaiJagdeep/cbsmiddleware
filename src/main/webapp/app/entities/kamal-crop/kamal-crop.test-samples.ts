@@ -1,36 +1,37 @@
+import dayjs from 'dayjs/esm';
+
 import { IKamalCrop, NewKamalCrop } from './kamal-crop.model';
 
 export const sampleWithRequiredData: IKamalCrop = {
   id: 94816,
-  pacsNumber: 52774,
-  memNo: 88554,
-  memHector: 53403,
 };
 
 export const sampleWithPartialData: IKamalCrop = {
-  id: 48033,
-  pacsNumber: 1567,
-  memNo: 47935,
-  memHector: 87808,
-  memNoMr: 'HTTP',
-  memAarMr: 'groupware Tasty',
+  id: 29664,
+  pacsNumber: 'Plastic Lead directional',
+  financialYear: 'Fantastic SQL',
+  memberCount: 'tangible intuitive',
+  area: 'Licensed transmit payment',
+  headOfficeAmount: 'York',
+  kmDateMr: 'project Industrial redundant',
 };
 
 export const sampleWithFullData: IKamalCrop = {
-  id: 54637,
-  pacsNumber: 9556,
-  memNo: 36659,
-  memHector: 56647,
-  memNoMr: 'user tangible intuitive',
-  memHectorMr: 'Licensed transmit payment',
-  memAar: 23190,
-  memAarMr: 'Account project',
+  id: 25119,
+  pacsNumber: 'Franc Savings Associate',
+  financialYear: 'Centralized De-engineered',
+  memberCount: 'Integrated',
+  area: 'Reduced Kip SMTP',
+  pacsAmount: 'Plastic AI SQL',
+  branchAmount: 'grey',
+  headOfficeAmount: 'transmit CSS',
+  divisionalOfficeAmount: 'bypass Senior Wooden',
+  cropEligibilityAmount: 'Operations Equatorial',
+  kmDate: dayjs('2024-02-01T11:01'),
+  kmDateMr: 'system',
 };
 
 export const sampleWithNewData: NewKamalCrop = {
-  pacsNumber: 2390,
-  memNo: 97597,
-  memHector: 99108,
   id: null,
 };
 

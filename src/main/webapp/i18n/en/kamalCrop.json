@@ -19,16 +19,20 @@
       },
       "id": "ID",
       "pacsNumber": "Pacs Number",
-      "memNo": "Mem No",
-      "memHector": "Mem Hector",
-      "memNoMr": "Mem No Mr",
-      "memHectorMr": "Mem Hector Mr",
-      "memAar": "Mem Aar",
-      "memAarMr": "Mem Aar Mr",
+      "financialYear": "Financial Year",
+      "memberCount": "Member Count",
+      "area": "Area",
+      "pacsAmount": "Pacs Amount",
+      "branchAmount": "Branch Amount",
+      "headOfficeAmount": "Head Office Amount",
+      "divisionalOfficeAmount": "Divisional Office Amount",
+      "cropEligibilityAmount": "Crop Eligibility Amount",
+      "kmDate": "Km Date",
+      "kmDateMr": "Km Date Mr",
+      "kamalSociety": "Kamal Society",
       "farmerTypeMaster": "Farmer Type Master",
       "seasonMaster": "Season Master",
-      "cropMaster": "Crop Master",
-      "kamalSociety": "Kamal Society"
+      "cropMaster": "Crop Master"
     }
   }
 }

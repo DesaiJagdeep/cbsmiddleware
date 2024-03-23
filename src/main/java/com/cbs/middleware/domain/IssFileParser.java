@@ -1,6 +1,7 @@
 package com.cbs.middleware.domain;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
@@ -190,8 +191,8 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "recovery_date")
     private String recoveryDate;
-    
-    
+
+
     //second recovery details
     @Column(name = "second_recovery_amount_principle")
     private String secondRecoveryAmountPrinciple;
@@ -201,7 +202,7 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "second_recovery_date")
     private String secondRecoveryDate;
-    
+
    //third recovery details
     @Column(name = "third_recovery_amount_principle")
     private String thirdRecoveryAmountPrinciple;
@@ -211,8 +212,8 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "third_recovery_date")
     private String thirdRecoveryDate;
-    
-    
+
+
     //fourth recovery details
     @Column(name = "fourth_recovery_amount_principle")
     private String fourthRecoveryAmountPrinciple;
@@ -222,7 +223,7 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 
     @Column(name = "fourth_recovery_date")
     private String fourthRecoveryDate;
-    
+
 
     @ManyToOne
     private IssPortalFile issPortalFile;
@@ -285,8 +286,8 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
     	{
     		this.kccIssCropCode = kccIssCropCode;
     	}
-    	
-        
+
+
     }
 
     public String getKccIssCropName() {
@@ -1178,4 +1179,20 @@ public class IssFileParser extends AbstractAuditingEntity<Long> implements Seria
 //            ", recoveryDate='" + getRecoveryDate() + "'" +
 				"}";
 	}
+
+
+
+    public String getAmountWithDecimal(String amount) {
+        if (amount == null || amount.equals("")) return "";
+
+        try {
+            double amountInDecimal = Double.parseDouble(amount);
+            DecimalFormat df = new DecimalFormat("#0.00");
+            return df.format(amountInDecimal);
+        } catch (NumberFormatException e) {
+            return "";
+        }
+    }
+
+
 }

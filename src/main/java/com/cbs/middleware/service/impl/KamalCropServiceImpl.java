@@ -48,23 +48,38 @@ public class KamalCropServiceImpl implements KamalCropService {
                 if (kamalCrop.getPacsNumber() != null) {
                     existingKamalCrop.setPacsNumber(kamalCrop.getPacsNumber());
                 }
-                if (kamalCrop.getMemNo() != null) {
-                    existingKamalCrop.setMemNo(kamalCrop.getMemNo());
+                if (kamalCrop.getFinancialYear() != null) {
+                    existingKamalCrop.setFinancialYear(kamalCrop.getFinancialYear());
                 }
-                if (kamalCrop.getMemHector() != null) {
-                    existingKamalCrop.setMemHector(kamalCrop.getMemHector());
+                if (kamalCrop.getMemberCount() != null) {
+                    existingKamalCrop.setMemberCount(kamalCrop.getMemberCount());
                 }
-                if (kamalCrop.getMemNoMr() != null) {
-                    existingKamalCrop.setMemNoMr(kamalCrop.getMemNoMr());
+                if (kamalCrop.getArea() != null) {
+                    existingKamalCrop.setArea(kamalCrop.getArea());
                 }
-                if (kamalCrop.getMemHectorMr() != null) {
-                    existingKamalCrop.setMemHectorMr(kamalCrop.getMemHectorMr());
+                if (kamalCrop.getPacsAmount() != null) {
+                    existingKamalCrop.setPacsAmount(kamalCrop.getPacsAmount());
                 }
-                if (kamalCrop.getMemAar() != null) {
-                    existingKamalCrop.setMemAar(kamalCrop.getMemAar());
+                if (kamalCrop.getBranchAmount() != null) {
+                    existingKamalCrop.setBranchAmount(kamalCrop.getBranchAmount());
                 }
-                if (kamalCrop.getMemAarMr() != null) {
-                    existingKamalCrop.setMemAarMr(kamalCrop.getMemAarMr());
+                if (kamalCrop.getHeadOfficeAmount() != null) {
+                    existingKamalCrop.setHeadOfficeAmount(kamalCrop.getHeadOfficeAmount());
+                }
+                if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                    existingKamalCrop.setDivisionalOfficeAmount(kamalCrop.getDivisionalOfficeAmount());
+                }
+                if (kamalCrop.getCropEligibilityAmount() != null) {
+                    existingKamalCrop.setCropEligibilityAmount(kamalCrop.getCropEligibilityAmount());
+                }
+                if (kamalCrop.getKmDate() != null) {
+                    existingKamalCrop.setKmDate(kamalCrop.getKmDate());
+                }
+                if (kamalCrop.getKmDateMr() != null) {
+                    existingKamalCrop.setKmDateMr(kamalCrop.getKmDateMr());
+                }
+                if (kamalCrop.getAgriAdminAmount() != null) {
+                    existingKamalCrop.setAgriAdminAmount(kamalCrop.getAgriAdminAmount());
                 }
 
                 return existingKamalCrop;

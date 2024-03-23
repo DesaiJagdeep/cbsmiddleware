@@ -11,8 +11,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +62,7 @@ public class KamalCropResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/kamal-crops")
-    public ResponseEntity<KamalCrop> createKamalCrop(@Valid @RequestBody KamalCrop kamalCrop) throws URISyntaxException {
+    public ResponseEntity<KamalCrop> createKamalCrop(@RequestBody KamalCrop kamalCrop) throws URISyntaxException {
         log.debug("REST request to save KamalCrop : {}", kamalCrop);
         if (kamalCrop.getId() != null) {
             throw new BadRequestAlertException("A new kamalCrop cannot already have an ID", ENTITY_NAME, "idexists");
@@ -89,7 +87,7 @@ public class KamalCropResource {
     @PutMapping("/kamal-crops/{id}")
     public ResponseEntity<KamalCrop> updateKamalCrop(
         @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody KamalCrop kamalCrop
+        @RequestBody KamalCrop kamalCrop
     ) throws URISyntaxException {
         log.debug("REST request to update KamalCrop : {}, {}", id, kamalCrop);
         if (kamalCrop.getId() == null) {
@@ -124,7 +122,7 @@ public class KamalCropResource {
     @PatchMapping(value = "/kamal-crops/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<KamalCrop> partialUpdateKamalCrop(
         @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody KamalCrop kamalCrop
+        @RequestBody KamalCrop kamalCrop
     ) throws URISyntaxException {
         log.debug("REST request to partial update KamalCrop partially : {}, {}", id, kamalCrop);
         if (kamalCrop.getId() == null) {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -137,8 +139,8 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
     @ManyToOne
     private FarmerTypeMaster farmerTypeMaster;
 
-    @OneToOne(mappedBy = "kmMaster", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    //@JsonIgnore
+    @OneToOne(mappedBy = "kmMaster", fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnoreProperties(value = { "kamalMaster" }, allowSetters = true,allowGetters = true)
     private KmDetails kmDetails;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -182,7 +184,12 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
 
     public void setKmDetails(KmDetails kmDetails) {
         this.kmDetails = kmDetails;
+        if (kmDetails != null) {
+            kmDetails.setKmMaster(this);
+        }
     }
+
+
 
     public Long getId() {
         return this.id;
@@ -600,7 +607,6 @@ public class KmMaster extends AbstractAuditingEntity<Long> implements Serializab
             ", loanAcNo='" + loanAcNo + '\'' +
             ", loanAcNoMr='" + loanAcNoMr + '\'' +
             ", farmerTypeMaster=" + farmerTypeMaster +
-            ", kmDetails=" + kmDetails +
             '}';
     }
 }

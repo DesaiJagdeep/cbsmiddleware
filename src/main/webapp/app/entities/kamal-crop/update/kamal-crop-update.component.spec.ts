@@ -9,14 +9,14 @@ import { of, Subject, from } from 'rxjs';
 import { KamalCropFormService } from './kamal-crop-form.service';
 import { KamalCropService } from '../service/kamal-crop.service';
 import { IKamalCrop } from '../kamal-crop.model';
+import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
+import { KamalSocietyService } from 'app/entities/kamal-society/service/kamal-society.service';
 import { IFarmerTypeMaster } from 'app/entities/farmer-type-master/farmer-type-master.model';
 import { FarmerTypeMasterService } from 'app/entities/farmer-type-master/service/farmer-type-master.service';
 import { ISeasonMaster } from 'app/entities/season-master/season-master.model';
 import { SeasonMasterService } from 'app/entities/season-master/service/season-master.service';
 import { ICropMaster } from 'app/entities/crop-master/crop-master.model';
 import { CropMasterService } from 'app/entities/crop-master/service/crop-master.service';
-import { IKamalSociety } from 'app/entities/kamal-society/kamal-society.model';
-import { KamalSocietyService } from 'app/entities/kamal-society/service/kamal-society.service';
 
 import { KamalCropUpdateComponent } from './kamal-crop-update.component';
 
@@ -26,10 +26,10 @@ describe('KamalCrop Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let kamalCropFormService: KamalCropFormService;
   let kamalCropService: KamalCropService;
+  let kamalSocietyService: KamalSocietyService;
   let farmerTypeMasterService: FarmerTypeMasterService;
   let seasonMasterService: SeasonMasterService;
   let cropMasterService: CropMasterService;
-  let kamalSocietyService: KamalSocietyService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,15 +52,37 @@ describe('KamalCrop Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     kamalCropFormService = TestBed.inject(KamalCropFormService);
     kamalCropService = TestBed.inject(KamalCropService);
+    kamalSocietyService = TestBed.inject(KamalSocietyService);
     farmerTypeMasterService = TestBed.inject(FarmerTypeMasterService);
     seasonMasterService = TestBed.inject(SeasonMasterService);
     cropMasterService = TestBed.inject(CropMasterService);
-    kamalSocietyService = TestBed.inject(KamalSocietyService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
+    it('Should call KamalSociety query and add missing value', () => {
+      const kamalCrop: IKamalCrop = { id: 456 };
+      const kamalSociety: IKamalSociety = { id: 43958 };
+      kamalCrop.kamalSociety = kamalSociety;
+
+      const kamalSocietyCollection: IKamalSociety[] = [{ id: 50267 }];
+      jest.spyOn(kamalSocietyService, 'query').mockReturnValue(of(new HttpResponse({ body: kamalSocietyCollection })));
+      const additionalKamalSocieties = [kamalSociety];
+      const expectedCollection: IKamalSociety[] = [...additionalKamalSocieties, ...kamalSocietyCollection];
+      jest.spyOn(kamalSocietyService, 'addKamalSocietyToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ kamalCrop });
+      comp.ngOnInit();
+
+      expect(kamalSocietyService.query).toHaveBeenCalled();
+      expect(kamalSocietyService.addKamalSocietyToCollectionIfMissing).toHaveBeenCalledWith(
+        kamalSocietyCollection,
+        ...additionalKamalSocieties.map(expect.objectContaining)
+      );
+      expect(comp.kamalSocietiesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call FarmerTypeMaster query and add missing value', () => {
       const kamalCrop: IKamalCrop = { id: 456 };
       const farmerTypeMaster: IFarmerTypeMaster = { id: 62633 };
@@ -127,46 +149,24 @@ describe('KamalCrop Management Update Component', () => {
       expect(comp.cropMastersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call KamalSociety query and add missing value', () => {
-      const kamalCrop: IKamalCrop = { id: 456 };
-      const kamalSociety: IKamalSociety = { id: 43958 };
-      kamalCrop.kamalSociety = kamalSociety;
-
-      const kamalSocietyCollection: IKamalSociety[] = [{ id: 50267 }];
-      jest.spyOn(kamalSocietyService, 'query').mockReturnValue(of(new HttpResponse({ body: kamalSocietyCollection })));
-      const additionalKamalSocieties = [kamalSociety];
-      const expectedCollection: IKamalSociety[] = [...additionalKamalSocieties, ...kamalSocietyCollection];
-      jest.spyOn(kamalSocietyService, 'addKamalSocietyToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ kamalCrop });
-      comp.ngOnInit();
-
-      expect(kamalSocietyService.query).toHaveBeenCalled();
-      expect(kamalSocietyService.addKamalSocietyToCollectionIfMissing).toHaveBeenCalledWith(
-        kamalSocietyCollection,
-        ...additionalKamalSocieties.map(expect.objectContaining)
-      );
-      expect(comp.kamalSocietiesSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const kamalCrop: IKamalCrop = { id: 456 };
+      const kamalSociety: IKamalSociety = { id: 75093 };
+      kamalCrop.kamalSociety = kamalSociety;
       const farmerTypeMaster: IFarmerTypeMaster = { id: 55511 };
       kamalCrop.farmerTypeMaster = farmerTypeMaster;
       const seasonMaster: ISeasonMaster = { id: 25409 };
       kamalCrop.seasonMaster = seasonMaster;
       const cropMaster: ICropMaster = { id: 95278 };
       kamalCrop.cropMaster = cropMaster;
-      const kamalSociety: IKamalSociety = { id: 75093 };
-      kamalCrop.kamalSociety = kamalSociety;
 
       activatedRoute.data = of({ kamalCrop });
       comp.ngOnInit();
 
+      expect(comp.kamalSocietiesSharedCollection).toContain(kamalSociety);
       expect(comp.farmerTypeMastersSharedCollection).toContain(farmerTypeMaster);
       expect(comp.seasonMastersSharedCollection).toContain(seasonMaster);
       expect(comp.cropMastersSharedCollection).toContain(cropMaster);
-      expect(comp.kamalSocietiesSharedCollection).toContain(kamalSociety);
       expect(comp.kamalCrop).toEqual(kamalCrop);
     });
   });
@@ -240,6 +240,16 @@ describe('KamalCrop Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
+    describe('compareKamalSociety', () => {
+      it('Should forward to kamalSocietyService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(kamalSocietyService, 'compareKamalSociety');
+        comp.compareKamalSociety(entity, entity2);
+        expect(kamalSocietyService.compareKamalSociety).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
     describe('compareFarmerTypeMaster', () => {
       it('Should forward to farmerTypeMasterService', () => {
         const entity = { id: 123 };
@@ -267,16 +277,6 @@ describe('KamalCrop Management Update Component', () => {
         jest.spyOn(cropMasterService, 'compareCropMaster');
         comp.compareCropMaster(entity, entity2);
         expect(cropMasterService.compareCropMaster).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
-    describe('compareKamalSociety', () => {
-      it('Should forward to kamalSocietyService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(kamalSocietyService, 'compareKamalSociety');
-        comp.compareKamalSociety(entity, entity2);
-        expect(kamalSocietyService.compareKamalSociety).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

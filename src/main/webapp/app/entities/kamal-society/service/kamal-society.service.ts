@@ -11,8 +11,45 @@ import { IKamalSociety, NewKamalSociety } from '../kamal-society.model';
 
 export type PartialUpdateKamalSociety = Partial<IKamalSociety> & Pick<IKamalSociety, 'id'>;
 
-type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<T, 'zindagiDate'> & {
-  zindagiDate?: string | null;
+type RestOf<T extends IKamalSociety | NewKamalSociety> = Omit<
+  T,
+  | 'kmDate'
+  | 'kmFromDate'
+  | 'kmToDate'
+  | 'zindagiPatrakDate'
+  | 'bankTapasaniDate'
+  | 'govTapasaniDate'
+  | 'sansthaTapasaniDate'
+  | 'talebandDate'
+  | 'balanceSheetDate'
+  | 'branchVerifiedDate'
+  | 'headOfficeVerifiedDate'
+  | 'divisionalOfficeVerifiedDate'
+  | 'doshPurtataDate'
+  | 'branchInwardDate'
+  | 'branchOutwardDate'
+  | 'headOfficeInwardDate'
+  | 'headOfficeOutwardDate'
+  | 'tharavDate'
+> & {
+  kmDate?: string | null;
+  kmFromDate?: string | null;
+  kmToDate?: string | null;
+  zindagiPatrakDate?: string | null;
+  bankTapasaniDate?: string | null;
+  govTapasaniDate?: string | null;
+  sansthaTapasaniDate?: string | null;
+  talebandDate?: string | null;
+  balanceSheetDate?: string | null;
+  branchVerifiedDate?: string | null;
+  headOfficeVerifiedDate?: string | null;
+  divisionalOfficeVerifiedDate?: string | null;
+  doshPurtataDate?: string | null;
+  branchInwardDate?: string | null;
+  branchOutwardDate?: string | null;
+  headOfficeInwardDate?: string | null;
+  headOfficeOutwardDate?: string | null;
+  tharavDate?: string | null;
 };
 
 export type RestKamalSociety = RestOf<IKamalSociety>;
@@ -101,14 +138,50 @@ export class KamalSocietyService {
   protected convertDateFromClient<T extends IKamalSociety | NewKamalSociety | PartialUpdateKamalSociety>(kamalSociety: T): RestOf<T> {
     return {
       ...kamalSociety,
-      zindagiDate: kamalSociety.zindagiDate?.toJSON() ?? null,
+      kmDate: kamalSociety.kmDate?.toJSON() ?? null,
+      kmFromDate: kamalSociety.kmFromDate?.toJSON() ?? null,
+      kmToDate: kamalSociety.kmToDate?.toJSON() ?? null,
+      zindagiPatrakDate: kamalSociety.zindagiPatrakDate?.toJSON() ?? null,
+      bankTapasaniDate: kamalSociety.bankTapasaniDate?.toJSON() ?? null,
+      govTapasaniDate: kamalSociety.govTapasaniDate?.toJSON() ?? null,
+      sansthaTapasaniDate: kamalSociety.sansthaTapasaniDate?.toJSON() ?? null,
+      talebandDate: kamalSociety.talebandDate?.toJSON() ?? null,
+      balanceSheetDate: kamalSociety.balanceSheetDate?.toJSON() ?? null,
+      branchVerifiedDate: kamalSociety.branchVerifiedDate?.toJSON() ?? null,
+      headOfficeVerifiedDate: kamalSociety.headOfficeVerifiedDate?.toJSON() ?? null,
+      divisionalOfficeVerifiedDate: kamalSociety.divisionalOfficeVerifiedDate?.toJSON() ?? null,
+      doshPurtataDate: kamalSociety.doshPurtataDate?.toJSON() ?? null,
+      branchInwardDate: kamalSociety.branchInwardDate?.toJSON() ?? null,
+      branchOutwardDate: kamalSociety.branchOutwardDate?.toJSON() ?? null,
+      headOfficeInwardDate: kamalSociety.headOfficeInwardDate?.toJSON() ?? null,
+      headOfficeOutwardDate: kamalSociety.headOfficeOutwardDate?.toJSON() ?? null,
+      tharavDate: kamalSociety.tharavDate?.toJSON() ?? null,
     };
   }
 
   protected convertDateFromServer(restKamalSociety: RestKamalSociety): IKamalSociety {
     return {
       ...restKamalSociety,
-      zindagiDate: restKamalSociety.zindagiDate ? dayjs(restKamalSociety.zindagiDate) : undefined,
+      kmDate: restKamalSociety.kmDate ? dayjs(restKamalSociety.kmDate) : undefined,
+      kmFromDate: restKamalSociety.kmFromDate ? dayjs(restKamalSociety.kmFromDate) : undefined,
+      kmToDate: restKamalSociety.kmToDate ? dayjs(restKamalSociety.kmToDate) : undefined,
+      zindagiPatrakDate: restKamalSociety.zindagiPatrakDate ? dayjs(restKamalSociety.zindagiPatrakDate) : undefined,
+      bankTapasaniDate: restKamalSociety.bankTapasaniDate ? dayjs(restKamalSociety.bankTapasaniDate) : undefined,
+      govTapasaniDate: restKamalSociety.govTapasaniDate ? dayjs(restKamalSociety.govTapasaniDate) : undefined,
+      sansthaTapasaniDate: restKamalSociety.sansthaTapasaniDate ? dayjs(restKamalSociety.sansthaTapasaniDate) : undefined,
+      talebandDate: restKamalSociety.talebandDate ? dayjs(restKamalSociety.talebandDate) : undefined,
+      balanceSheetDate: restKamalSociety.balanceSheetDate ? dayjs(restKamalSociety.balanceSheetDate) : undefined,
+      branchVerifiedDate: restKamalSociety.branchVerifiedDate ? dayjs(restKamalSociety.branchVerifiedDate) : undefined,
+      headOfficeVerifiedDate: restKamalSociety.headOfficeVerifiedDate ? dayjs(restKamalSociety.headOfficeVerifiedDate) : undefined,
+      divisionalOfficeVerifiedDate: restKamalSociety.divisionalOfficeVerifiedDate
+        ? dayjs(restKamalSociety.divisionalOfficeVerifiedDate)
+        : undefined,
+      doshPurtataDate: restKamalSociety.doshPurtataDate ? dayjs(restKamalSociety.doshPurtataDate) : undefined,
+      branchInwardDate: restKamalSociety.branchInwardDate ? dayjs(restKamalSociety.branchInwardDate) : undefined,
+      branchOutwardDate: restKamalSociety.branchOutwardDate ? dayjs(restKamalSociety.branchOutwardDate) : undefined,
+      headOfficeInwardDate: restKamalSociety.headOfficeInwardDate ? dayjs(restKamalSociety.headOfficeInwardDate) : undefined,
+      headOfficeOutwardDate: restKamalSociety.headOfficeOutwardDate ? dayjs(restKamalSociety.headOfficeOutwardDate) : undefined,
+      tharavDate: restKamalSociety.tharavDate ? dayjs(restKamalSociety.tharavDate) : undefined,
     };
   }
 

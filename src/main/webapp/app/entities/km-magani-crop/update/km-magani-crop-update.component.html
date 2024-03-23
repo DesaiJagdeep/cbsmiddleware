@@ -1,0 +1,205 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-km-magani-crop-heading"
+        data-cy="KmMaganiCropCreateUpdateHeading"
+        jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.home.createOrEditLabel"
+      >
+        Create or edit a Km Magani Crop
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropName" for="field_cropName">Crop Name</label>
+          <input type="text" class="form-control" name="cropName" id="field_cropName" data-cy="cropName" formControlName="cropName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropBalance" for="field_cropBalance">Crop Balance</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cropBalance"
+            id="field_cropBalance"
+            data-cy="cropBalance"
+            formControlName="cropBalance"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDue" for="field_cropDue">Crop Due</label>
+          <input type="number" class="form-control" name="cropDue" id="field_cropDue" data-cy="cropDue" formControlName="cropDue" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDueDate" for="field_cropDueDate">Crop Due Date</label>
+          <div class="d-flex">
+            <input
+              id="field_cropDueDate"
+              data-cy="cropDueDate"
+              type="datetime-local"
+              class="form-control"
+              name="cropDueDate"
+              formControlName="cropDueDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropVasuliPatraDate" for="field_cropVasuliPatraDate"
+            >Crop Vasuli Patra Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_cropVasuliPatraDate"
+              data-cy="cropVasuliPatraDate"
+              type="datetime-local"
+              class="form-control"
+              name="cropVasuliPatraDate"
+              formControlName="cropVasuliPatraDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmManjuri" for="field_kmManjuri">Km Manjuri</label>
+          <input type="number" class="form-control" name="kmManjuri" id="field_kmManjuri" data-cy="kmManjuri" formControlName="kmManjuri" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmArea" for="field_kmArea">Km Area</label>
+          <input type="number" class="form-control" name="kmArea" id="field_kmArea" data-cy="kmArea" formControlName="kmArea" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararNumber" for="field_eKararNumber"
+            >E Karar Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="eKararNumber"
+            id="field_eKararNumber"
+            data-cy="eKararNumber"
+            formControlName="eKararNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararAmount" for="field_eKararAmount"
+            >E Karar Amount</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="eKararAmount"
+            id="field_eKararAmount"
+            data-cy="eKararAmount"
+            formControlName="eKararAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararArea" for="field_eKararArea">E Karar Area</label>
+          <input
+            type="number"
+            class="form-control"
+            name="eKararArea"
+            id="field_eKararArea"
+            data-cy="eKararArea"
+            formControlName="eKararArea"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiArea" for="field_maganiArea">Magani Area</label>
+          <input
+            type="number"
+            class="form-control"
+            name="maganiArea"
+            id="field_maganiArea"
+            data-cy="maganiArea"
+            formControlName="maganiArea"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiAmount" for="field_maganiAmount">Magani Amount</label>
+          <input
+            type="number"
+            class="form-control"
+            name="maganiAmount"
+            id="field_maganiAmount"
+            data-cy="maganiAmount"
+            formControlName="maganiAmount"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiShare" for="field_maganiShare">Magani Share</label>
+          <input
+            type="number"
+            class="form-control"
+            name="maganiShare"
+            id="field_maganiShare"
+            data-cy="maganiShare"
+            formControlName="maganiShare"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.pacsNumber" for="field_pacsNumber">Pacs Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pacsNumber"
+            id="field_pacsNumber"
+            data-cy="pacsNumber"
+            formControlName="pacsNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmMagani" for="field_kmMagani">Km Magani</label>
+          <select
+            class="form-control"
+            id="field_kmMagani"
+            data-cy="kmMagani"
+            name="kmMagani"
+            formControlName="kmMagani"
+            [compareWith]="compareKmMagani"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="kmMaganiOption" *ngFor="let kmMaganiOption of kmMaganisSharedCollection">{{ kmMaganiOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

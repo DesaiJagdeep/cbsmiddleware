@@ -1,0 +1,66 @@
+{
+  "cbsMiddlewareApp": {
+    "isCalculateTemp": {
+      "home": {
+        "title": "Is Calculate Temps",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "नवीन Is Calculate Temp तयार करा",
+        "createOrEditLabel": "Is Calculate Temp तयार किंवा संपादित करा",
+        "notFound": "No Is Calculate Temps found"
+      },
+      "created": "Is Calculate Temp [identifier: {{ param }}] तयार आहे",
+      "updated": "Is Calculate Temp [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Is Calculate Temp [identifier: {{ param }}] हटविले आहे",
+      "delete": {
+        "question": "Is Calculate Temp [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+      },
+      "detail": {
+        "title": "Is Calculate Temp"
+      },
+      "id": "ID",
+      "serialNo": "Serial No",
+      "financialYear": "Financial Year",
+      "issFileParserId": "Iss File Parser Id",
+      "branchCode": "Branch Code",
+      "loanAccountNumberKcc": "Loan Account Number Kcc",
+      "farmerName": "Farmer Name",
+      "gender": "Gender",
+      "aadharNumber": "Aadhar Number",
+      "mobileNo": "Mobile No",
+      "farmerType": "Farmer Type",
+      "socialCategory": "Social Category",
+      "accountNumber": "Account Number",
+      "loanSanctionDate": "Loan Sanction Date",
+      "loanSanctionAmount": "Loan Sanction Amount",
+      "disbursementDate": "Disbursement Date",
+      "disburseAmount": "Disburse Amount",
+      "maturityLoanDate": "Maturity Loan Date",
+      "bankDate": "Bank Date",
+      "cropName": "Crop Name",
+      "recoveryAmount": "Recovery Amount",
+      "recoveryInterest": "Recovery Interest",
+      "recoveryDate": "Recovery Date",
+      "balanceAmount": "Balance Amount",
+      "prevDays": "Prev Days",
+      "presDays": "Pres Days",
+      "actualDays": "Actual Days",
+      "nProd": "N Prod",
+      "productAmount": "Product Amount",
+      "productBank": "Product Bank",
+      "productAbh3Lakh": "Product Abh 3 Lakh",
+      "interestFirst15": "Interest First 15",
+      "interestFirst25": "Interest First 25",
+      "interestSecond15": "Interest Second 15",
+      "interestSecond25": "Interest Second 25",
+      "interestStateFirst3": "Interest State First 3",
+      "interestStateSecond3": "Interest State Second 3",
+      "interestFirstAbh3": "Interest First Abh 3",
+      "interestSecondAbh3": "Interest Second Abh 3",
+      "interestAbove3Lakh": "Interest Above 3 Lakh",
+      "panjabraoInt3": "Panjabrao Int 3",
+      "isRecover": "Is Recover",
+      "abh3LakhAmt": "Abh 3 Lakh Amt",
+      "upto50000": "Upto 50000"
+    }
+  }
+}

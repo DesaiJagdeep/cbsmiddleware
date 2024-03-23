@@ -14,28 +14,31 @@ public final class Constants {
 	public static final String AUTH_CODE = "619cd8ee-c012-4cca-9b00-ec428f1a0b7f";
 
 	//local or dev server
-	public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
-	public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
-	public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
-	public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
-	public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
+//	public static final String ORIGINAL_FILE_PATH = "/home/ubuntu/pdcc/originalFiles/";
+//	public static final String CHILD_FILE_PATH = "/home/ubuntu/pdcc/childPortalFiles/";
+//	public static final String KMP_FILE_PATH = "/home/ubuntu/pdcc/kmpFiles/";
+//	public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
+//	public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
 
 
 //	public static final String fontFilePath="E:\\riteshFont\\NotoSans-Regular.ttf";
 //	public static final String fontFilePath1="E:\\riteshFont\\NotoSans-Regular_bold.ttf";
+//	public static final String imagePath="E:\\riteshFont\\kmHeadingImage.png";
 
 	public static final String fontFilePath = "/home/ubuntu/pdcc/font/NotoSans-Regular.ttf";
-	public static final String fontFilePath1 = "/home/ubuntu/pdcc/font/NotoSans-Regular_bold.ttf";
+    public static final String fontFilePath1 = "/home/ubuntu/pdcc/font/NotoSans-Regular_bold.ttf";
+    public static final String imagePath = "/home/ubuntu/pdcc/headingImage/kmHeadingImage.png";
 
 	//producation or dev server
 //    public static final String fontFilePath = "/var/lib/tomcat9/webapps/font/NotoSans-Regular.ttf";
 //    public static final String fontFilePath1 = "/var/lib/tomcat9/webapps/font/NotoSans-Regular_bold.ttf";
-//
-//	public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
-//	public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
-//	public static final String KMP_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/kmpFiles/";
-//	public static final String KARKHANA_VASULI_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/karkhanaVasuliFiles/";
-//	public static final String USER_DETAIL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/userDetailsFiles/";
+//    public static final String imagePath = "/var/lib/tomcat9/webapps/headingImage/kmHeadingImage.png";
+
+	public static final String ORIGINAL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/originalFiles/";
+	public static final String CHILD_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/childPortalFiles/";
+	public static final String KMP_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/kmpFiles/";
+	public static final String KARKHANA_VASULI_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/karkhanaVasuliFiles/";
+	public static final String USER_DETAIL_FILE_PATH = "/var/lib/tomcat9/webapps/pdccFiles/userDetailsFiles/";
 
 	public static final String DefaultPassword = "PdcCB@nk@411001";
 	public static final String DefaultPasswordForPacs = "Pdcc@123";
@@ -74,6 +77,7 @@ public final class Constants {
     public static final String addloandetails = "/addloandetails";
 
 	public static final String databyrecipientuniqueids = "/databyrecipientuniqueids";
+    public static final String getpreuniqueids = "/preuniqueidbyaccountnumbers";
 
 	public static final String MALE = "male";
 	public static final String FEMAIL = "female";

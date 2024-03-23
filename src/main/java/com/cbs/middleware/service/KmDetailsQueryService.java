@@ -211,6 +211,12 @@ public class KmDetailsQueryService extends QueryService<KmDetails> {
             if (criteria.getGattNoMr() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGattNoMr(), KmDetails_.gattNoMr));
             }
+            if (criteria.getDob() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDob(), KmDetails_.dob));
+            }
+            if (criteria.getFinancialYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), KmDetails_.financialYear));
+            }
 
             if (criteria.getKmMasterId() != null) {
                 specification =

@@ -1,5 +1,6 @@
 package com.cbs.middleware.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
@@ -24,7 +25,6 @@ public abstract class AbstractAuditingEntity<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public abstract T getId();
-
     @CreatedBy
     @Column(name = "created_by", nullable = false, length = 50, updatable = false)
     private String createdBy;

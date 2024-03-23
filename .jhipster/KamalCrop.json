@@ -1,36 +1,49 @@
 {
-  "changelogDate": "20240124142724",
+  "changelogDate": "20240201131104",
   "dto": "no",
   "fields": [
     {
       "fieldName": "pacsNumber",
-      "fieldType": "Integer",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "memNo",
-      "fieldType": "Integer",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "memHector",
-      "fieldType": "Double",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "memNoMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "memHectorMr",
+      "fieldName": "financialYear",
       "fieldType": "String"
     },
     {
-      "fieldName": "memAar",
-      "fieldType": "Double"
+      "fieldName": "memberCount",
+      "fieldType": "String"
     },
     {
-      "fieldName": "memAarMr",
+      "fieldName": "area",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "divisionalOfficeAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cropEligibilityAmount",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmDateMr",
       "fieldType": "String"
     }
   ],
@@ -39,6 +52,12 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "kamalSociety",
+      "relationshipName": "kamalSociety",
+      "relationshipType": "many-to-one"
+    },
     {
       "otherEntityField": "id",
       "otherEntityName": "farmerTypeMaster",
@@ -55,12 +74,6 @@
       "otherEntityField": "id",
       "otherEntityName": "cropMaster",
       "relationshipName": "cropMaster",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityField": "id",
-      "otherEntityName": "kamalSociety",
-      "relationshipName": "kamalSociety",
       "relationshipType": "many-to-one"
     }
   ],

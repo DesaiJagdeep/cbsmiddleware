@@ -18,29 +18,51 @@
         <dd>
           <span>{{ kamalCrop.pacsNumber }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNo">Mem No</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.financialYear">Financial Year</span></dt>
         <dd>
-          <span>{{ kamalCrop.memNo }}</span>
+          <span>{{ kamalCrop.financialYear }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHector">Mem Hector</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memberCount">Member Count</span></dt>
         <dd>
-          <span>{{ kamalCrop.memHector }}</span>
+          <span>{{ kamalCrop.memberCount }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNoMr">Mem No Mr</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.area">Area</span></dt>
         <dd>
-          <span>{{ kamalCrop.memNoMr }}</span>
+          <span>{{ kamalCrop.area }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHectorMr">Mem Hector Mr</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsAmount">Pacs Amount</span></dt>
         <dd>
-          <span>{{ kamalCrop.memHectorMr }}</span>
+          <span>{{ kamalCrop.pacsAmount }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAar">Mem Aar</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.branchAmount">Branch Amount</span></dt>
         <dd>
-          <span>{{ kamalCrop.memAar }}</span>
+          <span>{{ kamalCrop.branchAmount }}</span>
         </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAarMr">Mem Aar Mr</span></dt>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.headOfficeAmount">Head Office Amount</span></dt>
         <dd>
-          <span>{{ kamalCrop.memAarMr }}</span>
+          <span>{{ kamalCrop.headOfficeAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.divisionalOfficeAmount">Divisional Office Amount</span></dt>
+        <dd>
+          <span>{{ kamalCrop.divisionalOfficeAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropEligibilityAmount">Crop Eligibility Amount</span></dt>
+        <dd>
+          <span>{{ kamalCrop.cropEligibilityAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDate">Km Date</span></dt>
+        <dd>
+          <span>{{ kamalCrop.kmDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDateMr">Km Date Mr</span></dt>
+        <dd>
+          <span>{{ kamalCrop.kmDateMr }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span></dt>
+        <dd>
+          <div *ngIf="kamalCrop.kamalSociety">
+            <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>
+          </div>
         </dd>
         <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.farmerTypeMaster">Farmer Type Master</span></dt>
         <dd>
@@ -58,12 +80,6 @@
         <dd>
           <div *ngIf="kamalCrop.cropMaster">
             <a [routerLink]="['/crop-master', kamalCrop.cropMaster.id, 'view']">{{ kamalCrop.cropMaster.id }}</a>
-          </div>
-        </dd>
-        <dt><span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span></dt>
-        <dd>
-          <div *ngIf="kamalCrop.kamalSociety">
-            <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>
           </div>
         </dd>
       </dl>

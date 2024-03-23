@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of KCC errors</title>
+  <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          border: 1px solid #ddd; /* Add a border around the table */
+        }
+        th,td {
+          border: 1px solid #ddd; /* Add a border to each table cell */
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2; /* Add a background color to the table header */
+        }
+      </style>
+</head>
+<body style="font-size:13px;">
+<h2 style="text-align:center;">पुणे जिल्हा मध्यवर्ती सहकारी बँक मर्यादित, पुणे <br>
+  ४ ब, बी. जे. रोड, पुणे - ४११००१.</h2>
+<table style="border: none;">
+  <tr style="border: none;">
+    <td style="border: none; text-align: end;"><strong>PACS Name :</strong></td>
+    <td colspan="3" style="border: none;"><strong><span th:text="${pacsName}"></span></strong></td>
+  </tr>
+
+  <tr style="border: none;">
+    <td style="border: none; text-align: end;"><strong>Financial Year :</strong></td>
+    <td style="border: none;"><strong><span th:text="${financialYear}"></span></strong></td>
+    <td style="border: none; text-align: end;"><strong>Branch Name :</strong></td>
+    <td style="border: none;"><strong><span th:text="${branchName}"></span></strong></td>
+  </tr>
+
+
+  <tr style="border: none;">
+    <td style="border: none; width: 120px; text-align: end;"><strong>Error Type :</strong></td>
+    <td style="border: none;"><strong><span th:text="${errorType}"></span></strong></td>
+
+    <td style="border: none; text-align: end;"><strong>Report Date :</strong></td>
+    <td style="border: none;"><strong><span th:text="${downloadedDate}"></span></strong></td>
+  </tr>
+
+</table>
+<br>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Farmer Name</th>
+    <th>Error</th>
+  </tr>
+
+  <tr th:if="${not #lists.isEmpty(applicationLogs)}" th:each="applicationLog,iterStat : ${applicationLogs}">
+<td th:text="${iterStat.count}"></td>
+<td th:text="${applicationLog.issFileParser.farmerName}"></td>
+<td th:text="${applicationLog.errorMessage}"></td>
+
+  </tr>
+</table>
+</body>
+</html>

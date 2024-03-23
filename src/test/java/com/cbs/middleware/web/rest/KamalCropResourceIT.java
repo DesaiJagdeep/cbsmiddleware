@@ -34,30 +34,29 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class KamalCropResourceIT {
 
-    private static final Integer DEFAULT_PACS_NUMBER = 1;
-    private static final Integer UPDATED_PACS_NUMBER = 2;
-    private static final Integer SMALLER_PACS_NUMBER = 1 - 1;
+    private static final String DEFAULT_PACS_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NUMBER = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_MEM_NO = 1;
-    private static final Integer UPDATED_MEM_NO = 2;
-    private static final Integer SMALLER_MEM_NO = 1 - 1;
+    private static final String DEFAULT_FINANCIAL_YEAR = "AAAAAAAAAA";
+    private static final String UPDATED_FINANCIAL_YEAR = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_HECTOR = 1D;
-    private static final Double UPDATED_MEM_HECTOR = 2D;
-    private static final Double SMALLER_MEM_HECTOR = 1D - 1D;
+    private static final String DEFAULT_MEMBER_COUNT = "AAAAAAAAAA";
+    private static final String UPDATED_MEMBER_COUNT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_NO_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_NO_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_AREA = "AAAAAAAAAA";
+    private static final String UPDATED_AREA = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_HECTOR_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_HECTOR_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_PACS_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_AMOUNT = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_AAR = 1D;
-    private static final Double UPDATED_MEM_AAR = 2D;
-    private static final Double SMALLER_MEM_AAR = 1D - 1D;
+    private static final String DEFAULT_BRANCH_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_AMOUNT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_AAR_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_AAR_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_HEAD_OFFICE_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_AMOUNT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CROP_ELIGIBILITY_AMOUNT = "AAAAAAAAAA";
+    private static final String UPDATED_CROP_ELIGIBILITY_AMOUNT = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/kamal-crops";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -85,12 +84,13 @@ class KamalCropResourceIT {
     public static KamalCrop createEntity(EntityManager em) {
         KamalCrop kamalCrop = new KamalCrop()
             .pacsNumber(DEFAULT_PACS_NUMBER)
-            .memNo(DEFAULT_MEM_NO)
-            .memHector(DEFAULT_MEM_HECTOR)
-            .memNoMr(DEFAULT_MEM_NO_MR)
-            .memHectorMr(DEFAULT_MEM_HECTOR_MR)
-            .memAar(DEFAULT_MEM_AAR)
-            .memAarMr(DEFAULT_MEM_AAR_MR);
+            .financialYear(DEFAULT_FINANCIAL_YEAR)
+            .memberCount(DEFAULT_MEMBER_COUNT)
+            .area(DEFAULT_AREA)
+            .pacsAmount(DEFAULT_PACS_AMOUNT)
+            .branchAmount(DEFAULT_BRANCH_AMOUNT)
+            .headOfficeAmount(DEFAULT_HEAD_OFFICE_AMOUNT)
+            .cropEligibilityAmount(DEFAULT_CROP_ELIGIBILITY_AMOUNT);
         return kamalCrop;
     }
 
@@ -103,12 +103,13 @@ class KamalCropResourceIT {
     public static KamalCrop createUpdatedEntity(EntityManager em) {
         KamalCrop kamalCrop = new KamalCrop()
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .memNo(UPDATED_MEM_NO)
-            .memHector(UPDATED_MEM_HECTOR)
-            .memNoMr(UPDATED_MEM_NO_MR)
-            .memHectorMr(UPDATED_MEM_HECTOR_MR)
-            .memAar(UPDATED_MEM_AAR)
-            .memAarMr(UPDATED_MEM_AAR_MR);
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .memberCount(UPDATED_MEMBER_COUNT)
+            .area(UPDATED_AREA)
+            .pacsAmount(UPDATED_PACS_AMOUNT)
+            .branchAmount(UPDATED_BRANCH_AMOUNT)
+            .headOfficeAmount(UPDATED_HEAD_OFFICE_AMOUNT)
+            .cropEligibilityAmount(UPDATED_CROP_ELIGIBILITY_AMOUNT);
         return kamalCrop;
     }
 
@@ -131,12 +132,13 @@ class KamalCropResourceIT {
         assertThat(kamalCropList).hasSize(databaseSizeBeforeCreate + 1);
         KamalCrop testKamalCrop = kamalCropList.get(kamalCropList.size() - 1);
         assertThat(testKamalCrop.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
-        assertThat(testKamalCrop.getMemNo()).isEqualTo(DEFAULT_MEM_NO);
-        assertThat(testKamalCrop.getMemHector()).isEqualTo(DEFAULT_MEM_HECTOR);
-        assertThat(testKamalCrop.getMemNoMr()).isEqualTo(DEFAULT_MEM_NO_MR);
-        assertThat(testKamalCrop.getMemHectorMr()).isEqualTo(DEFAULT_MEM_HECTOR_MR);
-        assertThat(testKamalCrop.getMemAar()).isEqualTo(DEFAULT_MEM_AAR);
-        assertThat(testKamalCrop.getMemAarMr()).isEqualTo(DEFAULT_MEM_AAR_MR);
+        assertThat(testKamalCrop.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
+        assertThat(testKamalCrop.getMemberCount()).isEqualTo(DEFAULT_MEMBER_COUNT);
+        assertThat(testKamalCrop.getArea()).isEqualTo(DEFAULT_AREA);
+        assertThat(testKamalCrop.getPacsAmount()).isEqualTo(DEFAULT_PACS_AMOUNT);
+        assertThat(testKamalCrop.getBranchAmount()).isEqualTo(DEFAULT_BRANCH_AMOUNT);
+        assertThat(testKamalCrop.getHeadOfficeAmount()).isEqualTo(DEFAULT_HEAD_OFFICE_AMOUNT);
+        assertThat(testKamalCrop.getCropEligibilityAmount()).isEqualTo(DEFAULT_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
@@ -159,57 +161,6 @@ class KamalCropResourceIT {
 
     @Test
     @Transactional
-    void checkPacsNumberIsRequired() throws Exception {
-        int databaseSizeBeforeTest = kamalCropRepository.findAll().size();
-        // set the field null
-        kamalCrop.setPacsNumber(null);
-
-        // Create the KamalCrop, which fails.
-
-        restKamalCropMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kamalCrop)))
-            .andExpect(status().isBadRequest());
-
-        List<KamalCrop> kamalCropList = kamalCropRepository.findAll();
-        assertThat(kamalCropList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkMemNoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = kamalCropRepository.findAll().size();
-        // set the field null
-        kamalCrop.setMemNo(null);
-
-        // Create the KamalCrop, which fails.
-
-        restKamalCropMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kamalCrop)))
-            .andExpect(status().isBadRequest());
-
-        List<KamalCrop> kamalCropList = kamalCropRepository.findAll();
-        assertThat(kamalCropList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkMemHectorIsRequired() throws Exception {
-        int databaseSizeBeforeTest = kamalCropRepository.findAll().size();
-        // set the field null
-        kamalCrop.setMemHector(null);
-
-        // Create the KamalCrop, which fails.
-
-        restKamalCropMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kamalCrop)))
-            .andExpect(status().isBadRequest());
-
-        List<KamalCrop> kamalCropList = kamalCropRepository.findAll();
-        assertThat(kamalCropList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllKamalCrops() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
@@ -221,12 +172,13 @@ class KamalCropResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(kamalCrop.getId().intValue())))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
-            .andExpect(jsonPath("$.[*].memNo").value(hasItem(DEFAULT_MEM_NO)))
-            .andExpect(jsonPath("$.[*].memHector").value(hasItem(DEFAULT_MEM_HECTOR.doubleValue())))
-            .andExpect(jsonPath("$.[*].memNoMr").value(hasItem(DEFAULT_MEM_NO_MR)))
-            .andExpect(jsonPath("$.[*].memHectorMr").value(hasItem(DEFAULT_MEM_HECTOR_MR)))
-            .andExpect(jsonPath("$.[*].memAar").value(hasItem(DEFAULT_MEM_AAR.doubleValue())))
-            .andExpect(jsonPath("$.[*].memAarMr").value(hasItem(DEFAULT_MEM_AAR_MR)));
+            .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
+            .andExpect(jsonPath("$.[*].memberCount").value(hasItem(DEFAULT_MEMBER_COUNT)))
+            .andExpect(jsonPath("$.[*].area").value(hasItem(DEFAULT_AREA)))
+            .andExpect(jsonPath("$.[*].pacsAmount").value(hasItem(DEFAULT_PACS_AMOUNT)))
+            .andExpect(jsonPath("$.[*].branchAmount").value(hasItem(DEFAULT_BRANCH_AMOUNT)))
+            .andExpect(jsonPath("$.[*].headOfficeAmount").value(hasItem(DEFAULT_HEAD_OFFICE_AMOUNT)))
+            .andExpect(jsonPath("$.[*].cropEligibilityAmount").value(hasItem(DEFAULT_CROP_ELIGIBILITY_AMOUNT)));
     }
 
     @Test
@@ -242,12 +194,13 @@ class KamalCropResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(kamalCrop.getId().intValue()))
             .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER))
-            .andExpect(jsonPath("$.memNo").value(DEFAULT_MEM_NO))
-            .andExpect(jsonPath("$.memHector").value(DEFAULT_MEM_HECTOR.doubleValue()))
-            .andExpect(jsonPath("$.memNoMr").value(DEFAULT_MEM_NO_MR))
-            .andExpect(jsonPath("$.memHectorMr").value(DEFAULT_MEM_HECTOR_MR))
-            .andExpect(jsonPath("$.memAar").value(DEFAULT_MEM_AAR.doubleValue()))
-            .andExpect(jsonPath("$.memAarMr").value(DEFAULT_MEM_AAR_MR));
+            .andExpect(jsonPath("$.financialYear").value(DEFAULT_FINANCIAL_YEAR))
+            .andExpect(jsonPath("$.memberCount").value(DEFAULT_MEMBER_COUNT))
+            .andExpect(jsonPath("$.area").value(DEFAULT_AREA))
+            .andExpect(jsonPath("$.pacsAmount").value(DEFAULT_PACS_AMOUNT))
+            .andExpect(jsonPath("$.branchAmount").value(DEFAULT_BRANCH_AMOUNT))
+            .andExpect(jsonPath("$.headOfficeAmount").value(DEFAULT_HEAD_OFFICE_AMOUNT))
+            .andExpect(jsonPath("$.cropEligibilityAmount").value(DEFAULT_CROP_ELIGIBILITY_AMOUNT));
     }
 
     @Test
@@ -309,522 +262,508 @@ class KamalCropResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalCropsByPacsNumberIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByPacsNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where pacsNumber is greater than or equal to DEFAULT_PACS_NUMBER
-        defaultKamalCropShouldBeFound("pacsNumber.greaterThanOrEqual=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalCropList where pacsNumber contains DEFAULT_PACS_NUMBER
+        defaultKamalCropShouldBeFound("pacsNumber.contains=" + DEFAULT_PACS_NUMBER);
 
-        // Get all the kamalCropList where pacsNumber is greater than or equal to UPDATED_PACS_NUMBER
-        defaultKamalCropShouldNotBeFound("pacsNumber.greaterThanOrEqual=" + UPDATED_PACS_NUMBER);
+        // Get all the kamalCropList where pacsNumber contains UPDATED_PACS_NUMBER
+        defaultKamalCropShouldNotBeFound("pacsNumber.contains=" + UPDATED_PACS_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByPacsNumberIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByPacsNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where pacsNumber is less than or equal to DEFAULT_PACS_NUMBER
-        defaultKamalCropShouldBeFound("pacsNumber.lessThanOrEqual=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalCropList where pacsNumber does not contain DEFAULT_PACS_NUMBER
+        defaultKamalCropShouldNotBeFound("pacsNumber.doesNotContain=" + DEFAULT_PACS_NUMBER);
 
-        // Get all the kamalCropList where pacsNumber is less than or equal to SMALLER_PACS_NUMBER
-        defaultKamalCropShouldNotBeFound("pacsNumber.lessThanOrEqual=" + SMALLER_PACS_NUMBER);
+        // Get all the kamalCropList where pacsNumber does not contain UPDATED_PACS_NUMBER
+        defaultKamalCropShouldBeFound("pacsNumber.doesNotContain=" + UPDATED_PACS_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByPacsNumberIsLessThanSomething() throws Exception {
+    void getAllKamalCropsByFinancialYearIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where pacsNumber is less than DEFAULT_PACS_NUMBER
-        defaultKamalCropShouldNotBeFound("pacsNumber.lessThan=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalCropList where financialYear equals to DEFAULT_FINANCIAL_YEAR
+        defaultKamalCropShouldBeFound("financialYear.equals=" + DEFAULT_FINANCIAL_YEAR);
 
-        // Get all the kamalCropList where pacsNumber is less than UPDATED_PACS_NUMBER
-        defaultKamalCropShouldBeFound("pacsNumber.lessThan=" + UPDATED_PACS_NUMBER);
+        // Get all the kamalCropList where financialYear equals to UPDATED_FINANCIAL_YEAR
+        defaultKamalCropShouldNotBeFound("financialYear.equals=" + UPDATED_FINANCIAL_YEAR);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByPacsNumberIsGreaterThanSomething() throws Exception {
+    void getAllKamalCropsByFinancialYearIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where pacsNumber is greater than DEFAULT_PACS_NUMBER
-        defaultKamalCropShouldNotBeFound("pacsNumber.greaterThan=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalCropList where financialYear in DEFAULT_FINANCIAL_YEAR or UPDATED_FINANCIAL_YEAR
+        defaultKamalCropShouldBeFound("financialYear.in=" + DEFAULT_FINANCIAL_YEAR + "," + UPDATED_FINANCIAL_YEAR);
 
-        // Get all the kamalCropList where pacsNumber is greater than SMALLER_PACS_NUMBER
-        defaultKamalCropShouldBeFound("pacsNumber.greaterThan=" + SMALLER_PACS_NUMBER);
+        // Get all the kamalCropList where financialYear equals to UPDATED_FINANCIAL_YEAR
+        defaultKamalCropShouldNotBeFound("financialYear.in=" + UPDATED_FINANCIAL_YEAR);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByFinancialYearIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo equals to DEFAULT_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.equals=" + DEFAULT_MEM_NO);
+        // Get all the kamalCropList where financialYear is not null
+        defaultKamalCropShouldBeFound("financialYear.specified=true");
 
-        // Get all the kamalCropList where memNo equals to UPDATED_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.equals=" + UPDATED_MEM_NO);
+        // Get all the kamalCropList where financialYear is null
+        defaultKamalCropShouldNotBeFound("financialYear.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsInShouldWork() throws Exception {
+    void getAllKamalCropsByFinancialYearContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo in DEFAULT_MEM_NO or UPDATED_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.in=" + DEFAULT_MEM_NO + "," + UPDATED_MEM_NO);
+        // Get all the kamalCropList where financialYear contains DEFAULT_FINANCIAL_YEAR
+        defaultKamalCropShouldBeFound("financialYear.contains=" + DEFAULT_FINANCIAL_YEAR);
 
-        // Get all the kamalCropList where memNo equals to UPDATED_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.in=" + UPDATED_MEM_NO);
+        // Get all the kamalCropList where financialYear contains UPDATED_FINANCIAL_YEAR
+        defaultKamalCropShouldNotBeFound("financialYear.contains=" + UPDATED_FINANCIAL_YEAR);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsNullOrNotNull() throws Exception {
+    void getAllKamalCropsByFinancialYearNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo is not null
-        defaultKamalCropShouldBeFound("memNo.specified=true");
+        // Get all the kamalCropList where financialYear does not contain DEFAULT_FINANCIAL_YEAR
+        defaultKamalCropShouldNotBeFound("financialYear.doesNotContain=" + DEFAULT_FINANCIAL_YEAR);
 
-        // Get all the kamalCropList where memNo is null
-        defaultKamalCropShouldNotBeFound("memNo.specified=false");
+        // Get all the kamalCropList where financialYear does not contain UPDATED_FINANCIAL_YEAR
+        defaultKamalCropShouldBeFound("financialYear.doesNotContain=" + UPDATED_FINANCIAL_YEAR);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByMemberCountIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo is greater than or equal to DEFAULT_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.greaterThanOrEqual=" + DEFAULT_MEM_NO);
+        // Get all the kamalCropList where memberCount equals to DEFAULT_MEMBER_COUNT
+        defaultKamalCropShouldBeFound("memberCount.equals=" + DEFAULT_MEMBER_COUNT);
 
-        // Get all the kamalCropList where memNo is greater than or equal to UPDATED_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.greaterThanOrEqual=" + UPDATED_MEM_NO);
+        // Get all the kamalCropList where memberCount equals to UPDATED_MEMBER_COUNT
+        defaultKamalCropShouldNotBeFound("memberCount.equals=" + UPDATED_MEMBER_COUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByMemberCountIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo is less than or equal to DEFAULT_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.lessThanOrEqual=" + DEFAULT_MEM_NO);
+        // Get all the kamalCropList where memberCount in DEFAULT_MEMBER_COUNT or UPDATED_MEMBER_COUNT
+        defaultKamalCropShouldBeFound("memberCount.in=" + DEFAULT_MEMBER_COUNT + "," + UPDATED_MEMBER_COUNT);
 
-        // Get all the kamalCropList where memNo is less than or equal to SMALLER_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.lessThanOrEqual=" + SMALLER_MEM_NO);
+        // Get all the kamalCropList where memberCount equals to UPDATED_MEMBER_COUNT
+        defaultKamalCropShouldNotBeFound("memberCount.in=" + UPDATED_MEMBER_COUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsLessThanSomething() throws Exception {
+    void getAllKamalCropsByMemberCountIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo is less than DEFAULT_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.lessThan=" + DEFAULT_MEM_NO);
+        // Get all the kamalCropList where memberCount is not null
+        defaultKamalCropShouldBeFound("memberCount.specified=true");
 
-        // Get all the kamalCropList where memNo is less than UPDATED_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.lessThan=" + UPDATED_MEM_NO);
+        // Get all the kamalCropList where memberCount is null
+        defaultKamalCropShouldNotBeFound("memberCount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoIsGreaterThanSomething() throws Exception {
+    void getAllKamalCropsByMemberCountContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNo is greater than DEFAULT_MEM_NO
-        defaultKamalCropShouldNotBeFound("memNo.greaterThan=" + DEFAULT_MEM_NO);
+        // Get all the kamalCropList where memberCount contains DEFAULT_MEMBER_COUNT
+        defaultKamalCropShouldBeFound("memberCount.contains=" + DEFAULT_MEMBER_COUNT);
 
-        // Get all the kamalCropList where memNo is greater than SMALLER_MEM_NO
-        defaultKamalCropShouldBeFound("memNo.greaterThan=" + SMALLER_MEM_NO);
+        // Get all the kamalCropList where memberCount contains UPDATED_MEMBER_COUNT
+        defaultKamalCropShouldNotBeFound("memberCount.contains=" + UPDATED_MEMBER_COUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByMemberCountNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector equals to DEFAULT_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.equals=" + DEFAULT_MEM_HECTOR);
+        // Get all the kamalCropList where memberCount does not contain DEFAULT_MEMBER_COUNT
+        defaultKamalCropShouldNotBeFound("memberCount.doesNotContain=" + DEFAULT_MEMBER_COUNT);
 
-        // Get all the kamalCropList where memHector equals to UPDATED_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.equals=" + UPDATED_MEM_HECTOR);
+        // Get all the kamalCropList where memberCount does not contain UPDATED_MEMBER_COUNT
+        defaultKamalCropShouldBeFound("memberCount.doesNotContain=" + UPDATED_MEMBER_COUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsInShouldWork() throws Exception {
+    void getAllKamalCropsByAreaIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector in DEFAULT_MEM_HECTOR or UPDATED_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.in=" + DEFAULT_MEM_HECTOR + "," + UPDATED_MEM_HECTOR);
+        // Get all the kamalCropList where area equals to DEFAULT_AREA
+        defaultKamalCropShouldBeFound("area.equals=" + DEFAULT_AREA);
 
-        // Get all the kamalCropList where memHector equals to UPDATED_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.in=" + UPDATED_MEM_HECTOR);
+        // Get all the kamalCropList where area equals to UPDATED_AREA
+        defaultKamalCropShouldNotBeFound("area.equals=" + UPDATED_AREA);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsNullOrNotNull() throws Exception {
+    void getAllKamalCropsByAreaIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector is not null
-        defaultKamalCropShouldBeFound("memHector.specified=true");
+        // Get all the kamalCropList where area in DEFAULT_AREA or UPDATED_AREA
+        defaultKamalCropShouldBeFound("area.in=" + DEFAULT_AREA + "," + UPDATED_AREA);
 
-        // Get all the kamalCropList where memHector is null
-        defaultKamalCropShouldNotBeFound("memHector.specified=false");
+        // Get all the kamalCropList where area equals to UPDATED_AREA
+        defaultKamalCropShouldNotBeFound("area.in=" + UPDATED_AREA);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByAreaIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector is greater than or equal to DEFAULT_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.greaterThanOrEqual=" + DEFAULT_MEM_HECTOR);
+        // Get all the kamalCropList where area is not null
+        defaultKamalCropShouldBeFound("area.specified=true");
 
-        // Get all the kamalCropList where memHector is greater than or equal to UPDATED_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.greaterThanOrEqual=" + UPDATED_MEM_HECTOR);
+        // Get all the kamalCropList where area is null
+        defaultKamalCropShouldNotBeFound("area.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByAreaContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector is less than or equal to DEFAULT_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.lessThanOrEqual=" + DEFAULT_MEM_HECTOR);
+        // Get all the kamalCropList where area contains DEFAULT_AREA
+        defaultKamalCropShouldBeFound("area.contains=" + DEFAULT_AREA);
 
-        // Get all the kamalCropList where memHector is less than or equal to SMALLER_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.lessThanOrEqual=" + SMALLER_MEM_HECTOR);
+        // Get all the kamalCropList where area contains UPDATED_AREA
+        defaultKamalCropShouldNotBeFound("area.contains=" + UPDATED_AREA);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsLessThanSomething() throws Exception {
+    void getAllKamalCropsByAreaNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector is less than DEFAULT_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.lessThan=" + DEFAULT_MEM_HECTOR);
+        // Get all the kamalCropList where area does not contain DEFAULT_AREA
+        defaultKamalCropShouldNotBeFound("area.doesNotContain=" + DEFAULT_AREA);
 
-        // Get all the kamalCropList where memHector is less than UPDATED_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.lessThan=" + UPDATED_MEM_HECTOR);
+        // Get all the kamalCropList where area does not contain UPDATED_AREA
+        defaultKamalCropShouldBeFound("area.doesNotContain=" + UPDATED_AREA);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorIsGreaterThanSomething() throws Exception {
+    void getAllKamalCropsByPacsAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHector is greater than DEFAULT_MEM_HECTOR
-        defaultKamalCropShouldNotBeFound("memHector.greaterThan=" + DEFAULT_MEM_HECTOR);
+        // Get all the kamalCropList where pacsAmount equals to DEFAULT_PACS_AMOUNT
+        defaultKamalCropShouldBeFound("pacsAmount.equals=" + DEFAULT_PACS_AMOUNT);
 
-        // Get all the kamalCropList where memHector is greater than SMALLER_MEM_HECTOR
-        defaultKamalCropShouldBeFound("memHector.greaterThan=" + SMALLER_MEM_HECTOR);
+        // Get all the kamalCropList where pacsAmount equals to UPDATED_PACS_AMOUNT
+        defaultKamalCropShouldNotBeFound("pacsAmount.equals=" + UPDATED_PACS_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoMrIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByPacsAmountIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNoMr equals to DEFAULT_MEM_NO_MR
-        defaultKamalCropShouldBeFound("memNoMr.equals=" + DEFAULT_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount in DEFAULT_PACS_AMOUNT or UPDATED_PACS_AMOUNT
+        defaultKamalCropShouldBeFound("pacsAmount.in=" + DEFAULT_PACS_AMOUNT + "," + UPDATED_PACS_AMOUNT);
 
-        // Get all the kamalCropList where memNoMr equals to UPDATED_MEM_NO_MR
-        defaultKamalCropShouldNotBeFound("memNoMr.equals=" + UPDATED_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount equals to UPDATED_PACS_AMOUNT
+        defaultKamalCropShouldNotBeFound("pacsAmount.in=" + UPDATED_PACS_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoMrIsInShouldWork() throws Exception {
+    void getAllKamalCropsByPacsAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNoMr in DEFAULT_MEM_NO_MR or UPDATED_MEM_NO_MR
-        defaultKamalCropShouldBeFound("memNoMr.in=" + DEFAULT_MEM_NO_MR + "," + UPDATED_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount is not null
+        defaultKamalCropShouldBeFound("pacsAmount.specified=true");
 
-        // Get all the kamalCropList where memNoMr equals to UPDATED_MEM_NO_MR
-        defaultKamalCropShouldNotBeFound("memNoMr.in=" + UPDATED_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount is null
+        defaultKamalCropShouldNotBeFound("pacsAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoMrIsNullOrNotNull() throws Exception {
+    void getAllKamalCropsByPacsAmountContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNoMr is not null
-        defaultKamalCropShouldBeFound("memNoMr.specified=true");
+        // Get all the kamalCropList where pacsAmount contains DEFAULT_PACS_AMOUNT
+        defaultKamalCropShouldBeFound("pacsAmount.contains=" + DEFAULT_PACS_AMOUNT);
 
-        // Get all the kamalCropList where memNoMr is null
-        defaultKamalCropShouldNotBeFound("memNoMr.specified=false");
+        // Get all the kamalCropList where pacsAmount contains UPDATED_PACS_AMOUNT
+        defaultKamalCropShouldNotBeFound("pacsAmount.contains=" + UPDATED_PACS_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoMrContainsSomething() throws Exception {
+    void getAllKamalCropsByPacsAmountNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNoMr contains DEFAULT_MEM_NO_MR
-        defaultKamalCropShouldBeFound("memNoMr.contains=" + DEFAULT_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount does not contain DEFAULT_PACS_AMOUNT
+        defaultKamalCropShouldNotBeFound("pacsAmount.doesNotContain=" + DEFAULT_PACS_AMOUNT);
 
-        // Get all the kamalCropList where memNoMr contains UPDATED_MEM_NO_MR
-        defaultKamalCropShouldNotBeFound("memNoMr.contains=" + UPDATED_MEM_NO_MR);
+        // Get all the kamalCropList where pacsAmount does not contain UPDATED_PACS_AMOUNT
+        defaultKamalCropShouldBeFound("pacsAmount.doesNotContain=" + UPDATED_PACS_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemNoMrNotContainsSomething() throws Exception {
+    void getAllKamalCropsByBranchAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memNoMr does not contain DEFAULT_MEM_NO_MR
-        defaultKamalCropShouldNotBeFound("memNoMr.doesNotContain=" + DEFAULT_MEM_NO_MR);
+        // Get all the kamalCropList where branchAmount equals to DEFAULT_BRANCH_AMOUNT
+        defaultKamalCropShouldBeFound("branchAmount.equals=" + DEFAULT_BRANCH_AMOUNT);
 
-        // Get all the kamalCropList where memNoMr does not contain UPDATED_MEM_NO_MR
-        defaultKamalCropShouldBeFound("memNoMr.doesNotContain=" + UPDATED_MEM_NO_MR);
+        // Get all the kamalCropList where branchAmount equals to UPDATED_BRANCH_AMOUNT
+        defaultKamalCropShouldNotBeFound("branchAmount.equals=" + UPDATED_BRANCH_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorMrIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByBranchAmountIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHectorMr equals to DEFAULT_MEM_HECTOR_MR
-        defaultKamalCropShouldBeFound("memHectorMr.equals=" + DEFAULT_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount in DEFAULT_BRANCH_AMOUNT or UPDATED_BRANCH_AMOUNT
+        defaultKamalCropShouldBeFound("branchAmount.in=" + DEFAULT_BRANCH_AMOUNT + "," + UPDATED_BRANCH_AMOUNT);
 
-        // Get all the kamalCropList where memHectorMr equals to UPDATED_MEM_HECTOR_MR
-        defaultKamalCropShouldNotBeFound("memHectorMr.equals=" + UPDATED_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount equals to UPDATED_BRANCH_AMOUNT
+        defaultKamalCropShouldNotBeFound("branchAmount.in=" + UPDATED_BRANCH_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorMrIsInShouldWork() throws Exception {
+    void getAllKamalCropsByBranchAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHectorMr in DEFAULT_MEM_HECTOR_MR or UPDATED_MEM_HECTOR_MR
-        defaultKamalCropShouldBeFound("memHectorMr.in=" + DEFAULT_MEM_HECTOR_MR + "," + UPDATED_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount is not null
+        defaultKamalCropShouldBeFound("branchAmount.specified=true");
 
-        // Get all the kamalCropList where memHectorMr equals to UPDATED_MEM_HECTOR_MR
-        defaultKamalCropShouldNotBeFound("memHectorMr.in=" + UPDATED_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount is null
+        defaultKamalCropShouldNotBeFound("branchAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorMrIsNullOrNotNull() throws Exception {
+    void getAllKamalCropsByBranchAmountContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHectorMr is not null
-        defaultKamalCropShouldBeFound("memHectorMr.specified=true");
+        // Get all the kamalCropList where branchAmount contains DEFAULT_BRANCH_AMOUNT
+        defaultKamalCropShouldBeFound("branchAmount.contains=" + DEFAULT_BRANCH_AMOUNT);
 
-        // Get all the kamalCropList where memHectorMr is null
-        defaultKamalCropShouldNotBeFound("memHectorMr.specified=false");
+        // Get all the kamalCropList where branchAmount contains UPDATED_BRANCH_AMOUNT
+        defaultKamalCropShouldNotBeFound("branchAmount.contains=" + UPDATED_BRANCH_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorMrContainsSomething() throws Exception {
+    void getAllKamalCropsByBranchAmountNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHectorMr contains DEFAULT_MEM_HECTOR_MR
-        defaultKamalCropShouldBeFound("memHectorMr.contains=" + DEFAULT_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount does not contain DEFAULT_BRANCH_AMOUNT
+        defaultKamalCropShouldNotBeFound("branchAmount.doesNotContain=" + DEFAULT_BRANCH_AMOUNT);
 
-        // Get all the kamalCropList where memHectorMr contains UPDATED_MEM_HECTOR_MR
-        defaultKamalCropShouldNotBeFound("memHectorMr.contains=" + UPDATED_MEM_HECTOR_MR);
+        // Get all the kamalCropList where branchAmount does not contain UPDATED_BRANCH_AMOUNT
+        defaultKamalCropShouldBeFound("branchAmount.doesNotContain=" + UPDATED_BRANCH_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemHectorMrNotContainsSomething() throws Exception {
+    void getAllKamalCropsByHeadOfficeAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memHectorMr does not contain DEFAULT_MEM_HECTOR_MR
-        defaultKamalCropShouldNotBeFound("memHectorMr.doesNotContain=" + DEFAULT_MEM_HECTOR_MR);
+        // Get all the kamalCropList where headOfficeAmount equals to DEFAULT_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldBeFound("headOfficeAmount.equals=" + DEFAULT_HEAD_OFFICE_AMOUNT);
 
-        // Get all the kamalCropList where memHectorMr does not contain UPDATED_MEM_HECTOR_MR
-        defaultKamalCropShouldBeFound("memHectorMr.doesNotContain=" + UPDATED_MEM_HECTOR_MR);
+        // Get all the kamalCropList where headOfficeAmount equals to UPDATED_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldNotBeFound("headOfficeAmount.equals=" + UPDATED_HEAD_OFFICE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByHeadOfficeAmountIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar equals to DEFAULT_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.equals=" + DEFAULT_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount in DEFAULT_HEAD_OFFICE_AMOUNT or UPDATED_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldBeFound("headOfficeAmount.in=" + DEFAULT_HEAD_OFFICE_AMOUNT + "," + UPDATED_HEAD_OFFICE_AMOUNT);
 
-        // Get all the kamalCropList where memAar equals to UPDATED_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.equals=" + UPDATED_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount equals to UPDATED_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldNotBeFound("headOfficeAmount.in=" + UPDATED_HEAD_OFFICE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsInShouldWork() throws Exception {
+    void getAllKamalCropsByHeadOfficeAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar in DEFAULT_MEM_AAR or UPDATED_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.in=" + DEFAULT_MEM_AAR + "," + UPDATED_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount is not null
+        defaultKamalCropShouldBeFound("headOfficeAmount.specified=true");
 
-        // Get all the kamalCropList where memAar equals to UPDATED_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.in=" + UPDATED_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount is null
+        defaultKamalCropShouldNotBeFound("headOfficeAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsNullOrNotNull() throws Exception {
+    void getAllKamalCropsByHeadOfficeAmountContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar is not null
-        defaultKamalCropShouldBeFound("memAar.specified=true");
+        // Get all the kamalCropList where headOfficeAmount contains DEFAULT_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldBeFound("headOfficeAmount.contains=" + DEFAULT_HEAD_OFFICE_AMOUNT);
 
-        // Get all the kamalCropList where memAar is null
-        defaultKamalCropShouldNotBeFound("memAar.specified=false");
+        // Get all the kamalCropList where headOfficeAmount contains UPDATED_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldNotBeFound("headOfficeAmount.contains=" + UPDATED_HEAD_OFFICE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByHeadOfficeAmountNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar is greater than or equal to DEFAULT_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.greaterThanOrEqual=" + DEFAULT_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount does not contain DEFAULT_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldNotBeFound("headOfficeAmount.doesNotContain=" + DEFAULT_HEAD_OFFICE_AMOUNT);
 
-        // Get all the kamalCropList where memAar is greater than or equal to UPDATED_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.greaterThanOrEqual=" + UPDATED_MEM_AAR);
+        // Get all the kamalCropList where headOfficeAmount does not contain UPDATED_HEAD_OFFICE_AMOUNT
+        defaultKamalCropShouldBeFound("headOfficeAmount.doesNotContain=" + UPDATED_HEAD_OFFICE_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalCropsByCropEligibilityAmountIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar is less than or equal to DEFAULT_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.lessThanOrEqual=" + DEFAULT_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount equals to DEFAULT_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldBeFound("cropEligibilityAmount.equals=" + DEFAULT_CROP_ELIGIBILITY_AMOUNT);
 
-        // Get all the kamalCropList where memAar is less than or equal to SMALLER_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.lessThanOrEqual=" + SMALLER_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount equals to UPDATED_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldNotBeFound("cropEligibilityAmount.equals=" + UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsLessThanSomething() throws Exception {
+    void getAllKamalCropsByCropEligibilityAmountIsInShouldWork() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar is less than DEFAULT_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.lessThan=" + DEFAULT_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount in DEFAULT_CROP_ELIGIBILITY_AMOUNT or UPDATED_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldBeFound(
+            "cropEligibilityAmount.in=" + DEFAULT_CROP_ELIGIBILITY_AMOUNT + "," + UPDATED_CROP_ELIGIBILITY_AMOUNT
+        );
 
-        // Get all the kamalCropList where memAar is less than UPDATED_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.lessThan=" + UPDATED_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount equals to UPDATED_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldNotBeFound("cropEligibilityAmount.in=" + UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarIsGreaterThanSomething() throws Exception {
+    void getAllKamalCropsByCropEligibilityAmountIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAar is greater than DEFAULT_MEM_AAR
-        defaultKamalCropShouldNotBeFound("memAar.greaterThan=" + DEFAULT_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount is not null
+        defaultKamalCropShouldBeFound("cropEligibilityAmount.specified=true");
 
-        // Get all the kamalCropList where memAar is greater than SMALLER_MEM_AAR
-        defaultKamalCropShouldBeFound("memAar.greaterThan=" + SMALLER_MEM_AAR);
+        // Get all the kamalCropList where cropEligibilityAmount is null
+        defaultKamalCropShouldNotBeFound("cropEligibilityAmount.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarMrIsEqualToSomething() throws Exception {
+    void getAllKamalCropsByCropEligibilityAmountContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAarMr equals to DEFAULT_MEM_AAR_MR
-        defaultKamalCropShouldBeFound("memAarMr.equals=" + DEFAULT_MEM_AAR_MR);
+        // Get all the kamalCropList where cropEligibilityAmount contains DEFAULT_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldBeFound("cropEligibilityAmount.contains=" + DEFAULT_CROP_ELIGIBILITY_AMOUNT);
 
-        // Get all the kamalCropList where memAarMr equals to UPDATED_MEM_AAR_MR
-        defaultKamalCropShouldNotBeFound("memAarMr.equals=" + UPDATED_MEM_AAR_MR);
+        // Get all the kamalCropList where cropEligibilityAmount contains UPDATED_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldNotBeFound("cropEligibilityAmount.contains=" + UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarMrIsInShouldWork() throws Exception {
+    void getAllKamalCropsByCropEligibilityAmountNotContainsSomething() throws Exception {
         // Initialize the database
         kamalCropRepository.saveAndFlush(kamalCrop);
 
-        // Get all the kamalCropList where memAarMr in DEFAULT_MEM_AAR_MR or UPDATED_MEM_AAR_MR
-        defaultKamalCropShouldBeFound("memAarMr.in=" + DEFAULT_MEM_AAR_MR + "," + UPDATED_MEM_AAR_MR);
+        // Get all the kamalCropList where cropEligibilityAmount does not contain DEFAULT_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldNotBeFound("cropEligibilityAmount.doesNotContain=" + DEFAULT_CROP_ELIGIBILITY_AMOUNT);
 
-        // Get all the kamalCropList where memAarMr equals to UPDATED_MEM_AAR_MR
-        defaultKamalCropShouldNotBeFound("memAarMr.in=" + UPDATED_MEM_AAR_MR);
+        // Get all the kamalCropList where cropEligibilityAmount does not contain UPDATED_CROP_ELIGIBILITY_AMOUNT
+        defaultKamalCropShouldBeFound("cropEligibilityAmount.doesNotContain=" + UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
     @Transactional
-    void getAllKamalCropsByMemAarMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
+    void getAllKamalCropsByKamalSocietyIsEqualToSomething() throws Exception {
+        KamalSociety kamalSociety;
+        if (TestUtil.findAll(em, KamalSociety.class).isEmpty()) {
+            kamalCropRepository.saveAndFlush(kamalCrop);
+            kamalSociety = KamalSocietyResourceIT.createEntity(em);
+        } else {
+            kamalSociety = TestUtil.findAll(em, KamalSociety.class).get(0);
+        }
+        em.persist(kamalSociety);
+        em.flush();
+        kamalCrop.setKamalSociety(kamalSociety);
         kamalCropRepository.saveAndFlush(kamalCrop);
+        Long kamalSocietyId = kamalSociety.getId();
 
-        // Get all the kamalCropList where memAarMr is not null
-        defaultKamalCropShouldBeFound("memAarMr.specified=true");
+        // Get all the kamalCropList where kamalSociety equals to kamalSocietyId
+        defaultKamalCropShouldBeFound("kamalSocietyId.equals=" + kamalSocietyId);
 
-        // Get all the kamalCropList where memAarMr is null
-        defaultKamalCropShouldNotBeFound("memAarMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalCropsByMemAarMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalCropRepository.saveAndFlush(kamalCrop);
-
-        // Get all the kamalCropList where memAarMr contains DEFAULT_MEM_AAR_MR
-        defaultKamalCropShouldBeFound("memAarMr.contains=" + DEFAULT_MEM_AAR_MR);
-
-        // Get all the kamalCropList where memAarMr contains UPDATED_MEM_AAR_MR
-        defaultKamalCropShouldNotBeFound("memAarMr.contains=" + UPDATED_MEM_AAR_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalCropsByMemAarMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalCropRepository.saveAndFlush(kamalCrop);
-
-        // Get all the kamalCropList where memAarMr does not contain DEFAULT_MEM_AAR_MR
-        defaultKamalCropShouldNotBeFound("memAarMr.doesNotContain=" + DEFAULT_MEM_AAR_MR);
-
-        // Get all the kamalCropList where memAarMr does not contain UPDATED_MEM_AAR_MR
-        defaultKamalCropShouldBeFound("memAarMr.doesNotContain=" + UPDATED_MEM_AAR_MR);
+        // Get all the kamalCropList where kamalSociety equals to (kamalSocietyId + 1)
+        defaultKamalCropShouldNotBeFound("kamalSocietyId.equals=" + (kamalSocietyId + 1));
     }
 
     @Test
@@ -896,29 +835,6 @@ class KamalCropResourceIT {
         defaultKamalCropShouldNotBeFound("cropMasterId.equals=" + (cropMasterId + 1));
     }
 
-    @Test
-    @Transactional
-    void getAllKamalCropsByKamalSocietyIsEqualToSomething() throws Exception {
-        KamalSociety kamalSociety;
-        if (TestUtil.findAll(em, KamalSociety.class).isEmpty()) {
-            kamalCropRepository.saveAndFlush(kamalCrop);
-            kamalSociety = KamalSocietyResourceIT.createEntity(em);
-        } else {
-            kamalSociety = TestUtil.findAll(em, KamalSociety.class).get(0);
-        }
-        em.persist(kamalSociety);
-        em.flush();
-        kamalCrop.setKamalSociety(kamalSociety);
-        kamalCropRepository.saveAndFlush(kamalCrop);
-        Long kamalSocietyId = kamalSociety.getId();
-
-        // Get all the kamalCropList where kamalSociety equals to kamalSocietyId
-        defaultKamalCropShouldBeFound("kamalSocietyId.equals=" + kamalSocietyId);
-
-        // Get all the kamalCropList where kamalSociety equals to (kamalSocietyId + 1)
-        defaultKamalCropShouldNotBeFound("kamalSocietyId.equals=" + (kamalSocietyId + 1));
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -929,12 +845,13 @@ class KamalCropResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(kamalCrop.getId().intValue())))
             .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
-            .andExpect(jsonPath("$.[*].memNo").value(hasItem(DEFAULT_MEM_NO)))
-            .andExpect(jsonPath("$.[*].memHector").value(hasItem(DEFAULT_MEM_HECTOR.doubleValue())))
-            .andExpect(jsonPath("$.[*].memNoMr").value(hasItem(DEFAULT_MEM_NO_MR)))
-            .andExpect(jsonPath("$.[*].memHectorMr").value(hasItem(DEFAULT_MEM_HECTOR_MR)))
-            .andExpect(jsonPath("$.[*].memAar").value(hasItem(DEFAULT_MEM_AAR.doubleValue())))
-            .andExpect(jsonPath("$.[*].memAarMr").value(hasItem(DEFAULT_MEM_AAR_MR)));
+            .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
+            .andExpect(jsonPath("$.[*].memberCount").value(hasItem(DEFAULT_MEMBER_COUNT)))
+            .andExpect(jsonPath("$.[*].area").value(hasItem(DEFAULT_AREA)))
+            .andExpect(jsonPath("$.[*].pacsAmount").value(hasItem(DEFAULT_PACS_AMOUNT)))
+            .andExpect(jsonPath("$.[*].branchAmount").value(hasItem(DEFAULT_BRANCH_AMOUNT)))
+            .andExpect(jsonPath("$.[*].headOfficeAmount").value(hasItem(DEFAULT_HEAD_OFFICE_AMOUNT)))
+            .andExpect(jsonPath("$.[*].cropEligibilityAmount").value(hasItem(DEFAULT_CROP_ELIGIBILITY_AMOUNT)));
 
         // Check, that the count call also returns 1
         restKamalCropMockMvc
@@ -984,12 +901,13 @@ class KamalCropResourceIT {
         em.detach(updatedKamalCrop);
         updatedKamalCrop
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .memNo(UPDATED_MEM_NO)
-            .memHector(UPDATED_MEM_HECTOR)
-            .memNoMr(UPDATED_MEM_NO_MR)
-            .memHectorMr(UPDATED_MEM_HECTOR_MR)
-            .memAar(UPDATED_MEM_AAR)
-            .memAarMr(UPDATED_MEM_AAR_MR);
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .memberCount(UPDATED_MEMBER_COUNT)
+            .area(UPDATED_AREA)
+            .pacsAmount(UPDATED_PACS_AMOUNT)
+            .branchAmount(UPDATED_BRANCH_AMOUNT)
+            .headOfficeAmount(UPDATED_HEAD_OFFICE_AMOUNT)
+            .cropEligibilityAmount(UPDATED_CROP_ELIGIBILITY_AMOUNT);
 
         restKamalCropMockMvc
             .perform(
@@ -1004,12 +922,13 @@ class KamalCropResourceIT {
         assertThat(kamalCropList).hasSize(databaseSizeBeforeUpdate);
         KamalCrop testKamalCrop = kamalCropList.get(kamalCropList.size() - 1);
         assertThat(testKamalCrop.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
-        assertThat(testKamalCrop.getMemNo()).isEqualTo(UPDATED_MEM_NO);
-        assertThat(testKamalCrop.getMemHector()).isEqualTo(UPDATED_MEM_HECTOR);
-        assertThat(testKamalCrop.getMemNoMr()).isEqualTo(UPDATED_MEM_NO_MR);
-        assertThat(testKamalCrop.getMemHectorMr()).isEqualTo(UPDATED_MEM_HECTOR_MR);
-        assertThat(testKamalCrop.getMemAar()).isEqualTo(UPDATED_MEM_AAR);
-        assertThat(testKamalCrop.getMemAarMr()).isEqualTo(UPDATED_MEM_AAR_MR);
+        assertThat(testKamalCrop.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
+        assertThat(testKamalCrop.getMemberCount()).isEqualTo(UPDATED_MEMBER_COUNT);
+        assertThat(testKamalCrop.getArea()).isEqualTo(UPDATED_AREA);
+        assertThat(testKamalCrop.getPacsAmount()).isEqualTo(UPDATED_PACS_AMOUNT);
+        assertThat(testKamalCrop.getBranchAmount()).isEqualTo(UPDATED_BRANCH_AMOUNT);
+        assertThat(testKamalCrop.getHeadOfficeAmount()).isEqualTo(UPDATED_HEAD_OFFICE_AMOUNT);
+        assertThat(testKamalCrop.getCropEligibilityAmount()).isEqualTo(UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
@@ -1082,10 +1001,10 @@ class KamalCropResourceIT {
 
         partialUpdatedKamalCrop
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .memNo(UPDATED_MEM_NO)
-            .memNoMr(UPDATED_MEM_NO_MR)
-            .memAar(UPDATED_MEM_AAR)
-            .memAarMr(UPDATED_MEM_AAR_MR);
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .area(UPDATED_AREA)
+            .branchAmount(UPDATED_BRANCH_AMOUNT)
+            .headOfficeAmount(UPDATED_HEAD_OFFICE_AMOUNT);
 
         restKamalCropMockMvc
             .perform(
@@ -1100,12 +1019,13 @@ class KamalCropResourceIT {
         assertThat(kamalCropList).hasSize(databaseSizeBeforeUpdate);
         KamalCrop testKamalCrop = kamalCropList.get(kamalCropList.size() - 1);
         assertThat(testKamalCrop.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
-        assertThat(testKamalCrop.getMemNo()).isEqualTo(UPDATED_MEM_NO);
-        assertThat(testKamalCrop.getMemHector()).isEqualTo(DEFAULT_MEM_HECTOR);
-        assertThat(testKamalCrop.getMemNoMr()).isEqualTo(UPDATED_MEM_NO_MR);
-        assertThat(testKamalCrop.getMemHectorMr()).isEqualTo(DEFAULT_MEM_HECTOR_MR);
-        assertThat(testKamalCrop.getMemAar()).isEqualTo(UPDATED_MEM_AAR);
-        assertThat(testKamalCrop.getMemAarMr()).isEqualTo(UPDATED_MEM_AAR_MR);
+        assertThat(testKamalCrop.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
+        assertThat(testKamalCrop.getMemberCount()).isEqualTo(DEFAULT_MEMBER_COUNT);
+        assertThat(testKamalCrop.getArea()).isEqualTo(UPDATED_AREA);
+        assertThat(testKamalCrop.getPacsAmount()).isEqualTo(DEFAULT_PACS_AMOUNT);
+        assertThat(testKamalCrop.getBranchAmount()).isEqualTo(UPDATED_BRANCH_AMOUNT);
+        assertThat(testKamalCrop.getHeadOfficeAmount()).isEqualTo(UPDATED_HEAD_OFFICE_AMOUNT);
+        assertThat(testKamalCrop.getCropEligibilityAmount()).isEqualTo(DEFAULT_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test
@@ -1122,12 +1042,13 @@ class KamalCropResourceIT {
 
         partialUpdatedKamalCrop
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .memNo(UPDATED_MEM_NO)
-            .memHector(UPDATED_MEM_HECTOR)
-            .memNoMr(UPDATED_MEM_NO_MR)
-            .memHectorMr(UPDATED_MEM_HECTOR_MR)
-            .memAar(UPDATED_MEM_AAR)
-            .memAarMr(UPDATED_MEM_AAR_MR);
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .memberCount(UPDATED_MEMBER_COUNT)
+            .area(UPDATED_AREA)
+            .pacsAmount(UPDATED_PACS_AMOUNT)
+            .branchAmount(UPDATED_BRANCH_AMOUNT)
+            .headOfficeAmount(UPDATED_HEAD_OFFICE_AMOUNT)
+            .cropEligibilityAmount(UPDATED_CROP_ELIGIBILITY_AMOUNT);
 
         restKamalCropMockMvc
             .perform(
@@ -1142,12 +1063,13 @@ class KamalCropResourceIT {
         assertThat(kamalCropList).hasSize(databaseSizeBeforeUpdate);
         KamalCrop testKamalCrop = kamalCropList.get(kamalCropList.size() - 1);
         assertThat(testKamalCrop.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
-        assertThat(testKamalCrop.getMemNo()).isEqualTo(UPDATED_MEM_NO);
-        assertThat(testKamalCrop.getMemHector()).isEqualTo(UPDATED_MEM_HECTOR);
-        assertThat(testKamalCrop.getMemNoMr()).isEqualTo(UPDATED_MEM_NO_MR);
-        assertThat(testKamalCrop.getMemHectorMr()).isEqualTo(UPDATED_MEM_HECTOR_MR);
-        assertThat(testKamalCrop.getMemAar()).isEqualTo(UPDATED_MEM_AAR);
-        assertThat(testKamalCrop.getMemAarMr()).isEqualTo(UPDATED_MEM_AAR_MR);
+        assertThat(testKamalCrop.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
+        assertThat(testKamalCrop.getMemberCount()).isEqualTo(UPDATED_MEMBER_COUNT);
+        assertThat(testKamalCrop.getArea()).isEqualTo(UPDATED_AREA);
+        assertThat(testKamalCrop.getPacsAmount()).isEqualTo(UPDATED_PACS_AMOUNT);
+        assertThat(testKamalCrop.getBranchAmount()).isEqualTo(UPDATED_BRANCH_AMOUNT);
+        assertThat(testKamalCrop.getHeadOfficeAmount()).isEqualTo(UPDATED_HEAD_OFFICE_AMOUNT);
+        assertThat(testKamalCrop.getCropEligibilityAmount()).isEqualTo(UPDATED_CROP_ELIGIBILITY_AMOUNT);
     }
 
     @Test

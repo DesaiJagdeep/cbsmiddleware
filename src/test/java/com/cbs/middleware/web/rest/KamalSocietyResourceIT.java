@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.cbs.middleware.IntegrationTest;
-import com.cbs.middleware.domain.KamalCrop;
 import com.cbs.middleware.domain.KamalSociety;
 import com.cbs.middleware.repository.KamalSocietyRepository;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
@@ -33,236 +32,247 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class KamalSocietyResourceIT {
 
-    private static final Long DEFAULT_PACS_NUMBER = 1L;
-    private static final Long UPDATED_PACS_NUMBER = 2L;
-    private static final Long SMALLER_PACS_NUMBER = 1L - 1L;
+    private static final String DEFAULT_FINANCIAL_YEAR = "AAAAAAAAAA";
+    private static final String UPDATED_FINANCIAL_YEAR = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_ZINDAGI_DATE = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_ZINDAGI_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final Instant DEFAULT_KM_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_KM_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_ZINDAGI_DATE_MR = "AAAAAAAAAA";
-    private static final String UPDATED_ZINDAGI_DATE_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_KM_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_KM_DATE_MR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VILLAGE_1 = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_1 = "BBBBBBBBBB";
+    private static final Instant DEFAULT_KM_FROM_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_KM_FROM_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_VILLAGE_1_MR = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_1_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_KM_FROM_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_KM_FROM_DATE_MR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VILLAGE_2 = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_2 = "BBBBBBBBBB";
+    private static final Instant DEFAULT_KM_TO_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_KM_TO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_VILLAGE_2_MR = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_2_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_KM_TO_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_KM_TO_DATE_MR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VILLAGE_3 = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_3 = "BBBBBBBBBB";
+    private static final String DEFAULT_PACS_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NUMBER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VILLAGE_3_MR = "AAAAAAAAAA";
-    private static final String UPDATED_VILLAGE_3_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_PACS_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_PACS_NAME = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_LAND = 1D;
-    private static final Double UPDATED_TOTAL_LAND = 2D;
-    private static final Double SMALLER_TOTAL_LAND = 1D - 1D;
+    private static final Long DEFAULT_BRANCH_ID = 1L;
+    private static final Long UPDATED_BRANCH_ID = 2L;
+    private static final Long SMALLER_BRANCH_ID = 1L - 1L;
 
-    private static final String DEFAULT_TOTAL_LAND_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_LAND_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BRANCH_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_NAME = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_MEM = 1D;
-    private static final Double UPDATED_TOTAL_MEM = 2D;
-    private static final Double SMALLER_TOTAL_MEM = 1D - 1D;
+    private static final Long DEFAULT_TALUKA_ID = 1L;
+    private static final Long UPDATED_TALUKA_ID = 2L;
+    private static final Long SMALLER_TALUKA_ID = 1L - 1L;
 
-    private static final String DEFAULT_TOTAL_MEM_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_MEM_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_TALUKA_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_TALUKA_NAME = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_NON_MEM = 1D;
-    private static final Double UPDATED_TOTAL_NON_MEM = 2D;
-    private static final Double SMALLER_TOTAL_NON_MEM = 1D - 1D;
+    private static final Instant DEFAULT_ZINDAGI_PATRAK_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_ZINDAGI_PATRAK_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_TOTAL_NON_MEM_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_NON_MEM_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_ZINDAGI_PATRAK_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_ZINDAGI_PATRAK_DATE_MR = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_G_MEM = 1D;
-    private static final Double UPDATED_TOTAL_G_MEM = 2D;
-    private static final Double SMALLER_TOTAL_G_MEM = 1D - 1D;
+    private static final Instant DEFAULT_BANK_TAPASANI_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BANK_TAPASANI_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_TOTAL_G_MEM_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_G_MEM_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BANK_TAPASANI_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_TAPASANI_DATE_MR = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_LOAN = 1D;
-    private static final Double UPDATED_MEM_LOAN = 2D;
-    private static final Double SMALLER_MEM_LOAN = 1D - 1D;
+    private static final Instant DEFAULT_GOV_TAPASANI_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_GOV_TAPASANI_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_MEM_LOAN_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_LOAN_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_GOV_TAPASANI_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_GOV_TAPASANI_DATE_MR = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_DUE = 1D;
-    private static final Double UPDATED_MEM_DUE = 2D;
-    private static final Double SMALLER_MEM_DUE = 1D - 1D;
+    private static final Instant DEFAULT_SANSTHA_TAPASANI_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_SANSTHA_TAPASANI_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_MEM_DUE_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_DUE_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_SANSTHA_TAPASANI_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_SANSTHA_TAPASANI_DATE_MR = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_DUEPER = 1D;
-    private static final Double UPDATED_MEM_DUEPER = 2D;
-    private static final Double SMALLER_MEM_DUEPER = 1D - 1D;
+    private static final String DEFAULT_TOTAL_LAND = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_LAND = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_DUEPER_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_DUEPER_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BAGAYAT = "AAAAAAAAAA";
+    private static final String UPDATED_BAGAYAT = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_VASULPATRA = 1D;
-    private static final Double UPDATED_MEM_VASULPATRA = 2D;
-    private static final Double SMALLER_MEM_VASULPATRA = 1D - 1D;
+    private static final String DEFAULT_JIRAYAT = "AAAAAAAAAA";
+    private static final String UPDATED_JIRAYAT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_VASULPATRA_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_VASULPATRA_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_TOTAL_FARMER = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_FARMER = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_VASUL = 1D;
-    private static final Double UPDATED_MEM_VASUL = 2D;
-    private static final Double SMALLER_MEM_VASUL = 1D - 1D;
+    private static final String DEFAULT_MEMBER_FARMER = "AAAAAAAAAA";
+    private static final String UPDATED_MEMBER_FARMER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MEM_VASUL_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_VASUL_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_NON_MEMBER_FARMER = "AAAAAAAAAA";
+    private static final String UPDATED_NON_MEMBER_FARMER = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_MEM_VASUL_PER = 1D;
-    private static final Double UPDATED_MEM_VASUL_PER = 2D;
-    private static final Double SMALLER_MEM_VASUL_PER = 1D - 1D;
+    private static final Instant DEFAULT_TALEBAND_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_TALEBAND_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_MEM_VASUL_PER_MR = "AAAAAAAAAA";
-    private static final String UPDATED_MEM_VASUL_PER_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_MEM_LOAN = "AAAAAAAAAA";
+    private static final String UPDATED_MEM_LOAN = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_BANK_LOAN = 1D;
-    private static final Double UPDATED_BANK_LOAN = 2D;
-    private static final Double SMALLER_BANK_LOAN = 1D - 1D;
+    private static final String DEFAULT_MEM_DUE = "AAAAAAAAAA";
+    private static final String UPDATED_MEM_DUE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_LOAN_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_LOAN_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_MEM_VASULI = "AAAAAAAAAA";
+    private static final String UPDATED_MEM_VASULI = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_BANK_DUE = 1D;
-    private static final Double UPDATED_BANK_DUE = 2D;
-    private static final Double SMALLER_BANK_DUE = 1D - 1D;
+    private static final String DEFAULT_MEM_VASULI_PER = "AAAAAAAAAA";
+    private static final String UPDATED_MEM_VASULI_PER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_DUE_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_DUE_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BANK_LOAN = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_LOAN = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_BANK_DUEPER = 1D;
-    private static final Double UPDATED_BANK_DUEPER = 2D;
-    private static final Double SMALLER_BANK_DUEPER = 1D - 1D;
+    private static final String DEFAULT_BANK_DUE = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_DUE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_DUEPER_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_DUEPER_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BANK_VASULI = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_VASULI = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_BANK_VASULPATRA = 1D;
-    private static final Double UPDATED_BANK_VASULPATRA = 2D;
-    private static final Double SMALLER_BANK_VASULPATRA = 1D - 1D;
+    private static final String DEFAULT_BANK_VASULI_PER = "AAAAAAAAAA";
+    private static final String UPDATED_BANK_VASULI_PER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_VASULPATRA_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_VASULPATRA_MR = "BBBBBBBBBB";
+    private static final Instant DEFAULT_BALANCE_SHEET_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BALANCE_SHEET_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Double DEFAULT_BANK_VASUL = 1D;
-    private static final Double UPDATED_BANK_VASUL = 2D;
-    private static final Double SMALLER_BANK_VASUL = 1D - 1D;
+    private static final String DEFAULT_BALANCE_SHEET_DATE_MR = "AAAAAAAAAA";
+    private static final String UPDATED_BALANCE_SHEET_DATE_MR = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_VASUL_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_VASUL_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_BANK_VASUL_PER = 1D;
-    private static final Double UPDATED_BANK_VASUL_PER = 2D;
-    private static final Double SMALLER_BANK_VASUL_PER = 1D - 1D;
+    private static final String DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_VASUL_SHARE_CAPITAL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BANK_VASUL_PER_MR = "AAAAAAAAAA";
-    private static final String UPDATED_BANK_VASUL_PER_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_LIABILITY_FUND = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_FUND = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_SHARE_CAPITAL = 1D;
-    private static final Double UPDATED_SHARE_CAPITAL = 2D;
-    private static final Double SMALLER_SHARE_CAPITAL = 1D - 1D;
+    private static final String DEFAULT_LIABILITY_SPARE_FUND = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_SPARE_FUND = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SHARE_CAPITAL_MR = "AAAAAAAAAA";
-    private static final String UPDATED_SHARE_CAPITAL_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_LIABILITY_DEPOSITE = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_DEPOSITE = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_SHARE = 1D;
-    private static final Double UPDATED_SHARE = 2D;
-    private static final Double SMALLER_SHARE = 1D - 1D;
+    private static final String DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SHARE_MR = "AAAAAAAAAA";
-    private static final String UPDATED_SHARE_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_LIABILITY_OTHER_PAYABLE = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_OTHER_PAYABLE = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_FUNDS = 1D;
-    private static final Double UPDATED_FUNDS = 2D;
-    private static final Double SMALLER_FUNDS = 1D - 1D;
+    private static final String DEFAULT_LIABILITY_PROFIT = "AAAAAAAAAA";
+    private static final String UPDATED_LIABILITY_PROFIT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_FUNDS_MR = "AAAAAAAAAA";
-    private static final String UPDATED_FUNDS_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_ASSET_CASH = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_CASH = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_DEPOSIT = 1D;
-    private static final Double UPDATED_DEPOSIT = 2D;
-    private static final Double SMALLER_DEPOSIT = 1D - 1D;
+    private static final String DEFAULT_ASSET_INVESTMENT = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_INVESTMENT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_DEPOSIT_MR = "AAAAAAAAAA";
-    private static final String UPDATED_DEPOSIT_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_ASSET_IMARAT_FUND = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_IMARAT_FUND = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_PAYABLE = 1D;
-    private static final Double UPDATED_PAYABLE = 2D;
-    private static final Double SMALLER_PAYABLE = 1D - 1D;
+    private static final String DEFAULT_ASSET_MEMBER_LOAN = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_MEMBER_LOAN = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PAYABLE_MR = "AAAAAAAAAA";
-    private static final String UPDATED_PAYABLE_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_ASSET_DEAD_STOCK = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_DEAD_STOCK = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_PROFIT = 1D;
-    private static final Double UPDATED_PROFIT = 2D;
-    private static final Double SMALLER_PROFIT = 1D - 1D;
+    private static final String DEFAULT_ASSET_OTHER_RECEIVABLE = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_OTHER_RECEIVABLE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PROFIT_MR = "AAAAAAAAAA";
-    private static final String UPDATED_PROFIT_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_ASSET_LOSS = "AAAAAAAAAA";
+    private static final String UPDATED_ASSET_LOSS = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_CASH_IN_HAND = 1D;
-    private static final Double UPDATED_CASH_IN_HAND = 2D;
-    private static final Double SMALLER_CASH_IN_HAND = 1D - 1D;
+    private static final String DEFAULT_TOTAL_LIABILITY = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_LIABILITY = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CASH_IN_HAND_MR = "AAAAAAAAAA";
-    private static final String UPDATED_CASH_IN_HAND_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_TOTAL_ASSET = "AAAAAAAAAA";
+    private static final String UPDATED_TOTAL_ASSET = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_INVESTMENT = 1D;
-    private static final Double UPDATED_INVESTMENT = 2D;
-    private static final Double SMALLER_INVESTMENT = 1D - 1D;
+    private static final String DEFAULT_VILLAGE_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_VILLAGE_CODE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_INVESTMENT_MR = "AAAAAAAAAA";
-    private static final String UPDATED_INVESTMENT_MR = "BBBBBBBBBB";
+    private static final Boolean DEFAULT_PACS_VERIFIED_FLAG = false;
+    private static final Boolean UPDATED_PACS_VERIFIED_FLAG = true;
 
-    private static final Double DEFAULT_DEAD_STOCK = 1D;
-    private static final Double UPDATED_DEAD_STOCK = 2D;
-    private static final Double SMALLER_DEAD_STOCK = 1D - 1D;
+    private static final Boolean DEFAULT_BRANCH_VERIFIED_FLAG = false;
+    private static final Boolean UPDATED_BRANCH_VERIFIED_FLAG = true;
 
-    private static final String DEFAULT_DEAD_STOCK_MR = "AAAAAAAAAA";
-    private static final String UPDATED_DEAD_STOCK_MR = "BBBBBBBBBB";
+    private static final Boolean DEFAULT_HEAD_OFFICE_VERIFIED_FLAG = false;
+    private static final Boolean UPDATED_HEAD_OFFICE_VERIFIED_FLAG = true;
 
-    private static final Double DEFAULT_OTHER_PAY = 1D;
-    private static final Double UPDATED_OTHER_PAY = 2D;
-    private static final Double SMALLER_OTHER_PAY = 1D - 1D;
+    private static final Boolean DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG = false;
+    private static final Boolean UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG = true;
 
-    private static final String DEFAULT_OTHER_PAY_MR = "AAAAAAAAAA";
-    private static final String UPDATED_OTHER_PAY_MR = "BBBBBBBBBB";
+    private static final Boolean DEFAULT_IS_SUPPLIMENTERY_FLAG = false;
+    private static final Boolean UPDATED_IS_SUPPLIMENTERY_FLAG = true;
 
-    private static final Double DEFAULT_LOSS = 1D;
-    private static final Double UPDATED_LOSS = 2D;
-    private static final Double SMALLER_LOSS = 1D - 1D;
+    private static final String DEFAULT_SANSTHA_TAPASANI_VARG = "AAAAAAAAAA";
+    private static final String UPDATED_SANSTHA_TAPASANI_VARG = "BBBBBBBBBB";
 
-    private static final String DEFAULT_LOSS_MR = "AAAAAAAAAA";
-    private static final String UPDATED_LOSS_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_BRANCH_VERIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_VERIFIED_BY = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_BAGAYAT = 1D;
-    private static final Double UPDATED_TOTAL_BAGAYAT = 2D;
-    private static final Double SMALLER_TOTAL_BAGAYAT = 1D - 1D;
+    private static final Instant DEFAULT_BRANCH_VERIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BRANCH_VERIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_TOTAL_BAGAYAT_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_BAGAYAT_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_HEAD_OFFICE_VERIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_VERIFIED_BY = "BBBBBBBBBB";
 
-    private static final Double DEFAULT_TOTAL_JIRAYAT = 1D;
-    private static final Double UPDATED_TOTAL_JIRAYAT = 2D;
-    private static final Double SMALLER_TOTAL_JIRAYAT = 1D - 1D;
+    private static final Instant DEFAULT_HEAD_OFFICE_VERIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HEAD_OFFICE_VERIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final String DEFAULT_TOTAL_JIRAYAT_MR = "AAAAAAAAAA";
-    private static final String UPDATED_TOTAL_JIRAYAT_MR = "BBBBBBBBBB";
+    private static final String DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DOSH_PURTATA_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DOSH_PURTATA_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_GAMBHIR_DOSH = "AAAAAAAAAA";
+    private static final String UPDATED_GAMBHIR_DOSH = "BBBBBBBBBB";
+
+    private static final String DEFAULT_BRANCH_INWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_INWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_BRANCH_INWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BRANCH_INWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_BRANCH_OUTWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_BRANCH_OUTWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_BRANCH_OUTWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_BRANCH_OUTWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_HEAD_OFFICE_INWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_INWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_HEAD_OFFICE_INWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HEAD_OFFICE_INWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_HEAD_OFFICE_OUTWARD_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_HEAD_OFFICE_OUTWARD_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_HEAD_OFFICE_OUTWARD_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final String DEFAULT_THARAV_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_THARAV_NUMBER = "BBBBBBBBBB";
+
+    private static final Instant DEFAULT_THARAV_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_THARAV_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/kamal-societies";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -289,73 +299,86 @@ class KamalSocietyResourceIT {
      */
     public static KamalSociety createEntity(EntityManager em) {
         KamalSociety kamalSociety = new KamalSociety()
+            .financialYear(DEFAULT_FINANCIAL_YEAR)
+            .kmDate(DEFAULT_KM_DATE)
+            .kmDateMr(DEFAULT_KM_DATE_MR)
+            .kmFromDate(DEFAULT_KM_FROM_DATE)
+            .kmFromDateMr(DEFAULT_KM_FROM_DATE_MR)
+            .kmToDate(DEFAULT_KM_TO_DATE)
+            .kmToDateMr(DEFAULT_KM_TO_DATE_MR)
             .pacsNumber(DEFAULT_PACS_NUMBER)
-            .zindagiDate(DEFAULT_ZINDAGI_DATE)
-            .zindagiDateMr(DEFAULT_ZINDAGI_DATE_MR)
-            .village1(DEFAULT_VILLAGE_1)
-            .village1Mr(DEFAULT_VILLAGE_1_MR)
-            .village2(DEFAULT_VILLAGE_2)
-            .village2Mr(DEFAULT_VILLAGE_2_MR)
-            .village3(DEFAULT_VILLAGE_3)
-            .village3Mr(DEFAULT_VILLAGE_3_MR)
+            .pacsName(DEFAULT_PACS_NAME)
+            .branchId(DEFAULT_BRANCH_ID)
+            .branchName(DEFAULT_BRANCH_NAME)
+            .talukaId(DEFAULT_TALUKA_ID)
+            .talukaName(DEFAULT_TALUKA_NAME)
+            .zindagiPatrakDate(DEFAULT_ZINDAGI_PATRAK_DATE)
+            .zindagiPatrakDateMr(DEFAULT_ZINDAGI_PATRAK_DATE_MR)
+            .bankTapasaniDate(DEFAULT_BANK_TAPASANI_DATE)
+            .bankTapasaniDateMr(DEFAULT_BANK_TAPASANI_DATE_MR)
+            .govTapasaniDate(DEFAULT_GOV_TAPASANI_DATE)
+            .govTapasaniDateMr(DEFAULT_GOV_TAPASANI_DATE_MR)
+            .sansthaTapasaniDate(DEFAULT_SANSTHA_TAPASANI_DATE)
+            .sansthaTapasaniDateMr(DEFAULT_SANSTHA_TAPASANI_DATE_MR)
             .totalLand(DEFAULT_TOTAL_LAND)
-            .totalLandMr(DEFAULT_TOTAL_LAND_MR)
-            .totalMem(DEFAULT_TOTAL_MEM)
-            .totalMemMr(DEFAULT_TOTAL_MEM_MR)
-            .totalNonMem(DEFAULT_TOTAL_NON_MEM)
-            .totalNonMemMr(DEFAULT_TOTAL_NON_MEM_MR)
-            .totalGMem(DEFAULT_TOTAL_G_MEM)
-            .totalGMemMr(DEFAULT_TOTAL_G_MEM_MR)
+            .bagayat(DEFAULT_BAGAYAT)
+            .jirayat(DEFAULT_JIRAYAT)
+            .totalFarmer(DEFAULT_TOTAL_FARMER)
+            .memberFarmer(DEFAULT_MEMBER_FARMER)
+            .nonMemberFarmer(DEFAULT_NON_MEMBER_FARMER)
+            .talebandDate(DEFAULT_TALEBAND_DATE)
             .memLoan(DEFAULT_MEM_LOAN)
-            .memLoanMr(DEFAULT_MEM_LOAN_MR)
             .memDue(DEFAULT_MEM_DUE)
-            .memDueMr(DEFAULT_MEM_DUE_MR)
-            .memDueper(DEFAULT_MEM_DUEPER)
-            .memDueperMr(DEFAULT_MEM_DUEPER_MR)
-            .memVasulpatra(DEFAULT_MEM_VASULPATRA)
-            .memVasulpatraMr(DEFAULT_MEM_VASULPATRA_MR)
-            .memVasul(DEFAULT_MEM_VASUL)
-            .memVasulMr(DEFAULT_MEM_VASUL_MR)
-            .memVasulPer(DEFAULT_MEM_VASUL_PER)
-            .memVasulPerMr(DEFAULT_MEM_VASUL_PER_MR)
+            .memVasuli(DEFAULT_MEM_VASULI)
+            .memVasuliPer(DEFAULT_MEM_VASULI_PER)
             .bankLoan(DEFAULT_BANK_LOAN)
-            .bankLoanMr(DEFAULT_BANK_LOAN_MR)
             .bankDue(DEFAULT_BANK_DUE)
-            .bankDueMr(DEFAULT_BANK_DUE_MR)
-            .bankDueper(DEFAULT_BANK_DUEPER)
-            .bankDueperMr(DEFAULT_BANK_DUEPER_MR)
-            .bankVasulpatra(DEFAULT_BANK_VASULPATRA)
-            .bankVasulpatraMr(DEFAULT_BANK_VASULPATRA_MR)
-            .bankVasul(DEFAULT_BANK_VASUL)
-            .bankVasulMr(DEFAULT_BANK_VASUL_MR)
-            .bankVasulPer(DEFAULT_BANK_VASUL_PER)
-            .bankVasulPerMr(DEFAULT_BANK_VASUL_PER_MR)
-            .shareCapital(DEFAULT_SHARE_CAPITAL)
-            .shareCapitalMr(DEFAULT_SHARE_CAPITAL_MR)
-            .share(DEFAULT_SHARE)
-            .shareMr(DEFAULT_SHARE_MR)
-            .funds(DEFAULT_FUNDS)
-            .fundsMr(DEFAULT_FUNDS_MR)
-            .deposit(DEFAULT_DEPOSIT)
-            .depositMr(DEFAULT_DEPOSIT_MR)
-            .payable(DEFAULT_PAYABLE)
-            .payableMr(DEFAULT_PAYABLE_MR)
-            .profit(DEFAULT_PROFIT)
-            .profitMr(DEFAULT_PROFIT_MR)
-            .cashInHand(DEFAULT_CASH_IN_HAND)
-            .cashInHandMr(DEFAULT_CASH_IN_HAND_MR)
-            .investment(DEFAULT_INVESTMENT)
-            .investmentMr(DEFAULT_INVESTMENT_MR)
-            .deadStock(DEFAULT_DEAD_STOCK)
-            .deadStockMr(DEFAULT_DEAD_STOCK_MR)
-            .otherPay(DEFAULT_OTHER_PAY)
-            .otherPayMr(DEFAULT_OTHER_PAY_MR)
-            .loss(DEFAULT_LOSS)
-            .lossMr(DEFAULT_LOSS_MR)
-            .totalBagayat(DEFAULT_TOTAL_BAGAYAT)
-            .totalBagayatMr(DEFAULT_TOTAL_BAGAYAT_MR)
-            .totalJirayat(DEFAULT_TOTAL_JIRAYAT)
-            .totalJirayatMr(DEFAULT_TOTAL_JIRAYAT_MR);
+            .bankVasuli(DEFAULT_BANK_VASULI)
+            .bankVasuliPer(DEFAULT_BANK_VASULI_PER)
+            .balanceSheetDate(DEFAULT_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(DEFAULT_BALANCE_SHEET_DATE_MR)
+            .liabilityAdhikrutShareCapital(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
+            .liabilityVasulShareCapital(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)
+            .liabilityFund(DEFAULT_LIABILITY_FUND)
+            .liabilitySpareFund(DEFAULT_LIABILITY_SPARE_FUND)
+            .liabilityDeposite(DEFAULT_LIABILITY_DEPOSITE)
+            .liabilityBalanceSheetBankLoan(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)
+            .liabilityOtherPayable(DEFAULT_LIABILITY_OTHER_PAYABLE)
+            .liabilityProfit(DEFAULT_LIABILITY_PROFIT)
+            .assetCash(DEFAULT_ASSET_CASH)
+            .assetInvestment(DEFAULT_ASSET_INVESTMENT)
+            .assetImaratFund(DEFAULT_ASSET_IMARAT_FUND)
+            .assetMemberLoan(DEFAULT_ASSET_MEMBER_LOAN)
+            .assetDeadStock(DEFAULT_ASSET_DEAD_STOCK)
+            .assetOtherReceivable(DEFAULT_ASSET_OTHER_RECEIVABLE)
+            .assetLoss(DEFAULT_ASSET_LOSS)
+            .totalLiability(DEFAULT_TOTAL_LIABILITY)
+            .totalAsset(DEFAULT_TOTAL_ASSET)
+            .villageCode(DEFAULT_VILLAGE_CODE)
+            .pacsVerifiedFlag(DEFAULT_PACS_VERIFIED_FLAG)
+            .branchVerifiedFlag(DEFAULT_BRANCH_VERIFIED_FLAG)
+            .headOfficeVerifiedFlag(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG)
+            .isSupplimenteryFlag(DEFAULT_IS_SUPPLIMENTERY_FLAG)
+            .sansthaTapasaniVarg(DEFAULT_SANSTHA_TAPASANI_VARG)
+            .branchVerifiedBy(DEFAULT_BRANCH_VERIFIED_BY)
+            .branchVerifiedDate(DEFAULT_BRANCH_VERIFIED_DATE)
+            .headOfficeVerifiedBy(DEFAULT_HEAD_OFFICE_VERIFIED_BY)
+            .headOfficeVerifiedDate(DEFAULT_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(DEFAULT_DOSH_PURTATA_DATE)
+            .gambhirDosh(DEFAULT_GAMBHIR_DOSH);
+            //.branchInwardNumber(DEFAULT_BRANCH_INWARD_NUMBER)
+            //.branchInwardDate(DEFAULT_BRANCH_INWARD_DATE)
+            ///.branchOutwardNumber(DEFAULT_BRANCH_OUTWARD_NUMBER)
+         /*   .branchOutwardDate(DEFAULT_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(DEFAULT_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(DEFAULT_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(DEFAULT_THARAV_NUMBER)
+            .tharavDate(DEFAULT_THARAV_DATE);*/
         return kamalSociety;
     }
 
@@ -367,73 +390,86 @@ class KamalSocietyResourceIT {
      */
     public static KamalSociety createUpdatedEntity(EntityManager em) {
         KamalSociety kamalSociety = new KamalSociety()
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .kmDate(UPDATED_KM_DATE)
+            .kmDateMr(UPDATED_KM_DATE_MR)
+            .kmFromDate(UPDATED_KM_FROM_DATE)
+            .kmFromDateMr(UPDATED_KM_FROM_DATE_MR)
+            .kmToDate(UPDATED_KM_TO_DATE)
+            .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .zindagiDate(UPDATED_ZINDAGI_DATE)
-            .zindagiDateMr(UPDATED_ZINDAGI_DATE_MR)
-            .village1(UPDATED_VILLAGE_1)
-            .village1Mr(UPDATED_VILLAGE_1_MR)
-            .village2(UPDATED_VILLAGE_2)
-            .village2Mr(UPDATED_VILLAGE_2_MR)
-            .village3(UPDATED_VILLAGE_3)
-            .village3Mr(UPDATED_VILLAGE_3_MR)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
+            .talukaId(UPDATED_TALUKA_ID)
+            .talukaName(UPDATED_TALUKA_NAME)
+            .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
+            .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
+            .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
+            .bankTapasaniDateMr(UPDATED_BANK_TAPASANI_DATE_MR)
+            .govTapasaniDate(UPDATED_GOV_TAPASANI_DATE)
+            .govTapasaniDateMr(UPDATED_GOV_TAPASANI_DATE_MR)
+            .sansthaTapasaniDate(UPDATED_SANSTHA_TAPASANI_DATE)
+            .sansthaTapasaniDateMr(UPDATED_SANSTHA_TAPASANI_DATE_MR)
             .totalLand(UPDATED_TOTAL_LAND)
-            .totalLandMr(UPDATED_TOTAL_LAND_MR)
-            .totalMem(UPDATED_TOTAL_MEM)
-            .totalMemMr(UPDATED_TOTAL_MEM_MR)
-            .totalNonMem(UPDATED_TOTAL_NON_MEM)
-            .totalNonMemMr(UPDATED_TOTAL_NON_MEM_MR)
-            .totalGMem(UPDATED_TOTAL_G_MEM)
-            .totalGMemMr(UPDATED_TOTAL_G_MEM_MR)
+            .bagayat(UPDATED_BAGAYAT)
+            .jirayat(UPDATED_JIRAYAT)
+            .totalFarmer(UPDATED_TOTAL_FARMER)
+            .memberFarmer(UPDATED_MEMBER_FARMER)
+            .nonMemberFarmer(UPDATED_NON_MEMBER_FARMER)
+            .talebandDate(UPDATED_TALEBAND_DATE)
             .memLoan(UPDATED_MEM_LOAN)
-            .memLoanMr(UPDATED_MEM_LOAN_MR)
             .memDue(UPDATED_MEM_DUE)
-            .memDueMr(UPDATED_MEM_DUE_MR)
-            .memDueper(UPDATED_MEM_DUEPER)
-            .memDueperMr(UPDATED_MEM_DUEPER_MR)
-            .memVasulpatra(UPDATED_MEM_VASULPATRA)
-            .memVasulpatraMr(UPDATED_MEM_VASULPATRA_MR)
-            .memVasul(UPDATED_MEM_VASUL)
-            .memVasulMr(UPDATED_MEM_VASUL_MR)
-            .memVasulPer(UPDATED_MEM_VASUL_PER)
-            .memVasulPerMr(UPDATED_MEM_VASUL_PER_MR)
+            .memVasuli(UPDATED_MEM_VASULI)
+            .memVasuliPer(UPDATED_MEM_VASULI_PER)
             .bankLoan(UPDATED_BANK_LOAN)
-            .bankLoanMr(UPDATED_BANK_LOAN_MR)
             .bankDue(UPDATED_BANK_DUE)
-            .bankDueMr(UPDATED_BANK_DUE_MR)
-            .bankDueper(UPDATED_BANK_DUEPER)
-            .bankDueperMr(UPDATED_BANK_DUEPER_MR)
-            .bankVasulpatra(UPDATED_BANK_VASULPATRA)
-            .bankVasulpatraMr(UPDATED_BANK_VASULPATRA_MR)
-            .bankVasul(UPDATED_BANK_VASUL)
-            .bankVasulMr(UPDATED_BANK_VASUL_MR)
-            .bankVasulPer(UPDATED_BANK_VASUL_PER)
-            .bankVasulPerMr(UPDATED_BANK_VASUL_PER_MR)
-            .shareCapital(UPDATED_SHARE_CAPITAL)
-            .shareCapitalMr(UPDATED_SHARE_CAPITAL_MR)
-            .share(UPDATED_SHARE)
-            .shareMr(UPDATED_SHARE_MR)
-            .funds(UPDATED_FUNDS)
-            .fundsMr(UPDATED_FUNDS_MR)
-            .deposit(UPDATED_DEPOSIT)
-            .depositMr(UPDATED_DEPOSIT_MR)
-            .payable(UPDATED_PAYABLE)
-            .payableMr(UPDATED_PAYABLE_MR)
-            .profit(UPDATED_PROFIT)
-            .profitMr(UPDATED_PROFIT_MR)
-            .cashInHand(UPDATED_CASH_IN_HAND)
-            .cashInHandMr(UPDATED_CASH_IN_HAND_MR)
-            .investment(UPDATED_INVESTMENT)
-            .investmentMr(UPDATED_INVESTMENT_MR)
-            .deadStock(UPDATED_DEAD_STOCK)
-            .deadStockMr(UPDATED_DEAD_STOCK_MR)
-            .otherPay(UPDATED_OTHER_PAY)
-            .otherPayMr(UPDATED_OTHER_PAY_MR)
-            .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR)
-            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
-            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
-            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
-            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
+            .bankVasuli(UPDATED_BANK_VASULI)
+            .bankVasuliPer(UPDATED_BANK_VASULI_PER)
+            .balanceSheetDate(UPDATED_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(UPDATED_BALANCE_SHEET_DATE_MR)
+            .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
+            .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
+            .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
+            .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
+            .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
+            .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
+            .liabilityProfit(UPDATED_LIABILITY_PROFIT)
+            .assetCash(UPDATED_ASSET_CASH)
+            .assetInvestment(UPDATED_ASSET_INVESTMENT)
+            .assetImaratFund(UPDATED_ASSET_IMARAT_FUND)
+            .assetMemberLoan(UPDATED_ASSET_MEMBER_LOAN)
+            .assetDeadStock(UPDATED_ASSET_DEAD_STOCK)
+            .assetOtherReceivable(UPDATED_ASSET_OTHER_RECEIVABLE)
+            .assetLoss(UPDATED_ASSET_LOSS)
+            .totalLiability(UPDATED_TOTAL_LIABILITY)
+            .totalAsset(UPDATED_TOTAL_ASSET)
+            .villageCode(UPDATED_VILLAGE_CODE)
+            .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
+            .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
+            .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
+            .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
+            .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
+            .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
+            .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
+            .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+       /*     .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE)*/;
         return kamalSociety;
     }
 
@@ -455,73 +491,86 @@ class KamalSocietyResourceIT {
         List<KamalSociety> kamalSocietyList = kamalSocietyRepository.findAll();
         assertThat(kamalSocietyList).hasSize(databaseSizeBeforeCreate + 1);
         KamalSociety testKamalSociety = kamalSocietyList.get(kamalSocietyList.size() - 1);
+        assertThat(testKamalSociety.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
+        assertThat(testKamalSociety.getKmDate()).isEqualTo(DEFAULT_KM_DATE);
+        assertThat(testKamalSociety.getKmDateMr()).isEqualTo(DEFAULT_KM_DATE_MR);
+        assertThat(testKamalSociety.getKmFromDate()).isEqualTo(DEFAULT_KM_FROM_DATE);
+        assertThat(testKamalSociety.getKmFromDateMr()).isEqualTo(DEFAULT_KM_FROM_DATE_MR);
+        assertThat(testKamalSociety.getKmToDate()).isEqualTo(DEFAULT_KM_TO_DATE);
+        assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(DEFAULT_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
-        assertThat(testKamalSociety.getZindagiDate()).isEqualTo(DEFAULT_ZINDAGI_DATE);
-        assertThat(testKamalSociety.getZindagiDateMr()).isEqualTo(DEFAULT_ZINDAGI_DATE_MR);
-        assertThat(testKamalSociety.getVillage1()).isEqualTo(DEFAULT_VILLAGE_1);
-        assertThat(testKamalSociety.getVillage1Mr()).isEqualTo(DEFAULT_VILLAGE_1_MR);
-        assertThat(testKamalSociety.getVillage2()).isEqualTo(DEFAULT_VILLAGE_2);
-        assertThat(testKamalSociety.getVillage2Mr()).isEqualTo(DEFAULT_VILLAGE_2_MR);
-        assertThat(testKamalSociety.getVillage3()).isEqualTo(DEFAULT_VILLAGE_3);
-        assertThat(testKamalSociety.getVillage3Mr()).isEqualTo(DEFAULT_VILLAGE_3_MR);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(DEFAULT_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(DEFAULT_BRANCH_NAME);
+        assertThat(testKamalSociety.getTalukaId()).isEqualTo(DEFAULT_TALUKA_ID);
+        assertThat(testKamalSociety.getTalukaName()).isEqualTo(DEFAULT_TALUKA_NAME);
+        assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE);
+        assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE_MR);
+        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE);
+        assertThat(testKamalSociety.getBankTapasaniDateMr()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(DEFAULT_GOV_TAPASANI_DATE);
+        assertThat(testKamalSociety.getGovTapasaniDateMr()).isEqualTo(DEFAULT_GOV_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getSansthaTapasaniDate()).isEqualTo(DEFAULT_SANSTHA_TAPASANI_DATE);
+        assertThat(testKamalSociety.getSansthaTapasaniDateMr()).isEqualTo(DEFAULT_SANSTHA_TAPASANI_DATE_MR);
         assertThat(testKamalSociety.getTotalLand()).isEqualTo(DEFAULT_TOTAL_LAND);
-        assertThat(testKamalSociety.getTotalLandMr()).isEqualTo(DEFAULT_TOTAL_LAND_MR);
-        assertThat(testKamalSociety.getTotalMem()).isEqualTo(DEFAULT_TOTAL_MEM);
-        assertThat(testKamalSociety.getTotalMemMr()).isEqualTo(DEFAULT_TOTAL_MEM_MR);
-        assertThat(testKamalSociety.getTotalNonMem()).isEqualTo(DEFAULT_TOTAL_NON_MEM);
-        assertThat(testKamalSociety.getTotalNonMemMr()).isEqualTo(DEFAULT_TOTAL_NON_MEM_MR);
-        assertThat(testKamalSociety.getTotalGMem()).isEqualTo(DEFAULT_TOTAL_G_MEM);
-        assertThat(testKamalSociety.getTotalGMemMr()).isEqualTo(DEFAULT_TOTAL_G_MEM_MR);
+        assertThat(testKamalSociety.getBagayat()).isEqualTo(DEFAULT_BAGAYAT);
+        assertThat(testKamalSociety.getJirayat()).isEqualTo(DEFAULT_JIRAYAT);
+        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(DEFAULT_TOTAL_FARMER);
+        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(DEFAULT_MEMBER_FARMER);
+        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(DEFAULT_NON_MEMBER_FARMER);
+        assertThat(testKamalSociety.getTalebandDate()).isEqualTo(DEFAULT_TALEBAND_DATE);
         assertThat(testKamalSociety.getMemLoan()).isEqualTo(DEFAULT_MEM_LOAN);
-        assertThat(testKamalSociety.getMemLoanMr()).isEqualTo(DEFAULT_MEM_LOAN_MR);
         assertThat(testKamalSociety.getMemDue()).isEqualTo(DEFAULT_MEM_DUE);
-        assertThat(testKamalSociety.getMemDueMr()).isEqualTo(DEFAULT_MEM_DUE_MR);
-        assertThat(testKamalSociety.getMemDueper()).isEqualTo(DEFAULT_MEM_DUEPER);
-        assertThat(testKamalSociety.getMemDueperMr()).isEqualTo(DEFAULT_MEM_DUEPER_MR);
-        assertThat(testKamalSociety.getMemVasulpatra()).isEqualTo(DEFAULT_MEM_VASULPATRA);
-        assertThat(testKamalSociety.getMemVasulpatraMr()).isEqualTo(DEFAULT_MEM_VASULPATRA_MR);
-        assertThat(testKamalSociety.getMemVasul()).isEqualTo(DEFAULT_MEM_VASUL);
-        assertThat(testKamalSociety.getMemVasulMr()).isEqualTo(DEFAULT_MEM_VASUL_MR);
-        assertThat(testKamalSociety.getMemVasulPer()).isEqualTo(DEFAULT_MEM_VASUL_PER);
-        assertThat(testKamalSociety.getMemVasulPerMr()).isEqualTo(DEFAULT_MEM_VASUL_PER_MR);
+        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(DEFAULT_MEM_VASULI);
+        assertThat(testKamalSociety.getMemVasuliPer()).isEqualTo(DEFAULT_MEM_VASULI_PER);
         assertThat(testKamalSociety.getBankLoan()).isEqualTo(DEFAULT_BANK_LOAN);
-        assertThat(testKamalSociety.getBankLoanMr()).isEqualTo(DEFAULT_BANK_LOAN_MR);
         assertThat(testKamalSociety.getBankDue()).isEqualTo(DEFAULT_BANK_DUE);
-        assertThat(testKamalSociety.getBankDueMr()).isEqualTo(DEFAULT_BANK_DUE_MR);
-        assertThat(testKamalSociety.getBankDueper()).isEqualTo(DEFAULT_BANK_DUEPER);
-        assertThat(testKamalSociety.getBankDueperMr()).isEqualTo(DEFAULT_BANK_DUEPER_MR);
-        assertThat(testKamalSociety.getBankVasulpatra()).isEqualTo(DEFAULT_BANK_VASULPATRA);
-        assertThat(testKamalSociety.getBankVasulpatraMr()).isEqualTo(DEFAULT_BANK_VASULPATRA_MR);
-        assertThat(testKamalSociety.getBankVasul()).isEqualTo(DEFAULT_BANK_VASUL);
-        assertThat(testKamalSociety.getBankVasulMr()).isEqualTo(DEFAULT_BANK_VASUL_MR);
-        assertThat(testKamalSociety.getBankVasulPer()).isEqualTo(DEFAULT_BANK_VASUL_PER);
-        assertThat(testKamalSociety.getBankVasulPerMr()).isEqualTo(DEFAULT_BANK_VASUL_PER_MR);
-        assertThat(testKamalSociety.getShareCapital()).isEqualTo(DEFAULT_SHARE_CAPITAL);
-        assertThat(testKamalSociety.getShareCapitalMr()).isEqualTo(DEFAULT_SHARE_CAPITAL_MR);
-        assertThat(testKamalSociety.getShare()).isEqualTo(DEFAULT_SHARE);
-        assertThat(testKamalSociety.getShareMr()).isEqualTo(DEFAULT_SHARE_MR);
-        assertThat(testKamalSociety.getFunds()).isEqualTo(DEFAULT_FUNDS);
-        assertThat(testKamalSociety.getFundsMr()).isEqualTo(DEFAULT_FUNDS_MR);
-        assertThat(testKamalSociety.getDeposit()).isEqualTo(DEFAULT_DEPOSIT);
-        assertThat(testKamalSociety.getDepositMr()).isEqualTo(DEFAULT_DEPOSIT_MR);
-        assertThat(testKamalSociety.getPayable()).isEqualTo(DEFAULT_PAYABLE);
-        assertThat(testKamalSociety.getPayableMr()).isEqualTo(DEFAULT_PAYABLE_MR);
-        assertThat(testKamalSociety.getProfit()).isEqualTo(DEFAULT_PROFIT);
-        assertThat(testKamalSociety.getProfitMr()).isEqualTo(DEFAULT_PROFIT_MR);
-        assertThat(testKamalSociety.getCashInHand()).isEqualTo(DEFAULT_CASH_IN_HAND);
-        assertThat(testKamalSociety.getCashInHandMr()).isEqualTo(DEFAULT_CASH_IN_HAND_MR);
-        assertThat(testKamalSociety.getInvestment()).isEqualTo(DEFAULT_INVESTMENT);
-        assertThat(testKamalSociety.getInvestmentMr()).isEqualTo(DEFAULT_INVESTMENT_MR);
-        assertThat(testKamalSociety.getDeadStock()).isEqualTo(DEFAULT_DEAD_STOCK);
-        assertThat(testKamalSociety.getDeadStockMr()).isEqualTo(DEFAULT_DEAD_STOCK_MR);
-        assertThat(testKamalSociety.getOtherPay()).isEqualTo(DEFAULT_OTHER_PAY);
-        assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(DEFAULT_OTHER_PAY_MR);
-        assertThat(testKamalSociety.getLoss()).isEqualTo(DEFAULT_LOSS);
-        assertThat(testKamalSociety.getLossMr()).isEqualTo(DEFAULT_LOSS_MR);
-        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(DEFAULT_TOTAL_BAGAYAT);
-        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(DEFAULT_TOTAL_BAGAYAT_MR);
-        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(DEFAULT_TOTAL_JIRAYAT);
-        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(DEFAULT_TOTAL_JIRAYAT_MR);
+        assertThat(testKamalSociety.getBankVasuli()).isEqualTo(DEFAULT_BANK_VASULI);
+        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(DEFAULT_BANK_VASULI_PER);
+        assertThat(testKamalSociety.getBalanceSheetDate()).isEqualTo(DEFAULT_BALANCE_SHEET_DATE);
+        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(DEFAULT_BALANCE_SHEET_DATE_MR);
+        assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(DEFAULT_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(DEFAULT_LIABILITY_SPARE_FUND);
+        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(DEFAULT_LIABILITY_DEPOSITE);
+        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
+        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(DEFAULT_LIABILITY_OTHER_PAYABLE);
+        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(DEFAULT_LIABILITY_PROFIT);
+        assertThat(testKamalSociety.getAssetCash()).isEqualTo(DEFAULT_ASSET_CASH);
+        assertThat(testKamalSociety.getAssetInvestment()).isEqualTo(DEFAULT_ASSET_INVESTMENT);
+        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(DEFAULT_ASSET_IMARAT_FUND);
+        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(DEFAULT_ASSET_MEMBER_LOAN);
+        assertThat(testKamalSociety.getAssetDeadStock()).isEqualTo(DEFAULT_ASSET_DEAD_STOCK);
+        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(DEFAULT_ASSET_OTHER_RECEIVABLE);
+        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(DEFAULT_ASSET_LOSS);
+        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(DEFAULT_TOTAL_LIABILITY);
+        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(DEFAULT_TOTAL_ASSET);
+        assertThat(testKamalSociety.getVillageCode()).isEqualTo(DEFAULT_VILLAGE_CODE);
+        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(DEFAULT_PACS_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(DEFAULT_BRANCH_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(DEFAULT_IS_SUPPLIMENTERY_FLAG);
+        assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(DEFAULT_SANSTHA_TAPASANI_VARG);
+        assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(DEFAULT_BRANCH_VERIFIED_BY);
+        assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(DEFAULT_BRANCH_VERIFIED_DATE);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(DEFAULT_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(DEFAULT_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(DEFAULT_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(DEFAULT_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(DEFAULT_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(DEFAULT_THARAV_DATE);
     }
 
     @Test
@@ -544,6 +593,23 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
+    void checkFinancialYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = kamalSocietyRepository.findAll().size();
+        // set the field null
+        kamalSociety.setFinancialYear(null);
+
+        // Create the KamalSociety, which fails.
+
+        restKamalSocietyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(kamalSociety)))
+            .andExpect(status().isBadRequest());
+
+        List<KamalSociety> kamalSocietyList = kamalSocietyRepository.findAll();
+        assertThat(kamalSocietyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllKamalSocieties() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
@@ -554,73 +620,88 @@ class KamalSocietyResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(kamalSociety.getId().intValue())))
-            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].zindagiDate").value(hasItem(DEFAULT_ZINDAGI_DATE.toString())))
-            .andExpect(jsonPath("$.[*].zindagiDateMr").value(hasItem(DEFAULT_ZINDAGI_DATE_MR)))
-            .andExpect(jsonPath("$.[*].village1").value(hasItem(DEFAULT_VILLAGE_1)))
-            .andExpect(jsonPath("$.[*].village1Mr").value(hasItem(DEFAULT_VILLAGE_1_MR)))
-            .andExpect(jsonPath("$.[*].village2").value(hasItem(DEFAULT_VILLAGE_2)))
-            .andExpect(jsonPath("$.[*].village2Mr").value(hasItem(DEFAULT_VILLAGE_2_MR)))
-            .andExpect(jsonPath("$.[*].village3").value(hasItem(DEFAULT_VILLAGE_3)))
-            .andExpect(jsonPath("$.[*].village3Mr").value(hasItem(DEFAULT_VILLAGE_3_MR)))
-            .andExpect(jsonPath("$.[*].totalLand").value(hasItem(DEFAULT_TOTAL_LAND.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalLandMr").value(hasItem(DEFAULT_TOTAL_LAND_MR)))
-            .andExpect(jsonPath("$.[*].totalMem").value(hasItem(DEFAULT_TOTAL_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalMemMr").value(hasItem(DEFAULT_TOTAL_MEM_MR)))
-            .andExpect(jsonPath("$.[*].totalNonMem").value(hasItem(DEFAULT_TOTAL_NON_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalNonMemMr").value(hasItem(DEFAULT_TOTAL_NON_MEM_MR)))
-            .andExpect(jsonPath("$.[*].totalGMem").value(hasItem(DEFAULT_TOTAL_G_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalGMemMr").value(hasItem(DEFAULT_TOTAL_G_MEM_MR)))
-            .andExpect(jsonPath("$.[*].memLoan").value(hasItem(DEFAULT_MEM_LOAN.doubleValue())))
-            .andExpect(jsonPath("$.[*].memLoanMr").value(hasItem(DEFAULT_MEM_LOAN_MR)))
-            .andExpect(jsonPath("$.[*].memDue").value(hasItem(DEFAULT_MEM_DUE.doubleValue())))
-            .andExpect(jsonPath("$.[*].memDueMr").value(hasItem(DEFAULT_MEM_DUE_MR)))
-            .andExpect(jsonPath("$.[*].memDueper").value(hasItem(DEFAULT_MEM_DUEPER.doubleValue())))
-            .andExpect(jsonPath("$.[*].memDueperMr").value(hasItem(DEFAULT_MEM_DUEPER_MR)))
-            .andExpect(jsonPath("$.[*].memVasulpatra").value(hasItem(DEFAULT_MEM_VASULPATRA.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulpatraMr").value(hasItem(DEFAULT_MEM_VASULPATRA_MR)))
-            .andExpect(jsonPath("$.[*].memVasul").value(hasItem(DEFAULT_MEM_VASUL.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulMr").value(hasItem(DEFAULT_MEM_VASUL_MR)))
-            .andExpect(jsonPath("$.[*].memVasulPer").value(hasItem(DEFAULT_MEM_VASUL_PER.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulPerMr").value(hasItem(DEFAULT_MEM_VASUL_PER_MR)))
-            .andExpect(jsonPath("$.[*].bankLoan").value(hasItem(DEFAULT_BANK_LOAN.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankLoanMr").value(hasItem(DEFAULT_BANK_LOAN_MR)))
-            .andExpect(jsonPath("$.[*].bankDue").value(hasItem(DEFAULT_BANK_DUE.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankDueMr").value(hasItem(DEFAULT_BANK_DUE_MR)))
-            .andExpect(jsonPath("$.[*].bankDueper").value(hasItem(DEFAULT_BANK_DUEPER.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankDueperMr").value(hasItem(DEFAULT_BANK_DUEPER_MR)))
-            .andExpect(jsonPath("$.[*].bankVasulpatra").value(hasItem(DEFAULT_BANK_VASULPATRA.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulpatraMr").value(hasItem(DEFAULT_BANK_VASULPATRA_MR)))
-            .andExpect(jsonPath("$.[*].bankVasul").value(hasItem(DEFAULT_BANK_VASUL.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulMr").value(hasItem(DEFAULT_BANK_VASUL_MR)))
-            .andExpect(jsonPath("$.[*].bankVasulPer").value(hasItem(DEFAULT_BANK_VASUL_PER.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulPerMr").value(hasItem(DEFAULT_BANK_VASUL_PER_MR)))
-            .andExpect(jsonPath("$.[*].shareCapital").value(hasItem(DEFAULT_SHARE_CAPITAL.doubleValue())))
-            .andExpect(jsonPath("$.[*].shareCapitalMr").value(hasItem(DEFAULT_SHARE_CAPITAL_MR)))
-            .andExpect(jsonPath("$.[*].share").value(hasItem(DEFAULT_SHARE.doubleValue())))
-            .andExpect(jsonPath("$.[*].shareMr").value(hasItem(DEFAULT_SHARE_MR)))
-            .andExpect(jsonPath("$.[*].funds").value(hasItem(DEFAULT_FUNDS.doubleValue())))
-            .andExpect(jsonPath("$.[*].fundsMr").value(hasItem(DEFAULT_FUNDS_MR)))
-            .andExpect(jsonPath("$.[*].deposit").value(hasItem(DEFAULT_DEPOSIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].depositMr").value(hasItem(DEFAULT_DEPOSIT_MR)))
-            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.doubleValue())))
-            .andExpect(jsonPath("$.[*].payableMr").value(hasItem(DEFAULT_PAYABLE_MR)))
-            .andExpect(jsonPath("$.[*].profit").value(hasItem(DEFAULT_PROFIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].profitMr").value(hasItem(DEFAULT_PROFIT_MR)))
-            .andExpect(jsonPath("$.[*].cashInHand").value(hasItem(DEFAULT_CASH_IN_HAND.doubleValue())))
-            .andExpect(jsonPath("$.[*].cashInHandMr").value(hasItem(DEFAULT_CASH_IN_HAND_MR)))
-            .andExpect(jsonPath("$.[*].investment").value(hasItem(DEFAULT_INVESTMENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].investmentMr").value(hasItem(DEFAULT_INVESTMENT_MR)))
-            .andExpect(jsonPath("$.[*].deadStock").value(hasItem(DEFAULT_DEAD_STOCK.doubleValue())))
-            .andExpect(jsonPath("$.[*].deadStockMr").value(hasItem(DEFAULT_DEAD_STOCK_MR)))
-            .andExpect(jsonPath("$.[*].otherPay").value(hasItem(DEFAULT_OTHER_PAY.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherPayMr").value(hasItem(DEFAULT_OTHER_PAY_MR)))
-            .andExpect(jsonPath("$.[*].loss").value(hasItem(DEFAULT_LOSS.doubleValue())))
-            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)))
-            .andExpect(jsonPath("$.[*].totalBagayat").value(hasItem(DEFAULT_TOTAL_BAGAYAT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalBagayatMr").value(hasItem(DEFAULT_TOTAL_BAGAYAT_MR)))
-            .andExpect(jsonPath("$.[*].totalJirayat").value(hasItem(DEFAULT_TOTAL_JIRAYAT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalJirayatMr").value(hasItem(DEFAULT_TOTAL_JIRAYAT_MR)));
+            .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
+            .andExpect(jsonPath("$.[*].kmDate").value(hasItem(DEFAULT_KM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmDateMr").value(hasItem(DEFAULT_KM_DATE_MR)))
+            .andExpect(jsonPath("$.[*].kmFromDate").value(hasItem(DEFAULT_KM_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmFromDateMr").value(hasItem(DEFAULT_KM_FROM_DATE_MR)))
+            .andExpect(jsonPath("$.[*].kmToDate").value(hasItem(DEFAULT_KM_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmToDateMr").value(hasItem(DEFAULT_KM_TO_DATE_MR)))
+            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)))
+            .andExpect(jsonPath("$.[*].branchId").value(hasItem(DEFAULT_BRANCH_ID.intValue())))
+            .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
+            .andExpect(jsonPath("$.[*].talukaId").value(hasItem(DEFAULT_TALUKA_ID.intValue())))
+            .andExpect(jsonPath("$.[*].talukaName").value(hasItem(DEFAULT_TALUKA_NAME)))
+            .andExpect(jsonPath("$.[*].zindagiPatrakDate").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE.toString())))
+            .andExpect(jsonPath("$.[*].zindagiPatrakDateMr").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE_MR)))
+            .andExpect(jsonPath("$.[*].bankTapasaniDate").value(hasItem(DEFAULT_BANK_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].bankTapasaniDateMr").value(hasItem(DEFAULT_BANK_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].govTapasaniDate").value(hasItem(DEFAULT_GOV_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].govTapasaniDateMr").value(hasItem(DEFAULT_GOV_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniDate").value(hasItem(DEFAULT_SANSTHA_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniDateMr").value(hasItem(DEFAULT_SANSTHA_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].totalLand").value(hasItem(DEFAULT_TOTAL_LAND)))
+            .andExpect(jsonPath("$.[*].bagayat").value(hasItem(DEFAULT_BAGAYAT)))
+            .andExpect(jsonPath("$.[*].jirayat").value(hasItem(DEFAULT_JIRAYAT)))
+            .andExpect(jsonPath("$.[*].totalFarmer").value(hasItem(DEFAULT_TOTAL_FARMER)))
+            .andExpect(jsonPath("$.[*].memberFarmer").value(hasItem(DEFAULT_MEMBER_FARMER)))
+            .andExpect(jsonPath("$.[*].nonMemberFarmer").value(hasItem(DEFAULT_NON_MEMBER_FARMER)))
+            .andExpect(jsonPath("$.[*].talebandDate").value(hasItem(DEFAULT_TALEBAND_DATE.toString())))
+            .andExpect(jsonPath("$.[*].memLoan").value(hasItem(DEFAULT_MEM_LOAN)))
+            .andExpect(jsonPath("$.[*].memDue").value(hasItem(DEFAULT_MEM_DUE)))
+            .andExpect(jsonPath("$.[*].memVasuli").value(hasItem(DEFAULT_MEM_VASULI)))
+            .andExpect(jsonPath("$.[*].memVasuliPer").value(hasItem(DEFAULT_MEM_VASULI_PER)))
+            .andExpect(jsonPath("$.[*].bankLoan").value(hasItem(DEFAULT_BANK_LOAN)))
+            .andExpect(jsonPath("$.[*].bankDue").value(hasItem(DEFAULT_BANK_DUE)))
+            .andExpect(jsonPath("$.[*].bankVasuli").value(hasItem(DEFAULT_BANK_VASULI)))
+            .andExpect(jsonPath("$.[*].bankVasuliPer").value(hasItem(DEFAULT_BANK_VASULI_PER)))
+            .andExpect(jsonPath("$.[*].balanceSheetDate").value(hasItem(DEFAULT_BALANCE_SHEET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].balanceSheetDateMr").value(hasItem(DEFAULT_BALANCE_SHEET_DATE_MR)))
+            .andExpect(jsonPath("$.[*].liabilityAdhikrutShareCapital").value(hasItem(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)))
+            .andExpect(jsonPath("$.[*].liabilityVasulShareCapital").value(hasItem(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)))
+            .andExpect(jsonPath("$.[*].liabilityFund").value(hasItem(DEFAULT_LIABILITY_FUND)))
+            .andExpect(jsonPath("$.[*].liabilitySpareFund").value(hasItem(DEFAULT_LIABILITY_SPARE_FUND)))
+            .andExpect(jsonPath("$.[*].liabilityDeposite").value(hasItem(DEFAULT_LIABILITY_DEPOSITE)))
+            .andExpect(jsonPath("$.[*].liabilityBalanceSheetBankLoan").value(hasItem(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)))
+            .andExpect(jsonPath("$.[*].liabilityOtherPayable").value(hasItem(DEFAULT_LIABILITY_OTHER_PAYABLE)))
+            .andExpect(jsonPath("$.[*].liabilityProfit").value(hasItem(DEFAULT_LIABILITY_PROFIT)))
+            .andExpect(jsonPath("$.[*].assetCash").value(hasItem(DEFAULT_ASSET_CASH)))
+            .andExpect(jsonPath("$.[*].assetInvestment").value(hasItem(DEFAULT_ASSET_INVESTMENT)))
+            .andExpect(jsonPath("$.[*].assetImaratFund").value(hasItem(DEFAULT_ASSET_IMARAT_FUND)))
+            .andExpect(jsonPath("$.[*].assetMemberLoan").value(hasItem(DEFAULT_ASSET_MEMBER_LOAN)))
+            .andExpect(jsonPath("$.[*].assetDeadStock").value(hasItem(DEFAULT_ASSET_DEAD_STOCK)))
+            .andExpect(jsonPath("$.[*].assetOtherReceivable").value(hasItem(DEFAULT_ASSET_OTHER_RECEIVABLE)))
+            .andExpect(jsonPath("$.[*].assetLoss").value(hasItem(DEFAULT_ASSET_LOSS)))
+            .andExpect(jsonPath("$.[*].totalLiability").value(hasItem(DEFAULT_TOTAL_LIABILITY)))
+            .andExpect(jsonPath("$.[*].totalAsset").value(hasItem(DEFAULT_TOTAL_ASSET)))
+            .andExpect(jsonPath("$.[*].villageCode").value(hasItem(DEFAULT_VILLAGE_CODE)))
+            .andExpect(jsonPath("$.[*].pacsVerifiedFlag").value(hasItem(DEFAULT_PACS_VERIFIED_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].branchVerifiedFlag").value(hasItem(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedFlag").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue())))
+            .andExpect(
+                jsonPath("$.[*].divisionalOfficeVerifiedFlag").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
+            )
+            .andExpect(jsonPath("$.[*].isSupplimenteryFlag").value(hasItem(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniVarg").value(hasItem(DEFAULT_SANSTHA_TAPASANI_VARG)))
+            .andExpect(jsonPath("$.[*].branchVerifiedBy").value(hasItem(DEFAULT_BRANCH_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].branchVerifiedDate").value(hasItem(DEFAULT_BRANCH_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedBy").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)))
+            .andExpect(jsonPath("$.[*].branchInwardNumber").value(hasItem(DEFAULT_BRANCH_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchInwardDate").value(hasItem(DEFAULT_BRANCH_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchOutwardNumber").value(hasItem(DEFAULT_BRANCH_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchOutwardDate").value(hasItem(DEFAULT_BRANCH_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeInwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeInwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER)))
+            .andExpect(jsonPath("$.[*].tharavDate").value(hasItem(DEFAULT_THARAV_DATE.toString())));
     }
 
     @Test
@@ -635,73 +716,86 @@ class KamalSocietyResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(kamalSociety.getId().intValue()))
-            .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER.intValue()))
-            .andExpect(jsonPath("$.zindagiDate").value(DEFAULT_ZINDAGI_DATE.toString()))
-            .andExpect(jsonPath("$.zindagiDateMr").value(DEFAULT_ZINDAGI_DATE_MR))
-            .andExpect(jsonPath("$.village1").value(DEFAULT_VILLAGE_1))
-            .andExpect(jsonPath("$.village1Mr").value(DEFAULT_VILLAGE_1_MR))
-            .andExpect(jsonPath("$.village2").value(DEFAULT_VILLAGE_2))
-            .andExpect(jsonPath("$.village2Mr").value(DEFAULT_VILLAGE_2_MR))
-            .andExpect(jsonPath("$.village3").value(DEFAULT_VILLAGE_3))
-            .andExpect(jsonPath("$.village3Mr").value(DEFAULT_VILLAGE_3_MR))
-            .andExpect(jsonPath("$.totalLand").value(DEFAULT_TOTAL_LAND.doubleValue()))
-            .andExpect(jsonPath("$.totalLandMr").value(DEFAULT_TOTAL_LAND_MR))
-            .andExpect(jsonPath("$.totalMem").value(DEFAULT_TOTAL_MEM.doubleValue()))
-            .andExpect(jsonPath("$.totalMemMr").value(DEFAULT_TOTAL_MEM_MR))
-            .andExpect(jsonPath("$.totalNonMem").value(DEFAULT_TOTAL_NON_MEM.doubleValue()))
-            .andExpect(jsonPath("$.totalNonMemMr").value(DEFAULT_TOTAL_NON_MEM_MR))
-            .andExpect(jsonPath("$.totalGMem").value(DEFAULT_TOTAL_G_MEM.doubleValue()))
-            .andExpect(jsonPath("$.totalGMemMr").value(DEFAULT_TOTAL_G_MEM_MR))
-            .andExpect(jsonPath("$.memLoan").value(DEFAULT_MEM_LOAN.doubleValue()))
-            .andExpect(jsonPath("$.memLoanMr").value(DEFAULT_MEM_LOAN_MR))
-            .andExpect(jsonPath("$.memDue").value(DEFAULT_MEM_DUE.doubleValue()))
-            .andExpect(jsonPath("$.memDueMr").value(DEFAULT_MEM_DUE_MR))
-            .andExpect(jsonPath("$.memDueper").value(DEFAULT_MEM_DUEPER.doubleValue()))
-            .andExpect(jsonPath("$.memDueperMr").value(DEFAULT_MEM_DUEPER_MR))
-            .andExpect(jsonPath("$.memVasulpatra").value(DEFAULT_MEM_VASULPATRA.doubleValue()))
-            .andExpect(jsonPath("$.memVasulpatraMr").value(DEFAULT_MEM_VASULPATRA_MR))
-            .andExpect(jsonPath("$.memVasul").value(DEFAULT_MEM_VASUL.doubleValue()))
-            .andExpect(jsonPath("$.memVasulMr").value(DEFAULT_MEM_VASUL_MR))
-            .andExpect(jsonPath("$.memVasulPer").value(DEFAULT_MEM_VASUL_PER.doubleValue()))
-            .andExpect(jsonPath("$.memVasulPerMr").value(DEFAULT_MEM_VASUL_PER_MR))
-            .andExpect(jsonPath("$.bankLoan").value(DEFAULT_BANK_LOAN.doubleValue()))
-            .andExpect(jsonPath("$.bankLoanMr").value(DEFAULT_BANK_LOAN_MR))
-            .andExpect(jsonPath("$.bankDue").value(DEFAULT_BANK_DUE.doubleValue()))
-            .andExpect(jsonPath("$.bankDueMr").value(DEFAULT_BANK_DUE_MR))
-            .andExpect(jsonPath("$.bankDueper").value(DEFAULT_BANK_DUEPER.doubleValue()))
-            .andExpect(jsonPath("$.bankDueperMr").value(DEFAULT_BANK_DUEPER_MR))
-            .andExpect(jsonPath("$.bankVasulpatra").value(DEFAULT_BANK_VASULPATRA.doubleValue()))
-            .andExpect(jsonPath("$.bankVasulpatraMr").value(DEFAULT_BANK_VASULPATRA_MR))
-            .andExpect(jsonPath("$.bankVasul").value(DEFAULT_BANK_VASUL.doubleValue()))
-            .andExpect(jsonPath("$.bankVasulMr").value(DEFAULT_BANK_VASUL_MR))
-            .andExpect(jsonPath("$.bankVasulPer").value(DEFAULT_BANK_VASUL_PER.doubleValue()))
-            .andExpect(jsonPath("$.bankVasulPerMr").value(DEFAULT_BANK_VASUL_PER_MR))
-            .andExpect(jsonPath("$.shareCapital").value(DEFAULT_SHARE_CAPITAL.doubleValue()))
-            .andExpect(jsonPath("$.shareCapitalMr").value(DEFAULT_SHARE_CAPITAL_MR))
-            .andExpect(jsonPath("$.share").value(DEFAULT_SHARE.doubleValue()))
-            .andExpect(jsonPath("$.shareMr").value(DEFAULT_SHARE_MR))
-            .andExpect(jsonPath("$.funds").value(DEFAULT_FUNDS.doubleValue()))
-            .andExpect(jsonPath("$.fundsMr").value(DEFAULT_FUNDS_MR))
-            .andExpect(jsonPath("$.deposit").value(DEFAULT_DEPOSIT.doubleValue()))
-            .andExpect(jsonPath("$.depositMr").value(DEFAULT_DEPOSIT_MR))
-            .andExpect(jsonPath("$.payable").value(DEFAULT_PAYABLE.doubleValue()))
-            .andExpect(jsonPath("$.payableMr").value(DEFAULT_PAYABLE_MR))
-            .andExpect(jsonPath("$.profit").value(DEFAULT_PROFIT.doubleValue()))
-            .andExpect(jsonPath("$.profitMr").value(DEFAULT_PROFIT_MR))
-            .andExpect(jsonPath("$.cashInHand").value(DEFAULT_CASH_IN_HAND.doubleValue()))
-            .andExpect(jsonPath("$.cashInHandMr").value(DEFAULT_CASH_IN_HAND_MR))
-            .andExpect(jsonPath("$.investment").value(DEFAULT_INVESTMENT.doubleValue()))
-            .andExpect(jsonPath("$.investmentMr").value(DEFAULT_INVESTMENT_MR))
-            .andExpect(jsonPath("$.deadStock").value(DEFAULT_DEAD_STOCK.doubleValue()))
-            .andExpect(jsonPath("$.deadStockMr").value(DEFAULT_DEAD_STOCK_MR))
-            .andExpect(jsonPath("$.otherPay").value(DEFAULT_OTHER_PAY.doubleValue()))
-            .andExpect(jsonPath("$.otherPayMr").value(DEFAULT_OTHER_PAY_MR))
-            .andExpect(jsonPath("$.loss").value(DEFAULT_LOSS.doubleValue()))
-            .andExpect(jsonPath("$.lossMr").value(DEFAULT_LOSS_MR))
-            .andExpect(jsonPath("$.totalBagayat").value(DEFAULT_TOTAL_BAGAYAT.doubleValue()))
-            .andExpect(jsonPath("$.totalBagayatMr").value(DEFAULT_TOTAL_BAGAYAT_MR))
-            .andExpect(jsonPath("$.totalJirayat").value(DEFAULT_TOTAL_JIRAYAT.doubleValue()))
-            .andExpect(jsonPath("$.totalJirayatMr").value(DEFAULT_TOTAL_JIRAYAT_MR));
+            .andExpect(jsonPath("$.financialYear").value(DEFAULT_FINANCIAL_YEAR))
+            .andExpect(jsonPath("$.kmDate").value(DEFAULT_KM_DATE.toString()))
+            .andExpect(jsonPath("$.kmDateMr").value(DEFAULT_KM_DATE_MR))
+            .andExpect(jsonPath("$.kmFromDate").value(DEFAULT_KM_FROM_DATE.toString()))
+            .andExpect(jsonPath("$.kmFromDateMr").value(DEFAULT_KM_FROM_DATE_MR))
+            .andExpect(jsonPath("$.kmToDate").value(DEFAULT_KM_TO_DATE.toString()))
+            .andExpect(jsonPath("$.kmToDateMr").value(DEFAULT_KM_TO_DATE_MR))
+            .andExpect(jsonPath("$.pacsNumber").value(DEFAULT_PACS_NUMBER))
+            .andExpect(jsonPath("$.pacsName").value(DEFAULT_PACS_NAME))
+            .andExpect(jsonPath("$.branchId").value(DEFAULT_BRANCH_ID.intValue()))
+            .andExpect(jsonPath("$.branchName").value(DEFAULT_BRANCH_NAME))
+            .andExpect(jsonPath("$.talukaId").value(DEFAULT_TALUKA_ID.intValue()))
+            .andExpect(jsonPath("$.talukaName").value(DEFAULT_TALUKA_NAME))
+            .andExpect(jsonPath("$.zindagiPatrakDate").value(DEFAULT_ZINDAGI_PATRAK_DATE.toString()))
+            .andExpect(jsonPath("$.zindagiPatrakDateMr").value(DEFAULT_ZINDAGI_PATRAK_DATE_MR))
+            .andExpect(jsonPath("$.bankTapasaniDate").value(DEFAULT_BANK_TAPASANI_DATE.toString()))
+            .andExpect(jsonPath("$.bankTapasaniDateMr").value(DEFAULT_BANK_TAPASANI_DATE_MR))
+            .andExpect(jsonPath("$.govTapasaniDate").value(DEFAULT_GOV_TAPASANI_DATE.toString()))
+            .andExpect(jsonPath("$.govTapasaniDateMr").value(DEFAULT_GOV_TAPASANI_DATE_MR))
+            .andExpect(jsonPath("$.sansthaTapasaniDate").value(DEFAULT_SANSTHA_TAPASANI_DATE.toString()))
+            .andExpect(jsonPath("$.sansthaTapasaniDateMr").value(DEFAULT_SANSTHA_TAPASANI_DATE_MR))
+            .andExpect(jsonPath("$.totalLand").value(DEFAULT_TOTAL_LAND))
+            .andExpect(jsonPath("$.bagayat").value(DEFAULT_BAGAYAT))
+            .andExpect(jsonPath("$.jirayat").value(DEFAULT_JIRAYAT))
+            .andExpect(jsonPath("$.totalFarmer").value(DEFAULT_TOTAL_FARMER))
+            .andExpect(jsonPath("$.memberFarmer").value(DEFAULT_MEMBER_FARMER))
+            .andExpect(jsonPath("$.nonMemberFarmer").value(DEFAULT_NON_MEMBER_FARMER))
+            .andExpect(jsonPath("$.talebandDate").value(DEFAULT_TALEBAND_DATE.toString()))
+            .andExpect(jsonPath("$.memLoan").value(DEFAULT_MEM_LOAN))
+            .andExpect(jsonPath("$.memDue").value(DEFAULT_MEM_DUE))
+            .andExpect(jsonPath("$.memVasuli").value(DEFAULT_MEM_VASULI))
+            .andExpect(jsonPath("$.memVasuliPer").value(DEFAULT_MEM_VASULI_PER))
+            .andExpect(jsonPath("$.bankLoan").value(DEFAULT_BANK_LOAN))
+            .andExpect(jsonPath("$.bankDue").value(DEFAULT_BANK_DUE))
+            .andExpect(jsonPath("$.bankVasuli").value(DEFAULT_BANK_VASULI))
+            .andExpect(jsonPath("$.bankVasuliPer").value(DEFAULT_BANK_VASULI_PER))
+            .andExpect(jsonPath("$.balanceSheetDate").value(DEFAULT_BALANCE_SHEET_DATE.toString()))
+            .andExpect(jsonPath("$.balanceSheetDateMr").value(DEFAULT_BALANCE_SHEET_DATE_MR))
+            .andExpect(jsonPath("$.liabilityAdhikrutShareCapital").value(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL))
+            .andExpect(jsonPath("$.liabilityVasulShareCapital").value(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL))
+            .andExpect(jsonPath("$.liabilityFund").value(DEFAULT_LIABILITY_FUND))
+            .andExpect(jsonPath("$.liabilitySpareFund").value(DEFAULT_LIABILITY_SPARE_FUND))
+            .andExpect(jsonPath("$.liabilityDeposite").value(DEFAULT_LIABILITY_DEPOSITE))
+            .andExpect(jsonPath("$.liabilityBalanceSheetBankLoan").value(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN))
+            .andExpect(jsonPath("$.liabilityOtherPayable").value(DEFAULT_LIABILITY_OTHER_PAYABLE))
+            .andExpect(jsonPath("$.liabilityProfit").value(DEFAULT_LIABILITY_PROFIT))
+            .andExpect(jsonPath("$.assetCash").value(DEFAULT_ASSET_CASH))
+            .andExpect(jsonPath("$.assetInvestment").value(DEFAULT_ASSET_INVESTMENT))
+            .andExpect(jsonPath("$.assetImaratFund").value(DEFAULT_ASSET_IMARAT_FUND))
+            .andExpect(jsonPath("$.assetMemberLoan").value(DEFAULT_ASSET_MEMBER_LOAN))
+            .andExpect(jsonPath("$.assetDeadStock").value(DEFAULT_ASSET_DEAD_STOCK))
+            .andExpect(jsonPath("$.assetOtherReceivable").value(DEFAULT_ASSET_OTHER_RECEIVABLE))
+            .andExpect(jsonPath("$.assetLoss").value(DEFAULT_ASSET_LOSS))
+            .andExpect(jsonPath("$.totalLiability").value(DEFAULT_TOTAL_LIABILITY))
+            .andExpect(jsonPath("$.totalAsset").value(DEFAULT_TOTAL_ASSET))
+            .andExpect(jsonPath("$.villageCode").value(DEFAULT_VILLAGE_CODE))
+            .andExpect(jsonPath("$.pacsVerifiedFlag").value(DEFAULT_PACS_VERIFIED_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.branchVerifiedFlag").value(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.headOfficeVerifiedFlag").value(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedFlag").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.isSupplimenteryFlag").value(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue()))
+            .andExpect(jsonPath("$.sansthaTapasaniVarg").value(DEFAULT_SANSTHA_TAPASANI_VARG))
+            .andExpect(jsonPath("$.branchVerifiedBy").value(DEFAULT_BRANCH_VERIFIED_BY))
+            .andExpect(jsonPath("$.branchVerifiedDate").value(DEFAULT_BRANCH_VERIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.headOfficeVerifiedBy").value(DEFAULT_HEAD_OFFICE_VERIFIED_BY))
+            .andExpect(jsonPath("$.headOfficeVerifiedDate").value(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedBy").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY))
+            .andExpect(jsonPath("$.divisionalOfficeVerifiedDate").value(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString()))
+            .andExpect(jsonPath("$.doshPurtataDate").value(DEFAULT_DOSH_PURTATA_DATE.toString()))
+            .andExpect(jsonPath("$.gambhirDosh").value(DEFAULT_GAMBHIR_DOSH))
+            .andExpect(jsonPath("$.branchInwardNumber").value(DEFAULT_BRANCH_INWARD_NUMBER))
+            .andExpect(jsonPath("$.branchInwardDate").value(DEFAULT_BRANCH_INWARD_DATE.toString()))
+            .andExpect(jsonPath("$.branchOutwardNumber").value(DEFAULT_BRANCH_OUTWARD_NUMBER))
+            .andExpect(jsonPath("$.branchOutwardDate").value(DEFAULT_BRANCH_OUTWARD_DATE.toString()))
+            .andExpect(jsonPath("$.headOfficeInwardNumber").value(DEFAULT_HEAD_OFFICE_INWARD_NUMBER))
+            .andExpect(jsonPath("$.headOfficeInwardDate").value(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString()))
+            .andExpect(jsonPath("$.headOfficeOutwardNumber").value(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER))
+            .andExpect(jsonPath("$.headOfficeOutwardDate").value(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString()))
+            .andExpect(jsonPath("$.tharavNumber").value(DEFAULT_THARAV_NUMBER))
+            .andExpect(jsonPath("$.tharavDate").value(DEFAULT_THARAV_DATE.toString()));
     }
 
     @Test
@@ -720,6 +814,383 @@ class KamalSocietyResourceIT {
 
         defaultKamalSocietyShouldBeFound("id.lessThanOrEqual=" + id);
         defaultKamalSocietyShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByFinancialYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where financialYear equals to DEFAULT_FINANCIAL_YEAR
+        defaultKamalSocietyShouldBeFound("financialYear.equals=" + DEFAULT_FINANCIAL_YEAR);
+
+        // Get all the kamalSocietyList where financialYear equals to UPDATED_FINANCIAL_YEAR
+        defaultKamalSocietyShouldNotBeFound("financialYear.equals=" + UPDATED_FINANCIAL_YEAR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByFinancialYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where financialYear in DEFAULT_FINANCIAL_YEAR or UPDATED_FINANCIAL_YEAR
+        defaultKamalSocietyShouldBeFound("financialYear.in=" + DEFAULT_FINANCIAL_YEAR + "," + UPDATED_FINANCIAL_YEAR);
+
+        // Get all the kamalSocietyList where financialYear equals to UPDATED_FINANCIAL_YEAR
+        defaultKamalSocietyShouldNotBeFound("financialYear.in=" + UPDATED_FINANCIAL_YEAR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByFinancialYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where financialYear is not null
+        defaultKamalSocietyShouldBeFound("financialYear.specified=true");
+
+        // Get all the kamalSocietyList where financialYear is null
+        defaultKamalSocietyShouldNotBeFound("financialYear.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByFinancialYearContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where financialYear contains DEFAULT_FINANCIAL_YEAR
+        defaultKamalSocietyShouldBeFound("financialYear.contains=" + DEFAULT_FINANCIAL_YEAR);
+
+        // Get all the kamalSocietyList where financialYear contains UPDATED_FINANCIAL_YEAR
+        defaultKamalSocietyShouldNotBeFound("financialYear.contains=" + UPDATED_FINANCIAL_YEAR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByFinancialYearNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where financialYear does not contain DEFAULT_FINANCIAL_YEAR
+        defaultKamalSocietyShouldNotBeFound("financialYear.doesNotContain=" + DEFAULT_FINANCIAL_YEAR);
+
+        // Get all the kamalSocietyList where financialYear does not contain UPDATED_FINANCIAL_YEAR
+        defaultKamalSocietyShouldBeFound("financialYear.doesNotContain=" + UPDATED_FINANCIAL_YEAR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDate equals to DEFAULT_KM_DATE
+        defaultKamalSocietyShouldBeFound("kmDate.equals=" + DEFAULT_KM_DATE);
+
+        // Get all the kamalSocietyList where kmDate equals to UPDATED_KM_DATE
+        defaultKamalSocietyShouldNotBeFound("kmDate.equals=" + UPDATED_KM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDate in DEFAULT_KM_DATE or UPDATED_KM_DATE
+        defaultKamalSocietyShouldBeFound("kmDate.in=" + DEFAULT_KM_DATE + "," + UPDATED_KM_DATE);
+
+        // Get all the kamalSocietyList where kmDate equals to UPDATED_KM_DATE
+        defaultKamalSocietyShouldNotBeFound("kmDate.in=" + UPDATED_KM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDate is not null
+        defaultKamalSocietyShouldBeFound("kmDate.specified=true");
+
+        // Get all the kamalSocietyList where kmDate is null
+        defaultKamalSocietyShouldNotBeFound("kmDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDateMr equals to DEFAULT_KM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmDateMr.equals=" + DEFAULT_KM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmDateMr equals to UPDATED_KM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmDateMr.equals=" + UPDATED_KM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDateMr in DEFAULT_KM_DATE_MR or UPDATED_KM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmDateMr.in=" + DEFAULT_KM_DATE_MR + "," + UPDATED_KM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmDateMr equals to UPDATED_KM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmDateMr.in=" + UPDATED_KM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDateMr is not null
+        defaultKamalSocietyShouldBeFound("kmDateMr.specified=true");
+
+        // Get all the kamalSocietyList where kmDateMr is null
+        defaultKamalSocietyShouldNotBeFound("kmDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDateMr contains DEFAULT_KM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmDateMr.contains=" + DEFAULT_KM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmDateMr contains UPDATED_KM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmDateMr.contains=" + UPDATED_KM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmDateMr does not contain DEFAULT_KM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmDateMr.doesNotContain=" + DEFAULT_KM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmDateMr does not contain UPDATED_KM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmDateMr.doesNotContain=" + UPDATED_KM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDate equals to DEFAULT_KM_FROM_DATE
+        defaultKamalSocietyShouldBeFound("kmFromDate.equals=" + DEFAULT_KM_FROM_DATE);
+
+        // Get all the kamalSocietyList where kmFromDate equals to UPDATED_KM_FROM_DATE
+        defaultKamalSocietyShouldNotBeFound("kmFromDate.equals=" + UPDATED_KM_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDate in DEFAULT_KM_FROM_DATE or UPDATED_KM_FROM_DATE
+        defaultKamalSocietyShouldBeFound("kmFromDate.in=" + DEFAULT_KM_FROM_DATE + "," + UPDATED_KM_FROM_DATE);
+
+        // Get all the kamalSocietyList where kmFromDate equals to UPDATED_KM_FROM_DATE
+        defaultKamalSocietyShouldNotBeFound("kmFromDate.in=" + UPDATED_KM_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDate is not null
+        defaultKamalSocietyShouldBeFound("kmFromDate.specified=true");
+
+        // Get all the kamalSocietyList where kmFromDate is null
+        defaultKamalSocietyShouldNotBeFound("kmFromDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDateMr equals to DEFAULT_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmFromDateMr.equals=" + DEFAULT_KM_FROM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmFromDateMr equals to UPDATED_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmFromDateMr.equals=" + UPDATED_KM_FROM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDateMr in DEFAULT_KM_FROM_DATE_MR or UPDATED_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmFromDateMr.in=" + DEFAULT_KM_FROM_DATE_MR + "," + UPDATED_KM_FROM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmFromDateMr equals to UPDATED_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmFromDateMr.in=" + UPDATED_KM_FROM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDateMr is not null
+        defaultKamalSocietyShouldBeFound("kmFromDateMr.specified=true");
+
+        // Get all the kamalSocietyList where kmFromDateMr is null
+        defaultKamalSocietyShouldNotBeFound("kmFromDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDateMr contains DEFAULT_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmFromDateMr.contains=" + DEFAULT_KM_FROM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmFromDateMr contains UPDATED_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmFromDateMr.contains=" + UPDATED_KM_FROM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmFromDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmFromDateMr does not contain DEFAULT_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmFromDateMr.doesNotContain=" + DEFAULT_KM_FROM_DATE_MR);
+
+        // Get all the kamalSocietyList where kmFromDateMr does not contain UPDATED_KM_FROM_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmFromDateMr.doesNotContain=" + UPDATED_KM_FROM_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDate equals to DEFAULT_KM_TO_DATE
+        defaultKamalSocietyShouldBeFound("kmToDate.equals=" + DEFAULT_KM_TO_DATE);
+
+        // Get all the kamalSocietyList where kmToDate equals to UPDATED_KM_TO_DATE
+        defaultKamalSocietyShouldNotBeFound("kmToDate.equals=" + UPDATED_KM_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDate in DEFAULT_KM_TO_DATE or UPDATED_KM_TO_DATE
+        defaultKamalSocietyShouldBeFound("kmToDate.in=" + DEFAULT_KM_TO_DATE + "," + UPDATED_KM_TO_DATE);
+
+        // Get all the kamalSocietyList where kmToDate equals to UPDATED_KM_TO_DATE
+        defaultKamalSocietyShouldNotBeFound("kmToDate.in=" + UPDATED_KM_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDate is not null
+        defaultKamalSocietyShouldBeFound("kmToDate.specified=true");
+
+        // Get all the kamalSocietyList where kmToDate is null
+        defaultKamalSocietyShouldNotBeFound("kmToDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDateMr equals to DEFAULT_KM_TO_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmToDateMr.equals=" + DEFAULT_KM_TO_DATE_MR);
+
+        // Get all the kamalSocietyList where kmToDateMr equals to UPDATED_KM_TO_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmToDateMr.equals=" + UPDATED_KM_TO_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDateMr in DEFAULT_KM_TO_DATE_MR or UPDATED_KM_TO_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmToDateMr.in=" + DEFAULT_KM_TO_DATE_MR + "," + UPDATED_KM_TO_DATE_MR);
+
+        // Get all the kamalSocietyList where kmToDateMr equals to UPDATED_KM_TO_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmToDateMr.in=" + UPDATED_KM_TO_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDateMr is not null
+        defaultKamalSocietyShouldBeFound("kmToDateMr.specified=true");
+
+        // Get all the kamalSocietyList where kmToDateMr is null
+        defaultKamalSocietyShouldNotBeFound("kmToDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDateMr contains DEFAULT_KM_TO_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmToDateMr.contains=" + DEFAULT_KM_TO_DATE_MR);
+
+        // Get all the kamalSocietyList where kmToDateMr contains UPDATED_KM_TO_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmToDateMr.contains=" + UPDATED_KM_TO_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByKmToDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where kmToDateMr does not contain DEFAULT_KM_TO_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("kmToDateMr.doesNotContain=" + DEFAULT_KM_TO_DATE_MR);
+
+        // Get all the kamalSocietyList where kmToDateMr does not contain UPDATED_KM_TO_DATE_MR
+        defaultKamalSocietyShouldBeFound("kmToDateMr.doesNotContain=" + UPDATED_KM_TO_DATE_MR);
     }
 
     @Test
@@ -763,548 +1234,823 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPacsNumberIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByPacsNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where pacsNumber is greater than or equal to DEFAULT_PACS_NUMBER
-        defaultKamalSocietyShouldBeFound("pacsNumber.greaterThanOrEqual=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsNumber contains DEFAULT_PACS_NUMBER
+        defaultKamalSocietyShouldBeFound("pacsNumber.contains=" + DEFAULT_PACS_NUMBER);
 
-        // Get all the kamalSocietyList where pacsNumber is greater than or equal to UPDATED_PACS_NUMBER
-        defaultKamalSocietyShouldNotBeFound("pacsNumber.greaterThanOrEqual=" + UPDATED_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsNumber contains UPDATED_PACS_NUMBER
+        defaultKamalSocietyShouldNotBeFound("pacsNumber.contains=" + UPDATED_PACS_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPacsNumberIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByPacsNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where pacsNumber is less than or equal to DEFAULT_PACS_NUMBER
-        defaultKamalSocietyShouldBeFound("pacsNumber.lessThanOrEqual=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsNumber does not contain DEFAULT_PACS_NUMBER
+        defaultKamalSocietyShouldNotBeFound("pacsNumber.doesNotContain=" + DEFAULT_PACS_NUMBER);
 
-        // Get all the kamalSocietyList where pacsNumber is less than or equal to SMALLER_PACS_NUMBER
-        defaultKamalSocietyShouldNotBeFound("pacsNumber.lessThanOrEqual=" + SMALLER_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsNumber does not contain UPDATED_PACS_NUMBER
+        defaultKamalSocietyShouldBeFound("pacsNumber.doesNotContain=" + UPDATED_PACS_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPacsNumberIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByPacsNameIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where pacsNumber is less than DEFAULT_PACS_NUMBER
-        defaultKamalSocietyShouldNotBeFound("pacsNumber.lessThan=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsName equals to DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.equals=" + DEFAULT_PACS_NAME);
 
-        // Get all the kamalSocietyList where pacsNumber is less than UPDATED_PACS_NUMBER
-        defaultKamalSocietyShouldBeFound("pacsNumber.lessThan=" + UPDATED_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsName equals to UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.equals=" + UPDATED_PACS_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPacsNumberIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByPacsNameIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where pacsNumber is greater than DEFAULT_PACS_NUMBER
-        defaultKamalSocietyShouldNotBeFound("pacsNumber.greaterThan=" + DEFAULT_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsName in DEFAULT_PACS_NAME or UPDATED_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.in=" + DEFAULT_PACS_NAME + "," + UPDATED_PACS_NAME);
 
-        // Get all the kamalSocietyList where pacsNumber is greater than SMALLER_PACS_NUMBER
-        defaultKamalSocietyShouldBeFound("pacsNumber.greaterThan=" + SMALLER_PACS_NUMBER);
+        // Get all the kamalSocietyList where pacsName equals to UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.in=" + UPDATED_PACS_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByPacsNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDate equals to DEFAULT_ZINDAGI_DATE
-        defaultKamalSocietyShouldBeFound("zindagiDate.equals=" + DEFAULT_ZINDAGI_DATE);
+        // Get all the kamalSocietyList where pacsName is not null
+        defaultKamalSocietyShouldBeFound("pacsName.specified=true");
 
-        // Get all the kamalSocietyList where zindagiDate equals to UPDATED_ZINDAGI_DATE
-        defaultKamalSocietyShouldNotBeFound("zindagiDate.equals=" + UPDATED_ZINDAGI_DATE);
+        // Get all the kamalSocietyList where pacsName is null
+        defaultKamalSocietyShouldNotBeFound("pacsName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByPacsNameContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDate in DEFAULT_ZINDAGI_DATE or UPDATED_ZINDAGI_DATE
-        defaultKamalSocietyShouldBeFound("zindagiDate.in=" + DEFAULT_ZINDAGI_DATE + "," + UPDATED_ZINDAGI_DATE);
+        // Get all the kamalSocietyList where pacsName contains DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.contains=" + DEFAULT_PACS_NAME);
 
-        // Get all the kamalSocietyList where zindagiDate equals to UPDATED_ZINDAGI_DATE
-        defaultKamalSocietyShouldNotBeFound("zindagiDate.in=" + UPDATED_ZINDAGI_DATE);
+        // Get all the kamalSocietyList where pacsName contains UPDATED_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.contains=" + UPDATED_PACS_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByPacsNameNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDate is not null
-        defaultKamalSocietyShouldBeFound("zindagiDate.specified=true");
+        // Get all the kamalSocietyList where pacsName does not contain DEFAULT_PACS_NAME
+        defaultKamalSocietyShouldNotBeFound("pacsName.doesNotContain=" + DEFAULT_PACS_NAME);
 
-        // Get all the kamalSocietyList where zindagiDate is null
-        defaultKamalSocietyShouldNotBeFound("zindagiDate.specified=false");
+        // Get all the kamalSocietyList where pacsName does not contain UPDATED_PACS_NAME
+        defaultKamalSocietyShouldBeFound("pacsName.doesNotContain=" + UPDATED_PACS_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDateMr equals to DEFAULT_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldBeFound("zindagiDateMr.equals=" + DEFAULT_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId equals to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.equals=" + DEFAULT_BRANCH_ID);
 
-        // Get all the kamalSocietyList where zindagiDateMr equals to UPDATED_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldNotBeFound("zindagiDateMr.equals=" + UPDATED_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId equals to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.equals=" + UPDATED_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDateMr in DEFAULT_ZINDAGI_DATE_MR or UPDATED_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldBeFound("zindagiDateMr.in=" + DEFAULT_ZINDAGI_DATE_MR + "," + UPDATED_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId in DEFAULT_BRANCH_ID or UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.in=" + DEFAULT_BRANCH_ID + "," + UPDATED_BRANCH_ID);
 
-        // Get all the kamalSocietyList where zindagiDateMr equals to UPDATED_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldNotBeFound("zindagiDateMr.in=" + UPDATED_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId equals to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.in=" + UPDATED_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDateMr is not null
-        defaultKamalSocietyShouldBeFound("zindagiDateMr.specified=true");
+        // Get all the kamalSocietyList where branchId is not null
+        defaultKamalSocietyShouldBeFound("branchId.specified=true");
 
-        // Get all the kamalSocietyList where zindagiDateMr is null
-        defaultKamalSocietyShouldNotBeFound("zindagiDateMr.specified=false");
+        // Get all the kamalSocietyList where branchId is null
+        defaultKamalSocietyShouldNotBeFound("branchId.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDateMr contains DEFAULT_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldBeFound("zindagiDateMr.contains=" + DEFAULT_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId is greater than or equal to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.greaterThanOrEqual=" + DEFAULT_BRANCH_ID);
 
-        // Get all the kamalSocietyList where zindagiDateMr contains UPDATED_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldNotBeFound("zindagiDateMr.contains=" + UPDATED_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId is greater than or equal to UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.greaterThanOrEqual=" + UPDATED_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByZindagiDateMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where zindagiDateMr does not contain DEFAULT_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldNotBeFound("zindagiDateMr.doesNotContain=" + DEFAULT_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId is less than or equal to DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.lessThanOrEqual=" + DEFAULT_BRANCH_ID);
 
-        // Get all the kamalSocietyList where zindagiDateMr does not contain UPDATED_ZINDAGI_DATE_MR
-        defaultKamalSocietyShouldBeFound("zindagiDateMr.doesNotContain=" + UPDATED_ZINDAGI_DATE_MR);
+        // Get all the kamalSocietyList where branchId is less than or equal to SMALLER_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.lessThanOrEqual=" + SMALLER_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1IsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsLessThanSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1 equals to DEFAULT_VILLAGE_1
-        defaultKamalSocietyShouldBeFound("village1.equals=" + DEFAULT_VILLAGE_1);
+        // Get all the kamalSocietyList where branchId is less than DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.lessThan=" + DEFAULT_BRANCH_ID);
 
-        // Get all the kamalSocietyList where village1 equals to UPDATED_VILLAGE_1
-        defaultKamalSocietyShouldNotBeFound("village1.equals=" + UPDATED_VILLAGE_1);
+        // Get all the kamalSocietyList where branchId is less than UPDATED_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.lessThan=" + UPDATED_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1IsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchIdIsGreaterThanSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1 in DEFAULT_VILLAGE_1 or UPDATED_VILLAGE_1
-        defaultKamalSocietyShouldBeFound("village1.in=" + DEFAULT_VILLAGE_1 + "," + UPDATED_VILLAGE_1);
+        // Get all the kamalSocietyList where branchId is greater than DEFAULT_BRANCH_ID
+        defaultKamalSocietyShouldNotBeFound("branchId.greaterThan=" + DEFAULT_BRANCH_ID);
 
-        // Get all the kamalSocietyList where village1 equals to UPDATED_VILLAGE_1
-        defaultKamalSocietyShouldNotBeFound("village1.in=" + UPDATED_VILLAGE_1);
+        // Get all the kamalSocietyList where branchId is greater than SMALLER_BRANCH_ID
+        defaultKamalSocietyShouldBeFound("branchId.greaterThan=" + SMALLER_BRANCH_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1IsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchNameIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1 is not null
-        defaultKamalSocietyShouldBeFound("village1.specified=true");
+        // Get all the kamalSocietyList where branchName equals to DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.equals=" + DEFAULT_BRANCH_NAME);
 
-        // Get all the kamalSocietyList where village1 is null
-        defaultKamalSocietyShouldNotBeFound("village1.specified=false");
+        // Get all the kamalSocietyList where branchName equals to UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.equals=" + UPDATED_BRANCH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1ContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchNameIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1 contains DEFAULT_VILLAGE_1
-        defaultKamalSocietyShouldBeFound("village1.contains=" + DEFAULT_VILLAGE_1);
+        // Get all the kamalSocietyList where branchName in DEFAULT_BRANCH_NAME or UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.in=" + DEFAULT_BRANCH_NAME + "," + UPDATED_BRANCH_NAME);
 
-        // Get all the kamalSocietyList where village1 contains UPDATED_VILLAGE_1
-        defaultKamalSocietyShouldNotBeFound("village1.contains=" + UPDATED_VILLAGE_1);
+        // Get all the kamalSocietyList where branchName equals to UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.in=" + UPDATED_BRANCH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1NotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1 does not contain DEFAULT_VILLAGE_1
-        defaultKamalSocietyShouldNotBeFound("village1.doesNotContain=" + DEFAULT_VILLAGE_1);
+        // Get all the kamalSocietyList where branchName is not null
+        defaultKamalSocietyShouldBeFound("branchName.specified=true");
 
-        // Get all the kamalSocietyList where village1 does not contain UPDATED_VILLAGE_1
-        defaultKamalSocietyShouldBeFound("village1.doesNotContain=" + UPDATED_VILLAGE_1);
+        // Get all the kamalSocietyList where branchName is null
+        defaultKamalSocietyShouldNotBeFound("branchName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1MrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchNameContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1Mr equals to DEFAULT_VILLAGE_1_MR
-        defaultKamalSocietyShouldBeFound("village1Mr.equals=" + DEFAULT_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where branchName contains DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.contains=" + DEFAULT_BRANCH_NAME);
 
-        // Get all the kamalSocietyList where village1Mr equals to UPDATED_VILLAGE_1_MR
-        defaultKamalSocietyShouldNotBeFound("village1Mr.equals=" + UPDATED_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where branchName contains UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.contains=" + UPDATED_BRANCH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1MrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchNameNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1Mr in DEFAULT_VILLAGE_1_MR or UPDATED_VILLAGE_1_MR
-        defaultKamalSocietyShouldBeFound("village1Mr.in=" + DEFAULT_VILLAGE_1_MR + "," + UPDATED_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where branchName does not contain DEFAULT_BRANCH_NAME
+        defaultKamalSocietyShouldNotBeFound("branchName.doesNotContain=" + DEFAULT_BRANCH_NAME);
 
-        // Get all the kamalSocietyList where village1Mr equals to UPDATED_VILLAGE_1_MR
-        defaultKamalSocietyShouldNotBeFound("village1Mr.in=" + UPDATED_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where branchName does not contain UPDATED_BRANCH_NAME
+        defaultKamalSocietyShouldBeFound("branchName.doesNotContain=" + UPDATED_BRANCH_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1MrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1Mr is not null
-        defaultKamalSocietyShouldBeFound("village1Mr.specified=true");
+        // Get all the kamalSocietyList where talukaId equals to DEFAULT_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.equals=" + DEFAULT_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village1Mr is null
-        defaultKamalSocietyShouldNotBeFound("village1Mr.specified=false");
+        // Get all the kamalSocietyList where talukaId equals to UPDATED_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.equals=" + UPDATED_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1MrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1Mr contains DEFAULT_VILLAGE_1_MR
-        defaultKamalSocietyShouldBeFound("village1Mr.contains=" + DEFAULT_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where talukaId in DEFAULT_TALUKA_ID or UPDATED_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.in=" + DEFAULT_TALUKA_ID + "," + UPDATED_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village1Mr contains UPDATED_VILLAGE_1_MR
-        defaultKamalSocietyShouldNotBeFound("village1Mr.contains=" + UPDATED_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where talukaId equals to UPDATED_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.in=" + UPDATED_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage1MrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village1Mr does not contain DEFAULT_VILLAGE_1_MR
-        defaultKamalSocietyShouldNotBeFound("village1Mr.doesNotContain=" + DEFAULT_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where talukaId is not null
+        defaultKamalSocietyShouldBeFound("talukaId.specified=true");
 
-        // Get all the kamalSocietyList where village1Mr does not contain UPDATED_VILLAGE_1_MR
-        defaultKamalSocietyShouldBeFound("village1Mr.doesNotContain=" + UPDATED_VILLAGE_1_MR);
+        // Get all the kamalSocietyList where talukaId is null
+        defaultKamalSocietyShouldNotBeFound("talukaId.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2IsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2 equals to DEFAULT_VILLAGE_2
-        defaultKamalSocietyShouldBeFound("village2.equals=" + DEFAULT_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is greater than or equal to DEFAULT_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.greaterThanOrEqual=" + DEFAULT_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village2 equals to UPDATED_VILLAGE_2
-        defaultKamalSocietyShouldNotBeFound("village2.equals=" + UPDATED_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is greater than or equal to UPDATED_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.greaterThanOrEqual=" + UPDATED_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2IsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2 in DEFAULT_VILLAGE_2 or UPDATED_VILLAGE_2
-        defaultKamalSocietyShouldBeFound("village2.in=" + DEFAULT_VILLAGE_2 + "," + UPDATED_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is less than or equal to DEFAULT_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.lessThanOrEqual=" + DEFAULT_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village2 equals to UPDATED_VILLAGE_2
-        defaultKamalSocietyShouldNotBeFound("village2.in=" + UPDATED_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is less than or equal to SMALLER_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.lessThanOrEqual=" + SMALLER_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2IsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsLessThanSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2 is not null
-        defaultKamalSocietyShouldBeFound("village2.specified=true");
+        // Get all the kamalSocietyList where talukaId is less than DEFAULT_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.lessThan=" + DEFAULT_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village2 is null
-        defaultKamalSocietyShouldNotBeFound("village2.specified=false");
+        // Get all the kamalSocietyList where talukaId is less than UPDATED_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.lessThan=" + UPDATED_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2ContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaIdIsGreaterThanSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2 contains DEFAULT_VILLAGE_2
-        defaultKamalSocietyShouldBeFound("village2.contains=" + DEFAULT_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is greater than DEFAULT_TALUKA_ID
+        defaultKamalSocietyShouldNotBeFound("talukaId.greaterThan=" + DEFAULT_TALUKA_ID);
 
-        // Get all the kamalSocietyList where village2 contains UPDATED_VILLAGE_2
-        defaultKamalSocietyShouldNotBeFound("village2.contains=" + UPDATED_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaId is greater than SMALLER_TALUKA_ID
+        defaultKamalSocietyShouldBeFound("talukaId.greaterThan=" + SMALLER_TALUKA_ID);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2NotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaNameIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2 does not contain DEFAULT_VILLAGE_2
-        defaultKamalSocietyShouldNotBeFound("village2.doesNotContain=" + DEFAULT_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaName equals to DEFAULT_TALUKA_NAME
+        defaultKamalSocietyShouldBeFound("talukaName.equals=" + DEFAULT_TALUKA_NAME);
 
-        // Get all the kamalSocietyList where village2 does not contain UPDATED_VILLAGE_2
-        defaultKamalSocietyShouldBeFound("village2.doesNotContain=" + UPDATED_VILLAGE_2);
+        // Get all the kamalSocietyList where talukaName equals to UPDATED_TALUKA_NAME
+        defaultKamalSocietyShouldNotBeFound("talukaName.equals=" + UPDATED_TALUKA_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2MrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaNameIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2Mr equals to DEFAULT_VILLAGE_2_MR
-        defaultKamalSocietyShouldBeFound("village2Mr.equals=" + DEFAULT_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName in DEFAULT_TALUKA_NAME or UPDATED_TALUKA_NAME
+        defaultKamalSocietyShouldBeFound("talukaName.in=" + DEFAULT_TALUKA_NAME + "," + UPDATED_TALUKA_NAME);
 
-        // Get all the kamalSocietyList where village2Mr equals to UPDATED_VILLAGE_2_MR
-        defaultKamalSocietyShouldNotBeFound("village2Mr.equals=" + UPDATED_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName equals to UPDATED_TALUKA_NAME
+        defaultKamalSocietyShouldNotBeFound("talukaName.in=" + UPDATED_TALUKA_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2MrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByTalukaNameIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2Mr in DEFAULT_VILLAGE_2_MR or UPDATED_VILLAGE_2_MR
-        defaultKamalSocietyShouldBeFound("village2Mr.in=" + DEFAULT_VILLAGE_2_MR + "," + UPDATED_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName is not null
+        defaultKamalSocietyShouldBeFound("talukaName.specified=true");
 
-        // Get all the kamalSocietyList where village2Mr equals to UPDATED_VILLAGE_2_MR
-        defaultKamalSocietyShouldNotBeFound("village2Mr.in=" + UPDATED_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName is null
+        defaultKamalSocietyShouldNotBeFound("talukaName.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2MrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTalukaNameContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2Mr is not null
-        defaultKamalSocietyShouldBeFound("village2Mr.specified=true");
+        // Get all the kamalSocietyList where talukaName contains DEFAULT_TALUKA_NAME
+        defaultKamalSocietyShouldBeFound("talukaName.contains=" + DEFAULT_TALUKA_NAME);
 
-        // Get all the kamalSocietyList where village2Mr is null
-        defaultKamalSocietyShouldNotBeFound("village2Mr.specified=false");
+        // Get all the kamalSocietyList where talukaName contains UPDATED_TALUKA_NAME
+        defaultKamalSocietyShouldNotBeFound("talukaName.contains=" + UPDATED_TALUKA_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2MrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTalukaNameNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2Mr contains DEFAULT_VILLAGE_2_MR
-        defaultKamalSocietyShouldBeFound("village2Mr.contains=" + DEFAULT_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName does not contain DEFAULT_TALUKA_NAME
+        defaultKamalSocietyShouldNotBeFound("talukaName.doesNotContain=" + DEFAULT_TALUKA_NAME);
 
-        // Get all the kamalSocietyList where village2Mr contains UPDATED_VILLAGE_2_MR
-        defaultKamalSocietyShouldNotBeFound("village2Mr.contains=" + UPDATED_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where talukaName does not contain UPDATED_TALUKA_NAME
+        defaultKamalSocietyShouldBeFound("talukaName.doesNotContain=" + UPDATED_TALUKA_NAME);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage2MrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village2Mr does not contain DEFAULT_VILLAGE_2_MR
-        defaultKamalSocietyShouldNotBeFound("village2Mr.doesNotContain=" + DEFAULT_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDate equals to DEFAULT_ZINDAGI_PATRAK_DATE
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDate.equals=" + DEFAULT_ZINDAGI_PATRAK_DATE);
 
-        // Get all the kamalSocietyList where village2Mr does not contain UPDATED_VILLAGE_2_MR
-        defaultKamalSocietyShouldBeFound("village2Mr.doesNotContain=" + UPDATED_VILLAGE_2_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDate equals to UPDATED_ZINDAGI_PATRAK_DATE
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDate.equals=" + UPDATED_ZINDAGI_PATRAK_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3IsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3 equals to DEFAULT_VILLAGE_3
-        defaultKamalSocietyShouldBeFound("village3.equals=" + DEFAULT_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDate in DEFAULT_ZINDAGI_PATRAK_DATE or UPDATED_ZINDAGI_PATRAK_DATE
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDate.in=" + DEFAULT_ZINDAGI_PATRAK_DATE + "," + UPDATED_ZINDAGI_PATRAK_DATE);
 
-        // Get all the kamalSocietyList where village3 equals to UPDATED_VILLAGE_3
-        defaultKamalSocietyShouldNotBeFound("village3.equals=" + UPDATED_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDate equals to UPDATED_ZINDAGI_PATRAK_DATE
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDate.in=" + UPDATED_ZINDAGI_PATRAK_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3IsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3 in DEFAULT_VILLAGE_3 or UPDATED_VILLAGE_3
-        defaultKamalSocietyShouldBeFound("village3.in=" + DEFAULT_VILLAGE_3 + "," + UPDATED_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDate is not null
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDate.specified=true");
 
-        // Get all the kamalSocietyList where village3 equals to UPDATED_VILLAGE_3
-        defaultKamalSocietyShouldNotBeFound("village3.in=" + UPDATED_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDate is null
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3IsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateMrIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3 is not null
-        defaultKamalSocietyShouldBeFound("village3.specified=true");
+        // Get all the kamalSocietyList where zindagiPatrakDateMr equals to DEFAULT_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDateMr.equals=" + DEFAULT_ZINDAGI_PATRAK_DATE_MR);
 
-        // Get all the kamalSocietyList where village3 is null
-        defaultKamalSocietyShouldNotBeFound("village3.specified=false");
+        // Get all the kamalSocietyList where zindagiPatrakDateMr equals to UPDATED_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDateMr.equals=" + UPDATED_ZINDAGI_PATRAK_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3ContainsSomething() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateMrIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3 contains DEFAULT_VILLAGE_3
-        defaultKamalSocietyShouldBeFound("village3.contains=" + DEFAULT_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr in DEFAULT_ZINDAGI_PATRAK_DATE_MR or UPDATED_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDateMr.in=" + DEFAULT_ZINDAGI_PATRAK_DATE_MR + "," + UPDATED_ZINDAGI_PATRAK_DATE_MR);
 
-        // Get all the kamalSocietyList where village3 contains UPDATED_VILLAGE_3
-        defaultKamalSocietyShouldNotBeFound("village3.contains=" + UPDATED_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr equals to UPDATED_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDateMr.in=" + UPDATED_ZINDAGI_PATRAK_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3NotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateMrIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3 does not contain DEFAULT_VILLAGE_3
-        defaultKamalSocietyShouldNotBeFound("village3.doesNotContain=" + DEFAULT_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr is not null
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDateMr.specified=true");
 
-        // Get all the kamalSocietyList where village3 does not contain UPDATED_VILLAGE_3
-        defaultKamalSocietyShouldBeFound("village3.doesNotContain=" + UPDATED_VILLAGE_3);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr is null
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDateMr.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3MrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateMrContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3Mr equals to DEFAULT_VILLAGE_3_MR
-        defaultKamalSocietyShouldBeFound("village3Mr.equals=" + DEFAULT_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr contains DEFAULT_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDateMr.contains=" + DEFAULT_ZINDAGI_PATRAK_DATE_MR);
 
-        // Get all the kamalSocietyList where village3Mr equals to UPDATED_VILLAGE_3_MR
-        defaultKamalSocietyShouldNotBeFound("village3Mr.equals=" + UPDATED_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr contains UPDATED_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDateMr.contains=" + UPDATED_ZINDAGI_PATRAK_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3MrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByZindagiPatrakDateMrNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3Mr in DEFAULT_VILLAGE_3_MR or UPDATED_VILLAGE_3_MR
-        defaultKamalSocietyShouldBeFound("village3Mr.in=" + DEFAULT_VILLAGE_3_MR + "," + UPDATED_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr does not contain DEFAULT_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("zindagiPatrakDateMr.doesNotContain=" + DEFAULT_ZINDAGI_PATRAK_DATE_MR);
 
-        // Get all the kamalSocietyList where village3Mr equals to UPDATED_VILLAGE_3_MR
-        defaultKamalSocietyShouldNotBeFound("village3Mr.in=" + UPDATED_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where zindagiPatrakDateMr does not contain UPDATED_ZINDAGI_PATRAK_DATE_MR
+        defaultKamalSocietyShouldBeFound("zindagiPatrakDateMr.doesNotContain=" + UPDATED_ZINDAGI_PATRAK_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3MrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBankTapasaniDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3Mr is not null
-        defaultKamalSocietyShouldBeFound("village3Mr.specified=true");
+        // Get all the kamalSocietyList where bankTapasaniDate equals to DEFAULT_BANK_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("bankTapasaniDate.equals=" + DEFAULT_BANK_TAPASANI_DATE);
 
-        // Get all the kamalSocietyList where village3Mr is null
-        defaultKamalSocietyShouldNotBeFound("village3Mr.specified=false");
+        // Get all the kamalSocietyList where bankTapasaniDate equals to UPDATED_BANK_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDate.equals=" + UPDATED_BANK_TAPASANI_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3MrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBankTapasaniDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3Mr contains DEFAULT_VILLAGE_3_MR
-        defaultKamalSocietyShouldBeFound("village3Mr.contains=" + DEFAULT_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where bankTapasaniDate in DEFAULT_BANK_TAPASANI_DATE or UPDATED_BANK_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("bankTapasaniDate.in=" + DEFAULT_BANK_TAPASANI_DATE + "," + UPDATED_BANK_TAPASANI_DATE);
 
-        // Get all the kamalSocietyList where village3Mr contains UPDATED_VILLAGE_3_MR
-        defaultKamalSocietyShouldNotBeFound("village3Mr.contains=" + UPDATED_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where bankTapasaniDate equals to UPDATED_BANK_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDate.in=" + UPDATED_BANK_TAPASANI_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByVillage3MrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBankTapasaniDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where village3Mr does not contain DEFAULT_VILLAGE_3_MR
-        defaultKamalSocietyShouldNotBeFound("village3Mr.doesNotContain=" + DEFAULT_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where bankTapasaniDate is not null
+        defaultKamalSocietyShouldBeFound("bankTapasaniDate.specified=true");
 
-        // Get all the kamalSocietyList where village3Mr does not contain UPDATED_VILLAGE_3_MR
-        defaultKamalSocietyShouldBeFound("village3Mr.doesNotContain=" + UPDATED_VILLAGE_3_MR);
+        // Get all the kamalSocietyList where bankTapasaniDate is null
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBankTapasaniDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr equals to DEFAULT_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("bankTapasaniDateMr.equals=" + DEFAULT_BANK_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr equals to UPDATED_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDateMr.equals=" + UPDATED_BANK_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBankTapasaniDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr in DEFAULT_BANK_TAPASANI_DATE_MR or UPDATED_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("bankTapasaniDateMr.in=" + DEFAULT_BANK_TAPASANI_DATE_MR + "," + UPDATED_BANK_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr equals to UPDATED_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDateMr.in=" + UPDATED_BANK_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBankTapasaniDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr is not null
+        defaultKamalSocietyShouldBeFound("bankTapasaniDateMr.specified=true");
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr is null
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBankTapasaniDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr contains DEFAULT_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("bankTapasaniDateMr.contains=" + DEFAULT_BANK_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr contains UPDATED_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDateMr.contains=" + UPDATED_BANK_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByBankTapasaniDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr does not contain DEFAULT_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("bankTapasaniDateMr.doesNotContain=" + DEFAULT_BANK_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where bankTapasaniDateMr does not contain UPDATED_BANK_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("bankTapasaniDateMr.doesNotContain=" + UPDATED_BANK_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDate equals to DEFAULT_GOV_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("govTapasaniDate.equals=" + DEFAULT_GOV_TAPASANI_DATE);
+
+        // Get all the kamalSocietyList where govTapasaniDate equals to UPDATED_GOV_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDate.equals=" + UPDATED_GOV_TAPASANI_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDate in DEFAULT_GOV_TAPASANI_DATE or UPDATED_GOV_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("govTapasaniDate.in=" + DEFAULT_GOV_TAPASANI_DATE + "," + UPDATED_GOV_TAPASANI_DATE);
+
+        // Get all the kamalSocietyList where govTapasaniDate equals to UPDATED_GOV_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDate.in=" + UPDATED_GOV_TAPASANI_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDate is not null
+        defaultKamalSocietyShouldBeFound("govTapasaniDate.specified=true");
+
+        // Get all the kamalSocietyList where govTapasaniDate is null
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr equals to DEFAULT_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("govTapasaniDateMr.equals=" + DEFAULT_GOV_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr equals to UPDATED_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDateMr.equals=" + UPDATED_GOV_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr in DEFAULT_GOV_TAPASANI_DATE_MR or UPDATED_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("govTapasaniDateMr.in=" + DEFAULT_GOV_TAPASANI_DATE_MR + "," + UPDATED_GOV_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr equals to UPDATED_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDateMr.in=" + UPDATED_GOV_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr is not null
+        defaultKamalSocietyShouldBeFound("govTapasaniDateMr.specified=true");
+
+        // Get all the kamalSocietyList where govTapasaniDateMr is null
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr contains DEFAULT_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("govTapasaniDateMr.contains=" + DEFAULT_GOV_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr contains UPDATED_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDateMr.contains=" + UPDATED_GOV_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesByGovTapasaniDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr does not contain DEFAULT_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("govTapasaniDateMr.doesNotContain=" + DEFAULT_GOV_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where govTapasaniDateMr does not contain UPDATED_GOV_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("govTapasaniDateMr.doesNotContain=" + UPDATED_GOV_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate equals to DEFAULT_SANSTHA_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDate.equals=" + DEFAULT_SANSTHA_TAPASANI_DATE);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate equals to UPDATED_SANSTHA_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDate.equals=" + UPDATED_SANSTHA_TAPASANI_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate in DEFAULT_SANSTHA_TAPASANI_DATE or UPDATED_SANSTHA_TAPASANI_DATE
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDate.in=" + DEFAULT_SANSTHA_TAPASANI_DATE + "," + UPDATED_SANSTHA_TAPASANI_DATE);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate equals to UPDATED_SANSTHA_TAPASANI_DATE
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDate.in=" + UPDATED_SANSTHA_TAPASANI_DATE);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate is not null
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDate.specified=true");
+
+        // Get all the kamalSocietyList where sansthaTapasaniDate is null
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateMrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr equals to DEFAULT_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDateMr.equals=" + DEFAULT_SANSTHA_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr equals to UPDATED_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDateMr.equals=" + UPDATED_SANSTHA_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateMrIsInShouldWork() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr in DEFAULT_SANSTHA_TAPASANI_DATE_MR or UPDATED_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound(
+            "sansthaTapasaniDateMr.in=" + DEFAULT_SANSTHA_TAPASANI_DATE_MR + "," + UPDATED_SANSTHA_TAPASANI_DATE_MR
+        );
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr equals to UPDATED_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDateMr.in=" + UPDATED_SANSTHA_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateMrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr is not null
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDateMr.specified=true");
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr is null
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDateMr.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateMrContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr contains DEFAULT_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDateMr.contains=" + DEFAULT_SANSTHA_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr contains UPDATED_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDateMr.contains=" + UPDATED_SANSTHA_TAPASANI_DATE_MR);
+    }
+
+    @Test
+    @Transactional
+    void getAllKamalSocietiesBySansthaTapasaniDateMrNotContainsSomething() throws Exception {
+        // Initialize the database
+        kamalSocietyRepository.saveAndFlush(kamalSociety);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr does not contain DEFAULT_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniDateMr.doesNotContain=" + DEFAULT_SANSTHA_TAPASANI_DATE_MR);
+
+        // Get all the kamalSocietyList where sansthaTapasaniDateMr does not contain UPDATED_SANSTHA_TAPASANI_DATE_MR
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniDateMr.doesNotContain=" + UPDATED_SANSTHA_TAPASANI_DATE_MR);
     }
 
     @Test
@@ -1348,587 +2094,392 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLandContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLand is greater than or equal to DEFAULT_TOTAL_LAND
-        defaultKamalSocietyShouldBeFound("totalLand.greaterThanOrEqual=" + DEFAULT_TOTAL_LAND);
+        // Get all the kamalSocietyList where totalLand contains DEFAULT_TOTAL_LAND
+        defaultKamalSocietyShouldBeFound("totalLand.contains=" + DEFAULT_TOTAL_LAND);
 
-        // Get all the kamalSocietyList where totalLand is greater than or equal to UPDATED_TOTAL_LAND
-        defaultKamalSocietyShouldNotBeFound("totalLand.greaterThanOrEqual=" + UPDATED_TOTAL_LAND);
+        // Get all the kamalSocietyList where totalLand contains UPDATED_TOTAL_LAND
+        defaultKamalSocietyShouldNotBeFound("totalLand.contains=" + UPDATED_TOTAL_LAND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLandNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLand is less than or equal to DEFAULT_TOTAL_LAND
-        defaultKamalSocietyShouldBeFound("totalLand.lessThanOrEqual=" + DEFAULT_TOTAL_LAND);
+        // Get all the kamalSocietyList where totalLand does not contain DEFAULT_TOTAL_LAND
+        defaultKamalSocietyShouldNotBeFound("totalLand.doesNotContain=" + DEFAULT_TOTAL_LAND);
 
-        // Get all the kamalSocietyList where totalLand is less than or equal to SMALLER_TOTAL_LAND
-        defaultKamalSocietyShouldNotBeFound("totalLand.lessThanOrEqual=" + SMALLER_TOTAL_LAND);
+        // Get all the kamalSocietyList where totalLand does not contain UPDATED_TOTAL_LAND
+        defaultKamalSocietyShouldBeFound("totalLand.doesNotContain=" + UPDATED_TOTAL_LAND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByBagayatIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLand is less than DEFAULT_TOTAL_LAND
-        defaultKamalSocietyShouldNotBeFound("totalLand.lessThan=" + DEFAULT_TOTAL_LAND);
+        // Get all the kamalSocietyList where bagayat equals to DEFAULT_BAGAYAT
+        defaultKamalSocietyShouldBeFound("bagayat.equals=" + DEFAULT_BAGAYAT);
 
-        // Get all the kamalSocietyList where totalLand is less than UPDATED_TOTAL_LAND
-        defaultKamalSocietyShouldBeFound("totalLand.lessThan=" + UPDATED_TOTAL_LAND);
+        // Get all the kamalSocietyList where bagayat equals to UPDATED_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("bagayat.equals=" + UPDATED_BAGAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByBagayatIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLand is greater than DEFAULT_TOTAL_LAND
-        defaultKamalSocietyShouldNotBeFound("totalLand.greaterThan=" + DEFAULT_TOTAL_LAND);
+        // Get all the kamalSocietyList where bagayat in DEFAULT_BAGAYAT or UPDATED_BAGAYAT
+        defaultKamalSocietyShouldBeFound("bagayat.in=" + DEFAULT_BAGAYAT + "," + UPDATED_BAGAYAT);
 
-        // Get all the kamalSocietyList where totalLand is greater than SMALLER_TOTAL_LAND
-        defaultKamalSocietyShouldBeFound("totalLand.greaterThan=" + SMALLER_TOTAL_LAND);
+        // Get all the kamalSocietyList where bagayat equals to UPDATED_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("bagayat.in=" + UPDATED_BAGAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBagayatIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLandMr equals to DEFAULT_TOTAL_LAND_MR
-        defaultKamalSocietyShouldBeFound("totalLandMr.equals=" + DEFAULT_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where bagayat is not null
+        defaultKamalSocietyShouldBeFound("bagayat.specified=true");
 
-        // Get all the kamalSocietyList where totalLandMr equals to UPDATED_TOTAL_LAND_MR
-        defaultKamalSocietyShouldNotBeFound("totalLandMr.equals=" + UPDATED_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where bagayat is null
+        defaultKamalSocietyShouldNotBeFound("bagayat.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBagayatContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLandMr in DEFAULT_TOTAL_LAND_MR or UPDATED_TOTAL_LAND_MR
-        defaultKamalSocietyShouldBeFound("totalLandMr.in=" + DEFAULT_TOTAL_LAND_MR + "," + UPDATED_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where bagayat contains DEFAULT_BAGAYAT
+        defaultKamalSocietyShouldBeFound("bagayat.contains=" + DEFAULT_BAGAYAT);
 
-        // Get all the kamalSocietyList where totalLandMr equals to UPDATED_TOTAL_LAND_MR
-        defaultKamalSocietyShouldNotBeFound("totalLandMr.in=" + UPDATED_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where bagayat contains UPDATED_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("bagayat.contains=" + UPDATED_BAGAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBagayatNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLandMr is not null
-        defaultKamalSocietyShouldBeFound("totalLandMr.specified=true");
+        // Get all the kamalSocietyList where bagayat does not contain DEFAULT_BAGAYAT
+        defaultKamalSocietyShouldNotBeFound("bagayat.doesNotContain=" + DEFAULT_BAGAYAT);
 
-        // Get all the kamalSocietyList where totalLandMr is null
-        defaultKamalSocietyShouldNotBeFound("totalLandMr.specified=false");
+        // Get all the kamalSocietyList where bagayat does not contain UPDATED_BAGAYAT
+        defaultKamalSocietyShouldBeFound("bagayat.doesNotContain=" + UPDATED_BAGAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByJirayatIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLandMr contains DEFAULT_TOTAL_LAND_MR
-        defaultKamalSocietyShouldBeFound("totalLandMr.contains=" + DEFAULT_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where jirayat equals to DEFAULT_JIRAYAT
+        defaultKamalSocietyShouldBeFound("jirayat.equals=" + DEFAULT_JIRAYAT);
 
-        // Get all the kamalSocietyList where totalLandMr contains UPDATED_TOTAL_LAND_MR
-        defaultKamalSocietyShouldNotBeFound("totalLandMr.contains=" + UPDATED_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where jirayat equals to UPDATED_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("jirayat.equals=" + UPDATED_JIRAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalLandMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByJirayatIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalLandMr does not contain DEFAULT_TOTAL_LAND_MR
-        defaultKamalSocietyShouldNotBeFound("totalLandMr.doesNotContain=" + DEFAULT_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where jirayat in DEFAULT_JIRAYAT or UPDATED_JIRAYAT
+        defaultKamalSocietyShouldBeFound("jirayat.in=" + DEFAULT_JIRAYAT + "," + UPDATED_JIRAYAT);
 
-        // Get all the kamalSocietyList where totalLandMr does not contain UPDATED_TOTAL_LAND_MR
-        defaultKamalSocietyShouldBeFound("totalLandMr.doesNotContain=" + UPDATED_TOTAL_LAND_MR);
+        // Get all the kamalSocietyList where jirayat equals to UPDATED_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("jirayat.in=" + UPDATED_JIRAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByJirayatIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem equals to DEFAULT_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.equals=" + DEFAULT_TOTAL_MEM);
+        // Get all the kamalSocietyList where jirayat is not null
+        defaultKamalSocietyShouldBeFound("jirayat.specified=true");
 
-        // Get all the kamalSocietyList where totalMem equals to UPDATED_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.equals=" + UPDATED_TOTAL_MEM);
+        // Get all the kamalSocietyList where jirayat is null
+        defaultKamalSocietyShouldNotBeFound("jirayat.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByJirayatContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem in DEFAULT_TOTAL_MEM or UPDATED_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.in=" + DEFAULT_TOTAL_MEM + "," + UPDATED_TOTAL_MEM);
+        // Get all the kamalSocietyList where jirayat contains DEFAULT_JIRAYAT
+        defaultKamalSocietyShouldBeFound("jirayat.contains=" + DEFAULT_JIRAYAT);
 
-        // Get all the kamalSocietyList where totalMem equals to UPDATED_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.in=" + UPDATED_TOTAL_MEM);
+        // Get all the kamalSocietyList where jirayat contains UPDATED_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("jirayat.contains=" + UPDATED_JIRAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByJirayatNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem is not null
-        defaultKamalSocietyShouldBeFound("totalMem.specified=true");
+        // Get all the kamalSocietyList where jirayat does not contain DEFAULT_JIRAYAT
+        defaultKamalSocietyShouldNotBeFound("jirayat.doesNotContain=" + DEFAULT_JIRAYAT);
 
-        // Get all the kamalSocietyList where totalMem is null
-        defaultKamalSocietyShouldNotBeFound("totalMem.specified=false");
+        // Get all the kamalSocietyList where jirayat does not contain UPDATED_JIRAYAT
+        defaultKamalSocietyShouldBeFound("jirayat.doesNotContain=" + UPDATED_JIRAYAT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalFarmerIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem is greater than or equal to DEFAULT_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.greaterThanOrEqual=" + DEFAULT_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer equals to DEFAULT_TOTAL_FARMER
+        defaultKamalSocietyShouldBeFound("totalFarmer.equals=" + DEFAULT_TOTAL_FARMER);
 
-        // Get all the kamalSocietyList where totalMem is greater than or equal to UPDATED_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.greaterThanOrEqual=" + UPDATED_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer equals to UPDATED_TOTAL_FARMER
+        defaultKamalSocietyShouldNotBeFound("totalFarmer.equals=" + UPDATED_TOTAL_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalFarmerIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem is less than or equal to DEFAULT_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.lessThanOrEqual=" + DEFAULT_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer in DEFAULT_TOTAL_FARMER or UPDATED_TOTAL_FARMER
+        defaultKamalSocietyShouldBeFound("totalFarmer.in=" + DEFAULT_TOTAL_FARMER + "," + UPDATED_TOTAL_FARMER);
 
-        // Get all the kamalSocietyList where totalMem is less than or equal to SMALLER_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.lessThanOrEqual=" + SMALLER_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer equals to UPDATED_TOTAL_FARMER
+        defaultKamalSocietyShouldNotBeFound("totalFarmer.in=" + UPDATED_TOTAL_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByTotalFarmerIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem is less than DEFAULT_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.lessThan=" + DEFAULT_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer is not null
+        defaultKamalSocietyShouldBeFound("totalFarmer.specified=true");
 
-        // Get all the kamalSocietyList where totalMem is less than UPDATED_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.lessThan=" + UPDATED_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer is null
+        defaultKamalSocietyShouldNotBeFound("totalFarmer.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByTotalFarmerContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMem is greater than DEFAULT_TOTAL_MEM
-        defaultKamalSocietyShouldNotBeFound("totalMem.greaterThan=" + DEFAULT_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer contains DEFAULT_TOTAL_FARMER
+        defaultKamalSocietyShouldBeFound("totalFarmer.contains=" + DEFAULT_TOTAL_FARMER);
 
-        // Get all the kamalSocietyList where totalMem is greater than SMALLER_TOTAL_MEM
-        defaultKamalSocietyShouldBeFound("totalMem.greaterThan=" + SMALLER_TOTAL_MEM);
+        // Get all the kamalSocietyList where totalFarmer contains UPDATED_TOTAL_FARMER
+        defaultKamalSocietyShouldNotBeFound("totalFarmer.contains=" + UPDATED_TOTAL_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalFarmerNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMemMr equals to DEFAULT_TOTAL_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalMemMr.equals=" + DEFAULT_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where totalFarmer does not contain DEFAULT_TOTAL_FARMER
+        defaultKamalSocietyShouldNotBeFound("totalFarmer.doesNotContain=" + DEFAULT_TOTAL_FARMER);
 
-        // Get all the kamalSocietyList where totalMemMr equals to UPDATED_TOTAL_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalMemMr.equals=" + UPDATED_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where totalFarmer does not contain UPDATED_TOTAL_FARMER
+        defaultKamalSocietyShouldBeFound("totalFarmer.doesNotContain=" + UPDATED_TOTAL_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByMemberFarmerIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMemMr in DEFAULT_TOTAL_MEM_MR or UPDATED_TOTAL_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalMemMr.in=" + DEFAULT_TOTAL_MEM_MR + "," + UPDATED_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer equals to DEFAULT_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("memberFarmer.equals=" + DEFAULT_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalMemMr equals to UPDATED_TOTAL_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalMemMr.in=" + UPDATED_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer equals to UPDATED_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("memberFarmer.equals=" + UPDATED_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByMemberFarmerIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMemMr is not null
-        defaultKamalSocietyShouldBeFound("totalMemMr.specified=true");
+        // Get all the kamalSocietyList where memberFarmer in DEFAULT_MEMBER_FARMER or UPDATED_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("memberFarmer.in=" + DEFAULT_MEMBER_FARMER + "," + UPDATED_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalMemMr is null
-        defaultKamalSocietyShouldNotBeFound("totalMemMr.specified=false");
+        // Get all the kamalSocietyList where memberFarmer equals to UPDATED_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("memberFarmer.in=" + UPDATED_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByMemberFarmerIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMemMr contains DEFAULT_TOTAL_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalMemMr.contains=" + DEFAULT_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer is not null
+        defaultKamalSocietyShouldBeFound("memberFarmer.specified=true");
 
-        // Get all the kamalSocietyList where totalMemMr contains UPDATED_TOTAL_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalMemMr.contains=" + UPDATED_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer is null
+        defaultKamalSocietyShouldNotBeFound("memberFarmer.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalMemMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByMemberFarmerContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalMemMr does not contain DEFAULT_TOTAL_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalMemMr.doesNotContain=" + DEFAULT_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer contains DEFAULT_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("memberFarmer.contains=" + DEFAULT_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalMemMr does not contain UPDATED_TOTAL_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalMemMr.doesNotContain=" + UPDATED_TOTAL_MEM_MR);
+        // Get all the kamalSocietyList where memberFarmer contains UPDATED_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("memberFarmer.contains=" + UPDATED_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemberFarmerNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem equals to DEFAULT_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.equals=" + DEFAULT_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where memberFarmer does not contain DEFAULT_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("memberFarmer.doesNotContain=" + DEFAULT_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalNonMem equals to UPDATED_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.equals=" + UPDATED_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where memberFarmer does not contain UPDATED_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("memberFarmer.doesNotContain=" + UPDATED_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByNonMemberFarmerIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem in DEFAULT_TOTAL_NON_MEM or UPDATED_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.in=" + DEFAULT_TOTAL_NON_MEM + "," + UPDATED_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer equals to DEFAULT_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("nonMemberFarmer.equals=" + DEFAULT_NON_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalNonMem equals to UPDATED_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.in=" + UPDATED_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer equals to UPDATED_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("nonMemberFarmer.equals=" + UPDATED_NON_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByNonMemberFarmerIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem is not null
-        defaultKamalSocietyShouldBeFound("totalNonMem.specified=true");
+        // Get all the kamalSocietyList where nonMemberFarmer in DEFAULT_NON_MEMBER_FARMER or UPDATED_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("nonMemberFarmer.in=" + DEFAULT_NON_MEMBER_FARMER + "," + UPDATED_NON_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalNonMem is null
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.specified=false");
+        // Get all the kamalSocietyList where nonMemberFarmer equals to UPDATED_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("nonMemberFarmer.in=" + UPDATED_NON_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByNonMemberFarmerIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem is greater than or equal to DEFAULT_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.greaterThanOrEqual=" + DEFAULT_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer is not null
+        defaultKamalSocietyShouldBeFound("nonMemberFarmer.specified=true");
 
-        // Get all the kamalSocietyList where totalNonMem is greater than or equal to UPDATED_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.greaterThanOrEqual=" + UPDATED_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer is null
+        defaultKamalSocietyShouldNotBeFound("nonMemberFarmer.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByNonMemberFarmerContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem is less than or equal to DEFAULT_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.lessThanOrEqual=" + DEFAULT_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer contains DEFAULT_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("nonMemberFarmer.contains=" + DEFAULT_NON_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalNonMem is less than or equal to SMALLER_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.lessThanOrEqual=" + SMALLER_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer contains UPDATED_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("nonMemberFarmer.contains=" + UPDATED_NON_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByNonMemberFarmerNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem is less than DEFAULT_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.lessThan=" + DEFAULT_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer does not contain DEFAULT_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldNotBeFound("nonMemberFarmer.doesNotContain=" + DEFAULT_NON_MEMBER_FARMER);
 
-        // Get all the kamalSocietyList where totalNonMem is less than UPDATED_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.lessThan=" + UPDATED_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where nonMemberFarmer does not contain UPDATED_NON_MEMBER_FARMER
+        defaultKamalSocietyShouldBeFound("nonMemberFarmer.doesNotContain=" + UPDATED_NON_MEMBER_FARMER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByTalebandDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMem is greater than DEFAULT_TOTAL_NON_MEM
-        defaultKamalSocietyShouldNotBeFound("totalNonMem.greaterThan=" + DEFAULT_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where talebandDate equals to DEFAULT_TALEBAND_DATE
+        defaultKamalSocietyShouldBeFound("talebandDate.equals=" + DEFAULT_TALEBAND_DATE);
 
-        // Get all the kamalSocietyList where totalNonMem is greater than SMALLER_TOTAL_NON_MEM
-        defaultKamalSocietyShouldBeFound("totalNonMem.greaterThan=" + SMALLER_TOTAL_NON_MEM);
+        // Get all the kamalSocietyList where talebandDate equals to UPDATED_TALEBAND_DATE
+        defaultKamalSocietyShouldNotBeFound("talebandDate.equals=" + UPDATED_TALEBAND_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTalebandDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMemMr equals to DEFAULT_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalNonMemMr.equals=" + DEFAULT_TOTAL_NON_MEM_MR);
+        // Get all the kamalSocietyList where talebandDate in DEFAULT_TALEBAND_DATE or UPDATED_TALEBAND_DATE
+        defaultKamalSocietyShouldBeFound("talebandDate.in=" + DEFAULT_TALEBAND_DATE + "," + UPDATED_TALEBAND_DATE);
 
-        // Get all the kamalSocietyList where totalNonMemMr equals to UPDATED_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalNonMemMr.equals=" + UPDATED_TOTAL_NON_MEM_MR);
+        // Get all the kamalSocietyList where talebandDate equals to UPDATED_TALEBAND_DATE
+        defaultKamalSocietyShouldNotBeFound("talebandDate.in=" + UPDATED_TALEBAND_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalNonMemMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByTalebandDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalNonMemMr in DEFAULT_TOTAL_NON_MEM_MR or UPDATED_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalNonMemMr.in=" + DEFAULT_TOTAL_NON_MEM_MR + "," + UPDATED_TOTAL_NON_MEM_MR);
+        // Get all the kamalSocietyList where talebandDate is not null
+        defaultKamalSocietyShouldBeFound("talebandDate.specified=true");
 
-        // Get all the kamalSocietyList where totalNonMemMr equals to UPDATED_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalNonMemMr.in=" + UPDATED_TOTAL_NON_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalNonMemMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalNonMemMr is not null
-        defaultKamalSocietyShouldBeFound("totalNonMemMr.specified=true");
-
-        // Get all the kamalSocietyList where totalNonMemMr is null
-        defaultKamalSocietyShouldNotBeFound("totalNonMemMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalNonMemMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalNonMemMr contains DEFAULT_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalNonMemMr.contains=" + DEFAULT_TOTAL_NON_MEM_MR);
-
-        // Get all the kamalSocietyList where totalNonMemMr contains UPDATED_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalNonMemMr.contains=" + UPDATED_TOTAL_NON_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalNonMemMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalNonMemMr does not contain DEFAULT_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalNonMemMr.doesNotContain=" + DEFAULT_TOTAL_NON_MEM_MR);
-
-        // Get all the kamalSocietyList where totalNonMemMr does not contain UPDATED_TOTAL_NON_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalNonMemMr.doesNotContain=" + UPDATED_TOTAL_NON_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem equals to DEFAULT_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.equals=" + DEFAULT_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem equals to UPDATED_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.equals=" + UPDATED_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem in DEFAULT_TOTAL_G_MEM or UPDATED_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.in=" + DEFAULT_TOTAL_G_MEM + "," + UPDATED_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem equals to UPDATED_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.in=" + UPDATED_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem is not null
-        defaultKamalSocietyShouldBeFound("totalGMem.specified=true");
-
-        // Get all the kamalSocietyList where totalGMem is null
-        defaultKamalSocietyShouldNotBeFound("totalGMem.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem is greater than or equal to DEFAULT_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.greaterThanOrEqual=" + DEFAULT_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem is greater than or equal to UPDATED_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.greaterThanOrEqual=" + UPDATED_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem is less than or equal to DEFAULT_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.lessThanOrEqual=" + DEFAULT_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem is less than or equal to SMALLER_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.lessThanOrEqual=" + SMALLER_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem is less than DEFAULT_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.lessThan=" + DEFAULT_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem is less than UPDATED_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.lessThan=" + UPDATED_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMem is greater than DEFAULT_TOTAL_G_MEM
-        defaultKamalSocietyShouldNotBeFound("totalGMem.greaterThan=" + DEFAULT_TOTAL_G_MEM);
-
-        // Get all the kamalSocietyList where totalGMem is greater than SMALLER_TOTAL_G_MEM
-        defaultKamalSocietyShouldBeFound("totalGMem.greaterThan=" + SMALLER_TOTAL_G_MEM);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMemMr equals to DEFAULT_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalGMemMr.equals=" + DEFAULT_TOTAL_G_MEM_MR);
-
-        // Get all the kamalSocietyList where totalGMemMr equals to UPDATED_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalGMemMr.equals=" + UPDATED_TOTAL_G_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMemMr in DEFAULT_TOTAL_G_MEM_MR or UPDATED_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalGMemMr.in=" + DEFAULT_TOTAL_G_MEM_MR + "," + UPDATED_TOTAL_G_MEM_MR);
-
-        // Get all the kamalSocietyList where totalGMemMr equals to UPDATED_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalGMemMr.in=" + UPDATED_TOTAL_G_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMemMr is not null
-        defaultKamalSocietyShouldBeFound("totalGMemMr.specified=true");
-
-        // Get all the kamalSocietyList where totalGMemMr is null
-        defaultKamalSocietyShouldNotBeFound("totalGMemMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMemMr contains DEFAULT_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalGMemMr.contains=" + DEFAULT_TOTAL_G_MEM_MR);
-
-        // Get all the kamalSocietyList where totalGMemMr contains UPDATED_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalGMemMr.contains=" + UPDATED_TOTAL_G_MEM_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalGMemMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalGMemMr does not contain DEFAULT_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldNotBeFound("totalGMemMr.doesNotContain=" + DEFAULT_TOTAL_G_MEM_MR);
-
-        // Get all the kamalSocietyList where totalGMemMr does not contain UPDATED_TOTAL_G_MEM_MR
-        defaultKamalSocietyShouldBeFound("totalGMemMr.doesNotContain=" + UPDATED_TOTAL_G_MEM_MR);
+        // Get all the kamalSocietyList where talebandDate is null
+        defaultKamalSocietyShouldNotBeFound("talebandDate.specified=false");
     }
 
     @Test
@@ -1972,119 +2523,28 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemLoanIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemLoanContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memLoan is greater than or equal to DEFAULT_MEM_LOAN
-        defaultKamalSocietyShouldBeFound("memLoan.greaterThanOrEqual=" + DEFAULT_MEM_LOAN);
+        // Get all the kamalSocietyList where memLoan contains DEFAULT_MEM_LOAN
+        defaultKamalSocietyShouldBeFound("memLoan.contains=" + DEFAULT_MEM_LOAN);
 
-        // Get all the kamalSocietyList where memLoan is greater than or equal to UPDATED_MEM_LOAN
-        defaultKamalSocietyShouldNotBeFound("memLoan.greaterThanOrEqual=" + UPDATED_MEM_LOAN);
+        // Get all the kamalSocietyList where memLoan contains UPDATED_MEM_LOAN
+        defaultKamalSocietyShouldNotBeFound("memLoan.contains=" + UPDATED_MEM_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemLoanIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemLoanNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memLoan is less than or equal to DEFAULT_MEM_LOAN
-        defaultKamalSocietyShouldBeFound("memLoan.lessThanOrEqual=" + DEFAULT_MEM_LOAN);
+        // Get all the kamalSocietyList where memLoan does not contain DEFAULT_MEM_LOAN
+        defaultKamalSocietyShouldNotBeFound("memLoan.doesNotContain=" + DEFAULT_MEM_LOAN);
 
-        // Get all the kamalSocietyList where memLoan is less than or equal to SMALLER_MEM_LOAN
-        defaultKamalSocietyShouldNotBeFound("memLoan.lessThanOrEqual=" + SMALLER_MEM_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoan is less than DEFAULT_MEM_LOAN
-        defaultKamalSocietyShouldNotBeFound("memLoan.lessThan=" + DEFAULT_MEM_LOAN);
-
-        // Get all the kamalSocietyList where memLoan is less than UPDATED_MEM_LOAN
-        defaultKamalSocietyShouldBeFound("memLoan.lessThan=" + UPDATED_MEM_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoan is greater than DEFAULT_MEM_LOAN
-        defaultKamalSocietyShouldNotBeFound("memLoan.greaterThan=" + DEFAULT_MEM_LOAN);
-
-        // Get all the kamalSocietyList where memLoan is greater than SMALLER_MEM_LOAN
-        defaultKamalSocietyShouldBeFound("memLoan.greaterThan=" + SMALLER_MEM_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoanMr equals to DEFAULT_MEM_LOAN_MR
-        defaultKamalSocietyShouldBeFound("memLoanMr.equals=" + DEFAULT_MEM_LOAN_MR);
-
-        // Get all the kamalSocietyList where memLoanMr equals to UPDATED_MEM_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("memLoanMr.equals=" + UPDATED_MEM_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoanMr in DEFAULT_MEM_LOAN_MR or UPDATED_MEM_LOAN_MR
-        defaultKamalSocietyShouldBeFound("memLoanMr.in=" + DEFAULT_MEM_LOAN_MR + "," + UPDATED_MEM_LOAN_MR);
-
-        // Get all the kamalSocietyList where memLoanMr equals to UPDATED_MEM_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("memLoanMr.in=" + UPDATED_MEM_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoanMr is not null
-        defaultKamalSocietyShouldBeFound("memLoanMr.specified=true");
-
-        // Get all the kamalSocietyList where memLoanMr is null
-        defaultKamalSocietyShouldNotBeFound("memLoanMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoanMr contains DEFAULT_MEM_LOAN_MR
-        defaultKamalSocietyShouldBeFound("memLoanMr.contains=" + DEFAULT_MEM_LOAN_MR);
-
-        // Get all the kamalSocietyList where memLoanMr contains UPDATED_MEM_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("memLoanMr.contains=" + UPDATED_MEM_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemLoanMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memLoanMr does not contain DEFAULT_MEM_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("memLoanMr.doesNotContain=" + DEFAULT_MEM_LOAN_MR);
-
-        // Get all the kamalSocietyList where memLoanMr does not contain UPDATED_MEM_LOAN_MR
-        defaultKamalSocietyShouldBeFound("memLoanMr.doesNotContain=" + UPDATED_MEM_LOAN_MR);
+        // Get all the kamalSocietyList where memLoan does not contain UPDATED_MEM_LOAN
+        defaultKamalSocietyShouldBeFound("memLoan.doesNotContain=" + UPDATED_MEM_LOAN);
     }
 
     @Test
@@ -2128,743 +2588,158 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemDueContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDue is greater than or equal to DEFAULT_MEM_DUE
-        defaultKamalSocietyShouldBeFound("memDue.greaterThanOrEqual=" + DEFAULT_MEM_DUE);
+        // Get all the kamalSocietyList where memDue contains DEFAULT_MEM_DUE
+        defaultKamalSocietyShouldBeFound("memDue.contains=" + DEFAULT_MEM_DUE);
 
-        // Get all the kamalSocietyList where memDue is greater than or equal to UPDATED_MEM_DUE
-        defaultKamalSocietyShouldNotBeFound("memDue.greaterThanOrEqual=" + UPDATED_MEM_DUE);
+        // Get all the kamalSocietyList where memDue contains UPDATED_MEM_DUE
+        defaultKamalSocietyShouldNotBeFound("memDue.contains=" + UPDATED_MEM_DUE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemDueNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDue is less than or equal to DEFAULT_MEM_DUE
-        defaultKamalSocietyShouldBeFound("memDue.lessThanOrEqual=" + DEFAULT_MEM_DUE);
+        // Get all the kamalSocietyList where memDue does not contain DEFAULT_MEM_DUE
+        defaultKamalSocietyShouldNotBeFound("memDue.doesNotContain=" + DEFAULT_MEM_DUE);
 
-        // Get all the kamalSocietyList where memDue is less than or equal to SMALLER_MEM_DUE
-        defaultKamalSocietyShouldNotBeFound("memDue.lessThanOrEqual=" + SMALLER_MEM_DUE);
+        // Get all the kamalSocietyList where memDue does not contain UPDATED_MEM_DUE
+        defaultKamalSocietyShouldBeFound("memDue.doesNotContain=" + UPDATED_MEM_DUE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDue is less than DEFAULT_MEM_DUE
-        defaultKamalSocietyShouldNotBeFound("memDue.lessThan=" + DEFAULT_MEM_DUE);
+        // Get all the kamalSocietyList where memVasuli equals to DEFAULT_MEM_VASULI
+        defaultKamalSocietyShouldBeFound("memVasuli.equals=" + DEFAULT_MEM_VASULI);
 
-        // Get all the kamalSocietyList where memDue is less than UPDATED_MEM_DUE
-        defaultKamalSocietyShouldBeFound("memDue.lessThan=" + UPDATED_MEM_DUE);
+        // Get all the kamalSocietyList where memVasuli equals to UPDATED_MEM_VASULI
+        defaultKamalSocietyShouldNotBeFound("memVasuli.equals=" + UPDATED_MEM_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDue is greater than DEFAULT_MEM_DUE
-        defaultKamalSocietyShouldNotBeFound("memDue.greaterThan=" + DEFAULT_MEM_DUE);
+        // Get all the kamalSocietyList where memVasuli in DEFAULT_MEM_VASULI or UPDATED_MEM_VASULI
+        defaultKamalSocietyShouldBeFound("memVasuli.in=" + DEFAULT_MEM_VASULI + "," + UPDATED_MEM_VASULI);
 
-        // Get all the kamalSocietyList where memDue is greater than SMALLER_MEM_DUE
-        defaultKamalSocietyShouldBeFound("memDue.greaterThan=" + SMALLER_MEM_DUE);
+        // Get all the kamalSocietyList where memVasuli equals to UPDATED_MEM_VASULI
+        defaultKamalSocietyShouldNotBeFound("memVasuli.in=" + UPDATED_MEM_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueMr equals to DEFAULT_MEM_DUE_MR
-        defaultKamalSocietyShouldBeFound("memDueMr.equals=" + DEFAULT_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuli is not null
+        defaultKamalSocietyShouldBeFound("memVasuli.specified=true");
 
-        // Get all the kamalSocietyList where memDueMr equals to UPDATED_MEM_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("memDueMr.equals=" + UPDATED_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuli is null
+        defaultKamalSocietyShouldNotBeFound("memVasuli.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByMemVasuliContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueMr in DEFAULT_MEM_DUE_MR or UPDATED_MEM_DUE_MR
-        defaultKamalSocietyShouldBeFound("memDueMr.in=" + DEFAULT_MEM_DUE_MR + "," + UPDATED_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuli contains DEFAULT_MEM_VASULI
+        defaultKamalSocietyShouldBeFound("memVasuli.contains=" + DEFAULT_MEM_VASULI);
 
-        // Get all the kamalSocietyList where memDueMr equals to UPDATED_MEM_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("memDueMr.in=" + UPDATED_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuli contains UPDATED_MEM_VASULI
+        defaultKamalSocietyShouldNotBeFound("memVasuli.contains=" + UPDATED_MEM_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByMemVasuliNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueMr is not null
-        defaultKamalSocietyShouldBeFound("memDueMr.specified=true");
+        // Get all the kamalSocietyList where memVasuli does not contain DEFAULT_MEM_VASULI
+        defaultKamalSocietyShouldNotBeFound("memVasuli.doesNotContain=" + DEFAULT_MEM_VASULI);
 
-        // Get all the kamalSocietyList where memDueMr is null
-        defaultKamalSocietyShouldNotBeFound("memDueMr.specified=false");
+        // Get all the kamalSocietyList where memVasuli does not contain UPDATED_MEM_VASULI
+        defaultKamalSocietyShouldBeFound("memVasuli.doesNotContain=" + UPDATED_MEM_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliPerIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueMr contains DEFAULT_MEM_DUE_MR
-        defaultKamalSocietyShouldBeFound("memDueMr.contains=" + DEFAULT_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuliPer equals to DEFAULT_MEM_VASULI_PER
+        defaultKamalSocietyShouldBeFound("memVasuliPer.equals=" + DEFAULT_MEM_VASULI_PER);
 
-        // Get all the kamalSocietyList where memDueMr contains UPDATED_MEM_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("memDueMr.contains=" + UPDATED_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuliPer equals to UPDATED_MEM_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("memVasuliPer.equals=" + UPDATED_MEM_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliPerIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueMr does not contain DEFAULT_MEM_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("memDueMr.doesNotContain=" + DEFAULT_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuliPer in DEFAULT_MEM_VASULI_PER or UPDATED_MEM_VASULI_PER
+        defaultKamalSocietyShouldBeFound("memVasuliPer.in=" + DEFAULT_MEM_VASULI_PER + "," + UPDATED_MEM_VASULI_PER);
 
-        // Get all the kamalSocietyList where memDueMr does not contain UPDATED_MEM_DUE_MR
-        defaultKamalSocietyShouldBeFound("memDueMr.doesNotContain=" + UPDATED_MEM_DUE_MR);
+        // Get all the kamalSocietyList where memVasuliPer equals to UPDATED_MEM_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("memVasuliPer.in=" + UPDATED_MEM_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueperIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByMemVasuliPerIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueper equals to DEFAULT_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.equals=" + DEFAULT_MEM_DUEPER);
+        // Get all the kamalSocietyList where memVasuliPer is not null
+        defaultKamalSocietyShouldBeFound("memVasuliPer.specified=true");
 
-        // Get all the kamalSocietyList where memDueper equals to UPDATED_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.equals=" + UPDATED_MEM_DUEPER);
+        // Get all the kamalSocietyList where memVasuliPer is null
+        defaultKamalSocietyShouldNotBeFound("memVasuliPer.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueperIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByMemVasuliPerContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueper in DEFAULT_MEM_DUEPER or UPDATED_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.in=" + DEFAULT_MEM_DUEPER + "," + UPDATED_MEM_DUEPER);
+        // Get all the kamalSocietyList where memVasuliPer contains DEFAULT_MEM_VASULI_PER
+        defaultKamalSocietyShouldBeFound("memVasuliPer.contains=" + DEFAULT_MEM_VASULI_PER);
 
-        // Get all the kamalSocietyList where memDueper equals to UPDATED_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.in=" + UPDATED_MEM_DUEPER);
+        // Get all the kamalSocietyList where memVasuliPer contains UPDATED_MEM_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("memVasuliPer.contains=" + UPDATED_MEM_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByMemDueperIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByMemVasuliPerNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where memDueper is not null
-        defaultKamalSocietyShouldBeFound("memDueper.specified=true");
-
-        // Get all the kamalSocietyList where memDueper is null
-        defaultKamalSocietyShouldNotBeFound("memDueper.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueper is greater than or equal to DEFAULT_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.greaterThanOrEqual=" + DEFAULT_MEM_DUEPER);
-
-        // Get all the kamalSocietyList where memDueper is greater than or equal to UPDATED_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.greaterThanOrEqual=" + UPDATED_MEM_DUEPER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueper is less than or equal to DEFAULT_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.lessThanOrEqual=" + DEFAULT_MEM_DUEPER);
-
-        // Get all the kamalSocietyList where memDueper is less than or equal to SMALLER_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.lessThanOrEqual=" + SMALLER_MEM_DUEPER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueper is less than DEFAULT_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.lessThan=" + DEFAULT_MEM_DUEPER);
-
-        // Get all the kamalSocietyList where memDueper is less than UPDATED_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.lessThan=" + UPDATED_MEM_DUEPER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueper is greater than DEFAULT_MEM_DUEPER
-        defaultKamalSocietyShouldNotBeFound("memDueper.greaterThan=" + DEFAULT_MEM_DUEPER);
-
-        // Get all the kamalSocietyList where memDueper is greater than SMALLER_MEM_DUEPER
-        defaultKamalSocietyShouldBeFound("memDueper.greaterThan=" + SMALLER_MEM_DUEPER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueperMr equals to DEFAULT_MEM_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("memDueperMr.equals=" + DEFAULT_MEM_DUEPER_MR);
-
-        // Get all the kamalSocietyList where memDueperMr equals to UPDATED_MEM_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("memDueperMr.equals=" + UPDATED_MEM_DUEPER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueperMr in DEFAULT_MEM_DUEPER_MR or UPDATED_MEM_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("memDueperMr.in=" + DEFAULT_MEM_DUEPER_MR + "," + UPDATED_MEM_DUEPER_MR);
-
-        // Get all the kamalSocietyList where memDueperMr equals to UPDATED_MEM_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("memDueperMr.in=" + UPDATED_MEM_DUEPER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueperMr is not null
-        defaultKamalSocietyShouldBeFound("memDueperMr.specified=true");
-
-        // Get all the kamalSocietyList where memDueperMr is null
-        defaultKamalSocietyShouldNotBeFound("memDueperMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueperMr contains DEFAULT_MEM_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("memDueperMr.contains=" + DEFAULT_MEM_DUEPER_MR);
-
-        // Get all the kamalSocietyList where memDueperMr contains UPDATED_MEM_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("memDueperMr.contains=" + UPDATED_MEM_DUEPER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemDueperMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memDueperMr does not contain DEFAULT_MEM_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("memDueperMr.doesNotContain=" + DEFAULT_MEM_DUEPER_MR);
-
-        // Get all the kamalSocietyList where memDueperMr does not contain UPDATED_MEM_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("memDueperMr.doesNotContain=" + UPDATED_MEM_DUEPER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra equals to DEFAULT_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.equals=" + DEFAULT_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra equals to UPDATED_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.equals=" + UPDATED_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra in DEFAULT_MEM_VASULPATRA or UPDATED_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.in=" + DEFAULT_MEM_VASULPATRA + "," + UPDATED_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra equals to UPDATED_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.in=" + UPDATED_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra is not null
-        defaultKamalSocietyShouldBeFound("memVasulpatra.specified=true");
-
-        // Get all the kamalSocietyList where memVasulpatra is null
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra is greater than or equal to DEFAULT_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.greaterThanOrEqual=" + DEFAULT_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra is greater than or equal to UPDATED_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.greaterThanOrEqual=" + UPDATED_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra is less than or equal to DEFAULT_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.lessThanOrEqual=" + DEFAULT_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra is less than or equal to SMALLER_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.lessThanOrEqual=" + SMALLER_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra is less than DEFAULT_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.lessThan=" + DEFAULT_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra is less than UPDATED_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.lessThan=" + UPDATED_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatra is greater than DEFAULT_MEM_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("memVasulpatra.greaterThan=" + DEFAULT_MEM_VASULPATRA);
-
-        // Get all the kamalSocietyList where memVasulpatra is greater than SMALLER_MEM_VASULPATRA
-        defaultKamalSocietyShouldBeFound("memVasulpatra.greaterThan=" + SMALLER_MEM_VASULPATRA);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatraMr equals to DEFAULT_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("memVasulpatraMr.equals=" + DEFAULT_MEM_VASULPATRA_MR);
-
-        // Get all the kamalSocietyList where memVasulpatraMr equals to UPDATED_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulpatraMr.equals=" + UPDATED_MEM_VASULPATRA_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatraMr in DEFAULT_MEM_VASULPATRA_MR or UPDATED_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("memVasulpatraMr.in=" + DEFAULT_MEM_VASULPATRA_MR + "," + UPDATED_MEM_VASULPATRA_MR);
-
-        // Get all the kamalSocietyList where memVasulpatraMr equals to UPDATED_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulpatraMr.in=" + UPDATED_MEM_VASULPATRA_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatraMr is not null
-        defaultKamalSocietyShouldBeFound("memVasulpatraMr.specified=true");
-
-        // Get all the kamalSocietyList where memVasulpatraMr is null
-        defaultKamalSocietyShouldNotBeFound("memVasulpatraMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatraMr contains DEFAULT_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("memVasulpatraMr.contains=" + DEFAULT_MEM_VASULPATRA_MR);
-
-        // Get all the kamalSocietyList where memVasulpatraMr contains UPDATED_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulpatraMr.contains=" + UPDATED_MEM_VASULPATRA_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulpatraMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulpatraMr does not contain DEFAULT_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulpatraMr.doesNotContain=" + DEFAULT_MEM_VASULPATRA_MR);
-
-        // Get all the kamalSocietyList where memVasulpatraMr does not contain UPDATED_MEM_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("memVasulpatraMr.doesNotContain=" + UPDATED_MEM_VASULPATRA_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul equals to DEFAULT_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.equals=" + DEFAULT_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul equals to UPDATED_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.equals=" + UPDATED_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul in DEFAULT_MEM_VASUL or UPDATED_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.in=" + DEFAULT_MEM_VASUL + "," + UPDATED_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul equals to UPDATED_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.in=" + UPDATED_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul is not null
-        defaultKamalSocietyShouldBeFound("memVasul.specified=true");
-
-        // Get all the kamalSocietyList where memVasul is null
-        defaultKamalSocietyShouldNotBeFound("memVasul.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul is greater than or equal to DEFAULT_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.greaterThanOrEqual=" + DEFAULT_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul is greater than or equal to UPDATED_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.greaterThanOrEqual=" + UPDATED_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul is less than or equal to DEFAULT_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.lessThanOrEqual=" + DEFAULT_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul is less than or equal to SMALLER_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.lessThanOrEqual=" + SMALLER_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul is less than DEFAULT_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.lessThan=" + DEFAULT_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul is less than UPDATED_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.lessThan=" + UPDATED_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasul is greater than DEFAULT_MEM_VASUL
-        defaultKamalSocietyShouldNotBeFound("memVasul.greaterThan=" + DEFAULT_MEM_VASUL);
-
-        // Get all the kamalSocietyList where memVasul is greater than SMALLER_MEM_VASUL
-        defaultKamalSocietyShouldBeFound("memVasul.greaterThan=" + SMALLER_MEM_VASUL);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulMr equals to DEFAULT_MEM_VASUL_MR
-        defaultKamalSocietyShouldBeFound("memVasulMr.equals=" + DEFAULT_MEM_VASUL_MR);
-
-        // Get all the kamalSocietyList where memVasulMr equals to UPDATED_MEM_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulMr.equals=" + UPDATED_MEM_VASUL_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulMr in DEFAULT_MEM_VASUL_MR or UPDATED_MEM_VASUL_MR
-        defaultKamalSocietyShouldBeFound("memVasulMr.in=" + DEFAULT_MEM_VASUL_MR + "," + UPDATED_MEM_VASUL_MR);
-
-        // Get all the kamalSocietyList where memVasulMr equals to UPDATED_MEM_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulMr.in=" + UPDATED_MEM_VASUL_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulMr is not null
-        defaultKamalSocietyShouldBeFound("memVasulMr.specified=true");
-
-        // Get all the kamalSocietyList where memVasulMr is null
-        defaultKamalSocietyShouldNotBeFound("memVasulMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulMr contains DEFAULT_MEM_VASUL_MR
-        defaultKamalSocietyShouldBeFound("memVasulMr.contains=" + DEFAULT_MEM_VASUL_MR);
-
-        // Get all the kamalSocietyList where memVasulMr contains UPDATED_MEM_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulMr.contains=" + UPDATED_MEM_VASUL_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulMr does not contain DEFAULT_MEM_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulMr.doesNotContain=" + DEFAULT_MEM_VASUL_MR);
-
-        // Get all the kamalSocietyList where memVasulMr does not contain UPDATED_MEM_VASUL_MR
-        defaultKamalSocietyShouldBeFound("memVasulMr.doesNotContain=" + UPDATED_MEM_VASUL_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer equals to DEFAULT_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.equals=" + DEFAULT_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer equals to UPDATED_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.equals=" + UPDATED_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer in DEFAULT_MEM_VASUL_PER or UPDATED_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.in=" + DEFAULT_MEM_VASUL_PER + "," + UPDATED_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer equals to UPDATED_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.in=" + UPDATED_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer is not null
-        defaultKamalSocietyShouldBeFound("memVasulPer.specified=true");
-
-        // Get all the kamalSocietyList where memVasulPer is null
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer is greater than or equal to DEFAULT_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.greaterThanOrEqual=" + DEFAULT_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer is greater than or equal to UPDATED_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.greaterThanOrEqual=" + UPDATED_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer is less than or equal to DEFAULT_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.lessThanOrEqual=" + DEFAULT_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer is less than or equal to SMALLER_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.lessThanOrEqual=" + SMALLER_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer is less than DEFAULT_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.lessThan=" + DEFAULT_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer is less than UPDATED_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.lessThan=" + UPDATED_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPer is greater than DEFAULT_MEM_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("memVasulPer.greaterThan=" + DEFAULT_MEM_VASUL_PER);
-
-        // Get all the kamalSocietyList where memVasulPer is greater than SMALLER_MEM_VASUL_PER
-        defaultKamalSocietyShouldBeFound("memVasulPer.greaterThan=" + SMALLER_MEM_VASUL_PER);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPerMr equals to DEFAULT_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("memVasulPerMr.equals=" + DEFAULT_MEM_VASUL_PER_MR);
-
-        // Get all the kamalSocietyList where memVasulPerMr equals to UPDATED_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulPerMr.equals=" + UPDATED_MEM_VASUL_PER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPerMr in DEFAULT_MEM_VASUL_PER_MR or UPDATED_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("memVasulPerMr.in=" + DEFAULT_MEM_VASUL_PER_MR + "," + UPDATED_MEM_VASUL_PER_MR);
-
-        // Get all the kamalSocietyList where memVasulPerMr equals to UPDATED_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulPerMr.in=" + UPDATED_MEM_VASUL_PER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPerMr is not null
-        defaultKamalSocietyShouldBeFound("memVasulPerMr.specified=true");
-
-        // Get all the kamalSocietyList where memVasulPerMr is null
-        defaultKamalSocietyShouldNotBeFound("memVasulPerMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPerMr contains DEFAULT_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("memVasulPerMr.contains=" + DEFAULT_MEM_VASUL_PER_MR);
-
-        // Get all the kamalSocietyList where memVasulPerMr contains UPDATED_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulPerMr.contains=" + UPDATED_MEM_VASUL_PER_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByMemVasulPerMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where memVasulPerMr does not contain DEFAULT_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("memVasulPerMr.doesNotContain=" + DEFAULT_MEM_VASUL_PER_MR);
-
-        // Get all the kamalSocietyList where memVasulPerMr does not contain UPDATED_MEM_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("memVasulPerMr.doesNotContain=" + UPDATED_MEM_VASUL_PER_MR);
+        // Get all the kamalSocietyList where memVasuliPer does not contain DEFAULT_MEM_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("memVasuliPer.doesNotContain=" + DEFAULT_MEM_VASULI_PER);
+
+        // Get all the kamalSocietyList where memVasuliPer does not contain UPDATED_MEM_VASULI_PER
+        defaultKamalSocietyShouldBeFound("memVasuliPer.doesNotContain=" + UPDATED_MEM_VASULI_PER);
     }
 
     @Test
@@ -2908,119 +2783,28 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankLoanIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankLoanContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankLoan is greater than or equal to DEFAULT_BANK_LOAN
-        defaultKamalSocietyShouldBeFound("bankLoan.greaterThanOrEqual=" + DEFAULT_BANK_LOAN);
+        // Get all the kamalSocietyList where bankLoan contains DEFAULT_BANK_LOAN
+        defaultKamalSocietyShouldBeFound("bankLoan.contains=" + DEFAULT_BANK_LOAN);
 
-        // Get all the kamalSocietyList where bankLoan is greater than or equal to UPDATED_BANK_LOAN
-        defaultKamalSocietyShouldNotBeFound("bankLoan.greaterThanOrEqual=" + UPDATED_BANK_LOAN);
+        // Get all the kamalSocietyList where bankLoan contains UPDATED_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("bankLoan.contains=" + UPDATED_BANK_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankLoanIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankLoanNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankLoan is less than or equal to DEFAULT_BANK_LOAN
-        defaultKamalSocietyShouldBeFound("bankLoan.lessThanOrEqual=" + DEFAULT_BANK_LOAN);
+        // Get all the kamalSocietyList where bankLoan does not contain DEFAULT_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("bankLoan.doesNotContain=" + DEFAULT_BANK_LOAN);
 
-        // Get all the kamalSocietyList where bankLoan is less than or equal to SMALLER_BANK_LOAN
-        defaultKamalSocietyShouldNotBeFound("bankLoan.lessThanOrEqual=" + SMALLER_BANK_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoan is less than DEFAULT_BANK_LOAN
-        defaultKamalSocietyShouldNotBeFound("bankLoan.lessThan=" + DEFAULT_BANK_LOAN);
-
-        // Get all the kamalSocietyList where bankLoan is less than UPDATED_BANK_LOAN
-        defaultKamalSocietyShouldBeFound("bankLoan.lessThan=" + UPDATED_BANK_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoan is greater than DEFAULT_BANK_LOAN
-        defaultKamalSocietyShouldNotBeFound("bankLoan.greaterThan=" + DEFAULT_BANK_LOAN);
-
-        // Get all the kamalSocietyList where bankLoan is greater than SMALLER_BANK_LOAN
-        defaultKamalSocietyShouldBeFound("bankLoan.greaterThan=" + SMALLER_BANK_LOAN);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoanMr equals to DEFAULT_BANK_LOAN_MR
-        defaultKamalSocietyShouldBeFound("bankLoanMr.equals=" + DEFAULT_BANK_LOAN_MR);
-
-        // Get all the kamalSocietyList where bankLoanMr equals to UPDATED_BANK_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("bankLoanMr.equals=" + UPDATED_BANK_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoanMr in DEFAULT_BANK_LOAN_MR or UPDATED_BANK_LOAN_MR
-        defaultKamalSocietyShouldBeFound("bankLoanMr.in=" + DEFAULT_BANK_LOAN_MR + "," + UPDATED_BANK_LOAN_MR);
-
-        // Get all the kamalSocietyList where bankLoanMr equals to UPDATED_BANK_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("bankLoanMr.in=" + UPDATED_BANK_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoanMr is not null
-        defaultKamalSocietyShouldBeFound("bankLoanMr.specified=true");
-
-        // Get all the kamalSocietyList where bankLoanMr is null
-        defaultKamalSocietyShouldNotBeFound("bankLoanMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoanMr contains DEFAULT_BANK_LOAN_MR
-        defaultKamalSocietyShouldBeFound("bankLoanMr.contains=" + DEFAULT_BANK_LOAN_MR);
-
-        // Get all the kamalSocietyList where bankLoanMr contains UPDATED_BANK_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("bankLoanMr.contains=" + UPDATED_BANK_LOAN_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByBankLoanMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where bankLoanMr does not contain DEFAULT_BANK_LOAN_MR
-        defaultKamalSocietyShouldNotBeFound("bankLoanMr.doesNotContain=" + DEFAULT_BANK_LOAN_MR);
-
-        // Get all the kamalSocietyList where bankLoanMr does not contain UPDATED_BANK_LOAN_MR
-        defaultKamalSocietyShouldBeFound("bankLoanMr.doesNotContain=" + UPDATED_BANK_LOAN_MR);
+        // Get all the kamalSocietyList where bankLoan does not contain UPDATED_BANK_LOAN
+        defaultKamalSocietyShouldBeFound("bankLoan.doesNotContain=" + UPDATED_BANK_LOAN);
     }
 
     @Test
@@ -3064,2794 +2848,2661 @@ class KamalSocietyResourceIT {
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankDueContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDue is greater than or equal to DEFAULT_BANK_DUE
-        defaultKamalSocietyShouldBeFound("bankDue.greaterThanOrEqual=" + DEFAULT_BANK_DUE);
+        // Get all the kamalSocietyList where bankDue contains DEFAULT_BANK_DUE
+        defaultKamalSocietyShouldBeFound("bankDue.contains=" + DEFAULT_BANK_DUE);
 
-        // Get all the kamalSocietyList where bankDue is greater than or equal to UPDATED_BANK_DUE
-        defaultKamalSocietyShouldNotBeFound("bankDue.greaterThanOrEqual=" + UPDATED_BANK_DUE);
+        // Get all the kamalSocietyList where bankDue contains UPDATED_BANK_DUE
+        defaultKamalSocietyShouldNotBeFound("bankDue.contains=" + UPDATED_BANK_DUE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankDueNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDue is less than or equal to DEFAULT_BANK_DUE
-        defaultKamalSocietyShouldBeFound("bankDue.lessThanOrEqual=" + DEFAULT_BANK_DUE);
+        // Get all the kamalSocietyList where bankDue does not contain DEFAULT_BANK_DUE
+        defaultKamalSocietyShouldNotBeFound("bankDue.doesNotContain=" + DEFAULT_BANK_DUE);
 
-        // Get all the kamalSocietyList where bankDue is less than or equal to SMALLER_BANK_DUE
-        defaultKamalSocietyShouldNotBeFound("bankDue.lessThanOrEqual=" + SMALLER_BANK_DUE);
+        // Get all the kamalSocietyList where bankDue does not contain UPDATED_BANK_DUE
+        defaultKamalSocietyShouldBeFound("bankDue.doesNotContain=" + UPDATED_BANK_DUE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDue is less than DEFAULT_BANK_DUE
-        defaultKamalSocietyShouldNotBeFound("bankDue.lessThan=" + DEFAULT_BANK_DUE);
+        // Get all the kamalSocietyList where bankVasuli equals to DEFAULT_BANK_VASULI
+        defaultKamalSocietyShouldBeFound("bankVasuli.equals=" + DEFAULT_BANK_VASULI);
 
-        // Get all the kamalSocietyList where bankDue is less than UPDATED_BANK_DUE
-        defaultKamalSocietyShouldBeFound("bankDue.lessThan=" + UPDATED_BANK_DUE);
+        // Get all the kamalSocietyList where bankVasuli equals to UPDATED_BANK_VASULI
+        defaultKamalSocietyShouldNotBeFound("bankVasuli.equals=" + UPDATED_BANK_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDue is greater than DEFAULT_BANK_DUE
-        defaultKamalSocietyShouldNotBeFound("bankDue.greaterThan=" + DEFAULT_BANK_DUE);
+        // Get all the kamalSocietyList where bankVasuli in DEFAULT_BANK_VASULI or UPDATED_BANK_VASULI
+        defaultKamalSocietyShouldBeFound("bankVasuli.in=" + DEFAULT_BANK_VASULI + "," + UPDATED_BANK_VASULI);
 
-        // Get all the kamalSocietyList where bankDue is greater than SMALLER_BANK_DUE
-        defaultKamalSocietyShouldBeFound("bankDue.greaterThan=" + SMALLER_BANK_DUE);
+        // Get all the kamalSocietyList where bankVasuli equals to UPDATED_BANK_VASULI
+        defaultKamalSocietyShouldNotBeFound("bankVasuli.in=" + UPDATED_BANK_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueMr equals to DEFAULT_BANK_DUE_MR
-        defaultKamalSocietyShouldBeFound("bankDueMr.equals=" + DEFAULT_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuli is not null
+        defaultKamalSocietyShouldBeFound("bankVasuli.specified=true");
 
-        // Get all the kamalSocietyList where bankDueMr equals to UPDATED_BANK_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueMr.equals=" + UPDATED_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuli is null
+        defaultKamalSocietyShouldNotBeFound("bankVasuli.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBankVasuliContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueMr in DEFAULT_BANK_DUE_MR or UPDATED_BANK_DUE_MR
-        defaultKamalSocietyShouldBeFound("bankDueMr.in=" + DEFAULT_BANK_DUE_MR + "," + UPDATED_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuli contains DEFAULT_BANK_VASULI
+        defaultKamalSocietyShouldBeFound("bankVasuli.contains=" + DEFAULT_BANK_VASULI);
 
-        // Get all the kamalSocietyList where bankDueMr equals to UPDATED_BANK_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueMr.in=" + UPDATED_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuli contains UPDATED_BANK_VASULI
+        defaultKamalSocietyShouldNotBeFound("bankVasuli.contains=" + UPDATED_BANK_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBankVasuliNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueMr is not null
-        defaultKamalSocietyShouldBeFound("bankDueMr.specified=true");
+        // Get all the kamalSocietyList where bankVasuli does not contain DEFAULT_BANK_VASULI
+        defaultKamalSocietyShouldNotBeFound("bankVasuli.doesNotContain=" + DEFAULT_BANK_VASULI);
 
-        // Get all the kamalSocietyList where bankDueMr is null
-        defaultKamalSocietyShouldNotBeFound("bankDueMr.specified=false");
+        // Get all the kamalSocietyList where bankVasuli does not contain UPDATED_BANK_VASULI
+        defaultKamalSocietyShouldBeFound("bankVasuli.doesNotContain=" + UPDATED_BANK_VASULI);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliPerIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueMr contains DEFAULT_BANK_DUE_MR
-        defaultKamalSocietyShouldBeFound("bankDueMr.contains=" + DEFAULT_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuliPer equals to DEFAULT_BANK_VASULI_PER
+        defaultKamalSocietyShouldBeFound("bankVasuliPer.equals=" + DEFAULT_BANK_VASULI_PER);
 
-        // Get all the kamalSocietyList where bankDueMr contains UPDATED_BANK_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueMr.contains=" + UPDATED_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuliPer equals to UPDATED_BANK_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("bankVasuliPer.equals=" + UPDATED_BANK_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliPerIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueMr does not contain DEFAULT_BANK_DUE_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueMr.doesNotContain=" + DEFAULT_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuliPer in DEFAULT_BANK_VASULI_PER or UPDATED_BANK_VASULI_PER
+        defaultKamalSocietyShouldBeFound("bankVasuliPer.in=" + DEFAULT_BANK_VASULI_PER + "," + UPDATED_BANK_VASULI_PER);
 
-        // Get all the kamalSocietyList where bankDueMr does not contain UPDATED_BANK_DUE_MR
-        defaultKamalSocietyShouldBeFound("bankDueMr.doesNotContain=" + UPDATED_BANK_DUE_MR);
+        // Get all the kamalSocietyList where bankVasuliPer equals to UPDATED_BANK_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("bankVasuliPer.in=" + UPDATED_BANK_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBankVasuliPerIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper equals to DEFAULT_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.equals=" + DEFAULT_BANK_DUEPER);
+        // Get all the kamalSocietyList where bankVasuliPer is not null
+        defaultKamalSocietyShouldBeFound("bankVasuliPer.specified=true");
 
-        // Get all the kamalSocietyList where bankDueper equals to UPDATED_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.equals=" + UPDATED_BANK_DUEPER);
+        // Get all the kamalSocietyList where bankVasuliPer is null
+        defaultKamalSocietyShouldNotBeFound("bankVasuliPer.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBankVasuliPerContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper in DEFAULT_BANK_DUEPER or UPDATED_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.in=" + DEFAULT_BANK_DUEPER + "," + UPDATED_BANK_DUEPER);
+        // Get all the kamalSocietyList where bankVasuliPer contains DEFAULT_BANK_VASULI_PER
+        defaultKamalSocietyShouldBeFound("bankVasuliPer.contains=" + DEFAULT_BANK_VASULI_PER);
 
-        // Get all the kamalSocietyList where bankDueper equals to UPDATED_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.in=" + UPDATED_BANK_DUEPER);
+        // Get all the kamalSocietyList where bankVasuliPer contains UPDATED_BANK_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("bankVasuliPer.contains=" + UPDATED_BANK_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBankVasuliPerNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper is not null
-        defaultKamalSocietyShouldBeFound("bankDueper.specified=true");
+        // Get all the kamalSocietyList where bankVasuliPer does not contain DEFAULT_BANK_VASULI_PER
+        defaultKamalSocietyShouldNotBeFound("bankVasuliPer.doesNotContain=" + DEFAULT_BANK_VASULI_PER);
 
-        // Get all the kamalSocietyList where bankDueper is null
-        defaultKamalSocietyShouldNotBeFound("bankDueper.specified=false");
+        // Get all the kamalSocietyList where bankVasuliPer does not contain UPDATED_BANK_VASULI_PER
+        defaultKamalSocietyShouldBeFound("bankVasuliPer.doesNotContain=" + UPDATED_BANK_VASULI_PER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper is greater than or equal to DEFAULT_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.greaterThanOrEqual=" + DEFAULT_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate equals to DEFAULT_BALANCE_SHEET_DATE
+        defaultKamalSocietyShouldBeFound("balanceSheetDate.equals=" + DEFAULT_BALANCE_SHEET_DATE);
 
-        // Get all the kamalSocietyList where bankDueper is greater than or equal to UPDATED_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.greaterThanOrEqual=" + UPDATED_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate equals to UPDATED_BALANCE_SHEET_DATE
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDate.equals=" + UPDATED_BALANCE_SHEET_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper is less than or equal to DEFAULT_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.lessThanOrEqual=" + DEFAULT_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate in DEFAULT_BALANCE_SHEET_DATE or UPDATED_BALANCE_SHEET_DATE
+        defaultKamalSocietyShouldBeFound("balanceSheetDate.in=" + DEFAULT_BALANCE_SHEET_DATE + "," + UPDATED_BALANCE_SHEET_DATE);
 
-        // Get all the kamalSocietyList where bankDueper is less than or equal to SMALLER_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.lessThanOrEqual=" + SMALLER_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate equals to UPDATED_BALANCE_SHEET_DATE
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDate.in=" + UPDATED_BALANCE_SHEET_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper is less than DEFAULT_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.lessThan=" + DEFAULT_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate is not null
+        defaultKamalSocietyShouldBeFound("balanceSheetDate.specified=true");
 
-        // Get all the kamalSocietyList where bankDueper is less than UPDATED_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.lessThan=" + UPDATED_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDate is null
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateMrIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueper is greater than DEFAULT_BANK_DUEPER
-        defaultKamalSocietyShouldNotBeFound("bankDueper.greaterThan=" + DEFAULT_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDateMr equals to DEFAULT_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldBeFound("balanceSheetDateMr.equals=" + DEFAULT_BALANCE_SHEET_DATE_MR);
 
-        // Get all the kamalSocietyList where bankDueper is greater than SMALLER_BANK_DUEPER
-        defaultKamalSocietyShouldBeFound("bankDueper.greaterThan=" + SMALLER_BANK_DUEPER);
+        // Get all the kamalSocietyList where balanceSheetDateMr equals to UPDATED_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDateMr.equals=" + UPDATED_BALANCE_SHEET_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateMrIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueperMr equals to DEFAULT_BANK_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("bankDueperMr.equals=" + DEFAULT_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr in DEFAULT_BALANCE_SHEET_DATE_MR or UPDATED_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldBeFound("balanceSheetDateMr.in=" + DEFAULT_BALANCE_SHEET_DATE_MR + "," + UPDATED_BALANCE_SHEET_DATE_MR);
 
-        // Get all the kamalSocietyList where bankDueperMr equals to UPDATED_BANK_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueperMr.equals=" + UPDATED_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr equals to UPDATED_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDateMr.in=" + UPDATED_BALANCE_SHEET_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateMrIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueperMr in DEFAULT_BANK_DUEPER_MR or UPDATED_BANK_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("bankDueperMr.in=" + DEFAULT_BANK_DUEPER_MR + "," + UPDATED_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr is not null
+        defaultKamalSocietyShouldBeFound("balanceSheetDateMr.specified=true");
 
-        // Get all the kamalSocietyList where bankDueperMr equals to UPDATED_BANK_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueperMr.in=" + UPDATED_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr is null
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDateMr.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateMrContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueperMr is not null
-        defaultKamalSocietyShouldBeFound("bankDueperMr.specified=true");
+        // Get all the kamalSocietyList where balanceSheetDateMr contains DEFAULT_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldBeFound("balanceSheetDateMr.contains=" + DEFAULT_BALANCE_SHEET_DATE_MR);
 
-        // Get all the kamalSocietyList where bankDueperMr is null
-        defaultKamalSocietyShouldNotBeFound("bankDueperMr.specified=false");
+        // Get all the kamalSocietyList where balanceSheetDateMr contains UPDATED_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDateMr.contains=" + UPDATED_BALANCE_SHEET_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBalanceSheetDateMrNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueperMr contains DEFAULT_BANK_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("bankDueperMr.contains=" + DEFAULT_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr does not contain DEFAULT_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldNotBeFound("balanceSheetDateMr.doesNotContain=" + DEFAULT_BALANCE_SHEET_DATE_MR);
 
-        // Get all the kamalSocietyList where bankDueperMr contains UPDATED_BANK_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueperMr.contains=" + UPDATED_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where balanceSheetDateMr does not contain UPDATED_BALANCE_SHEET_DATE_MR
+        defaultKamalSocietyShouldBeFound("balanceSheetDateMr.doesNotContain=" + UPDATED_BALANCE_SHEET_DATE_MR);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankDueperMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityAdhikrutShareCapitalIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankDueperMr does not contain DEFAULT_BANK_DUEPER_MR
-        defaultKamalSocietyShouldNotBeFound("bankDueperMr.doesNotContain=" + DEFAULT_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital equals to DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityAdhikrutShareCapital.equals=" + DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankDueperMr does not contain UPDATED_BANK_DUEPER_MR
-        defaultKamalSocietyShouldBeFound("bankDueperMr.doesNotContain=" + UPDATED_BANK_DUEPER_MR);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital equals to UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityAdhikrutShareCapital.equals=" + UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityAdhikrutShareCapitalIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra equals to DEFAULT_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.equals=" + DEFAULT_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital in DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL or UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound(
+            "liabilityAdhikrutShareCapital.in=" + DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL + "," + UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        );
 
-        // Get all the kamalSocietyList where bankVasulpatra equals to UPDATED_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.equals=" + UPDATED_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital equals to UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityAdhikrutShareCapital.in=" + UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityAdhikrutShareCapitalIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra in DEFAULT_BANK_VASULPATRA or UPDATED_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.in=" + DEFAULT_BANK_VASULPATRA + "," + UPDATED_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital is not null
+        defaultKamalSocietyShouldBeFound("liabilityAdhikrutShareCapital.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulpatra equals to UPDATED_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.in=" + UPDATED_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital is null
+        defaultKamalSocietyShouldNotBeFound("liabilityAdhikrutShareCapital.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityAdhikrutShareCapitalContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra is not null
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.specified=true");
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital contains DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityAdhikrutShareCapital.contains=" + DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankVasulpatra is null
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.specified=false");
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital contains UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityAdhikrutShareCapital.contains=" + UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityAdhikrutShareCapitalNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra is greater than or equal to DEFAULT_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.greaterThanOrEqual=" + DEFAULT_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital does not contain DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityAdhikrutShareCapital.doesNotContain=" + DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankVasulpatra is greater than or equal to UPDATED_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.greaterThanOrEqual=" + UPDATED_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityAdhikrutShareCapital does not contain UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityAdhikrutShareCapital.doesNotContain=" + UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityVasulShareCapitalIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra is less than or equal to DEFAULT_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.lessThanOrEqual=" + DEFAULT_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital equals to DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityVasulShareCapital.equals=" + DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankVasulpatra is less than or equal to SMALLER_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.lessThanOrEqual=" + SMALLER_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital equals to UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityVasulShareCapital.equals=" + UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityVasulShareCapitalIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra is less than DEFAULT_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.lessThan=" + DEFAULT_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital in DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL or UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound(
+            "liabilityVasulShareCapital.in=" + DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL + "," + UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        );
 
-        // Get all the kamalSocietyList where bankVasulpatra is less than UPDATED_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.lessThan=" + UPDATED_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital equals to UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityVasulShareCapital.in=" + UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityVasulShareCapitalIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatra is greater than DEFAULT_BANK_VASULPATRA
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatra.greaterThan=" + DEFAULT_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital is not null
+        defaultKamalSocietyShouldBeFound("liabilityVasulShareCapital.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulpatra is greater than SMALLER_BANK_VASULPATRA
-        defaultKamalSocietyShouldBeFound("bankVasulpatra.greaterThan=" + SMALLER_BANK_VASULPATRA);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital is null
+        defaultKamalSocietyShouldNotBeFound("liabilityVasulShareCapital.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityVasulShareCapitalContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr equals to DEFAULT_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("bankVasulpatraMr.equals=" + DEFAULT_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital contains DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityVasulShareCapital.contains=" + DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr equals to UPDATED_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatraMr.equals=" + UPDATED_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital contains UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityVasulShareCapital.contains=" + UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityVasulShareCapitalNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr in DEFAULT_BANK_VASULPATRA_MR or UPDATED_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("bankVasulpatraMr.in=" + DEFAULT_BANK_VASULPATRA_MR + "," + UPDATED_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital does not contain DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldNotBeFound("liabilityVasulShareCapital.doesNotContain=" + DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr equals to UPDATED_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatraMr.in=" + UPDATED_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityVasulShareCapital does not contain UPDATED_LIABILITY_VASUL_SHARE_CAPITAL
+        defaultKamalSocietyShouldBeFound("liabilityVasulShareCapital.doesNotContain=" + UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityFundIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr is not null
-        defaultKamalSocietyShouldBeFound("bankVasulpatraMr.specified=true");
+        // Get all the kamalSocietyList where liabilityFund equals to DEFAULT_LIABILITY_FUND
+        defaultKamalSocietyShouldBeFound("liabilityFund.equals=" + DEFAULT_LIABILITY_FUND);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr is null
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatraMr.specified=false");
+        // Get all the kamalSocietyList where liabilityFund equals to UPDATED_LIABILITY_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilityFund.equals=" + UPDATED_LIABILITY_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityFundIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr contains DEFAULT_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("bankVasulpatraMr.contains=" + DEFAULT_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityFund in DEFAULT_LIABILITY_FUND or UPDATED_LIABILITY_FUND
+        defaultKamalSocietyShouldBeFound("liabilityFund.in=" + DEFAULT_LIABILITY_FUND + "," + UPDATED_LIABILITY_FUND);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr contains UPDATED_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatraMr.contains=" + UPDATED_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityFund equals to UPDATED_LIABILITY_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilityFund.in=" + UPDATED_LIABILITY_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulpatraMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityFundIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulpatraMr does not contain DEFAULT_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulpatraMr.doesNotContain=" + DEFAULT_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityFund is not null
+        defaultKamalSocietyShouldBeFound("liabilityFund.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulpatraMr does not contain UPDATED_BANK_VASULPATRA_MR
-        defaultKamalSocietyShouldBeFound("bankVasulpatraMr.doesNotContain=" + UPDATED_BANK_VASULPATRA_MR);
+        // Get all the kamalSocietyList where liabilityFund is null
+        defaultKamalSocietyShouldNotBeFound("liabilityFund.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityFundContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul equals to DEFAULT_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.equals=" + DEFAULT_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilityFund contains DEFAULT_LIABILITY_FUND
+        defaultKamalSocietyShouldBeFound("liabilityFund.contains=" + DEFAULT_LIABILITY_FUND);
 
-        // Get all the kamalSocietyList where bankVasul equals to UPDATED_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.equals=" + UPDATED_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilityFund contains UPDATED_LIABILITY_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilityFund.contains=" + UPDATED_LIABILITY_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityFundNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul in DEFAULT_BANK_VASUL or UPDATED_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.in=" + DEFAULT_BANK_VASUL + "," + UPDATED_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilityFund does not contain DEFAULT_LIABILITY_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilityFund.doesNotContain=" + DEFAULT_LIABILITY_FUND);
 
-        // Get all the kamalSocietyList where bankVasul equals to UPDATED_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.in=" + UPDATED_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilityFund does not contain UPDATED_LIABILITY_FUND
+        defaultKamalSocietyShouldBeFound("liabilityFund.doesNotContain=" + UPDATED_LIABILITY_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilitySpareFundIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul is not null
-        defaultKamalSocietyShouldBeFound("bankVasul.specified=true");
+        // Get all the kamalSocietyList where liabilitySpareFund equals to DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.equals=" + DEFAULT_LIABILITY_SPARE_FUND);
 
-        // Get all the kamalSocietyList where bankVasul is null
-        defaultKamalSocietyShouldNotBeFound("bankVasul.specified=false");
+        // Get all the kamalSocietyList where liabilitySpareFund equals to UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.equals=" + UPDATED_LIABILITY_SPARE_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilitySpareFundIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul is greater than or equal to DEFAULT_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.greaterThanOrEqual=" + DEFAULT_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund in DEFAULT_LIABILITY_SPARE_FUND or UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.in=" + DEFAULT_LIABILITY_SPARE_FUND + "," + UPDATED_LIABILITY_SPARE_FUND);
 
-        // Get all the kamalSocietyList where bankVasul is greater than or equal to UPDATED_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.greaterThanOrEqual=" + UPDATED_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund equals to UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.in=" + UPDATED_LIABILITY_SPARE_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilitySpareFundIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul is less than or equal to DEFAULT_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.lessThanOrEqual=" + DEFAULT_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund is not null
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.specified=true");
 
-        // Get all the kamalSocietyList where bankVasul is less than or equal to SMALLER_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.lessThanOrEqual=" + SMALLER_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund is null
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilitySpareFundContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul is less than DEFAULT_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.lessThan=" + DEFAULT_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund contains DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.contains=" + DEFAULT_LIABILITY_SPARE_FUND);
 
-        // Get all the kamalSocietyList where bankVasul is less than UPDATED_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.lessThan=" + UPDATED_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund contains UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.contains=" + UPDATED_LIABILITY_SPARE_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilitySpareFundNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasul is greater than DEFAULT_BANK_VASUL
-        defaultKamalSocietyShouldNotBeFound("bankVasul.greaterThan=" + DEFAULT_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund does not contain DEFAULT_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldNotBeFound("liabilitySpareFund.doesNotContain=" + DEFAULT_LIABILITY_SPARE_FUND);
 
-        // Get all the kamalSocietyList where bankVasul is greater than SMALLER_BANK_VASUL
-        defaultKamalSocietyShouldBeFound("bankVasul.greaterThan=" + SMALLER_BANK_VASUL);
+        // Get all the kamalSocietyList where liabilitySpareFund does not contain UPDATED_LIABILITY_SPARE_FUND
+        defaultKamalSocietyShouldBeFound("liabilitySpareFund.doesNotContain=" + UPDATED_LIABILITY_SPARE_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityDepositeIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulMr equals to DEFAULT_BANK_VASUL_MR
-        defaultKamalSocietyShouldBeFound("bankVasulMr.equals=" + DEFAULT_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite equals to DEFAULT_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldBeFound("liabilityDeposite.equals=" + DEFAULT_LIABILITY_DEPOSITE);
 
-        // Get all the kamalSocietyList where bankVasulMr equals to UPDATED_BANK_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulMr.equals=" + UPDATED_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite equals to UPDATED_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldNotBeFound("liabilityDeposite.equals=" + UPDATED_LIABILITY_DEPOSITE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityDepositeIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulMr in DEFAULT_BANK_VASUL_MR or UPDATED_BANK_VASUL_MR
-        defaultKamalSocietyShouldBeFound("bankVasulMr.in=" + DEFAULT_BANK_VASUL_MR + "," + UPDATED_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite in DEFAULT_LIABILITY_DEPOSITE or UPDATED_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldBeFound("liabilityDeposite.in=" + DEFAULT_LIABILITY_DEPOSITE + "," + UPDATED_LIABILITY_DEPOSITE);
 
-        // Get all the kamalSocietyList where bankVasulMr equals to UPDATED_BANK_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulMr.in=" + UPDATED_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite equals to UPDATED_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldNotBeFound("liabilityDeposite.in=" + UPDATED_LIABILITY_DEPOSITE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityDepositeIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulMr is not null
-        defaultKamalSocietyShouldBeFound("bankVasulMr.specified=true");
+        // Get all the kamalSocietyList where liabilityDeposite is not null
+        defaultKamalSocietyShouldBeFound("liabilityDeposite.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulMr is null
-        defaultKamalSocietyShouldNotBeFound("bankVasulMr.specified=false");
+        // Get all the kamalSocietyList where liabilityDeposite is null
+        defaultKamalSocietyShouldNotBeFound("liabilityDeposite.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityDepositeContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulMr contains DEFAULT_BANK_VASUL_MR
-        defaultKamalSocietyShouldBeFound("bankVasulMr.contains=" + DEFAULT_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite contains DEFAULT_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldBeFound("liabilityDeposite.contains=" + DEFAULT_LIABILITY_DEPOSITE);
 
-        // Get all the kamalSocietyList where bankVasulMr contains UPDATED_BANK_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulMr.contains=" + UPDATED_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite contains UPDATED_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldNotBeFound("liabilityDeposite.contains=" + UPDATED_LIABILITY_DEPOSITE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityDepositeNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulMr does not contain DEFAULT_BANK_VASUL_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulMr.doesNotContain=" + DEFAULT_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite does not contain DEFAULT_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldNotBeFound("liabilityDeposite.doesNotContain=" + DEFAULT_LIABILITY_DEPOSITE);
 
-        // Get all the kamalSocietyList where bankVasulMr does not contain UPDATED_BANK_VASUL_MR
-        defaultKamalSocietyShouldBeFound("bankVasulMr.doesNotContain=" + UPDATED_BANK_VASUL_MR);
+        // Get all the kamalSocietyList where liabilityDeposite does not contain UPDATED_LIABILITY_DEPOSITE
+        defaultKamalSocietyShouldBeFound("liabilityDeposite.doesNotContain=" + UPDATED_LIABILITY_DEPOSITE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityBalanceSheetBankLoanIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer equals to DEFAULT_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.equals=" + DEFAULT_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan equals to DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldBeFound("liabilityBalanceSheetBankLoan.equals=" + DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
 
-        // Get all the kamalSocietyList where bankVasulPer equals to UPDATED_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.equals=" + UPDATED_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan equals to UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("liabilityBalanceSheetBankLoan.equals=" + UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityBalanceSheetBankLoanIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer in DEFAULT_BANK_VASUL_PER or UPDATED_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.in=" + DEFAULT_BANK_VASUL_PER + "," + UPDATED_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan in DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN or UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldBeFound(
+            "liabilityBalanceSheetBankLoan.in=" +
+            DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN +
+            "," +
+            UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        );
 
-        // Get all the kamalSocietyList where bankVasulPer equals to UPDATED_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.in=" + UPDATED_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan equals to UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("liabilityBalanceSheetBankLoan.in=" + UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityBalanceSheetBankLoanIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer is not null
-        defaultKamalSocietyShouldBeFound("bankVasulPer.specified=true");
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan is not null
+        defaultKamalSocietyShouldBeFound("liabilityBalanceSheetBankLoan.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulPer is null
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.specified=false");
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan is null
+        defaultKamalSocietyShouldNotBeFound("liabilityBalanceSheetBankLoan.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityBalanceSheetBankLoanContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer is greater than or equal to DEFAULT_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.greaterThanOrEqual=" + DEFAULT_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan contains DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldBeFound("liabilityBalanceSheetBankLoan.contains=" + DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
 
-        // Get all the kamalSocietyList where bankVasulPer is greater than or equal to UPDATED_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.greaterThanOrEqual=" + UPDATED_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan contains UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("liabilityBalanceSheetBankLoan.contains=" + UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityBalanceSheetBankLoanNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer is less than or equal to DEFAULT_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.lessThanOrEqual=" + DEFAULT_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan does not contain DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldNotBeFound("liabilityBalanceSheetBankLoan.doesNotContain=" + DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN);
 
-        // Get all the kamalSocietyList where bankVasulPer is less than or equal to SMALLER_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.lessThanOrEqual=" + SMALLER_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityBalanceSheetBankLoan does not contain UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN
+        defaultKamalSocietyShouldBeFound("liabilityBalanceSheetBankLoan.doesNotContain=" + UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityOtherPayableIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer is less than DEFAULT_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.lessThan=" + DEFAULT_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityOtherPayable equals to DEFAULT_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldBeFound("liabilityOtherPayable.equals=" + DEFAULT_LIABILITY_OTHER_PAYABLE);
 
-        // Get all the kamalSocietyList where bankVasulPer is less than UPDATED_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.lessThan=" + UPDATED_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityOtherPayable equals to UPDATED_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldNotBeFound("liabilityOtherPayable.equals=" + UPDATED_LIABILITY_OTHER_PAYABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityOtherPayableIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPer is greater than DEFAULT_BANK_VASUL_PER
-        defaultKamalSocietyShouldNotBeFound("bankVasulPer.greaterThan=" + DEFAULT_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityOtherPayable in DEFAULT_LIABILITY_OTHER_PAYABLE or UPDATED_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldBeFound(
+            "liabilityOtherPayable.in=" + DEFAULT_LIABILITY_OTHER_PAYABLE + "," + UPDATED_LIABILITY_OTHER_PAYABLE
+        );
 
-        // Get all the kamalSocietyList where bankVasulPer is greater than SMALLER_BANK_VASUL_PER
-        defaultKamalSocietyShouldBeFound("bankVasulPer.greaterThan=" + SMALLER_BANK_VASUL_PER);
+        // Get all the kamalSocietyList where liabilityOtherPayable equals to UPDATED_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldNotBeFound("liabilityOtherPayable.in=" + UPDATED_LIABILITY_OTHER_PAYABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityOtherPayableIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPerMr equals to DEFAULT_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("bankVasulPerMr.equals=" + DEFAULT_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityOtherPayable is not null
+        defaultKamalSocietyShouldBeFound("liabilityOtherPayable.specified=true");
 
-        // Get all the kamalSocietyList where bankVasulPerMr equals to UPDATED_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulPerMr.equals=" + UPDATED_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityOtherPayable is null
+        defaultKamalSocietyShouldNotBeFound("liabilityOtherPayable.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityOtherPayableContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPerMr in DEFAULT_BANK_VASUL_PER_MR or UPDATED_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("bankVasulPerMr.in=" + DEFAULT_BANK_VASUL_PER_MR + "," + UPDATED_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityOtherPayable contains DEFAULT_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldBeFound("liabilityOtherPayable.contains=" + DEFAULT_LIABILITY_OTHER_PAYABLE);
 
-        // Get all the kamalSocietyList where bankVasulPerMr equals to UPDATED_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulPerMr.in=" + UPDATED_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityOtherPayable contains UPDATED_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldNotBeFound("liabilityOtherPayable.contains=" + UPDATED_LIABILITY_OTHER_PAYABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityOtherPayableNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPerMr is not null
-        defaultKamalSocietyShouldBeFound("bankVasulPerMr.specified=true");
+        // Get all the kamalSocietyList where liabilityOtherPayable does not contain DEFAULT_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldNotBeFound("liabilityOtherPayable.doesNotContain=" + DEFAULT_LIABILITY_OTHER_PAYABLE);
 
-        // Get all the kamalSocietyList where bankVasulPerMr is null
-        defaultKamalSocietyShouldNotBeFound("bankVasulPerMr.specified=false");
+        // Get all the kamalSocietyList where liabilityOtherPayable does not contain UPDATED_LIABILITY_OTHER_PAYABLE
+        defaultKamalSocietyShouldBeFound("liabilityOtherPayable.doesNotContain=" + UPDATED_LIABILITY_OTHER_PAYABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityProfitIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPerMr contains DEFAULT_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("bankVasulPerMr.contains=" + DEFAULT_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityProfit equals to DEFAULT_LIABILITY_PROFIT
+        defaultKamalSocietyShouldBeFound("liabilityProfit.equals=" + DEFAULT_LIABILITY_PROFIT);
 
-        // Get all the kamalSocietyList where bankVasulPerMr contains UPDATED_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulPerMr.contains=" + UPDATED_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityProfit equals to UPDATED_LIABILITY_PROFIT
+        defaultKamalSocietyShouldNotBeFound("liabilityProfit.equals=" + UPDATED_LIABILITY_PROFIT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByBankVasulPerMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityProfitIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where bankVasulPerMr does not contain DEFAULT_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldNotBeFound("bankVasulPerMr.doesNotContain=" + DEFAULT_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityProfit in DEFAULT_LIABILITY_PROFIT or UPDATED_LIABILITY_PROFIT
+        defaultKamalSocietyShouldBeFound("liabilityProfit.in=" + DEFAULT_LIABILITY_PROFIT + "," + UPDATED_LIABILITY_PROFIT);
 
-        // Get all the kamalSocietyList where bankVasulPerMr does not contain UPDATED_BANK_VASUL_PER_MR
-        defaultKamalSocietyShouldBeFound("bankVasulPerMr.doesNotContain=" + UPDATED_BANK_VASUL_PER_MR);
+        // Get all the kamalSocietyList where liabilityProfit equals to UPDATED_LIABILITY_PROFIT
+        defaultKamalSocietyShouldNotBeFound("liabilityProfit.in=" + UPDATED_LIABILITY_PROFIT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByLiabilityProfitIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital equals to DEFAULT_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.equals=" + DEFAULT_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where liabilityProfit is not null
+        defaultKamalSocietyShouldBeFound("liabilityProfit.specified=true");
 
-        // Get all the kamalSocietyList where shareCapital equals to UPDATED_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.equals=" + UPDATED_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where liabilityProfit is null
+        defaultKamalSocietyShouldNotBeFound("liabilityProfit.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByLiabilityProfitContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital in DEFAULT_SHARE_CAPITAL or UPDATED_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.in=" + DEFAULT_SHARE_CAPITAL + "," + UPDATED_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where liabilityProfit contains DEFAULT_LIABILITY_PROFIT
+        defaultKamalSocietyShouldBeFound("liabilityProfit.contains=" + DEFAULT_LIABILITY_PROFIT);
 
-        // Get all the kamalSocietyList where shareCapital equals to UPDATED_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.in=" + UPDATED_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where liabilityProfit contains UPDATED_LIABILITY_PROFIT
+        defaultKamalSocietyShouldNotBeFound("liabilityProfit.contains=" + UPDATED_LIABILITY_PROFIT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByLiabilityProfitNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital is not null
-        defaultKamalSocietyShouldBeFound("shareCapital.specified=true");
+        // Get all the kamalSocietyList where liabilityProfit does not contain DEFAULT_LIABILITY_PROFIT
+        defaultKamalSocietyShouldNotBeFound("liabilityProfit.doesNotContain=" + DEFAULT_LIABILITY_PROFIT);
 
-        // Get all the kamalSocietyList where shareCapital is null
-        defaultKamalSocietyShouldNotBeFound("shareCapital.specified=false");
+        // Get all the kamalSocietyList where liabilityProfit does not contain UPDATED_LIABILITY_PROFIT
+        defaultKamalSocietyShouldBeFound("liabilityProfit.doesNotContain=" + UPDATED_LIABILITY_PROFIT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetCashIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital is greater than or equal to DEFAULT_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.greaterThanOrEqual=" + DEFAULT_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash equals to DEFAULT_ASSET_CASH
+        defaultKamalSocietyShouldBeFound("assetCash.equals=" + DEFAULT_ASSET_CASH);
 
-        // Get all the kamalSocietyList where shareCapital is greater than or equal to UPDATED_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.greaterThanOrEqual=" + UPDATED_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash equals to UPDATED_ASSET_CASH
+        defaultKamalSocietyShouldNotBeFound("assetCash.equals=" + UPDATED_ASSET_CASH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetCashIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital is less than or equal to DEFAULT_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.lessThanOrEqual=" + DEFAULT_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash in DEFAULT_ASSET_CASH or UPDATED_ASSET_CASH
+        defaultKamalSocietyShouldBeFound("assetCash.in=" + DEFAULT_ASSET_CASH + "," + UPDATED_ASSET_CASH);
 
-        // Get all the kamalSocietyList where shareCapital is less than or equal to SMALLER_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.lessThanOrEqual=" + SMALLER_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash equals to UPDATED_ASSET_CASH
+        defaultKamalSocietyShouldNotBeFound("assetCash.in=" + UPDATED_ASSET_CASH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetCashIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital is less than DEFAULT_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.lessThan=" + DEFAULT_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash is not null
+        defaultKamalSocietyShouldBeFound("assetCash.specified=true");
 
-        // Get all the kamalSocietyList where shareCapital is less than UPDATED_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.lessThan=" + UPDATED_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash is null
+        defaultKamalSocietyShouldNotBeFound("assetCash.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetCashContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapital is greater than DEFAULT_SHARE_CAPITAL
-        defaultKamalSocietyShouldNotBeFound("shareCapital.greaterThan=" + DEFAULT_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash contains DEFAULT_ASSET_CASH
+        defaultKamalSocietyShouldBeFound("assetCash.contains=" + DEFAULT_ASSET_CASH);
 
-        // Get all the kamalSocietyList where shareCapital is greater than SMALLER_SHARE_CAPITAL
-        defaultKamalSocietyShouldBeFound("shareCapital.greaterThan=" + SMALLER_SHARE_CAPITAL);
+        // Get all the kamalSocietyList where assetCash contains UPDATED_ASSET_CASH
+        defaultKamalSocietyShouldNotBeFound("assetCash.contains=" + UPDATED_ASSET_CASH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetCashNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapitalMr equals to DEFAULT_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldBeFound("shareCapitalMr.equals=" + DEFAULT_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetCash does not contain DEFAULT_ASSET_CASH
+        defaultKamalSocietyShouldNotBeFound("assetCash.doesNotContain=" + DEFAULT_ASSET_CASH);
 
-        // Get all the kamalSocietyList where shareCapitalMr equals to UPDATED_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldNotBeFound("shareCapitalMr.equals=" + UPDATED_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetCash does not contain UPDATED_ASSET_CASH
+        defaultKamalSocietyShouldBeFound("assetCash.doesNotContain=" + UPDATED_ASSET_CASH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetInvestmentIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapitalMr in DEFAULT_SHARE_CAPITAL_MR or UPDATED_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldBeFound("shareCapitalMr.in=" + DEFAULT_SHARE_CAPITAL_MR + "," + UPDATED_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment equals to DEFAULT_ASSET_INVESTMENT
+        defaultKamalSocietyShouldBeFound("assetInvestment.equals=" + DEFAULT_ASSET_INVESTMENT);
 
-        // Get all the kamalSocietyList where shareCapitalMr equals to UPDATED_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldNotBeFound("shareCapitalMr.in=" + UPDATED_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment equals to UPDATED_ASSET_INVESTMENT
+        defaultKamalSocietyShouldNotBeFound("assetInvestment.equals=" + UPDATED_ASSET_INVESTMENT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByAssetInvestmentIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapitalMr is not null
-        defaultKamalSocietyShouldBeFound("shareCapitalMr.specified=true");
+        // Get all the kamalSocietyList where assetInvestment in DEFAULT_ASSET_INVESTMENT or UPDATED_ASSET_INVESTMENT
+        defaultKamalSocietyShouldBeFound("assetInvestment.in=" + DEFAULT_ASSET_INVESTMENT + "," + UPDATED_ASSET_INVESTMENT);
 
-        // Get all the kamalSocietyList where shareCapitalMr is null
-        defaultKamalSocietyShouldNotBeFound("shareCapitalMr.specified=false");
+        // Get all the kamalSocietyList where assetInvestment equals to UPDATED_ASSET_INVESTMENT
+        defaultKamalSocietyShouldNotBeFound("assetInvestment.in=" + UPDATED_ASSET_INVESTMENT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetInvestmentIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapitalMr contains DEFAULT_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldBeFound("shareCapitalMr.contains=" + DEFAULT_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment is not null
+        defaultKamalSocietyShouldBeFound("assetInvestment.specified=true");
 
-        // Get all the kamalSocietyList where shareCapitalMr contains UPDATED_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldNotBeFound("shareCapitalMr.contains=" + UPDATED_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment is null
+        defaultKamalSocietyShouldNotBeFound("assetInvestment.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareCapitalMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetInvestmentContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareCapitalMr does not contain DEFAULT_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldNotBeFound("shareCapitalMr.doesNotContain=" + DEFAULT_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment contains DEFAULT_ASSET_INVESTMENT
+        defaultKamalSocietyShouldBeFound("assetInvestment.contains=" + DEFAULT_ASSET_INVESTMENT);
 
-        // Get all the kamalSocietyList where shareCapitalMr does not contain UPDATED_SHARE_CAPITAL_MR
-        defaultKamalSocietyShouldBeFound("shareCapitalMr.doesNotContain=" + UPDATED_SHARE_CAPITAL_MR);
+        // Get all the kamalSocietyList where assetInvestment contains UPDATED_ASSET_INVESTMENT
+        defaultKamalSocietyShouldNotBeFound("assetInvestment.contains=" + UPDATED_ASSET_INVESTMENT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetInvestmentNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share equals to DEFAULT_SHARE
-        defaultKamalSocietyShouldBeFound("share.equals=" + DEFAULT_SHARE);
+        // Get all the kamalSocietyList where assetInvestment does not contain DEFAULT_ASSET_INVESTMENT
+        defaultKamalSocietyShouldNotBeFound("assetInvestment.doesNotContain=" + DEFAULT_ASSET_INVESTMENT);
 
-        // Get all the kamalSocietyList where share equals to UPDATED_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.equals=" + UPDATED_SHARE);
+        // Get all the kamalSocietyList where assetInvestment does not contain UPDATED_ASSET_INVESTMENT
+        defaultKamalSocietyShouldBeFound("assetInvestment.doesNotContain=" + UPDATED_ASSET_INVESTMENT);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetImaratFundIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share in DEFAULT_SHARE or UPDATED_SHARE
-        defaultKamalSocietyShouldBeFound("share.in=" + DEFAULT_SHARE + "," + UPDATED_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund equals to DEFAULT_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldBeFound("assetImaratFund.equals=" + DEFAULT_ASSET_IMARAT_FUND);
 
-        // Get all the kamalSocietyList where share equals to UPDATED_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.in=" + UPDATED_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund equals to UPDATED_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldNotBeFound("assetImaratFund.equals=" + UPDATED_ASSET_IMARAT_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByAssetImaratFundIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share is not null
-        defaultKamalSocietyShouldBeFound("share.specified=true");
+        // Get all the kamalSocietyList where assetImaratFund in DEFAULT_ASSET_IMARAT_FUND or UPDATED_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldBeFound("assetImaratFund.in=" + DEFAULT_ASSET_IMARAT_FUND + "," + UPDATED_ASSET_IMARAT_FUND);
 
-        // Get all the kamalSocietyList where share is null
-        defaultKamalSocietyShouldNotBeFound("share.specified=false");
+        // Get all the kamalSocietyList where assetImaratFund equals to UPDATED_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldNotBeFound("assetImaratFund.in=" + UPDATED_ASSET_IMARAT_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetImaratFundIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share is greater than or equal to DEFAULT_SHARE
-        defaultKamalSocietyShouldBeFound("share.greaterThanOrEqual=" + DEFAULT_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund is not null
+        defaultKamalSocietyShouldBeFound("assetImaratFund.specified=true");
 
-        // Get all the kamalSocietyList where share is greater than or equal to UPDATED_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.greaterThanOrEqual=" + UPDATED_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund is null
+        defaultKamalSocietyShouldNotBeFound("assetImaratFund.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetImaratFundContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share is less than or equal to DEFAULT_SHARE
-        defaultKamalSocietyShouldBeFound("share.lessThanOrEqual=" + DEFAULT_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund contains DEFAULT_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldBeFound("assetImaratFund.contains=" + DEFAULT_ASSET_IMARAT_FUND);
 
-        // Get all the kamalSocietyList where share is less than or equal to SMALLER_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.lessThanOrEqual=" + SMALLER_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund contains UPDATED_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldNotBeFound("assetImaratFund.contains=" + UPDATED_ASSET_IMARAT_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetImaratFundNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share is less than DEFAULT_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.lessThan=" + DEFAULT_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund does not contain DEFAULT_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldNotBeFound("assetImaratFund.doesNotContain=" + DEFAULT_ASSET_IMARAT_FUND);
 
-        // Get all the kamalSocietyList where share is less than UPDATED_SHARE
-        defaultKamalSocietyShouldBeFound("share.lessThan=" + UPDATED_SHARE);
+        // Get all the kamalSocietyList where assetImaratFund does not contain UPDATED_ASSET_IMARAT_FUND
+        defaultKamalSocietyShouldBeFound("assetImaratFund.doesNotContain=" + UPDATED_ASSET_IMARAT_FUND);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetMemberLoanIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where share is greater than DEFAULT_SHARE
-        defaultKamalSocietyShouldNotBeFound("share.greaterThan=" + DEFAULT_SHARE);
+        // Get all the kamalSocietyList where assetMemberLoan equals to DEFAULT_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldBeFound("assetMemberLoan.equals=" + DEFAULT_ASSET_MEMBER_LOAN);
 
-        // Get all the kamalSocietyList where share is greater than SMALLER_SHARE
-        defaultKamalSocietyShouldBeFound("share.greaterThan=" + SMALLER_SHARE);
+        // Get all the kamalSocietyList where assetMemberLoan equals to UPDATED_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldNotBeFound("assetMemberLoan.equals=" + UPDATED_ASSET_MEMBER_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetMemberLoanIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareMr equals to DEFAULT_SHARE_MR
-        defaultKamalSocietyShouldBeFound("shareMr.equals=" + DEFAULT_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan in DEFAULT_ASSET_MEMBER_LOAN or UPDATED_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldBeFound("assetMemberLoan.in=" + DEFAULT_ASSET_MEMBER_LOAN + "," + UPDATED_ASSET_MEMBER_LOAN);
 
-        // Get all the kamalSocietyList where shareMr equals to UPDATED_SHARE_MR
-        defaultKamalSocietyShouldNotBeFound("shareMr.equals=" + UPDATED_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan equals to UPDATED_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldNotBeFound("assetMemberLoan.in=" + UPDATED_ASSET_MEMBER_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetMemberLoanIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareMr in DEFAULT_SHARE_MR or UPDATED_SHARE_MR
-        defaultKamalSocietyShouldBeFound("shareMr.in=" + DEFAULT_SHARE_MR + "," + UPDATED_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan is not null
+        defaultKamalSocietyShouldBeFound("assetMemberLoan.specified=true");
 
-        // Get all the kamalSocietyList where shareMr equals to UPDATED_SHARE_MR
-        defaultKamalSocietyShouldNotBeFound("shareMr.in=" + UPDATED_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan is null
+        defaultKamalSocietyShouldNotBeFound("assetMemberLoan.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByAssetMemberLoanContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareMr is not null
-        defaultKamalSocietyShouldBeFound("shareMr.specified=true");
+        // Get all the kamalSocietyList where assetMemberLoan contains DEFAULT_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldBeFound("assetMemberLoan.contains=" + DEFAULT_ASSET_MEMBER_LOAN);
 
-        // Get all the kamalSocietyList where shareMr is null
-        defaultKamalSocietyShouldNotBeFound("shareMr.specified=false");
+        // Get all the kamalSocietyList where assetMemberLoan contains UPDATED_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldNotBeFound("assetMemberLoan.contains=" + UPDATED_ASSET_MEMBER_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetMemberLoanNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareMr contains DEFAULT_SHARE_MR
-        defaultKamalSocietyShouldBeFound("shareMr.contains=" + DEFAULT_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan does not contain DEFAULT_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldNotBeFound("assetMemberLoan.doesNotContain=" + DEFAULT_ASSET_MEMBER_LOAN);
 
-        // Get all the kamalSocietyList where shareMr contains UPDATED_SHARE_MR
-        defaultKamalSocietyShouldNotBeFound("shareMr.contains=" + UPDATED_SHARE_MR);
+        // Get all the kamalSocietyList where assetMemberLoan does not contain UPDATED_ASSET_MEMBER_LOAN
+        defaultKamalSocietyShouldBeFound("assetMemberLoan.doesNotContain=" + UPDATED_ASSET_MEMBER_LOAN);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByShareMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetDeadStockIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where shareMr does not contain DEFAULT_SHARE_MR
-        defaultKamalSocietyShouldNotBeFound("shareMr.doesNotContain=" + DEFAULT_SHARE_MR);
+        // Get all the kamalSocietyList where assetDeadStock equals to DEFAULT_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldBeFound("assetDeadStock.equals=" + DEFAULT_ASSET_DEAD_STOCK);
 
-        // Get all the kamalSocietyList where shareMr does not contain UPDATED_SHARE_MR
-        defaultKamalSocietyShouldBeFound("shareMr.doesNotContain=" + UPDATED_SHARE_MR);
+        // Get all the kamalSocietyList where assetDeadStock equals to UPDATED_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldNotBeFound("assetDeadStock.equals=" + UPDATED_ASSET_DEAD_STOCK);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetDeadStockIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds equals to DEFAULT_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.equals=" + DEFAULT_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock in DEFAULT_ASSET_DEAD_STOCK or UPDATED_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldBeFound("assetDeadStock.in=" + DEFAULT_ASSET_DEAD_STOCK + "," + UPDATED_ASSET_DEAD_STOCK);
 
-        // Get all the kamalSocietyList where funds equals to UPDATED_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.equals=" + UPDATED_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock equals to UPDATED_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldNotBeFound("assetDeadStock.in=" + UPDATED_ASSET_DEAD_STOCK);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetDeadStockIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds in DEFAULT_FUNDS or UPDATED_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.in=" + DEFAULT_FUNDS + "," + UPDATED_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock is not null
+        defaultKamalSocietyShouldBeFound("assetDeadStock.specified=true");
 
-        // Get all the kamalSocietyList where funds equals to UPDATED_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.in=" + UPDATED_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock is null
+        defaultKamalSocietyShouldNotBeFound("assetDeadStock.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByAssetDeadStockContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds is not null
-        defaultKamalSocietyShouldBeFound("funds.specified=true");
+        // Get all the kamalSocietyList where assetDeadStock contains DEFAULT_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldBeFound("assetDeadStock.contains=" + DEFAULT_ASSET_DEAD_STOCK);
 
-        // Get all the kamalSocietyList where funds is null
-        defaultKamalSocietyShouldNotBeFound("funds.specified=false");
+        // Get all the kamalSocietyList where assetDeadStock contains UPDATED_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldNotBeFound("assetDeadStock.contains=" + UPDATED_ASSET_DEAD_STOCK);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetDeadStockNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds is greater than or equal to DEFAULT_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.greaterThanOrEqual=" + DEFAULT_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock does not contain DEFAULT_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldNotBeFound("assetDeadStock.doesNotContain=" + DEFAULT_ASSET_DEAD_STOCK);
 
-        // Get all the kamalSocietyList where funds is greater than or equal to UPDATED_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.greaterThanOrEqual=" + UPDATED_FUNDS);
+        // Get all the kamalSocietyList where assetDeadStock does not contain UPDATED_ASSET_DEAD_STOCK
+        defaultKamalSocietyShouldBeFound("assetDeadStock.doesNotContain=" + UPDATED_ASSET_DEAD_STOCK);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetOtherReceivableIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds is less than or equal to DEFAULT_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.lessThanOrEqual=" + DEFAULT_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable equals to DEFAULT_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldBeFound("assetOtherReceivable.equals=" + DEFAULT_ASSET_OTHER_RECEIVABLE);
 
-        // Get all the kamalSocietyList where funds is less than or equal to SMALLER_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.lessThanOrEqual=" + SMALLER_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable equals to UPDATED_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldNotBeFound("assetOtherReceivable.equals=" + UPDATED_ASSET_OTHER_RECEIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetOtherReceivableIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds is less than DEFAULT_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.lessThan=" + DEFAULT_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable in DEFAULT_ASSET_OTHER_RECEIVABLE or UPDATED_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldBeFound(
+            "assetOtherReceivable.in=" + DEFAULT_ASSET_OTHER_RECEIVABLE + "," + UPDATED_ASSET_OTHER_RECEIVABLE
+        );
 
-        // Get all the kamalSocietyList where funds is less than UPDATED_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.lessThan=" + UPDATED_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable equals to UPDATED_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldNotBeFound("assetOtherReceivable.in=" + UPDATED_ASSET_OTHER_RECEIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByAssetOtherReceivableIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where funds is greater than DEFAULT_FUNDS
-        defaultKamalSocietyShouldNotBeFound("funds.greaterThan=" + DEFAULT_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable is not null
+        defaultKamalSocietyShouldBeFound("assetOtherReceivable.specified=true");
 
-        // Get all the kamalSocietyList where funds is greater than SMALLER_FUNDS
-        defaultKamalSocietyShouldBeFound("funds.greaterThan=" + SMALLER_FUNDS);
+        // Get all the kamalSocietyList where assetOtherReceivable is null
+        defaultKamalSocietyShouldNotBeFound("assetOtherReceivable.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetOtherReceivableContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where fundsMr equals to DEFAULT_FUNDS_MR
-        defaultKamalSocietyShouldBeFound("fundsMr.equals=" + DEFAULT_FUNDS_MR);
+        // Get all the kamalSocietyList where assetOtherReceivable contains DEFAULT_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldBeFound("assetOtherReceivable.contains=" + DEFAULT_ASSET_OTHER_RECEIVABLE);
 
-        // Get all the kamalSocietyList where fundsMr equals to UPDATED_FUNDS_MR
-        defaultKamalSocietyShouldNotBeFound("fundsMr.equals=" + UPDATED_FUNDS_MR);
+        // Get all the kamalSocietyList where assetOtherReceivable contains UPDATED_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldNotBeFound("assetOtherReceivable.contains=" + UPDATED_ASSET_OTHER_RECEIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetOtherReceivableNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where fundsMr in DEFAULT_FUNDS_MR or UPDATED_FUNDS_MR
-        defaultKamalSocietyShouldBeFound("fundsMr.in=" + DEFAULT_FUNDS_MR + "," + UPDATED_FUNDS_MR);
+        // Get all the kamalSocietyList where assetOtherReceivable does not contain DEFAULT_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldNotBeFound("assetOtherReceivable.doesNotContain=" + DEFAULT_ASSET_OTHER_RECEIVABLE);
 
-        // Get all the kamalSocietyList where fundsMr equals to UPDATED_FUNDS_MR
-        defaultKamalSocietyShouldNotBeFound("fundsMr.in=" + UPDATED_FUNDS_MR);
+        // Get all the kamalSocietyList where assetOtherReceivable does not contain UPDATED_ASSET_OTHER_RECEIVABLE
+        defaultKamalSocietyShouldBeFound("assetOtherReceivable.doesNotContain=" + UPDATED_ASSET_OTHER_RECEIVABLE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByAssetLossIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where fundsMr is not null
-        defaultKamalSocietyShouldBeFound("fundsMr.specified=true");
+        // Get all the kamalSocietyList where assetLoss equals to DEFAULT_ASSET_LOSS
+        defaultKamalSocietyShouldBeFound("assetLoss.equals=" + DEFAULT_ASSET_LOSS);
 
-        // Get all the kamalSocietyList where fundsMr is null
-        defaultKamalSocietyShouldNotBeFound("fundsMr.specified=false");
+        // Get all the kamalSocietyList where assetLoss equals to UPDATED_ASSET_LOSS
+        defaultKamalSocietyShouldNotBeFound("assetLoss.equals=" + UPDATED_ASSET_LOSS);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetLossIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where fundsMr contains DEFAULT_FUNDS_MR
-        defaultKamalSocietyShouldBeFound("fundsMr.contains=" + DEFAULT_FUNDS_MR);
+        // Get all the kamalSocietyList where assetLoss in DEFAULT_ASSET_LOSS or UPDATED_ASSET_LOSS
+        defaultKamalSocietyShouldBeFound("assetLoss.in=" + DEFAULT_ASSET_LOSS + "," + UPDATED_ASSET_LOSS);
 
-        // Get all the kamalSocietyList where fundsMr contains UPDATED_FUNDS_MR
-        defaultKamalSocietyShouldNotBeFound("fundsMr.contains=" + UPDATED_FUNDS_MR);
+        // Get all the kamalSocietyList where assetLoss equals to UPDATED_ASSET_LOSS
+        defaultKamalSocietyShouldNotBeFound("assetLoss.in=" + UPDATED_ASSET_LOSS);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByFundsMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByAssetLossIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where fundsMr does not contain DEFAULT_FUNDS_MR
-        defaultKamalSocietyShouldNotBeFound("fundsMr.doesNotContain=" + DEFAULT_FUNDS_MR);
+        // Get all the kamalSocietyList where assetLoss is not null
+        defaultKamalSocietyShouldBeFound("assetLoss.specified=true");
 
-        // Get all the kamalSocietyList where fundsMr does not contain UPDATED_FUNDS_MR
-        defaultKamalSocietyShouldBeFound("fundsMr.doesNotContain=" + UPDATED_FUNDS_MR);
+        // Get all the kamalSocietyList where assetLoss is null
+        defaultKamalSocietyShouldNotBeFound("assetLoss.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByAssetLossContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit equals to DEFAULT_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.equals=" + DEFAULT_DEPOSIT);
+        // Get all the kamalSocietyList where assetLoss contains DEFAULT_ASSET_LOSS
+        defaultKamalSocietyShouldBeFound("assetLoss.contains=" + DEFAULT_ASSET_LOSS);
 
-        // Get all the kamalSocietyList where deposit equals to UPDATED_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.equals=" + UPDATED_DEPOSIT);
+        // Get all the kamalSocietyList where assetLoss contains UPDATED_ASSET_LOSS
+        defaultKamalSocietyShouldNotBeFound("assetLoss.contains=" + UPDATED_ASSET_LOSS);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByAssetLossNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit in DEFAULT_DEPOSIT or UPDATED_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.in=" + DEFAULT_DEPOSIT + "," + UPDATED_DEPOSIT);
+        // Get all the kamalSocietyList where assetLoss does not contain DEFAULT_ASSET_LOSS
+        defaultKamalSocietyShouldNotBeFound("assetLoss.doesNotContain=" + DEFAULT_ASSET_LOSS);
 
-        // Get all the kamalSocietyList where deposit equals to UPDATED_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.in=" + UPDATED_DEPOSIT);
+        // Get all the kamalSocietyList where assetLoss does not contain UPDATED_ASSET_LOSS
+        defaultKamalSocietyShouldBeFound("assetLoss.doesNotContain=" + UPDATED_ASSET_LOSS);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTotalLiabilityIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit is not null
-        defaultKamalSocietyShouldBeFound("deposit.specified=true");
+        // Get all the kamalSocietyList where totalLiability equals to DEFAULT_TOTAL_LIABILITY
+        defaultKamalSocietyShouldBeFound("totalLiability.equals=" + DEFAULT_TOTAL_LIABILITY);
 
-        // Get all the kamalSocietyList where deposit is null
-        defaultKamalSocietyShouldNotBeFound("deposit.specified=false");
+        // Get all the kamalSocietyList where totalLiability equals to UPDATED_TOTAL_LIABILITY
+        defaultKamalSocietyShouldNotBeFound("totalLiability.equals=" + UPDATED_TOTAL_LIABILITY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLiabilityIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit is greater than or equal to DEFAULT_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.greaterThanOrEqual=" + DEFAULT_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability in DEFAULT_TOTAL_LIABILITY or UPDATED_TOTAL_LIABILITY
+        defaultKamalSocietyShouldBeFound("totalLiability.in=" + DEFAULT_TOTAL_LIABILITY + "," + UPDATED_TOTAL_LIABILITY);
 
-        // Get all the kamalSocietyList where deposit is greater than or equal to UPDATED_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.greaterThanOrEqual=" + UPDATED_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability equals to UPDATED_TOTAL_LIABILITY
+        defaultKamalSocietyShouldNotBeFound("totalLiability.in=" + UPDATED_TOTAL_LIABILITY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLiabilityIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit is less than or equal to DEFAULT_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.lessThanOrEqual=" + DEFAULT_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability is not null
+        defaultKamalSocietyShouldBeFound("totalLiability.specified=true");
 
-        // Get all the kamalSocietyList where deposit is less than or equal to SMALLER_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.lessThanOrEqual=" + SMALLER_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability is null
+        defaultKamalSocietyShouldNotBeFound("totalLiability.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLiabilityContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit is less than DEFAULT_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.lessThan=" + DEFAULT_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability contains DEFAULT_TOTAL_LIABILITY
+        defaultKamalSocietyShouldBeFound("totalLiability.contains=" + DEFAULT_TOTAL_LIABILITY);
 
-        // Get all the kamalSocietyList where deposit is less than UPDATED_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.lessThan=" + UPDATED_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability contains UPDATED_TOTAL_LIABILITY
+        defaultKamalSocietyShouldNotBeFound("totalLiability.contains=" + UPDATED_TOTAL_LIABILITY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByTotalLiabilityNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deposit is greater than DEFAULT_DEPOSIT
-        defaultKamalSocietyShouldNotBeFound("deposit.greaterThan=" + DEFAULT_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability does not contain DEFAULT_TOTAL_LIABILITY
+        defaultKamalSocietyShouldNotBeFound("totalLiability.doesNotContain=" + DEFAULT_TOTAL_LIABILITY);
 
-        // Get all the kamalSocietyList where deposit is greater than SMALLER_DEPOSIT
-        defaultKamalSocietyShouldBeFound("deposit.greaterThan=" + SMALLER_DEPOSIT);
+        // Get all the kamalSocietyList where totalLiability does not contain UPDATED_TOTAL_LIABILITY
+        defaultKamalSocietyShouldBeFound("totalLiability.doesNotContain=" + UPDATED_TOTAL_LIABILITY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTotalAssetIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where depositMr equals to DEFAULT_DEPOSIT_MR
-        defaultKamalSocietyShouldBeFound("depositMr.equals=" + DEFAULT_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset equals to DEFAULT_TOTAL_ASSET
+        defaultKamalSocietyShouldBeFound("totalAsset.equals=" + DEFAULT_TOTAL_ASSET);
 
-        // Get all the kamalSocietyList where depositMr equals to UPDATED_DEPOSIT_MR
-        defaultKamalSocietyShouldNotBeFound("depositMr.equals=" + UPDATED_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset equals to UPDATED_TOTAL_ASSET
+        defaultKamalSocietyShouldNotBeFound("totalAsset.equals=" + UPDATED_TOTAL_ASSET);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByTotalAssetIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where depositMr in DEFAULT_DEPOSIT_MR or UPDATED_DEPOSIT_MR
-        defaultKamalSocietyShouldBeFound("depositMr.in=" + DEFAULT_DEPOSIT_MR + "," + UPDATED_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset in DEFAULT_TOTAL_ASSET or UPDATED_TOTAL_ASSET
+        defaultKamalSocietyShouldBeFound("totalAsset.in=" + DEFAULT_TOTAL_ASSET + "," + UPDATED_TOTAL_ASSET);
 
-        // Get all the kamalSocietyList where depositMr equals to UPDATED_DEPOSIT_MR
-        defaultKamalSocietyShouldNotBeFound("depositMr.in=" + UPDATED_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset equals to UPDATED_TOTAL_ASSET
+        defaultKamalSocietyShouldNotBeFound("totalAsset.in=" + UPDATED_TOTAL_ASSET);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTotalAssetIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where depositMr is not null
-        defaultKamalSocietyShouldBeFound("depositMr.specified=true");
+        // Get all the kamalSocietyList where totalAsset is not null
+        defaultKamalSocietyShouldBeFound("totalAsset.specified=true");
 
-        // Get all the kamalSocietyList where depositMr is null
-        defaultKamalSocietyShouldNotBeFound("depositMr.specified=false");
+        // Get all the kamalSocietyList where totalAsset is null
+        defaultKamalSocietyShouldNotBeFound("totalAsset.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTotalAssetContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where depositMr contains DEFAULT_DEPOSIT_MR
-        defaultKamalSocietyShouldBeFound("depositMr.contains=" + DEFAULT_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset contains DEFAULT_TOTAL_ASSET
+        defaultKamalSocietyShouldBeFound("totalAsset.contains=" + DEFAULT_TOTAL_ASSET);
 
-        // Get all the kamalSocietyList where depositMr contains UPDATED_DEPOSIT_MR
-        defaultKamalSocietyShouldNotBeFound("depositMr.contains=" + UPDATED_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset contains UPDATED_TOTAL_ASSET
+        defaultKamalSocietyShouldNotBeFound("totalAsset.contains=" + UPDATED_TOTAL_ASSET);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDepositMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTotalAssetNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where depositMr does not contain DEFAULT_DEPOSIT_MR
-        defaultKamalSocietyShouldNotBeFound("depositMr.doesNotContain=" + DEFAULT_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset does not contain DEFAULT_TOTAL_ASSET
+        defaultKamalSocietyShouldNotBeFound("totalAsset.doesNotContain=" + DEFAULT_TOTAL_ASSET);
 
-        // Get all the kamalSocietyList where depositMr does not contain UPDATED_DEPOSIT_MR
-        defaultKamalSocietyShouldBeFound("depositMr.doesNotContain=" + UPDATED_DEPOSIT_MR);
+        // Get all the kamalSocietyList where totalAsset does not contain UPDATED_TOTAL_ASSET
+        defaultKamalSocietyShouldBeFound("totalAsset.doesNotContain=" + UPDATED_TOTAL_ASSET);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByVillageCodeIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable equals to DEFAULT_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.equals=" + DEFAULT_PAYABLE);
+        // Get all the kamalSocietyList where villageCode equals to DEFAULT_VILLAGE_CODE
+        defaultKamalSocietyShouldBeFound("villageCode.equals=" + DEFAULT_VILLAGE_CODE);
 
-        // Get all the kamalSocietyList where payable equals to UPDATED_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.equals=" + UPDATED_PAYABLE);
+        // Get all the kamalSocietyList where villageCode equals to UPDATED_VILLAGE_CODE
+        defaultKamalSocietyShouldNotBeFound("villageCode.equals=" + UPDATED_VILLAGE_CODE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByVillageCodeIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable in DEFAULT_PAYABLE or UPDATED_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.in=" + DEFAULT_PAYABLE + "," + UPDATED_PAYABLE);
+        // Get all the kamalSocietyList where villageCode in DEFAULT_VILLAGE_CODE or UPDATED_VILLAGE_CODE
+        defaultKamalSocietyShouldBeFound("villageCode.in=" + DEFAULT_VILLAGE_CODE + "," + UPDATED_VILLAGE_CODE);
 
-        // Get all the kamalSocietyList where payable equals to UPDATED_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.in=" + UPDATED_PAYABLE);
+        // Get all the kamalSocietyList where villageCode equals to UPDATED_VILLAGE_CODE
+        defaultKamalSocietyShouldNotBeFound("villageCode.in=" + UPDATED_VILLAGE_CODE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByVillageCodeIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable is not null
-        defaultKamalSocietyShouldBeFound("payable.specified=true");
+        // Get all the kamalSocietyList where villageCode is not null
+        defaultKamalSocietyShouldBeFound("villageCode.specified=true");
 
-        // Get all the kamalSocietyList where payable is null
-        defaultKamalSocietyShouldNotBeFound("payable.specified=false");
+        // Get all the kamalSocietyList where villageCode is null
+        defaultKamalSocietyShouldNotBeFound("villageCode.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByVillageCodeContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable is greater than or equal to DEFAULT_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.greaterThanOrEqual=" + DEFAULT_PAYABLE);
+        // Get all the kamalSocietyList where villageCode contains DEFAULT_VILLAGE_CODE
+        defaultKamalSocietyShouldBeFound("villageCode.contains=" + DEFAULT_VILLAGE_CODE);
 
-        // Get all the kamalSocietyList where payable is greater than or equal to UPDATED_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.greaterThanOrEqual=" + UPDATED_PAYABLE);
+        // Get all the kamalSocietyList where villageCode contains UPDATED_VILLAGE_CODE
+        defaultKamalSocietyShouldNotBeFound("villageCode.contains=" + UPDATED_VILLAGE_CODE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByVillageCodeNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable is less than or equal to DEFAULT_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.lessThanOrEqual=" + DEFAULT_PAYABLE);
+        // Get all the kamalSocietyList where villageCode does not contain DEFAULT_VILLAGE_CODE
+        defaultKamalSocietyShouldNotBeFound("villageCode.doesNotContain=" + DEFAULT_VILLAGE_CODE);
 
-        // Get all the kamalSocietyList where payable is less than or equal to SMALLER_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.lessThanOrEqual=" + SMALLER_PAYABLE);
+        // Get all the kamalSocietyList where villageCode does not contain UPDATED_VILLAGE_CODE
+        defaultKamalSocietyShouldBeFound("villageCode.doesNotContain=" + UPDATED_VILLAGE_CODE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByPacsVerifiedFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable is less than DEFAULT_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.lessThan=" + DEFAULT_PAYABLE);
+        // Get all the kamalSocietyList where pacsVerifiedFlag equals to DEFAULT_PACS_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("pacsVerifiedFlag.equals=" + DEFAULT_PACS_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where payable is less than UPDATED_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.lessThan=" + UPDATED_PAYABLE);
+        // Get all the kamalSocietyList where pacsVerifiedFlag equals to UPDATED_PACS_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("pacsVerifiedFlag.equals=" + UPDATED_PACS_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByPacsVerifiedFlagIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payable is greater than DEFAULT_PAYABLE
-        defaultKamalSocietyShouldNotBeFound("payable.greaterThan=" + DEFAULT_PAYABLE);
+        // Get all the kamalSocietyList where pacsVerifiedFlag in DEFAULT_PACS_VERIFIED_FLAG or UPDATED_PACS_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("pacsVerifiedFlag.in=" + DEFAULT_PACS_VERIFIED_FLAG + "," + UPDATED_PACS_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where payable is greater than SMALLER_PAYABLE
-        defaultKamalSocietyShouldBeFound("payable.greaterThan=" + SMALLER_PAYABLE);
+        // Get all the kamalSocietyList where pacsVerifiedFlag equals to UPDATED_PACS_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("pacsVerifiedFlag.in=" + UPDATED_PACS_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByPacsVerifiedFlagIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payableMr equals to DEFAULT_PAYABLE_MR
-        defaultKamalSocietyShouldBeFound("payableMr.equals=" + DEFAULT_PAYABLE_MR);
+        // Get all the kamalSocietyList where pacsVerifiedFlag is not null
+        defaultKamalSocietyShouldBeFound("pacsVerifiedFlag.specified=true");
 
-        // Get all the kamalSocietyList where payableMr equals to UPDATED_PAYABLE_MR
-        defaultKamalSocietyShouldNotBeFound("payableMr.equals=" + UPDATED_PAYABLE_MR);
+        // Get all the kamalSocietyList where pacsVerifiedFlag is null
+        defaultKamalSocietyShouldNotBeFound("pacsVerifiedFlag.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payableMr in DEFAULT_PAYABLE_MR or UPDATED_PAYABLE_MR
-        defaultKamalSocietyShouldBeFound("payableMr.in=" + DEFAULT_PAYABLE_MR + "," + UPDATED_PAYABLE_MR);
+        // Get all the kamalSocietyList where branchVerifiedFlag equals to DEFAULT_BRANCH_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("branchVerifiedFlag.equals=" + DEFAULT_BRANCH_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where payableMr equals to UPDATED_PAYABLE_MR
-        defaultKamalSocietyShouldNotBeFound("payableMr.in=" + UPDATED_PAYABLE_MR);
+        // Get all the kamalSocietyList where branchVerifiedFlag equals to UPDATED_BRANCH_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedFlag.equals=" + UPDATED_BRANCH_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedFlagIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payableMr is not null
-        defaultKamalSocietyShouldBeFound("payableMr.specified=true");
+        // Get all the kamalSocietyList where branchVerifiedFlag in DEFAULT_BRANCH_VERIFIED_FLAG or UPDATED_BRANCH_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("branchVerifiedFlag.in=" + DEFAULT_BRANCH_VERIFIED_FLAG + "," + UPDATED_BRANCH_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where payableMr is null
-        defaultKamalSocietyShouldNotBeFound("payableMr.specified=false");
+        // Get all the kamalSocietyList where branchVerifiedFlag equals to UPDATED_BRANCH_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedFlag.in=" + UPDATED_BRANCH_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedFlagIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payableMr contains DEFAULT_PAYABLE_MR
-        defaultKamalSocietyShouldBeFound("payableMr.contains=" + DEFAULT_PAYABLE_MR);
+        // Get all the kamalSocietyList where branchVerifiedFlag is not null
+        defaultKamalSocietyShouldBeFound("branchVerifiedFlag.specified=true");
 
-        // Get all the kamalSocietyList where payableMr contains UPDATED_PAYABLE_MR
-        defaultKamalSocietyShouldNotBeFound("payableMr.contains=" + UPDATED_PAYABLE_MR);
+        // Get all the kamalSocietyList where branchVerifiedFlag is null
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedFlag.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByPayableMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where payableMr does not contain DEFAULT_PAYABLE_MR
-        defaultKamalSocietyShouldNotBeFound("payableMr.doesNotContain=" + DEFAULT_PAYABLE_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag equals to DEFAULT_HEAD_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedFlag.equals=" + DEFAULT_HEAD_OFFICE_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where payableMr does not contain UPDATED_PAYABLE_MR
-        defaultKamalSocietyShouldBeFound("payableMr.doesNotContain=" + UPDATED_PAYABLE_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag equals to UPDATED_HEAD_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedFlag.equals=" + UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedFlagIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit equals to DEFAULT_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.equals=" + DEFAULT_PROFIT);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag in DEFAULT_HEAD_OFFICE_VERIFIED_FLAG or UPDATED_HEAD_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeVerifiedFlag.in=" + DEFAULT_HEAD_OFFICE_VERIFIED_FLAG + "," + UPDATED_HEAD_OFFICE_VERIFIED_FLAG
+        );
 
-        // Get all the kamalSocietyList where profit equals to UPDATED_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.equals=" + UPDATED_PROFIT);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag equals to UPDATED_HEAD_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedFlag.in=" + UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedFlagIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit in DEFAULT_PROFIT or UPDATED_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.in=" + DEFAULT_PROFIT + "," + UPDATED_PROFIT);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag is not null
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedFlag.specified=true");
 
-        // Get all the kamalSocietyList where profit equals to UPDATED_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.in=" + UPDATED_PROFIT);
+        // Get all the kamalSocietyList where headOfficeVerifiedFlag is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedFlag.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit is not null
-        defaultKamalSocietyShouldBeFound("profit.specified=true");
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedFlag.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG);
 
-        // Get all the kamalSocietyList where profit is null
-        defaultKamalSocietyShouldNotBeFound("profit.specified=false");
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit is greater than or equal to DEFAULT_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.greaterThanOrEqual=" + DEFAULT_PROFIT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG or UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedFlag.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        );
 
-        // Get all the kamalSocietyList where profit is greater than or equal to UPDATED_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.greaterThanOrEqual=" + UPDATED_PROFIT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedFlagIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit is less than or equal to DEFAULT_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.lessThanOrEqual=" + DEFAULT_PROFIT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedFlag.specified=true");
 
-        // Get all the kamalSocietyList where profit is less than or equal to SMALLER_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.lessThanOrEqual=" + SMALLER_PROFIT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedFlag is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedFlag.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByIsSupplimenteryFlagIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit is less than DEFAULT_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.lessThan=" + DEFAULT_PROFIT);
+        // Get all the kamalSocietyList where isSupplimenteryFlag equals to DEFAULT_IS_SUPPLIMENTERY_FLAG
+        defaultKamalSocietyShouldBeFound("isSupplimenteryFlag.equals=" + DEFAULT_IS_SUPPLIMENTERY_FLAG);
 
-        // Get all the kamalSocietyList where profit is less than UPDATED_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.lessThan=" + UPDATED_PROFIT);
+        // Get all the kamalSocietyList where isSupplimenteryFlag equals to UPDATED_IS_SUPPLIMENTERY_FLAG
+        defaultKamalSocietyShouldNotBeFound("isSupplimenteryFlag.equals=" + UPDATED_IS_SUPPLIMENTERY_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByIsSupplimenteryFlagIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profit is greater than DEFAULT_PROFIT
-        defaultKamalSocietyShouldNotBeFound("profit.greaterThan=" + DEFAULT_PROFIT);
+        // Get all the kamalSocietyList where isSupplimenteryFlag in DEFAULT_IS_SUPPLIMENTERY_FLAG or UPDATED_IS_SUPPLIMENTERY_FLAG
+        defaultKamalSocietyShouldBeFound("isSupplimenteryFlag.in=" + DEFAULT_IS_SUPPLIMENTERY_FLAG + "," + UPDATED_IS_SUPPLIMENTERY_FLAG);
 
-        // Get all the kamalSocietyList where profit is greater than SMALLER_PROFIT
-        defaultKamalSocietyShouldBeFound("profit.greaterThan=" + SMALLER_PROFIT);
+        // Get all the kamalSocietyList where isSupplimenteryFlag equals to UPDATED_IS_SUPPLIMENTERY_FLAG
+        defaultKamalSocietyShouldNotBeFound("isSupplimenteryFlag.in=" + UPDATED_IS_SUPPLIMENTERY_FLAG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByIsSupplimenteryFlagIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profitMr equals to DEFAULT_PROFIT_MR
-        defaultKamalSocietyShouldBeFound("profitMr.equals=" + DEFAULT_PROFIT_MR);
+        // Get all the kamalSocietyList where isSupplimenteryFlag is not null
+        defaultKamalSocietyShouldBeFound("isSupplimenteryFlag.specified=true");
 
-        // Get all the kamalSocietyList where profitMr equals to UPDATED_PROFIT_MR
-        defaultKamalSocietyShouldNotBeFound("profitMr.equals=" + UPDATED_PROFIT_MR);
+        // Get all the kamalSocietyList where isSupplimenteryFlag is null
+        defaultKamalSocietyShouldNotBeFound("isSupplimenteryFlag.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesBySansthaTapasaniVargIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profitMr in DEFAULT_PROFIT_MR or UPDATED_PROFIT_MR
-        defaultKamalSocietyShouldBeFound("profitMr.in=" + DEFAULT_PROFIT_MR + "," + UPDATED_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg equals to DEFAULT_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniVarg.equals=" + DEFAULT_SANSTHA_TAPASANI_VARG);
 
-        // Get all the kamalSocietyList where profitMr equals to UPDATED_PROFIT_MR
-        defaultKamalSocietyShouldNotBeFound("profitMr.in=" + UPDATED_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg equals to UPDATED_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniVarg.equals=" + UPDATED_SANSTHA_TAPASANI_VARG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesBySansthaTapasaniVargIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profitMr is not null
-        defaultKamalSocietyShouldBeFound("profitMr.specified=true");
+        // Get all the kamalSocietyList where sansthaTapasaniVarg in DEFAULT_SANSTHA_TAPASANI_VARG or UPDATED_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniVarg.in=" + DEFAULT_SANSTHA_TAPASANI_VARG + "," + UPDATED_SANSTHA_TAPASANI_VARG);
 
-        // Get all the kamalSocietyList where profitMr is null
-        defaultKamalSocietyShouldNotBeFound("profitMr.specified=false");
+        // Get all the kamalSocietyList where sansthaTapasaniVarg equals to UPDATED_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniVarg.in=" + UPDATED_SANSTHA_TAPASANI_VARG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesBySansthaTapasaniVargIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profitMr contains DEFAULT_PROFIT_MR
-        defaultKamalSocietyShouldBeFound("profitMr.contains=" + DEFAULT_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg is not null
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniVarg.specified=true");
 
-        // Get all the kamalSocietyList where profitMr contains UPDATED_PROFIT_MR
-        defaultKamalSocietyShouldNotBeFound("profitMr.contains=" + UPDATED_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg is null
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniVarg.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByProfitMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesBySansthaTapasaniVargContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where profitMr does not contain DEFAULT_PROFIT_MR
-        defaultKamalSocietyShouldNotBeFound("profitMr.doesNotContain=" + DEFAULT_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg contains DEFAULT_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniVarg.contains=" + DEFAULT_SANSTHA_TAPASANI_VARG);
 
-        // Get all the kamalSocietyList where profitMr does not contain UPDATED_PROFIT_MR
-        defaultKamalSocietyShouldBeFound("profitMr.doesNotContain=" + UPDATED_PROFIT_MR);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg contains UPDATED_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniVarg.contains=" + UPDATED_SANSTHA_TAPASANI_VARG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesBySansthaTapasaniVargNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand equals to DEFAULT_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.equals=" + DEFAULT_CASH_IN_HAND);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg does not contain DEFAULT_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldNotBeFound("sansthaTapasaniVarg.doesNotContain=" + DEFAULT_SANSTHA_TAPASANI_VARG);
 
-        // Get all the kamalSocietyList where cashInHand equals to UPDATED_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.equals=" + UPDATED_CASH_IN_HAND);
+        // Get all the kamalSocietyList where sansthaTapasaniVarg does not contain UPDATED_SANSTHA_TAPASANI_VARG
+        defaultKamalSocietyShouldBeFound("sansthaTapasaniVarg.doesNotContain=" + UPDATED_SANSTHA_TAPASANI_VARG);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand in DEFAULT_CASH_IN_HAND or UPDATED_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.in=" + DEFAULT_CASH_IN_HAND + "," + UPDATED_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy equals to DEFAULT_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("branchVerifiedBy.equals=" + DEFAULT_BRANCH_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where cashInHand equals to UPDATED_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.in=" + UPDATED_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy equals to UPDATED_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedBy.equals=" + UPDATED_BRANCH_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedByIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand is not null
-        defaultKamalSocietyShouldBeFound("cashInHand.specified=true");
+        // Get all the kamalSocietyList where branchVerifiedBy in DEFAULT_BRANCH_VERIFIED_BY or UPDATED_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("branchVerifiedBy.in=" + DEFAULT_BRANCH_VERIFIED_BY + "," + UPDATED_BRANCH_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where cashInHand is null
-        defaultKamalSocietyShouldNotBeFound("cashInHand.specified=false");
+        // Get all the kamalSocietyList where branchVerifiedBy equals to UPDATED_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedBy.in=" + UPDATED_BRANCH_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedByIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand is greater than or equal to DEFAULT_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.greaterThanOrEqual=" + DEFAULT_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy is not null
+        defaultKamalSocietyShouldBeFound("branchVerifiedBy.specified=true");
 
-        // Get all the kamalSocietyList where cashInHand is greater than or equal to UPDATED_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.greaterThanOrEqual=" + UPDATED_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy is null
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedBy.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedByContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand is less than or equal to DEFAULT_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.lessThanOrEqual=" + DEFAULT_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy contains DEFAULT_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("branchVerifiedBy.contains=" + DEFAULT_BRANCH_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where cashInHand is less than or equal to SMALLER_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.lessThanOrEqual=" + SMALLER_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy contains UPDATED_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedBy.contains=" + UPDATED_BRANCH_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedByNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand is less than DEFAULT_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.lessThan=" + DEFAULT_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy does not contain DEFAULT_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedBy.doesNotContain=" + DEFAULT_BRANCH_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where cashInHand is less than UPDATED_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.lessThan=" + UPDATED_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedBy does not contain UPDATED_BRANCH_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("branchVerifiedBy.doesNotContain=" + UPDATED_BRANCH_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHand is greater than DEFAULT_CASH_IN_HAND
-        defaultKamalSocietyShouldNotBeFound("cashInHand.greaterThan=" + DEFAULT_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedDate equals to DEFAULT_BRANCH_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound("branchVerifiedDate.equals=" + DEFAULT_BRANCH_VERIFIED_DATE);
 
-        // Get all the kamalSocietyList where cashInHand is greater than SMALLER_CASH_IN_HAND
-        defaultKamalSocietyShouldBeFound("cashInHand.greaterThan=" + SMALLER_CASH_IN_HAND);
+        // Get all the kamalSocietyList where branchVerifiedDate equals to UPDATED_BRANCH_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedDate.equals=" + UPDATED_BRANCH_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHandMr equals to DEFAULT_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldBeFound("cashInHandMr.equals=" + DEFAULT_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where branchVerifiedDate in DEFAULT_BRANCH_VERIFIED_DATE or UPDATED_BRANCH_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound("branchVerifiedDate.in=" + DEFAULT_BRANCH_VERIFIED_DATE + "," + UPDATED_BRANCH_VERIFIED_DATE);
 
-        // Get all the kamalSocietyList where cashInHandMr equals to UPDATED_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldNotBeFound("cashInHandMr.equals=" + UPDATED_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where branchVerifiedDate equals to UPDATED_BRANCH_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedDate.in=" + UPDATED_BRANCH_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchVerifiedDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHandMr in DEFAULT_CASH_IN_HAND_MR or UPDATED_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldBeFound("cashInHandMr.in=" + DEFAULT_CASH_IN_HAND_MR + "," + UPDATED_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where branchVerifiedDate is not null
+        defaultKamalSocietyShouldBeFound("branchVerifiedDate.specified=true");
 
-        // Get all the kamalSocietyList where cashInHandMr equals to UPDATED_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldNotBeFound("cashInHandMr.in=" + UPDATED_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where branchVerifiedDate is null
+        defaultKamalSocietyShouldNotBeFound("branchVerifiedDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHandMr is not null
-        defaultKamalSocietyShouldBeFound("cashInHandMr.specified=true");
+        // Get all the kamalSocietyList where headOfficeVerifiedBy equals to DEFAULT_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedBy.equals=" + DEFAULT_HEAD_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where cashInHandMr is null
-        defaultKamalSocietyShouldNotBeFound("cashInHandMr.specified=false");
+        // Get all the kamalSocietyList where headOfficeVerifiedBy equals to UPDATED_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedBy.equals=" + UPDATED_HEAD_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedByIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHandMr contains DEFAULT_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldBeFound("cashInHandMr.contains=" + DEFAULT_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy in DEFAULT_HEAD_OFFICE_VERIFIED_BY or UPDATED_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeVerifiedBy.in=" + DEFAULT_HEAD_OFFICE_VERIFIED_BY + "," + UPDATED_HEAD_OFFICE_VERIFIED_BY
+        );
 
-        // Get all the kamalSocietyList where cashInHandMr contains UPDATED_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldNotBeFound("cashInHandMr.contains=" + UPDATED_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy equals to UPDATED_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedBy.in=" + UPDATED_HEAD_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByCashInHandMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedByIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where cashInHandMr does not contain DEFAULT_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldNotBeFound("cashInHandMr.doesNotContain=" + DEFAULT_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy is not null
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedBy.specified=true");
 
-        // Get all the kamalSocietyList where cashInHandMr does not contain UPDATED_CASH_IN_HAND_MR
-        defaultKamalSocietyShouldBeFound("cashInHandMr.doesNotContain=" + UPDATED_CASH_IN_HAND_MR);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedBy.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedByContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment equals to DEFAULT_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.equals=" + DEFAULT_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy contains DEFAULT_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedBy.contains=" + DEFAULT_HEAD_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where investment equals to UPDATED_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.equals=" + UPDATED_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy contains UPDATED_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedBy.contains=" + UPDATED_HEAD_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedByNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment in DEFAULT_INVESTMENT or UPDATED_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.in=" + DEFAULT_INVESTMENT + "," + UPDATED_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy does not contain DEFAULT_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedBy.doesNotContain=" + DEFAULT_HEAD_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where investment equals to UPDATED_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.in=" + UPDATED_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedBy does not contain UPDATED_HEAD_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedBy.doesNotContain=" + UPDATED_HEAD_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment is not null
-        defaultKamalSocietyShouldBeFound("investment.specified=true");
+        // Get all the kamalSocietyList where headOfficeVerifiedDate equals to DEFAULT_HEAD_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedDate.equals=" + DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
 
-        // Get all the kamalSocietyList where investment is null
-        defaultKamalSocietyShouldNotBeFound("investment.specified=false");
+        // Get all the kamalSocietyList where headOfficeVerifiedDate equals to UPDATED_HEAD_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedDate.equals=" + UPDATED_HEAD_OFFICE_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment is greater than or equal to DEFAULT_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.greaterThanOrEqual=" + DEFAULT_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedDate in DEFAULT_HEAD_OFFICE_VERIFIED_DATE or UPDATED_HEAD_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeVerifiedDate.in=" + DEFAULT_HEAD_OFFICE_VERIFIED_DATE + "," + UPDATED_HEAD_OFFICE_VERIFIED_DATE
+        );
 
-        // Get all the kamalSocietyList where investment is greater than or equal to UPDATED_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.greaterThanOrEqual=" + UPDATED_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedDate equals to UPDATED_HEAD_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedDate.in=" + UPDATED_HEAD_OFFICE_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeVerifiedDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment is less than or equal to DEFAULT_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.lessThanOrEqual=" + DEFAULT_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedDate is not null
+        defaultKamalSocietyShouldBeFound("headOfficeVerifiedDate.specified=true");
 
-        // Get all the kamalSocietyList where investment is less than or equal to SMALLER_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.lessThanOrEqual=" + SMALLER_INVESTMENT);
+        // Get all the kamalSocietyList where headOfficeVerifiedDate is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeVerifiedDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment is less than DEFAULT_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.lessThan=" + DEFAULT_INVESTMENT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where investment is less than UPDATED_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.lessThan=" + UPDATED_INVESTMENT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investment is greater than DEFAULT_INVESTMENT
-        defaultKamalSocietyShouldNotBeFound("investment.greaterThan=" + DEFAULT_INVESTMENT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY or UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedBy.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        );
 
-        // Get all the kamalSocietyList where investment is greater than SMALLER_INVESTMENT
-        defaultKamalSocietyShouldBeFound("investment.greaterThan=" + SMALLER_INVESTMENT);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investmentMr equals to DEFAULT_INVESTMENT_MR
-        defaultKamalSocietyShouldBeFound("investmentMr.equals=" + DEFAULT_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.specified=true");
 
-        // Get all the kamalSocietyList where investmentMr equals to UPDATED_INVESTMENT_MR
-        defaultKamalSocietyShouldNotBeFound("investmentMr.equals=" + UPDATED_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investmentMr in DEFAULT_INVESTMENT_MR or UPDATED_INVESTMENT_MR
-        defaultKamalSocietyShouldBeFound("investmentMr.in=" + DEFAULT_INVESTMENT_MR + "," + UPDATED_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy contains DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.contains=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where investmentMr equals to UPDATED_INVESTMENT_MR
-        defaultKamalSocietyShouldNotBeFound("investmentMr.in=" + UPDATED_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy contains UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.contains=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedByNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investmentMr is not null
-        defaultKamalSocietyShouldBeFound("investmentMr.specified=true");
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy does not contain DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedBy.doesNotContain=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY);
 
-        // Get all the kamalSocietyList where investmentMr is null
-        defaultKamalSocietyShouldNotBeFound("investmentMr.specified=false");
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedBy does not contain UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedBy.doesNotContain=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investmentMr contains DEFAULT_INVESTMENT_MR
-        defaultKamalSocietyShouldBeFound("investmentMr.contains=" + DEFAULT_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedDate.equals=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
 
-        // Get all the kamalSocietyList where investmentMr contains UPDATED_INVESTMENT_MR
-        defaultKamalSocietyShouldNotBeFound("investmentMr.contains=" + UPDATED_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.equals=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByInvestmentMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where investmentMr does not contain DEFAULT_INVESTMENT_MR
-        defaultKamalSocietyShouldNotBeFound("investmentMr.doesNotContain=" + DEFAULT_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate in DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE or UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldBeFound(
+            "divisionalOfficeVerifiedDate.in=" + DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE + "," + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        );
 
-        // Get all the kamalSocietyList where investmentMr does not contain UPDATED_INVESTMENT_MR
-        defaultKamalSocietyShouldBeFound("investmentMr.doesNotContain=" + UPDATED_INVESTMENT_MR);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate equals to UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.in=" + UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByDivisionalOfficeVerifiedDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock equals to DEFAULT_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.equals=" + DEFAULT_DEAD_STOCK);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate is not null
+        defaultKamalSocietyShouldBeFound("divisionalOfficeVerifiedDate.specified=true");
 
-        // Get all the kamalSocietyList where deadStock equals to UPDATED_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.equals=" + UPDATED_DEAD_STOCK);
+        // Get all the kamalSocietyList where divisionalOfficeVerifiedDate is null
+        defaultKamalSocietyShouldNotBeFound("divisionalOfficeVerifiedDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByDoshPurtataDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock in DEFAULT_DEAD_STOCK or UPDATED_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.in=" + DEFAULT_DEAD_STOCK + "," + UPDATED_DEAD_STOCK);
+        // Get all the kamalSocietyList where doshPurtataDate equals to DEFAULT_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.equals=" + DEFAULT_DOSH_PURTATA_DATE);
 
-        // Get all the kamalSocietyList where deadStock equals to UPDATED_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.in=" + UPDATED_DEAD_STOCK);
+        // Get all the kamalSocietyList where doshPurtataDate equals to UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.equals=" + UPDATED_DOSH_PURTATA_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByDoshPurtataDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock is not null
-        defaultKamalSocietyShouldBeFound("deadStock.specified=true");
+        // Get all the kamalSocietyList where doshPurtataDate in DEFAULT_DOSH_PURTATA_DATE or UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.in=" + DEFAULT_DOSH_PURTATA_DATE + "," + UPDATED_DOSH_PURTATA_DATE);
 
-        // Get all the kamalSocietyList where deadStock is null
-        defaultKamalSocietyShouldNotBeFound("deadStock.specified=false");
+        // Get all the kamalSocietyList where doshPurtataDate equals to UPDATED_DOSH_PURTATA_DATE
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.in=" + UPDATED_DOSH_PURTATA_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByDoshPurtataDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock is greater than or equal to DEFAULT_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.greaterThanOrEqual=" + DEFAULT_DEAD_STOCK);
+        // Get all the kamalSocietyList where doshPurtataDate is not null
+        defaultKamalSocietyShouldBeFound("doshPurtataDate.specified=true");
 
-        // Get all the kamalSocietyList where deadStock is greater than or equal to UPDATED_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.greaterThanOrEqual=" + UPDATED_DEAD_STOCK);
+        // Get all the kamalSocietyList where doshPurtataDate is null
+        defaultKamalSocietyShouldNotBeFound("doshPurtataDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByGambhirDoshIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock is less than or equal to DEFAULT_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.lessThanOrEqual=" + DEFAULT_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh equals to DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.equals=" + DEFAULT_GAMBHIR_DOSH);
 
-        // Get all the kamalSocietyList where deadStock is less than or equal to SMALLER_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.lessThanOrEqual=" + SMALLER_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh equals to UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.equals=" + UPDATED_GAMBHIR_DOSH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByGambhirDoshIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock is less than DEFAULT_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.lessThan=" + DEFAULT_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh in DEFAULT_GAMBHIR_DOSH or UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.in=" + DEFAULT_GAMBHIR_DOSH + "," + UPDATED_GAMBHIR_DOSH);
 
-        // Get all the kamalSocietyList where deadStock is less than UPDATED_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.lessThan=" + UPDATED_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh equals to UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.in=" + UPDATED_GAMBHIR_DOSH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByGambhirDoshIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStock is greater than DEFAULT_DEAD_STOCK
-        defaultKamalSocietyShouldNotBeFound("deadStock.greaterThan=" + DEFAULT_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh is not null
+        defaultKamalSocietyShouldBeFound("gambhirDosh.specified=true");
 
-        // Get all the kamalSocietyList where deadStock is greater than SMALLER_DEAD_STOCK
-        defaultKamalSocietyShouldBeFound("deadStock.greaterThan=" + SMALLER_DEAD_STOCK);
+        // Get all the kamalSocietyList where gambhirDosh is null
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByGambhirDoshContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStockMr equals to DEFAULT_DEAD_STOCK_MR
-        defaultKamalSocietyShouldBeFound("deadStockMr.equals=" + DEFAULT_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where gambhirDosh contains DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.contains=" + DEFAULT_GAMBHIR_DOSH);
 
-        // Get all the kamalSocietyList where deadStockMr equals to UPDATED_DEAD_STOCK_MR
-        defaultKamalSocietyShouldNotBeFound("deadStockMr.equals=" + UPDATED_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where gambhirDosh contains UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.contains=" + UPDATED_GAMBHIR_DOSH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByGambhirDoshNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStockMr in DEFAULT_DEAD_STOCK_MR or UPDATED_DEAD_STOCK_MR
-        defaultKamalSocietyShouldBeFound("deadStockMr.in=" + DEFAULT_DEAD_STOCK_MR + "," + UPDATED_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where gambhirDosh does not contain DEFAULT_GAMBHIR_DOSH
+        defaultKamalSocietyShouldNotBeFound("gambhirDosh.doesNotContain=" + DEFAULT_GAMBHIR_DOSH);
 
-        // Get all the kamalSocietyList where deadStockMr equals to UPDATED_DEAD_STOCK_MR
-        defaultKamalSocietyShouldNotBeFound("deadStockMr.in=" + UPDATED_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where gambhirDosh does not contain UPDATED_GAMBHIR_DOSH
+        defaultKamalSocietyShouldBeFound("gambhirDosh.doesNotContain=" + UPDATED_GAMBHIR_DOSH);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchInwardNumberIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStockMr is not null
-        defaultKamalSocietyShouldBeFound("deadStockMr.specified=true");
+        // Get all the kamalSocietyList where branchInwardNumber equals to DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.equals=" + DEFAULT_BRANCH_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where deadStockMr is null
-        defaultKamalSocietyShouldNotBeFound("deadStockMr.specified=false");
+        // Get all the kamalSocietyList where branchInwardNumber equals to UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.equals=" + UPDATED_BRANCH_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchInwardNumberIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStockMr contains DEFAULT_DEAD_STOCK_MR
-        defaultKamalSocietyShouldBeFound("deadStockMr.contains=" + DEFAULT_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where branchInwardNumber in DEFAULT_BRANCH_INWARD_NUMBER or UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.in=" + DEFAULT_BRANCH_INWARD_NUMBER + "," + UPDATED_BRANCH_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where deadStockMr contains UPDATED_DEAD_STOCK_MR
-        defaultKamalSocietyShouldNotBeFound("deadStockMr.contains=" + UPDATED_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where branchInwardNumber equals to UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.in=" + UPDATED_BRANCH_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByDeadStockMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchInwardNumberIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where deadStockMr does not contain DEFAULT_DEAD_STOCK_MR
-        defaultKamalSocietyShouldNotBeFound("deadStockMr.doesNotContain=" + DEFAULT_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where branchInwardNumber is not null
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.specified=true");
 
-        // Get all the kamalSocietyList where deadStockMr does not contain UPDATED_DEAD_STOCK_MR
-        defaultKamalSocietyShouldBeFound("deadStockMr.doesNotContain=" + UPDATED_DEAD_STOCK_MR);
+        // Get all the kamalSocietyList where branchInwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchInwardNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay equals to DEFAULT_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.equals=" + DEFAULT_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardNumber contains DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.contains=" + DEFAULT_BRANCH_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPay equals to UPDATED_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.equals=" + UPDATED_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardNumber contains UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.contains=" + UPDATED_BRANCH_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchInwardNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay in DEFAULT_OTHER_PAY or UPDATED_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.in=" + DEFAULT_OTHER_PAY + "," + UPDATED_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardNumber does not contain DEFAULT_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchInwardNumber.doesNotContain=" + DEFAULT_BRANCH_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPay equals to UPDATED_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.in=" + UPDATED_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardNumber does not contain UPDATED_BRANCH_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchInwardNumber.doesNotContain=" + UPDATED_BRANCH_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchInwardDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay is not null
-        defaultKamalSocietyShouldBeFound("otherPay.specified=true");
+        // Get all the kamalSocietyList where branchInwardDate equals to DEFAULT_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchInwardDate.equals=" + DEFAULT_BRANCH_INWARD_DATE);
 
-        // Get all the kamalSocietyList where otherPay is null
-        defaultKamalSocietyShouldNotBeFound("otherPay.specified=false");
+        // Get all the kamalSocietyList where branchInwardDate equals to UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.equals=" + UPDATED_BRANCH_INWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchInwardDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay is greater than or equal to DEFAULT_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.greaterThanOrEqual=" + DEFAULT_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardDate in DEFAULT_BRANCH_INWARD_DATE or UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchInwardDate.in=" + DEFAULT_BRANCH_INWARD_DATE + "," + UPDATED_BRANCH_INWARD_DATE);
 
-        // Get all the kamalSocietyList where otherPay is greater than or equal to UPDATED_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.greaterThanOrEqual=" + UPDATED_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardDate equals to UPDATED_BRANCH_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.in=" + UPDATED_BRANCH_INWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchInwardDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay is less than or equal to DEFAULT_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.lessThanOrEqual=" + DEFAULT_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardDate is not null
+        defaultKamalSocietyShouldBeFound("branchInwardDate.specified=true");
 
-        // Get all the kamalSocietyList where otherPay is less than or equal to SMALLER_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.lessThanOrEqual=" + SMALLER_OTHER_PAY);
+        // Get all the kamalSocietyList where branchInwardDate is null
+        defaultKamalSocietyShouldNotBeFound("branchInwardDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardNumberIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay is less than DEFAULT_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.lessThan=" + DEFAULT_OTHER_PAY);
+        // Get all the kamalSocietyList where branchOutwardNumber equals to DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.equals=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPay is less than UPDATED_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.lessThan=" + UPDATED_OTHER_PAY);
+        // Get all the kamalSocietyList where branchOutwardNumber equals to UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.equals=" + UPDATED_BRANCH_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardNumberIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPay is greater than DEFAULT_OTHER_PAY
-        defaultKamalSocietyShouldNotBeFound("otherPay.greaterThan=" + DEFAULT_OTHER_PAY);
+        // Get all the kamalSocietyList where branchOutwardNumber in DEFAULT_BRANCH_OUTWARD_NUMBER or UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.in=" + DEFAULT_BRANCH_OUTWARD_NUMBER + "," + UPDATED_BRANCH_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPay is greater than SMALLER_OTHER_PAY
-        defaultKamalSocietyShouldBeFound("otherPay.greaterThan=" + SMALLER_OTHER_PAY);
+        // Get all the kamalSocietyList where branchOutwardNumber equals to UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.in=" + UPDATED_BRANCH_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardNumberIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPayMr equals to DEFAULT_OTHER_PAY_MR
-        defaultKamalSocietyShouldBeFound("otherPayMr.equals=" + DEFAULT_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardNumber is not null
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.specified=true");
 
-        // Get all the kamalSocietyList where otherPayMr equals to UPDATED_OTHER_PAY_MR
-        defaultKamalSocietyShouldNotBeFound("otherPayMr.equals=" + UPDATED_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPayMr in DEFAULT_OTHER_PAY_MR or UPDATED_OTHER_PAY_MR
-        defaultKamalSocietyShouldBeFound("otherPayMr.in=" + DEFAULT_OTHER_PAY_MR + "," + UPDATED_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardNumber contains DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.contains=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPayMr equals to UPDATED_OTHER_PAY_MR
-        defaultKamalSocietyShouldNotBeFound("otherPayMr.in=" + UPDATED_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardNumber contains UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.contains=" + UPDATED_BRANCH_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPayMr is not null
-        defaultKamalSocietyShouldBeFound("otherPayMr.specified=true");
+        // Get all the kamalSocietyList where branchOutwardNumber does not contain DEFAULT_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("branchOutwardNumber.doesNotContain=" + DEFAULT_BRANCH_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where otherPayMr is null
-        defaultKamalSocietyShouldNotBeFound("otherPayMr.specified=false");
+        // Get all the kamalSocietyList where branchOutwardNumber does not contain UPDATED_BRANCH_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("branchOutwardNumber.doesNotContain=" + UPDATED_BRANCH_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPayMr contains DEFAULT_OTHER_PAY_MR
-        defaultKamalSocietyShouldBeFound("otherPayMr.contains=" + DEFAULT_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardDate equals to DEFAULT_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.equals=" + DEFAULT_BRANCH_OUTWARD_DATE);
 
-        // Get all the kamalSocietyList where otherPayMr contains UPDATED_OTHER_PAY_MR
-        defaultKamalSocietyShouldNotBeFound("otherPayMr.contains=" + UPDATED_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardDate equals to UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.equals=" + UPDATED_BRANCH_OUTWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByOtherPayMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where otherPayMr does not contain DEFAULT_OTHER_PAY_MR
-        defaultKamalSocietyShouldNotBeFound("otherPayMr.doesNotContain=" + DEFAULT_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardDate in DEFAULT_BRANCH_OUTWARD_DATE or UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.in=" + DEFAULT_BRANCH_OUTWARD_DATE + "," + UPDATED_BRANCH_OUTWARD_DATE);
 
-        // Get all the kamalSocietyList where otherPayMr does not contain UPDATED_OTHER_PAY_MR
-        defaultKamalSocietyShouldBeFound("otherPayMr.doesNotContain=" + UPDATED_OTHER_PAY_MR);
+        // Get all the kamalSocietyList where branchOutwardDate equals to UPDATED_BRANCH_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.in=" + UPDATED_BRANCH_OUTWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByBranchOutwardDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss equals to DEFAULT_LOSS
-        defaultKamalSocietyShouldBeFound("loss.equals=" + DEFAULT_LOSS);
+        // Get all the kamalSocietyList where branchOutwardDate is not null
+        defaultKamalSocietyShouldBeFound("branchOutwardDate.specified=true");
 
-        // Get all the kamalSocietyList where loss equals to UPDATED_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.equals=" + UPDATED_LOSS);
+        // Get all the kamalSocietyList where branchOutwardDate is null
+        defaultKamalSocietyShouldNotBeFound("branchOutwardDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss in DEFAULT_LOSS or UPDATED_LOSS
-        defaultKamalSocietyShouldBeFound("loss.in=" + DEFAULT_LOSS + "," + UPDATED_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.equals=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where loss equals to UPDATED_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.in=" + UPDATED_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.equals=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss is not null
-        defaultKamalSocietyShouldBeFound("loss.specified=true");
+        // Get all the kamalSocietyList where headOfficeInwardNumber in DEFAULT_HEAD_OFFICE_INWARD_NUMBER or UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeInwardNumber.in=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER + "," + UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        );
 
-        // Get all the kamalSocietyList where loss is null
-        defaultKamalSocietyShouldNotBeFound("loss.specified=false");
+        // Get all the kamalSocietyList where headOfficeInwardNumber equals to UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.in=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardNumberIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss is greater than or equal to DEFAULT_LOSS
-        defaultKamalSocietyShouldBeFound("loss.greaterThanOrEqual=" + DEFAULT_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber is not null
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.specified=true");
 
-        // Get all the kamalSocietyList where loss is greater than or equal to UPDATED_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.greaterThanOrEqual=" + UPDATED_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss is less than or equal to DEFAULT_LOSS
-        defaultKamalSocietyShouldBeFound("loss.lessThanOrEqual=" + DEFAULT_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber contains DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.contains=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where loss is less than or equal to SMALLER_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.lessThanOrEqual=" + SMALLER_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber contains UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.contains=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss is less than DEFAULT_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.lessThan=" + DEFAULT_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber does not contain DEFAULT_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardNumber.doesNotContain=" + DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
 
-        // Get all the kamalSocietyList where loss is less than UPDATED_LOSS
-        defaultKamalSocietyShouldBeFound("loss.lessThan=" + UPDATED_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardNumber does not contain UPDATED_HEAD_OFFICE_INWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeInwardNumber.doesNotContain=" + UPDATED_HEAD_OFFICE_INWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where loss is greater than DEFAULT_LOSS
-        defaultKamalSocietyShouldNotBeFound("loss.greaterThan=" + DEFAULT_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to DEFAULT_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldBeFound("headOfficeInwardDate.equals=" + DEFAULT_HEAD_OFFICE_INWARD_DATE);
 
-        // Get all the kamalSocietyList where loss is greater than SMALLER_LOSS
-        defaultKamalSocietyShouldBeFound("loss.greaterThan=" + SMALLER_LOSS);
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.equals=" + UPDATED_HEAD_OFFICE_INWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where lossMr equals to DEFAULT_LOSS_MR
-        defaultKamalSocietyShouldBeFound("lossMr.equals=" + DEFAULT_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeInwardDate in DEFAULT_HEAD_OFFICE_INWARD_DATE or UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeInwardDate.in=" + DEFAULT_HEAD_OFFICE_INWARD_DATE + "," + UPDATED_HEAD_OFFICE_INWARD_DATE
+        );
 
-        // Get all the kamalSocietyList where lossMr equals to UPDATED_LOSS_MR
-        defaultKamalSocietyShouldNotBeFound("lossMr.equals=" + UPDATED_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeInwardDate equals to UPDATED_HEAD_OFFICE_INWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.in=" + UPDATED_HEAD_OFFICE_INWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeInwardDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where lossMr in DEFAULT_LOSS_MR or UPDATED_LOSS_MR
-        defaultKamalSocietyShouldBeFound("lossMr.in=" + DEFAULT_LOSS_MR + "," + UPDATED_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeInwardDate is not null
+        defaultKamalSocietyShouldBeFound("headOfficeInwardDate.specified=true");
 
-        // Get all the kamalSocietyList where lossMr equals to UPDATED_LOSS_MR
-        defaultKamalSocietyShouldNotBeFound("lossMr.in=" + UPDATED_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeInwardDate is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeInwardDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where lossMr is not null
-        defaultKamalSocietyShouldBeFound("lossMr.specified=true");
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.equals=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where lossMr is null
-        defaultKamalSocietyShouldNotBeFound("lossMr.specified=false");
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.equals=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where lossMr contains DEFAULT_LOSS_MR
-        defaultKamalSocietyShouldBeFound("lossMr.contains=" + DEFAULT_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber in DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER or UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeOutwardNumber.in=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER + "," + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        );
 
-        // Get all the kamalSocietyList where lossMr contains UPDATED_LOSS_MR
-        defaultKamalSocietyShouldNotBeFound("lossMr.contains=" + UPDATED_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber equals to UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.in=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByLossMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where lossMr does not contain DEFAULT_LOSS_MR
-        defaultKamalSocietyShouldNotBeFound("lossMr.doesNotContain=" + DEFAULT_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber is not null
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.specified=true");
 
-        // Get all the kamalSocietyList where lossMr does not contain UPDATED_LOSS_MR
-        defaultKamalSocietyShouldBeFound("lossMr.doesNotContain=" + UPDATED_LOSS_MR);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat equals to DEFAULT_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.equals=" + DEFAULT_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber contains DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.contains=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayat equals to UPDATED_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.equals=" + UPDATED_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber contains UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.contains=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat in DEFAULT_TOTAL_BAGAYAT or UPDATED_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.in=" + DEFAULT_TOTAL_BAGAYAT + "," + UPDATED_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber does not contain DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardNumber.doesNotContain=" + DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayat equals to UPDATED_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.in=" + UPDATED_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardNumber does not contain UPDATED_HEAD_OFFICE_OUTWARD_NUMBER
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardNumber.doesNotContain=" + UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat is not null
-        defaultKamalSocietyShouldBeFound("totalBagayat.specified=true");
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to DEFAULT_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardDate.equals=" + DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
 
-        // Get all the kamalSocietyList where totalBagayat is null
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.specified=false");
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.equals=" + UPDATED_HEAD_OFFICE_OUTWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat is greater than or equal to DEFAULT_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.greaterThanOrEqual=" + DEFAULT_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardDate in DEFAULT_HEAD_OFFICE_OUTWARD_DATE or UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldBeFound(
+            "headOfficeOutwardDate.in=" + DEFAULT_HEAD_OFFICE_OUTWARD_DATE + "," + UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        );
 
-        // Get all the kamalSocietyList where totalBagayat is greater than or equal to UPDATED_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.greaterThanOrEqual=" + UPDATED_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardDate equals to UPDATED_HEAD_OFFICE_OUTWARD_DATE
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.in=" + UPDATED_HEAD_OFFICE_OUTWARD_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsLessThanOrEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByHeadOfficeOutwardDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat is less than or equal to DEFAULT_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.lessThanOrEqual=" + DEFAULT_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardDate is not null
+        defaultKamalSocietyShouldBeFound("headOfficeOutwardDate.specified=true");
 
-        // Get all the kamalSocietyList where totalBagayat is less than or equal to SMALLER_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.lessThanOrEqual=" + SMALLER_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where headOfficeOutwardDate is null
+        defaultKamalSocietyShouldNotBeFound("headOfficeOutwardDate.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsLessThanSomething() throws Exception {
+    void getAllKamalSocietiesByTharavNumberIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat is less than DEFAULT_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.lessThan=" + DEFAULT_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where tharavNumber equals to DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.equals=" + DEFAULT_THARAV_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayat is less than UPDATED_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.lessThan=" + UPDATED_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where tharavNumber equals to UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.equals=" + UPDATED_THARAV_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatIsGreaterThanSomething() throws Exception {
+    void getAllKamalSocietiesByTharavNumberIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayat is greater than DEFAULT_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldNotBeFound("totalBagayat.greaterThan=" + DEFAULT_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where tharavNumber in DEFAULT_THARAV_NUMBER or UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.in=" + DEFAULT_THARAV_NUMBER + "," + UPDATED_THARAV_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayat is greater than SMALLER_TOTAL_BAGAYAT
-        defaultKamalSocietyShouldBeFound("totalBagayat.greaterThan=" + SMALLER_TOTAL_BAGAYAT);
+        // Get all the kamalSocietyList where tharavNumber equals to UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.in=" + UPDATED_THARAV_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatMrIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTharavNumberIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayatMr equals to DEFAULT_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalBagayatMr.equals=" + DEFAULT_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavNumber is not null
+        defaultKamalSocietyShouldBeFound("tharavNumber.specified=true");
 
-        // Get all the kamalSocietyList where totalBagayatMr equals to UPDATED_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.equals=" + UPDATED_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavNumber is null
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatMrIsInShouldWork() throws Exception {
+    void getAllKamalSocietiesByTharavNumberContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayatMr in DEFAULT_TOTAL_BAGAYAT_MR or UPDATED_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalBagayatMr.in=" + DEFAULT_TOTAL_BAGAYAT_MR + "," + UPDATED_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavNumber contains DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.contains=" + DEFAULT_THARAV_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayatMr equals to UPDATED_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.in=" + UPDATED_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavNumber contains UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.contains=" + UPDATED_THARAV_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatMrIsNullOrNotNull() throws Exception {
+    void getAllKamalSocietiesByTharavNumberNotContainsSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayatMr is not null
-        defaultKamalSocietyShouldBeFound("totalBagayatMr.specified=true");
+        // Get all the kamalSocietyList where tharavNumber does not contain DEFAULT_THARAV_NUMBER
+        defaultKamalSocietyShouldNotBeFound("tharavNumber.doesNotContain=" + DEFAULT_THARAV_NUMBER);
 
-        // Get all the kamalSocietyList where totalBagayatMr is null
-        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.specified=false");
+        // Get all the kamalSocietyList where tharavNumber does not contain UPDATED_THARAV_NUMBER
+        defaultKamalSocietyShouldBeFound("tharavNumber.doesNotContain=" + UPDATED_THARAV_NUMBER);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatMrContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTharavDateIsEqualToSomething() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayatMr contains DEFAULT_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalBagayatMr.contains=" + DEFAULT_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavDate equals to DEFAULT_THARAV_DATE
+        defaultKamalSocietyShouldBeFound("tharavDate.equals=" + DEFAULT_THARAV_DATE);
 
-        // Get all the kamalSocietyList where totalBagayatMr contains UPDATED_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.contains=" + UPDATED_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavDate equals to UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldNotBeFound("tharavDate.equals=" + UPDATED_THARAV_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalBagayatMrNotContainsSomething() throws Exception {
+    void getAllKamalSocietiesByTharavDateIsInShouldWork() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalBagayatMr does not contain DEFAULT_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalBagayatMr.doesNotContain=" + DEFAULT_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavDate in DEFAULT_THARAV_DATE or UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldBeFound("tharavDate.in=" + DEFAULT_THARAV_DATE + "," + UPDATED_THARAV_DATE);
 
-        // Get all the kamalSocietyList where totalBagayatMr does not contain UPDATED_TOTAL_BAGAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalBagayatMr.doesNotContain=" + UPDATED_TOTAL_BAGAYAT_MR);
+        // Get all the kamalSocietyList where tharavDate equals to UPDATED_THARAV_DATE
+        defaultKamalSocietyShouldNotBeFound("tharavDate.in=" + UPDATED_THARAV_DATE);
     }
 
     @Test
     @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsEqualToSomething() throws Exception {
+    void getAllKamalSocietiesByTharavDateIsNullOrNotNull() throws Exception {
         // Initialize the database
         kamalSocietyRepository.saveAndFlush(kamalSociety);
 
-        // Get all the kamalSocietyList where totalJirayat equals to DEFAULT_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.equals=" + DEFAULT_TOTAL_JIRAYAT);
+        // Get all the kamalSocietyList where tharavDate is not null
+        defaultKamalSocietyShouldBeFound("tharavDate.specified=true");
 
-        // Get all the kamalSocietyList where totalJirayat equals to UPDATED_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.equals=" + UPDATED_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat in DEFAULT_TOTAL_JIRAYAT or UPDATED_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.in=" + DEFAULT_TOTAL_JIRAYAT + "," + UPDATED_TOTAL_JIRAYAT);
-
-        // Get all the kamalSocietyList where totalJirayat equals to UPDATED_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.in=" + UPDATED_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat is not null
-        defaultKamalSocietyShouldBeFound("totalJirayat.specified=true");
-
-        // Get all the kamalSocietyList where totalJirayat is null
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat is greater than or equal to DEFAULT_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.greaterThanOrEqual=" + DEFAULT_TOTAL_JIRAYAT);
-
-        // Get all the kamalSocietyList where totalJirayat is greater than or equal to UPDATED_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.greaterThanOrEqual=" + UPDATED_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat is less than or equal to DEFAULT_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.lessThanOrEqual=" + DEFAULT_TOTAL_JIRAYAT);
-
-        // Get all the kamalSocietyList where totalJirayat is less than or equal to SMALLER_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.lessThanOrEqual=" + SMALLER_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsLessThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat is less than DEFAULT_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.lessThan=" + DEFAULT_TOTAL_JIRAYAT);
-
-        // Get all the kamalSocietyList where totalJirayat is less than UPDATED_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.lessThan=" + UPDATED_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayat is greater than DEFAULT_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldNotBeFound("totalJirayat.greaterThan=" + DEFAULT_TOTAL_JIRAYAT);
-
-        // Get all the kamalSocietyList where totalJirayat is greater than SMALLER_TOTAL_JIRAYAT
-        defaultKamalSocietyShouldBeFound("totalJirayat.greaterThan=" + SMALLER_TOTAL_JIRAYAT);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatMrIsEqualToSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayatMr equals to DEFAULT_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalJirayatMr.equals=" + DEFAULT_TOTAL_JIRAYAT_MR);
-
-        // Get all the kamalSocietyList where totalJirayatMr equals to UPDATED_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.equals=" + UPDATED_TOTAL_JIRAYAT_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatMrIsInShouldWork() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayatMr in DEFAULT_TOTAL_JIRAYAT_MR or UPDATED_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalJirayatMr.in=" + DEFAULT_TOTAL_JIRAYAT_MR + "," + UPDATED_TOTAL_JIRAYAT_MR);
-
-        // Get all the kamalSocietyList where totalJirayatMr equals to UPDATED_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.in=" + UPDATED_TOTAL_JIRAYAT_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatMrIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayatMr is not null
-        defaultKamalSocietyShouldBeFound("totalJirayatMr.specified=true");
-
-        // Get all the kamalSocietyList where totalJirayatMr is null
-        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatMrContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayatMr contains DEFAULT_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalJirayatMr.contains=" + DEFAULT_TOTAL_JIRAYAT_MR);
-
-        // Get all the kamalSocietyList where totalJirayatMr contains UPDATED_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.contains=" + UPDATED_TOTAL_JIRAYAT_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByTotalJirayatMrNotContainsSomething() throws Exception {
-        // Initialize the database
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-
-        // Get all the kamalSocietyList where totalJirayatMr does not contain DEFAULT_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldNotBeFound("totalJirayatMr.doesNotContain=" + DEFAULT_TOTAL_JIRAYAT_MR);
-
-        // Get all the kamalSocietyList where totalJirayatMr does not contain UPDATED_TOTAL_JIRAYAT_MR
-        defaultKamalSocietyShouldBeFound("totalJirayatMr.doesNotContain=" + UPDATED_TOTAL_JIRAYAT_MR);
-    }
-
-    @Test
-    @Transactional
-    void getAllKamalSocietiesByKamalCropIsEqualToSomething() throws Exception {
-        KamalCrop kamalCrop;
-        if (TestUtil.findAll(em, KamalCrop.class).isEmpty()) {
-            kamalSocietyRepository.saveAndFlush(kamalSociety);
-            kamalCrop = KamalCropResourceIT.createEntity(em);
-        } else {
-            kamalCrop = TestUtil.findAll(em, KamalCrop.class).get(0);
-        }
-        em.persist(kamalCrop);
-        em.flush();
-        kamalSociety.addKamalCrop(kamalCrop);
-        kamalSocietyRepository.saveAndFlush(kamalSociety);
-        Long kamalCropId = kamalCrop.getId();
-
-        // Get all the kamalSocietyList where kamalCrop equals to kamalCropId
-        defaultKamalSocietyShouldBeFound("kamalCropId.equals=" + kamalCropId);
-
-        // Get all the kamalSocietyList where kamalCrop equals to (kamalCropId + 1)
-        defaultKamalSocietyShouldNotBeFound("kamalCropId.equals=" + (kamalCropId + 1));
+        // Get all the kamalSocietyList where tharavDate is null
+        defaultKamalSocietyShouldNotBeFound("tharavDate.specified=false");
     }
 
     /**
@@ -5863,73 +5514,88 @@ class KamalSocietyResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(kamalSociety.getId().intValue())))
-            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER.intValue())))
-            .andExpect(jsonPath("$.[*].zindagiDate").value(hasItem(DEFAULT_ZINDAGI_DATE.toString())))
-            .andExpect(jsonPath("$.[*].zindagiDateMr").value(hasItem(DEFAULT_ZINDAGI_DATE_MR)))
-            .andExpect(jsonPath("$.[*].village1").value(hasItem(DEFAULT_VILLAGE_1)))
-            .andExpect(jsonPath("$.[*].village1Mr").value(hasItem(DEFAULT_VILLAGE_1_MR)))
-            .andExpect(jsonPath("$.[*].village2").value(hasItem(DEFAULT_VILLAGE_2)))
-            .andExpect(jsonPath("$.[*].village2Mr").value(hasItem(DEFAULT_VILLAGE_2_MR)))
-            .andExpect(jsonPath("$.[*].village3").value(hasItem(DEFAULT_VILLAGE_3)))
-            .andExpect(jsonPath("$.[*].village3Mr").value(hasItem(DEFAULT_VILLAGE_3_MR)))
-            .andExpect(jsonPath("$.[*].totalLand").value(hasItem(DEFAULT_TOTAL_LAND.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalLandMr").value(hasItem(DEFAULT_TOTAL_LAND_MR)))
-            .andExpect(jsonPath("$.[*].totalMem").value(hasItem(DEFAULT_TOTAL_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalMemMr").value(hasItem(DEFAULT_TOTAL_MEM_MR)))
-            .andExpect(jsonPath("$.[*].totalNonMem").value(hasItem(DEFAULT_TOTAL_NON_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalNonMemMr").value(hasItem(DEFAULT_TOTAL_NON_MEM_MR)))
-            .andExpect(jsonPath("$.[*].totalGMem").value(hasItem(DEFAULT_TOTAL_G_MEM.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalGMemMr").value(hasItem(DEFAULT_TOTAL_G_MEM_MR)))
-            .andExpect(jsonPath("$.[*].memLoan").value(hasItem(DEFAULT_MEM_LOAN.doubleValue())))
-            .andExpect(jsonPath("$.[*].memLoanMr").value(hasItem(DEFAULT_MEM_LOAN_MR)))
-            .andExpect(jsonPath("$.[*].memDue").value(hasItem(DEFAULT_MEM_DUE.doubleValue())))
-            .andExpect(jsonPath("$.[*].memDueMr").value(hasItem(DEFAULT_MEM_DUE_MR)))
-            .andExpect(jsonPath("$.[*].memDueper").value(hasItem(DEFAULT_MEM_DUEPER.doubleValue())))
-            .andExpect(jsonPath("$.[*].memDueperMr").value(hasItem(DEFAULT_MEM_DUEPER_MR)))
-            .andExpect(jsonPath("$.[*].memVasulpatra").value(hasItem(DEFAULT_MEM_VASULPATRA.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulpatraMr").value(hasItem(DEFAULT_MEM_VASULPATRA_MR)))
-            .andExpect(jsonPath("$.[*].memVasul").value(hasItem(DEFAULT_MEM_VASUL.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulMr").value(hasItem(DEFAULT_MEM_VASUL_MR)))
-            .andExpect(jsonPath("$.[*].memVasulPer").value(hasItem(DEFAULT_MEM_VASUL_PER.doubleValue())))
-            .andExpect(jsonPath("$.[*].memVasulPerMr").value(hasItem(DEFAULT_MEM_VASUL_PER_MR)))
-            .andExpect(jsonPath("$.[*].bankLoan").value(hasItem(DEFAULT_BANK_LOAN.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankLoanMr").value(hasItem(DEFAULT_BANK_LOAN_MR)))
-            .andExpect(jsonPath("$.[*].bankDue").value(hasItem(DEFAULT_BANK_DUE.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankDueMr").value(hasItem(DEFAULT_BANK_DUE_MR)))
-            .andExpect(jsonPath("$.[*].bankDueper").value(hasItem(DEFAULT_BANK_DUEPER.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankDueperMr").value(hasItem(DEFAULT_BANK_DUEPER_MR)))
-            .andExpect(jsonPath("$.[*].bankVasulpatra").value(hasItem(DEFAULT_BANK_VASULPATRA.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulpatraMr").value(hasItem(DEFAULT_BANK_VASULPATRA_MR)))
-            .andExpect(jsonPath("$.[*].bankVasul").value(hasItem(DEFAULT_BANK_VASUL.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulMr").value(hasItem(DEFAULT_BANK_VASUL_MR)))
-            .andExpect(jsonPath("$.[*].bankVasulPer").value(hasItem(DEFAULT_BANK_VASUL_PER.doubleValue())))
-            .andExpect(jsonPath("$.[*].bankVasulPerMr").value(hasItem(DEFAULT_BANK_VASUL_PER_MR)))
-            .andExpect(jsonPath("$.[*].shareCapital").value(hasItem(DEFAULT_SHARE_CAPITAL.doubleValue())))
-            .andExpect(jsonPath("$.[*].shareCapitalMr").value(hasItem(DEFAULT_SHARE_CAPITAL_MR)))
-            .andExpect(jsonPath("$.[*].share").value(hasItem(DEFAULT_SHARE.doubleValue())))
-            .andExpect(jsonPath("$.[*].shareMr").value(hasItem(DEFAULT_SHARE_MR)))
-            .andExpect(jsonPath("$.[*].funds").value(hasItem(DEFAULT_FUNDS.doubleValue())))
-            .andExpect(jsonPath("$.[*].fundsMr").value(hasItem(DEFAULT_FUNDS_MR)))
-            .andExpect(jsonPath("$.[*].deposit").value(hasItem(DEFAULT_DEPOSIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].depositMr").value(hasItem(DEFAULT_DEPOSIT_MR)))
-            .andExpect(jsonPath("$.[*].payable").value(hasItem(DEFAULT_PAYABLE.doubleValue())))
-            .andExpect(jsonPath("$.[*].payableMr").value(hasItem(DEFAULT_PAYABLE_MR)))
-            .andExpect(jsonPath("$.[*].profit").value(hasItem(DEFAULT_PROFIT.doubleValue())))
-            .andExpect(jsonPath("$.[*].profitMr").value(hasItem(DEFAULT_PROFIT_MR)))
-            .andExpect(jsonPath("$.[*].cashInHand").value(hasItem(DEFAULT_CASH_IN_HAND.doubleValue())))
-            .andExpect(jsonPath("$.[*].cashInHandMr").value(hasItem(DEFAULT_CASH_IN_HAND_MR)))
-            .andExpect(jsonPath("$.[*].investment").value(hasItem(DEFAULT_INVESTMENT.doubleValue())))
-            .andExpect(jsonPath("$.[*].investmentMr").value(hasItem(DEFAULT_INVESTMENT_MR)))
-            .andExpect(jsonPath("$.[*].deadStock").value(hasItem(DEFAULT_DEAD_STOCK.doubleValue())))
-            .andExpect(jsonPath("$.[*].deadStockMr").value(hasItem(DEFAULT_DEAD_STOCK_MR)))
-            .andExpect(jsonPath("$.[*].otherPay").value(hasItem(DEFAULT_OTHER_PAY.doubleValue())))
-            .andExpect(jsonPath("$.[*].otherPayMr").value(hasItem(DEFAULT_OTHER_PAY_MR)))
-            .andExpect(jsonPath("$.[*].loss").value(hasItem(DEFAULT_LOSS.doubleValue())))
-            .andExpect(jsonPath("$.[*].lossMr").value(hasItem(DEFAULT_LOSS_MR)))
-            .andExpect(jsonPath("$.[*].totalBagayat").value(hasItem(DEFAULT_TOTAL_BAGAYAT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalBagayatMr").value(hasItem(DEFAULT_TOTAL_BAGAYAT_MR)))
-            .andExpect(jsonPath("$.[*].totalJirayat").value(hasItem(DEFAULT_TOTAL_JIRAYAT.doubleValue())))
-            .andExpect(jsonPath("$.[*].totalJirayatMr").value(hasItem(DEFAULT_TOTAL_JIRAYAT_MR)));
+            .andExpect(jsonPath("$.[*].financialYear").value(hasItem(DEFAULT_FINANCIAL_YEAR)))
+            .andExpect(jsonPath("$.[*].kmDate").value(hasItem(DEFAULT_KM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmDateMr").value(hasItem(DEFAULT_KM_DATE_MR)))
+            .andExpect(jsonPath("$.[*].kmFromDate").value(hasItem(DEFAULT_KM_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmFromDateMr").value(hasItem(DEFAULT_KM_FROM_DATE_MR)))
+            .andExpect(jsonPath("$.[*].kmToDate").value(hasItem(DEFAULT_KM_TO_DATE.toString())))
+            .andExpect(jsonPath("$.[*].kmToDateMr").value(hasItem(DEFAULT_KM_TO_DATE_MR)))
+            .andExpect(jsonPath("$.[*].pacsNumber").value(hasItem(DEFAULT_PACS_NUMBER)))
+            .andExpect(jsonPath("$.[*].pacsName").value(hasItem(DEFAULT_PACS_NAME)))
+            .andExpect(jsonPath("$.[*].branchId").value(hasItem(DEFAULT_BRANCH_ID.intValue())))
+            .andExpect(jsonPath("$.[*].branchName").value(hasItem(DEFAULT_BRANCH_NAME)))
+            .andExpect(jsonPath("$.[*].talukaId").value(hasItem(DEFAULT_TALUKA_ID.intValue())))
+            .andExpect(jsonPath("$.[*].talukaName").value(hasItem(DEFAULT_TALUKA_NAME)))
+            .andExpect(jsonPath("$.[*].zindagiPatrakDate").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE.toString())))
+            .andExpect(jsonPath("$.[*].zindagiPatrakDateMr").value(hasItem(DEFAULT_ZINDAGI_PATRAK_DATE_MR)))
+            .andExpect(jsonPath("$.[*].bankTapasaniDate").value(hasItem(DEFAULT_BANK_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].bankTapasaniDateMr").value(hasItem(DEFAULT_BANK_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].govTapasaniDate").value(hasItem(DEFAULT_GOV_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].govTapasaniDateMr").value(hasItem(DEFAULT_GOV_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniDate").value(hasItem(DEFAULT_SANSTHA_TAPASANI_DATE.toString())))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniDateMr").value(hasItem(DEFAULT_SANSTHA_TAPASANI_DATE_MR)))
+            .andExpect(jsonPath("$.[*].totalLand").value(hasItem(DEFAULT_TOTAL_LAND)))
+            .andExpect(jsonPath("$.[*].bagayat").value(hasItem(DEFAULT_BAGAYAT)))
+            .andExpect(jsonPath("$.[*].jirayat").value(hasItem(DEFAULT_JIRAYAT)))
+            .andExpect(jsonPath("$.[*].totalFarmer").value(hasItem(DEFAULT_TOTAL_FARMER)))
+            .andExpect(jsonPath("$.[*].memberFarmer").value(hasItem(DEFAULT_MEMBER_FARMER)))
+            .andExpect(jsonPath("$.[*].nonMemberFarmer").value(hasItem(DEFAULT_NON_MEMBER_FARMER)))
+            .andExpect(jsonPath("$.[*].talebandDate").value(hasItem(DEFAULT_TALEBAND_DATE.toString())))
+            .andExpect(jsonPath("$.[*].memLoan").value(hasItem(DEFAULT_MEM_LOAN)))
+            .andExpect(jsonPath("$.[*].memDue").value(hasItem(DEFAULT_MEM_DUE)))
+            .andExpect(jsonPath("$.[*].memVasuli").value(hasItem(DEFAULT_MEM_VASULI)))
+            .andExpect(jsonPath("$.[*].memVasuliPer").value(hasItem(DEFAULT_MEM_VASULI_PER)))
+            .andExpect(jsonPath("$.[*].bankLoan").value(hasItem(DEFAULT_BANK_LOAN)))
+            .andExpect(jsonPath("$.[*].bankDue").value(hasItem(DEFAULT_BANK_DUE)))
+            .andExpect(jsonPath("$.[*].bankVasuli").value(hasItem(DEFAULT_BANK_VASULI)))
+            .andExpect(jsonPath("$.[*].bankVasuliPer").value(hasItem(DEFAULT_BANK_VASULI_PER)))
+            .andExpect(jsonPath("$.[*].balanceSheetDate").value(hasItem(DEFAULT_BALANCE_SHEET_DATE.toString())))
+            .andExpect(jsonPath("$.[*].balanceSheetDateMr").value(hasItem(DEFAULT_BALANCE_SHEET_DATE_MR)))
+            .andExpect(jsonPath("$.[*].liabilityAdhikrutShareCapital").value(hasItem(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL)))
+            .andExpect(jsonPath("$.[*].liabilityVasulShareCapital").value(hasItem(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL)))
+            .andExpect(jsonPath("$.[*].liabilityFund").value(hasItem(DEFAULT_LIABILITY_FUND)))
+            .andExpect(jsonPath("$.[*].liabilitySpareFund").value(hasItem(DEFAULT_LIABILITY_SPARE_FUND)))
+            .andExpect(jsonPath("$.[*].liabilityDeposite").value(hasItem(DEFAULT_LIABILITY_DEPOSITE)))
+            .andExpect(jsonPath("$.[*].liabilityBalanceSheetBankLoan").value(hasItem(DEFAULT_LIABILITY_BALANCE_SHEET_BANK_LOAN)))
+            .andExpect(jsonPath("$.[*].liabilityOtherPayable").value(hasItem(DEFAULT_LIABILITY_OTHER_PAYABLE)))
+            .andExpect(jsonPath("$.[*].liabilityProfit").value(hasItem(DEFAULT_LIABILITY_PROFIT)))
+            .andExpect(jsonPath("$.[*].assetCash").value(hasItem(DEFAULT_ASSET_CASH)))
+            .andExpect(jsonPath("$.[*].assetInvestment").value(hasItem(DEFAULT_ASSET_INVESTMENT)))
+            .andExpect(jsonPath("$.[*].assetImaratFund").value(hasItem(DEFAULT_ASSET_IMARAT_FUND)))
+            .andExpect(jsonPath("$.[*].assetMemberLoan").value(hasItem(DEFAULT_ASSET_MEMBER_LOAN)))
+            .andExpect(jsonPath("$.[*].assetDeadStock").value(hasItem(DEFAULT_ASSET_DEAD_STOCK)))
+            .andExpect(jsonPath("$.[*].assetOtherReceivable").value(hasItem(DEFAULT_ASSET_OTHER_RECEIVABLE)))
+            .andExpect(jsonPath("$.[*].assetLoss").value(hasItem(DEFAULT_ASSET_LOSS)))
+            .andExpect(jsonPath("$.[*].totalLiability").value(hasItem(DEFAULT_TOTAL_LIABILITY)))
+            .andExpect(jsonPath("$.[*].totalAsset").value(hasItem(DEFAULT_TOTAL_ASSET)))
+            .andExpect(jsonPath("$.[*].villageCode").value(hasItem(DEFAULT_VILLAGE_CODE)))
+            .andExpect(jsonPath("$.[*].pacsVerifiedFlag").value(hasItem(DEFAULT_PACS_VERIFIED_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].branchVerifiedFlag").value(hasItem(DEFAULT_BRANCH_VERIFIED_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedFlag").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_FLAG.booleanValue())))
+            .andExpect(
+                jsonPath("$.[*].divisionalOfficeVerifiedFlag").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_FLAG.booleanValue()))
+            )
+            .andExpect(jsonPath("$.[*].isSupplimenteryFlag").value(hasItem(DEFAULT_IS_SUPPLIMENTERY_FLAG.booleanValue())))
+            .andExpect(jsonPath("$.[*].sansthaTapasaniVarg").value(hasItem(DEFAULT_SANSTHA_TAPASANI_VARG)))
+            .andExpect(jsonPath("$.[*].branchVerifiedBy").value(hasItem(DEFAULT_BRANCH_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].branchVerifiedDate").value(hasItem(DEFAULT_BRANCH_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedBy").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].headOfficeVerifiedDate").value(hasItem(DEFAULT_HEAD_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedBy").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_BY)))
+            .andExpect(jsonPath("$.[*].divisionalOfficeVerifiedDate").value(hasItem(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE.toString())))
+            .andExpect(jsonPath("$.[*].doshPurtataDate").value(hasItem(DEFAULT_DOSH_PURTATA_DATE.toString())))
+            .andExpect(jsonPath("$.[*].gambhirDosh").value(hasItem(DEFAULT_GAMBHIR_DOSH)))
+            .andExpect(jsonPath("$.[*].branchInwardNumber").value(hasItem(DEFAULT_BRANCH_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchInwardDate").value(hasItem(DEFAULT_BRANCH_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].branchOutwardNumber").value(hasItem(DEFAULT_BRANCH_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].branchOutwardDate").value(hasItem(DEFAULT_BRANCH_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeInwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeInwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_INWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardNumber").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_NUMBER)))
+            .andExpect(jsonPath("$.[*].headOfficeOutwardDate").value(hasItem(DEFAULT_HEAD_OFFICE_OUTWARD_DATE.toString())))
+            .andExpect(jsonPath("$.[*].tharavNumber").value(hasItem(DEFAULT_THARAV_NUMBER)))
+            .andExpect(jsonPath("$.[*].tharavDate").value(hasItem(DEFAULT_THARAV_DATE.toString())));
 
         // Check, that the count call also returns 1
         restKamalSocietyMockMvc
@@ -5978,73 +5644,86 @@ class KamalSocietyResourceIT {
         // Disconnect from session so that the updates on updatedKamalSociety are not directly saved in db
         em.detach(updatedKamalSociety);
         updatedKamalSociety
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .kmDate(UPDATED_KM_DATE)
+            .kmDateMr(UPDATED_KM_DATE_MR)
+            .kmFromDate(UPDATED_KM_FROM_DATE)
+            .kmFromDateMr(UPDATED_KM_FROM_DATE_MR)
+            .kmToDate(UPDATED_KM_TO_DATE)
+            .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .zindagiDate(UPDATED_ZINDAGI_DATE)
-            .zindagiDateMr(UPDATED_ZINDAGI_DATE_MR)
-            .village1(UPDATED_VILLAGE_1)
-            .village1Mr(UPDATED_VILLAGE_1_MR)
-            .village2(UPDATED_VILLAGE_2)
-            .village2Mr(UPDATED_VILLAGE_2_MR)
-            .village3(UPDATED_VILLAGE_3)
-            .village3Mr(UPDATED_VILLAGE_3_MR)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
+            .talukaId(UPDATED_TALUKA_ID)
+            .talukaName(UPDATED_TALUKA_NAME)
+            .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
+            .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
+            .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
+            .bankTapasaniDateMr(UPDATED_BANK_TAPASANI_DATE_MR)
+            .govTapasaniDate(UPDATED_GOV_TAPASANI_DATE)
+            .govTapasaniDateMr(UPDATED_GOV_TAPASANI_DATE_MR)
+            .sansthaTapasaniDate(UPDATED_SANSTHA_TAPASANI_DATE)
+            .sansthaTapasaniDateMr(UPDATED_SANSTHA_TAPASANI_DATE_MR)
             .totalLand(UPDATED_TOTAL_LAND)
-            .totalLandMr(UPDATED_TOTAL_LAND_MR)
-            .totalMem(UPDATED_TOTAL_MEM)
-            .totalMemMr(UPDATED_TOTAL_MEM_MR)
-            .totalNonMem(UPDATED_TOTAL_NON_MEM)
-            .totalNonMemMr(UPDATED_TOTAL_NON_MEM_MR)
-            .totalGMem(UPDATED_TOTAL_G_MEM)
-            .totalGMemMr(UPDATED_TOTAL_G_MEM_MR)
+            .bagayat(UPDATED_BAGAYAT)
+            .jirayat(UPDATED_JIRAYAT)
+            .totalFarmer(UPDATED_TOTAL_FARMER)
+            .memberFarmer(UPDATED_MEMBER_FARMER)
+            .nonMemberFarmer(UPDATED_NON_MEMBER_FARMER)
+            .talebandDate(UPDATED_TALEBAND_DATE)
             .memLoan(UPDATED_MEM_LOAN)
-            .memLoanMr(UPDATED_MEM_LOAN_MR)
             .memDue(UPDATED_MEM_DUE)
-            .memDueMr(UPDATED_MEM_DUE_MR)
-            .memDueper(UPDATED_MEM_DUEPER)
-            .memDueperMr(UPDATED_MEM_DUEPER_MR)
-            .memVasulpatra(UPDATED_MEM_VASULPATRA)
-            .memVasulpatraMr(UPDATED_MEM_VASULPATRA_MR)
-            .memVasul(UPDATED_MEM_VASUL)
-            .memVasulMr(UPDATED_MEM_VASUL_MR)
-            .memVasulPer(UPDATED_MEM_VASUL_PER)
-            .memVasulPerMr(UPDATED_MEM_VASUL_PER_MR)
+            .memVasuli(UPDATED_MEM_VASULI)
+            .memVasuliPer(UPDATED_MEM_VASULI_PER)
             .bankLoan(UPDATED_BANK_LOAN)
-            .bankLoanMr(UPDATED_BANK_LOAN_MR)
             .bankDue(UPDATED_BANK_DUE)
-            .bankDueMr(UPDATED_BANK_DUE_MR)
-            .bankDueper(UPDATED_BANK_DUEPER)
-            .bankDueperMr(UPDATED_BANK_DUEPER_MR)
-            .bankVasulpatra(UPDATED_BANK_VASULPATRA)
-            .bankVasulpatraMr(UPDATED_BANK_VASULPATRA_MR)
-            .bankVasul(UPDATED_BANK_VASUL)
-            .bankVasulMr(UPDATED_BANK_VASUL_MR)
-            .bankVasulPer(UPDATED_BANK_VASUL_PER)
-            .bankVasulPerMr(UPDATED_BANK_VASUL_PER_MR)
-            .shareCapital(UPDATED_SHARE_CAPITAL)
-            .shareCapitalMr(UPDATED_SHARE_CAPITAL_MR)
-            .share(UPDATED_SHARE)
-            .shareMr(UPDATED_SHARE_MR)
-            .funds(UPDATED_FUNDS)
-            .fundsMr(UPDATED_FUNDS_MR)
-            .deposit(UPDATED_DEPOSIT)
-            .depositMr(UPDATED_DEPOSIT_MR)
-            .payable(UPDATED_PAYABLE)
-            .payableMr(UPDATED_PAYABLE_MR)
-            .profit(UPDATED_PROFIT)
-            .profitMr(UPDATED_PROFIT_MR)
-            .cashInHand(UPDATED_CASH_IN_HAND)
-            .cashInHandMr(UPDATED_CASH_IN_HAND_MR)
-            .investment(UPDATED_INVESTMENT)
-            .investmentMr(UPDATED_INVESTMENT_MR)
-            .deadStock(UPDATED_DEAD_STOCK)
-            .deadStockMr(UPDATED_DEAD_STOCK_MR)
-            .otherPay(UPDATED_OTHER_PAY)
-            .otherPayMr(UPDATED_OTHER_PAY_MR)
-            .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR)
-            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
-            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
-            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
-            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
+            .bankVasuli(UPDATED_BANK_VASULI)
+            .bankVasuliPer(UPDATED_BANK_VASULI_PER)
+            .balanceSheetDate(UPDATED_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(UPDATED_BALANCE_SHEET_DATE_MR)
+            .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
+            .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
+            .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
+            .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
+            .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
+            .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
+            .liabilityProfit(UPDATED_LIABILITY_PROFIT)
+            .assetCash(UPDATED_ASSET_CASH)
+            .assetInvestment(UPDATED_ASSET_INVESTMENT)
+            .assetImaratFund(UPDATED_ASSET_IMARAT_FUND)
+            .assetMemberLoan(UPDATED_ASSET_MEMBER_LOAN)
+            .assetDeadStock(UPDATED_ASSET_DEAD_STOCK)
+            .assetOtherReceivable(UPDATED_ASSET_OTHER_RECEIVABLE)
+            .assetLoss(UPDATED_ASSET_LOSS)
+            .totalLiability(UPDATED_TOTAL_LIABILITY)
+            .totalAsset(UPDATED_TOTAL_ASSET)
+            .villageCode(UPDATED_VILLAGE_CODE)
+            .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
+            .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
+            .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
+            .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
+            .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
+            .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
+            .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
+            .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+         /*   .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE)*/;
 
         restKamalSocietyMockMvc
             .perform(
@@ -6058,73 +5737,86 @@ class KamalSocietyResourceIT {
         List<KamalSociety> kamalSocietyList = kamalSocietyRepository.findAll();
         assertThat(kamalSocietyList).hasSize(databaseSizeBeforeUpdate);
         KamalSociety testKamalSociety = kamalSocietyList.get(kamalSocietyList.size() - 1);
+        assertThat(testKamalSociety.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
+        assertThat(testKamalSociety.getKmDate()).isEqualTo(UPDATED_KM_DATE);
+        assertThat(testKamalSociety.getKmDateMr()).isEqualTo(UPDATED_KM_DATE_MR);
+        assertThat(testKamalSociety.getKmFromDate()).isEqualTo(UPDATED_KM_FROM_DATE);
+        assertThat(testKamalSociety.getKmFromDateMr()).isEqualTo(UPDATED_KM_FROM_DATE_MR);
+        assertThat(testKamalSociety.getKmToDate()).isEqualTo(UPDATED_KM_TO_DATE);
+        assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
-        assertThat(testKamalSociety.getZindagiDate()).isEqualTo(UPDATED_ZINDAGI_DATE);
-        assertThat(testKamalSociety.getZindagiDateMr()).isEqualTo(UPDATED_ZINDAGI_DATE_MR);
-        assertThat(testKamalSociety.getVillage1()).isEqualTo(UPDATED_VILLAGE_1);
-        assertThat(testKamalSociety.getVillage1Mr()).isEqualTo(UPDATED_VILLAGE_1_MR);
-        assertThat(testKamalSociety.getVillage2()).isEqualTo(UPDATED_VILLAGE_2);
-        assertThat(testKamalSociety.getVillage2Mr()).isEqualTo(UPDATED_VILLAGE_2_MR);
-        assertThat(testKamalSociety.getVillage3()).isEqualTo(UPDATED_VILLAGE_3);
-        assertThat(testKamalSociety.getVillage3Mr()).isEqualTo(UPDATED_VILLAGE_3_MR);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(UPDATED_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
+        assertThat(testKamalSociety.getTalukaId()).isEqualTo(UPDATED_TALUKA_ID);
+        assertThat(testKamalSociety.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
+        assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE);
+        assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE_MR);
+        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
+        assertThat(testKamalSociety.getBankTapasaniDateMr()).isEqualTo(UPDATED_BANK_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(UPDATED_GOV_TAPASANI_DATE);
+        assertThat(testKamalSociety.getGovTapasaniDateMr()).isEqualTo(UPDATED_GOV_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getSansthaTapasaniDate()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE);
+        assertThat(testKamalSociety.getSansthaTapasaniDateMr()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE_MR);
         assertThat(testKamalSociety.getTotalLand()).isEqualTo(UPDATED_TOTAL_LAND);
-        assertThat(testKamalSociety.getTotalLandMr()).isEqualTo(UPDATED_TOTAL_LAND_MR);
-        assertThat(testKamalSociety.getTotalMem()).isEqualTo(UPDATED_TOTAL_MEM);
-        assertThat(testKamalSociety.getTotalMemMr()).isEqualTo(UPDATED_TOTAL_MEM_MR);
-        assertThat(testKamalSociety.getTotalNonMem()).isEqualTo(UPDATED_TOTAL_NON_MEM);
-        assertThat(testKamalSociety.getTotalNonMemMr()).isEqualTo(UPDATED_TOTAL_NON_MEM_MR);
-        assertThat(testKamalSociety.getTotalGMem()).isEqualTo(UPDATED_TOTAL_G_MEM);
-        assertThat(testKamalSociety.getTotalGMemMr()).isEqualTo(UPDATED_TOTAL_G_MEM_MR);
+        assertThat(testKamalSociety.getBagayat()).isEqualTo(UPDATED_BAGAYAT);
+        assertThat(testKamalSociety.getJirayat()).isEqualTo(UPDATED_JIRAYAT);
+        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(UPDATED_TOTAL_FARMER);
+        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(UPDATED_MEMBER_FARMER);
+        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(UPDATED_NON_MEMBER_FARMER);
+        assertThat(testKamalSociety.getTalebandDate()).isEqualTo(UPDATED_TALEBAND_DATE);
         assertThat(testKamalSociety.getMemLoan()).isEqualTo(UPDATED_MEM_LOAN);
-        assertThat(testKamalSociety.getMemLoanMr()).isEqualTo(UPDATED_MEM_LOAN_MR);
         assertThat(testKamalSociety.getMemDue()).isEqualTo(UPDATED_MEM_DUE);
-        assertThat(testKamalSociety.getMemDueMr()).isEqualTo(UPDATED_MEM_DUE_MR);
-        assertThat(testKamalSociety.getMemDueper()).isEqualTo(UPDATED_MEM_DUEPER);
-        assertThat(testKamalSociety.getMemDueperMr()).isEqualTo(UPDATED_MEM_DUEPER_MR);
-        assertThat(testKamalSociety.getMemVasulpatra()).isEqualTo(UPDATED_MEM_VASULPATRA);
-        assertThat(testKamalSociety.getMemVasulpatraMr()).isEqualTo(UPDATED_MEM_VASULPATRA_MR);
-        assertThat(testKamalSociety.getMemVasul()).isEqualTo(UPDATED_MEM_VASUL);
-        assertThat(testKamalSociety.getMemVasulMr()).isEqualTo(UPDATED_MEM_VASUL_MR);
-        assertThat(testKamalSociety.getMemVasulPer()).isEqualTo(UPDATED_MEM_VASUL_PER);
-        assertThat(testKamalSociety.getMemVasulPerMr()).isEqualTo(UPDATED_MEM_VASUL_PER_MR);
+        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(UPDATED_MEM_VASULI);
+        assertThat(testKamalSociety.getMemVasuliPer()).isEqualTo(UPDATED_MEM_VASULI_PER);
         assertThat(testKamalSociety.getBankLoan()).isEqualTo(UPDATED_BANK_LOAN);
-        assertThat(testKamalSociety.getBankLoanMr()).isEqualTo(UPDATED_BANK_LOAN_MR);
         assertThat(testKamalSociety.getBankDue()).isEqualTo(UPDATED_BANK_DUE);
-        assertThat(testKamalSociety.getBankDueMr()).isEqualTo(UPDATED_BANK_DUE_MR);
-        assertThat(testKamalSociety.getBankDueper()).isEqualTo(UPDATED_BANK_DUEPER);
-        assertThat(testKamalSociety.getBankDueperMr()).isEqualTo(UPDATED_BANK_DUEPER_MR);
-        assertThat(testKamalSociety.getBankVasulpatra()).isEqualTo(UPDATED_BANK_VASULPATRA);
-        assertThat(testKamalSociety.getBankVasulpatraMr()).isEqualTo(UPDATED_BANK_VASULPATRA_MR);
-        assertThat(testKamalSociety.getBankVasul()).isEqualTo(UPDATED_BANK_VASUL);
-        assertThat(testKamalSociety.getBankVasulMr()).isEqualTo(UPDATED_BANK_VASUL_MR);
-        assertThat(testKamalSociety.getBankVasulPer()).isEqualTo(UPDATED_BANK_VASUL_PER);
-        assertThat(testKamalSociety.getBankVasulPerMr()).isEqualTo(UPDATED_BANK_VASUL_PER_MR);
-        assertThat(testKamalSociety.getShareCapital()).isEqualTo(UPDATED_SHARE_CAPITAL);
-        assertThat(testKamalSociety.getShareCapitalMr()).isEqualTo(UPDATED_SHARE_CAPITAL_MR);
-        assertThat(testKamalSociety.getShare()).isEqualTo(UPDATED_SHARE);
-        assertThat(testKamalSociety.getShareMr()).isEqualTo(UPDATED_SHARE_MR);
-        assertThat(testKamalSociety.getFunds()).isEqualTo(UPDATED_FUNDS);
-        assertThat(testKamalSociety.getFundsMr()).isEqualTo(UPDATED_FUNDS_MR);
-        assertThat(testKamalSociety.getDeposit()).isEqualTo(UPDATED_DEPOSIT);
-        assertThat(testKamalSociety.getDepositMr()).isEqualTo(UPDATED_DEPOSIT_MR);
-        assertThat(testKamalSociety.getPayable()).isEqualTo(UPDATED_PAYABLE);
-        assertThat(testKamalSociety.getPayableMr()).isEqualTo(UPDATED_PAYABLE_MR);
-        assertThat(testKamalSociety.getProfit()).isEqualTo(UPDATED_PROFIT);
-        assertThat(testKamalSociety.getProfitMr()).isEqualTo(UPDATED_PROFIT_MR);
-        assertThat(testKamalSociety.getCashInHand()).isEqualTo(UPDATED_CASH_IN_HAND);
-        assertThat(testKamalSociety.getCashInHandMr()).isEqualTo(UPDATED_CASH_IN_HAND_MR);
-        assertThat(testKamalSociety.getInvestment()).isEqualTo(UPDATED_INVESTMENT);
-        assertThat(testKamalSociety.getInvestmentMr()).isEqualTo(UPDATED_INVESTMENT_MR);
-        assertThat(testKamalSociety.getDeadStock()).isEqualTo(UPDATED_DEAD_STOCK);
-        assertThat(testKamalSociety.getDeadStockMr()).isEqualTo(UPDATED_DEAD_STOCK_MR);
-        assertThat(testKamalSociety.getOtherPay()).isEqualTo(UPDATED_OTHER_PAY);
-        assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
-        assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
-        assertThat(testKamalSociety.getLossMr()).isEqualTo(UPDATED_LOSS_MR);
-        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(UPDATED_TOTAL_BAGAYAT);
-        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(UPDATED_TOTAL_BAGAYAT_MR);
-        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(UPDATED_TOTAL_JIRAYAT);
-        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
+        assertThat(testKamalSociety.getBankVasuli()).isEqualTo(UPDATED_BANK_VASULI);
+        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(UPDATED_BANK_VASULI_PER);
+        assertThat(testKamalSociety.getBalanceSheetDate()).isEqualTo(UPDATED_BALANCE_SHEET_DATE);
+        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(UPDATED_BALANCE_SHEET_DATE_MR);
+        assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(UPDATED_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(UPDATED_LIABILITY_SPARE_FUND);
+        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
+        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
+        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);
+        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(UPDATED_LIABILITY_PROFIT);
+        assertThat(testKamalSociety.getAssetCash()).isEqualTo(UPDATED_ASSET_CASH);
+        assertThat(testKamalSociety.getAssetInvestment()).isEqualTo(UPDATED_ASSET_INVESTMENT);
+        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(UPDATED_ASSET_IMARAT_FUND);
+        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(UPDATED_ASSET_MEMBER_LOAN);
+        assertThat(testKamalSociety.getAssetDeadStock()).isEqualTo(UPDATED_ASSET_DEAD_STOCK);
+        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(UPDATED_ASSET_OTHER_RECEIVABLE);
+        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(UPDATED_ASSET_LOSS);
+        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(UPDATED_TOTAL_LIABILITY);
+        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(UPDATED_TOTAL_ASSET);
+        assertThat(testKamalSociety.getVillageCode()).isEqualTo(UPDATED_VILLAGE_CODE);
+        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(UPDATED_PACS_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
+        assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
+        assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(UPDATED_BRANCH_VERIFIED_BY);
+        assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(UPDATED_BRANCH_VERIFIED_DATE);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(UPDATED_THARAV_DATE);
     }
 
     @Test
@@ -6196,38 +5888,43 @@ class KamalSocietyResourceIT {
         partialUpdatedKamalSociety.setId(kamalSociety.getId());
 
         partialUpdatedKamalSociety
-            .zindagiDate(UPDATED_ZINDAGI_DATE)
-            .village1(UPDATED_VILLAGE_1)
-            .village2Mr(UPDATED_VILLAGE_2_MR)
-            .totalLandMr(UPDATED_TOTAL_LAND_MR)
-            .totalGMem(UPDATED_TOTAL_G_MEM)
-            .memLoanMr(UPDATED_MEM_LOAN_MR)
-            .memDue(UPDATED_MEM_DUE)
-            .memDueMr(UPDATED_MEM_DUE_MR)
-            .memDueper(UPDATED_MEM_DUEPER)
-            .memVasulPer(UPDATED_MEM_VASUL_PER)
-            .memVasulPerMr(UPDATED_MEM_VASUL_PER_MR)
+            .kmDate(UPDATED_KM_DATE)
+            .kmFromDate(UPDATED_KM_FROM_DATE)
+            .kmToDateMr(UPDATED_KM_TO_DATE_MR)
+            .branchName(UPDATED_BRANCH_NAME)
+            .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
+            .govTapasaniDateMr(UPDATED_GOV_TAPASANI_DATE_MR)
+            .sansthaTapasaniDate(UPDATED_SANSTHA_TAPASANI_DATE)
+            .sansthaTapasaniDateMr(UPDATED_SANSTHA_TAPASANI_DATE_MR)
+            .totalLand(UPDATED_TOTAL_LAND)
+            .talebandDate(UPDATED_TALEBAND_DATE)
+            .memLoan(UPDATED_MEM_LOAN)
+            .memVasuliPer(UPDATED_MEM_VASULI_PER)
             .bankDue(UPDATED_BANK_DUE)
-            .bankDueper(UPDATED_BANK_DUEPER)
-            .bankDueperMr(UPDATED_BANK_DUEPER_MR)
-            .bankVasulpatra(UPDATED_BANK_VASULPATRA)
-            .bankVasulpatraMr(UPDATED_BANK_VASULPATRA_MR)
-            .bankVasul(UPDATED_BANK_VASUL)
-            .shareCapitalMr(UPDATED_SHARE_CAPITAL_MR)
-            .share(UPDATED_SHARE)
-            .shareMr(UPDATED_SHARE_MR)
-            .depositMr(UPDATED_DEPOSIT_MR)
-            .payable(UPDATED_PAYABLE)
-            .payableMr(UPDATED_PAYABLE_MR)
-            .profit(UPDATED_PROFIT)
-            .cashInHand(UPDATED_CASH_IN_HAND)
-            .investment(UPDATED_INVESTMENT)
-            .deadStock(UPDATED_DEAD_STOCK)
-            .deadStockMr(UPDATED_DEAD_STOCK_MR)
-            .otherPay(UPDATED_OTHER_PAY)
-            .otherPayMr(UPDATED_OTHER_PAY_MR)
-            .loss(UPDATED_LOSS)
-            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
+            .bankVasuli(UPDATED_BANK_VASULI)
+            .bankVasuliPer(UPDATED_BANK_VASULI_PER)
+            .balanceSheetDate(UPDATED_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(UPDATED_BALANCE_SHEET_DATE_MR)
+            .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
+            .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
+            .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
+            .assetImaratFund(UPDATED_ASSET_IMARAT_FUND)
+            .assetMemberLoan(UPDATED_ASSET_MEMBER_LOAN)
+            .assetDeadStock(UPDATED_ASSET_DEAD_STOCK)
+            .assetOtherReceivable(UPDATED_ASSET_OTHER_RECEIVABLE)
+            .totalLiability(UPDATED_TOTAL_LIABILITY)
+            .villageCode(UPDATED_VILLAGE_CODE)
+            .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
+            .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
+            .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
+            .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+           /* .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)*/;
 
         restKamalSocietyMockMvc
             .perform(
@@ -6241,73 +5938,86 @@ class KamalSocietyResourceIT {
         List<KamalSociety> kamalSocietyList = kamalSocietyRepository.findAll();
         assertThat(kamalSocietyList).hasSize(databaseSizeBeforeUpdate);
         KamalSociety testKamalSociety = kamalSocietyList.get(kamalSocietyList.size() - 1);
+        assertThat(testKamalSociety.getFinancialYear()).isEqualTo(DEFAULT_FINANCIAL_YEAR);
+        assertThat(testKamalSociety.getKmDate()).isEqualTo(UPDATED_KM_DATE);
+        assertThat(testKamalSociety.getKmDateMr()).isEqualTo(DEFAULT_KM_DATE_MR);
+        assertThat(testKamalSociety.getKmFromDate()).isEqualTo(UPDATED_KM_FROM_DATE);
+        assertThat(testKamalSociety.getKmFromDateMr()).isEqualTo(DEFAULT_KM_FROM_DATE_MR);
+        assertThat(testKamalSociety.getKmToDate()).isEqualTo(DEFAULT_KM_TO_DATE);
+        assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(DEFAULT_PACS_NUMBER);
-        assertThat(testKamalSociety.getZindagiDate()).isEqualTo(UPDATED_ZINDAGI_DATE);
-        assertThat(testKamalSociety.getZindagiDateMr()).isEqualTo(DEFAULT_ZINDAGI_DATE_MR);
-        assertThat(testKamalSociety.getVillage1()).isEqualTo(UPDATED_VILLAGE_1);
-        assertThat(testKamalSociety.getVillage1Mr()).isEqualTo(DEFAULT_VILLAGE_1_MR);
-        assertThat(testKamalSociety.getVillage2()).isEqualTo(DEFAULT_VILLAGE_2);
-        assertThat(testKamalSociety.getVillage2Mr()).isEqualTo(UPDATED_VILLAGE_2_MR);
-        assertThat(testKamalSociety.getVillage3()).isEqualTo(DEFAULT_VILLAGE_3);
-        assertThat(testKamalSociety.getVillage3Mr()).isEqualTo(DEFAULT_VILLAGE_3_MR);
-        assertThat(testKamalSociety.getTotalLand()).isEqualTo(DEFAULT_TOTAL_LAND);
-        assertThat(testKamalSociety.getTotalLandMr()).isEqualTo(UPDATED_TOTAL_LAND_MR);
-        assertThat(testKamalSociety.getTotalMem()).isEqualTo(DEFAULT_TOTAL_MEM);
-        assertThat(testKamalSociety.getTotalMemMr()).isEqualTo(DEFAULT_TOTAL_MEM_MR);
-        assertThat(testKamalSociety.getTotalNonMem()).isEqualTo(DEFAULT_TOTAL_NON_MEM);
-        assertThat(testKamalSociety.getTotalNonMemMr()).isEqualTo(DEFAULT_TOTAL_NON_MEM_MR);
-        assertThat(testKamalSociety.getTotalGMem()).isEqualTo(UPDATED_TOTAL_G_MEM);
-        assertThat(testKamalSociety.getTotalGMemMr()).isEqualTo(DEFAULT_TOTAL_G_MEM_MR);
-        assertThat(testKamalSociety.getMemLoan()).isEqualTo(DEFAULT_MEM_LOAN);
-        assertThat(testKamalSociety.getMemLoanMr()).isEqualTo(UPDATED_MEM_LOAN_MR);
-        assertThat(testKamalSociety.getMemDue()).isEqualTo(UPDATED_MEM_DUE);
-        assertThat(testKamalSociety.getMemDueMr()).isEqualTo(UPDATED_MEM_DUE_MR);
-        assertThat(testKamalSociety.getMemDueper()).isEqualTo(UPDATED_MEM_DUEPER);
-        assertThat(testKamalSociety.getMemDueperMr()).isEqualTo(DEFAULT_MEM_DUEPER_MR);
-        assertThat(testKamalSociety.getMemVasulpatra()).isEqualTo(DEFAULT_MEM_VASULPATRA);
-        assertThat(testKamalSociety.getMemVasulpatraMr()).isEqualTo(DEFAULT_MEM_VASULPATRA_MR);
-        assertThat(testKamalSociety.getMemVasul()).isEqualTo(DEFAULT_MEM_VASUL);
-        assertThat(testKamalSociety.getMemVasulMr()).isEqualTo(DEFAULT_MEM_VASUL_MR);
-        assertThat(testKamalSociety.getMemVasulPer()).isEqualTo(UPDATED_MEM_VASUL_PER);
-        assertThat(testKamalSociety.getMemVasulPerMr()).isEqualTo(UPDATED_MEM_VASUL_PER_MR);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(DEFAULT_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(DEFAULT_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
+        assertThat(testKamalSociety.getTalukaId()).isEqualTo(DEFAULT_TALUKA_ID);
+        assertThat(testKamalSociety.getTalukaName()).isEqualTo(DEFAULT_TALUKA_NAME);
+        assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE);
+        assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(DEFAULT_ZINDAGI_PATRAK_DATE_MR);
+        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
+        assertThat(testKamalSociety.getBankTapasaniDateMr()).isEqualTo(DEFAULT_BANK_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(DEFAULT_GOV_TAPASANI_DATE);
+        assertThat(testKamalSociety.getGovTapasaniDateMr()).isEqualTo(UPDATED_GOV_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getSansthaTapasaniDate()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE);
+        assertThat(testKamalSociety.getSansthaTapasaniDateMr()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getTotalLand()).isEqualTo(UPDATED_TOTAL_LAND);
+        assertThat(testKamalSociety.getBagayat()).isEqualTo(DEFAULT_BAGAYAT);
+        assertThat(testKamalSociety.getJirayat()).isEqualTo(DEFAULT_JIRAYAT);
+        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(DEFAULT_TOTAL_FARMER);
+        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(DEFAULT_MEMBER_FARMER);
+        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(DEFAULT_NON_MEMBER_FARMER);
+        assertThat(testKamalSociety.getTalebandDate()).isEqualTo(UPDATED_TALEBAND_DATE);
+        assertThat(testKamalSociety.getMemLoan()).isEqualTo(UPDATED_MEM_LOAN);
+        assertThat(testKamalSociety.getMemDue()).isEqualTo(DEFAULT_MEM_DUE);
+        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(DEFAULT_MEM_VASULI);
+        assertThat(testKamalSociety.getMemVasuliPer()).isEqualTo(UPDATED_MEM_VASULI_PER);
         assertThat(testKamalSociety.getBankLoan()).isEqualTo(DEFAULT_BANK_LOAN);
-        assertThat(testKamalSociety.getBankLoanMr()).isEqualTo(DEFAULT_BANK_LOAN_MR);
         assertThat(testKamalSociety.getBankDue()).isEqualTo(UPDATED_BANK_DUE);
-        assertThat(testKamalSociety.getBankDueMr()).isEqualTo(DEFAULT_BANK_DUE_MR);
-        assertThat(testKamalSociety.getBankDueper()).isEqualTo(UPDATED_BANK_DUEPER);
-        assertThat(testKamalSociety.getBankDueperMr()).isEqualTo(UPDATED_BANK_DUEPER_MR);
-        assertThat(testKamalSociety.getBankVasulpatra()).isEqualTo(UPDATED_BANK_VASULPATRA);
-        assertThat(testKamalSociety.getBankVasulpatraMr()).isEqualTo(UPDATED_BANK_VASULPATRA_MR);
-        assertThat(testKamalSociety.getBankVasul()).isEqualTo(UPDATED_BANK_VASUL);
-        assertThat(testKamalSociety.getBankVasulMr()).isEqualTo(DEFAULT_BANK_VASUL_MR);
-        assertThat(testKamalSociety.getBankVasulPer()).isEqualTo(DEFAULT_BANK_VASUL_PER);
-        assertThat(testKamalSociety.getBankVasulPerMr()).isEqualTo(DEFAULT_BANK_VASUL_PER_MR);
-        assertThat(testKamalSociety.getShareCapital()).isEqualTo(DEFAULT_SHARE_CAPITAL);
-        assertThat(testKamalSociety.getShareCapitalMr()).isEqualTo(UPDATED_SHARE_CAPITAL_MR);
-        assertThat(testKamalSociety.getShare()).isEqualTo(UPDATED_SHARE);
-        assertThat(testKamalSociety.getShareMr()).isEqualTo(UPDATED_SHARE_MR);
-        assertThat(testKamalSociety.getFunds()).isEqualTo(DEFAULT_FUNDS);
-        assertThat(testKamalSociety.getFundsMr()).isEqualTo(DEFAULT_FUNDS_MR);
-        assertThat(testKamalSociety.getDeposit()).isEqualTo(DEFAULT_DEPOSIT);
-        assertThat(testKamalSociety.getDepositMr()).isEqualTo(UPDATED_DEPOSIT_MR);
-        assertThat(testKamalSociety.getPayable()).isEqualTo(UPDATED_PAYABLE);
-        assertThat(testKamalSociety.getPayableMr()).isEqualTo(UPDATED_PAYABLE_MR);
-        assertThat(testKamalSociety.getProfit()).isEqualTo(UPDATED_PROFIT);
-        assertThat(testKamalSociety.getProfitMr()).isEqualTo(DEFAULT_PROFIT_MR);
-        assertThat(testKamalSociety.getCashInHand()).isEqualTo(UPDATED_CASH_IN_HAND);
-        assertThat(testKamalSociety.getCashInHandMr()).isEqualTo(DEFAULT_CASH_IN_HAND_MR);
-        assertThat(testKamalSociety.getInvestment()).isEqualTo(UPDATED_INVESTMENT);
-        assertThat(testKamalSociety.getInvestmentMr()).isEqualTo(DEFAULT_INVESTMENT_MR);
-        assertThat(testKamalSociety.getDeadStock()).isEqualTo(UPDATED_DEAD_STOCK);
-        assertThat(testKamalSociety.getDeadStockMr()).isEqualTo(UPDATED_DEAD_STOCK_MR);
-        assertThat(testKamalSociety.getOtherPay()).isEqualTo(UPDATED_OTHER_PAY);
-        assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
-        assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
-        assertThat(testKamalSociety.getLossMr()).isEqualTo(DEFAULT_LOSS_MR);
-        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(DEFAULT_TOTAL_BAGAYAT);
-        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(DEFAULT_TOTAL_BAGAYAT_MR);
-        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(DEFAULT_TOTAL_JIRAYAT);
-        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
+        assertThat(testKamalSociety.getBankVasuli()).isEqualTo(UPDATED_BANK_VASULI);
+        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(UPDATED_BANK_VASULI_PER);
+        assertThat(testKamalSociety.getBalanceSheetDate()).isEqualTo(UPDATED_BALANCE_SHEET_DATE);
+        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(UPDATED_BALANCE_SHEET_DATE_MR);
+        assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(DEFAULT_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(DEFAULT_LIABILITY_VASUL_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(DEFAULT_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(DEFAULT_LIABILITY_SPARE_FUND);
+        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
+        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
+        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);
+        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(DEFAULT_LIABILITY_PROFIT);
+        assertThat(testKamalSociety.getAssetCash()).isEqualTo(DEFAULT_ASSET_CASH);
+        assertThat(testKamalSociety.getAssetInvestment()).isEqualTo(DEFAULT_ASSET_INVESTMENT);
+        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(UPDATED_ASSET_IMARAT_FUND);
+        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(UPDATED_ASSET_MEMBER_LOAN);
+        assertThat(testKamalSociety.getAssetDeadStock()).isEqualTo(UPDATED_ASSET_DEAD_STOCK);
+        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(UPDATED_ASSET_OTHER_RECEIVABLE);
+        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(DEFAULT_ASSET_LOSS);
+        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(UPDATED_TOTAL_LIABILITY);
+        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(DEFAULT_TOTAL_ASSET);
+        assertThat(testKamalSociety.getVillageCode()).isEqualTo(UPDATED_VILLAGE_CODE);
+        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(DEFAULT_PACS_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
+        assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
+        assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(DEFAULT_BRANCH_VERIFIED_BY);
+        assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(DEFAULT_BRANCH_VERIFIED_DATE);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(DEFAULT_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(DEFAULT_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(DEFAULT_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(DEFAULT_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(DEFAULT_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(DEFAULT_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(DEFAULT_THARAV_DATE);
     }
 
     @Test
@@ -6323,73 +6033,86 @@ class KamalSocietyResourceIT {
         partialUpdatedKamalSociety.setId(kamalSociety.getId());
 
         partialUpdatedKamalSociety
+            .financialYear(UPDATED_FINANCIAL_YEAR)
+            .kmDate(UPDATED_KM_DATE)
+            .kmDateMr(UPDATED_KM_DATE_MR)
+            .kmFromDate(UPDATED_KM_FROM_DATE)
+            .kmFromDateMr(UPDATED_KM_FROM_DATE_MR)
+            .kmToDate(UPDATED_KM_TO_DATE)
+            .kmToDateMr(UPDATED_KM_TO_DATE_MR)
             .pacsNumber(UPDATED_PACS_NUMBER)
-            .zindagiDate(UPDATED_ZINDAGI_DATE)
-            .zindagiDateMr(UPDATED_ZINDAGI_DATE_MR)
-            .village1(UPDATED_VILLAGE_1)
-            .village1Mr(UPDATED_VILLAGE_1_MR)
-            .village2(UPDATED_VILLAGE_2)
-            .village2Mr(UPDATED_VILLAGE_2_MR)
-            .village3(UPDATED_VILLAGE_3)
-            .village3Mr(UPDATED_VILLAGE_3_MR)
+            .pacsName(UPDATED_PACS_NAME)
+            .branchId(UPDATED_BRANCH_ID)
+            .branchName(UPDATED_BRANCH_NAME)
+            .talukaId(UPDATED_TALUKA_ID)
+            .talukaName(UPDATED_TALUKA_NAME)
+            .zindagiPatrakDate(UPDATED_ZINDAGI_PATRAK_DATE)
+            .zindagiPatrakDateMr(UPDATED_ZINDAGI_PATRAK_DATE_MR)
+            .bankTapasaniDate(UPDATED_BANK_TAPASANI_DATE)
+            .bankTapasaniDateMr(UPDATED_BANK_TAPASANI_DATE_MR)
+            .govTapasaniDate(UPDATED_GOV_TAPASANI_DATE)
+            .govTapasaniDateMr(UPDATED_GOV_TAPASANI_DATE_MR)
+            .sansthaTapasaniDate(UPDATED_SANSTHA_TAPASANI_DATE)
+            .sansthaTapasaniDateMr(UPDATED_SANSTHA_TAPASANI_DATE_MR)
             .totalLand(UPDATED_TOTAL_LAND)
-            .totalLandMr(UPDATED_TOTAL_LAND_MR)
-            .totalMem(UPDATED_TOTAL_MEM)
-            .totalMemMr(UPDATED_TOTAL_MEM_MR)
-            .totalNonMem(UPDATED_TOTAL_NON_MEM)
-            .totalNonMemMr(UPDATED_TOTAL_NON_MEM_MR)
-            .totalGMem(UPDATED_TOTAL_G_MEM)
-            .totalGMemMr(UPDATED_TOTAL_G_MEM_MR)
+            .bagayat(UPDATED_BAGAYAT)
+            .jirayat(UPDATED_JIRAYAT)
+            .totalFarmer(UPDATED_TOTAL_FARMER)
+            .memberFarmer(UPDATED_MEMBER_FARMER)
+            .nonMemberFarmer(UPDATED_NON_MEMBER_FARMER)
+            .talebandDate(UPDATED_TALEBAND_DATE)
             .memLoan(UPDATED_MEM_LOAN)
-            .memLoanMr(UPDATED_MEM_LOAN_MR)
             .memDue(UPDATED_MEM_DUE)
-            .memDueMr(UPDATED_MEM_DUE_MR)
-            .memDueper(UPDATED_MEM_DUEPER)
-            .memDueperMr(UPDATED_MEM_DUEPER_MR)
-            .memVasulpatra(UPDATED_MEM_VASULPATRA)
-            .memVasulpatraMr(UPDATED_MEM_VASULPATRA_MR)
-            .memVasul(UPDATED_MEM_VASUL)
-            .memVasulMr(UPDATED_MEM_VASUL_MR)
-            .memVasulPer(UPDATED_MEM_VASUL_PER)
-            .memVasulPerMr(UPDATED_MEM_VASUL_PER_MR)
+            .memVasuli(UPDATED_MEM_VASULI)
+            .memVasuliPer(UPDATED_MEM_VASULI_PER)
             .bankLoan(UPDATED_BANK_LOAN)
-            .bankLoanMr(UPDATED_BANK_LOAN_MR)
             .bankDue(UPDATED_BANK_DUE)
-            .bankDueMr(UPDATED_BANK_DUE_MR)
-            .bankDueper(UPDATED_BANK_DUEPER)
-            .bankDueperMr(UPDATED_BANK_DUEPER_MR)
-            .bankVasulpatra(UPDATED_BANK_VASULPATRA)
-            .bankVasulpatraMr(UPDATED_BANK_VASULPATRA_MR)
-            .bankVasul(UPDATED_BANK_VASUL)
-            .bankVasulMr(UPDATED_BANK_VASUL_MR)
-            .bankVasulPer(UPDATED_BANK_VASUL_PER)
-            .bankVasulPerMr(UPDATED_BANK_VASUL_PER_MR)
-            .shareCapital(UPDATED_SHARE_CAPITAL)
-            .shareCapitalMr(UPDATED_SHARE_CAPITAL_MR)
-            .share(UPDATED_SHARE)
-            .shareMr(UPDATED_SHARE_MR)
-            .funds(UPDATED_FUNDS)
-            .fundsMr(UPDATED_FUNDS_MR)
-            .deposit(UPDATED_DEPOSIT)
-            .depositMr(UPDATED_DEPOSIT_MR)
-            .payable(UPDATED_PAYABLE)
-            .payableMr(UPDATED_PAYABLE_MR)
-            .profit(UPDATED_PROFIT)
-            .profitMr(UPDATED_PROFIT_MR)
-            .cashInHand(UPDATED_CASH_IN_HAND)
-            .cashInHandMr(UPDATED_CASH_IN_HAND_MR)
-            .investment(UPDATED_INVESTMENT)
-            .investmentMr(UPDATED_INVESTMENT_MR)
-            .deadStock(UPDATED_DEAD_STOCK)
-            .deadStockMr(UPDATED_DEAD_STOCK_MR)
-            .otherPay(UPDATED_OTHER_PAY)
-            .otherPayMr(UPDATED_OTHER_PAY_MR)
-            .loss(UPDATED_LOSS)
-            .lossMr(UPDATED_LOSS_MR)
-            .totalBagayat(UPDATED_TOTAL_BAGAYAT)
-            .totalBagayatMr(UPDATED_TOTAL_BAGAYAT_MR)
-            .totalJirayat(UPDATED_TOTAL_JIRAYAT)
-            .totalJirayatMr(UPDATED_TOTAL_JIRAYAT_MR);
+            .bankVasuli(UPDATED_BANK_VASULI)
+            .bankVasuliPer(UPDATED_BANK_VASULI_PER)
+            .balanceSheetDate(UPDATED_BALANCE_SHEET_DATE)
+            .balanceSheetDateMr(UPDATED_BALANCE_SHEET_DATE_MR)
+            .liabilityAdhikrutShareCapital(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL)
+            .liabilityVasulShareCapital(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL)
+            .liabilityFund(UPDATED_LIABILITY_FUND)
+            .liabilitySpareFund(UPDATED_LIABILITY_SPARE_FUND)
+            .liabilityDeposite(UPDATED_LIABILITY_DEPOSITE)
+            .liabilityBalanceSheetBankLoan(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN)
+            .liabilityOtherPayable(UPDATED_LIABILITY_OTHER_PAYABLE)
+            .liabilityProfit(UPDATED_LIABILITY_PROFIT)
+            .assetCash(UPDATED_ASSET_CASH)
+            .assetInvestment(UPDATED_ASSET_INVESTMENT)
+            .assetImaratFund(UPDATED_ASSET_IMARAT_FUND)
+            .assetMemberLoan(UPDATED_ASSET_MEMBER_LOAN)
+            .assetDeadStock(UPDATED_ASSET_DEAD_STOCK)
+            .assetOtherReceivable(UPDATED_ASSET_OTHER_RECEIVABLE)
+            .assetLoss(UPDATED_ASSET_LOSS)
+            .totalLiability(UPDATED_TOTAL_LIABILITY)
+            .totalAsset(UPDATED_TOTAL_ASSET)
+            .villageCode(UPDATED_VILLAGE_CODE)
+            .pacsVerifiedFlag(UPDATED_PACS_VERIFIED_FLAG)
+            .branchVerifiedFlag(UPDATED_BRANCH_VERIFIED_FLAG)
+            .headOfficeVerifiedFlag(UPDATED_HEAD_OFFICE_VERIFIED_FLAG)
+            .divisionalOfficeVerifiedFlag(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG)
+            .isSupplimenteryFlag(UPDATED_IS_SUPPLIMENTERY_FLAG)
+            .sansthaTapasaniVarg(UPDATED_SANSTHA_TAPASANI_VARG)
+            .branchVerifiedBy(UPDATED_BRANCH_VERIFIED_BY)
+            .branchVerifiedDate(UPDATED_BRANCH_VERIFIED_DATE)
+            .headOfficeVerifiedBy(UPDATED_HEAD_OFFICE_VERIFIED_BY)
+            .headOfficeVerifiedDate(UPDATED_HEAD_OFFICE_VERIFIED_DATE)
+            .divisionalOfficeVerifiedBy(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY)
+            .divisionalOfficeVerifiedDate(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE)
+            .doshPurtataDate(UPDATED_DOSH_PURTATA_DATE)
+            .gambhirDosh(UPDATED_GAMBHIR_DOSH)
+        /*    .branchInwardNumber(UPDATED_BRANCH_INWARD_NUMBER)
+            .branchInwardDate(UPDATED_BRANCH_INWARD_DATE)
+            .branchOutwardNumber(UPDATED_BRANCH_OUTWARD_NUMBER)
+            .branchOutwardDate(UPDATED_BRANCH_OUTWARD_DATE)
+            .headOfficeInwardNumber(UPDATED_HEAD_OFFICE_INWARD_NUMBER)
+            .headOfficeInwardDate(UPDATED_HEAD_OFFICE_INWARD_DATE)
+            .headOfficeOutwardNumber(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER)
+            .headOfficeOutwardDate(UPDATED_HEAD_OFFICE_OUTWARD_DATE)
+            .tharavNumber(UPDATED_THARAV_NUMBER)
+            .tharavDate(UPDATED_THARAV_DATE)*/;
 
         restKamalSocietyMockMvc
             .perform(
@@ -6403,73 +6126,86 @@ class KamalSocietyResourceIT {
         List<KamalSociety> kamalSocietyList = kamalSocietyRepository.findAll();
         assertThat(kamalSocietyList).hasSize(databaseSizeBeforeUpdate);
         KamalSociety testKamalSociety = kamalSocietyList.get(kamalSocietyList.size() - 1);
+        assertThat(testKamalSociety.getFinancialYear()).isEqualTo(UPDATED_FINANCIAL_YEAR);
+        assertThat(testKamalSociety.getKmDate()).isEqualTo(UPDATED_KM_DATE);
+        assertThat(testKamalSociety.getKmDateMr()).isEqualTo(UPDATED_KM_DATE_MR);
+        assertThat(testKamalSociety.getKmFromDate()).isEqualTo(UPDATED_KM_FROM_DATE);
+        assertThat(testKamalSociety.getKmFromDateMr()).isEqualTo(UPDATED_KM_FROM_DATE_MR);
+        assertThat(testKamalSociety.getKmToDate()).isEqualTo(UPDATED_KM_TO_DATE);
+        assertThat(testKamalSociety.getKmToDateMr()).isEqualTo(UPDATED_KM_TO_DATE_MR);
         assertThat(testKamalSociety.getPacsNumber()).isEqualTo(UPDATED_PACS_NUMBER);
-        assertThat(testKamalSociety.getZindagiDate()).isEqualTo(UPDATED_ZINDAGI_DATE);
-        assertThat(testKamalSociety.getZindagiDateMr()).isEqualTo(UPDATED_ZINDAGI_DATE_MR);
-        assertThat(testKamalSociety.getVillage1()).isEqualTo(UPDATED_VILLAGE_1);
-        assertThat(testKamalSociety.getVillage1Mr()).isEqualTo(UPDATED_VILLAGE_1_MR);
-        assertThat(testKamalSociety.getVillage2()).isEqualTo(UPDATED_VILLAGE_2);
-        assertThat(testKamalSociety.getVillage2Mr()).isEqualTo(UPDATED_VILLAGE_2_MR);
-        assertThat(testKamalSociety.getVillage3()).isEqualTo(UPDATED_VILLAGE_3);
-        assertThat(testKamalSociety.getVillage3Mr()).isEqualTo(UPDATED_VILLAGE_3_MR);
+        assertThat(testKamalSociety.getPacsName()).isEqualTo(UPDATED_PACS_NAME);
+        assertThat(testKamalSociety.getBranchId()).isEqualTo(UPDATED_BRANCH_ID);
+        assertThat(testKamalSociety.getBranchName()).isEqualTo(UPDATED_BRANCH_NAME);
+        assertThat(testKamalSociety.getTalukaId()).isEqualTo(UPDATED_TALUKA_ID);
+        assertThat(testKamalSociety.getTalukaName()).isEqualTo(UPDATED_TALUKA_NAME);
+        assertThat(testKamalSociety.getZindagiPatrakDate()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE);
+        assertThat(testKamalSociety.getZindagiPatrakDateMr()).isEqualTo(UPDATED_ZINDAGI_PATRAK_DATE_MR);
+        assertThat(testKamalSociety.getBankTapasaniDate()).isEqualTo(UPDATED_BANK_TAPASANI_DATE);
+        assertThat(testKamalSociety.getBankTapasaniDateMr()).isEqualTo(UPDATED_BANK_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getGovTapasaniDate()).isEqualTo(UPDATED_GOV_TAPASANI_DATE);
+        assertThat(testKamalSociety.getGovTapasaniDateMr()).isEqualTo(UPDATED_GOV_TAPASANI_DATE_MR);
+        assertThat(testKamalSociety.getSansthaTapasaniDate()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE);
+        assertThat(testKamalSociety.getSansthaTapasaniDateMr()).isEqualTo(UPDATED_SANSTHA_TAPASANI_DATE_MR);
         assertThat(testKamalSociety.getTotalLand()).isEqualTo(UPDATED_TOTAL_LAND);
-        assertThat(testKamalSociety.getTotalLandMr()).isEqualTo(UPDATED_TOTAL_LAND_MR);
-        assertThat(testKamalSociety.getTotalMem()).isEqualTo(UPDATED_TOTAL_MEM);
-        assertThat(testKamalSociety.getTotalMemMr()).isEqualTo(UPDATED_TOTAL_MEM_MR);
-        assertThat(testKamalSociety.getTotalNonMem()).isEqualTo(UPDATED_TOTAL_NON_MEM);
-        assertThat(testKamalSociety.getTotalNonMemMr()).isEqualTo(UPDATED_TOTAL_NON_MEM_MR);
-        assertThat(testKamalSociety.getTotalGMem()).isEqualTo(UPDATED_TOTAL_G_MEM);
-        assertThat(testKamalSociety.getTotalGMemMr()).isEqualTo(UPDATED_TOTAL_G_MEM_MR);
+        assertThat(testKamalSociety.getBagayat()).isEqualTo(UPDATED_BAGAYAT);
+        assertThat(testKamalSociety.getJirayat()).isEqualTo(UPDATED_JIRAYAT);
+        assertThat(testKamalSociety.getTotalFarmer()).isEqualTo(UPDATED_TOTAL_FARMER);
+        assertThat(testKamalSociety.getMemberFarmer()).isEqualTo(UPDATED_MEMBER_FARMER);
+        assertThat(testKamalSociety.getNonMemberFarmer()).isEqualTo(UPDATED_NON_MEMBER_FARMER);
+        assertThat(testKamalSociety.getTalebandDate()).isEqualTo(UPDATED_TALEBAND_DATE);
         assertThat(testKamalSociety.getMemLoan()).isEqualTo(UPDATED_MEM_LOAN);
-        assertThat(testKamalSociety.getMemLoanMr()).isEqualTo(UPDATED_MEM_LOAN_MR);
         assertThat(testKamalSociety.getMemDue()).isEqualTo(UPDATED_MEM_DUE);
-        assertThat(testKamalSociety.getMemDueMr()).isEqualTo(UPDATED_MEM_DUE_MR);
-        assertThat(testKamalSociety.getMemDueper()).isEqualTo(UPDATED_MEM_DUEPER);
-        assertThat(testKamalSociety.getMemDueperMr()).isEqualTo(UPDATED_MEM_DUEPER_MR);
-        assertThat(testKamalSociety.getMemVasulpatra()).isEqualTo(UPDATED_MEM_VASULPATRA);
-        assertThat(testKamalSociety.getMemVasulpatraMr()).isEqualTo(UPDATED_MEM_VASULPATRA_MR);
-        assertThat(testKamalSociety.getMemVasul()).isEqualTo(UPDATED_MEM_VASUL);
-        assertThat(testKamalSociety.getMemVasulMr()).isEqualTo(UPDATED_MEM_VASUL_MR);
-        assertThat(testKamalSociety.getMemVasulPer()).isEqualTo(UPDATED_MEM_VASUL_PER);
-        assertThat(testKamalSociety.getMemVasulPerMr()).isEqualTo(UPDATED_MEM_VASUL_PER_MR);
+        assertThat(testKamalSociety.getMemVasuli()).isEqualTo(UPDATED_MEM_VASULI);
+        assertThat(testKamalSociety.getMemVasuliPer()).isEqualTo(UPDATED_MEM_VASULI_PER);
         assertThat(testKamalSociety.getBankLoan()).isEqualTo(UPDATED_BANK_LOAN);
-        assertThat(testKamalSociety.getBankLoanMr()).isEqualTo(UPDATED_BANK_LOAN_MR);
         assertThat(testKamalSociety.getBankDue()).isEqualTo(UPDATED_BANK_DUE);
-        assertThat(testKamalSociety.getBankDueMr()).isEqualTo(UPDATED_BANK_DUE_MR);
-        assertThat(testKamalSociety.getBankDueper()).isEqualTo(UPDATED_BANK_DUEPER);
-        assertThat(testKamalSociety.getBankDueperMr()).isEqualTo(UPDATED_BANK_DUEPER_MR);
-        assertThat(testKamalSociety.getBankVasulpatra()).isEqualTo(UPDATED_BANK_VASULPATRA);
-        assertThat(testKamalSociety.getBankVasulpatraMr()).isEqualTo(UPDATED_BANK_VASULPATRA_MR);
-        assertThat(testKamalSociety.getBankVasul()).isEqualTo(UPDATED_BANK_VASUL);
-        assertThat(testKamalSociety.getBankVasulMr()).isEqualTo(UPDATED_BANK_VASUL_MR);
-        assertThat(testKamalSociety.getBankVasulPer()).isEqualTo(UPDATED_BANK_VASUL_PER);
-        assertThat(testKamalSociety.getBankVasulPerMr()).isEqualTo(UPDATED_BANK_VASUL_PER_MR);
-        assertThat(testKamalSociety.getShareCapital()).isEqualTo(UPDATED_SHARE_CAPITAL);
-        assertThat(testKamalSociety.getShareCapitalMr()).isEqualTo(UPDATED_SHARE_CAPITAL_MR);
-        assertThat(testKamalSociety.getShare()).isEqualTo(UPDATED_SHARE);
-        assertThat(testKamalSociety.getShareMr()).isEqualTo(UPDATED_SHARE_MR);
-        assertThat(testKamalSociety.getFunds()).isEqualTo(UPDATED_FUNDS);
-        assertThat(testKamalSociety.getFundsMr()).isEqualTo(UPDATED_FUNDS_MR);
-        assertThat(testKamalSociety.getDeposit()).isEqualTo(UPDATED_DEPOSIT);
-        assertThat(testKamalSociety.getDepositMr()).isEqualTo(UPDATED_DEPOSIT_MR);
-        assertThat(testKamalSociety.getPayable()).isEqualTo(UPDATED_PAYABLE);
-        assertThat(testKamalSociety.getPayableMr()).isEqualTo(UPDATED_PAYABLE_MR);
-        assertThat(testKamalSociety.getProfit()).isEqualTo(UPDATED_PROFIT);
-        assertThat(testKamalSociety.getProfitMr()).isEqualTo(UPDATED_PROFIT_MR);
-        assertThat(testKamalSociety.getCashInHand()).isEqualTo(UPDATED_CASH_IN_HAND);
-        assertThat(testKamalSociety.getCashInHandMr()).isEqualTo(UPDATED_CASH_IN_HAND_MR);
-        assertThat(testKamalSociety.getInvestment()).isEqualTo(UPDATED_INVESTMENT);
-        assertThat(testKamalSociety.getInvestmentMr()).isEqualTo(UPDATED_INVESTMENT_MR);
-        assertThat(testKamalSociety.getDeadStock()).isEqualTo(UPDATED_DEAD_STOCK);
-        assertThat(testKamalSociety.getDeadStockMr()).isEqualTo(UPDATED_DEAD_STOCK_MR);
-        assertThat(testKamalSociety.getOtherPay()).isEqualTo(UPDATED_OTHER_PAY);
-        assertThat(testKamalSociety.getOtherPayMr()).isEqualTo(UPDATED_OTHER_PAY_MR);
-        assertThat(testKamalSociety.getLoss()).isEqualTo(UPDATED_LOSS);
-        assertThat(testKamalSociety.getLossMr()).isEqualTo(UPDATED_LOSS_MR);
-        assertThat(testKamalSociety.getTotalBagayat()).isEqualTo(UPDATED_TOTAL_BAGAYAT);
-        assertThat(testKamalSociety.getTotalBagayatMr()).isEqualTo(UPDATED_TOTAL_BAGAYAT_MR);
-        assertThat(testKamalSociety.getTotalJirayat()).isEqualTo(UPDATED_TOTAL_JIRAYAT);
-        assertThat(testKamalSociety.getTotalJirayatMr()).isEqualTo(UPDATED_TOTAL_JIRAYAT_MR);
+        assertThat(testKamalSociety.getBankVasuli()).isEqualTo(UPDATED_BANK_VASULI);
+        assertThat(testKamalSociety.getBankVasuliPer()).isEqualTo(UPDATED_BANK_VASULI_PER);
+        assertThat(testKamalSociety.getBalanceSheetDate()).isEqualTo(UPDATED_BALANCE_SHEET_DATE);
+        assertThat(testKamalSociety.getBalanceSheetDateMr()).isEqualTo(UPDATED_BALANCE_SHEET_DATE_MR);
+        assertThat(testKamalSociety.getLiabilityAdhikrutShareCapital()).isEqualTo(UPDATED_LIABILITY_ADHIKRUT_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityVasulShareCapital()).isEqualTo(UPDATED_LIABILITY_VASUL_SHARE_CAPITAL);
+        assertThat(testKamalSociety.getLiabilityFund()).isEqualTo(UPDATED_LIABILITY_FUND);
+        assertThat(testKamalSociety.getLiabilitySpareFund()).isEqualTo(UPDATED_LIABILITY_SPARE_FUND);
+        assertThat(testKamalSociety.getLiabilityDeposite()).isEqualTo(UPDATED_LIABILITY_DEPOSITE);
+        assertThat(testKamalSociety.getLiabilityBalanceSheetBankLoan()).isEqualTo(UPDATED_LIABILITY_BALANCE_SHEET_BANK_LOAN);
+        assertThat(testKamalSociety.getLiabilityOtherPayable()).isEqualTo(UPDATED_LIABILITY_OTHER_PAYABLE);
+        assertThat(testKamalSociety.getLiabilityProfit()).isEqualTo(UPDATED_LIABILITY_PROFIT);
+        assertThat(testKamalSociety.getAssetCash()).isEqualTo(UPDATED_ASSET_CASH);
+        assertThat(testKamalSociety.getAssetInvestment()).isEqualTo(UPDATED_ASSET_INVESTMENT);
+        assertThat(testKamalSociety.getAssetImaratFund()).isEqualTo(UPDATED_ASSET_IMARAT_FUND);
+        assertThat(testKamalSociety.getAssetMemberLoan()).isEqualTo(UPDATED_ASSET_MEMBER_LOAN);
+        assertThat(testKamalSociety.getAssetDeadStock()).isEqualTo(UPDATED_ASSET_DEAD_STOCK);
+        assertThat(testKamalSociety.getAssetOtherReceivable()).isEqualTo(UPDATED_ASSET_OTHER_RECEIVABLE);
+        assertThat(testKamalSociety.getAssetLoss()).isEqualTo(UPDATED_ASSET_LOSS);
+        assertThat(testKamalSociety.getTotalLiability()).isEqualTo(UPDATED_TOTAL_LIABILITY);
+        assertThat(testKamalSociety.getTotalAsset()).isEqualTo(UPDATED_TOTAL_ASSET);
+        assertThat(testKamalSociety.getVillageCode()).isEqualTo(UPDATED_VILLAGE_CODE);
+        assertThat(testKamalSociety.getPacsVerifiedFlag()).isEqualTo(UPDATED_PACS_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getBranchVerifiedFlag()).isEqualTo(UPDATED_BRANCH_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedFlag()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedFlag()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_FLAG);
+        assertThat(testKamalSociety.getIsSupplimenteryFlag()).isEqualTo(UPDATED_IS_SUPPLIMENTERY_FLAG);
+        assertThat(testKamalSociety.getSansthaTapasaniVarg()).isEqualTo(UPDATED_SANSTHA_TAPASANI_VARG);
+        assertThat(testKamalSociety.getBranchVerifiedBy()).isEqualTo(UPDATED_BRANCH_VERIFIED_BY);
+        assertThat(testKamalSociety.getBranchVerifiedDate()).isEqualTo(UPDATED_BRANCH_VERIFIED_DATE);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedBy()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getHeadOfficeVerifiedDate()).isEqualTo(UPDATED_HEAD_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedBy()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_BY);
+        assertThat(testKamalSociety.getDivisionalOfficeVerifiedDate()).isEqualTo(UPDATED_DIVISIONAL_OFFICE_VERIFIED_DATE);
+        assertThat(testKamalSociety.getDoshPurtataDate()).isEqualTo(UPDATED_DOSH_PURTATA_DATE);
+        assertThat(testKamalSociety.getGambhirDosh()).isEqualTo(UPDATED_GAMBHIR_DOSH);
+        assertThat(testKamalSociety.getBranchInwardNumber()).isEqualTo(UPDATED_BRANCH_INWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchInwardDate()).isEqualTo(UPDATED_BRANCH_INWARD_DATE);
+        assertThat(testKamalSociety.getBranchOutwardNumber()).isEqualTo(UPDATED_BRANCH_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getBranchOutwardDate()).isEqualTo(UPDATED_BRANCH_OUTWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeInwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeInwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_INWARD_DATE);
+        assertThat(testKamalSociety.getHeadOfficeOutwardNumber()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_NUMBER);
+        assertThat(testKamalSociety.getHeadOfficeOutwardDate()).isEqualTo(UPDATED_HEAD_OFFICE_OUTWARD_DATE);
+        assertThat(testKamalSociety.getTharavNumber()).isEqualTo(UPDATED_THARAV_NUMBER);
+        assertThat(testKamalSociety.getTharavDate()).isEqualTo(UPDATED_THARAV_DATE);
     }
 
     @Test

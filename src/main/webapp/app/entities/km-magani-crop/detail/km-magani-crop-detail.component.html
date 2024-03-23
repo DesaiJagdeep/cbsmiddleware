@@ -1,0 +1,90 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="kmMaganiCrop">
+      <h2 data-cy="kmMaganiCropDetailsHeading"><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.detail.title">Km Magani Crop</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropName">Crop Name</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropName }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropBalance">Crop Balance</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropBalance }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDue">Crop Due</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropDue }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropDueDate">Crop Due Date</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropDueDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.cropVasuliPatraDate">Crop Vasuli Patra Date</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.cropVasuliPatraDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmManjuri">Km Manjuri</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.kmManjuri }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmArea">Km Area</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.kmArea }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararNumber">E Karar Number</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.eKararNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararAmount">E Karar Amount</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.eKararAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.eKararArea">E Karar Area</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.eKararArea }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiArea">Magani Area</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.maganiArea }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiAmount">Magani Amount</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.maganiAmount }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.maganiShare">Magani Share</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.maganiShare }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.pacsNumber">Pacs Number</span></dt>
+        <dd>
+          <span>{{ kmMaganiCrop.pacsNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="cbsMiddlewareApp.kmMaganiCrop.kmMagani">Km Magani</span></dt>
+        <dd>
+          <div *ngIf="kmMaganiCrop.kmMagani">
+            <a [routerLink]="['/km-magani', kmMaganiCrop.kmMagani.id, 'view']">{{ kmMaganiCrop.kmMagani.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/km-magani-crop', kmMaganiCrop.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

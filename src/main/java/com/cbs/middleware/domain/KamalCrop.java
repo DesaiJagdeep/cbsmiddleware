@@ -1,9 +1,10 @@
 package com.cbs.middleware.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 /**
  * A KamalCrop.
@@ -11,8 +12,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "kamal_crop")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
-public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializable {
+public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,45 +21,56 @@ public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializ
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "pacs_number", nullable = false)
-    private Integer pacsNumber;
+    @Column(name = "pacs_number")
+    private String pacsNumber;
 
-    @NotNull
-    @Column(name = "mem_no", nullable = false)
-    private Integer memNo;
+    @Column(name = "financial_year")
+    private String financialYear;
 
-    @NotNull
-    @Column(name = "mem_hector", nullable = false)
-    private Double memHector;
+    @Column(name = "member_count")
+    private String memberCount;
 
-    @Column(name = "mem_no_mr")
-    private String memNoMr;
+    @Column(name = "area")
+    private String area;
 
-    @Column(name = "mem_hector_mr")
-    private String memHectorMr;
+    @Column(name = "pacs_amount")
+    private String pacsAmount;
 
-    @Column(name = "mem_aar")
-    private Double memAar;
+    @Column(name = "branch_amount")
+    private String branchAmount;
 
-    @Column(name = "mem_aar_mr")
-    private String memAarMr;
+    @Column(name = "head_office_amount")
+    private String headOfficeAmount;
+
+    @Column(name = "crop_eligibility_amount")
+    private String cropEligibilityAmount;
+
+    @Column(name = "divisional_office_amount")
+    private String divisionalOfficeAmount;
+
+    @Column(name = "agri_admin_amount")
+    private String agriAdminAmount;
+    @Column(name = "km_date")
+    private Instant kmDate;
+
+    @Column(name = "km_date_mr")
+    private String kmDateMr;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+    private KamalSociety kamalSociety;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private FarmerTypeMaster farmerTypeMaster;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+   //@JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private SeasonMaster seasonMaster;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
+   // @JsonIgnoreProperties(value = { "createdBy","createdDate","lastModifiedBy","lastModifiedDate" }, allowSetters = true)
     private CropMaster cropMaster;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties(value = { "kamalCrops" }, allowSetters = true)
-    private KamalSociety kamalSociety;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -76,95 +87,121 @@ public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializ
         this.id = id;
     }
 
-    public Integer getPacsNumber() {
+    public String getPacsNumber() {
         return this.pacsNumber;
     }
 
-    public KamalCrop pacsNumber(Integer pacsNumber) {
+    public KamalCrop pacsNumber(String pacsNumber) {
         this.setPacsNumber(pacsNumber);
         return this;
     }
 
-    public void setPacsNumber(Integer pacsNumber) {
+    public void setPacsNumber(String pacsNumber) {
         this.pacsNumber = pacsNumber;
     }
 
-    public Integer getMemNo() {
-        return this.memNo;
+    public String getFinancialYear() {
+        return this.financialYear;
     }
 
-    public KamalCrop memNo(Integer memNo) {
-        this.setMemNo(memNo);
+    public KamalCrop financialYear(String financialYear) {
+        this.setFinancialYear(financialYear);
         return this;
     }
 
-    public void setMemNo(Integer memNo) {
-        this.memNo = memNo;
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
     }
 
-    public Double getMemHector() {
-        return this.memHector;
+    public String getMemberCount() {
+        return this.memberCount;
     }
 
-    public KamalCrop memHector(Double memHector) {
-        this.setMemHector(memHector);
+    public KamalCrop memberCount(String memberCount) {
+        this.setMemberCount(memberCount);
         return this;
     }
 
-    public void setMemHector(Double memHector) {
-        this.memHector = memHector;
+    public void setMemberCount(String memberCount) {
+        this.memberCount = memberCount;
     }
 
-    public String getMemNoMr() {
-        return this.memNoMr;
+    public String getArea() {
+        return this.area;
     }
 
-    public KamalCrop memNoMr(String memNoMr) {
-        this.setMemNoMr(memNoMr);
+    public KamalCrop area(String area) {
+        this.setArea(area);
         return this;
     }
 
-    public void setMemNoMr(String memNoMr) {
-        this.memNoMr = memNoMr;
+    public void setArea(String area) {
+        this.area = area;
     }
 
-    public String getMemHectorMr() {
-        return this.memHectorMr;
+    public String getPacsAmount() {
+        return this.pacsAmount;
     }
 
-    public KamalCrop memHectorMr(String memHectorMr) {
-        this.setMemHectorMr(memHectorMr);
+    public KamalCrop pacsAmount(String pacsAmount) {
+        this.setPacsAmount(pacsAmount);
         return this;
     }
 
-    public void setMemHectorMr(String memHectorMr) {
-        this.memHectorMr = memHectorMr;
+    public void setPacsAmount(String pacsAmount) {
+        this.pacsAmount = pacsAmount;
     }
 
-    public Double getMemAar() {
-        return this.memAar;
+    public String getBranchAmount() {
+        return this.branchAmount;
     }
 
-    public KamalCrop memAar(Double memAar) {
-        this.setMemAar(memAar);
+    public KamalCrop branchAmount(String branchAmount) {
+        this.setBranchAmount(branchAmount);
         return this;
     }
 
-    public void setMemAar(Double memAar) {
-        this.memAar = memAar;
+    public void setBranchAmount(String branchAmount) {
+        this.branchAmount = branchAmount;
     }
 
-    public String getMemAarMr() {
-        return this.memAarMr;
+    public String getHeadOfficeAmount() {
+        return this.headOfficeAmount;
     }
 
-    public KamalCrop memAarMr(String memAarMr) {
-        this.setMemAarMr(memAarMr);
+    public KamalCrop headOfficeAmount(String headOfficeAmount) {
+        this.setHeadOfficeAmount(headOfficeAmount);
         return this;
     }
 
-    public void setMemAarMr(String memAarMr) {
-        this.memAarMr = memAarMr;
+    public void setHeadOfficeAmount(String headOfficeAmount) {
+        this.headOfficeAmount = headOfficeAmount;
+    }
+
+    public String getCropEligibilityAmount() {
+        return this.cropEligibilityAmount;
+    }
+
+    public KamalCrop cropEligibilityAmount(String cropEligibilityAmount) {
+        this.setCropEligibilityAmount(cropEligibilityAmount);
+        return this;
+    }
+
+    public void setCropEligibilityAmount(String cropEligibilityAmount) {
+        this.cropEligibilityAmount = cropEligibilityAmount;
+    }
+
+    public KamalSociety getKamalSociety() {
+        return this.kamalSociety;
+    }
+
+    public void setKamalSociety(KamalSociety kamalSociety) {
+        this.kamalSociety = kamalSociety;
+    }
+
+    public KamalCrop kamalSociety(KamalSociety kamalSociety) {
+        this.setKamalSociety(kamalSociety);
+        return this;
     }
 
     public FarmerTypeMaster getFarmerTypeMaster() {
@@ -206,17 +243,57 @@ public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializ
         return this;
     }
 
-    public KamalSociety getKamalSociety() {
-        return this.kamalSociety;
+
+    public String getDivisionalOfficeAmount() {
+        return this.divisionalOfficeAmount;
     }
 
-    public void setKamalSociety(KamalSociety kamalSociety) {
-        this.kamalSociety = kamalSociety;
-    }
-
-    public KamalCrop kamalSociety(KamalSociety kamalSociety) {
-        this.setKamalSociety(kamalSociety);
+    public KamalCrop divisionalOfficeAmount(String divisionalOfficeAmount) {
+        this.setDivisionalOfficeAmount(divisionalOfficeAmount);
         return this;
+    }
+
+    public void setDivisionalOfficeAmount(String divisionalOfficeAmount) {
+        this.divisionalOfficeAmount = divisionalOfficeAmount;
+    }
+
+    public Instant getKmDate() {
+        return this.kmDate;
+    }
+
+    public KamalCrop kmDate(Instant kmDate) {
+        this.setKmDate(kmDate);
+        return this;
+    }
+
+    public void setKmDate(Instant kmDate) {
+        this.kmDate = kmDate;
+    }
+
+    public String getKmDateMr() {
+        return this.kmDateMr;
+    }
+
+    public KamalCrop kmDateMr(String kmDateMr) {
+        this.setKmDateMr(kmDateMr);
+        return this;
+    }
+
+    public void setKmDateMr(String kmDateMr) {
+        this.kmDateMr = kmDateMr;
+    }
+
+    public String getAgriAdminAmount() {
+        return this.agriAdminAmount;
+    }
+
+    public KamalCrop agriAdminAmount(String agriAdminAmount) {
+        this.setAgriAdminAmount(agriAdminAmount);
+        return this;
+    }
+
+    public void setAgriAdminAmount(String agriAdminAmount) {
+        this.agriAdminAmount = agriAdminAmount;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -243,13 +320,35 @@ public class KamalCrop  extends AbstractAuditingEntity<Long> implements Serializ
     public String toString() {
         return "KamalCrop{" +
             "id=" + getId() +
-            ", pacsNumber=" + getPacsNumber() +
-            ", memNo=" + getMemNo() +
-            ", memHector=" + getMemHector() +
-            ", memNoMr='" + getMemNoMr() + "'" +
-            ", memHectorMr='" + getMemHectorMr() + "'" +
-            ", memAar=" + getMemAar() +
-            ", memAarMr='" + getMemAarMr() + "'" +
+            ", pacsNumber='" + getPacsNumber() + "'" +
+            ", financialYear='" + getFinancialYear() + "'" +
+            ", memberCount='" + getMemberCount() + "'" +
+            ", area='" + getArea() + "'" +
+            ", pacsAmount='" + getPacsAmount() + "'" +
+            ", branchAmount='" + getBranchAmount() + "'" +
+            ", headOfficeAmount='" + getHeadOfficeAmount() + "'" +
+            ", getDivisionalOfficeAmount='" + getDivisionalOfficeAmount() + "'" +
+            ", cropEligibilityAmount='" + getCropEligibilityAmount() + "'" +
+            ", kmDate='" + getKmDate() + "'" +
+            ", kmDateMr='" + getKmDateMr() + "'" +
             "}";
+    }
+
+    public  String getIntegerPartOfNumber(String str){
+        if (str==null){
+            return "";
+        }
+        String[] parts = str.split("\\.");
+        String integerPart = parts[0];
+        return integerPart;
+    }
+
+    public  String getDecimalPartOfNumber(String str){
+        if (str==null || !str.contains(".")){
+            return "";
+        }
+        String[] parts = str.split("\\.");
+        String decimalPart = parts[1];
+        return decimalPart;
     }
 }

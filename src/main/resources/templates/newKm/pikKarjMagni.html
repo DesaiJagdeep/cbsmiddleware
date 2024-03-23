@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pik Karj Magni</title>
+  <style>
+      table, th {
+        border: 1px solid;
+        padding: 1px;
+      }
+
+      table, td {
+        border: 1px solid;
+        padding: 1px;
+        text-align: center;
+      }
+      .text-left{
+        text-align: left;
+      }
+      .text-right{
+        text-align: right;
+      }
+    </style>
+</head>
+<body  style="line-height:18px; font-size:14px;">
+<div>
+  <img th:src="${imagePath}" style="height: 90%; width: 100%;" alt="pdcc">
+</div>
+<div style="display: flex; justify-content: space-between;">
+  <p style="margin: 5px 0;">जा. क्र.
+    शेतीकर्ज / मूळ क.म. / पुरवणी / <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)} "></span></strong>  /
+  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.headOfficeOutwardNumber)} "></span></strong> </p>
+  <p style="margin: 5px;">दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.headOfficeOutwardDate))}"></span></strong>  </p>
+</div>
+<h3 style="margin: 12px 0; font-size: medium;">प्रति,</h3>
+<h3 style="margin: 12px 0; font-size: medium;">मा. अध्यक्ष,</h3>
+<p style="margin: 5px 0;"><strong><span th:text="${kamalSociety.pacsName} "></span> </strong> &nbsp;&nbsp;&nbsp;</p>
+<p style="margin: 5px 0;">मु.पो. ______________ता. <strong><span th:text="${kamalSociety.talukaName} "></span></strong> जि. पुणे.</p>
+
+<div style="margin: 15px 0;">
+  <div style="display: flex; justify-content: center;">
+    <div style="margin: 5px 0; font-weight: 550; width: 10%; text-align: end;">विषय : </div>
+    <div style="width: 70%;">
+      <p style="margin: 5px 0; font-weight: 550; margin-left: 12px;">संस्थेची <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)}"></span></strong> शेती हंगामासाठी अल्पमुदत पीककर्ज मागणी.</p>
+    </div>
+  </div>
+  <div style="display: flex; justify-content: center;">
+    <div style="margin: 5px 0;  width: 10%; text-align: end; font-weight: 550;">संदर्भ : </div>
+    <div style="width: 70%;">
+      <p style="margin: 5px 0; font-weight: 550; margin-left: 12px;"> १) आपला जा. क्र.- <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.branchOutwardNumber)}"></span></strong>
+        दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.branchOutwardDate))}"></span></strong> चा अर्ज </p>
+      <p style="margin: 5px 0; font-weight: 550; margin-left: 12px;"> २) बँकेचा मा. कर्ज समिती ठ. क्र. <strong> <span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.tharavNumber)}"></span></strong>
+        दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.tharavDate))}"></span></strong> </p>
+    </div>
+  </div>
+</div>
+<p style="margin: 5px 0;">महाशय,</p>
+<p style="margin: 5px 0; text-indent: 50px;">
+  आपल्या संस्थेच्या संदर्भित अल्पमुदत पीककर्ज मागणी अर्जाबाबत कळविण्यास आनंद होतो की, आपल्या संस्थेस सन
+  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)}"></span></strong>
+  हंगामासाठी लागणाऱ्या निरनिराळ्या पिकांकरिता
+  खालील तपशिलाप्रमाणे अल्पमुदत पीककर्ज मर्यादा मंजूर करण्यात आलेली आहे.
+</p>
+<table style="width: 100%; border-collapse: collapse; padding:1px;">
+  <tbody>
+  <tr>
+    <td rowspan="2">अ. क्र.</td>
+    <td rowspan="2">पिकाचा प्रकार</td>
+    <td rowspan="2">सभासद संख्या</td>
+    <td colspan="2">क्षेत्र</td>
+    <td rowspan="2">रक्कम रु.</td>
+  </tr>
+  <tr>
+    <td>हेक्टर</td>
+    <td>आर</td>
+  </tr>
+  <tr>
+    <td rowspan="3" class="text-left">१) ऊस कर्ज</td>
+    <td class="text-left">अ) अत्यल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneMarginal.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneMarginal.getIntegerPartOfNumber(sugarCaneMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneMarginal.getDecimalPartOfNumber(sugarCaneMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneMarginal.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; अल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneSmall.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneSmall.getIntegerPartOfNumber(sugarCaneSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneSmall.getDecimalPartOfNumber(sugarCaneSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneSmall.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">ब) सबल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneOther.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneOther.getIntegerPartOfNumber(sugarCaneOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneOther.getDecimalPartOfNumber(sugarCaneOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(sugarCaneOther.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getIntegerPartOfNumber(totalSugarcaneAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getDecimalPartOfNumber(totalSugarcaneAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.agriAdminAmount)}"></td>
+  </tr>
+
+  <tr>
+    <td rowspan="3" class="text-left">२) खरीप हंगाम</td>
+    <td class="text-left">अ) अत्यल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginal.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginal.getIntegerPartOfNumber(kharipMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginal.getDecimalPartOfNumber(kharipMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipMarginal.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;अल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmall.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmall.getIntegerPartOfNumber(kharipSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmall.getDecimalPartOfNumber(kharipSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipSmall.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">ब) सबल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOther.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOther.getIntegerPartOfNumber(kharipOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOther.getDecimalPartOfNumber(kharipOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kharipOther.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getIntegerPartOfNumber(totalKharipAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getDecimalPartOfNumber(totalKharipAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.agriAdminAmount)}"></td>
+  </tr>
+
+  <tr>
+    <td class="text-left" rowspan="3">३) रब्बी हंगाम</td>
+    <td class="text-left">अ) अत्यल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginal.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginal.getIntegerPartOfNumber(rabbiMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginal.getDecimalPartOfNumber(rabbiMarginal.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiMarginal.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;अल्प दुर्बल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmall.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmall.getIntegerPartOfNumber(rabbiSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmall.getDecimalPartOfNumber(rabbiSmall.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiSmall.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left">ब) सबल सभासद</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOther.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOther.getIntegerPartOfNumber(rabbiOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOther.getDecimalPartOfNumber(rabbiOther.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(rabbiOther.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left"></td>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.memberCount)}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getIntegerPartOfNumber(totalRabbiAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getDecimalPartOfNumber(totalRabbiAplusB.area))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.agriAdminAmount)}"></td>
+  </tr>
+  <tr>
+    <td class="text-left"></td>
+    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर </td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.longToString(kamalSociety.memberCount))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.amount))}" ></td>
+  </tr>
+  </tbody>
+</table>
+<p style="margin: 5px 0;">एकूण अक्षरी मंजुरी रु. <strong><span th:text="${translationServiceUtility.amountToMarathiWords(kamalSociety.amount)}"> </span></strong> </p>
+<p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.kamalKarjMarayadaAmount))}"> </span></strong></p>
+<p style="margin: 5px 0;">सभासदवार कर्ज मंजुरींचा तपशील सोबतच्या मंजूर कमाल मर्यादा पत्रकानुसार राहील. या कर्जासाठी खालील अटी बंधनकारक राहतील. </p>
+
+
+<table style="border:none; text-align: left;">
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१)</td>
+    <td style="border:none; text-align: justify;">सबल व दुर्बल कर्जासाठी बँक पातळीवर संस्थेसाठी द.सा.द.शे. ४% व्याजदर राहील. संस्थेस कोणत्याही प्रकारची पूर्वसूचना न देता व्याजदर बदलण्याचा अधिकार बँकेस आहे. सदर कर्जावरील व्याज आकारणी माहे मार्च अखेर केली जाईल. व्याज वसूल करण्यासंबंधीची बँकेची प्रचलित पद्धती संस्थेवर बंधनकारक राहील. कर्ज थकित झाल्यास ८% व्याजदरावर १% जादा दराने दंड व्याज आकारले जाईल. (८%+१% =९% )</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२)</td>
+    <td style="border:none; text-align: justify;"> संस्थेचे त्यांचे अंतिम सभासदास पीक कर्जावर सबल व दुर्बल सभासदांकरिता ६% दराने व्याज आकारणी केली पाहिजे. सभासदांनी घेतलेल्या ३ लाखावरील कर्जास संस्थेसाठी बँकेचा व्याजदर ८% राहील व संस्थेच्या सभासदास ११% व्याजदर राहील. थकीत रकमेवर १% दंडव्याज जादा राहील.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३)</td>
+    <td style="border:none; text-align: justify;">सन २०२४-२०२५ हंगामासाठी संस्था सभासदांनी अल्पमुदत पीककर्ज रुपे किसान कार्ड प्रणाली प्रमाणे करण्यात येईल व याबाबतचे सर्व अटी व नियम संस्था व सदांना बंधनकारक राहतील. (जा.क्र.शेतीकर्ज/२०१५-१६/१८८५ दि. १५.६.२०१५ चे परिपत्रक)</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">४)</td>
+    <td style="border:none; text-align: justify;">संस्थेने अलिकडील सरकारी व बँक तपासणीचा दोष दुरुस्ती अहवाल क.म. प्रस्तावासोबत दाखल केले पाहिजेत.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">५)</td>
+    <td style="border:none; text-align: justify;">कमाल बँक कर्ज उचलीच्या प्रमाणात ५% दुर्बल कर्जासाठी व १०% सबल कर्जासाठी बँक भाग संस्थेने घेतले पाहिजेत. तसेच सभासदांकडूनही याच प्रमाणात संस्था भाग घेतले पाहिजेत.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">६)</td>
+    <td style="border:none; text-align: justify;">बँकेच्या लेखी पूर्वपरवानगीशिवाय संस्थेस आपले स्वनिधी कमी करता येणार नाहीत.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">७)</td>
+    <td style="border:none; text-align: justify;">संस्थेच्या व्यवस्थापक समितीत थकबाकीदार सदस्य असल्यास कर्ज उचलीस जरी अडचण नसली तरी सहकार खात्याच्या निदर्शनास ही बाब आणून संस्थेने जरुर ती उपाययोजना सत्वर न केल्यास कर्ज उचलीस त्यानंतर परवानगी देण्याचा निर्णय बँकेने राखून ठेवलेला आहे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">८)</td>
+    <td style="border:none; text-align: justify;">कर्ज वसूल व वाटप यात किमान १ दिवसांचे अंतर असले पाहिजे. सभासद कर्ज वसुलीची रक्कम बँकेत जमा झाल्यापासून ही कालगणना केली जाईल. संस्थेचे व अन्य सहकारी संस्थेचे थकबाकीदार सभासद कर्ज उचलीस पात्र असणार नाहीत.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">९)</td>
+    <td style="border:none; text-align: justify;">संस्था तपासण्याचा अधिकार बँकेस राहील. त्यासाठी संस्थेचे दप्तर, मालमत्ता, शिल्लक साठा इ. तपासणीसाठी बँकेस उपलब्ध करुन दिले पाहिजे. अपात्र सभासद, अनियमित जमा खर्च असलेल्या संस्था, संस्था तपासणीमध्ये गंभीर दोष असलेल्या संस्था यांचे सभासदांना कर्ज वितरण करते वेळी बँक धोरण व कायदे विचारात घेऊन अवश्यक त्या सर्व बाबींची पुर्तता करुनच कर्ज वितरण करावे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१०)</td>
+    <td style="border:none; text-align: justify;">कर्जवाटपाच्या वेळी सभासदांना मंजूर कर्ज मर्यादा रकमेची नोंद संस्था सचिवाकडून लगेचच रुपे किसान क्रेडीट
+      कार्डवर केली पाहिजे. याची खात्री करुन घेतली पाहिजे व कर्ज वितरण करण्यापूर्वी संस्था सभासदांकडून के. वाय.सी. मध्ये
+      सभासदाचे आधार क्रमांक बँक खात्यास संलग्न असणे आवश्यक आहे. तसेच बँक सी.बी.एस. प्रणालीमधील बचत
+      खात्याचे नाव आधार कार्ड प्रमाणे असणे/करणे आवश्यक आहे. पूर्तता करुन घ्यावी त्यानंतरच कर्ज वितरण करावे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">११)</td>
+    <td style="border:none; text-align: justify;">थकित कर्जाच्या वसुलीसाठी या बँकेतील संस्थेच्या कोणत्याही खाती पूर्वसूचना न देता रक्कम नावे टाकून वसूल करण्याचाअधिकार बँकेस राहील.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१२)</td>
+    <td style="border:none; text-align: justify;">वाजवीपेक्षा आणि अगर संस्थेच्या पोटनियमातील तरतुदीनुसार असणाऱ्या मर्यादेपक्षा अधिक रोख शिल्लक हातात असल्यास ती बँक कर्ज खाती भरणा केल्याशिवाय कर्जाची उचल करता येणार नाही.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१३)</td>
+    <td style="border:none; text-align: justify;">संस्थेच्या सभासदाने कर्ज घेण्यापूर्वी कमाल मर्यादा पत्रकावर सही/अंगठा करणे, कर्जरोखा व दुप्पट रक्कमेचा नोंदविलेला इकरार करुन देणे या बाबी आवश्यक राहतील.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१४)</td>
+    <td style="border:none; text-align: justify;">सभासदांना कर्ज वितरण करतेवेळी संस्थेची कर्ज उभारण्याची शक्ती पुरेशी असली पाहिजे नसल्यास सह. संस्था/मा. सहा. निबंधक सहकारी संस्था यांचेकडून कर्जशक्ती वाढवून घेऊनच कर्ज वितरण करावे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१५)</td>
+    <td style="border:none; text-align: justify;">सभासद कर्जाची वसुली संस्थेने सभासदाचे वैयक्तिक कर्ज खाती वेळोवेळी जमा केली पाहिजे. तसेच कर्ज उचलतेवेळी संस्थेस कर्ज उभारण्याची पुरेशी शक्ती असली पाहिजे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१६)</td>
+    <td style="border:none; text-align: justify;">संस्थेने तिच्या गंगाजळी निधीची गुंतवणूक या बँकेकडे स्वतंत्ररित्या केली पाहिजे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१७)</td>
+    <td style="border:none; text-align: justify;"> थकबाकीदार सभासदविरुद्ध संस्थेने वसूली दाखले मिळवून वसुलीसाठी प्रयत्नशील राहिले पाहिजे. थकबाकी वसुलीसाठी कायदेशीर कारवाई केलेल्या सभासदाकडून सरचार्जची वसुली अग्रक्रमाने करुन वसूल सरचार्जची रक्कम बँकेत वेळोवेळी भरणा केली पाहिजे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१८)</td>
+    <td style="border:none; text-align: justify;">संस्थेचे नवीन सभासद झालेबाबतचा संस्था ठराव क्र. व दिनांक प्रथम नमूद करावा.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">१९)</td>
+    <td style="border:none; text-align: justify;">नविन सभासदाचे नावावर खातेफोड होऊन आलेल्या मुळ खातेदाराच्या नावावरील संपूर्ण कर्जबाकी (असल्यास) वसुलीनंतर सदर नवीन सभासदासाठी कर्ज उचल करता येईल.
+    </td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२०)</td>
+    <td style="border:none; text-align: justify;">कर्जउचलीस प्रारंभ करण्यापूर्वी संस्थेच्या जिंदगी पत्रकाची किमान दि. ३१-३-२०२४ अखेरची तपासणी बँकेकडून करवून घेतली असली पाहिजे. बँकेच्या धोरणानुसार संस्थेने तयार केलेल्या जिंदगीपत्रकाची तपासणी प्रथम झालेली असली पाहिजे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२१)</td>
+    <td style="border:none; text-align: justify;">संस्थेच्या कर्जवाटपाचा तक्ता प्रथम संस्थेने संगणकावर लिंक केला पाहिजे. संस्थेने अद्यावत लिहलेली सभासद कर्ज खतावणी, किर्द, सभासद भाग खतावणी दाखल केली पाहिजे. त्याशिवाय कर्जवितरण करता येणार नाही.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२२)</td>
+    <td style="border:none; text-align: justify;">पीक विमा योजना लागू असलेल्या पिकांसाठी कर्जाची उचल करताना सभासदास भरावयास लागणाऱ्या विमा शुल्काइतकी आवश्यक तर जादा कर्जाची उचल संस्थेने करुन सदर कर्ज रकमेचा विनियोग विमा शुल्क भरणा करण्यासाठी केला पाहिजे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२३)</td>
+    <td style="border:none; text-align: justify;">मंजूर कर्जाचे वितरण बँकेने संमत केलेल्या व वेळोवेळी ठरविलेल्या कर्ज धोरणानुसार होईल.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२४)</td>
+    <td style="border:none; text-align: justify;">अनिष्ट तफावतीत असलेल्या सहकारी संस्थांच्या दुर्बल व सबल सभासद कर्जाच्या १०% प्रमाणे संस्था भाग कपात करुन मंजूर कर्जाचे वितरण करण्यात यावे व रु.५०० चे स्टॅम्प पेपरवर त्रिपक्षीय करार घेऊनच कर्ज वाटप करावे.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२५)</td>
+    <td style="border:none; text-align: justify;">कर्ज वितरण करताना सोबत दिलेले परिशिष्ठ अ मधील पीक विमा संदर्भात अधिसुचित पीकांकरीता सभासदांची वैयक्तिक माहिती भरणे अनिवार्य आहे. तद्नंतरच कर्ज वितरण केले जाईल याची नोंद घ्यावी.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२६)</td>
+    <td style="border:none; text-align: justify;">रु.५०/- मुल्यांकन फी प्रथम भरून घ्यावी.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२७)</td>
+    <td style="border:none; text-align: justify;">मूळ क.म. पत्रकातील सभासदांची मंजुरी व वाटपाची खात्री करावी.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२८)</td>
+    <td style="border:none; text-align: justify;">संस्थेस रु. <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetLoss)}"></span></strong> इतका तोटा दिसत आहे. थकबाकी वसुलीसाठी प्रयत्न करावेत.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">२९)</td>
+    <td style="border:none; text-align: justify;">सभासदाचे ऊस बिलातून सहकारी साखर कारखान्यामार्फत येणाऱ्या पेमेंट मधून थकीत/वसुलपात्र रक्कम वसुल करण्याचा अधिकार बँकेस राहील. त्यानुसार विकास अधिकारी यांनी कार्यवाही करावी.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३०)</td>
+    <td style="border:none; text-align: justify;">बँक नमुन्यातील संस्था शिफारस प्रथम शाखा दप्तरी दाखल करुन घेऊनच.</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३१)</td>
+    <td style="border:none; text-align: justify;">कर्ज वितरण करतेवेळी कमाल कर्ज मर्यादेचे उल्लंघन होणार नाही याची खात्री करुन कर्ज वितरण करावे,</td>
+  </tr>
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३२)</td>
+    <td style="border:none; text-align: justify;">कर्ज वितरणापूर्वी मंजुर केलेल्या क. म. पत्रकातील सभासदांचे जमीन धारणेची/क्षेत्राची ७/१२ वरुन खात्री करुनच कर्ज वितरण करावे.</td>
+  </tr>
+
+  <tr style="border:none; text-align: left;">
+    <td style="border:none; text-align: left; vertical-align: top;">३३)</td>
+    <td style="border:none; text-align: justify;">
+      केंद्र व राज्यशासन व्याज सवलत योजनेचा मात्र डीबीटी द्वारे दिला जाणार असल्याने कर्जदार सभासदाचे आधार कार्ड असणे व खात्याला लिंक केलेले असणे आवश्यक आहे.<br>
+      (वरील अटी दुरुस्त करण्याचा आणि अगर नवीन अटी लागू करण्याचा अधिकार बँकेस आहे.)<br>
+      (संस्थेने वरील १ ते ३३ अटींची पुर्तता करूनच कर्ज वितरण करावे.)
+      </td>
+  </tr>
+
+</table>
+
+<div style="text-indent: 20px;">
+  <div style="display: flex; margin-top: 30px;">
+    <div style="width: 40%;margin: 5px 0">
+      <div style="font-weight: 550; font-size: 17px;">प्रत जरुर त्या कार्यवाहीसाठी</div>
+      <div>
+        <p>१) मा. विकास अधिकारी,</p>
+        <p><strong><span th:text="${kamalSociety.branchName} "></span> </strong> शाखा</p>
+      </div>
+      <div >
+        <p>२) मा. झोनल ऑफीसर,</p>
+        <p><strong><span th:text="${kamalSociety.talukaName} "></span> </strong> शाखा</p>
+      </div>
+    </div>
+    <div style="width: 60%;">
+      <div style="font-weight: 550; font-size: 17px; text-align: center;">कर्जअधिक्षक/सहा. सरव्यवस्थापक <br> शेती कर्ज विभाग</div>
+      <div >
+        <p>३) मा. अध्यक्ष</p>
+        <p>तालुका देखरेख सह. संस्था मर्या.,</p>
+        <p>मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
+          ता. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> जि. पुणे</p>
+      </div>
+      <div >
+        <p>४) मा. उप/ सहाय्यक निबंधक, सहकारी संस्था,</p>
+        <p>तालुका देखरेख सह. संस्था मर्या, <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> तालुका</p>
+        <p>मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
+          ता. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> जि. पुणे</p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

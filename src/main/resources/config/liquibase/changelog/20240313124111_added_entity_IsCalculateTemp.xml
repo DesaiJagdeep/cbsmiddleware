@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity IsCalculateTemp.
+    -->
+    <changeSet id="20240313124111-1" author="jhipster">
+        <createTable tableName="is_calculate_temp">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="serial_no" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="financial_year" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="iss_file_parser_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="branch_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="pacs_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loan_account_number_kcc" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="farmer_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="gender" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="aadhar_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mobile_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="farmer_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="social_category" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="account_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loan_sanction_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="loan_sanction_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="disbursement_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="disburse_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="maturity_loan_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="bank_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="crop_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="recovery_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="recovery_interest" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="recovery_date" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="balance_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="prev_days" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="pres_days" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="actual_days" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="n_prod" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="product_amount" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="product_bank" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="product_abh_3_lakh" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_first_15" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_first_25" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_second_15" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_second_25" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_state_first_3" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_state_second_3" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_first_abh_3" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_second_abh_3" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="interest_above_3_lakh" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="panjabrao_int_3" type="double">
+                <constraints nullable="true" />
+            </column>
+            <column name="is_recover" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="abh_3_lakh_amt" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="upto_50000" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20240313124111-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/is_calculate_temp.csv"
+                  separator=";"
+                  tableName="is_calculate_temp"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="serial_no" type="numeric"/>
+            <column name="financial_year" type="string"/>
+            <column name="iss_file_parser_id" type="numeric"/>
+            <column name="branch_code" type="string"/>
+            <column name="pacs_number" type="string"/>
+            <column name="loan_account_number_kcc" type="string"/>
+            <column name="farmer_name" type="string"/>
+            <column name="gender" type="string"/>
+            <column name="aadhar_number" type="string"/>
+            <column name="mobile_no" type="string"/>
+            <column name="farmer_type" type="string"/>
+            <column name="social_category" type="string"/>
+            <column name="account_number" type="string"/>
+            <column name="loan_sanction_date" type="string"/>
+            <column name="loan_sanction_amount" type="string"/>
+            <column name="disbursement_date" type="string"/>
+            <column name="disburse_amount" type="string"/>
+            <column name="maturity_loan_date" type="string"/>
+            <column name="bank_date" type="string"/>
+            <column name="crop_name" type="string"/>
+            <column name="recovery_amount" type="string"/>
+            <column name="recovery_interest" type="string"/>
+            <column name="recovery_date" type="string"/>
+            <column name="balance_amount" type="string"/>
+            <column name="prev_days" type="numeric"/>
+            <column name="pres_days" type="numeric"/>
+            <column name="actual_days" type="numeric"/>
+            <column name="n_prod" type="numeric"/>
+            <column name="product_amount" type="string"/>
+            <column name="product_bank" type="string"/>
+            <column name="product_abh_3_lakh" type="string"/>
+            <column name="interest_first_15" type="numeric"/>
+            <column name="interest_first_25" type="numeric"/>
+            <column name="interest_second_15" type="numeric"/>
+            <column name="interest_second_25" type="numeric"/>
+            <column name="interest_state_first_3" type="numeric"/>
+            <column name="interest_state_second_3" type="numeric"/>
+            <column name="interest_first_abh_3" type="numeric"/>
+            <column name="interest_second_abh_3" type="numeric"/>
+            <column name="interest_above_3_lakh" type="numeric"/>
+            <column name="panjabrao_int_3" type="numeric"/>
+            <column name="is_recover" type="numeric"/>
+            <column name="abh_3_lakh_amt" type="numeric"/>
+            <column name="upto_50000" type="numeric"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

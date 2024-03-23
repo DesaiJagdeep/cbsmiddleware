@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import dayjs from 'dayjs/esm';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IKamalCrop, NewKamalCrop } from '../kamal-crop.model';
 
 /**
@@ -14,21 +16,36 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type KamalCropFormGroupInput = IKamalCrop | PartialWithRequiredKeyOf<NewKamalCrop>;
 
-type KamalCropFormDefaults = Pick<NewKamalCrop, 'id'>;
+/**
+ * Type that converts some properties for forms.
+ */
+type FormValueOf<T extends IKamalCrop | NewKamalCrop> = Omit<T, 'kmDate'> & {
+  kmDate?: string | null;
+};
+
+type KamalCropFormRawValue = FormValueOf<IKamalCrop>;
+
+type NewKamalCropFormRawValue = FormValueOf<NewKamalCrop>;
+
+type KamalCropFormDefaults = Pick<NewKamalCrop, 'id' | 'kmDate'>;
 
 type KamalCropFormGroupContent = {
-  id: FormControl<IKamalCrop['id'] | NewKamalCrop['id']>;
-  pacsNumber: FormControl<IKamalCrop['pacsNumber']>;
-  memNo: FormControl<IKamalCrop['memNo']>;
-  memHector: FormControl<IKamalCrop['memHector']>;
-  memNoMr: FormControl<IKamalCrop['memNoMr']>;
-  memHectorMr: FormControl<IKamalCrop['memHectorMr']>;
-  memAar: FormControl<IKamalCrop['memAar']>;
-  memAarMr: FormControl<IKamalCrop['memAarMr']>;
-  farmerTypeMaster: FormControl<IKamalCrop['farmerTypeMaster']>;
-  seasonMaster: FormControl<IKamalCrop['seasonMaster']>;
-  cropMaster: FormControl<IKamalCrop['cropMaster']>;
-  kamalSociety: FormControl<IKamalCrop['kamalSociety']>;
+  id: FormControl<KamalCropFormRawValue['id'] | NewKamalCrop['id']>;
+  pacsNumber: FormControl<KamalCropFormRawValue['pacsNumber']>;
+  financialYear: FormControl<KamalCropFormRawValue['financialYear']>;
+  memberCount: FormControl<KamalCropFormRawValue['memberCount']>;
+  area: FormControl<KamalCropFormRawValue['area']>;
+  pacsAmount: FormControl<KamalCropFormRawValue['pacsAmount']>;
+  branchAmount: FormControl<KamalCropFormRawValue['branchAmount']>;
+  headOfficeAmount: FormControl<KamalCropFormRawValue['headOfficeAmount']>;
+  divisionalOfficeAmount: FormControl<KamalCropFormRawValue['divisionalOfficeAmount']>;
+  cropEligibilityAmount: FormControl<KamalCropFormRawValue['cropEligibilityAmount']>;
+  kmDate: FormControl<KamalCropFormRawValue['kmDate']>;
+  kmDateMr: FormControl<KamalCropFormRawValue['kmDateMr']>;
+  kamalSociety: FormControl<KamalCropFormRawValue['kamalSociety']>;
+  farmerTypeMaster: FormControl<KamalCropFormRawValue['farmerTypeMaster']>;
+  seasonMaster: FormControl<KamalCropFormRawValue['seasonMaster']>;
+  cropMaster: FormControl<KamalCropFormRawValue['cropMaster']>;
 };
 
 export type KamalCropFormGroup = FormGroup<KamalCropFormGroupContent>;
@@ -36,10 +53,10 @@ export type KamalCropFormGroup = FormGroup<KamalCropFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class KamalCropFormService {
   createKamalCropFormGroup(kamalCrop: KamalCropFormGroupInput = { id: null }): KamalCropFormGroup {
-    const kamalCropRawValue = {
+    const kamalCropRawValue = this.convertKamalCropToKamalCropRawValue({
       ...this.getFormDefaults(),
       ...kamalCrop,
-    };
+    });
     return new FormGroup<KamalCropFormGroupContent>({
       id: new FormControl(
         { value: kamalCropRawValue.id, disabled: true },
@@ -48,32 +65,30 @@ export class KamalCropFormService {
           validators: [Validators.required],
         }
       ),
-      pacsNumber: new FormControl(kamalCropRawValue.pacsNumber, {
-        validators: [Validators.required],
-      }),
-      memNo: new FormControl(kamalCropRawValue.memNo, {
-        validators: [Validators.required],
-      }),
-      memHector: new FormControl(kamalCropRawValue.memHector, {
-        validators: [Validators.required],
-      }),
-      memNoMr: new FormControl(kamalCropRawValue.memNoMr),
-      memHectorMr: new FormControl(kamalCropRawValue.memHectorMr),
-      memAar: new FormControl(kamalCropRawValue.memAar),
-      memAarMr: new FormControl(kamalCropRawValue.memAarMr),
+      pacsNumber: new FormControl(kamalCropRawValue.pacsNumber),
+      financialYear: new FormControl(kamalCropRawValue.financialYear),
+      memberCount: new FormControl(kamalCropRawValue.memberCount),
+      area: new FormControl(kamalCropRawValue.area),
+      pacsAmount: new FormControl(kamalCropRawValue.pacsAmount),
+      branchAmount: new FormControl(kamalCropRawValue.branchAmount),
+      headOfficeAmount: new FormControl(kamalCropRawValue.headOfficeAmount),
+      divisionalOfficeAmount: new FormControl(kamalCropRawValue.divisionalOfficeAmount),
+      cropEligibilityAmount: new FormControl(kamalCropRawValue.cropEligibilityAmount),
+      kmDate: new FormControl(kamalCropRawValue.kmDate),
+      kmDateMr: new FormControl(kamalCropRawValue.kmDateMr),
+      kamalSociety: new FormControl(kamalCropRawValue.kamalSociety),
       farmerTypeMaster: new FormControl(kamalCropRawValue.farmerTypeMaster),
       seasonMaster: new FormControl(kamalCropRawValue.seasonMaster),
       cropMaster: new FormControl(kamalCropRawValue.cropMaster),
-      kamalSociety: new FormControl(kamalCropRawValue.kamalSociety),
     });
   }
 
   getKamalCrop(form: KamalCropFormGroup): IKamalCrop | NewKamalCrop {
-    return form.getRawValue() as IKamalCrop | NewKamalCrop;
+    return this.convertKamalCropRawValueToKamalCrop(form.getRawValue() as KamalCropFormRawValue | NewKamalCropFormRawValue);
   }
 
   resetForm(form: KamalCropFormGroup, kamalCrop: KamalCropFormGroupInput): void {
-    const kamalCropRawValue = { ...this.getFormDefaults(), ...kamalCrop };
+    const kamalCropRawValue = this.convertKamalCropToKamalCropRawValue({ ...this.getFormDefaults(), ...kamalCrop });
     form.reset(
       {
         ...kamalCropRawValue,
@@ -83,8 +98,27 @@ export class KamalCropFormService {
   }
 
   private getFormDefaults(): KamalCropFormDefaults {
+    const currentTime = dayjs();
+
     return {
       id: null,
+      kmDate: currentTime,
+    };
+  }
+
+  private convertKamalCropRawValueToKamalCrop(rawKamalCrop: KamalCropFormRawValue | NewKamalCropFormRawValue): IKamalCrop | NewKamalCrop {
+    return {
+      ...rawKamalCrop,
+      kmDate: dayjs(rawKamalCrop.kmDate, DATE_TIME_FORMAT),
+    };
+  }
+
+  private convertKamalCropToKamalCropRawValue(
+    kamalCrop: IKamalCrop | (Partial<NewKamalCrop> & KamalCropFormDefaults)
+  ): KamalCropFormRawValue | PartialWithRequiredKeyOf<NewKamalCropFormRawValue> {
+    return {
+      ...kamalCrop,
+      kmDate: kamalCrop.kmDate ? kamalCrop.kmDate.format(DATE_TIME_FORMAT) : undefined,
     };
   }
 }

@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -442,16 +444,16 @@ public class IssPortalFileResource {
                         countOfSocietiesByTalukaName = 59;
                         break;
                     case "BARAMATI":
-                        countOfSocietiesByTalukaName = 191;
+                        countOfSocietiesByTalukaName = 192;
                         break;
                     case "DAUND":
-                        countOfSocietiesByTalukaName = 124;
+                        countOfSocietiesByTalukaName = 125;
                         break;
                     case "HAVELI":
-                        countOfSocietiesByTalukaName = 140;
+                        countOfSocietiesByTalukaName = 139;
                         break;
                     case "INDAPUR":
-                        countOfSocietiesByTalukaName = 222;
+                        countOfSocietiesByTalukaName = 213;
                         break;
                     case "JUNNAR":
                         countOfSocietiesByTalukaName = 76;
@@ -463,13 +465,13 @@ public class IssPortalFileResource {
                         countOfSocietiesByTalukaName = 55;
                         break;
                     case "MULSHI":
-                        countOfSocietiesByTalukaName = 46;
+                        countOfSocietiesByTalukaName = 51;
                         break;
                     case "PURANDAR":
                         countOfSocietiesByTalukaName = 97;
                         break;
                     case "SHIRUR":
-                        countOfSocietiesByTalukaName = 128;
+                        countOfSocietiesByTalukaName = 127;
                         break;
                     case "VELHA":
                         countOfSocietiesByTalukaName = 26;
@@ -499,15 +501,26 @@ public class IssPortalFileResource {
 //                       pendingForApprovalCount = pendingForApprovalCount + issPortalFileRepository.findPendingForApprovalCountByBankBranch(schemeWiseBranchCode, financialYear);
 //
 //                    }
+
                 Integer totalIssPortalFile = issPortalFileRepository.findTotalIssPortalFileByTalukaId(talukaMaster.getId(), financialYear);
                 Integer notNullIssPortalFile = issPortalFileRepository.findNotNullIssPortalFile(talukaMaster.getId(), financialYear);
-                pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
+               // pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
 
-                completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
+                //completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
                 inProgressCount = issPortalFileRepository.findInProgressCountByTalukaId(talukaMaster.getId(), financialYear);
-                // pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;
-                pendingApprovalFromBranchAdminCount = issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
-                yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
+                 //pendingApprovalFromBranchAdminCount = totalIssPortalFile - notNullIssPortalFile;   //this is for testing only, do not uncomment
+                //pendingApprovalFromBranchAdminCount = issPortalFileRepository.findPendingForApprovalCountByBanchAdmin(talukaMaster.getId(), financialYear);
+                //yetToStartCount = countOfSocietiesByTalukaName - completedCount - inProgressCount - pendingApprovalFromBranchUserCount - pendingApprovalFromBranchAdminCount;
+
+
+                //updated counts
+                yetToStartCount=issPortalFileRepository.findYetToStart(talukaMaster.getId(), financialYear);
+                completedCount = issPortalFileRepository.findCompletedCountByTalukaId(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchUserCount = issPortalFileRepository.findPendingForApprovalCountByBanchUser(talukaMaster.getId(), financialYear);
+                pendingApprovalFromBranchAdminCount=countOfSocietiesByTalukaName-yetToStartCount-inProgressCount-pendingApprovalFromBranchUserCount-completedCount;
+                if(pendingApprovalFromBranchAdminCount<0){
+                    pendingApprovalFromBranchAdminCount=0;
+                }
 
                 talukaWiseDataReport.setCompleted(completedCount);
                 talukaWiseDataReport.setInProgress(inProgressCount);
@@ -955,8 +968,10 @@ public class IssPortalFileResource {
                 row.createCell(colNum++).setCellValue("Total Application");
                 row.createCell(colNum++).setCellValue("Validation Error");
                 row.createCell(colNum++).setCellValue("KCC Accepted");
-                row.createCell(colNum++).setCellValue("KCC Rejected");
-                row.createCell(colNum++).setCellValue("KCC Pending");
+                row.createCell(colNum++).setCellValue("KCC Errors");
+                row.createCell(colNum++).setCellValue("Pending From Branch Admin");
+                row.createCell(colNum++).setCellValue("Submitted (In Process)");
+                row.createCell(colNum++).setCellValue("Pending From KCC");
 
                 for (IssPortalFileDTO issPortalFile : issPortalFileDTOList) {
                     colNum = 0;
@@ -969,7 +984,9 @@ public class IssPortalFileResource {
                     row.createCell(colNum++).setCellValue(issPortalFile.getValidationErrors());
                     row.createCell(colNum++).setCellValue(issPortalFile.getkCCAccepted());
                     row.createCell(colNum++).setCellValue(issPortalFile.getkCCRejected());
-                    row.createCell(colNum++).setCellValue(issPortalFile.getkCCPending());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getReadyToSubmitPendingFromPdcc());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getSubmittedToKcc());
+                    row.createCell(colNum++).setCellValue(issPortalFile.getPendingFromKcc());
 
                 }
 
@@ -997,4 +1014,139 @@ public class IssPortalFileResource {
 
         } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
     }
+
+    @GetMapping("/pacs-not-yet-started-excel")
+    public ResponseEntity<byte[]> pacsNotYetStartedExcel(@RequestParam String financialYear) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        List<NotYetStartedDTO> notYetStartedDTOList = new ArrayList<>();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+
+            notYetStartedDTOList = issPortalFileService.findAllRecordsWhoNotStarted(financialYear);
+
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = workbook.createSheet("PacsNotYetStarted");
+                int rowNum = 0;
+                Row row = sheet.createRow(rowNum++);
+                int colNum = 0;
+                row.createCell(colNum++).setCellValue("Financial Year");
+                row.createCell(colNum++).setCellValue("PACS Number");
+                row.createCell(colNum++).setCellValue("PACS Name");
+                row.createCell(colNum++).setCellValue("Branch Name");
+                row.createCell(colNum++).setCellValue("Taluka Name");
+
+                for (NotYetStartedDTO notYetStartedDTO : notYetStartedDTOList) {
+                    colNum = 0;
+                    row = sheet.createRow(rowNum++);
+                    row.createCell(colNum++).setCellValue(financialYear);
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getPacsNumber());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getPacsName());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getBranchName());
+                    row.createCell(colNum++).setCellValue(notYetStartedDTO.getTalukaName());
+                }
+
+                // Write Excel to ByteArrayOutputStream
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                workbook.write(outputStream);
+                outputStream.close();
+                byte[] excelContent = outputStream.toByteArray();
+
+                // Set up the HTTP headers for the response
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+                headers.setContentDispositionFormData("filename", "PacsWhoNotStarted" + "-("+financialYear+")_" +getTodaysDate()+ ".xlsx");
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
+                return new ResponseEntity<>(excelContent, headers, 200);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body(null);
+            }
+
+
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+    private String getTodaysDate() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        String formattedDate = today.format(formatter);
+        return formattedDate;
+    }
+
+    @GetMapping("/pending-verification")
+    public ResponseEntity<byte[]> pendingFromBranchAdminExcel(@RequestParam String user) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+        GrantedAuthority authority = authorities.stream().findFirst().get();
+        List<VerifyPendingDTO> verifyPendingDTOList = new ArrayList<>();
+        if (authority.toString().equals(AuthoritiesConstants.ADMIN)) {
+
+            if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                verifyPendingDTOList = issPortalFileService.findAllpendingFromBranchAdmin();
+            }else if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)){
+                verifyPendingDTOList = issPortalFileService.findAllpendingFromBranchUser();
+            }
+
+            try (Workbook workbook = new XSSFWorkbook()) {
+                Sheet sheet = null;
+                if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                     sheet = workbook.createSheet("PendingFromBranchAdmin");
+                }
+                else if (user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)) {
+                    sheet = workbook.createSheet("PendingFromBranchUser");
+                }
+
+                int rowNum = 0;
+                Row row = sheet.createRow(rowNum++);
+                int colNum = 0;
+                row.createCell(colNum++).setCellValue("Financial Year");
+                row.createCell(colNum++).setCellValue("Branch Name");
+                row.createCell(colNum++).setCellValue("PACS Number");
+                row.createCell(colNum++).setCellValue("PACS Name");
+
+                for (VerifyPendingDTO verifyPendingDTO : verifyPendingDTOList) {
+                    colNum = 0;
+                    row = sheet.createRow(rowNum++);
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getFinancialYear());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getBranchName());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getPacsNumber());
+                    row.createCell(colNum++).setCellValue(verifyPendingDTO.getPacsName());
+
+                }
+
+                // Write Excel to ByteArrayOutputStream
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                workbook.write(outputStream);
+                outputStream.close();
+                byte[] excelContent = outputStream.toByteArray();
+
+                // Set up the HTTP headers for the response
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+                if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_ADMIN)){
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchAdmin" + "-" + getTodaysDate() + ".xlsx");
+                }else if(user.equalsIgnoreCase(AuthoritiesConstants.ROLE_BRANCH_USER)){
+                    headers.setContentDispositionFormData("filename", "PendingFromBranchUser" + "-" + getTodaysDate() + ".xlsx");
+                }
+
+                List<String> contentDispositionList = new ArrayList<>();
+                contentDispositionList.add("Content-Disposition");
+
+                headers.setAccessControlExposeHeaders(contentDispositionList);
+                return new ResponseEntity<>(excelContent, headers, 200);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).body(null);
+            }
+
+
+        } else throw new ForbiddenAuthRequestAlertException("Invalid token", ENTITY_NAME, "tokeninvalid");
+    }
+
+
 }

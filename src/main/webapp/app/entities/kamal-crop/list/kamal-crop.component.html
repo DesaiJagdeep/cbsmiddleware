@@ -46,39 +46,69 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memNo">
+          <th scope="col" jhiSortBy="financialYear">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNo">Mem No</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.financialYear">Financial Year</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memHector">
+          <th scope="col" jhiSortBy="memberCount">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHector">Mem Hector</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memberCount">Member Count</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memNoMr">
+          <th scope="col" jhiSortBy="area">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memNoMr">Mem No Mr</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.area">Area</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memHectorMr">
+          <th scope="col" jhiSortBy="pacsAmount">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memHectorMr">Mem Hector Mr</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.pacsAmount">Pacs Amount</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memAar">
+          <th scope="col" jhiSortBy="branchAmount">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAar">Mem Aar</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.branchAmount">Branch Amount</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="memAarMr">
+          <th scope="col" jhiSortBy="headOfficeAmount">
             <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.memAarMr">Mem Aar Mr</span>
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.headOfficeAmount">Head Office Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="divisionalOfficeAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.divisionalOfficeAmount">Divisional Office Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cropEligibilityAmount">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.cropEligibilityAmount">Crop Eligibility Amount</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDate">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDate">Km Date</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kmDateMr">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kmDateMr">Km Date Mr</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="kamalSociety.id">
+            <div class="d-flex">
+              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -100,12 +130,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="kamalSociety.id">
-            <div class="d-flex">
-              <span jhiTranslate="cbsMiddlewareApp.kamalCrop.kamalSociety">Kamal Society</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -115,12 +139,21 @@
             <a [routerLink]="['/kamal-crop', kamalCrop.id, 'view']">{{ kamalCrop.id }}</a>
           </td>
           <td>{{ kamalCrop.pacsNumber }}</td>
-          <td>{{ kamalCrop.memNo }}</td>
-          <td>{{ kamalCrop.memHector }}</td>
-          <td>{{ kamalCrop.memNoMr }}</td>
-          <td>{{ kamalCrop.memHectorMr }}</td>
-          <td>{{ kamalCrop.memAar }}</td>
-          <td>{{ kamalCrop.memAarMr }}</td>
+          <td>{{ kamalCrop.financialYear }}</td>
+          <td>{{ kamalCrop.memberCount }}</td>
+          <td>{{ kamalCrop.area }}</td>
+          <td>{{ kamalCrop.pacsAmount }}</td>
+          <td>{{ kamalCrop.branchAmount }}</td>
+          <td>{{ kamalCrop.headOfficeAmount }}</td>
+          <td>{{ kamalCrop.divisionalOfficeAmount }}</td>
+          <td>{{ kamalCrop.cropEligibilityAmount }}</td>
+          <td>{{ kamalCrop.kmDate | formatMediumDatetime }}</td>
+          <td>{{ kamalCrop.kmDateMr }}</td>
+          <td>
+            <div *ngIf="kamalCrop.kamalSociety">
+              <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="kamalCrop.farmerTypeMaster">
               <a [routerLink]="['/farmer-type-master', kamalCrop.farmerTypeMaster.id, 'view']">{{ kamalCrop.farmerTypeMaster.id }}</a>
@@ -134,11 +167,6 @@
           <td>
             <div *ngIf="kamalCrop.cropMaster">
               <a [routerLink]="['/crop-master', kamalCrop.cropMaster.id, 'view']">{{ kamalCrop.cropMaster.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="kamalCrop.kamalSociety">
-              <a [routerLink]="['/kamal-society', kamalCrop.kamalSociety.id, 'view']">{{ kamalCrop.kamalSociety.id }}</a>
             </div>
           </td>
           <td class="text-end">

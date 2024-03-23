@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>km checking report</title>
+  <style>
+      .container {
+        display: flex;
+        justify-content: space-between;
+        font-size: 18px;
+      }
+      .name {
+        flex-grow: 1;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .date {
+        flex-shrink: 0;
+          font-size: 18px;
+        font-weight: 600;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 2px solid #ddd; /* Add a border around the table */
+      }
+      th,td {
+        border: 2px solid #ddd; /* Add a border to each table cell */
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2; /* Add a background color to the table header */
+      }
+      .total{
+      font-size: 16px;
+      text-align:right;
+      padding-right:20px;
+      font-weight: 600;
+      }
+    </style>
+</head>
+<body>
+<h2>Checking Report <Span th:text="${financialYear}"></Span></h2>
+<div class="container">
+  <div class="name">संस्थेचे नाव: <span th:text="${pacsName}"></span></div>
+  <div class="date">दिनांक: <span th:text="${downloadedDate}"></span></div>
+</div>
+<p style="font-size:16px">खाली नमूद केल्याप्रमाणे KCC-RIN Portal वर अपलोड केलेली माहिती.</p>
+<table style="margin-top: 30px;">
+  <tr>
+    <th style="font-size: 16px;">क्रमांक</th>
+    <th style="font-size: 16px;">सभासद नाव</th>
+    <th style="font-size: 16px;">कर्ज दिनांक</th>
+    <th style="font-size: 16px;">कर्ज रक्कम</th>
+    <th style="font-size: 16px;">जमा रक्कम 1</th>
+    <th style="font-size: 16px;">जमा दिनांक 1</th>
+    <th style="font-size: 16px;">जमा रक्कम 2</th>
+    <th style="font-size: 16px;">जमा दिनांक 2</th>
+    <th style="font-size: 16px;">जमा रक्कम 3</th>
+    <th style="font-size: 16px;">जमा दिनांक 3</th>
+    <th style="font-size: 16px;">जमा रक्कम 4</th>
+    <th style="font-size: 16px;">जमा दिनांक 4</th>
+  </tr>
+  <tr th:if="${not #lists.isEmpty(issFileParserList)}" th:each="issFileParser,iterStat : ${issFileParserList}">
+    <td style="font-size: 16px; text-align:right;padding-right:20px" th:text="${iterStat.count}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.farmerName}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.loanSactionDate}"></td>
+    <td style="font-size: 16px; text-align:right;padding-right:20px;" th:text="${issFileParser.getAmountWithDecimal(issFileParser.loanSanctionAmount)}"></td>
+    <td style="font-size: 16px;text-align:right;padding-right:20px;" th:text="${issFileParser.getAmountWithDecimal(issFileParser.recoveryAmountPrinciple)}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.recoveryDate}"></td>
+    <td style="font-size: 16px;text-align:right;padding-right:20px;" th:text="${issFileParser.getAmountWithDecimal(issFileParser.secondRecoveryAmountPrinciple)}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.secondRecoveryDate}"></td>
+    <td style="font-size: 16px;text-align:right;padding-right:20px;" th:text="${issFileParser.getAmountWithDecimal(issFileParser.thirdRecoveryAmountPrinciple)}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.thirdRecoveryDate}"></td>
+    <td style="font-size: 16px;text-align:right;padding-right:20px;" th:text="${issFileParser.getAmountWithDecimal(issFileParser.fourthRecoveryAmountPrinciple)}"></td>
+    <td style="font-size: 16px;" th:text="${issFileParser.fourthRecoveryDate}"></td>
+  </tr>
+  <tr>
+    <td style="font-size: 16px; font-weight: 600;">एकूण</td>
+    <td></td>
+    <td></td>
+    <td class="total"; th:text="${fileParserWithSum.loanSanctionAmount}"></td>
+    <td class="total"; th:text="${fileParserWithSum.recoveryAmountPrinciple}"></td>
+    <td></td>
+    <td class="total"; th:text="${fileParserWithSum.secondRecoveryAmountPrinciple}"></td>
+    <td></td>
+    <td class="total"; th:text="${fileParserWithSum.thirdRecoveryAmountPrinciple}"></td>
+    <td></td>
+    <td class="total"; th:text="${fileParserWithSum.fourthRecoveryAmountPrinciple}"></td>
+    <td></td>
+  </tr>
+</table>
+<p style="margin-top: 30px;font-size: 18px;">वरील नमूद माहिती मध्ये संस्थे मार्फत अल्पमुदत पीक कर्जाचे वितरण केलेल्या सर्व सभासदांची माहिती समविष्ट आहे सर्व माहिती  संस्था व बँक  दफ्तरावरून  तपासणी केली असून ती बिनचूक असल्याची खात्री केली आहे.</p>
+<div class="container" style="margin-top: 100px;">
+  <p>सचिव सही</p>
+  <p>विकास अधिकारी सही</p>
+  <p>शाखा व्यवस्थापक सही</p>
+</div>
+
+</body>
+</html>

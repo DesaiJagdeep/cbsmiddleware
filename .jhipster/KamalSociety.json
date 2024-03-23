@@ -1,287 +1,333 @@
 {
-  "changelogDate": "20240124140629",
+  "changelogDate": "20240201123349",
   "dto": "no",
   "fields": [
     {
-      "fieldName": "pacsNumber",
-      "fieldType": "Long"
+      "fieldName": "financialYear",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "zindagiDate",
+      "fieldName": "kmDate",
       "fieldType": "Instant"
     },
     {
-      "fieldName": "zindagiDateMr",
+      "fieldName": "kmDateMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "village1",
+      "fieldName": "kmFromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmFromDateMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "village1Mr",
+      "fieldName": "kmToDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "kmToDateMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "village2",
+      "fieldName": "pacsNumber",
       "fieldType": "String"
     },
     {
-      "fieldName": "village2Mr",
+      "fieldName": "pacsName",
       "fieldType": "String"
     },
     {
-      "fieldName": "village3",
+      "fieldName": "branchId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "branchName",
       "fieldType": "String"
     },
     {
-      "fieldName": "village3Mr",
+      "fieldName": "talukaId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "talukaName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "zindagiPatrakDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "zindagiPatrakDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bankTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "bankTapasaniDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "govTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "govTapasaniDateMr",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sansthaTapasaniDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "sansthaTapasaniDateMr",
       "fieldType": "String"
     },
     {
       "fieldName": "totalLand",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "totalLandMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "totalMem",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "totalMemMr",
+      "fieldName": "bagayat",
       "fieldType": "String"
     },
     {
-      "fieldName": "totalNonMem",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "totalNonMemMr",
+      "fieldName": "jirayat",
       "fieldType": "String"
     },
     {
-      "fieldName": "totalGMem",
-      "fieldType": "Double"
+      "fieldName": "totalFarmer",
+      "fieldType": "String"
     },
     {
-      "fieldName": "totalGMemMr",
+      "fieldName": "memberFarmer",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "nonMemberFarmer",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "talebandDate",
+      "fieldType": "Instant"
     },
     {
       "fieldName": "memLoan",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memLoanMr",
       "fieldType": "String"
     },
     {
       "fieldName": "memDue",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memDueMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "memDueper",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memDueperMr",
+      "fieldName": "memVasuli",
       "fieldType": "String"
     },
     {
-      "fieldName": "memVasulpatra",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memVasulpatraMr",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "memVasul",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memVasulMr",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "memVasulPer",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "memVasulPerMr",
+      "fieldName": "memVasuliPer",
       "fieldType": "String"
     },
     {
       "fieldName": "bankLoan",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "bankLoanMr",
       "fieldType": "String"
     },
     {
       "fieldName": "bankDue",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "bankDueMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "bankDueper",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "bankDueperMr",
+      "fieldName": "bankVasuli",
       "fieldType": "String"
     },
     {
-      "fieldName": "bankVasulpatra",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "bankVasulpatraMr",
+      "fieldName": "bankVasuliPer",
       "fieldType": "String"
     },
     {
-      "fieldName": "bankVasul",
-      "fieldType": "Double"
+      "fieldName": "balanceSheetDate",
+      "fieldType": "Instant"
     },
     {
-      "fieldName": "bankVasulMr",
+      "fieldName": "balanceSheetDateMr",
       "fieldType": "String"
     },
     {
-      "fieldName": "bankVasulPer",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "bankVasulPerMr",
+      "fieldName": "liabilityAdhikrutShareCapital",
       "fieldType": "String"
     },
     {
-      "fieldName": "shareCapital",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "shareCapitalMr",
+      "fieldName": "liabilityVasulShareCapital",
       "fieldType": "String"
     },
     {
-      "fieldName": "share",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "shareMr",
+      "fieldName": "liabilityFund",
       "fieldType": "String"
     },
     {
-      "fieldName": "funds",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "fundsMr",
+      "fieldName": "liabilitySpareFund",
       "fieldType": "String"
     },
     {
-      "fieldName": "deposit",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "depositMr",
+      "fieldName": "liabilityDeposite",
       "fieldType": "String"
     },
     {
-      "fieldName": "payable",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "payableMr",
+      "fieldName": "liabilityBalanceSheetBankLoan",
       "fieldType": "String"
     },
     {
-      "fieldName": "profit",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "profitMr",
+      "fieldName": "liabilityOtherPayable",
       "fieldType": "String"
     },
     {
-      "fieldName": "cashInHand",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "cashInHandMr",
+      "fieldName": "liabilityProfit",
       "fieldType": "String"
     },
     {
-      "fieldName": "investment",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "investmentMr",
+      "fieldName": "assetCash",
       "fieldType": "String"
     },
     {
-      "fieldName": "deadStock",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "deadStockMr",
+      "fieldName": "assetInvestment",
       "fieldType": "String"
     },
     {
-      "fieldName": "otherPay",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "otherPayMr",
+      "fieldName": "assetImaratFund",
       "fieldType": "String"
     },
     {
-      "fieldName": "loss",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "lossMr",
+      "fieldName": "assetMemberLoan",
       "fieldType": "String"
     },
     {
-      "fieldName": "totalBagayat",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "totalBagayatMr",
+      "fieldName": "assetDeadStock",
       "fieldType": "String"
     },
     {
-      "fieldName": "totalJirayat",
-      "fieldType": "Double"
+      "fieldName": "assetOtherReceivable",
+      "fieldType": "String"
     },
     {
-      "fieldName": "totalJirayatMr",
+      "fieldName": "assetLoss",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "totalLiability",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "totalAsset",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "villageCode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "pacsVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "branchVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "headOfficeVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "divisionalOfficeVerifiedFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isSupplimenteryFlag",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "sansthaTapasaniVarg",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchVerifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeVerifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "divisionalOfficeVerifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "divisionalOfficeVerifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "doshPurtataDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "gambhirDosh",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchInwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchInwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "branchOutwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "branchOutwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeInwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeInwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "headOfficeOutwardNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "headOfficeOutwardDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "tharavNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tharavDate",
+      "fieldType": "Instant"
     }
   ],
   "jpaMetamodelFiltering": true,
   "name": "KamalSociety",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [
-    {
-      "otherEntityName": "kamalCrop",
-      "otherEntityRelationshipName": "kamalSociety",
-      "relationshipName": "kamalCrop",
-      "relationshipType": "one-to-many"
-    }
-  ],
+  "relationships": [],
   "service": "serviceImpl"
 }

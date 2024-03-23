@@ -85,215 +85,288 @@ public class KamalSocietyQueryService extends QueryService<KamalSociety> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), KamalSociety_.id));
             }
+            if (criteria.getFinancialYear() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFinancialYear(), KamalSociety_.financialYear));
+            }
+            if (criteria.getKmDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getKmDate(), KamalSociety_.kmDate));
+            }
+            if (criteria.getKmDateMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKmDateMr(), KamalSociety_.kmDateMr));
+            }
+            if (criteria.getKmFromDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getKmFromDate(), KamalSociety_.kmFromDate));
+            }
+            if (criteria.getKmFromDateMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKmFromDateMr(), KamalSociety_.kmFromDateMr));
+            }
+            if (criteria.getKmToDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getKmToDate(), KamalSociety_.kmToDate));
+            }
+            if (criteria.getKmToDateMr() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getKmToDateMr(), KamalSociety_.kmToDateMr));
+            }
             if (criteria.getPacsNumber() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPacsNumber(), KamalSociety_.pacsNumber));
+                specification = specification.and(buildStringSpecification(criteria.getPacsNumber(), KamalSociety_.pacsNumber));
             }
-            if (criteria.getZindagiDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getZindagiDate(), KamalSociety_.zindagiDate));
+            if (criteria.getPacsName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPacsName(), KamalSociety_.pacsName));
             }
-            if (criteria.getZindagiDateMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getZindagiDateMr(), KamalSociety_.zindagiDateMr));
+            if (criteria.getBranchId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchId(), KamalSociety_.branchId));
             }
-            if (criteria.getVillage1() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage1(), KamalSociety_.village1));
+            if (criteria.getBranchName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchName(), KamalSociety_.branchName));
             }
-            if (criteria.getVillage1Mr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage1Mr(), KamalSociety_.village1Mr));
+            if (criteria.getTalukaId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTalukaId(), KamalSociety_.talukaId));
             }
-            if (criteria.getVillage2() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage2(), KamalSociety_.village2));
+            if (criteria.getTalukaName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTalukaName(), KamalSociety_.talukaName));
             }
-            if (criteria.getVillage2Mr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage2Mr(), KamalSociety_.village2Mr));
+            if (criteria.getZindagiPatrakDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getZindagiPatrakDate(), KamalSociety_.zindagiPatrakDate));
             }
-            if (criteria.getVillage3() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage3(), KamalSociety_.village3));
+            if (criteria.getZindagiPatrakDateMr() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getZindagiPatrakDateMr(), KamalSociety_.zindagiPatrakDateMr));
             }
-            if (criteria.getVillage3Mr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getVillage3Mr(), KamalSociety_.village3Mr));
+            if (criteria.getBankTapasaniDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBankTapasaniDate(), KamalSociety_.bankTapasaniDate));
+            }
+            if (criteria.getBankTapasaniDateMr() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBankTapasaniDateMr(), KamalSociety_.bankTapasaniDateMr));
+            }
+            if (criteria.getGovTapasaniDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getGovTapasaniDate(), KamalSociety_.govTapasaniDate));
+            }
+            if (criteria.getGovTapasaniDateMr() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getGovTapasaniDateMr(), KamalSociety_.govTapasaniDateMr));
+            }
+            if (criteria.getSansthaTapasaniDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getSansthaTapasaniDate(), KamalSociety_.sansthaTapasaniDate));
+            }
+            if (criteria.getSansthaTapasaniDateMr() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getSansthaTapasaniDateMr(), KamalSociety_.sansthaTapasaniDateMr));
             }
             if (criteria.getTotalLand() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalLand(), KamalSociety_.totalLand));
+                specification = specification.and(buildStringSpecification(criteria.getTotalLand(), KamalSociety_.totalLand));
             }
-            if (criteria.getTotalLandMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalLandMr(), KamalSociety_.totalLandMr));
+            if (criteria.getBagayat() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBagayat(), KamalSociety_.bagayat));
             }
-            if (criteria.getTotalMem() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalMem(), KamalSociety_.totalMem));
+            if (criteria.getJirayat() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getJirayat(), KamalSociety_.jirayat));
             }
-            if (criteria.getTotalMemMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalMemMr(), KamalSociety_.totalMemMr));
+            if (criteria.getTotalFarmer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalFarmer(), KamalSociety_.totalFarmer));
             }
-            if (criteria.getTotalNonMem() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalNonMem(), KamalSociety_.totalNonMem));
+            if (criteria.getMemberFarmer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMemberFarmer(), KamalSociety_.memberFarmer));
             }
-            if (criteria.getTotalNonMemMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalNonMemMr(), KamalSociety_.totalNonMemMr));
+            if (criteria.getNonMemberFarmer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNonMemberFarmer(), KamalSociety_.nonMemberFarmer));
             }
-            if (criteria.getTotalGMem() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalGMem(), KamalSociety_.totalGMem));
-            }
-            if (criteria.getTotalGMemMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalGMemMr(), KamalSociety_.totalGMemMr));
+            if (criteria.getTalebandDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTalebandDate(), KamalSociety_.talebandDate));
             }
             if (criteria.getMemLoan() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemLoan(), KamalSociety_.memLoan));
-            }
-            if (criteria.getMemLoanMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemLoanMr(), KamalSociety_.memLoanMr));
+                specification = specification.and(buildStringSpecification(criteria.getMemLoan(), KamalSociety_.memLoan));
             }
             if (criteria.getMemDue() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemDue(), KamalSociety_.memDue));
+                specification = specification.and(buildStringSpecification(criteria.getMemDue(), KamalSociety_.memDue));
             }
-            if (criteria.getMemDueMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemDueMr(), KamalSociety_.memDueMr));
+            if (criteria.getMemVasuli() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMemVasuli(), KamalSociety_.memVasuli));
             }
-            if (criteria.getMemDueper() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemDueper(), KamalSociety_.memDueper));
-            }
-            if (criteria.getMemDueperMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemDueperMr(), KamalSociety_.memDueperMr));
-            }
-            if (criteria.getMemVasulpatra() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemVasulpatra(), KamalSociety_.memVasulpatra));
-            }
-            if (criteria.getMemVasulpatraMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemVasulpatraMr(), KamalSociety_.memVasulpatraMr));
-            }
-            if (criteria.getMemVasul() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemVasul(), KamalSociety_.memVasul));
-            }
-            if (criteria.getMemVasulMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemVasulMr(), KamalSociety_.memVasulMr));
-            }
-            if (criteria.getMemVasulPer() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMemVasulPer(), KamalSociety_.memVasulPer));
-            }
-            if (criteria.getMemVasulPerMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMemVasulPerMr(), KamalSociety_.memVasulPerMr));
+            if (criteria.getMemVasuliPer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMemVasuliPer(), KamalSociety_.memVasuliPer));
             }
             if (criteria.getBankLoan() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankLoan(), KamalSociety_.bankLoan));
-            }
-            if (criteria.getBankLoanMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankLoanMr(), KamalSociety_.bankLoanMr));
+                specification = specification.and(buildStringSpecification(criteria.getBankLoan(), KamalSociety_.bankLoan));
             }
             if (criteria.getBankDue() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankDue(), KamalSociety_.bankDue));
+                specification = specification.and(buildStringSpecification(criteria.getBankDue(), KamalSociety_.bankDue));
             }
-            if (criteria.getBankDueMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankDueMr(), KamalSociety_.bankDueMr));
+            if (criteria.getBankVasuli() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBankVasuli(), KamalSociety_.bankVasuli));
             }
-            if (criteria.getBankDueper() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankDueper(), KamalSociety_.bankDueper));
+            if (criteria.getBankVasuliPer() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBankVasuliPer(), KamalSociety_.bankVasuliPer));
             }
-            if (criteria.getBankDueperMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankDueperMr(), KamalSociety_.bankDueperMr));
+            if (criteria.getBalanceSheetDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBalanceSheetDate(), KamalSociety_.balanceSheetDate));
             }
-            if (criteria.getBankVasulpatra() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankVasulpatra(), KamalSociety_.bankVasulpatra));
+            if (criteria.getBalanceSheetDateMr() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBalanceSheetDateMr(), KamalSociety_.balanceSheetDateMr));
             }
-            if (criteria.getBankVasulpatraMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankVasulpatraMr(), KamalSociety_.bankVasulpatraMr));
-            }
-            if (criteria.getBankVasul() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankVasul(), KamalSociety_.bankVasul));
-            }
-            if (criteria.getBankVasulMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankVasulMr(), KamalSociety_.bankVasulMr));
-            }
-            if (criteria.getBankVasulPer() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBankVasulPer(), KamalSociety_.bankVasulPer));
-            }
-            if (criteria.getBankVasulPerMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getBankVasulPerMr(), KamalSociety_.bankVasulPerMr));
-            }
-            if (criteria.getShareCapital() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getShareCapital(), KamalSociety_.shareCapital));
-            }
-            if (criteria.getShareCapitalMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getShareCapitalMr(), KamalSociety_.shareCapitalMr));
-            }
-            if (criteria.getShare() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getShare(), KamalSociety_.share));
-            }
-            if (criteria.getShareMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getShareMr(), KamalSociety_.shareMr));
-            }
-            if (criteria.getFunds() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getFunds(), KamalSociety_.funds));
-            }
-            if (criteria.getFundsMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getFundsMr(), KamalSociety_.fundsMr));
-            }
-            if (criteria.getDeposit() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDeposit(), KamalSociety_.deposit));
-            }
-            if (criteria.getDepositMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDepositMr(), KamalSociety_.depositMr));
-            }
-            if (criteria.getPayable() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPayable(), KamalSociety_.payable));
-            }
-            if (criteria.getPayableMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPayableMr(), KamalSociety_.payableMr));
-            }
-            if (criteria.getProfit() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProfit(), KamalSociety_.profit));
-            }
-            if (criteria.getProfitMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getProfitMr(), KamalSociety_.profitMr));
-            }
-            if (criteria.getCashInHand() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getCashInHand(), KamalSociety_.cashInHand));
-            }
-            if (criteria.getCashInHandMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCashInHandMr(), KamalSociety_.cashInHandMr));
-            }
-            if (criteria.getInvestment() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getInvestment(), KamalSociety_.investment));
-            }
-            if (criteria.getInvestmentMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getInvestmentMr(), KamalSociety_.investmentMr));
-            }
-            if (criteria.getDeadStock() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getDeadStock(), KamalSociety_.deadStock));
-            }
-            if (criteria.getDeadStockMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDeadStockMr(), KamalSociety_.deadStockMr));
-            }
-            if (criteria.getOtherPay() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getOtherPay(), KamalSociety_.otherPay));
-            }
-            if (criteria.getOtherPayMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getOtherPayMr(), KamalSociety_.otherPayMr));
-            }
-            if (criteria.getLoss() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getLoss(), KamalSociety_.loss));
-            }
-            if (criteria.getLossMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getLossMr(), KamalSociety_.lossMr));
-            }
-            if (criteria.getTotalBagayat() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalBagayat(), KamalSociety_.totalBagayat));
-            }
-            if (criteria.getTotalBagayatMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalBagayatMr(), KamalSociety_.totalBagayatMr));
-            }
-            if (criteria.getTotalJirayat() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotalJirayat(), KamalSociety_.totalJirayat));
-            }
-            if (criteria.getTotalJirayatMr() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getTotalJirayatMr(), KamalSociety_.totalJirayatMr));
-            }
-            if (criteria.getKamalCropId() != null) {
+            if (criteria.getLiabilityAdhikrutShareCapital() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(
-                            criteria.getKamalCropId(),
-                            root -> root.join(KamalSociety_.kamalCrops, JoinType.LEFT).get(KamalCrop_.id)
-                        )
+                        buildStringSpecification(criteria.getLiabilityAdhikrutShareCapital(), KamalSociety_.liabilityAdhikrutShareCapital)
                     );
+            }
+            if (criteria.getLiabilityVasulShareCapital() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getLiabilityVasulShareCapital(), KamalSociety_.liabilityVasulShareCapital)
+                    );
+            }
+            if (criteria.getLiabilityFund() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLiabilityFund(), KamalSociety_.liabilityFund));
+            }
+            if (criteria.getLiabilitySpareFund() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getLiabilitySpareFund(), KamalSociety_.liabilitySpareFund));
+            }
+            if (criteria.getLiabilityDeposite() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getLiabilityDeposite(), KamalSociety_.liabilityDeposite));
+            }
+            if (criteria.getLiabilityBalanceSheetBankLoan() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getLiabilityBalanceSheetBankLoan(), KamalSociety_.liabilityBalanceSheetBankLoan)
+                    );
+            }
+            if (criteria.getLiabilityOtherPayable() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getLiabilityOtherPayable(), KamalSociety_.liabilityOtherPayable));
+            }
+            if (criteria.getLiabilityProfit() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLiabilityProfit(), KamalSociety_.liabilityProfit));
+            }
+            if (criteria.getAssetCash() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetCash(), KamalSociety_.assetCash));
+            }
+            if (criteria.getAssetInvestment() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetInvestment(), KamalSociety_.assetInvestment));
+            }
+            if (criteria.getAssetImaratFund() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetImaratFund(), KamalSociety_.assetImaratFund));
+            }
+            if (criteria.getAssetMemberLoan() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetMemberLoan(), KamalSociety_.assetMemberLoan));
+            }
+            if (criteria.getAssetDeadStock() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetDeadStock(), KamalSociety_.assetDeadStock));
+            }
+            if (criteria.getAssetOtherReceivable() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getAssetOtherReceivable(), KamalSociety_.assetOtherReceivable));
+            }
+            if (criteria.getAssetLoss() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAssetLoss(), KamalSociety_.assetLoss));
+            }
+            if (criteria.getTotalLiability() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalLiability(), KamalSociety_.totalLiability));
+            }
+            if (criteria.getTotalAsset() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTotalAsset(), KamalSociety_.totalAsset));
+            }
+            if (criteria.getVillageCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getVillageCode(), KamalSociety_.villageCode));
+            }
+            if (criteria.getPacsVerifiedFlag() != null) {
+                specification = specification.and(buildSpecification(criteria.getPacsVerifiedFlag(), KamalSociety_.pacsVerifiedFlag));
+            }
+            if (criteria.getBranchVerifiedFlag() != null) {
+                specification = specification.and(buildSpecification(criteria.getBranchVerifiedFlag(), KamalSociety_.branchVerifiedFlag));
+            }
+            if (criteria.getHeadOfficeVerifiedFlag() != null) {
+                specification =
+                    specification.and(buildSpecification(criteria.getHeadOfficeVerifiedFlag(), KamalSociety_.headOfficeVerifiedFlag));
+            }
+            if (criteria.getDivisionalOfficeVerifiedFlag() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getDivisionalOfficeVerifiedFlag(), KamalSociety_.divisionalOfficeVerifiedFlag)
+                    );
+            }
+            if (criteria.getIsSupplimenteryFlag() != null) {
+                specification = specification.and(buildSpecification(criteria.getIsSupplimenteryFlag(), KamalSociety_.isSupplimenteryFlag));
+            }
+            if (criteria.getSansthaTapasaniVarg() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getSansthaTapasaniVarg(), KamalSociety_.sansthaTapasaniVarg));
+            }
+            if (criteria.getBranchVerifiedBy() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBranchVerifiedBy(), KamalSociety_.branchVerifiedBy));
+            }
+            if (criteria.getBranchVerifiedDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getBranchVerifiedDate(), KamalSociety_.branchVerifiedDate));
+            }
+            if (criteria.getHeadOfficeVerifiedBy() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getHeadOfficeVerifiedBy(), KamalSociety_.headOfficeVerifiedBy));
+            }
+            if (criteria.getHeadOfficeVerifiedDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getHeadOfficeVerifiedDate(), KamalSociety_.headOfficeVerifiedDate));
+            }
+            if (criteria.getDivisionalOfficeVerifiedBy() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getDivisionalOfficeVerifiedBy(), KamalSociety_.divisionalOfficeVerifiedBy)
+                    );
+            }
+            if (criteria.getDivisionalOfficeVerifiedDate() != null) {
+                specification =
+                    specification.and(
+                        buildRangeSpecification(criteria.getDivisionalOfficeVerifiedDate(), KamalSociety_.divisionalOfficeVerifiedDate)
+                    );
+            }
+            if (criteria.getDoshPurtataDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getDoshPurtataDate(), KamalSociety_.doshPurtataDate));
+            }
+            if (criteria.getGambhirDosh() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getGambhirDosh(), KamalSociety_.gambhirDosh));
+            }
+            if (criteria.getBranchInwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBranchInwardNumber(), KamalSociety_.branchInwardNumber));
+            }
+            if (criteria.getBranchInwardDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBranchInwardDate(), KamalSociety_.branchInwardDate));
+            }
+            if (criteria.getBranchOutwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getBranchOutwardNumber(), KamalSociety_.branchOutwardNumber));
+            }
+            if (criteria.getBranchOutwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getBranchOutwardDate(), KamalSociety_.branchOutwardDate));
+            }
+            if (criteria.getHeadOfficeInwardNumber() != null) {
+                specification =
+                    specification.and(buildStringSpecification(criteria.getHeadOfficeInwardNumber(), KamalSociety_.headOfficeInwardNumber));
+            }
+            if (criteria.getHeadOfficeInwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getHeadOfficeInwardDate(), KamalSociety_.headOfficeInwardDate));
+            }
+            if (criteria.getHeadOfficeOutwardNumber() != null) {
+                specification =
+                    specification.and(
+                        buildStringSpecification(criteria.getHeadOfficeOutwardNumber(), KamalSociety_.headOfficeOutwardNumber)
+                    );
+            }
+            if (criteria.getHeadOfficeOutwardDate() != null) {
+                specification =
+                    specification.and(buildRangeSpecification(criteria.getHeadOfficeOutwardDate(), KamalSociety_.headOfficeOutwardDate));
+            }
+            if (criteria.getTharavNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTharavNumber(), KamalSociety_.tharavNumber));
+            }
+            if (criteria.getTharavDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTharavDate(), KamalSociety_.tharavDate));
             }
         }
         return specification;

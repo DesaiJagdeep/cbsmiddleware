@@ -345,7 +345,7 @@ public class KamalCrop extends AbstractAuditingEntity<Long> implements Serializa
 
     public  String getDecimalPartOfNumber(String str){
         if (str==null || !str.contains(".")){
-            return "0";
+            return "";
         }
         String[] parts = str.split("\\.");
         String decimalPart = parts[1];

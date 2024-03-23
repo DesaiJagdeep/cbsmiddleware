@@ -4,6 +4,7 @@ import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -287,13 +288,75 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "kamal_karj_marayada_amount")
     private Double kamalKarjMarayadaAmount;
 
+    @Column(name = "member_count")
+    private Long memberCount;
+    @Column(name = "area")
+    private Double area;
+
+    @Column(name = "amount")
+    private  Double amount ;
+
+    @Column(name = "fraud_amount")
+    private  Double fraudAmount ;
 
     @OneToMany(mappedBy = "kamalSociety", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"kamalSociety"}, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    //
 
+    public Double getFraudAmount() {
+        return fraudAmount;
+    }
+    public KamalSociety fraudAmount(Double fraudAmount) {
+        this.setFraudAmount(fraudAmount);
+        return this;
+    }
+
+    public void setFraudAmount(Double fraudAmount) {
+        this.fraudAmount = fraudAmount;
+    }
+
+    public Double getArea() {
+        return area;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+
+    public KamalSociety area(Double area) {
+        this.setArea(area);
+        return this;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public KamalSociety amount(Double amount) {
+        this.setAmount(amount);
+        return this;
+    }
+
+    public Long getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(Long memberCount) {
+        this.memberCount = memberCount;
+    }
+
+    public KamalSociety memberCount(Long memberCount) {
+        this.setMemberCount(memberCount);
+        return this;
+    }
+    //
 
     public Double getKamalKarjMarayadaAmount() {
         return kamalKarjMarayadaAmount;
@@ -1497,4 +1560,19 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
         return localDate;
     }
 
+
+    public String doubleToString(Double doubleValue){
+        if(doubleValue==null){
+            return null;
+        }
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(doubleValue);
+    }
+
+    public String longToString( Long longValue){
+        if(longValue==null){
+            return null;
+        }
+        return longValue.toString();
+    }
 }

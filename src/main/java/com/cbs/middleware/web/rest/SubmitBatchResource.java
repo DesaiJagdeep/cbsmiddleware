@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -33,10 +34,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import com.cbs.middleware.config.ApplicationProperties;
@@ -154,6 +152,7 @@ public class SubmitBatchResource {
     @Autowired
     BatchTransactionRepository batchTransactionRepository;
 
+
     @Autowired
     RBAControl rbaControl;
 
@@ -166,6 +165,57 @@ public class SubmitBatchResource {
      * @throws Exception
      */
 //----------------------------------------------------------------------------------------------------------------------
+    @GetMapping("/retryErrors")
+       public void  retryErrors() {
+           /*String retryErrors[] = {"message", "batchId number"};
+           StringBuilder queryBuilder = new StringBuilder();
+
+           for (int i = 0; i < retryErrors.length; i++) {
+               if (i > 0) {
+                   queryBuilder.append(" or ");
+               }
+               queryBuilder.append("error_message like '").append(retryErrors[i]).append("%'");
+           }
+
+           String finalQuery =   "("+queryBuilder.toString()+")"  ;*/
+        String finalQuery = "" ;
+
+           List<ApplicationLog> retryErrorList= applicationLogRepository.findByErrorMessageAndStatus(finalQuery);
+
+        Set<Long> portalIdsSet = retryErrorList.stream()
+            .map(ApplicationLog::getIssPortalId)
+            .distinct() // Filter out duplicates
+            .collect(Collectors.toSet());
+
+        List<Long> portalIdsList=new ArrayList<>();
+        portalIdsList.addAll(portalIdsSet);
+
+        Set<IssFileParser> issFileParsers = retryErrorList.stream()
+            .map(ApplicationLog::getIssFileParser)
+            .distinct() // Filter out duplicates
+            .collect(Collectors.toSet());
+
+        for (IssFileParser issFileParser:issFileParsers) {
+            Optional<Application> applicationTransaction = applicationRepository.findOneByIssFileParser(issFileParser);
+            applicationTransaction.get().setBatchId(null);
+            applicationTransaction.get().setUniqueId(null);
+            applicationTransaction.get().setKccStatus(null);
+            applicationTransaction.get().setApplicationStatus(2);
+            applicationRepository.save(applicationTransaction.get());
+        }
+
+        for (IssFileParser issFileParser:issFileParsers) {
+            Optional<ApplicationLog> applicationLog=applicationLogRepository.findLogByIssFileParserId(issFileParser.getId());
+            applicationLog.get().setStatus("FIXED");
+            applicationLogRepository.save(applicationLog.get());
+        }
+
+        submitBatchManual(portalIdsList);
+
+
+    }
+
+
 
     @PostMapping("/submit-batch-manual")
     public Void submitBatchManual(@RequestBody List<Long> issPortalFileIds) {

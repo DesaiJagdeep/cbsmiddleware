@@ -30,12 +30,12 @@
   <p style="margin: 5px 0;">जा. क्र.
     शेतीकर्ज / मूळ क.म. / पुरवणी / <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.financialYear)} "></span></strong>  /
   <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.headOfficeOutwardNumber)} "></span></strong> </p>
-  <p style="margin: 5px 0;">दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.headOfficeOutwardDate))}"></span></strong>  </p>
+  <p style="margin: 5px;">दिनांक: <strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.headOfficeOutwardDate))}"></span></strong>  </p>
 </div>
 <h3 style="margin: 12px 0; font-size: medium;">प्रति,</h3>
 <h3 style="margin: 12px 0; font-size: medium;">मा. अध्यक्ष,</h3>
-<p style="margin: 5px 0;"><strong><span th:text="${kamalSociety.pacsName} "></span> </strong> &nbsp;&nbsp;&nbsp; वि. का. से. सह. सोसा. लि.</p>
-<p style="margin: 5px 0;">मु. ________________पो. ______________ता. <strong><span th:text="${kamalSociety.talukaName} "></span></strong> जि. पुणे.</p>
+<p style="margin: 5px 0;"><strong><span th:text="${kamalSociety.pacsName} "></span> </strong> &nbsp;&nbsp;&nbsp;</p>
+<p style="margin: 5px 0;">मु.पो. ______________ता. <strong><span th:text="${kamalSociety.talukaName} "></span></strong> जि. पुणे.</p>
 
 <div style="margin: 15px 0;">
   <div style="display: flex; justify-content: center;">
@@ -169,15 +169,15 @@
   <tr>
     <td class="text-left"></td>
     <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर </td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.memberCount)}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(grandTotal.area))}" ></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(grandTotal.area))}" ></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.agriAdminAmount)}" ></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.longToString(kamalSociety.memberCount))}"></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.amount))}" ></td>
   </tr>
   </tbody>
 </table>
-<p style="margin: 5px 0;">एकूण अक्षरी मंजुरी रु. <strong><span th:text="${translationServiceUtility.totalAmountWord(grandTotal.agriAdminAmount)}"> </span></strong> </p>
-<p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.kamalKarjMarayadaAmount)}"> </span></strong></p>
+<p style="margin: 5px 0;">एकूण अक्षरी मंजुरी रु. <strong><span th:text="${translationServiceUtility.amountToMarathiWords(kamalSociety.amount)}"> </span></strong> </p>
+<p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.kamalKarjMarayadaAmount))}"> </span></strong></p>
 <p style="margin: 5px 0;">सभासदवार कर्ज मंजुरींचा तपशील सोबतच्या मंजूर कमाल मर्यादा पत्रकानुसार राहील. या कर्जासाठी खालील अटी बंधनकारक राहतील. </p>
 
 
@@ -326,7 +326,7 @@
 
 </table>
 
-<div style="text-indent: 20px; line-height: 10px;">
+<div style="text-indent: 20px;">
   <div style="display: flex; margin-top: 30px;">
     <div style="width: 40%;margin: 5px 0">
       <div style="font-weight: 550; font-size: 17px;">प्रत जरुर त्या कार्यवाहीसाठी</div>

@@ -51,13 +51,41 @@ public class InterestSubventionResource {
         //delete record from ISCalculateTemp
         deleteFromIsCalculateTemp(interestSubventionDTO);
 
-       //get distinct aadhar numbers from parser by pacscode & financial year
+//    List<String> distinctPacsList= issFileParserRepository.findDistinctPacsNumberAndFinancialYear();
+//
+//    for(int i=0;i<distinctPacsList.size();i++){
+//
+//        interestSubventionDTO.setFinancialYear("2022-2023");
+//        interestSubventionDTO.setPacsNumber(distinctPacsList.get(i));
+//        //get distinct aadhar numbers from parser by pacscode & financial year
+//        List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(distinctPacsList.get(i), "2022-2023");
+//
+//
+//        //loop through aadhar numbers
+//        for (String aadharNumber : distinctAadhars) {
+//            //get the records from parser order by disbursementDate ASC
+//            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber(aadharNumber, "2022-2023");
+//            System.out.println("IssFileParsers:" + issFileParsers);
+//
+//            //Calculate interest for report 1 & 2
+//            List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO,isCalculateTempRepository).CalculateInterestForCenterState();
+//
+//        }
+//
+//        //Insert data into Center March & Center June & State Panjabrao
+//        saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
+//
+//    }
+
+
+//        //get distinct aadhar numbers from parser by pacscode & financial year
         List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
+
 
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
             //get the records from parser order by disbursementDate ASC
-            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber(aadharNumber, interestSubventionDTO.getFinancialYear());
+            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber("411552040590", interestSubventionDTO.getFinancialYear());
             System.out.println("IssFileParsers:" + issFileParsers);
 
             //Calculate interest for report 1 & 2
@@ -68,8 +96,9 @@ public class InterestSubventionResource {
         //Insert data into Center March & Center June & State Panjabrao
         saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
 
+
     }
- public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
+    public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
 
         //Insert data to center march table
         if (interestSubventionDTO.getReportType()==1 && interestSubventionDTO.getReportCondition()==1){
@@ -86,7 +115,7 @@ public class InterestSubventionResource {
 
             CenterReportMarch centerReportMarch= new CenterReportMarch();
             if (!centerReportMarchList.isEmpty()){
-                 centerReportMarch= centerReportMarchList.get(0);
+                centerReportMarch= centerReportMarchList.get(0);
             }
 
             GenerateSummaryReportCenterMarch(interestSubventionDTO,centerReportMarch);
@@ -95,7 +124,7 @@ public class InterestSubventionResource {
         //Insert data to center june table
         else if (interestSubventionDTO.getReportType()==2 && interestSubventionDTO.getReportCondition()==1){
 
-             //delete record from center report june table
+            //delete record from center report june table
             deleteFromCenterReportJune(interestSubventionDTO);
 
             //select records from IsCalculateTemp
@@ -112,7 +141,7 @@ public class InterestSubventionResource {
 
             GenerateSummaryReportCenterJune(interestSubventionDTO,centerReportJune);
 
-            }
+        }
         //Insert data to state panjabrao table
         else if (interestSubventionDTO.getReportType()==3 && interestSubventionDTO.getReportCondition()==2){
 
@@ -133,9 +162,9 @@ public class InterestSubventionResource {
 
             GenerateSummaryReportStatePanjabrao(interestSubventionDTO,stateReportPanjabrao);
 
-            }
+        }
 
-         deleteFromIsCalculateTemp(interestSubventionDTO);
+        deleteFromIsCalculateTemp(interestSubventionDTO);
 
     }
     ///.....CENTER REPORT MARCH......///
@@ -145,7 +174,7 @@ public class InterestSubventionResource {
         //1-delete from summary report table as per FY, PACS, Report type, report condition
         deleteFromSummaryReport(interestSubventionDTO);
 
-        //2-Before calculation insert default records(1,2,3 - Upto 5000, >5000 to <=3 lakh, above 3 lakh)
+        //2-Before calculation insert default records(1,2,3 - Upto 5000, >5000 to <=3 lakh, above 3 lakh respectively)
         for (int j=1;j<=3;j++){
             for(int i=0;i<3;i++){
                 addDefaultRecordsIntoSummaryReport(interestSubventionDTO,i+1,j,centerReportMarch.getBranchCode(), centerReportMarch.getTalukaCode());
@@ -154,63 +183,63 @@ public class InterestSubventionResource {
 
         //3-Calculate total no of loan acc, loan amt, recovery amt as per above condition 2
         List<Object[]> totalLoanAmtandAccs = centerReportMarchRepository.FindTotalLoansAndAccounts(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
-        //convert Total loan amounts & accs object into SummaryReportUpdateDTO
+        //Convert Total loan amounts & accs object into SummaryReportUpdateDTO
         List<SummaryReportUpdateDTO> totalLoanAccDTOList= ConvertResultIntoSummaryReportDTO(totalLoanAmtandAccs,"totalLoan",false);
-         if (!totalLoanAccDTOList.isEmpty()){
+        if (!totalLoanAccDTOList.isEmpty()){
             UpdateTotalLoanAccsInSummaryReport(interestSubventionDTO,totalLoanAccDTOList);
-         }
+        }
 
 
         //4-Find recovery accounts as per condition 2
         List<Object[]> totalRecoveryAccounts = centerReportMarchRepository.FindRecoveryAccounts(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> totalRecoveryACCList= ConvertResultIntoSummaryReportDTO(totalRecoveryAccounts,"recoveryAccount",false);
-       if (!totalRecoveryACCList.isEmpty()){
-              UpdateTotalRecoveryAccsInSummaryReport(interestSubventionDTO,totalRecoveryACCList);
-       }
+        if (!totalRecoveryACCList.isEmpty()){
+            UpdateTotalRecoveryAccsInSummaryReport(interestSubventionDTO,totalRecoveryACCList);
+        }
 
-        //5-find social category interest amt & accounts as per condition 2
+        //5-find social category interest amount & accounts as per condition 2
         List<Object[]> castWiseInterestAmtAndAccs = centerReportMarchRepository.FindCastWiseInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> castWiseInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(castWiseInterestAmtAndAccs,"cast",false);
         if (!castWiseInterestAmtAndAccsList.isEmpty()){
             UpdateCastWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,castWiseInterestAmtAndAccsList);
         }
 
-       //6- find gender interest amt & accounts as per condition 2
+        //6- find gender interest amount & accounts as per condition 2
         List<Object[]> womensInterestAmtAndAccs = centerReportMarchRepository.FindWomensInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",false);
         if (!womensInterestAmtAndAccsList.isEmpty()){
             UpdateGenderWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,castWiseInterestAmtAndAccsList);
         }
 
-        //7-find farmerType interest amt & accounts as per condition 2
+        //7-find farmerType interest amount & accounts as per condition 2
         List<Object[]> farmerTypeWiseInterestAmtAndAccs = centerReportMarchRepository.FindFarmerTypeWiseInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> farmerTypeWiseInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(farmerTypeWiseInterestAmtAndAccs,"farmerType",false);
         if (!farmerTypeWiseInterestAmtAndAccsList.isEmpty()){
             UpdateFarmerTypeWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,farmerTypeWiseInterestAmtAndAccsList);
         }
 
-        //Generate report for center march 3%
-     GenerateSummaryReportCenterMarchState3(interestSubventionDTO);
+        //Generate report for center march 3%: only recovered loan
+        GenerateSummaryReportCenterMarchState3(interestSubventionDTO);
 
     }
 
     ///.....CENTER REPORT MARCH STATE 3......///
     public void GenerateSummaryReportCenterMarchState3(InterestSubventionDTO interestSubventionDTO){
-    //5-find social category interest amt & accounts as per condition 2
+        //find social category interest amt & accounts as per FY, PACS, reportType & ReportCondition
         List<Object[]> castWiseInterestAmtAndAccs = centerReportMarchRepository.FindCastWiseInterestAmtAndAccsOnlyRecover(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> castWiseInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(castWiseInterestAmtAndAccs,"cast",true);
         if (!castWiseInterestAmtAndAccsList.isEmpty()){
             UpdateCastWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,castWiseInterestAmtAndAccsList);
         }
 
-        //6- find gender interest amt & accounts as per condition 2
+        //find gender interest amount & accounts
         List<Object[]> womensInterestAmtAndAccs = centerReportMarchRepository.FindWomensInterestAmtAndAccsOnlyRecover(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",true);
         if (!womensInterestAmtAndAccsList.isEmpty()){
             UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,castWiseInterestAmtAndAccsList);
         }
 
-        //7-find farmerType interest amt & accounts as per condition 2
+        //find farmerType interest amount & accounts
         List<Object[]> farmerTypeWiseInterestAmtAndAccs = centerReportMarchRepository.FindFarmerTypeWiseInterestAmtAndAccsOnlyRecover(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> farmerTypeWiseInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(farmerTypeWiseInterestAmtAndAccs,"farmerType",true);
         if (!farmerTypeWiseInterestAmtAndAccsList.isEmpty()){
@@ -235,7 +264,6 @@ public class InterestSubventionResource {
                 addDefaultRecordsIntoSummaryReport(interestSubventionDTO,i+1,j,centerReportJune.getBranchCode(), centerReportJune.getTalukaCode());
             }
         }
-
 
         //3-Calculate total no of loan acc, loan amt, recovery amt as per above condition 2
         List<Object[]> totalLoanAmtandAccs = centerReportJuneRepository.FindTotalLoansAndAccounts(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
@@ -302,7 +330,6 @@ public class InterestSubventionResource {
         }
 
     }
-///..........////
 
     ///.....STATE PUNJABRAO......///
     public void GenerateSummaryReportStatePanjabrao(InterestSubventionDTO interestSubventionDTO, StateReportPanjabro stateReportPanjabro){
@@ -420,7 +447,6 @@ public class InterestSubventionResource {
                     break;
                 }
                 case "gender": {
-
                     if (Interest3){
                         Integer aadharCount = ((BigInteger) branch[0]).intValue();
                         Double interest3 = ((Double) branch[1]);
@@ -453,7 +479,7 @@ public class InterestSubventionResource {
                         Integer aadharCount = ((BigInteger) branch[0]).intValue();
                         Double interest15 = ((Double) branch[1]);
                         Double interest25 = ((Double) branch[2]);
-                         Integer upto50000 = (Integer) branch[3];
+                        Integer upto50000 = (Integer) branch[3];
                         SummaryReportUpdateDTO summaryReportUpdateDTO = new SummaryReportUpdateDTO(aadharCount, interest15, interest25, null, upto50000);
                         summaryReportUpdateDTOList.add(summaryReportUpdateDTO);
                     }
@@ -467,7 +493,7 @@ public class InterestSubventionResource {
         return summaryReportUpdateDTOList;
 
     }
-
+    //////////...CREATE SUMMARY REPORT.........../////////////
     //Update total loan amounts & accounts in summary report
     public void UpdateTotalLoanAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
 
@@ -504,7 +530,6 @@ public class InterestSubventionResource {
         }
 
     }
-
 
     //Update cast wise total interest & accounts in summary report:1.5 & 2.5
     public void UpdateCastWiseInterestAmtandAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> castWiseInterestAmtAndAccs){
@@ -561,7 +586,7 @@ public class InterestSubventionResource {
     public void UpdateCastWiseInterestAmtandAccsInSummaryState3(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> castWiseInterestAmtAndAccs){
 
         List<SummaryReport> summaryReportList = new ArrayList<>();
-         summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
+        summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
 
         for (SummaryReport summaryReport:summaryReportList){
             for(SummaryReportUpdateDTO castWise:castWiseInterestAmtAndAccs){
@@ -588,13 +613,11 @@ public class InterestSubventionResource {
         }
     }
 
-
     //Update gender wise total interest & accounts in summary report:1.5 & 2.5
     public void UpdateGenderWiseInterestAmtandAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
 
         List<SummaryReport> summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
-        Integer reportType= interestSubventionDTO.getReportType();
-        Integer reportCondition = interestSubventionDTO.getReportCondition();
+
         for (SummaryReport summaryReport:summaryReportList){
             for(SummaryReportUpdateDTO genderWise:totalLoanAmtandAccs){
 
@@ -614,7 +637,6 @@ public class InterestSubventionResource {
 
                 }
 
-
             }
         }
 
@@ -622,7 +644,7 @@ public class InterestSubventionResource {
 
     //Update gender wise total interest & accounts in summary report:3
     public void UpdateGenderWiseInterestAmtandAccsInSummaryState3(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
-        List<SummaryReport> summaryReportList = new ArrayList<>();
+        List<SummaryReport> summaryReportList;
         summaryReportList  = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
         Integer reportType= interestSubventionDTO.getReportType();
         Integer reportCondition = interestSubventionDTO.getReportCondition();
@@ -641,7 +663,6 @@ public class InterestSubventionResource {
         }
 
     }
-
 
     //Update farmer type wise total interest & accounts in summary report: 1.5 & 2.5
     public void UpdateFarmerTypeWiseInterestAmtandAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> farmerTypeWiseInterestAmtAndAccsList){
@@ -673,8 +694,8 @@ public class InterestSubventionResource {
     //Update farmer type wise total interest & accounts in summary report: 3
     public void UpdateFarmerTypeWiseInterestAmtandAccsInSummaryState3(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> farmerTypeWiseInterestAmtAndAccsList){
 
-        List<SummaryReport> summaryReportList = new ArrayList<>();
-     summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
+        List<SummaryReport> summaryReportList;
+        summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
 
         for (SummaryReport summaryReport:summaryReportList){
             for(SummaryReportUpdateDTO farmerTypeWise:farmerTypeWiseInterestAmtAndAccsList){
@@ -690,7 +711,7 @@ public class InterestSubventionResource {
         }
 
     }
-
+    //Convert ISCalculateTemp to CenterReportMarch to save records into CenterReportMarch
     private List<CenterReportMarch> convertToCenterReportMarch(List<IsCalculateTemp> isCalculateTempList) {
         List<CenterReportMarch> centerReportMarchList = new ArrayList<>();
 
@@ -704,6 +725,7 @@ public class InterestSubventionResource {
         return centerReportMarchList;
     }
 
+    //Convert ISCalculateTemp to CenterReportJune to save records into CenterReportJune
     private List<CenterReportJune> convertToCenterReportJune(List<IsCalculateTemp> isCalculateTempList) {
         List<CenterReportJune> centerReportJuneList = new ArrayList<>();
 
@@ -716,7 +738,7 @@ public class InterestSubventionResource {
 
         return centerReportJuneList;
     }
-
+    //Convert ISCalculateTemp to StateReportPanjabrao to save records into StateReportPanjabrao
     private List<StateReportPanjabro> convertToStateReportPanjabrao(List<IsCalculateTemp> isCalculateTempList) {
         List<StateReportPanjabro> stateReportPanjabroList = new ArrayList<>();
 
@@ -772,7 +794,7 @@ public class InterestSubventionResource {
     }
 
 
-//delete from summary report
+    //delete from summary report
     public void deleteFromSummaryReport(InterestSubventionDTO interestSubventionDTO){
         List<SummaryReport> summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
 

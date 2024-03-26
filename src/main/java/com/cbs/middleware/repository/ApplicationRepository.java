@@ -4,6 +4,7 @@ import com.cbs.middleware.domain.Application;
 import com.cbs.middleware.domain.ApplicationLog;
 import com.cbs.middleware.domain.IssFileParser;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,6 +60,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     List<Application> findAllByBatchIdAndApplicationStatusAndIssFilePortalId(Object nullValue, Integer errorStatus, Long issFilePortalId);
 
     Application findOneByUniqueId(String uniqueId);
+
+    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:iss_file_parser_id and application_status=1", nativeQuery = true)
+Application findApplicatonsByParserId(@Param("iss_file_parser_id") Long iss_file_parser_id) ;
 
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);
@@ -142,5 +146,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     //Duplicate Farmer and account details
     @Query(value = "SELECT DISTINCT iss_file_portal_id FROM application_transaction WHERE kcc_status= 0  AND application_errors LIKE 'Duplicate farmer and account details. %' AND iss_file_parser_id not IN (select iss_file_parser_id from retry_batch_transaction_details rbtd where api_type = 3)", nativeQuery = true)
     List<Long> findDistinctPortalIdDuplicateFarmer();
+
+
+
 
 }

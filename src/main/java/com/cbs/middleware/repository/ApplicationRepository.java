@@ -61,6 +61,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     Application findOneByUniqueId(String uniqueId);
 
+    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:iss_file_parser_id and application_status=1", nativeQuery = true)
+Application findApplicatonsByParserId(@Param("iss_file_parser_id") Long iss_file_parser_id) ;
+
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);
 
@@ -145,7 +148,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
     List<Long> findDistinctPortalIdDuplicateFarmer();
 
 
-    @Query(value = "SELECT * FROM application_transaction WHERE packs_code =:packs_code and financial_year =:financial_year and application_status =1 ", nativeQuery = true)
-    List<Application> findApplicationsToClaim(@Param("financial_year") String financial_year,@Param("packs_code") Long packs_code);
+
 
 }

@@ -5,6 +5,8 @@ import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.*;
 import com.cbs.middleware.repository.ApplicationRepository;
+import com.cbs.middleware.repository.CenterReportJuneRepository;
+import com.cbs.middleware.service.dto.InterestSubventionDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,9 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Cipher;
@@ -32,10 +32,11 @@ import java.util.regex.Pattern;
 
 
 
-
+@RestController
+@RequestMapping("/api")
 public class SubmitClaimBatchResource {
 
-    private final Logger log = LoggerFactory.getLogger(SubmitBatchResource.class);
+    private final Logger log = LoggerFactory.getLogger(SubmitClaimBatchResource.class);
     @Autowired
     private RestTemplate restTemplate;
 
@@ -44,26 +45,34 @@ public class SubmitClaimBatchResource {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    @PostMapping("/submit-claim-batch/{packsCode}/{financialYear}")
-    //@PreAuthorize("@authentication.hasPermision('',#issPortalFile.id,'','SUBMIT_BATCH','SUBMIT')")
-    public List<CBSResponce> submitClaimBatch(@PathVariable Long packsCode, @PathVariable String financialYear) {
-packsCode=Math.round(Double.parseDouble("81000001"));
-financialYear="2021-2022";
+    @Autowired
+    CenterReportJuneRepository centerReportJuneRepository;
 
-        List<Application> applicationList = applicationRepository.findApplicationsToClaim(financialYear,packsCode);
-
-        int batchSize = 999;
-        List<CBSResponce> cbsResponceStringList = new ArrayList<>();
-        for (int i = 0; i < applicationList.size(); i += batchSize) {
-            List<Application> batch = applicationList.subList(i, Math.min(i + batchSize, applicationList.size()));
-            CBSResponce cbsResponce = processBatch(batch);
-            cbsResponceStringList.add(cbsResponce);
-        }
-
-        return cbsResponceStringList;
+    public SubmitClaimBatchResource(ApplicationRepository applicationRepository, CenterReportJuneRepository centerReportJuneRepository) {
+        this.applicationRepository = applicationRepository;
+        this.centerReportJuneRepository = centerReportJuneRepository;
     }
 
-    private CBSResponce processBatch(List<Application> applicationTransactionList) {
+    @PostMapping("/submit-claim-batch")
+    public CBSResponce submitClaimBatch(@RequestBody InterestSubventionDTO interestSubventionDTO) {
+        CBSResponce cbsResponce = null;
+     //find distinct farmers by pacs
+        List<String> distinctAadhars=  centerReportJuneRepository.DistinctAadharCenterReportJune(interestSubventionDTO.getPacsNumber(),interestSubventionDTO.getFinancialYear());
+
+        //Loop through addhars
+        for(String aadharNo:distinctAadhars){
+            //find distinct parser id(loan applications) by aadhar
+
+            List<Long> distinctParsers= centerReportJuneRepository.DistinctIssFileParserIdByAadhar("901423243268");
+
+            processBatch(distinctParsers,interestSubventionDTO);
+
+        }
+
+        return cbsResponce;
+    }
+
+    private CBSResponce processBatch(List<Long> issFileParsers,InterestSubventionDTO interestSubventionDTO) {
         // Batch ID (14 Digits): <6 character DDMMYY>+<3 character Bank code as per
         // NCIP>+< 5 digit
         // running number>
@@ -75,40 +84,105 @@ financialYear="2021-2022";
         SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyy");
         String formattedDate = dateFormat.format(currentDate);
 
-        String batchId = formattedDate + applicationTransactionList.get(0).getIssFileParser().getBankCode() + generateRandomNumber();
-
-
-        // -------------------------------------
-
-        claimBatchData.setBatchId(batchId);
-        claimBatchData.setFinancialYear(applicationTransactionList.get(0).getIssFileParser().getFinancialYear());
         List<Application> applicationTransactionListSave = new ArrayList<>();
-        for (Application applicationTransaction : applicationTransactionList) {
-            IssFileParser issFileParser = applicationTransaction.getIssFileParser();
+        claimBatchData.setFinancialYear(interestSubventionDTO.getFinancialYear());
+        for (Long IssFileParserId:issFileParsers){
 
-            ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
+            //Check if application is accepted by KCC or not
+            List<Application> applicationList= applicationRepository.findRejectedApplicatonsByParserId(IssFileParserId);
+            Application application= applicationList.get(0);
+            if (applicationList.get(0)!= null){
+
+                if (claimBatchData.getBatchId() != null){
+                    String batchId = formattedDate + application.getIssFileParser().getBankCode() + generateRandomNumber();
+                    claimBatchData.setBatchId(batchId);
+                }
+
+                //find by parser id
+                List<CenterReportJune> centerReportJuneList = centerReportJuneRepository.SelectFromCenterReportJuneByParserId(IssFileParserId);
+
+                Integer subType;
+                if (!centerReportJuneList.isEmpty()){
+                    //Only one recovery: COMPLETE
+                    if (centerReportJuneList.size()==1 && centerReportJuneList.get(0).getRecoveryAmount()>0) {
+                        //SubmissionType=1
+                         subType = 1;
+                    }
+                    //More than one recovery:PARTIAL
+                    else {
+                        subType=0;
+                    }
+
+                    for (CenterReportJune centerReportJune:centerReportJuneList) {
+                        if (centerReportJune.getIsRecover()==1) {
+
+                            //calculate IS amount: 3%
+                            Double applicableISAmt = centerReportJune.getInterestStateFirst3() + centerReportJune.getInterestStateSecond3();
+                            ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
+                            claimApplicationPayload.setUniqueId(application.getUniqueId());
+                            claimApplicationPayload.setLoanApplicationNumber(application.getApplicationNumber());
+                            claimApplicationPayload.setClaimType("IS");
+                            claimApplicationPayload.setSubmissionType(subType);
+                            claimApplicationPayload.setFirstLoanDisbursalDate(String.valueOf(centerReportJuneList.get(0).getDisbursementDate()));
+                            claimApplicationPayload.setLoanRepaymentDate(String.valueOf(centerReportJune.getRecoveryDate()));
+                            claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getDisburseAmount());
+                            claimApplicationPayload.setApplicableISAmount(applicableISAmt);
+                            applicationsList.add(claimApplicationPayload);
+                        }
+
+                        //PRI : 1.5% & 2.5%
+                        ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
+                        Double applicablePRIAmt = centerReportJune.getInterestFirst15() + centerReportJune.getInterestSecond15();
+                        claimApplicationPayload.setUniqueId("");
+                        claimApplicationPayload.setLoanApplicationNumber(application.getApplicationNumber());
+                        claimApplicationPayload.setClaimType("PRI");
+                        claimApplicationPayload.setSubmissionType(subType);
+                        claimApplicationPayload.setFirstLoanDisbursalDate(String.valueOf(centerReportJune.getDisbursementDate()));
+                        claimApplicationPayload.setLoanRepaymentDate(String.valueOf(centerReportJune.getRecoveryDate()));
+                        claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getDisburseAmount());
+                        claimApplicationPayload.setIsEligibleForPRI(1);
+                        claimApplicationPayload.setApplicablePRIAmount(applicablePRIAmt);
+                        applicationsList.add(claimApplicationPayload);
+                    }
 
 
-            claimApplicationPayload.setUniqueId(applicationTransaction.getUniqueId());
-            claimApplicationPayload.setLoanApplicationNumber(applicationTransaction.getApplicationNumber());
-            claimApplicationPayload.setClaimType("IS");
-            claimApplicationPayload.setSubmissionType(1);
-            claimApplicationPayload.setFirstLoanDisbursalDate(applicationTransactionList.get(0).getIssFileParser().getDisbursementDate());
-            claimApplicationPayload.setLoanRepaymentDate(applicationTransactionList.get(0).getIssFileParser().getRecoveryDate());
-            claimApplicationPayload.setMaxWithdrawalAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getLoanSanctionAmount())));
-            claimApplicationPayload.setApplicableISAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getDisburseAmount())));
+                }
 
 
-            applicationsList.add(claimApplicationPayload);
+                    }
 
-            applicationTransaction.setBatchId(batchId);
 
-            applicationTransaction.setPacksCode(Long.parseLong(applicationTransaction.getIssFileParser().getPacsNumber()));
-            applicationTransaction.setSchemeWiseBranchCode(Long.parseLong(applicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
-            applicationTransaction.setBankCode(Long.parseLong(applicationTransaction.getIssFileParser().getBankCode()));
-            applicationTransactionListSave.add(applicationTransaction);
+                }
 
-        }
+
+
+
+//        for (Application applicationTransaction : applicationTransactionList) {
+//            IssFileParser issFileParser = applicationTransaction.getIssFileParser();
+//
+//            ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
+//
+//
+//            claimApplicationPayload.setUniqueId(applicationTransaction.getUniqueId());
+//            claimApplicationPayload.setLoanApplicationNumber(applicationTransaction.getApplicationNumber());
+//            claimApplicationPayload.setClaimType("IS");
+//            claimApplicationPayload.setSubmissionType(1);
+//            claimApplicationPayload.setFirstLoanDisbursalDate(applicationTransactionList.get(0).getIssFileParser().getDisbursementDate());
+//            claimApplicationPayload.setLoanRepaymentDate(applicationTransactionList.get(0).getIssFileParser().getRecoveryDate());
+//            claimApplicationPayload.setMaxWithdrawalAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getLoanSanctionAmount())));
+//            claimApplicationPayload.setApplicableISAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getDisburseAmount())));
+//
+//
+//            applicationsList.add(claimApplicationPayload);
+//
+//            applicationTransaction.setBatchId(batchId);
+//
+//            applicationTransaction.setPacksCode(Long.parseLong(applicationTransaction.getIssFileParser().getPacsNumber()));
+//            applicationTransaction.setSchemeWiseBranchCode(Long.parseLong(applicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
+//            applicationTransaction.setBankCode(Long.parseLong(applicationTransaction.getIssFileParser().getBankCode()));
+//            applicationTransactionListSave.add(applicationTransaction);
+//
+//        }
 
         claimBatchData.setApplications(applicationsList);
         System.out.println("batchData: " + claimBatchData);

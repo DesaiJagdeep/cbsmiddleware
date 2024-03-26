@@ -176,7 +176,6 @@ public class InterestSubventionCalculator {
     public void calculateProductAmountsCenter(IssFileParser issFileParser) {
         Long interestCalAmount = 300000L;
 
-
         //check for first recovery
         if (issFileParser.getRecoveryDate() != null && issFileParser.getRecoveryAmountPrinciple() != null) {
             recoveryDate = LocalDate.parse(issFileParser.getRecoveryDate(), inputFormatter);

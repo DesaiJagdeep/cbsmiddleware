@@ -18,14 +18,10 @@ public interface CenterReportJuneRepository extends JpaRepository<CenterReportJu
     List<String> DistinctAadharCenterReportJune(@Param("pacsNumber") String pacsNumber, @Param("financialYear") String financialYear);
 
     @Query(value = "select distinct iss_file_parser_id from center_report_june where aadhar_number=:aadharNumber", nativeQuery = true)
-    List<String> DistinctIssFileParserIdByAadhar(@Param("aadharNumber") String aadharNumber);
+    List<Long> DistinctIssFileParserIdByAadhar(@Param("aadharNumber") String aadharNumber);
 
     @Query(value = "select * from center_report_june where iss_file_parser_id=:issFileParserId", nativeQuery = true)
-    List<CenterReportJune> SelectFromCenterReportJuneByParserId(@Param("issFileParserId") String issFileParserId);
-
-
-
-
+    List<CenterReportJune> SelectFromCenterReportJuneByParserId(@Param("issFileParserId") Long issFileParserId);
 
 
     @Query(value = "select count(distinct aadhar_number),sum(disburse_amount),sum(recovery_amount),upto_50000 from center_report_june where pacs_number=:pacsNumber and financial_year=:financialYear group by upto_50000", nativeQuery = true)

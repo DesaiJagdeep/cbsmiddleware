@@ -8,6 +8,20 @@ public class ClaimApplicationPayload {
 
     private String claimType;
 
+
+
+    private Integer submissionType;
+
+    private String firstLoanDisbursalDate;
+
+    private String loanRepaymentDate;
+    private Long maxWithdrawalAmount;
+    private Double applicableISAmount;
+
+    private Double applicablePRIAmount;
+
+    private  Integer isEligibleForPRI;
+
     public String getUniqueId() {
         return uniqueId;
     }
@@ -64,42 +78,43 @@ public class ClaimApplicationPayload {
         this.maxWithdrawalAmount = maxWithdrawalAmount;
     }
 
-    public Long getApplicableISAmount() {
+    public Double getApplicableISAmount() {
         return applicableISAmount;
     }
 
-    public void setApplicableISAmount(Long applicableISAmount) {
+    public void setApplicableISAmount(Double applicableISAmount) {
         this.applicableISAmount = applicableISAmount;
     }
 
-    private Integer submissionType;
+    public Double getApplicablePRIAmount() {
+        return applicablePRIAmount;
+    }
 
-    private String firstLoanDisbursalDate;
+    public void setApplicablePRIAmount(Double applicablePRIAmount) {
+        this.applicablePRIAmount = applicablePRIAmount;
+    }
 
-    private String loanRepaymentDate;
-    private Long maxWithdrawalAmount;
-    private Long applicableISAmount;
+    public Integer getIsEligibleForPRI() {
+        return isEligibleForPRI;
+    }
 
+    public void setIsEligibleForPRI(Integer isEligibleForPRI) {
+        this.isEligibleForPRI = isEligibleForPRI;
+    }
 
     @Override
     public String toString() {
-        return (
-            "ClaimApplicationPayload [uniqueId=" +
-                uniqueId +
-                ",loanApplicationNumber=" +
-                loanApplicationNumber +
-                ",claimType=" +
-                claimType + ",submissionType=" +
-                submissionType +
-                ", firstLoanDisbursalDate=" +
-                firstLoanDisbursalDate +
-                ", loanRepaymentDate=" +
-                loanRepaymentDate +
-                ", maxWithdrawalAmount=" +
-                maxWithdrawalAmount +
-                ", applicableISAmount=" +
-                applicableISAmount +
-                "]"
-        );
+        return "ClaimApplicationPayload{" +
+            "uniqueId='" + uniqueId + '\'' +
+            ", loanApplicationNumber='" + loanApplicationNumber + '\'' +
+            ", claimType='" + claimType + '\'' +
+            ", submissionType=" + submissionType +
+            ", firstLoanDisbursalDate='" + firstLoanDisbursalDate + '\'' +
+            ", loanRepaymentDate='" + loanRepaymentDate + '\'' +
+            ", maxWithdrawalAmount=" + maxWithdrawalAmount +
+            ", applicableISAmount=" + applicableISAmount +
+            ", applicablePRIAmount=" + applicablePRIAmount +
+            ", isEligibleForPRI=" + isEligibleForPRI +
+            '}';
     }
 }

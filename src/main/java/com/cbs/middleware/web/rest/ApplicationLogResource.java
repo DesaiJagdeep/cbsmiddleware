@@ -414,9 +414,8 @@ public class ApplicationLogResource {
         CBSResponce cbsResponce = null;
 
       //Process This account number is already being processed by...... errors applications
-       // SubmitBatchOfDuplicateAccountNoErrorApplications();
 
-        //get distinct iss_portal_id from application_transaction with kcc_status = 0
+         //get distinct iss_portal_id from application_transaction with kcc_status = 0
         List<Long> applicationsPortalIds = applicationService.findRejectedApplicationsWithErrorDuplicateNo();
 
         System.out.println("Application portalIds size:" + applicationsPortalIds.size());

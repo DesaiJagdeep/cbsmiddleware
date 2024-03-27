@@ -61,8 +61,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long>,
 
     Application findOneByUniqueId(String uniqueId);
 
-    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=:iss_file_parser_id and application_status=1", nativeQuery = true)
-Application findApplicatonsByParserId(@Param("iss_file_parser_id") Long iss_file_parser_id) ;
+    @Query(value = "SELECT * FROM application_transaction WHERE iss_file_parser_id=16488 and application_status=1", nativeQuery = true)
+Application findApplicatonsByParserId() ;
 
     @Query("select application.issFilePortalId from Application application where application.batchId =:batchId")
     List<Long> findIssFilePortalIdByBatchId(@Param("batchId") String batchId);

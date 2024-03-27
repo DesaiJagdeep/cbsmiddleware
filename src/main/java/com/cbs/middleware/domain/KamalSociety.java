@@ -299,12 +299,62 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "fraud_amount")
     private  Double fraudAmount ;
 
+    @Column(name = "rule1")
+     private String rule1;
+    @Column(name = "rule2")
+    private String rule2;
+    @Column(name = "rule3")
+    private String rule3;
+    @Column(name = "rule4")
+    private String rule4;
+    @Column(name = "rule5")
+    private String rule5;
     @OneToMany(mappedBy = "kamalSociety", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value = {"kamalSociety"}, allowSetters = true)
     private Set<KamalCrop> kamalCrops = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     //
+
+    public String getRule1() {
+        return rule1;
+    }
+
+    public void setRule1(String rule1) {
+        this.rule1 = rule1;
+    }
+
+    public String getRule2() {
+        return rule2;
+    }
+
+    public void setRule2(String rule2) {
+        this.rule2 = rule2;
+    }
+
+    public String getRule3() {
+        return rule3;
+    }
+
+    public void setRule3(String rule3) {
+        this.rule3 = rule3;
+    }
+
+    public String getRule4() {
+        return rule4;
+    }
+
+    public void setRule4(String rule4) {
+        this.rule4 = rule4;
+    }
+
+    public String getRule5() {
+        return rule5;
+    }
+
+    public void setRule5(String rule5) {
+        this.rule5 = rule5;
+    }
 
     public Double getFraudAmount() {
         return fraudAmount;

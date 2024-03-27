@@ -13,6 +13,7 @@
         border: 1px solid;
         padding: 1px;
         text-align: center;
+        font-weight: 400;
       }
       .text-left{
         text-align: left;
@@ -35,7 +36,7 @@
 <h3 style="margin: 12px 0; font-size: medium;">प्रति,</h3>
 <h3 style="margin: 12px 0; font-size: medium;">मा. अध्यक्ष,</h3>
 <p style="margin: 5px 0;"><strong><span th:text="${kamalSociety.pacsName} "></span> </strong> &nbsp;&nbsp;&nbsp;</p>
-<p style="margin: 5px 0;">मु.पो. ______________ता. <strong><span th:text="${kamalSociety.talukaName} "></span></strong> जि. पुणे.</p>
+<p style="margin: 5px 0;">मु.पो. <strong><span th:text="${atPost} "></span></strong> ता. <strong><span th:text="${kamalSociety.talukaName} "></span></strong> जि. पुणे.</p>
 
 <div style="margin: 15px 0;">
   <div style="display: flex; justify-content: center;">
@@ -98,11 +99,11 @@
   </tr>
   <tr>
     <td></td>
-    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.memberCount)}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getIntegerPartOfNumber(totalSugarcaneAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getDecimalPartOfNumber(totalSugarcaneAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.agriAdminAmount)}"></td>
+    <td class="text-left" style="font-weight: 900;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.memberCount)}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getIntegerPartOfNumber(totalSugarcaneAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.getDecimalPartOfNumber(totalSugarcaneAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalSugarcaneAplusB.agriAdminAmount)}"></td>
   </tr>
 
   <tr>
@@ -129,11 +130,11 @@
   </tr>
   <tr>
     <td></td>
-    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.memberCount)}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getIntegerPartOfNumber(totalKharipAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getDecimalPartOfNumber(totalKharipAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.agriAdminAmount)}"></td>
+    <td class="text-left" style="font-weight: 900;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.memberCount)}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getIntegerPartOfNumber(totalKharipAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.getDecimalPartOfNumber(totalKharipAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalKharipAplusB.agriAdminAmount)}"></td>
   </tr>
 
   <tr>
@@ -160,19 +161,19 @@
   </tr>
   <tr>
     <td class="text-left"></td>
-    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.memberCount)}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getIntegerPartOfNumber(totalRabbiAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getDecimalPartOfNumber(totalRabbiAplusB.area))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.agriAdminAmount)}"></td>
+    <td class="text-left" style="font-weight: 900;" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण</td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.memberCount)}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getIntegerPartOfNumber(totalRabbiAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.getDecimalPartOfNumber(totalRabbiAplusB.area))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(totalRabbiAplusB.agriAdminAmount)}"></td>
   </tr>
   <tr>
     <td class="text-left"></td>
-    <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर </td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.longToString(kamalSociety.memberCount))}"></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
-    <td class="text-right" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.amount))}" ></td>
+    <td class="text-left" style="font-weight: 900;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;एकूण एकंदर </td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.longToString(kamalSociety.memberCount))}"></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getIntegerPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(grandTotal.getDecimalPartOfNumber(kamalSociety.doubleToString(kamalSociety.area)))}" ></td>
+    <td class="text-right" style="font-weight: 900;" th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.amount))}" ></td>
   </tr>
   </tbody>
 </table>
@@ -320,37 +321,63 @@
     <td style="border:none; text-align: justify;">
       केंद्र व राज्यशासन व्याज सवलत योजनेचा मात्र डीबीटी द्वारे दिला जाणार असल्याने कर्जदार सभासदाचे आधार कार्ड असणे व खात्याला लिंक केलेले असणे आवश्यक आहे.<br>
       (वरील अटी दुरुस्त करण्याचा आणि अगर नवीन अटी लागू करण्याचा अधिकार बँकेस आहे.)<br>
-      (संस्थेने वरील १ ते ३३ अटींची पुर्तता करूनच कर्ज वितरण करावे.)
-      </td>
+      (संस्थेने वरील १ ते ३३ व ...................... अटींची पुर्तता करूनच कर्ज वितरण करावे.)
+    </td>
   </tr>
+
+  <tr style="border:none; text-align: left;" th:if="${kamalSociety.rule1 != null}">
+    <td style="border:none; text-align: left; vertical-align: top;">३४)</td>
+    <td style="border:none; text-align: justify;" th:text="${kamalSociety.rule1}"></td>
+  </tr>
+  <tr style="border:none; text-align: left;" th:if="${kamalSociety.rule2 != null}">
+    <td style="border:none; text-align: left; vertical-align: top;">३५)</td>
+    <td style="border:none; text-align: justify;" th:text="${kamalSociety.rule2}"></td>
+  </tr>
+  <tr style="border:none; text-align: left;" th:if="${kamalSociety.rule3 != null}">
+    <td style="border:none; text-align: left; vertical-align: top;">३६)</td>
+    <td style="border:none; text-align: justify;" th:text="${kamalSociety.rule3}"></td>
+  </tr>
+  <tr style="border:none; text-align: left;" th:if="${kamalSociety.rule4 != null}">
+    <td style="border:none; text-align: left; vertical-align: top;">३७)</td>
+    <td style="border:none; text-align: justify;" th:text="${kamalSociety.rule4}"></td>
+  </tr>
+  <tr style="border:none; text-align: left;" th:if="${kamalSociety.rule5 != null}">
+    <td style="border:none; text-align: left; vertical-align: top;">३८)</td>
+    <td style="border:none; text-align: justify;" th:text="${kamalSociety.rule5}"></td>
+  </tr>
+
 
 </table>
 
 <div style="text-indent: 20px;">
-  <div style="display: flex; margin-top: 30px;">
+  <div style="display: flex; margin-top: 20px;">
     <div style="width: 40%;margin: 5px 0">
-      <div style="font-weight: 550; font-size: 17px;">प्रत जरुर त्या कार्यवाहीसाठी</div>
-      <div>
-        <p>१) मा. विकास अधिकारी,</p>
-        <p><strong><span th:text="${kamalSociety.branchName} "></span> </strong> शाखा</p>
-      </div>
-      <div >
-        <p>२) मा. झोनल ऑफीसर,</p>
-        <p><strong><span th:text="${kamalSociety.talukaName} "></span> </strong> शाखा</p>
-      </div>
+
     </div>
     <div style="width: 60%;">
       <div style="font-weight: 550; font-size: 17px; text-align: center;">कर्जअधिक्षक/सहा. सरव्यवस्थापक <br> शेती कर्ज विभाग</div>
-      <div >
-        <p>३) मा. अध्यक्ष</p>
-        <p>तालुका देखरेख सह. संस्था मर्या.,</p>
-        <p>मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
-          ता. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> जि. पुणे</p>
+    </div>
+  </div>
+  <div style="font-weight: 550; font-size: 17px; margin: 0 0 05px 0">प्रत जरुर त्या कार्यवाहीसाठी</div>
+  <div style="display: flex; margin-top: 10px;">
+    <div style="width: 40%;margin: 5px 0">
+      <div>
+        <p style="margin: 4px 0">१) मा. विकास अधिकारी, <strong><span th:text="${kamalSociety.branchName} "></span> </strong> शाखा</p>
       </div>
       <div >
-        <p>४) मा. उप/ सहाय्यक निबंधक, सहकारी संस्था,</p>
-        <p>तालुका देखरेख सह. संस्था मर्या, <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> तालुका</p>
-        <p>मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
+        <p style="margin: 4px 0">२) मा. झोनल ऑफीसर, <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> शाखा</p>
+      </div>
+      <div >
+        <p style="margin: 4px 0">३) मा. अध्यक्ष, तालुका देखरेख सह. संस्था मर्या., </p>
+        <p style="margin: 4px 0">मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
+          ता. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> जि. पुणे</p>
+      </div>
+    </div>
+    <div style="width: 60%;">
+      <div >
+        <p style="margin: 4px 0">४) मा. उप/ सहाय्यक निबंधक, सहकारी संस्था,</p>
+        <p style="margin: 4px 0">तालुका देखरेख सह. संस्था मर्या, <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> तालुका</p>
+        <p style="margin: 4px 0">मु. पो. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong>
           ता. <strong><span th:text="${kamalSociety.talukaName} "></span> </strong> जि. पुणे</p>
       </div>
     </div>

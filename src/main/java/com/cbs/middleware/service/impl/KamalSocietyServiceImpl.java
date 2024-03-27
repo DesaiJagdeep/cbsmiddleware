@@ -481,6 +481,21 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getFraudAmount() != null) {
                     existingKamalSociety.setFraudAmount(kamalSociety.getFraudAmount());
                 }
+                if (kamalSociety.getRule1() != null) {
+                    existingKamalSociety.setRule1(kamalSociety.getRule1());
+                }
+                if (kamalSociety.getRule2() != null) {
+                    existingKamalSociety.setRule2(kamalSociety.getRule2());
+                }
+                if (kamalSociety.getRule3() != null) {
+                    existingKamalSociety.setRule3(kamalSociety.getRule3());
+                }
+                if (kamalSociety.getRule4() != null) {
+                    existingKamalSociety.setRule4(kamalSociety.getRule4());
+                }
+                if (kamalSociety.getRule5()!= null) {
+                    existingKamalSociety.setRule5(kamalSociety.getRule5());
+                }
                 return existingKamalSociety;
             })
             .map(kamalSocietyRepository::save);

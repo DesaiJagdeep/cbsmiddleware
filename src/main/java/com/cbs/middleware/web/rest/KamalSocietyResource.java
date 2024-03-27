@@ -36,6 +36,7 @@ import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.font.FontProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -613,6 +614,13 @@ public class KamalSocietyResource {
         String financialYear = newKmReportPayload.getFinancialYear();
         String pacsNumber = newKmReportPayload.getPacsNumber();
         Instant kmDate = newKmReportPayload.getKmDate();
+        Optional<PacsMaster> pacs = pacsMasterRepository.findOneByPacsNumber(StringUtils.trim(pacsNumber));
+        String pacsAddressMr = pacs.get().getPacsAddressMr();
+        String atPost="";
+        if(StringUtils.isNotBlank(pacsAddressMr)){
+            atPost=pacsAddressMr;
+        }
+
 
         List<String> htmlList = new ArrayList<>();
 
@@ -768,6 +776,7 @@ public class KamalSocietyResource {
         KamalCrop rabbiSmall = getObjectOfTotal(rabbiSmallListToPrint);
         KamalCrop rabbiOther = getObjectOfTotal(rabbiOtherListToPrint);
 
+
         // KamalCrop  totalOfKmMagani=getTotalOfKmMagani(totalSugarcaneAplusB,totalKharipAplusB,totalRabbiAplusB);
 
         switch (newKmReportPayload.getTemplateName()) {
@@ -863,7 +872,8 @@ public class KamalSocietyResource {
                     totalRabbiAplusB,
                     grandTotal,
                     Constants.imagePath,
-                    TranslationServiceUtility.getInstance()
+                    TranslationServiceUtility.getInstance(),
+                    atPost
                 );
                 htmlList.add(htmlStringForPdf);
                 break;
@@ -1069,6 +1079,22 @@ public class KamalSocietyResource {
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
+        List<KamalCrop> summaryListprint=new ArrayList<>();
+        KamalCrop kamalCropSummary=new KamalCrop();
+
+        if(summaryList.isEmpty()){
+            List<KamalCrop> kamalCropList = new ArrayList<>();
+
+            KamalCrop kamalCrop=new KamalCrop();
+            kamalCrop.setMemberCount(String.valueOf(totalMemberCount));
+            kamalCrop.setArea(String.valueOf(totalArea));
+            kamalCrop.setPacsAmount(String.valueOf(pacsAmount));
+            kamalCrop.setBranchAmount(String.valueOf(branchAmount));
+            kamalCrop.setHeadOfficeAmount(String.valueOf(headOfficeAmount));
+            kamalCropList.add(kamalCrop);
+            return kamalCropList;
+        }
+
         for (KamalCrop kamalCrop : summaryList) {
             if (kamalCrop.getMemberCount() != null) {
                 totalMemberCount += Integer.parseInt(kamalCrop.getMemberCount());
@@ -1086,11 +1112,13 @@ public class KamalSocietyResource {
                 headOfficeAmount += Double.parseDouble(kamalCrop.getHeadOfficeAmount());
             }
         }
-        summaryList.get(0).setMemberCount(String.valueOf(totalMemberCount));
-        summaryList.get(0).setArea(decimalFormat.format(totalArea));
-        summaryList.get(0).setPacsAmount(decimalFormat.format(pacsAmount));
-        summaryList.get(0).setBranchAmount(decimalFormat.format(branchAmount));
-        summaryList.get(0).setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+
+        kamalCropSummary.setMemberCount(String.valueOf(totalMemberCount));
+        kamalCropSummary.setArea(decimalFormat.format(totalArea));
+        kamalCropSummary.setPacsAmount(decimalFormat.format(pacsAmount));
+        kamalCropSummary.setBranchAmount(decimalFormat.format(branchAmount));
+        kamalCropSummary.setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+        summaryListprint.add(kamalCropSummary);
 
         //if  same crop has different farmerTypes is available then to avoid duplicate cropName printing in report
         if (summaryList.size() > 1) {
@@ -1115,7 +1143,7 @@ public class KamalSocietyResource {
                 return kamalCropListWithDistinctCrop;
             }
         }
-        return summaryList;
+        return summaryListprint;
     }
 
 
@@ -1382,8 +1410,8 @@ public class KamalSocietyResource {
                                         KamalCrop totalRabbiAplusB,
                                         KamalCrop grandTotal,
                                         String imagePath,
-                                        TranslationServiceUtility translationServiceUtility
-    ) {
+                                        TranslationServiceUtility translationServiceUtility,
+                                        String atPost) {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         context.setVariable("kamalSociety", kamalSociety);
@@ -1402,6 +1430,7 @@ public class KamalSocietyResource {
         context.setVariable("grandTotal", grandTotal);
         context.setVariable("imagePath", imagePath);
         context.setVariable("translationServiceUtility", translationServiceUtility);
+        context.setVariable("atPost", atPost);
 
         return templateEngine.process(template, context);
     }

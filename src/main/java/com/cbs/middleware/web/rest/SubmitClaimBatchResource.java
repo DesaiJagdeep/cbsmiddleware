@@ -4,8 +4,7 @@ import com.cbs.middleware.config.ApplicationProperties;
 import com.cbs.middleware.config.Constants;
 import com.cbs.middleware.config.MasterDataCacheService;
 import com.cbs.middleware.domain.*;
-import com.cbs.middleware.repository.ApplicationRepository;
-import com.cbs.middleware.repository.CenterReportJuneRepository;
+import com.cbs.middleware.repository.*;
 import com.cbs.middleware.service.dto.InterestSubventionDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -31,7 +30,6 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 
-
 @RestController
 @RequestMapping("/api")
 public class SubmitClaimBatchResource {
@@ -42,15 +40,14 @@ public class SubmitClaimBatchResource {
 
     @Autowired
     ApplicationProperties applicationProperties;
-    @Autowired
-    ApplicationRepository applicationRepository;
+    private final ApplicationRepository applicationRepository;
 
     @Autowired
     CenterReportJuneRepository centerReportJuneRepository;
-
-    public SubmitClaimBatchResource(ApplicationRepository applicationRepository, CenterReportJuneRepository centerReportJuneRepository) {
+    @Autowired
+    SubmitBatchResource submitBatchResource;
+    public SubmitClaimBatchResource(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;
-        this.centerReportJuneRepository = centerReportJuneRepository;
     }
 
     @PostMapping("/submit-claim-batch")
@@ -63,7 +60,7 @@ public class SubmitClaimBatchResource {
         for(String aadharNo:distinctAadhars){
             //find distinct parser id(loan applications) by aadhar
 
-            List<Long> distinctParsers= centerReportJuneRepository.DistinctIssFileParserIdByAadhar("901423243268");
+            List<Long> distinctParsers= centerReportJuneRepository.DistinctIssFileParserIdByAadhar(aadharNo);
 
             processBatch(distinctParsers,interestSubventionDTO);
 
@@ -78,6 +75,7 @@ public class SubmitClaimBatchResource {
         // running number>
         // If Today’s date is 29 Aug 2022 the Batch id can be 29082202300001
         String cbsResponceString = "";
+        String batchId="";
         List<ClaimApplicationPayload> applicationsList = new ArrayList<>();
         ClaimBatchData claimBatchData = new ClaimBatchData();
         Date currentDate = new Date();
@@ -86,15 +84,16 @@ public class SubmitClaimBatchResource {
 
         List<Application> applicationTransactionListSave = new ArrayList<>();
         claimBatchData.setFinancialYear(interestSubventionDTO.getFinancialYear());
+        Application application =new Application();
         for (Long IssFileParserId:issFileParsers){
 
             //Check if application is accepted by KCC or not
-            List<Application> applicationList= applicationRepository.findRejectedApplicatonsByParserId(IssFileParserId);
-            Application application= applicationList.get(0);
-            if (applicationList.get(0)!= null){
+             application= applicationRepository.findApplicatonsByParserId();
 
-                if (claimBatchData.getBatchId() != null){
-                    String batchId = formattedDate + application.getIssFileParser().getBankCode() + generateRandomNumber();
+            if (application != null){
+
+                if (claimBatchData.getBatchId() == null){
+                     batchId = formattedDate + application.getBankCode() + generateRandomNumber();
                     claimBatchData.setBatchId(batchId);
                 }
 
@@ -110,36 +109,37 @@ public class SubmitClaimBatchResource {
                     }
                     //More than one recovery:PARTIAL
                     else {
-                        subType=0;
+                        subType=2;
                     }
 
                     for (CenterReportJune centerReportJune:centerReportJuneList) {
                         if (centerReportJune.getIsRecover()==1) {
+                            String uniqueId = claimBatchData.getBatchId() + generateRandomNumber();
 
-                            //calculate IS amount: 3%
+                            //calculate IS amount: First & Second 3%
                             Double applicableISAmt = centerReportJune.getInterestStateFirst3() + centerReportJune.getInterestStateSecond3();
                             ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
-                            claimApplicationPayload.setUniqueId(application.getUniqueId());
+                            claimApplicationPayload.setUniqueId(uniqueId);
                             claimApplicationPayload.setLoanApplicationNumber(application.getApplicationNumber());
                             claimApplicationPayload.setClaimType("IS");
                             claimApplicationPayload.setSubmissionType(subType);
                             claimApplicationPayload.setFirstLoanDisbursalDate(String.valueOf(centerReportJuneList.get(0).getDisbursementDate()));
                             claimApplicationPayload.setLoanRepaymentDate(String.valueOf(centerReportJune.getRecoveryDate()));
-                            claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getDisburseAmount());
+                            claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getRecoveryAmount());
                             claimApplicationPayload.setApplicableISAmount(applicableISAmt);
                             applicationsList.add(claimApplicationPayload);
                         }
-
-                        //PRI : 1.5% & 2.5%
+                        String uniqueId = claimBatchData.getBatchId() + generateRandomNumber();
+                        //PRI : First and Second 1.5%
                         ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
                         Double applicablePRIAmt = centerReportJune.getInterestFirst15() + centerReportJune.getInterestSecond15();
-                        claimApplicationPayload.setUniqueId("");
+                        claimApplicationPayload.setUniqueId(uniqueId);
                         claimApplicationPayload.setLoanApplicationNumber(application.getApplicationNumber());
                         claimApplicationPayload.setClaimType("PRI");
                         claimApplicationPayload.setSubmissionType(subType);
-                        claimApplicationPayload.setFirstLoanDisbursalDate(String.valueOf(centerReportJune.getDisbursementDate()));
+                        claimApplicationPayload.setFirstLoanDisbursalDate(String.valueOf(centerReportJuneList.get(0).getDisbursementDate()));
                         claimApplicationPayload.setLoanRepaymentDate(String.valueOf(centerReportJune.getRecoveryDate()));
-                        claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getDisburseAmount());
+                        claimApplicationPayload.setMaxWithdrawalAmount(centerReportJune.getRecoveryAmount());
                         claimApplicationPayload.setIsEligibleForPRI(1);
                         claimApplicationPayload.setApplicablePRIAmount(applicablePRIAmt);
                         applicationsList.add(claimApplicationPayload);
@@ -155,34 +155,7 @@ public class SubmitClaimBatchResource {
                 }
 
 
-
-
-//        for (Application applicationTransaction : applicationTransactionList) {
-//            IssFileParser issFileParser = applicationTransaction.getIssFileParser();
 //
-//            ClaimApplicationPayload claimApplicationPayload = new ClaimApplicationPayload();
-//
-//
-//            claimApplicationPayload.setUniqueId(applicationTransaction.getUniqueId());
-//            claimApplicationPayload.setLoanApplicationNumber(applicationTransaction.getApplicationNumber());
-//            claimApplicationPayload.setClaimType("IS");
-//            claimApplicationPayload.setSubmissionType(1);
-//            claimApplicationPayload.setFirstLoanDisbursalDate(applicationTransactionList.get(0).getIssFileParser().getDisbursementDate());
-//            claimApplicationPayload.setLoanRepaymentDate(applicationTransactionList.get(0).getIssFileParser().getRecoveryDate());
-//            claimApplicationPayload.setMaxWithdrawalAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getLoanSanctionAmount())));
-//            claimApplicationPayload.setApplicableISAmount(Math.round(Double.parseDouble(applicationTransactionList.get(0).getIssFileParser().getDisburseAmount())));
-//
-//
-//            applicationsList.add(claimApplicationPayload);
-//
-//            applicationTransaction.setBatchId(batchId);
-//
-//            applicationTransaction.setPacksCode(Long.parseLong(applicationTransaction.getIssFileParser().getPacsNumber()));
-//            applicationTransaction.setSchemeWiseBranchCode(Long.parseLong(applicationTransaction.getIssFileParser().getSchemeWiseBranchCode()));
-//            applicationTransaction.setBankCode(Long.parseLong(applicationTransaction.getIssFileParser().getBankCode()));
-//            applicationTransactionListSave.add(applicationTransaction);
-//
-//        }
 
         claimBatchData.setApplications(applicationsList);
         System.out.println("batchData: " + claimBatchData);
@@ -196,7 +169,7 @@ public class SubmitClaimBatchResource {
         CBSResponce cbsResponce = null;
 
         // call fasalrin submit api
-        /*try {
+        try {
             // Set the request URL
             String url = applicationProperties.getCBSMiddlewareBaseURL() + Constants.submitbatch;
             // Set the request headers
@@ -218,6 +191,7 @@ public class SubmitClaimBatchResource {
                     cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
                     cbsResponce.setBatchId(batchId);
                     if (cbsResponce.isStatus()) {
+                        System.out.println("submitApiRespDecryption.getBatchAckId()"+submitApiRespDecryption.getBatchAckId());
                         applicationRepository.saveAll(applicationTransactionListSave);
                         String decryption = decryption("" + cbsResponce.getData());
                         objectMapper = new ObjectMapper();
@@ -226,9 +200,9 @@ public class SubmitClaimBatchResource {
 
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
-                        batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
-                        batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
-                        batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
+                        batchTransaction.setPacksCode(application.getPacksCode());
+                        batchTransaction.setSchemeWiseBranchCode(application.getSchemeWiseBranchCode());
+                        batchTransaction.setBankCode(application.getBankCode());
 
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("New");
@@ -237,7 +211,7 @@ public class SubmitClaimBatchResource {
 
                         try
                         {
-                            IssPortalFile issPortalFile = applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile();
+                            IssPortalFile issPortalFile = application.getIssFileParser().getIssPortalFile();
                             issPortalFile.setAppSubmitedToKccCount(issPortalFile.getAppSubmitedToKccCount()+(long)applicationTransactionListSave.size());
                             //issPortalFileRepository.save(issPortalFile);
 
@@ -249,16 +223,16 @@ public class SubmitClaimBatchResource {
                     } else {
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
-                        batchTransaction.setPacksCode(applicationTransactionListSave.get(0).getPacksCode());
-                        batchTransaction.setSchemeWiseBranchCode(applicationTransactionListSave.get(0).getSchemeWiseBranchCode());
-                        batchTransaction.setBankCode(applicationTransactionListSave.get(0).getBankCode());
+                        batchTransaction.setPacksCode(application.getPacksCode());
+                        batchTransaction.setSchemeWiseBranchCode(application.getSchemeWiseBranchCode());
+                        batchTransaction.setBankCode(application.getBankCode());
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("Discarded");
                         batchTransaction.setBatchErrors(cbsResponce.getError());
                         String fileName="";
                         try
                         {
-                            fileName=applicationTransactionListSave.get(0).getIssFileParser().getIssPortalFile().getFileName();
+                            fileName=application.getIssFileParser().getIssPortalFile().getFileName();
                         }catch (Exception e) {
                             // TODO: handle exception
                         }
@@ -277,7 +251,7 @@ public class SubmitClaimBatchResource {
             }
         } catch (Exception e) {
             log.error("Error in sending data to fasalrin: " + cbsMiddleareInputPayload);
-        }*/
+        }
 
         return cbsResponce;
 

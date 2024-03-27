@@ -51,14 +51,15 @@ public class InterestSubventionResource {
         //delete record from ISCalculateTemp
         deleteFromIsCalculateTemp(interestSubventionDTO);
 
-//    List<String> distinctPacsList= issFileParserRepository.findDistinctPacsNumberAndFinancialYear();
-//
+    //List<String> distinctPacsList= issFileParserRepository.findDistinctPacsNumberAndFinancialYear();
+
 //    for(int i=0;i<distinctPacsList.size();i++){
-//
+
 //        interestSubventionDTO.setFinancialYear("2022-2023");
-//        interestSubventionDTO.setPacsNumber(distinctPacsList.get(i));
+//       // interestSubventionDTO.setPacsNumber(distinctPacsList.get(i));
+//        interestSubventionDTO.setPacsNumber("002000011");
 //        //get distinct aadhar numbers from parser by pacscode & financial year
-//        List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(distinctPacsList.get(i), "2022-2023");
+//        List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear("002000011", "2022-2023");
 //
 //
 //        //loop through aadhar numbers
@@ -74,8 +75,8 @@ public class InterestSubventionResource {
 //
 //        //Insert data into Center March & Center June & State Panjabrao
 //        saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
-//
-//    }
+
+    //}
 
 
 //        //get distinct aadhar numbers from parser by pacscode & financial year

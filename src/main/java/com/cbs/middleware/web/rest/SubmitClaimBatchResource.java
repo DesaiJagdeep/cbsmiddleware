@@ -185,13 +185,13 @@ for (Long IssFileParserId:distinctParsers){
                     cbsResponce = objectMapper.readValue(cbsResponceString, CBSResponce.class);
                     cbsResponce.setBatchId(batchId);
                     if (cbsResponce.isStatus()) {
-                        System.out.println("submitApiRespDecryption.getBatchAckId()"+submitApiRespDecryption.getBatchAckId());
-                        applicationRepository.saveAll(applicationTransactionListSave);
+
+                      //  applicationRepository.saveAll(applicationTransactionListSave);
                         String decryption = decryption("" + cbsResponce.getData());
                         objectMapper = new ObjectMapper();
                         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                         submitApiRespDecryption = objectMapper.readValue(decryption, SubmitApiRespDecryption.class);
-
+                        System.out.println("submitApiRespDecryption.getBatchAckId()"+submitApiRespDecryption.getBatchAckId());
                         BatchTransaction batchTransaction = new BatchTransaction();
                         batchTransaction.setApplicationCount((long) applicationTransactionListSave.size());
                         batchTransaction.setPacksCode(application.getPacksCode());

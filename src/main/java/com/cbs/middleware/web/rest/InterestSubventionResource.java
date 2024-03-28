@@ -82,12 +82,11 @@ public class InterestSubventionResource {
 //        //get distinct aadhar numbers from parser by pacscode & financial year
         List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
 
-
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
             //get the records from parser order by disbursementDate ASC
-            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber("411552040590", interestSubventionDTO.getFinancialYear());
-            System.out.println("IssFileParsers:" + issFileParsers);
+            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber(aadharNumber, interestSubventionDTO.getPacsNumber(),interestSubventionDTO.getFinancialYear());
+            System.out.println("IssFileParsers:" + issFileParsers + " aadhar Number:" + aadharNumber);
 
             //Calculate interest for report 1 & 2
             List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO,isCalculateTempRepository).CalculateInterestForCenterState();
@@ -96,7 +95,6 @@ public class InterestSubventionResource {
 
         //Insert data into Center March & Center June & State Panjabrao
         saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
-
 
     }
     public void saveDataIntoCenterMarchJuneReport(InterestSubventionDTO interestSubventionDTO){
@@ -647,8 +645,7 @@ public class InterestSubventionResource {
     public void UpdateGenderWiseInterestAmtandAccsInSummaryState3(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
         List<SummaryReport> summaryReportList;
         summaryReportList  = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
-        Integer reportType= interestSubventionDTO.getReportType();
-        Integer reportCondition = interestSubventionDTO.getReportCondition();
+      
         for (SummaryReport summaryReport:summaryReportList){
             for(SummaryReportUpdateDTO genderWise:totalLoanAmtandAccs){
 
@@ -793,7 +790,6 @@ public class InterestSubventionResource {
         }
 
     }
-
 
     //delete from summary report
     public void deleteFromSummaryReport(InterestSubventionDTO interestSubventionDTO){

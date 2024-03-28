@@ -149,13 +149,10 @@ public class SubmitClaimBatchResource {
                 }
 
 
-                    }
+            }
+break;
 
-
-                }
-
-
-//
+        }
 
         claimBatchData.setApplications(applicationsList);
         System.out.println("batchData: " + claimBatchData);
@@ -203,7 +200,6 @@ public class SubmitClaimBatchResource {
                         batchTransaction.setPacksCode(application.getPacksCode());
                         batchTransaction.setSchemeWiseBranchCode(application.getSchemeWiseBranchCode());
                         batchTransaction.setBankCode(application.getBankCode());
-
                         batchTransaction.setBatchId(batchId);
                         batchTransaction.setStatus("New");
                         batchTransaction.setBatchAckId(submitApiRespDecryption.getBatchAckId());

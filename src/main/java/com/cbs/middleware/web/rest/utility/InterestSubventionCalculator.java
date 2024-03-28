@@ -216,7 +216,6 @@ public class InterestSubventionCalculator {
             bankDate = ChronoUnit.DAYS.addTo(loanDisbursementDate, 364);
             System.out.println("Bank date:" + bankDate);
 
-
             reportDate = LocalDate.parse(interestSubventionDTO.getLastCreditDate());
 
             //Calculate Product Amount
@@ -304,7 +303,7 @@ public class InterestSubventionCalculator {
                    prevDays = 0L;
                }
                //Interest calculation
-               //FirstReport-center bank - after 31/03
+               //FirstReport-center bank - upto 31/03
                interestFirst15 = (bankProductAmount1 * prevDays * interestSubventionDTO.getFromBankInterest()) / 36500;
                interestFirst25 = (bankProductAmount1 * prevDays * interestSubventionDTO.getToBankInterest()) / 36500;
 
@@ -391,7 +390,7 @@ public class InterestSubventionCalculator {
                 }
 
                 //Interest calculation
-                //FirstReport-center bank - after 31/03
+                //FirstReport-center bank - upto 31/03
                 interestFirst15 = (bankProductAmount2 * prevDays * interestSubventionDTO.getFromBankInterest()) / 36500;
                 interestFirst25 = (bankProductAmount2 * prevDays * interestSubventionDTO.getToBankInterest()) / 36500;
 
@@ -478,7 +477,7 @@ public class InterestSubventionCalculator {
                     prevDays = 0L;
                 }
                 //Interest calculation
-                //FirstReport-center bank - after 31/03
+                //FirstReport-center bank - upto 31/03
                 interestFirst15 = (bankProductAmount3 * prevDays * interestSubventionDTO.getFromBankInterest()) / 36500;
                 interestFirst25 = (bankProductAmount3 * prevDays * interestSubventionDTO.getToBankInterest()) / 36500;
 
@@ -568,7 +567,7 @@ public class InterestSubventionCalculator {
                 }
 
                 //Interest calculation
-                //FirstReport-center bank - after 31/03
+                //FirstReport-center bank - upto 31/03
                 interestFirst15 = (bankProductAmount4 * prevDays * interestSubventionDTO.getFromBankInterest()) / 36500;
                 interestFirst25 = (bankProductAmount4 * prevDays * interestSubventionDTO.getToBankInterest()) / 36500;
 
@@ -588,9 +587,6 @@ public class InterestSubventionCalculator {
 
 
                 saveIntoIsCalculateTemp(serialNo, issFileParser, recoveryDate, recoveryAmount, recoveryInterest, midBalanceAmt, bankDate, prevDays, presentDays, day4, productAmount4, bankProductAmount4, above3Product, interestFirst3, interestSecond3, interestFirst15, interestFirst25, interestSecond15, interestSecond25,interestStatePunjabrao3, interestAbove3lakh, above3lakhAmt, upto50000, loanRecover);
-
-
-
 
         }
 
@@ -669,7 +665,7 @@ public class InterestSubventionCalculator {
             }
 
             //Interest calculation
-            //FirstReport-center bank - after 31/03
+            //FirstReport-center bank - upto 31/03
             interestFirst15 = (lastProdAmount * prevDays * interestSubventionDTO.getFromBankInterest()) / 36500;
             interestFirst25 = (lastProdAmount * prevDays * interestSubventionDTO.getToBankInterest()) / 36500;
 

@@ -57,12 +57,12 @@ public class SubmitClaimBatchResource {
         List<String> distinctAadhars=  centerReportJuneRepository.DistinctAadharCenterReportJune(interestSubventionDTO.getPacsNumber(),interestSubventionDTO.getFinancialYear());
 
         //Loop through addhars
-        for(String aadharNo:distinctAadhars){
+//        for(String aadharNo:distinctAadhars){
             //find distinct parser id(loan applications) by aadhar
-            List<Long> distinctParsers= centerReportJuneRepository.DistinctIssFileParserIdByAadhar(aadharNo);
+            List<Long> distinctParsers= centerReportJuneRepository.DistinctIssFileParserIdByAadhar("416380656067");
 
-            processBatch(distinctParsers,interestSubventionDTO);
-        }
+         cbsResponce=   processBatch(distinctParsers,interestSubventionDTO);
+//        }
 
         return cbsResponce;
     }
@@ -148,7 +148,7 @@ for (Long IssFileParserId:distinctParsers){
 
 
     }
-    break;
+
 }
 
         claimBatchData.setApplications(applicationsList);

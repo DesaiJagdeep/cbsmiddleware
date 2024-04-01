@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ public interface KamalSocietyRepository extends JpaRepository<KamalSociety, Long
     @Query(value = "select * from kamal_society where financial_year=:financialYear and pacs_number=:pacsNumber and km_date=:kmDate ",nativeQuery = true)
     Optional<KamalSociety> findByFyPacsNumberKmDate(@Param("financialYear") String financialYear,@Param("pacsNumber") String pacsNumber, @Param("kmDate")Instant kmDate);
 
-
-
+    @Query(value = "select distinct taluka_id, taluka_name from kamal_society where financial_year=:financialYear ",nativeQuery = true)
+    List<Object[]> findDistinctTaluka(@Param("financialYear") String financialYear);
+    @Query(value = "select distinct branch_id, branch_name from kamal_society where taluka_id=:talukaId ",nativeQuery = true)
+    List<Object[]>  findDistinctBranch(@Param("talukaId")BigInteger talukaId);
 }

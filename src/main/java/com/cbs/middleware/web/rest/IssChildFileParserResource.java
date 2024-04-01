@@ -378,6 +378,7 @@ public class IssChildFileParserResource {
                             issFileParser.setIfsc(getCellValue(row.getCell(6)));
 
                             issFileParser.setLoanAccountNumberkcc(getCellValue(row.getCell(7)));
+                            String farmerName = getCellValue(row.getCell(8));
 
                             issFileParser.setFarmerName(getCellValue(row.getCell(8)));
 
@@ -581,7 +582,7 @@ public class IssChildFileParserResource {
             .map(Application::getIssFileParser)
             .collect(Collectors.toList());
 
-        issFileParserList.removeAll(issFileParserPresentInTrans);
+       // issFileParserList.removeAll(issFileParserPresentInTrans);
         Set<ApplicationLog> applicationLogList = new HashSet<>();
         Set<ApplicationLog> applicationLogListToSaveError = new HashSet<>();
         Set<IssFileParser> issFileParserValidationErrorSet = new HashSet<>();
@@ -926,13 +927,15 @@ public class IssChildFileParserResource {
             if (!correctedRecordsInFile.isEmpty()) {
                 Set<ApplicationLog> applicationLogListMarkedFix = new HashSet<>();
                 for (IssFileParser issFileParser : correctedRecordsInFile) {
-                    Application application = new Application();
-                    application.setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
-                    application.setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
-                    application.setIssFileParser(issFileParser);
-                    application.setIssFilePortalId(issFileParser.getIssPortalFile().getId());
-                    application.setFinancialYear(issFileParser.getFinancialYear());
-                    applicationList.add(application);
+
+                    //change made in existing application_transaction
+                    Optional<Application> application = applicationRepository.findOneByIssFileParser(issFileParser);
+                    application.get().setRecordStatus(Constants.COMPLETE_FARMER_DETAIL_AND_LOAN_DETAIL);
+                    application.get().setApplicationStatus(Constants.APPLICATION_INITIAL_STATUS_FOR_LOAD);
+                    application.get().setIssFileParser(issFileParser);
+                    application.get().setIssFilePortalId(issFileParser.getIssPortalFile().getId());
+                    application.get().setFinancialYear(issFileParser.getFinancialYear());
+                    applicationList.add(application.get());
 
                     ApplicationLog applicationLog = new ApplicationLog();
                     Optional<ApplicationLog> applicationLogSaved = applicationLogRepository.findOneByIssFileParser(issFileParser);

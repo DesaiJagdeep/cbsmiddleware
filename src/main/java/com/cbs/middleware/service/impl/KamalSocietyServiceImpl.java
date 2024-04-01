@@ -2,10 +2,7 @@ package com.cbs.middleware.service.impl;
 
 import com.cbs.middleware.domain.KamalCrop;
 import com.cbs.middleware.domain.KamalSociety;
-import com.cbs.middleware.domain.User;
 import com.cbs.middleware.repository.KamalSocietyRepository;
-import com.cbs.middleware.repository.UserRepository;
-import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyService;
 
 import java.time.Instant;
@@ -55,18 +52,19 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
     @Override
     public KamalSociety update(KamalSociety kamalSociety) {
         log.debug("Request to update KamalSociety : {}", kamalSociety);
+        Optional<KamalSociety> kamalSocietyDB = kamalSocietyRepository.findById(kamalSociety.getId());
+
 
         //update the amount in ascending order...
-        kamalSociety=updateTheAmountUpward(kamalSociety);
+        kamalSociety = updateTheAmountUpward(kamalSociety);
 
-        if(kamalSociety.getAmount()!=null && kamalSociety.getAmount()!=0){
-            kamalSociety = calculateKamalKarjMarayadaAmount(kamalSociety);
-        }
+ /*       if(kamalSociety.getAmount()!=null && kamalSociety.getAmount()!=0){
+            kamalSociety = calculateKamalKarjMarayadaAmount(kamalSociety,kamalSocietyDB);
+        }*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         GrantedAuthority authority = authorities.stream().findFirst().get();
 
-        Optional<KamalSociety> kamalSocietyDB = kamalSocietyRepository.findById(kamalSociety.getId());
         if (kamalSocietyDB.isPresent()) {
             kamalSociety.setPacsNumber(kamalSocietyDB.get().getPacsNumber());
             kamalSociety.setPacsName(kamalSocietyDB.get().getPacsName());
@@ -113,44 +111,64 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
         Set<KamalCrop> kamalCropsDB = kamalSocietyDB.get().getKamalCrops();
         Set<KamalCrop> kamalCropsEdited = kamalSociety.getKamalCrops();
 
-        for (KamalCrop kamalCropDB:kamalCropsDB) {
-            for (KamalCrop kamalCropEdited:kamalCropsEdited) {
+        for (KamalCrop kamalCropDB : kamalCropsDB) {
+            for (KamalCrop kamalCropEdited : kamalCropsEdited) {
 
-                //for amount changed by pacs
-                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
-                    kamalCropEdited.getPacsAmount()!=null &&
-                    !kamalCropEdited.getPacsAmount().equals(kamalCropDB.getPacsAmount())
-                ){
+                //for amount changed by pacs   OR   If new crop added in PUT API i.e id is null
+                if ((kamalCropDB.getId().equals(kamalCropEdited.getId()) &&
+                    kamalCropEdited.getPacsAmount() != null &&
+                    !kamalCropEdited.getPacsAmount().equals(kamalCropDB.getPacsAmount())) ||
+
+                    (kamalCropEdited.getId() == null &&
+                        kamalCropEdited.getPacsAmount() != null
+                    )
+                ) {
                     kamalCropEdited.setBranchAmount(kamalCropEdited.getPacsAmount());
                     kamalCropEdited.setHeadOfficeAmount(kamalCropEdited.getPacsAmount());
                     kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getPacsAmount());
                     kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getPacsAmount());
                 }
 
-                //for amount changed by branch user (branch_amount)
-                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
-                    kamalCropEdited.getBranchAmount()!=null &&
-                    !kamalCropEdited.getBranchAmount().equals(kamalCropDB.getBranchAmount())
-                ){
+
+                //for amount changed by branch user (branch_amount)  OR If new crop added in PUT API i.e id is null
+                if ((kamalCropDB.getId().equals(kamalCropEdited.getId()) &&
+                    kamalCropEdited.getBranchAmount() != null &&
+                    !kamalCropEdited.getBranchAmount().equals(kamalCropDB.getBranchAmount())) ||
+
+                    (kamalCropEdited.getId() == null &&
+                        kamalCropEdited.getBranchAmount() != null
+                    )
+
+                ) {
                     kamalCropEdited.setHeadOfficeAmount(kamalCropEdited.getBranchAmount());
                     kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getBranchAmount());
                     kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getBranchAmount());
                 }
 
-                //for amount changed by branch admin (head_office_amount)
-                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
-                    kamalCropEdited.getHeadOfficeAmount()!=null &&
-                    !kamalCropEdited.getHeadOfficeAmount().equals(kamalCropDB.getHeadOfficeAmount())
-                ){
+                //for amount changed by branch admin (head_office_amount) OR If new crop added in PUT API i.e id is null
+                if ((kamalCropDB.getId().equals(kamalCropEdited.getId()) &&
+                    kamalCropEdited.getHeadOfficeAmount() != null &&
+                    !kamalCropEdited.getHeadOfficeAmount().equals(kamalCropDB.getHeadOfficeAmount())) ||
+
+
+                    (kamalCropEdited.getId() == null &&
+                        kamalCropEdited.getHeadOfficeAmount() != null
+                    )
+
+                ) {
                     kamalCropEdited.setDivisionalOfficeAmount(kamalCropEdited.getHeadOfficeAmount());
                     kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getHeadOfficeAmount());
                 }
 
-                //for amount changed by zonal_officer (divisional_officer_amount)
-                if(kamalCropDB.getId().equals(kamalCropEdited.getId())  &&
-                    kamalCropEdited.getDivisionalOfficeAmount()!=null &&
-                    !kamalCropEdited.getDivisionalOfficeAmount().equals(kamalCropDB.getDivisionalOfficeAmount())
-                ){
+                //for amount changed by zonal_officer (divisional_officer_amount) OR If new crop added in PUT API i.e id is null
+                if ((kamalCropDB.getId().equals(kamalCropEdited.getId()) &&
+                    kamalCropEdited.getDivisionalOfficeAmount() != null &&
+                    !kamalCropEdited.getDivisionalOfficeAmount().equals(kamalCropDB.getDivisionalOfficeAmount())) ||
+
+                    (kamalCropEdited.getId() == null &&
+                        kamalCropEdited.getDivisionalOfficeAmount() != null
+                    )
+                ) {
                     kamalCropEdited.setAgriAdminAmount(kamalCropEdited.getDivisionalOfficeAmount());
                 }
 
@@ -162,7 +180,7 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
 
     }
 
-    private KamalSociety calculateKamalKarjMarayadaAmount(KamalSociety kamalSociety) {
+    private KamalSociety calculateKamalKarjMarayadaAmount(KamalSociety kamalSociety, Optional<KamalSociety> kamalSocietyDB) {
         double a = 0.0;
         double b = 0.0;
         double c = 0.0;
@@ -174,14 +192,14 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
 
         String assetMemberLoan = kamalSociety.getAssetMemberLoan();
         String cash = kamalSociety.getAssetCash(); // रोख शिल्लक व बँक शिल्लक
-        if(kamalSociety.getFraudAmount()!=null){
+        if (kamalSociety.getFraudAmount() != null) {
             fraudAmount = kamalSociety.getFraudAmount();
         }
 
-        a=maganiAmount+Double.parseDouble(bankLoan)+(0.05*maganiAmount);
-        b=Double.parseDouble(assetMemberLoan)+(0.1*maganiAmount)+Double.parseDouble(cash)+fraudAmount;
+        a = maganiAmount + Double.parseDouble(bankLoan) + (0.05 * maganiAmount);
+        b = Double.parseDouble(assetMemberLoan) + (0.1 * maganiAmount) + Double.parseDouble(cash) + fraudAmount;
 
-        c=a-b;
+        c = a - b;
 
         kamalSociety.setKamalKarjMarayadaAmount(c);
         return kamalSociety;
@@ -493,7 +511,7 @@ public class KamalSocietyServiceImpl implements KamalSocietyService {
                 if (kamalSociety.getRule4() != null) {
                     existingKamalSociety.setRule4(kamalSociety.getRule4());
                 }
-                if (kamalSociety.getRule5()!= null) {
+                if (kamalSociety.getRule5() != null) {
                     existingKamalSociety.setRule5(kamalSociety.getRule5());
                 }
                 return existingKamalSociety;

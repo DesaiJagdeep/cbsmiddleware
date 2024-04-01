@@ -20,7 +20,6 @@ public final class Constants {
 	public static final String KARKHANA_VASULI_FILE_PATH = "/home/ubuntu/pdcc/karkhanaVasuliFiles/";
 	public static final String USER_DETAIL_FILE_PATH = "/home/ubuntu/pdcc/userDetailsFiles/";
 
-
 //	public static final String fontFilePath="E:\\riteshFont\\NotoSans-Regular.ttf";
 //	public static final String fontFilePath1="E:\\riteshFont\\NotoSans-Regular_bold.ttf";
 //	public static final String imagePath="E:\\riteshFont\\kmHeadingImage.png";
@@ -45,7 +44,7 @@ public final class Constants {
 
 	public static final String PACKS_CODE_KEY = "packsCode";
 	public static final String KCC_ISS_BRANCH_CODE_KEY = "schemeWiseBranchCode";
-	// public static final String BRANCH_CODE_KEY = "branchCode";
+	 public static final String BRANCH_CODE_KEY = "branchCode";
 	public static final String BANK_CODE_KEY = "bankCode";
 
 	public static final String DISCARDED = "Discarded";

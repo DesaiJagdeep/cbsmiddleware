@@ -7,11 +7,14 @@ import com.cbs.middleware.security.AuthoritiesConstants;
 import com.cbs.middleware.service.KamalSocietyQueryService;
 import com.cbs.middleware.service.KamalSocietyService;
 import com.cbs.middleware.service.criteria.KamalSocietyCriteria;
+import com.cbs.middleware.service.dto.BranchDTO;
 import com.cbs.middleware.service.dto.NewKmReportPayload;
 import com.cbs.middleware.service.dto.ReportDD;
+import com.cbs.middleware.service.dto.TalukaDTO;
 import com.cbs.middleware.web.rest.errors.BadRequestAlertException;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
@@ -616,9 +619,9 @@ public class KamalSocietyResource {
         Instant kmDate = newKmReportPayload.getKmDate();
         Optional<PacsMaster> pacs = pacsMasterRepository.findOneByPacsNumber(StringUtils.trim(pacsNumber));
         String pacsAddressMr = pacs.get().getPacsAddressMr();
-        String atPost="";
-        if(StringUtils.isNotBlank(pacsAddressMr)){
-            atPost=pacsAddressMr;
+        String atPost = "";
+        if (StringUtils.isNotBlank(pacsAddressMr)) {
+            atPost = pacsAddressMr;
         }
 
 
@@ -1036,12 +1039,12 @@ public class KamalSocietyResource {
         kamalSociety.setJirayat(decimalFormat.format(Double.valueOf(kamalSociety.getJirayat())));
         kamalSociety.setMemDue(decimalFormat.format(Double.valueOf(kamalSociety.getMemDue())));
         kamalSociety.setMemLoan(decimalFormat.format(Double.valueOf(kamalSociety.getMemLoan())));
-        kamalSociety.setMemVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuli())));
-        kamalSociety.setMemVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuliPer())));
+/*        kamalSociety.setMemVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuli())));
+        kamalSociety.setMemVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getMemVasuliPer())));*/
         kamalSociety.setBankLoan(decimalFormat.format(Double.valueOf(kamalSociety.getBankLoan())));
         kamalSociety.setBankDue(decimalFormat.format(Double.valueOf(kamalSociety.getBankDue())));
-        kamalSociety.setBankVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuli())));
-        kamalSociety.setBankVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuliPer())));
+/*        kamalSociety.setBankVasuli(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuli())));
+        kamalSociety.setBankVasuliPer(decimalFormat.format(Double.valueOf(kamalSociety.getBankVasuliPer())));*/
 
         kamalSociety.setLiabilityAdhikrutShareCapital(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityAdhikrutShareCapital())));
         kamalSociety.setLiabilityVasulShareCapital(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityVasulShareCapital())));
@@ -1049,8 +1052,9 @@ public class KamalSocietyResource {
         kamalSociety.setLiabilityBalanceSheetBankLoan(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityBalanceSheetBankLoan())));
         kamalSociety.setLiabilityOtherPayable(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityOtherPayable())));
         kamalSociety.setLiabilityProfit(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityProfit())));
-        kamalSociety.setLiabilitySpareFund(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilitySpareFund())));
+       //kamalSociety.setLiabilitySpareFund(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilitySpareFund())));
         kamalSociety.setLiabilityDeposite(decimalFormat.format(Double.valueOf(kamalSociety.getLiabilityDeposite())));
+        kamalSociety.setTartudi(decimalFormat.format(Double.valueOf(kamalSociety.getTartudi())));
 
         kamalSociety.setAssetCash(decimalFormat.format(Double.valueOf(kamalSociety.getAssetCash())));
         kamalSociety.setAssetDeadStock(decimalFormat.format(Double.valueOf(kamalSociety.getAssetDeadStock())));
@@ -1076,21 +1080,25 @@ public class KamalSocietyResource {
         double pacsAmount = 0.0;
         double branchAmount = 0.0;
         double headOfficeAmount = 0.0;
+        double divisionalOfficeAmount = 0.0;
+        double agriAdminAmount = 0.0;
         DecimalFormat decimalFormat = new DecimalFormat("0.00");
 
 
-        List<KamalCrop> summaryListprint=new ArrayList<>();
-        KamalCrop kamalCropSummary=new KamalCrop();
+        List<KamalCrop> summaryListprint = new ArrayList<>();
+        KamalCrop kamalCropSummary = new KamalCrop();
 
-        if(summaryList.isEmpty()){
+        if (summaryList.isEmpty()) {
             List<KamalCrop> kamalCropList = new ArrayList<>();
 
-            KamalCrop kamalCrop=new KamalCrop();
+            KamalCrop kamalCrop = new KamalCrop();
             kamalCrop.setMemberCount(String.valueOf(totalMemberCount));
             kamalCrop.setArea(String.valueOf(totalArea));
             kamalCrop.setPacsAmount(String.valueOf(pacsAmount));
             kamalCrop.setBranchAmount(String.valueOf(branchAmount));
             kamalCrop.setHeadOfficeAmount(String.valueOf(headOfficeAmount));
+            kamalCrop.setDivisionalOfficeAmount(String.valueOf(divisionalOfficeAmount));
+            kamalCrop.setAgriAdminAmount(String.valueOf(agriAdminAmount));
             kamalCropList.add(kamalCrop);
             return kamalCropList;
         }
@@ -1111,6 +1119,12 @@ public class KamalSocietyResource {
             if (kamalCrop.getHeadOfficeAmount() != null) {
                 headOfficeAmount += Double.parseDouble(kamalCrop.getHeadOfficeAmount());
             }
+            if (kamalCrop.getDivisionalOfficeAmount() != null) {
+                divisionalOfficeAmount += Double.parseDouble(kamalCrop.getDivisionalOfficeAmount());
+            }
+            if (kamalCrop.getAgriAdminAmount() != null) {
+                agriAdminAmount += Double.parseDouble(kamalCrop.getAgriAdminAmount());
+            }
         }
 
         kamalCropSummary.setMemberCount(String.valueOf(totalMemberCount));
@@ -1118,6 +1132,8 @@ public class KamalSocietyResource {
         kamalCropSummary.setPacsAmount(decimalFormat.format(pacsAmount));
         kamalCropSummary.setBranchAmount(decimalFormat.format(branchAmount));
         kamalCropSummary.setHeadOfficeAmount(decimalFormat.format(headOfficeAmount));
+        kamalCropSummary.setDivisionalOfficeAmount(decimalFormat.format(divisionalOfficeAmount));
+        kamalCropSummary.setAgriAdminAmount(decimalFormat.format(agriAdminAmount));
         summaryListprint.add(kamalCropSummary);
 
         //if  same crop has different farmerTypes is available then to avoid duplicate cropName printing in report
@@ -1457,5 +1473,34 @@ public class KamalSocietyResource {
         Locale locale = Locale.forLanguageTag("en");
         Context context = new Context(locale);
         return templateEngine.process(template, context);
+    }
+
+
+    @GetMapping("/distinct-km-taluka")
+    public  List<TalukaDTO> getTalukaBranch(@RequestParam String financialYear ){
+        List<TalukaDTO> talukaDTOList=new ArrayList<>();
+        List<Object[]> distinctTalukaList = kamalSocietyRepository.findDistinctTaluka(financialYear);
+        for (Object[] distinctTaluka:distinctTalukaList) {
+            TalukaDTO talukaDTO=new TalukaDTO();
+            talukaDTO.setTalukaId((BigInteger) distinctTaluka[0]);
+            talukaDTO.setTalukaName((String) distinctTaluka[1]);
+
+            talukaDTOList.add(talukaDTO);
+        }
+
+        for (TalukaDTO talukaDTO: talukaDTOList) {
+            List<Object[]> distinctBranchList = kamalSocietyRepository.findDistinctBranch(talukaDTO.getTalukaId());
+            List<BranchDTO> branchDTOList=new ArrayList<>();
+
+            for (Object[] distinctBranch:distinctBranchList) {
+                BranchDTO branchDTO=new BranchDTO();
+                branchDTO.setBranchId((BigInteger) distinctBranch[0]);
+                branchDTO.setBranchName((String) distinctBranch[1]);
+                branchDTOList.add(branchDTO);
+            }
+            talukaDTO.setBranch(branchDTOList);
+
+        }
+        return talukaDTOList;
     }
 }

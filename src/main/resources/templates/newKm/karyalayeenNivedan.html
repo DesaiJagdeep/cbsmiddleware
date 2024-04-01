@@ -229,7 +229,7 @@
 
 <div>
   <p style="text-align: justify; margin: 5px 0;">
-संस्थेची बँक तपासणी दि. <strong><span th:text="${kamalSociety.sansthaTapasaniDateMr}"></span></strong>  अखेर झालेली असून सरकारी तपासणी दि.  <strong><span th:text="${kamalSociety.govTapasaniDateMr}"></span></strong> अखेर झालेली आहे. तपासणी वर्ग  <strong><span th:text="${kamalSociety.sansthaTapasaniVarg}"></span></strong>मिळाला आहे.
+    संस्थेची बँक तपासणी दि. <strong><span th:text="${kamalSociety.sansthaTapasaniDateMr}"></span></strong>  अखेर झालेली असून सरकारी तपासणी दि.  <strong><span th:text="${kamalSociety.govTapasaniDateMr}"></span></strong> अखेर झालेली आहे. तपासणी वर्ग  <strong><span th:text="${kamalSociety.sansthaTapasaniVarg}"></span></strong>मिळाला आहे.
     तपासणीचा दोष पुर्तता अहवाल दि.<strong><span th:text="${translationServiceUtility.oneZeroOneDateMr(kamalSociety.instantToLocalDate(kamalSociety.doshPurtataDate))}"></span></strong>  रोजी पाठविलेला आहे. <br>सरकारी/बँक तपासणीमधील गंभीर दोष : <strong><span th:text="${kamalSociety.gambhirDosh}"></span></strong>
   </p>
 
@@ -524,7 +524,7 @@
   </table>
   <p style="margin: 10px 0 5px 0;">अक्षरी रक्कम रु. _________________________________________________________</p>
   <p style="margin: 5px 0;">संस्थेच्या पोटनियमानुसार कर्ज शक्ती रक्कम रु. (लाख) ____________________________________</p>
-  <p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु. ____________________________________ (लाख)</p>
+  <p style="margin: 5px 0;">कमाल कर्ज मर्यादा रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.doubleToString(kamalSociety.kamalKarjMarayadaAmount))}"> </span></strong> </p>
 
 </div>
 
@@ -535,7 +535,7 @@
   <p style="margin: 5px 0;">३) पुरेशी कर्जशक्ती सहकारी संस्था/सहकार खाते यांचेकडून प्रथम वाढवून घेऊनच कर्ज वाटप करावे.</p>
   <p style="margin: 5px 0;">४) अनिष्ट तफावत आहे. बँक धोरणानुसार १०% भाग रक्कम कपात करावी व रु.५०० च्या स्टॅम्पपेपरवर त्रिपक्षीय करार ॲफिडिव्हेट करुन घ्यावा.</p>
   <p style="margin: 5px 0;">५) मूळ क. म. पत्रकातील सभासदांची मंजूरी व वाटपाची खात्री करावी.</p>
-  <p style="margin: 5px 0;">६) संस्थेस रु. ___________________________ (लाख) तोटा आहे. थकबाकी वसुलीसाठी प्रयत्न करावेत.</p>
+  <p style="margin: 5px 0;">६) संस्थेस रु.  <strong><span th:text="${translationServiceUtility.numberTOMarathiNumber(kamalSociety.assetLoss)}"></span></strong> (लाख) तोटा आहे. थकबाकी वसुलीसाठी प्रयत्न करावेत.</p>
   <p style="margin: 5px 0;">७) संस्थेचे नवीन सभासद झालेबाबतचा संस्था ठराव क्र. व दिनांक प्रथम नमूद करुन घ्यावा.</p>
   <p style="margin: 5px 0;">८) कमाल कर्ज मर्यादेचे उल्लंघन होणार नाही याची खात्री करुनच कर्ज वितरण करावे.</p>
 

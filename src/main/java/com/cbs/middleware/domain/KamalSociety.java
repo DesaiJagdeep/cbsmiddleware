@@ -152,6 +152,8 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
     @Column(name = "liability_fund")
     private String liabilityFund;
 
+    @Column(name = "tartudi")
+    private String tartudi;
     @Column(name = "liability_spare_fund")
     private String liabilitySpareFund;
 
@@ -315,6 +317,18 @@ public class KamalSociety extends AbstractAuditingEntity<Long> implements Serial
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     //
+
+    public String getTartudi() {
+        return tartudi;
+    }
+
+    public KamalSociety tartudi(String tartudi){
+        this.setTartudi(tartudi);
+        return this;
+    }
+    public void setTartudi(String tartudi) {
+        this.tartudi = tartudi;
+    }
 
     public String getRule1() {
         return rule1;

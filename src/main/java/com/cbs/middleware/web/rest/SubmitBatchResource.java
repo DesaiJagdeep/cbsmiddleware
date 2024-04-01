@@ -329,7 +329,9 @@ public class SubmitBatchResource {
 
             BasicDetails basicDetails = new BasicDetails();
             basicDetails.setBeneficiaryName(issFileParser.getFarmerName().trim());
-            basicDetails.setAadhaarNumber(issFileParser.getAadharNumber());
+            basicDetails.setAadhaarNumber(issFileParser.getAadharNumber().trim());
+            System.out.println("*******************Aadhar number while submitting app. Without trim"+issFileParser.getAadharNumber() +"****************");
+            System.out.println("*******************Aadhar number while submitting app."+issFileParser.getAadharNumber().trim() +"****************");
             basicDetails.setBeneficiaryPassbookName(issFileParser.getFarmerName());
             basicDetails.setMobile(issFileParser.getMobileNo());
             //            basicDetails.setDob("" + issFileParser.getDateofBirth());

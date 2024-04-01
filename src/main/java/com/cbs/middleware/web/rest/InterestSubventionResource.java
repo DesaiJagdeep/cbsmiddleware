@@ -9,6 +9,7 @@ import com.cbs.middleware.web.rest.utility.InterestSubventionCalculator;
 import org.apache.commons.math3.stat.descriptive.summary.Sum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Console;
@@ -82,12 +83,11 @@ public class InterestSubventionResource {
 //        //get distinct aadhar numbers from parser by pacscode & financial year
         List<String> distinctAadhars = issFileParserRepository.findDistinctFarmerByPacsNumberAndFinancialYear(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
 
-
         //loop through aadhar numbers
         for (String aadharNumber : distinctAadhars) {
             //get the records from parser order by disbursementDate ASC
-            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber("411552040590", interestSubventionDTO.getFinancialYear());
-            System.out.println("IssFileParsers:" + issFileParsers);
+            List<IssFileParser> issFileParsers = issFileParserRepository.findByAadharNumber(aadharNumber, interestSubventionDTO.getPacsNumber(),interestSubventionDTO.getFinancialYear());
+            System.out.println("IssFileParsers:" + issFileParsers + " aadhar Number:" + aadharNumber);
 
             //Calculate interest for report 1 & 2
             List<IssFileParser> issSubvention = new InterestSubventionCalculator(issFileParsers,interestSubventionDTO,isCalculateTempRepository).CalculateInterestForCenterState();
@@ -96,6 +96,7 @@ public class InterestSubventionResource {
 
         //Insert data into Center March & Center June & State Panjabrao
         saveDataIntoCenterMarchJuneReport(interestSubventionDTO);
+
 
 
     }
@@ -209,7 +210,7 @@ public class InterestSubventionResource {
         List<Object[]> womensInterestAmtAndAccs = centerReportMarchRepository.FindWomensInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",false);
         if (!womensInterestAmtAndAccsList.isEmpty()){
-            UpdateGenderWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,castWiseInterestAmtAndAccsList);
+            UpdateGenderWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,womensInterestAmtAndAccsList);
         }
 
         //7-find farmerType interest amount & accounts as per condition 2
@@ -237,7 +238,7 @@ public class InterestSubventionResource {
         List<Object[]> womensInterestAmtAndAccs = centerReportMarchRepository.FindWomensInterestAmtAndAccsOnlyRecover(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",true);
         if (!womensInterestAmtAndAccsList.isEmpty()){
-            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,castWiseInterestAmtAndAccsList);
+            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,womensInterestAmtAndAccsList);
         }
 
         //find farmerType interest amount & accounts
@@ -292,7 +293,7 @@ public class InterestSubventionResource {
         List<Object[]> womensInterestAmtAndAccs = centerReportJuneRepository.FindWomensInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",false);
         if (!womensInterestAmtAndAccsList.isEmpty()){
-            UpdateGenderWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,castWiseInterestAmtAndAccsList);
+            UpdateGenderWiseInterestAmtandAccsInSummaryReport(interestSubventionDTO,womensInterestAmtAndAccsList);
         }
 
         //7-find farmerType interest amt & accounts as per condition 2
@@ -320,7 +321,7 @@ public class InterestSubventionResource {
         List<Object[]> womensInterestAmtAndAccs = centerReportJuneRepository.FindWomensInterestAmtAndAccsOnlyRecover(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",true);
         if (!womensInterestAmtAndAccsList.isEmpty()){
-            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,castWiseInterestAmtAndAccsList);
+            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,womensInterestAmtAndAccsList);
         }
 
         //7-find farmerType interest amt & accounts as per condition 2
@@ -372,7 +373,7 @@ public class InterestSubventionResource {
         List<Object[]> womensInterestAmtAndAccs = stateReportPanjabraoRepository.FindWomensInterestAmtAndAccs(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear());
         List<SummaryReportUpdateDTO> womensInterestAmtAndAccsList= ConvertResultIntoSummaryReportDTO(womensInterestAmtAndAccs,"gender",true);
         if (!womensInterestAmtAndAccsList.isEmpty()){
-            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,castWiseInterestAmtAndAccsList);
+            UpdateGenderWiseInterestAmtandAccsInSummaryState3(interestSubventionDTO,womensInterestAmtAndAccsList);
         }
 
         //7-find farmerType interest amt & accounts as per condition 2
@@ -544,8 +545,18 @@ public class InterestSubventionResource {
                 if (summaryReport.getUpto50000().equals(castWise.getUpto50000()) && summaryReport.getInterestType() == 1) {
 
                     if (castWise.getSocialCategory().equals("GEN") || castWise.getSocialCategory().equals("OBC")) {
-                        summaryReport.setNoOfGeneralAccounts(castWise.getDistinctAadharCount());
-                        summaryReport.setGeneralAmount(castWise.getTotalInterest15());
+                        Integer noOfGeneralAcc=0;
+                        Double generalAmt=0.0;
+
+                            if(summaryReport.getNoOfGeneralAccounts() != null){
+                                noOfGeneralAcc = summaryReport.getNoOfGeneralAccounts();
+                        }
+                            if (summaryReport.getGeneralAmount()!= null){
+                               generalAmt =  summaryReport.getGeneralAmount();
+                            }
+
+                        summaryReport.setNoOfGeneralAccounts(noOfGeneralAcc+castWise.getDistinctAadharCount());
+                        summaryReport.setGeneralAmount(generalAmt+castWise.getTotalInterest15());
 
                     }
                     if (castWise.getSocialCategory().equals("SC")) {
@@ -565,8 +576,17 @@ public class InterestSubventionResource {
                 //Interest rate 2.5%
                 if (summaryReport.getUpto50000().equals(castWise.getUpto50000()) && summaryReport.getInterestType() == 2) {
                     if (castWise.getSocialCategory().equals("GEN") || castWise.getSocialCategory().equals("OBC")) {
-                        summaryReport.setNoOfGeneralAccounts(castWise.getDistinctAadharCount());
-                        summaryReport.setGeneralAmount(castWise.getTotalInterest25());
+                        Integer noOfGeneralAcc=0;
+                        Double generalAmt=0.0;
+                        if(summaryReport.getNoOfGeneralAccounts() != null){
+                            noOfGeneralAcc = summaryReport.getNoOfGeneralAccounts();
+                        }
+                        if (summaryReport.getGeneralAmount()!= null){
+                            generalAmt =  summaryReport.getGeneralAmount();
+                        }
+
+                        summaryReport.setNoOfGeneralAccounts(noOfGeneralAcc+castWise.getDistinctAadharCount());
+                        summaryReport.setGeneralAmount(generalAmt+castWise.getTotalInterest25());
                     }
                     if (castWise.getSocialCategory().equals("SC")) {
                         summaryReport.setNoOfSCAccounts(castWise.getDistinctAadharCount());
@@ -595,8 +615,18 @@ public class InterestSubventionResource {
                 //Interest rate CenterState & Punjabrao 3%
                 if ((summaryReport.getUpto50000().equals(castWise.getUpto50000()) && summaryReport.getInterestType()==3) || (summaryReport.getUpto50000().equals(castWise.getUpto50000()) && summaryReport.getInterestType()==4)){
                     if (castWise.getSocialCategory().equals("GEN") || castWise.getSocialCategory().equals("OBC")){
-                        summaryReport.setNoOfGeneralAccounts(castWise.getDistinctAadharCount());
-                        summaryReport.setGeneralAmount(castWise.getTotalInterest3());
+                        Integer noOfGeneralAcc=0;
+                        Double generalAmt=0.0;
+
+                        if(summaryReport.getNoOfGeneralAccounts() != null){
+                            noOfGeneralAcc = summaryReport.getNoOfGeneralAccounts();
+                        }
+                        if (summaryReport.getGeneralAmount()!= null){
+                            generalAmt =  summaryReport.getGeneralAmount();
+                        }
+
+                        summaryReport.setNoOfGeneralAccounts(noOfGeneralAcc+castWise.getDistinctAadharCount());
+                        summaryReport.setGeneralAmount(generalAmt+castWise.getTotalInterest3());
                     }
                     if (castWise.getSocialCategory().equals("SC")){
                         summaryReport.setNoOfSCAccounts(castWise.getDistinctAadharCount());
@@ -615,12 +645,12 @@ public class InterestSubventionResource {
     }
 
     //Update gender wise total interest & accounts in summary report:1.5 & 2.5
-    public void UpdateGenderWiseInterestAmtandAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
+    public void UpdateGenderWiseInterestAmtandAccsInSummaryReport(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> genderWiseAmtAccs){
 
         List<SummaryReport> summaryReportList = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
 
         for (SummaryReport summaryReport:summaryReportList){
-            for(SummaryReportUpdateDTO genderWise:totalLoanAmtandAccs){
+            for(SummaryReportUpdateDTO genderWise:genderWiseAmtAccs){
 
                 //Interest rate 1.5%
                 if (summaryReport.getUpto50000().equals(genderWise.getUpto50000()) && summaryReport.getInterestType()==1){
@@ -647,8 +677,7 @@ public class InterestSubventionResource {
     public void UpdateGenderWiseInterestAmtandAccsInSummaryState3(InterestSubventionDTO interestSubventionDTO, List<SummaryReportUpdateDTO> totalLoanAmtandAccs){
         List<SummaryReport> summaryReportList;
         summaryReportList  = summaryReportRepository.SelectFromSummaryReport(interestSubventionDTO.getPacsNumber(), interestSubventionDTO.getFinancialYear(),interestSubventionDTO.getReportType(),interestSubventionDTO.getReportCondition());
-        Integer reportType= interestSubventionDTO.getReportType();
-        Integer reportCondition = interestSubventionDTO.getReportCondition();
+
         for (SummaryReport summaryReport:summaryReportList){
             for(SummaryReportUpdateDTO genderWise:totalLoanAmtandAccs){
 
@@ -793,7 +822,6 @@ public class InterestSubventionResource {
         }
 
     }
-
 
     //delete from summary report
     public void deleteFromSummaryReport(InterestSubventionDTO interestSubventionDTO){

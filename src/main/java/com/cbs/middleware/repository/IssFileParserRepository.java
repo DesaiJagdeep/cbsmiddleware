@@ -86,6 +86,6 @@ public interface IssFileParserRepository extends JpaRepository<IssFileParser, Lo
     List<String> findDistinctFarmerByPacsNumberAndFinancialYear(@Param("pacsNumber") String pacsNumber, @Param("financialYear") String financialYear);
 
 
-    @Query(value = "select * from iss_file_parser where aadhar_number=:aadharNumber and financial_year=:financialYear ", nativeQuery = true)
-    List<IssFileParser> findByAadharNumber(@Param("aadharNumber") String aadharNumber, @Param("financialYear") String financialYear);
+    @Query(value = "select * from iss_file_parser where aadhar_number=:aadharNumber and pacs_number=:pacsNumber and financial_year=:financialYear ", nativeQuery = true)
+    List<IssFileParser> findByAadharNumber(@Param("aadharNumber") String aadharNumber, @Param("pacsNumber") String pacsNumber,@Param("financialYear") String financialYear);
 }
